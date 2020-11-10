@@ -1,0 +1,21 @@
+--- jade/TeXFOTBuilder.cxx	2002-01-15 18:35:37.000000000 +0800
++++ jade/TeXFOTBuilder.cxx.new	2006-05-03 02:24:15.000000000 +0800
+@@ -2050,6 +2050,18 @@
+       //
+       // Don't complicate matters, just give the character!
+        os() << "\\Character{" << (unsigned long)(*s) << "}";
++#ifdef OUTLINES
++       if (needToCollect()) {
++         char charBuf[32];   
++         Char CharBuf[32];
++         sprintf(charBuf, "\\Character{%lu}", (unsigned long)(*s));
++         int n = 0;                                               
++         while (CharBuf[n]=(Char)charBuf[n]) {
++           addHeadedText(&CharBuf[n],1);     
++           n++;                         
++         }     
++       } 
++#endif 
+     } else {
+ 				// Otherwise, check for special
+ 				// TeX escapes.

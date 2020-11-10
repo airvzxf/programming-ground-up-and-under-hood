@@ -1,0 +1,638 @@
+# pgubook, OtherLangCh.xml
+# Copyright (C) Xiaohong Zhao.
+# Xiaohong Zhao <mrluanma@gmail.com>, 2006.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: pgubook\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: 2007-05-09 23:15+0800\n"
+"Last-Translator: Xiaohong Zhao <mrluanma@gmail.com>\n"
+"Language-Team: zh <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"X-Generator: Pootle 0.10beta3\n"
+
+# type: Content of: <chapter><title>
+#: ../../OtherLangCh.xml:2
+#, no-wrap
+msgid "High-Level Languages"
+msgstr "高级语言"
+
+# type: Content of: <chapter><para>
+#: ../../OtherLangCh.xml:16
+msgid ""
+"In this chapter we will begin to look at our first \"real-world\" "
+"programming language.  Assembly language is the language used at the "
+"machine's level, but most people find coding in assembly language too "
+"cumbersome for everyday use.  Many computer languages have been invented to "
+"make the programming task easier.  Knowing a wide variety of languages is "
+"useful for many reasons, including"
+msgstr "在这章里我们将研究研究真实世界中的广泛使用的语言。汇编是机器底层使用的语言，但是大多数程序员都觉得在日常工作中使用汇编过于繁琐。所以为了使编程工作更加容易，很多的编程语言被发明了出来。知道多些编程语言是很有用的，因为："
+
+# type: Content of: <chapter><para><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:25
+msgid ""
+"Different languages are based on different concepts, which will help you to "
+"learn different and better programming methods and ideas."
+msgstr "不同的语言有不同的设计理念，以帮助你更好的学习各种不同的、更好的编程方法。"
+
+# type: Content of: <chapter><para><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:26
+msgid "Different languages are good for different types of projects."
+msgstr "不同的语言适合不同类型的项目。"
+
+# type: Content of: <chapter><para><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:27
+msgid ""
+"Different companies have different standard languages, so knowing more "
+"languages makes your skills more marketable."
+msgstr "同时，不同的公司也会有不同的“标准语言”，所以知道更多的语言会让你自己更有市场竞争力。"
+
+# type: Content of: <chapter><para><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:28
+msgid "The more languages you know, the easier it is to pick up new ones."
+msgstr "你知道的语言越多，再学习一门新的语言就会更容易。"
+
+# type: Content of: <chapter><para>
+#: ../../OtherLangCh.xml:31
+msgid ""
+"As a programmer, you will often have to pick up new languages.  Professional "
+"programmers can usually pick up a new language with about a weeks worth of "
+"study and practice.  Languages are simply tools, and learning to use a new "
+"tool should not be something a programmer flinches at.  In fact, if you do "
+"computer consulting you will often have to learn new languages on the spot "
+"in order to keep yourself employed. It will often be your customer, not you, "
+"who decides what language is used.  This chapter will introduce you to a few "
+"of the languages available to you.  I encourage you to explore as many "
+"languages as you are interested in.  I personally try to learn a new "
+"language every few months."
+msgstr "作为一个程序员，你经常会发现必须去学一门新的编程语言。专业的程序员通常能通过几周的学习和练习掌握一门新的语言。语言是简单的工具，学会去使用一种新的工具不应该是一个程序员害怕的。实际上，如果你做电脑咨询工作，你会发现为了让自己有人请，你经常必须临时学一们新语言。通常是你的客户，而不所你自己，来决定用什么语言。这章将介绍给你一些你可以接触到的语言。我鼓励大家如果有兴趣，应该接触尽可能多的语言。我个人每几个月都会尝试一种不同的语言。"
+# FIXME 
+
+# type: Content of: <chapter><sect1><title>
+#: ../../OtherLangCh.xml:44
+#, no-wrap
+msgid "Compiled and Interpreted Languages"
+msgstr "编译型和解释型语言"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:47
+msgid ""
+"Many languages are <emphasis>compiled</emphasis> languages.  When you write "
+"assembly language<indexterm>"
+msgstr "很多编程语言是<emphasis>编译型语言</emphasis>。用汇编语言<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:48
+#, no-wrap
+msgid "assembly language"
+msgstr "汇编语言"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:48
+msgid ""
+"</indexterm>, each instruction you write is translated into exactly one "
+"machine instruction for processing.  With compilers<indexterm>"
+msgstr "</indexterm>写程序，你写的每一个语句都会翻译成对应的一条机器指令。而通过编译器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:50
+#, no-wrap
+msgid "compilers"
+msgstr "编译器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:50
+msgid ""
+"</indexterm>, a statement can translate into one or hundreds of machine "
+"instructions.  In fact, depending on how advanced your compiler is, it might "
+"even restructure parts of your code to make it faster.  In assembly language "
+"what you write is what you get."
+msgstr "</indexterm>，你写的每条语句就会被翻译成几条，甚至上百条机器指令。实际上，高级的编译器甚至能重新组合你的部分代码，来让它们运行的更快。在汇编语言程序中，你写了什么，你就得到什么。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:58
+msgid ""
+"There are also languages that are <emphasis>interpreted</emphasis> "
+"languages.  These languages require that the user run a program called an "
+"<emphasis>interpreter<indexterm>"
+msgstr "还有些语言是<emphasis>解释型语言</emphasis>。用这些语言写的程序要求用户运行一个叫做<emphasis>解释器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:60
+#, no-wrap
+msgid "interpreter"
+msgstr "解释器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:60
+msgid ""
+"</indexterm></emphasis> that in turn runs the given program.  These are "
+"usually slower than compiled programs, since the interpreter has to read and "
+"interpret the code as it goes along.  However, in well-made interpreters, "
+"this time can be fairly negligible.  There is also a class of hybrid "
+"languages which partially compile a program before execution into "
+"byte-codes.  This is done because the interpreter can read the byte-codes "
+"much faster than it can read the regular language."
+msgstr "</indexterm></emphasis>的程序来运行。因为解释器需要一边执行一边读入和解释代码，所以用解释型语言写的程序通常都要慢一些。但是，对于一个优秀的解释器来说，这个时间差距是相当微不足道的。还有一类语言在执行之前先会把代码编译成字节码，这是因为解释器能以比读源代码程序快很多的速度读取编译成字节码的程序。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:71
+msgid ""
+"There are many reasons to choose one or the other.  Compiled programs are "
+"nice, because you don't have to already have an interpreter installed in the "
+"user's machine.  You have to have a compiler for the language, but the users "
+"of your program don't.  In an interpreted language, you have to be sure that "
+"the user has an interpreter installed for your program, and that the "
+"computer knows which interpreter to run your program with.  However, "
+"interpeted languages tend to be more flexible, while compiled languages are "
+"more rigid."
+msgstr "有很多的原因会促使你选择一门语言而不所另外一门。编译型的程序很好，因为你不用在用户的机器是先安装解释器就可以执行。你必须得有一个你的语言的编译器，但是你的用户不用；在解释型的程序中，你必须确定你程序的用户已经安装了合适的解释器，并且要确保电脑知道用哪个解释器去执行你的程序。但是，解释型的语言有更多的灵活性，而编译型的语言就比较死板了。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:82
+msgid ""
+"Language choice is usually driven by available tools and support for "
+"programming methods rather than by whether a language is compiled or "
+"interpretted.  In fact many languages have options for either one."
+msgstr "对编程语言的选择通常是被可用的工具以及支持的编程方法起作用，而不仅是因为一门语言是编译型的还是解释型的。事实上很多语言即是编译型的又是解释型的。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:88
+msgid ""
+"High-level languages, whether compiled or interpreted, are oriented around "
+"you, the programmer, instead of around the machine.  This opens them up to a "
+"wide variety of features, which can include the following:"
+msgstr "高级语言，无论是编译型的还是解释型的，都是面向程序员你而不是面向机器的。就是说它们会有大量的特性，包括以下一些："
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:94
+msgid "Being able to group multiple operations into a single expression"
+msgstr "能够用一个表达式表达多个操作。"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:95
+msgid ""
+"Being able to use \"big values\" - values that are much more conceptual than "
+"the 4-byte words that computers normally deal with (for example, being able "
+"to view text strings as a single value rather than as a string of bytes)."
+msgstr "可以使用比理论上是来说四个字节字长的计算机能处理的值更大的值（比如说，可以把字符串当作单一的一个值而不是一串字节来处理）。"
+#FIXME
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:96
+msgid "Having access to better flow control<indexterm>"
+msgstr "提供比简单的跳转更好的流程控制<indexterm>"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para><primary>
+#: ../../OtherLangCh.xml:96
+#, no-wrap
+msgid "flow control"
+msgstr "流程控制"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:96
+msgid "</indexterm> constructs than just jumps."
+msgstr "</indexterm>结构。"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:97
+msgid "Having a compiler to check types of value assignments and other assertions."
+msgstr "有一个编译器来检查赋值的类型和其他的一些断言。"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:98
+msgid "Having memory handled automatically."
+msgstr "自动管理内存。"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:99
+msgid ""
+"Being able to work in a language that resembles the problem domain rather "
+"than the computer hardware."
+msgstr "可以在一个更接近问题领域而非计算机硬件的语言里面工作。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:103
+msgid ""
+"So why does one choose one language over another? For example, many choose "
+"Perl because it has a vast library of functions for handling just about "
+"every protocol or type of data on the planet.  Python, however, has a "
+"cleaner syntax and often lends itself to more straightforward solutions.  "
+"Its cross-platform GUI tools are also excellent.  PHP makes writing web "
+"applications simple.  Common LISP has more power and features than any other "
+"environment for those willing to learn it.  Scheme is the model of "
+"simplicity and power combined together.  C is easy to interface with other "
+"languages."
+msgstr "那么为什么选择了某种语言而不所另外一种呢？举个例子，Perl 有几乎可以处理这个星球上存在的所有协议或数据类型的函数库；而 Python 有着清晰的语法，通常有更明了的解决方案，还有着很不错的跨平台图形编程接口；PHP 让基于 Web 的应用程序更加容易编写；对于那些愿意学习她的人来说，Common Lisp 有着比其他编程环境更加强大的能力和丰富的特性；Scheme 是简洁和高效的最佳结合体；C 很容易和其他语言协作编程。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:115
+msgid ""
+"Each language is different, and the more languages you know the better "
+"programmer you will be.  Knowing the concepts of different languages will "
+"help you in all programming, because you can match the programming language "
+"to the problem better, and you have a larger set of tools to work with.  "
+"Even if certain features aren't directly supported in the language you are "
+"using, often they can be simulated.  However, if you don't have a broad "
+"experience with languages, you won't know of all the possibilities you have "
+"to choose from."
+msgstr "每一门语言都是不同的，你知道的语言越多，你越能成为一个好程序员。知道不同语言的概念会在所有的编程工作中帮助你，因为你能更好的把语言应用到问题域，同时也有更多的工具用来完成工作。甚至当某个特性在你用的语言中没有直接支持，也能通过模拟来得到。但是，如果你没有对语言的宽泛的经验，你通常不会知道你可以选择的所有选项。"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../OtherLangCh.xml:128
+#, no-wrap
+msgid "Your First C Program"
+msgstr "你的第一个 C 程序"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:131
+msgid "<indexterm>"
+msgstr "<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:131
+#, no-wrap
+msgid "C Programming Language"
+msgstr "C 编程语言"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:131
+msgid ""
+"</indexterm> Here is your first C program, which prints \"Hello world\" to "
+"the screen and exits.  Type it in, and give it the name Hello-World.c"
+msgstr "</indexterm>这是你的第一个 C 程序，它在屏幕上输出 \"Hello world\"。把它敲入一个文件，命名为  Hello-World.c "
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:140
+msgid ""
+"As you can see, it's a pretty simple program.  To compile it, run the "
+"command"
+msgstr "你也看到了，这是个相当简单的程序。用这个命令编译它"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:147
+msgid "To run the program, do"
+msgstr "然后运行，敲入 "
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:153
+msgid "Let's look at how this program was put together."
+msgstr "来让我们看看这个程序是怎么工作的。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:157
+msgid ""
+"Comments in C are started with <literal>/*</literal> and ended with "
+"<literal>*/</literal>.  Comments can span multiple lines, but many people "
+"prefer to start and end comments on the same line so they don't get "
+"confused."
+msgstr "C 语言中注释以 <literal>/*</literal> 开始，以 <literal>*/</literal> 结束。注释可以扩展到多行，但是为了避免混淆，很多人比较喜欢把注释和要注释的代码写在同一行。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:164
+msgid "<literal>#include &lt;stdio.h&gt;</literal> <indexterm>"
+msgstr "<literal>#include &lt;stdio.h&gt;</literal> <indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:165
+#, no-wrap
+msgid "stdio.h"
+msgstr "stdio.h"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:165
+msgid ""
+"</indexterm> is the first part of the program.  This is a "
+"<emphasis>preprocessor directive</emphasis>.  C compiling is split into two "
+"stages - the preprocessor<indexterm>"
+msgstr "</indexterm> 是这个程序的第一部分。这是一个<emphasis>编译预处理指令</emphasis>。C 编译器通常分为两部分 － 编译预处理器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:168
+#, no-wrap
+msgid "preprocessor"
+msgstr "编译预处理器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:168
+msgid ""
+"</indexterm> and the main compiler.  This directive tells the preprocessor "
+"to look for the file <filename>stdio.h</filename> and paste it into your "
+"program.  The preprocessor is responsible for putting together the text of "
+"the program.  This includes sticking different files together, running "
+"macros on your program text, etc.  After the text is put together, the "
+"preprocessor is done and the main compiler goes to work."
+msgstr "</indexterm>和主编译器。这个编译预处理指令告诉编译预处理器找寻 <filename>stdio.h</filename> 这个文件并把它的内容读入你的程序中。编译预处理器的工作就是把程序的代码弄到一起，包括把不同的文件粘合起来，或者对代码文本做宏展开等等。当所有的代码文本都准备好了之后，编译预处理器的工作就算完成了，主编译器开始接手工作。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:178
+msgid ""
+"Now, everything in <filename>stdio.h</filename> is now in your program just "
+"as if you typed it there yourself.  The angle brackets around the filename "
+"tell the compiler to look in its standard paths for the file "
+"(<filename>/usr/include<indexterm>"
+msgstr "现在，<filename>stdio.h</filename>中的每一个字符都在你的程序中了，就好像你一个一个的自己敲进去的一样。文件名周围的尖括号告诉编译器到标准路径(<filename>/usr/include<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:181
+#, no-wrap
+msgid "/usr/include"
+msgstr "/usr/include"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:181
+msgid "</indexterm></filename> and <filename>/usr/local/include<indexterm>"
+msgstr "</indexterm></filename> 以及 <filename>/usr/local/include<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:182
+#, no-wrap
+msgid "/usr/local/include"
+msgstr "/usr/local/include"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:182
+msgid ""
+"</indexterm></filename>, usually).  If it was in quotes, like "
+"<literal>#include \"stdio.h\"</literal> it would look in the current "
+"directory for the file.  Anyway, <filename>stdio.h</filename> contains the "
+"declarations for the standard input and output functions and variables.  "
+"These declarations tell the compiler what functions are available for input "
+"and output.  The next few lines are simply comments about the program."
+msgstr "</indexterm></filename>)中去找它。而如果文件名是用引号围住的话，比如<literal>#include \"stdio.h\"</literal>则编译器会在当前目录中去找。不管怎么写，<filename>stdio.h</filename>中包含了标准输入／输出函数以及一些变量的声明。这些声明告诉编译器都有些什么输入／输出函数可以用。再下面的这几行是对程序的注释。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:193
+msgid ""
+"Then there is the line <literal>int main(int argc, char **argv)</literal>.  "
+"This is the start of a function.  C Functions are declared with their name, "
+"arguments and return type.  This declaration says that the function's name "
+"is <literal>main</literal>, it returns an <literal>int</literal> (integer - "
+"4 bytes long on the x86 platform), and has two arguments - an "
+"<literal>int</literal> called <literal>argc</literal> and a <literal>char "
+"**</literal> called <literal>argv</literal>.  You don't have to worry about "
+"where the arguments are positioned on the stack - the C compiler takes care "
+"of that for you.  You also don't have to worry about loading values into and "
+"out of registers because the compiler takes care of that, too."
+msgstr "然后是 <literal>int main(int argc, char **argv)</literal> 这行，它是一个函数的开始。C 函数需要用它的名字、参数、和返回类型来声明。这个声明表明这个函数的名字是 <literal>main</literal>，它返回一个 <literal>int</literal> （整型值在 X86 体系结构上是四个字节），并且有两个参数——一个 <literal>int</literal> 型的  <literal>argc</literal> 和一个 <literal>char **</literal> 型的 <literal>argv</literal>。你不用去管参数在栈上的位置—— C 编译器会帮你处理好。同样你也不用管把哪个值存入哪个寄存器，编译器同样会处理好这些事情。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:207
+msgid ""
+"The <literal>main</literal> function is a special function in the C language "
+"- it is the start of all C programs (much like <literal>_start</literal> in "
+"our assembly-language programs).  It always takes two parameters.  The first "
+"parameter is the number of arguments given to this command, and the second "
+"parameter is a list of the arguments that were given."
+msgstr "<literal>main</literal> 函数在 C 语言中是一个特别的函数。它是所有 C 程序的开始（就像我们汇编语言程序当中的 <literal>_start</literal>）。它一般需要两个参数，第一个参数是给我们的程序的参数个数，第二个参数是这些参数的一个列表。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:216
+msgid ""
+"The next line is a function call.  In assembly language, you had to push the "
+"arguments of a function onto the stack, and then call the function.  C takes "
+"care of this complexity for you.  You simply have to call the function with "
+"the parameters in parenthesis.  In this case, we call the function "
+"<literal>puts</literal>, with a single parameter.  This parameter is the "
+"character string we want to print.  We just have to type in the string in "
+"quotations, and the compiler takes care of defining storage and moving the "
+"pointers to that storage onto the stack before calling the function.  As you "
+"can see, it's a lot less work."
+msgstr "下一行是一个函数调用。在汇编中，你必须把函数要的参数压入栈中，然后才调用函数。而 C 语言给我们处理掉了这些复杂性，你只要简单的把参数放到括号中调用函数就可以了。在这个例子中，我们用一个参数调用 <literal>puts</literal> 函数，这个参数是我们想输出的字符串。我们只需要把字符串放到双引号中，编译器就会自动的给我们分配好存储空间，并把存储空间的首地址放到栈中，然后调用 <literal>puts</literal>。你也看到了，少了不少的麻烦事。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:228
+msgid ""
+"Finally our function returns the number <literal>0</literal>.  In assembly "
+"language, we stored our return value in &eax;, but in C we just use the "
+"<literal>return</literal> command and it takes care of that for us.  The "
+"return value of the <literal>main</literal> function is what is used as the "
+"exit code for the program."
+msgstr "最后我们的函数返回一个 <literal>0</literal>。在汇编中，我们把返回值放到 &eax; 中，而在 C 中我们只简单的用 <literal>return</literal>语句，它就把所有的事情都搞定了。<literal>main</literal> 函数的返回值是整个程序的返回值。 "
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:236
+msgid "As you can see, using high-level languages<indexterm>"
+msgstr "你也看到了，用高级语言<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:236
+#, no-wrap
+msgid "high-level languages"
+msgstr "高级语言"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:236
+msgid ""
+"</indexterm> makes life much easier.  It also allows our programs to run on "
+"multiple platforms more easily.  In assembly language, your program is tied "
+"to both the operating system and the hardware platform, while in compiled "
+"and interpreted languages the same code can usually run on multiple "
+"operating systems and hardware platforms.  For example, this program can be "
+"built and executed on x86 hardware running <trademark "
+"class=\"registered\">Linux</trademark>, <trademark "
+"class=\"registered\">Windows</trademark>, <trademark "
+"class=\"registered\">UNIX</trademark>, or most other operating systems.  In "
+"addition, it can also run on Macintosh hardware running a number of "
+"operating systems."
+msgstr "</indexterm>写程序更加容易。同时还让我们的程序可以更容易的在多种平台上运行。在汇编中，你的程序和操作系统以及硬件平台紧密相关，但用编译型语言或者解释型语言写的代码通常都可以在不同的操作系统和不同的硬件平台上运行。比如说，这个程序能够在 X86 体系结构的<trademark class=\"registered\">Linux</trademark>， <trademark class=\"registered\">Windows</trademark>， <trademark class=\"registered\">UNIX</trademark>以及运行一些其他的操作系统的机器上编译执行。另外，它还能在一些在 Macintosh 平台之上的一些操作系统中编译执行。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:250
+msgid ""
+"Additional information on the C programming language can be found in <xref "
+"linkend=\"ctranslationap\" />."
+msgstr "关于 C 语言编程的资料可以参见 <xref linkend=\"ctranslationap\" />。"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:257 ../../OtherLangCh.xml:277
+#, no-wrap
+msgid "Perl"
+msgstr "Perl"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:260
+msgid ""
+"Perl is an interpreted language, existing mostly on Linux and UNIX-based "
+"platforms.  It actually runs on almost all platforms, but you find it most "
+"often on Linux and UNIX-based ones.  Anyway, here is the Perl version of the "
+"program, which should be typed into a file named "
+"<filename>Hello-World.pl</filename>:"
+msgstr "Perl 是一门解释型的语言，几乎在各种 Linux 和基于 UNIX 的系统上都能找到。它几乎能在所有的系统下运行，但是还是在 Linux 和基于 UNIX 的系统里最为普遍。这是上面那个程序的 Perl 版本，赶快把它敲进一个文件吧，命名为<filename>Hello-World.pl</filename>:"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:270
+msgid ""
+"Since Perl is interpreted, you don't need to compile or link it.  Just run "
+"in with the following command:"
+msgstr "因为 Perl 是解释型的语言，所以你用不着编译或者连接它。直接运行"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:277
+msgid "As you can see, the Perl<indexterm>"
+msgstr "你也看到了，Perl<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:277
+msgid ""
+"</indexterm> version is even shorter than the C version.  With Perl you "
+"don't have to declare any functions or program entry points.  You can just "
+"start typing commands and the interpreter will run them as it comes to "
+"them.  In fact this program only has two lines of code, one of which is "
+"optional."
+msgstr "</indexterm> 版本的这个程序要比 C 版本短小很多。Perl 不需要你去声明任何函数或者程序入口点，你尽管敲进命令，解释器就一条一条的执行了。实际上这个程序只有两行代码，其中还有一行是可选的。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:285
+msgid ""
+"The first, optional line is used for UNIX machines to tell which interpreter "
+"to use to run the program.  The <literal>#!</literal> tells the computer "
+"that this is an interpreted program, and the "
+"<filename>/usr/bin/perl</filename> tells the computer to use the program "
+"<filename>/usr/bin/perl</filename> to interpret the program.  However, since "
+"we ran the program by typing in <literal>perl Hello-World.pl</literal>, we "
+"had already specified that we were using the perl interpreter."
+msgstr "首先，是一条可选的语句，用来告诉 UNIX 机器用哪个解释器来执行这个程序。<literal>#!</literal> 告诉系统这是一个解释型的程序， <filename>/usr/bin/perl</filename> 告诉系统用 <filename>/usr/bin/perl</filename> 来解释执行这个程序。但是，如果我们输入<literal>perl Hello-World.pl</literal> 来运行这个程序，我们就已经指明了我们要用 Perl 解释器来解释执行这个程序。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:295
+msgid ""
+"The next line calls a Perl builtin function, print.  This has one parameter, "
+"the string to print.  The program doesn't have an explicit return statement "
+"- it knows to return simply because it runs off the end of the file.  It "
+"also knows to return 0 because there were no errors while it ran.  You can "
+"see that interpreted languages are often focused on letting you get working "
+"code as quickly as possible, without having to do a lot of extra legwork."
+msgstr "下一行调用了 Perl 的内嵌函数， print，这个函数用一个我们需要输出的字符串作为参数。这个程序没有明确的返回语句，因为文件执行完它就知道返回了。它还知道返回一个 0 ，因为在执行的过程中没有遇到任何错误。你也看到了，解释型的语言通常让的尽可能快的得到可以工作的代码，而不用你去做很多额外的工作。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:304
+msgid ""
+"One thing about Perl that isn't so evident from this example is that Perl "
+"treats strings as a single value.  In assembly language, we had to program "
+"according to the computer's memory architecture, which meant that strings "
+"had to be treated as a sequence of multiple values, with a pointer to the "
+"first letter.  Perl pretends that strings can be stored directly as values, "
+"and thus hides the complication of manipulating them for you.  In fact, one "
+"of Perl's main strengths is its ability and speed at manipulating text."
+msgstr "从这个例子中很明显的可以看出 Perl 是把整个字符串当作一个单一的值来处理的。在汇编语言中，我们必须依照电脑的内存结构来编程，也就是说字符串必须被当作多个值的一个串，并用一个指针来指向它的第一个字符。而 Perl 为你隐藏了这些复杂的操作，直接把字符串当作一个值来保存。事实上，Perl 的主要力量就在于它处理字符串的能力和速度。"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OtherLangCh.xml:317 ../../OtherLangCh.xml:320
+#, no-wrap
+msgid "Python"
+msgstr "Python"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:320
+msgid "The Python<indexterm>"
+msgstr "Python<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:320
+msgid ""
+"</indexterm> version of the program looks almost exactly like the Perl one.  "
+"However, Python is really a very different language than Perl, even if it "
+"doesn't seem so from this trivial example.  Type the program into a file "
+"named <filename>Hello-World.py</filename>.  The program follows:"
+msgstr "</indexterm> 版本的这个程序和 Perl 版本的几乎一模一样。尽管从这个简单的例子中看不出什么差别，Python 仍然是一种和 Perl 完全不同的语言，把这个程序敲进一个文件，改名为 <filename>Hello-World.py</filename>。这个程序是这样的："
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OtherLangCh.xml:331
+msgid "You should be able to tell what the different lines of the program do."
+msgstr "你应该能说出不同的几行代码在做什么。"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../OtherLangCh.xml:337
+#, no-wrap
+msgid "Review"
+msgstr "复习"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../OtherLangCh.xml:340
+#, no-wrap
+msgid "Know the Concepts"
+msgstr "理解概念"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:343
+msgid ""
+"What is the difference between an intepretted language and a compiled "
+"language?"
+msgstr "编译型语言和解释型语言的区别在哪儿？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:344
+msgid "What reasons might cause you to need to learn a new programming language?"
+msgstr "有什么原因可能促使你去学一门新的编程语言？"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../OtherLangCh.xml:350
+#, no-wrap
+msgid "Use the Concepts"
+msgstr "运用概念"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:353
+msgid ""
+"Learn the basic syntax of a new programming language.  Re-code one of the "
+"programs in this book in that language."
+msgstr "学习一门新语言的基本语法，并用这门语言重写这本书中的一些程序。"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:354
+msgid ""
+"In the program you wrote in the question above, what specific things were "
+"automated in the programming language you chose?"
+msgstr "在你重写的程序当中，这门新语言自动处理了哪些事情？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:355
+msgid ""
+"Modify your program so that it runs 10,000 times in a row, both in assembly "
+"language and in your new language.  Then run the <literal>time</literal> "
+"command to see which is faster.  Which does come out ahead? Why do you think "
+"that is?"
+msgstr "修改你的程序的汇编语言版本和高级语言版本，让它们同时运行一万次，然后用 <literal>time</literal> 命令看看到底哪个比较快。做之前你的设想如何？为什么你会这么想？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:356
+msgid ""
+"How does the programming language's input/output methods differ from that of "
+"the Linux system calls?"
+msgstr "这门编程语言的输入／输出方法和 Linux 的系统调用函数有什么差别？"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../OtherLangCh.xml:362
+#, no-wrap
+msgid "Going Further"
+msgstr "更上层楼"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:365
+msgid ""
+"Having seen languages which have such brevity as Perl, why do you think this "
+"book started you with a language as verbose as assembly language?"
+msgstr "在看了像 Perl 这样简洁的语言之后，你对这本书让你从汇编这么繁琐的语言开始有什么想法？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:366
+msgid ""
+"How do you think high level languages have affected the process of "
+"programming?"
+msgstr "你觉得高级语言怎样影响了编程过程？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:367
+msgid "Why do you think so many languages exist?"
+msgstr "你觉得为什么会有这么多的编程语言存在呢？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OtherLangCh.xml:368
+msgid ""
+"Learn two new high level languages.  How do they differ from each other? How "
+"are they similar? What approach to problem-solving does each take?"
+msgstr "学习两个不同的高级语言。说出它们都有些什么不同之处？又都有些什么共同点？它们各自用什么方式去解决问题？"

@@ -1,0 +1,54 @@
+Pre-Publication Magazines:
+	Library Journal
+	School Library Journal?
+	Cumulative Book Index?
+	Book Review Digest?
+	Baker & Taylor Company, Academic Library Services Selection Department
+	Small Press Magazine?
+	Small Press Book Review?
+	Washington Post or NY Times?
+
+Post-Publication Magazines:
+	Linux Journal
+	Dr. Dobb's Journal
+
+Send review copies to:
+
+OSU Okmulgee
+TCC
+OBU
+TU
+OSU
+OU
+Who else?  Knuth?
+
+Things that need to happen:
+
+1) copy - need to finish and proofread
+
+2) illustrations - need to know what needs them
+
+3) cover - need Jeremy to do the design, me to do the back cover content, and appropriate barcode and pricing information
+
+4) editor - need to have reviewed by at least 1 editor and 1 clueless newbie
+
+5) ISBN LCCN others?
+
+6) prooftext - single print of appropriate size checked for errors
+
+7) Printing
+
+8) Distribution - need to define and develop distribution mechanism
+
+
+Market to:
+EDS/Sabre people
+WebZone/MBA people
+OBU
+OSU/Okmulgee
+TLUG
+Wolfram people
+gnome-love mailing list
+Zeta people
+Recruiters
+Would Bo know people?

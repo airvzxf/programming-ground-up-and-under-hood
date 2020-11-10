@@ -1,0 +1,8 @@
+Building prerequisite:
+1. GNU make
+2. po4a
+3. perl
+4. patched openjade and jadetex, patches can be found in patches directory
+5. GBK Chinese LaTeX build environment
+   here is a HOWTO for gentoo http://zh.gentoo-wiki.com/HOWTO_teTeX
+

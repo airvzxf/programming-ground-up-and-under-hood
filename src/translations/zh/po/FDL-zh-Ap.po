@@ -1,0 +1,691 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-07-30  0:05+0800\n"
+"PO-Revision-Date: 2006-09-06 01:18+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"X-Generator: Pootle 0.10beta3\n"
+
+# type: Content of: <appendix><title>
+#: ../../FDLAp.xml:3
+#, no-wrap
+msgid "GNU Free Documentation License"
+msgstr "GNU 自由文档许可证"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:5
+msgid "DECLARATION"
+msgstr "声明"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:8
+msgid "This is not an official translation."
+msgstr "这不是 GNU 自由文档许可证的正式中文译文。它不是由自由软件基金会发布的，它不具备 GNU Free Documentation License 的英文原文所具有的法律效力。但是希望此翻译能帮助说中文的人更好地理解 GNU 自由文档许可证。下一章即是 GNU Free Documentation License 的英文原文。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:11
+msgid "<literal>0. PREAMBLE</literal>"
+msgstr "<literal>0.导言</literal>"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:14
+msgid ""
+"The purpose of this License is to make a manual, textbook, or other written "
+"document <quote>free</quote> in the sense of freedom: to assure everyone the "
+"effective freedom to copy and redistribute it, with or without modifying it, "
+"either commercially or noncommercially. Secondarily, this License preserves "
+"for the author and publisher a way to get credit for their work, while not "
+"being considered responsible for modifications made by others."
+msgstr "本许可证着意于保证手册、教科书或其它文档的<quote>自由</quote>: 以确保任何人复制和重新发布这些文档的自由，不管在商业领域还是非商业领域，经过修改还是没有修改。其次，本许可证保证了文档作者和发行者可以因他们的工作而获得信誉，同时不必为其他人所作的修改而负责。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:25
+msgid ""
+"This License is a kind of <quote>copyleft</quote>, which means that "
+"derivative works of the document must themselves be free in the same "
+"sense. It complements the GNU General Public License, which is a copyleft "
+"license designed for free software."
+msgstr "本许可证是一种<quote>copyleft</quote>，其含义为:文档的衍生作品必须与原文档是同样自由的。本许可证是 GNU 通用公共许可证的补充，后者是为自由软件设计的一种 copyleft 许可证。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:32
+msgid ""
+"We have designed this License in order to use it for manuals for free "
+"software, because free software needs free documentation: a free program "
+"should come with manuals providing the same freedoms that the software "
+"does. But this License is not limited to software manuals; it can be used "
+"for any textual work, regardless of subject matter or whether it is "
+"published as a printed book. We recommend this License principally for works "
+"whose purpose is instruction or reference."
+msgstr "我们设计本许可证供自由软件的手册使用，因为自由软件需要自由文档：自由软件必须附带有提供了软件所俱的同等自由的手册。不过本许可证的适用范围并不仅限于软件手册，所有的文本作品都可以使用本许可证，不管主题是什么或者是否以书本的形式发行。我们鼓励那些俱指导性质或参考性质的文档作品使用本许可证。 "
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:42
+msgid "<literal>1. APPLICABILITY AND DEFINITIONS</literal>"
+msgstr "<literal>1.适用范围和定义</literal>"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:45
+msgid ""
+"This License applies to any manual or other work that contains a notice "
+"placed by the copyright holder saying it can be distributed under the terms "
+"of this License. The <quote>Document</quote>, below, refers to any such "
+"manual or work. Any member of the public is a licensee, and is addressed as "
+"<quote>you</quote>."
+msgstr "本许可证应用于任何手册或其它作品，只要版权所有者在作品放置一条声明，说明使用本许可证的条款发布。下文中的<quote>Document（文档）</quote>都是指这样的手册或作品。任何一个人都是本许可证的许可对象，这里将用<quote>你</quote>来称呼。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:54
+msgid ""
+"A <quote>Modified Version</quote> of the Document means any work containing "
+"the Document or a portion of it, either copied verbatim, or with "
+"modifications and/or translated into another language."
+msgstr "文档的<quote>Modified Version（修改版）</quote>是指任何包含全部或部分 Document 的作品，不论是照搬照抄还是经过修改或是翻译成其它语言。 "
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:61
+msgid ""
+"A <quote>Secondary Section</quote> is a named appendix or a front-matter "
+"section of the Document that deals exclusively with the relationship of the "
+"publishers or authors of the Document to the Document's overall subject (or "
+"to related matters) and contains nothing that could fall directly within "
+"that overall subject. (For example, if the Document is in part a textbook of "
+"mathematics, a Secondary Section may not explain any mathematics.)  The "
+"relationship could be a matter of historical connection with the subject or "
+"with related matters, or of legal, commercial, philosophical, ethical or "
+"political position regarding them."
+msgstr "<quote>Secondary Section（从属章节）</quote>是指命名的附录或 Document 的前序部分，专门描述 Document 的发行者或作者与 Document 的主题（或者与相关事项）之间的关系，并且包含文档主题之外的内容。（比如，如果 Document 是一本数学教科书的一部分，Secondary Section可能不会提到任何数学话题。）关系可以是与主题或相关事项的历史联系，或者有关它们的法律、商业、哲学、道德或政治立场。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:75
+msgid ""
+"The <quote>Invariant Sections</quote> are certain Secondary Sections whose "
+"titles are designated, as being those of Invariant Sections, in the notice "
+"that says that the Document is released under this License."
+msgstr "<quote>Invariant Sections（不可变章节）</quote>是指某些 Secondary Sections。在说明 Document 是依本许可证发布的声明中，指明了这些 Secondary Sections 属于 Invariant Sections。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:82
+msgid ""
+"The <quote>Cover Texts</quote> are certain short passages of text that are "
+"listed, as Front-Cover Texts or Back-Cover Texts, in the notice that says "
+"that the Document is released under this License."
+msgstr "<quote>Cover Texts（封面文字）</quote>是指某些小段文字。在说明 Document 是依本许可证发布的声明中，指明了这些文字将以封面文字或封底文字列出。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:89
+msgid ""
+"A <quote>Transparent</quote> copy of the Document means a machine-readable "
+"copy, represented in a format whose specification is available to the "
+"general public, whose contents can be viewed and edited directly and "
+"straightforwardly with generic text editors or (for images composed of "
+"pixels) generic paint programs or (for drawings) some widely available "
+"drawing editor, and that is suitable for input to text formatters or for "
+"automatic translation to a variety of formats suitable for input to text "
+"formatters. A copy made in an otherwise Transparent file format whose markup "
+"has been designed to thwart or discourage subsequent modification by readers "
+"is not Transparent.  A copy that is not <quote>Transparent</quote> is called "
+"<quote>Opaque</quote>."
+msgstr "Document 的<quote>Transparent</quote>副本是指计算机可读的副本，以一种公开规格的格式表达，其内容可以直接使用通用文本编辑器或（对于其中由像素构成的图片）使用通用绘画程序或（对于其中的绘图）使用一些被广泛应用的图像编辑器来浏览或者修改，并且适合作为文本格式化程序的 输入，或者适合被自动翻译成一些格式同时这些格式适合作为文本格式化程序的输入。如果一个副本是以一种可以阻挠读者的后续修改的非 Transparent 格式发布的，那么这就不是 Transparent 副本。一个非 <quote>Transparent</quote> 副本称之为 <quote>Opaque</quote> 副本。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:105
+msgid ""
+"Examples of suitable formats for Transparent copies include plain ASCII "
+"without markup, Texinfo input format, LaTeX input format, SGML or XML using "
+"a publicly available DTD, and standard-conforming simple HTML designed for "
+"human modification. Opaque formats include PostScript, PDF, proprietary "
+"formats that can be read and edited only by proprietary word processors, "
+"SGML or XML for which the DTD and/or processing tools are not generally "
+"available, and the machine-generated HTML produced by some word processors "
+"for output purposes only."
+msgstr "Transparent 副本适用的格式包括没有标记的纯 ASCII 文本、Texinfo 格式、LaTeX 格式、使用公开的 DTD 的 SGML 或 XML 以及符合标准的便于人修改的纯 HTML。Opaque 格式包括PostScript、PDF、只能用商业字处理程序读写的专有格式、使用不易获得的 DTD 或处理工具的 SGML 或 XML 以及某些字处理程序产生的只用于输出目的的 HTML。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:118
+msgid ""
+"The <quote>Title Page</quote> means, for a printed book, the title page "
+"itself, plus such following pages as are needed to hold, legibly, the "
+"material this License requires to appear in the title page. For works in "
+"formats which do not have any title page as such, <quote>Title Page</quote> "
+"means the text near the most prominent appearance of the work's title, "
+"preceding the beginning of the body of the text."
+msgstr "<quote>Title Page（扉页）</quote>，对于刊印成册的书，是指扉页本身及其后的几页，这几页要包含有本许可证要求在扉页里出现的清楚明了的资料。对于没有扉页的作品格式，<quote>Title Page</quote> 指的是靠近作品标题且在正文开始之前的文字。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:127
+msgid "<literal>2. VERBATIM COPYING</literal>"
+msgstr "<literal>2.原样复制</literal>"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:130
+msgid ""
+"You may copy and distribute the Document in any medium, either commercially "
+"or noncommercially, provided that this License, the copyright notices, and "
+"the license notice saying this License applies to the Document are "
+"reproduced in all copies, and that you add no other conditions whatsoever to "
+"those of this License. You may not use technical measures to obstruct or "
+"control the reading or further copying of the copies you make or "
+"distribute. However, you may accept compensation in exchange for copies. If "
+"you distribute a large enough number of copies you must also follow the "
+"conditions in section 3."
+msgstr "你可以在任何媒介上复制和发布 Document，不论是用于商业或非商业目的，只要所有的副本都包括本 License、版权声明和说明本 License 应用于 Document的许可证声明，而且你不再加入任何其他类似的对于本 License 的条件。你不可以采取技术手段以妨碍或控制别人阅读或再复制你制作或发布的副本。不过，你可以发布副本以获取他人给你的一些补偿。如果你发布的副本数量大到一定程度，你必须符合第3节的条件。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:144
+msgid ""
+"You may also lend copies, under the same conditions stated above, and you "
+"may publicly display copies."
+msgstr "你可以在满足上面所述条件的前提下出租和公开展示文档副本。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:148
+msgid "<literal>3. COPYING IN QUANTITY</literal>"
+msgstr "<literal>3.大量复制</literal>"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:150
+msgid ""
+"If you publish printed copies of the Document numbering more than 100, and "
+"the Document's license notice requires Cover Texts, you must enclose the "
+"copies in covers that carry, clearly and legibly, all these Cover Texts: "
+"Front-Cover Texts on the front cover, and Back-Cover Texts on the back "
+"cover. Both covers must also clearly and legibly identify you as the "
+"publisher of these copies. The front cover must present the full title with "
+"all words of the title equally prominent and visible. You may add other "
+"material on the covers in addition. Copying with changes limited to the "
+"covers, as long as they preserve the title of the Document and satisfy these "
+"conditions, can be treated as verbatim copying in other respects."
+msgstr "如果你发布的 Document 的印刷副本数量超过100份，并且 Document 的许可证声明要求 Cover Texts，你必须用封面封底包住副本，且其上必须清晰可辨的印有所有的 Cover Texts：包括封面上的 Front-Cover Texts 和封底上的 Back-Cover Texts。封面和封底还都必须写明你是该副本的出版者。封面必须印上完整的书名，书名的每个字都必须一样地突出可见。此外你可以在封面添加一些其它素材。仅仅改动了封面封底的复制，只要他们保留了 Document 的标题并且符合这些条件，从其他方面可视其为原样复制。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:166
+msgid ""
+"If the required texts for either cover are too voluminous to fit legibly, "
+"you should put the first ones listed (as many as fit reasonably) on the "
+"actual cover, and continue the rest onto adjacent pages."
+msgstr "如果封面或封底必要的文字太多，以至于全放上去的话将看不清楚，那么你可以把前面的条目（在保证清楚的前提下尽可能多的）列在封面或封底，剩下的那些放在邻近的页面里。 "
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:173
+msgid ""
+"If you publish or distribute Opaque copies of the Document numbering more "
+"than 100, you must either include a machine-readable Transparent copy along "
+"with each Opaque copy, or state in or with each Opaque copy a "
+"publicly-accessible computer-network location containing a complete "
+"Transparent copy of the Document, free of added material, which the general "
+"network-using public has access to download anonymously at no charge using "
+"public-standard network protocols. If you use the latter option, you must "
+"take reasonably prudent steps, when you begin distribution of Opaque copies "
+"in quantity, to ensure that this Transparent copy will remain thus "
+"accessible at the stated location until at least one year after the last "
+"time you distribute an Opaque copy (directly or through your agents or "
+"retailers) of that edition to the public."
+msgstr "如果你出版或分发 Document 的 Opaque 副本数量超过100份，那么你必须要么随同每份 Opaque 副本附带一份机器可读的 Transparent 副本，要么在每份 Opaque 副本里或随同该副本指明一个公众可以访问到的计算机网络的地址，使用网络的公众可以用公众标准网络协议从该地址匿名且免费地下载到完全 Transparent 且不包含任何附加材料的 Document 副本。如果你采用后一种办法，你必须适当采取一些慎重的措施，当你开始大量发行 Opaque 副本时，要保证在你（直接或者通过你的代理或零售商）发布最后一份 Opaque 副本后至少一年内，对应版本的 Transparent 副本在指定的地址仍然可以这样访问到。"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:190
+msgid ""
+"It is requested, but not required, that you contact the authors of the "
+"Document well before redistributing any large number of copies, to give them "
+"a chance to provide you with an updated version of the Document."
+msgstr "希望你可以在大量再次发布 Document 副本之前与作者取得联系，这虽然不是必需的，但是这样可以给他们一个机会提供给你 Document 的最新版本。 "
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:196
+msgid "<literal>4. MODIFICATIONS</literal>"
+msgstr "<literal>4.修改</literal>"
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:198
+msgid ""
+"You may copy and distribute a Modified Version of the Document under the "
+"conditions of sections 2 and 3 above, provided that you release the Modified "
+"Version under precisely this License, with the Modified Version filling the "
+"role of the Document, thus licensing distribution and modification of the "
+"Modified Version to whoever possesses a copy of it. In addition, you must do "
+"these things in the Modified Version:"
+msgstr "你可以在上文第2和第3节的条件下复制和发布 Document 的 Modified Version，只要你严格地依本 License 发布代替了 Document 的角色的 Modified Version，这样任何持有该 Modified Version 的一份副本的人都可以对其进行发行和修改。此外，在 Modified Version 里你必须做如下一些事情： "
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:211
+#, no-wrap
+msgid "A"
+msgstr "A"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:213
+msgid ""
+"Use in the Title \t Page (and on the covers, if any) a title distinct \t "
+"from that of the Document, and from those of \t previous versions (which "
+"should, if there were any, be \t listed in the History section of the "
+"Document). You may \t use the same title as a previous version if the "
+"original \t publisher of that version gives permission."
+msgstr "在扉页（和封皮上，如果有的话）使用的书名要不同于 Document 的书名，且要不同于先前版本的书名（这些书名，如果有的话，应该是列在 Document 的历史章节里的）。如果某个版本原来的发行者允许，你也可以使用和那个版本相同的书名。 "
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:226
+#, no-wrap
+msgid "B"
+msgstr "B"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:228
+msgid ""
+"List on the Title \t Page, as authors, one or more persons or entities \t "
+"responsible for authorship of the modifications in the \t Modified Version, "
+"\t together with at least five of the principal authors of \t the Document "
+"(all of \t its principal authors, if it has less than five)."
+msgstr "在扉页上像列出作者一样列出负责修改Modified Version的一个或多个个人或实体，以及文档的至少五个主要作者（如果主要作者少于五个，就全部写上）。"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:241
+#, no-wrap
+msgid "C"
+msgstr "C"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:243
+msgid ""
+"State on the Title \t Page the name of the publisher of the Modified "
+"Version, as the \t publisher."
+msgstr "在扉页上列出Modified Version的发行者的名字，如同（Document的）发行者那样。 "
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:252
+#, no-wrap
+msgid "D"
+msgstr "D"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:254
+msgid "Preserve all the copyright notices of the Document."
+msgstr "保留Document的所有版权声明不变。 "
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:261
+#, no-wrap
+msgid "E"
+msgstr "E"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:263
+msgid ""
+"Add an appropriate copyright notice for your modifications \t adjacent to "
+"the other copyright notices."
+msgstr "在其它版权声明附近为你所做的修正添加适当的版权声明。"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:271
+#, no-wrap
+msgid "F"
+msgstr "F"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:273
+msgid ""
+"Include, immediately after the copyright notices, a \t license notice giving "
+"the public permission to use the \t Modified Version under \t the terms of "
+"this License, in the form shown in the \t Addendum below."
+msgstr "在版权声明后面，紧跟着加上允许公众在本协议下使用Modified Version的许可声明，其形式如下面附录所示。 "
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:284
+#, no-wrap
+msgid "G"
+msgstr "G"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:286
+msgid ""
+"Preserve in that license notice the full lists of Invariant Sections and \t "
+"required Cover \t Texts given in the Document's license notice."
+msgstr "在那个许可声明里保留Document的许可声明里所给出的所有Invariant Section和所需要的Cover Text的完整列表。"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:295
+#, no-wrap
+msgid "H"
+msgstr "H"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:297
+msgid "Include an unaltered copy of this License."
+msgstr "包含本License的未经改动的副本。"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:304
+#, no-wrap
+msgid "I"
+msgstr "I"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:306
+msgid ""
+"Preserve the section entitled <quote>History</quote>, and \t its title, and "
+"add to it an item stating at least the \t title, year, new authors, and "
+"publisher of the Modified Version as given on \t the Title Page.  If \t "
+"there is no section entitled <quote>History</quote> in the \t Document, "
+"create one \t stating the title, year, authors, and publisher of the \t "
+"Document as given on its Title Page, then add an item \t describing the "
+"Modified Version as stated in the previous \t sentence."
+msgstr "保留题为<quote>历史</quote>的章节，不要改动其标题，并且给它添加一条至少包括Modified Version的书名、年份、新作者和发行者的条目，这些信息要和扉页上列出的一致。如果Document没有题为<quote>历史</quote>的章节，你就建立该章节，创建一条包括Document的书名、年份、作者和发行者的条目，要与扉页里给出的信息一致，然后类似的再添一条描述Modified Version的条目。"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:322
+#, no-wrap
+msgid "J"
+msgstr "J"
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:324
+msgid ""
+"Preserve the network location, if any, given in the Document for public "
+"access \t to a Transparent \t copy of the Document, and likewise the network "
+"locations \t given in the Document for previous versions it was based \t "
+"on. These may be placed in the <quote>History</quote> \t section.  You may "
+"omit a network location for a work that \t was published at least four years "
+"before the Document \t itself, or if the original publisher of the version "
+"it \t refers to gives permission."
+msgstr ""
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:339
+#, no-wrap
+msgid "K"
+msgstr ""
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:341
+msgid ""
+"In any section entitled <quote>Acknowledgements</quote> or \t "
+"<quote>Dedications</quote>, preserve the section's title, \t and preserve in "
+"the section all the substance and tone of \t each of the contributor "
+"acknowledgements and/or \t dedications given therein."
+msgstr ""
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:352
+#, no-wrap
+msgid "L"
+msgstr ""
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:354
+msgid ""
+"Preserve all the Invariant \t Sections of the Document, unaltered in their "
+"\t text and in their titles.  Section numbers or the \t equivalent are not "
+"considered part of the section titles."
+msgstr ""
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:364
+#, no-wrap
+msgid "M"
+msgstr ""
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:366
+msgid ""
+"Delete any section entitled \t <quote>Endorsements</quote>. Such a section "
+"may not be \t included in the Modified \t Version."
+msgstr ""
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
+#: ../../FDLAp.xml:376
+#, no-wrap
+msgid "N"
+msgstr ""
+
+# type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
+#: ../../FDLAp.xml:378
+msgid ""
+"Do not retitle any existing section as \t <quote>Endorsements</quote> or to "
+"conflict in title with \t any Invariant \t Section."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:388
+msgid ""
+"If the Modified Version includes new front-matter sections or appendices "
+"that qualify as Secondary Sections and contain no material copied from the "
+"Document, you may at your option designate some or all of these sections as "
+"invariant. To do this, add their titles to the list of Invariant Sections in "
+"the Modified Version's license notice.  These titles must be distinct from "
+"any other section titles."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:399
+msgid ""
+"You may add a section entitled <quote>Endorsements</quote>, provided it "
+"contains nothing but endorsements of your Modified Version by various "
+"parties--for example, statements of peer review or that the text has been "
+"approved by an organization as the authoritative definition of a standard."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:407
+msgid ""
+"You may add a passage of up to five words as a Front-Cover Text, and a "
+"passage of up to 25 words as a Back-Cover Text, to the end of the list of "
+"Cover Texts in the Modified Version.  Only one passage of Front-Cover Text "
+"and one of Back-Cover Text may be added by (or through arrangements made by) "
+"any one entity. If the Document already includes a cover text for the same "
+"cover, previously added by you or by arrangement made by the same entity you "
+"are acting on behalf of, you may not add another; but you may replace the "
+"old one, on explicit permission from the previous publisher that added the "
+"old one."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:422
+msgid ""
+"The author(s) and publisher(s) of the Document do not by this License give "
+"permission to use their names for publicity for or to assert or imply "
+"endorsement of any Modified Version ."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:427
+msgid "<literal>5. COMBINING DOCUMENTS</literal>"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:430
+msgid ""
+"You may combine the Document with other documents released under this "
+"License, under the terms defined in section 4 above for modified versions, "
+"provided that you include in the combination all of the Invariant Sections "
+"of all of the original documents, unmodified, and list them all as Invariant "
+"Sections of your combined work in its license notice."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:441
+msgid ""
+"The combined work need only contain one copy of this License, and multiple "
+"identical Invariant Sections may be replaced with a single copy. If there "
+"are multiple Invariant Sections with the same name but different contents, "
+"make the title of each such section unique by adding at the end of it, in "
+"parentheses, the name of the original author or publisher of that section if "
+"known, or else a unique number. Make the same adjustment to the section "
+"titles in the list of Invariant Sections in the license notice of the "
+"combined work."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:454
+msgid ""
+"In the combination, you must combine any sections entitled "
+"<quote>History</quote> in the various original documents, forming one "
+"section entitled <quote>History</quote>; likewise combine any sections "
+"entitled <quote>Acknowledgements</quote>, and any sections entitled "
+"<quote>Dedications</quote>.  You must delete all sections entitled "
+"<quote>Endorsements.</quote>"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:462
+msgid "<literal>6. COLLECTIONS OF DOCUMENTS</literal>"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:464
+msgid ""
+"You may make a collection consisting of the Document and other documents "
+"released under this License, and replace the individual copies of this "
+"License in the various documents with a single copy that is included in the "
+"collection, provided that you follow the rules of this License for verbatim "
+"copying of each of the documents in all other respects."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:473
+msgid ""
+"You may extract a single document from such a collection, and dispbibute it "
+"individually under this License, provided you insert a copy of this License "
+"into the extracted document, and follow this License in all other respects "
+"regarding verbatim copying of that document."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:480
+msgid "<literal>7. AGGREGATION WITH INDEPENDENT WORKS</literal>"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:482
+msgid ""
+"A compilation of the Document or its derivatives with other separate and "
+"independent documents or works, in or on a volume of a storage or "
+"distribution medium, does not as a whole count as a Modified Version of the "
+"Document, provided no compilation copyright is claimed for the compilation.  "
+"Such a compilation is called an <quote>aggregate</quote>, and this License "
+"does not apply to the other self-contained works thus compiled with the "
+"Document , on account of their being thus compiled, if they are not "
+"themselves derivative works of the Document.  If the Cover Text requirement "
+"of section 3 is applicable to these copies of the Document, then if the "
+"Document is less than one quarter of the entire aggregate, the Document's "
+"Cover Texts may be placed on covers that surround only the Document within "
+"the aggregate. Otherwise they must appear on covers around the whole "
+"aggregate."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:500
+msgid "<literal>8. TRANSLATION</literal>"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:503
+msgid ""
+"Translation is considered a kind of modification, so you may distribute "
+"translations of the Document under the terms of section 4. Replacing "
+"Invariant Sections with translations requires special permission from their "
+"copyright holders, but you may include translations of some or all Invariant "
+"Sections in addition to the original versions of these Invariant "
+"Sections. You may include a translation of this License provided that you "
+"also include the original English version of this License. In case of a "
+"disagreement between the translation and the original English version of "
+"this License, the original English version will prevail."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:516
+msgid "<literal>9. TERMINATION</literal>"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:518
+msgid ""
+"You may not copy, modify, sublicense, or distribute the Document except as "
+"expressly provided for under this License. Any other attempt to copy, "
+"modify, sublicense or distribute the Document is void, and will "
+"automatically terminate your rights under this License. However, parties who "
+"have received copies, or rights, from you under this License will not have "
+"their licenses terminated so long as such parties remain in full compliance."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:527
+msgid "<literal>10. FUTURE REVISIONS OF THIS LICENSE</literal>"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:529
+msgid ""
+"The Free Software Foundation may publish new, revised versions of the GNU "
+"Free Documentation License from time to time. Such new versions will be "
+"similar in spirit to the present version, but may differ in detail to "
+"address new problems or concerns. See http://www.gnu.org/copyleft/."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:537
+msgid ""
+"Each version of the License is given a distinguishing version number. If the "
+"Document specifies that a particular numbered version of this License "
+"<quote>or any later version</quote> applies to it, you have the option of "
+"following the terms and conditions either of that specified version or of "
+"any later version that has been published (not as a draft) by the Free "
+"Software Foundation. If the Document does not specify a version number of "
+"this License, you may choose any version ever published (not as a draft) by "
+"the Free Software Foundation."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:549
+msgid "<literal>Addendum</literal>"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:551
+msgid ""
+"To use this License in a document you have written, include a copy of the "
+"License in the document and put the following copyright and license notices "
+"just after the title page:"
+msgstr ""
+
+# type: Content of: <appendix><blockquote><para>
+#: ../../FDLAp.xml:558
+msgid "Copyright &copy; YEAR YOUR NAME."
+msgstr ""
+
+# type: Content of: <appendix><blockquote><para>
+#: ../../FDLAp.xml:561
+msgid ""
+"Permission is granted to copy, distribute and/or modify this \tdocument "
+"under the terms of the GNU Free Documentation \tLicense, Version 1.1 or any "
+"later version published by the \tFree Software Foundation; with the "
+"Invariant Sections being LIST \tTHEIR TITLES, with the Front-Cover Texts "
+"being LIST, \tand with the Back-Cover \tTexts being LIST.  A copy of the "
+"license is included in \tthe section entitled <quote>GNU Free Documentation "
+"\tLicense</quote>."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:574
+msgid ""
+"If you have no Invariant Sections, write <quote>with no Invariant "
+"Sections</quote> instead of saying which ones are invariant.  If you have no "
+"Front-Cover Texts, write <quote>no Front-Cover Texts</quote> instead of "
+"<quote>Front-Cover Texts being LIST</quote>; likewise for Back-Cover Texts."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../FDLAp.xml:583
+msgid ""
+"If your document contains nontrivial examples of program code, we recommend "
+"releasing these examples in parallel under your choice of free software "
+"license, such as the GNU General Public License, to permit their use in free "
+"software."
+msgstr ""

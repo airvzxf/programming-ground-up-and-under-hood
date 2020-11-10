@@ -1,0 +1,82 @@
+	#PURPOSE:  Program to illustrate how functions work
+	#          This program will compute the value of
+	#          2^3 + 5^2
+	#
+
+	.section .data
+
+	#This is where we will store the result of our 
+	#first computation (2^3)
+first_answer:
+	.long 0
+
+	#This is where we will store the result of our 
+	#second computation (5^2)
+second_answer:
+	.long 0
+
+	.section .text
+
+	.globl _start
+_start:
+	pushl $3                  #push second argument
+	pushl $2                  #push first argument
+	call  power               #call the function
+
+	movl  %eax, first_answer  #save the answer
+
+	pushl $2                  #push second argument
+	pushl $5                  #push first argument
+	call  power               #call the function
+	
+	movl  %eax, second_answer #save the answer
+
+	movl  first_answer, %eax  #load answers back
+	                          #into registers
+	movl  second_answer, %ebx
+	addl  %eax, %ebx          #add them together
+	                          #result in %ebx
+	
+	movl  $1, %eax            #exit (%ebx is returned)
+	int   $0x80
+
+	#PURPOSE:  This function is used to compute
+	#          the value of a number raised to
+	#          a power.
+	#
+	#INPUT:    First argument - the base number
+	#          Second argument - the power to 
+	#                            raise it to
+	#
+	#OUTPUT:   Will give the result as a return value
+	#
+	#NOTES:    The power must be 1 or greater
+	#
+	#VARIABLES: 
+	#          %eax - holds the current result
+	#          %ebx - holds the base number
+	#          %ecx - holds the power
+	#
+	.type power, @function
+power:
+	pushl %ebp           #save old base pointer
+	movl  %esp, %ebp     #make stack pointer the base pointer
+
+	movl  8(%ebp), %eax  #put first argument in %eax
+	movl  %eax, %ebx     #copy it to %ebx
+	movl  12(%ebp), %ecx #put second argument in %ecx
+
+power_loop_start:
+	cmpl  $1, %ecx       #if the power is 1, we are done
+	je    end_power
+	imul  %ebx, %eax     #multiply the current result by
+	                     #the base number
+
+	decl  %ecx           #decrease the power
+	jmp   power_loop_start #run for the next power
+
+end_power:
+	                     #value is already in %eax
+	movl %ebp, %esp      #restore the stack pointer
+	popl %ebp            #restore the base pointer
+	ret

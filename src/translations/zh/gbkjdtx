@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+f="$*"
+[ -z "$f" ] && exit
+[ -f "$f" ] || exit
+
+pf=${f%.tex}
+
+echo "Convert $f -> $pf.cjk"
+./jdtxconv.pl <$f >$pf.cjk
+jadetex $pf.cjk; ./jdtxPDFOctal.pl $pf.out
+sleep 1
+jadetex $pf.cjk; ./jdtxPDFOctal.pl $pf.out
+sleep 1
+jadetex $pf.cjk; ./jdtxPDFOctal.pl $pf.out
+dvipdfmx $pf.dvi
+

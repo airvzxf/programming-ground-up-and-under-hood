@@ -1,0 +1,599 @@
+<chapter>
+<title>Introduction</title>
+<!--
+
+Copyright 2002 Jonathan Bartlett
+Copyright 2005 Philippe Martin for the french translation
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+<sect1>
+<title>Bienvenue à la programmation</title>
+<!-- Welcome to Programming -->
+
+<para>J'aime
+<indexterm><primary>programmer</primary></indexterm>programmer.
+J'apprécie le défi de non seulement créer un programme qui fonctionne,
+mais de le faire avec style. La programmation est comme la poésie.
+Elle fait passer un message, pas seulement à l'ordinateur, mais aussi
+à ceux qui modifient et utilisent votre programme.  Avec un programme,
+vous construisez votre propre monde avec vos propres règles.  Vous
+créez votre monde selon votre conception du problème et de la
+solution.  Les programmeurs experts créent des mondes avec des
+programmes clairs et succints, tout comme un poème ou un essai.
+</para>
+<!--
+I love
+<indexterm><primary>programming</primary></indexterm>programming.
+enjoy the challenge to not only make a working program, but to do so
+with style.  Programming is like poetry.  It conveys a message, not
+only to the computer, but to those who modify and use your program.
+With a program, you build your own world with your own rules.  You
+create your world according to your conception of both the problem and
+the solution.  Masterful programmers create worlds with programs that
+are clear and succinct, much like a poem or essay.
+-->
+
+<para>D'après l'un des plus importants programmeurs, Donald Knuth, la
+programmation consiste non pas à expliquer à un ordinateur comment
+faire les choses, mais à expliquer à une personne comment ils
+devraient dire à un ordinateur de faire ces choses.  L'important est
+que les programmes sont faits pour être lus par des personnes et non
+pas seulement par des ordinateurs.  Vos programmes seront modifiés et
+mis à jour longtemps après que vous soyez passés à d'autres projets.
+Ainsi, programmer n'est pas autant communiquer avec un ordinateur que
+communiquer avec ceux qui viendront après vous.  Un programmeur est un 
+résolveur de problèmes, un poète et un enseignant tout à la fois.
+Votre but est de résoudre le problème à la main, le faire avec
+équilibre et goût et expliquer votre solution aux futurs
+programmeurs.  J'espère vous apprendre à travers ce livre un peu de
+la poésie et de la magie qui rendent l'informatique si excitante.
+</para> 
+<!--
+One of the greatest programmers, Donald Knuth, 
+describes programming not as telling a computer how to do something,
+but telling a person how they would instruct a computer to do something.
+The point is that programs are meant to be read by people, not
+just computers.  Your programs will be modified and updated by others
+long after you move on to other projects.  Thus, programming is not
+as much about communicating to a computer as it is communicating to
+those who come after you.  A programmer is a problem-solver, a poet, and an
+instructor all at once.  Your goal is to solve the problem at hand,
+doing so with balance and taste, and teach your solution to
+future programmers.  I hope that this book can teach at least some
+of the poetry and magic that makes computing exciting.
+-->
+
+
+<para>
+La plupart des livres d'introduction à la programmation m'ennuient
+profondément.  À la fin vous vous demandez toujours&nbsp;:
+&laquo;&nbsp;Comment marche vraiment un ordinateur&nbsp;?&nbsp;&raquo;
+et n'avez pas de réponse satisfaisante.  Ils tendent à survoler des
+sujets difficiles alors même qu'ils sont importants.  Je vous
+emmènerai à travers les sujets difficiles car cela est la seule
+méthode pour devenir un expert en programmation.  Mon but est de vous
+accompagner d'une connaissance zéro en informatique à savoir
+comment penser, écrire et apprendre comme un programmeur.  Vous ne
+saurez pas tout, mais vous saurez comment l'ensemble fonctionne.  À la
+fin de ce livre, vous devriez être capable de faire les choses
+suivantes&nbsp;:
+</para>
+<!--
+Most introductory books on programming frustrate me to no end.  At the
+end of them you can still ask "how does the computer really work?" and
+not have a good answer.  They tend to pass over topics that are 
+difficult even though they are important.  I will take you through
+the difficult issues because that is the only way to move on to
+masterful programming.  My goal is to take you from knowing nothing about
+programming to understanding how to think, write, and learn like
+a programmer.  You won't know everything, but you will have a background
+for how everything fits together.  At the end of this book, you should 
+be able to do the following:
+-->
+<itemizedlist>
+
+<listitem><para>Comprendre comment un programme fonctionne et
+interagit avec les autres programmes</para>
+<!--Understand how a program works and interacts with -->
+<!--other programs-->
+</listitem>
+<listitem><para>Lire les programmes d'autres personnes et apprendre
+leur fonctionnement</para>
+<!-- Read other people's programs and learn how they work -->
+</listitem>
+<listitem><para>Apprendre rapidement de nouveaux langages de programmation</para>
+<!-- Learn new programming languages quickly -->
+</listitem>
+<listitem><para>Apprendre rapidement des concepts avancés en informatique</para>
+<!-- Learn advanced concepts in computer science quickly -->
+</listitem>
+
+</itemizedlist>
+
+<para>
+Je ne vous apprendrai pas tout.  L'informatique est un vaste sujet,
+d'autant plus lorsque l'on combine la théorie avec la pratique de
+la programmation.  Cependant, je vais tenter de vous faire démarrer
+avec les bases, pour que vous puissiez aller où vous voulez
+ensuite.
+</para>
+<!--
+I will not teach you everything.  Computer science is a massive
+field, especially when you combine the theory with the practice of computer
+programming.  However, I will attempt to get you started on the 
+foundations so you can easily go wherever you want afterwards.
+-->
+
+<para>
+Il y a quelque chose du problème de la poule et de l'oeuf dans
+l'apprentissage de la programmation, particulièrement de
+l'assembleur.  Il y a beaucoup à apprendre&nbsp;; presque trop à apprendre
+en une seule fois.  Cependant, chaque partie dépend de toutes les
+autres, ce qui rend difficile d'apprendre une partie à la fois.  Donc,
+vous devez être patient avec vous-même et avec l'ordinateur en
+apprenant à programmer.  Si vous ne comprenez pas quelque chose la
+première fois, relisez-le.  Si vous ne le comprenez toujours pas, il
+est parfois préférable de le croire sur parole et d'y revenir plus
+tard.  Après plus d'exposition à la programmation, les idées seront
+plus claires.  Ne vous découragez pas.  C'est un long travail, mais
+très enrichissant.
+</para>
+<!-- There is somewhat of a chicken and egg problem in teaching programming,
+especially assembly language.  There is a lot to learn - it is almost too
+much to learn almost at all at once.  However, each piece depends on all 
+the others, which makes learning it a piece at a time difficult.
+Therefore, you must be patient with yourself and the computer while 
+learning to program.  If you don't understand something the first time,
+reread it.  If you still don't understand it, it is sometimes best to
+take it by faith and come back to it later.  Often after more exposure
+to programming the ideas will make more sense.  Don't get discouraged.
+It's a long climb, but very worthwhile.
+-->
+<para>À la fin de chaque chapitre se trouvent trois jeux d'exercices
+de révision.  Le premier est plus ou moins de la régurgitation&nbsp;;
+il vérifie que vous vous souvenez ce que vous avez appris dans le
+chapitre.  Le second contient des questions d'application&nbsp;; il
+vérifie que vous pouvez appliquer ce que vous avez appris pour
+résoudre des problèmes.  Le dernier sert à voir si vous pouvez
+élargir votre horizon.  Certaines de ces questions ne pourront pas
+être répondues avant d'avancer dans le livre, mais elles vous donnent
+de quoi réfléchir.  D'autres questions nécessitent des recherches
+dans des sources extérieures pour découvrir la réponse.  D'autres
+encore vous demandent simplement d'analyser les différentes options et
+de donner une solution optimale.  Beaucoup de questions n'ont pas de
+bonne ou mauvaise réponse, mais cela ne veut pas dire qu'elles ne sont
+pas importantes.  Apprendre les sujets impliqués dans la programmation,
+apprendre comment chercher les réponses, et apprendre comment aller de
+l'avant sont tous une partie importante du travail d'un programmeur.
+</para>
+
+<!-- At the end of each chapter are three sets of review exercises.  The first
+set is more or less regurgitation - they check to see if can you give 
+back what you learned in the chapter.  The second set contains application 
+questions - they check to see if you can apply what you learned to solve 
+problems.  The final set is to see if you are capable of broadening your
+horizons.  Some of these questions may not be answerable until later in
+the book, but they give you some things to think about.  Other questions
+require some research into outside sources to discover the answer.  Still
+others require you to simply analyze your options and explain a best solution.
+Many of the questions don't have right or wrong answers, but that doesn't mean
+they are unimportant.  Learning the issues involved in programming, learning
+how to research answers, and learning how to look ahead are all a major
+part of a programmer's work. 
+-->
+
+<para>
+Si vous avez des problèmes que vous ne pouvez pas résoudre, il existe
+une liste de discussion pour ce livre où les lecteurs peuvent discuter
+et obtenir de l'aide sur ce qu'ils sont en train de lire.  L'adresse
+est <literal>pgubook-readers@nongnu.org</literal>.  La liste est
+ouverte à tout type de question ou de discussion sur le thème du
+livre.  Vous pouvez vous inscrire à la liste en allant à
+http://mail.nongnu.org/mailman/listinfo/pgubook-readers.
+</para>
+
+<!-- If you have problems that you just can't get past, there is a mailing list
+for this book where readers can discuss and get help with what they are
+reading.  The address is <literal>pgubook-readers@nongnu.org</literal>.
+This mailing list is open for any type of question or discussion along the
+lines of this book.  You can subscribe to this list by going to http://mail.nongnu.org/mailman/listinfo/pgubook-readers.
+-->
+
+<para>
+Si vous pensez utiliser ce livre pour un cours de programmation mais
+n'avez pas accès à des ordinateurs Linux pour vos étudiants, je
+vous suggère fortement de demander de l'aide au projet K-12 Linux.
+Leur page web est à http://www.k12linux.org/ et ils ont une liste de
+messagerie très utile et réactive.
+</para>
+<!-- 
+If you are thinking of using this book for a class on computer programming but
+do not have access to Linux computers for your students, I highly suggest you
+try to find help from the K-12 Linux Project.  Their website is at 
+http://www.k12linux.org/ and they have a helpful and responsive mailing list
+available.
+-->
+</sect1>
+
+<sect1>
+<title>Vos outils<!-- Your Tools --></title>
+
+<para>
+Ce livre enseigne le langage assembleur pour les processeurs x86 et le
+système GNU/Linux.  Nous donnerons donc tous les exemples en utilisant
+la boîte à outils standard GCC de
+GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm>.
+Si vous n'êtes pas familiers avec GNU/Linux et la boîte à outils GCC,
+ils seront décrits brièvement.  Si vous êtes débutants sous Linux,
+vous devriez vous procurer le guide disponible à
+http://rute.sourceforge.net/<footnote><para>C'est un document assez
+long.  Vous n'aurez pas à tout connaître pour pouvoir démarrer ce
+livre.  Vous devrez seulement savoir comment naviguer à partir de la
+ligne de commande et utiliser un éditeur comme
+<literal>pico</literal>, <literal>emacs</literal>, ou
+<literal>vi</literal> (ou d'autres).</para></footnote>
+Ce que je désire vous montrer est davantage la programmation en
+général que l'utilisation des outils d'une plateforme particulière,
+mais standardiser sur une rend la tâche plus facile.
+</para>
+
+<!--
+This book teaches assembly language for x86 processors and the GNU/Linux
+operating system.  Therefore we will be giving all of 
+the examples using the GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm> standard GCC tool set. 
+If you are not familiar with GNU/Linux and the GCC tool set, they will
+be described shortly.  If you are new to Linux, you 
+should check out the guide available at 
+http://rute.sourceforge.net/<footnote><para>This is quite a large 
+document.  You certainly don't need to know everything to get started 
+with this book.  You simply need to know how to navigate from the command
+line and how to use an editor like <literal>pico</literal>, 
+<literal>emacs</literal>, or <literal>vi</literal> 
+(or others).</para></footnote>
+What I intend to show you is more about programming in general than using
+a specific tool set on a specific platform, but standardizing on one 
+makes the task much easier.
+-->
+<para>
+Ceux nouveaux à Linux devraient aussi essayer de s'impliquer dans leur
+groupe d'utilisateurs Linux local.  Les membres des groupes
+d'utilisateurs sont en général d'une grande aide pour les débutants,
+et vous aideront depuis l'installation de Linux jusqu'à son
+utilisation de manière plus efficace.  Une liste de groupes
+d'utilisateurs est disponible à http://www.linux.org/groups/.
+</para>
+<!--
+Those new to Linux should also try to get involved in their local GNU/Linux
+User's Group.  User's Group members are usually very helpful for new people,
+and will help you from everything from installing Linux to learning to
+use it most efficiently.  A listing of GNU/Linux User's Groups is available
+at http://www.linux.org/groups/
+-->
+<para>
+Tous ces programmes ont été testés en utilisant <productname>Red Hat
+Linux 8.0</productname>, et devraient aussi fonctionner avec toute
+autre distribution GNU/Linux.<footnote><para>Par
+&laquo;&nbsp;distribution GNU/Linux&nbsp;&raquo;, j'entends
+distribution GNU/Linux pour x86.  Les distributions pour le Power
+Macintosh, le processeur Alpha, ou d'autres processeurs ne
+fonctionneront pas avec ce livre.</para></footnote>  Ils ne
+fonctionneront pas avec des systèmes non-Linux comme BSD ou autres.
+Cependant, toutes les <emphasis>compétences</emphasis> apprises dans
+ce livre doivent être facilement transférées à tout autre système.
+</para>
+<!--
+All of these
+programs have been tested using <productname>Red Hat Linux 8.0</productname>, 
+and should work with any other GNU/Linux distribution, too.<footnote><para>By 
+"GNU/Linux distribution", I mean an x86 GNU/Linux distribution.  GNU/Linux 
+distributions for the Power Macintosh, the Alpha processor, or other 
+processors will not work with this book.</para></footnote>  They will
+not work with non-Linux operating systems such as BSD or other systems.
+However, all of the <emphasis>skills</emphasis> learned in this book 
+should be easily transferable to any other system.  
+-->
+<para>
+Si vous n'avez pas accès à un poste
+GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm>, vous
+pouvez chercher un fournisseur qui donne accès à un <emphasis>compte
+shell</emphasis> Linux, qui est une interface en ligne de commande
+seulement vers un poste Linux.  Il existe de nombreux fournisseurs de
+comptes shell à bas prix, mais vous devez vérifier qu'ils remplissent
+les conditions ci-dessus (comme Linux sur x86).  Quelqu'un dans
+votre Groupe d'Utilisateurs GNU/Linux local devrait aussi pouvoir vous
+en indiquer un.  Les comptes shell nécessitent seulement que vous ayez
+déjà une connexion Internet et un programme telnet.  Si vous utilisez 
+<trademark class="registered">Windows</trademark>, vous avez déjà un
+client telnet&nbsp;; cliquez juste sur <literal>Démarrer</literal>, puis
+<literal>Exécuter</literal>, puis tapez <literal>telnet</literal>.
+Cependant, il est préférable de télécharger
+<productname>PuTTY</productname> depuis 
+http://www.chiart.greenend.co.uk/~sgtatham/putty/ car le client telnet
+de  Windows a quelques problèmes étranges.  Il existe aussi des tas
+d'options pour Macintosh.  <productname>NiftyTelnet</productname> est
+mon favori. 
+</para>
+<!--
+If you do not have access to a GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm> machine, you can look for
+a hosting provider who offers a Linux <emphasis>shell account</emphasis>, which
+is a command-line only interface to a Linux machine.  
+There are many low-cost
+shell account providers, but you have to make sure that they match the 
+requirements above (i.e. - Linux on x86).  
+Someone at your local GNU/Linux User's Group may be able to give you one as 
+well.  Shell accounts only require
+that you already have an Internet connection and a telnet program.  If you use
+<trademark class="registered">Windows</trademark>, you already have a telnet client - just click on 
+<literal>start</literal>, then <literal>run</literal>, then type in 
+<literal>telnet</literal>.  However, it is usually better to download
+<productname>PuTTY</productname> from
+http://www.chiart.greenend.co.uk/~sgtatham/putty/
+because Windows' telnet has some weird problems.  There are a lot of options
+for the Macintosh, too.  <productname>NiftyTelnet</productname> is my 
+favorite.
+-->
+<para>
+Si vous n'avez pas
+GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm> et ne
+pouvez pas trouver un compte shell, vous pouvez toujours télécharger 
+<productname>Knoppix</productname> depuis http://www.knoppix.org/.
+Knoppix<indexterm><primary>Knoppix</primary></indexterm> est une
+distribution GNU/Linux qui démarre depuis le CD, vous n'avez donc
+pas à l'installer.  Lorsque vous avez fini de l'utiliser, vous
+redémarrez en enlevant le CD et vous revenez sur votre système
+habituel.
+</para>
+<!--
+If you don't have GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm>
+and can't find a shell account service, then you
+can download <productname>Knoppix</productname> from http://www.knoppix.org/
+Knoppix<indexterm><primary>Knoppix</primary></indexterm> is a 
+GNU/Linux distribution that boots from CD so that you don't have
+to actually install it.  Once you are done using it, you just reboot and
+remove the CD and you are back to your regular operating system.
+-->
+
+<para>
+Alors qu'est-ce que GNU/Linux&nbsp;?  Gnu/Linux
+<indexterm><primary>GNU/Linux</primary></indexterm> est un système
+d'exploitation modelé à partir d'
+<trademark class="registered">UNIX</trademark>.  La partie GNU vient
+du <ulink url="http://www.gnu.org/">Projet GNU</ulink>
+<footnote><para>Le Projet GNU est un projet de la Free Software
+Foundation pour réaliser un système d'exploitation libre et
+complet.</para></footnote>, qui comporte la plupart des programmes que
+vous allez exécuter, dont la boîte à outils
+GCC<indexterm><primary>GCC</primary></indexterm> que nous allons
+utiliser pour programmer.  La boîte à outils GCC contient tout le
+nécessaire pour créer des programmes dans différents langages
+informatiques.
+</para>
+<!--
+So what is GNU/Linux?  GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm> is an operating system modeled after
+<trademark class="registered">UNIX</trademark>.  The GNU part comes from the <ulink url="http://www.gnu.org/">GNU 
+Project</ulink><footnote><para>The GNU Project is a project by the Free
+Software Foundation to produce a complete, free operating 
+system.</para></footnote>, which includes most of the programs you 
+will run, including
+the GCC<indexterm><primary>GCC</primary></indexterm> tool set that we 
+will use to program with.  The GCC tool set
+contains all of the programs necessary to create programs in various
+computer languages.
+-->
+
+<para>
+Linux<indexterm><primary>Linux</primary></indexterm> est le nom du 
+<emphasis>noyau</emphasis>.  Le
+noyau<indexterm><primary>noyau</primary></indexterm>est la partie
+centrale d'un système d'exploitation qui garde trace de tout.
+Le noyau est autant une barrière qu'une porte.  Comme porte, il permet
+aux programmes d'accéder au matériel d'une manière uniforme.  Sans le
+noyau, vous auriez à écrire des programmes pour tout type d'extension
+jamais construite.  Le noyau s'occupe de toutes les interactions
+spécifiques aux extensions, vous n'avez donc pas à le faire.  Il gère
+aussi les accès aux fichiers et l'intercation entre le processus.  Par
+exemple, lorsque vous tapez au clavier, votre frappe passe à travers
+plusieurs programmes avant d'arriver à votre éditeur.  Le
+noyau étant ce qui gère le matériel, il est le premier à recevoir la
+notification de la frappe de touche.  Le clavier envoie sous forme de 
+<emphasis>scancodes</emphasis> au noyau, qui convertit ces codes en
+lettres, nombres et symboles qu'ils représentent.  Si vous utilisez un
+système de fenêtrage (comme <trademark class="registered">Microsoft
+Windows</trademark> or le X Window System), alors le système de
+fenêtrage lit le touche pressée depuis le noyau et l'envoie au
+programme dont la fenêtre est active à l'écran.
+</para>
+<!--
+Linux<indexterm><primary>Linux</primary></indexterm> is the name
+of the <emphasis>kernel</emphasis>.  The kernel<indexterm><primary>kernel</primary></indexterm> is the core part of an
+operating system that keeps track of everything.  The kernel is
+both a fence and a gate.  As a gate, it allows programs
+to access hardware in a uniform way.  Without the kernel, you would have
+to write programs to deal with every device model ever made.  The kernel
+handles all device-specific interactions so you don't have to.  It also handles
+file access and interaction between processes.  
+For example, when you
+type, your typing goes through several programs before it hits your editor.
+First, the kernel is what handles your hardware, so it is the first to receive
+notice about the keypress.  The keyboard sends in 
+<emphasis>scancodes</emphasis> to the kernel, which then converts them to the
+actual letters, numbers, and symbols they represent.  If you are using a
+windowing system (like <trademark class="registered">Microsoft Windows</trademark> or the X Window System), then the
+windowing system reads the keypress from the kernel, and delivers it to
+whatever program is currently in focus on the user's display.
+-->
+
+<example>
+<title>Comment l'ordinateur gère les signaux du clavier</title>
+<programlisting>
+Clavier -> Noyau -> Système de fenêtrage -> Application
+</programlisting>
+</example>
+
+<!--
+<example>
+<title>How the computer processes keyboard sigals</title>
+<programlisting>
+Keyboard -> Kernel -> Windowing system -> Application program
+</programlisting>
+</example>
+-->
+
+<para>
+Le noyau<indexterm><primary>noyau</primary></indexterm> contrôle aussi
+le flux d'informations entre les programmes.  Le noyau est pour un
+programme une porte vers le monde autour de lui.  À chaque fois que
+des données passent entre processus, le noyau contrôle l'échange.
+Dans notre exemple du clavier ci-dessus, le noyau serait sollicité
+lorsque le système de fenêtrage passerait la touche pressée à
+l'application.
+</para>
+<!--
+The kernel<indexterm><primary>kernel</primary></indexterm> also controls the flow of information between programs.  
+The kernel is a program's gate to the world around it.  Every time that
+data moves between processes, the kernel controls the messaging.  In our
+keyboard example above, the kernel would have to be involved for the
+windowing system to communicate the keypress to the application program.
+-->
+<para>
+Comme barrière, le noyau empêche d'écraser accidentellement les
+données des autres et d'accéder aux fichiers et périphériques pour
+lesquels ils n'ont pas les droits.  Cela limite les dégâts causés par
+des programmes mal écrits aux autres programmes en cours d'exécution.
+</para>
+<!--
+As a fence, the kernel
+prevents programs from accidentally overwriting each other's data and from
+accessing files and devices that they don't have permission to.  It
+limits the amount of damage a poorly-written program can do to other 
+running programs.
+-->
+<para>
+Dans notre cas, le
+noyau<indexterm><primary>noyau</primary></indexterm> est 
+Linux<indexterm><primary>Linux</primary></indexterm>.  Maintenant, le
+noyau seul ne pourrait rien faire.  Vous ne pouvez même pas démarrer
+un ordinateur avec un noyau seul.  Voyez le noyau comme la tuyauterie
+de votre maison.  Sans les tuyaux, les robinets ne serviraient à rien,
+mais les tuyaux sont inutiles sans robinets.  Ensemble, les
+applications utilisateur (du Projet GNU et d'ailleurs) et le noyau
+(Linux) forment le système d'exploitation complet, GNU/Linux.
+</para>
+<!--
+In our case, the kernel<indexterm><primary>kernel</primary></indexterm>
+is Linux<indexterm><primary>Linux</primary></indexterm>.  Now, the kernel 
+all by itself won't do anything.  You can't even
+boot up a computer with just a kernel.  Think of the kernel as the water pipes
+for a house.  Without the pipes, the faucets won't work, but the pipes are
+pretty useless if there are no faucets.  Together, the user applications
+(from the GNU project and other places) and the kernel (Linux) make 
+up the entire operating system, GNU/Linux.
+-->
+<para>
+Ce livre utilisera l'assembleur, langage informatique de bas niveau.
+Il existe essentiellement trois types de langages&nbsp;:
+<indexterm><primary>langage machine</primary></indexterm>
+</para>
+<!--
+For the most part, this book will be using the computer's low-level
+assembly language.  There are essentially three kinds of languages:
+
+<indexterm><primary>machine language</primary></indexterm>
+-->
+<variablelist>
+
+<varlistentry>
+<term>Langage machine <!--Machine Language--></term>
+<listitem><para>
+C'est ce sur quoi l'ordinateur travaille.  Chaque commande vue
+par l'ordinateur est donnée sous forme d'un nombre ou d'une séquence
+de nombres.
+</para></listitem>
+</varlistentry>
+<!--This is what the computer actually sees and deals with.  Every
+command the computer sees is given as a number or sequence of
+numbers.  -->
+
+<varlistentry>
+<term>Langage assembleur <!--Assembly Language--></term>
+<listitem><para>
+C'est similaire au langage machine, à la différence que les nombres
+des commandes sont remplacés par des séquences de lettres, plus
+faciles à mémoriser.  D'autres choses sont faites pour rendre le
+langage plus facile.
+</para></listitem>
+</varlistentry>
+<!--
+This is the same as machine language, except the command numbers
+have been replaced by letter sequences which are easier to memorize.
+Other small things are done to make it easier as well.
+-->
+
+<varlistentry>
+<term>Langage de haut niveau<!--High-Level -->
+<!--Language--><indexterm><primary>langages de haut niveau<!--high-level languages--></primary></indexterm></term>
+<listitem><para>
+Les langages de haut niveau sont faits pour programmer plus
+facilement.  Le langage assembleur vous demande de travailler avec la
+machine elle-même.  Les langages de haut niveau vous permettent de
+décrire le programme dans un langage plus naturel.  Une simple
+commande dans un langage de haut niveau correspond en général à
+plusieurs commandes en langage assembleur.
+</para></listitem>
+</varlistentry>
+<!--
+High-level languages are there to make programming easier.  Assembly
+language requires you to work with the machine itself.  High-level
+languages allow you to describe the program in a more natural language.
+A single command in a high-level language usually is equivalent to
+several commands in an assembly language.  
+-->
+</variablelist>
+
+<para>
+<indexterm><primary>Langage assembleur</primary></indexterm>Dans ce
+livre nous allons apprendre le langage assembleur, mais nous
+verrons aussi un peu de langages de haut niveau.  Normalement, en
+apprenant le langage assembleur, votre compréhension de la manière de
+programmer et du fonctionnement de l'ordinateur va vous faire
+progresser.
+</para>
+
+<!--
+<indexterm><primary>Assembly Language</primary></indexterm>
+In this book we will learn assembly language, although we will cover a
+bit of high-level languages.  
+Hopefully by learning assembly language, your understanding of how programming
+and computers work will put you a step ahead.
+-->
+
+<!--
+<para>
+Assembly language has long fallen out of vogue in computer science education, and I believe
+that this is causing the current generation of programmers to have a much
+weaker foundation.   Assembly language was being viewed as an optional add-on 
+that was only useful for operating-system programmers.  I wrote this book
+to bring assembly language to the forefront of programmer education.  I believe this
+is important, because while interviewing programmers for jobs, I have found
+that the near-universal trait of qualified candidates was that they all knew
+assembly language.  Few were experts and even fewer used it regularly, but
+everyone who knew assembly language had a deeper understanding of programming
+issues than the other candidates.
+</para>
+
+<para>
+</para>
+
+-->
+
+</sect1>
+
+</chapter>
+

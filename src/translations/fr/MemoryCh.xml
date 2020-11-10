@@ -1,0 +1,921 @@
+<chapter id="computerarchitecture">
+<title>Architecture des ordinateurs<!--Computer Architecture--></title>
+
+<para>
+Avant d'apprendre à programmer, nous devons d'abord comprendre comment
+un ordinateur interprète les programmes.  Vous n'avez pas besoin de
+diplôme en électrotechnique, mais vous devez avoir quelques bases.
+</para>
+<!-- Before learning how to program, you need to first understand how a
+computer interprets programs.  You don't need a degree in electrical
+engineering, but you need to understand some basics.
+-->
+<para>
+L'architecture des ordinateurs modernes<indexterm><primary>
+architecture des ordinateurs</primary></indexterm> est basée sur
+une architecture appelée l'Architecture Von
+Neumann<indexterm><primary>arcitecture Von
+Neumann</primary></indexterm>, d'après le nom de son créateur.
+L'architecture Von Neumann divise l'ordinateur en deux parties
+principales&nbsp;: l'UC
+<indexterm><primary>UC</primary></indexterm> (pour Unité Centrale)
+et la mémoire.  Cette architecture est utilisée dans tous les
+ordinateurs modernes comme les ordinateurs personnels,
+supercalculateurs, ordinateurs centraux et même téléphones portables.
+</para>
+<!-- Modern computer architecture<indexterm><primary>computer
+architecture</primary></indexterm> is based off of an architecture
+called the Von Neumann architecture<indexterm><primary>Von Neumann
+architecture</primary></indexterm>, named after its creator.  The Von 
+Neumann architecture divides the computer up into two main parts -
+the CPU<indexterm><primary>CPU</primary></indexterm> (for Central
+Processing Unit) and the memory.  This architecture is used in all
+modern computers,  including personal computers, supercomputers,
+mainframes, and even cell phones.
+-->
+
+<sect1>
+<title>Structure de la mémoire d'ordinateur<!--Structure of Computer Memory--></title>
+
+<para>
+Pour comprendre comment l'ordinateur voit la
+mémoire<indexterm><primary>mémoire</primary></indexterm>, imaginez
+votre bureau de poste.  Il a probablement une pièce remplie de
+boîtes postales.  Ces boîtes sont similaires à la mémoire de
+l'ordinateur en cela que tous deux forment une séquence numérotée
+d'emplacements de taille fixée.  Par exemple, si vous avez 256
+méga-octets de mémoire sur votre ordinateur, cela veut dire que votre
+ordinateur contient environ 256 millions emplacements de taille
+fixée.  Ou, pour utiliser notre analogie, 256 millions de boîtes
+postales.  Chaque emplacement a un numéro, et chaque emplacement a la
+même taille.  La différence entre une boîte postale et une mémoire
+d'ordinateur est que vous pouvez stocker toutes sortes de choses dans
+une boîte postale, alors que vous pouvez seulement stocker un et un
+seul nombre dans un emplacement de mémoire d'ordinateur.
+
+</para>
+<!-- To understand how the computer views
+memory<indexterm><primary>memory</primary></indexterm>, imagine your
+local post  office.  They usually have a room filled with PO Boxes.
+These boxes are similar to computer memory in that each are numbered
+sequences of fixed-size storage locations.  For example, if you have
+256 megabytes of computer memory, that means that your computer
+contains roughly 256 million fixed-size storage locations.  Or, to use
+our analogy, 256 million PO Boxes.  Each location has a number, and
+each location has the same, fixed-length size.  The difference between
+a PO Box and computer memory is that you can store all different kinds
+of  things in a PO Box, but you can only store a single number in  a
+computer memory storage location. 
+-->
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="mailbox.png" format="PNG" />
+</imageobject>
+<caption><para><emphasis>Les mémoires d'ordinateur sont comme des
+boîtes postales<!--Memory locations are like PO Boxes--></emphasis></para></caption>
+</mediaobject>
+
+<para>
+Vous pouvez vous demander pourquoi un ordinateur est organisé de
+cette manière.  Parce que c'est facile à fabriquer.  Si un ordinateur
+était composé d'une multitude d'emplacements de tailles différentes,
+ou si vous pouviez y stocker différents types de données, ça
+deviendrait difficile et cher à fabriquer.
+</para>
+<!--You may wonder why a computer is organized this way.  It is because
+it is simple to implement.  If the computer were composed of
+a lot of differently-sized locations, or if you could store different
+kinds of data in them, it would be difficult and expensive to
+implement.
+-->
+
+<para>
+La mémoire
+d'ordinateur<indexterm><primary>mémoire</primary></indexterm> est
+utilisée de différentes manières.  Tous les résultats de tous les
+calculs sont stockés en mémoire.  En fait, tout ce qui est
+&laquo;&nbsp;stocké&nbsp;&raquo; est stocké en mémoire.  Pensez à
+votre ordinateur à la maison, et imaginez tout ce qui peut être stocké
+en mémoire.
+</para>
+<!-- The computer's memory<indexterm><primary>memory</primary></indexterm> is used for a number of different things.  
+All of the results of any calculations are stored in memory.  In fact,
+everything that is "stored" is stored in memory.  Think of your computer
+at home, and imagine what all is stored in your computer's memory.
+-->
+<itemizedlist>
+<listitem><para>L'emplacement du curseur à l'écran<!--The location of your cursor on the screen--></para></listitem>
+<listitem><para>La taille de chacune des fenêtres à l'écran<!--The size of each window on the screen--></para></listitem>
+<listitem><para>La forme de chaque lettre de chaque police utilisée<!--The shape of each letter of each font being used--></para></listitem>
+<listitem><para>La disposition de tous les contrôles dans chaque fenêtre<!--The layout of all of the controls on each window--></para></listitem>
+<listitem><para>Le dessin de tous les icônes des barres d'outils<!--The graphics for all of the toolbar icons--></para></listitem>
+<listitem><para>Le texte pour tous les messages d'erreur et boîtes de
+dialogue<!--The text for each error message and dialog box--></para></listitem>
+<listitem><para>La liste continue encore...<!--The list goes on and on...--></para></listitem>
+</itemizedlist>
+
+<para>
+En plus de tout cela, l'architecture Von Neumann
+<indexterm><primary>Von Neumann architecture</primary></indexterm>
+spécifie que non seulement les données doivent résider en mémoire,
+mais aussi les programmes qui contrôlent les opérations de
+l'ordinateur.  En fait, dans un ordinateur, il n'y a pas de différence
+entre un programme et les données de ce programme, excepté par la
+manière dont il est utilisé par l'ordinateur.  Ils sont tous les deux
+stockés et accédés de la même manière.
+
+</para>
+<!--In addition to all of this, the Von Neumann architecture<indexterm><primary>Von Neumann architecture</primary></indexterm> specifies that
+not only computer data should live in memory, but the programs that 
+control the computer's operation should live there, too.  In fact, in 
+a computer, there is no difference between a program and a program's
+data except how it is used by the computer.  They are both stored and
+accessed the same way.
+-->
+</sect1>
+
+<sect1>
+<title>L'Unité centrale<!--The CPU--></title>
+
+<para>
+Alors comment fonctionne l'ordinateur&nbsp;? Évidemment, le stockage des
+données seul ne suffit pas&nbsp;; vous devez pouvoir accéder, manipuler et
+déplacer ces données.  C'est ici que l'UC
+<indexterm><primary>UC</primary></indexterm> intervient.
+</para>
+<!--
+So how does the computer function?  Obviously, simply storing data doesn't
+do much help - you need to be able to access, manipulate, and move it.  That's where
+the CPU<indexterm><primary>CPU</primary></indexterm> comes in.
+-->
+
+<para>
+L'UC lit les instructions en mémoire une à une et les exécute.  Ceci
+est appelé le <emphasis>cycle
+transfert-exécute</emphasis><indexterm><primary>cycle
+transfert-exécute</primary></indexterm>.  L'UC contient les éléments
+suivants pour exécuter cette tâche&nbsp;:
+
+<!--The CPU reads in instructions from memory one at a time and executes them.
+This is known as the <emphasis>fetch-execute cycle</emphasis><indexterm><primary>fetch-execute cycle</primary></indexterm>.  The CPU
+contains the following elements to accomplish this:
+-->
+
+<itemizedlist>
+<listitem><para>Le compteur de programme <!--Program -->
+<!--Counter--><indexterm><primary>compteur de programme<!--program counter--></primary></indexterm></para></listitem>
+<listitem><para>Le décodeur d'instructions<!--Instruction -->
+<!--Decoder--><indexterm><primary>décodeur d'instructions<!--instruction decoder--></primary></indexterm></para></listitem>
+<listitem><para>Le bus de données<!--Data -->
+<!--bus--><indexterm><primary>bus de données<!--data bus--></primary></indexterm></para></listitem>
+<listitem><para>Les registres génériques<!--General-purpose -->
+<!--registers--><indexterm><primary>registres génériques<!--general-purpose registers--></primary></indexterm></para></listitem>
+<listitem><para>L'unité arithmétique et logique<!--Arithmetic and -->
+<!--logic unit--><indexterm><primary>unité arithmétique et logique<!--arithmetic and logic unit--></primary></indexterm></para></listitem>
+</itemizedlist>
+
+Le <emphasis>compteur de programme</emphasis> est utilisé pour
+indiquer à l'ordinateur où lire la prochaine instruction.  Nous avons
+mentionné plus tôt qu'il n'y a pas de différence dans la manière de
+stocker les données et les programmes, ils sont juste interprétés
+différemment par l'UC.  Le compteur de programme enregistre l'adresse
+mémoire de la prochaine instruction à exécuter.  L'UC commence par
+regarder le compteur de programme, et charge le nombre stocké en
+mémoire à l'adresse spécifiée.  Ce nombre est alors passé au
+<emphasis>décodeur
+d'instructions</emphasis><indexterm><primary>décodeur
+d'instructions</primary></indexterm> qui détermine la signification de
+l'instruction.  Ceci inclut l'opération à effectuer (addition,
+soustraction, multiplication, déplacement de données, etc.) et les
+emplacements mémoire en jeu dans le calcul.  Les instructions
+sont en général constituées de l'opération et de la liste des emplacements
+mémoire utilisés.
+</para>
+<!--
+The <emphasis>program counter</emphasis> is used to tell the computer where
+to fetch the next instruction from.  We mentioned earlier that there is no
+difference between the way data and programs are stored, they are just 
+interpreted differently by the CPU.  The program counter holds the 
+memory address of the next instruction
+to be executed.  The CPU begins by looking at the program counter, and fetching
+whatever number is stored in memory at the location specified.  It is then
+passed on to the <emphasis>instruction decoder</emphasis><indexterm><primary>instruction decoder</primary></indexterm> which figures
+out what the instruction means.  This includes what process needs to take
+place (addition, subtraction, multiplication, data movement, etc.) and 
+what memory locations are going to be involved in this process.  Computer
+instructions usually consist of both the actual instruction and the list
+of memory locations that are used to carry it out.
+-->
+
+<para>
+L'ordinateur utilise alors le <emphasis>bus de
+données</emphasis><indexterm><primary>bus de
+données</primary></indexterm> pour lire les emplacements mémoire à
+utiliser pour le calcul.  Le bus de données est la connexion entre
+l'UC et la mémoire.  Matériellement, c'est le fil qui les relie.  Si
+vous regardez la carte-mère de votre ordinateur, les fils qui partent
+de la mémoire forment le bus de données.
+</para>
+
+<!--
+Now the computer uses the <emphasis>data bus</emphasis><indexterm><primary>data bus</primary></indexterm> to fetch the memory
+locations to be used in the calculation.  The data bus is the connection
+between the CPU and memory.  It is the actual wire that connects them.  If
+you look at the motherboard of the computer, the wires that go out from the
+memory are your data bus.
+-->
+
+<para>
+En plus de la mémoire en dehors du processeur, le processeur lui-même
+a des emplacements mémoire spéciaux à accès rapide appelés
+<emphasis>registers</emphasis><indexterm><primary>registers</primary></indexterm>.
+Il existe deux types de registres&nbsp;: <emphasis>registres génériques</emphasis> et 
+<emphasis>registres spéciaux</emphasis>.  Les registres géneriques
+<indexterm><primary>registres génériques</primary></indexterm> sont
+l'endroit où l'action principale se déroule.  Les additions,
+soustractions, multiplications, comparaisons, et autres opérations
+utilisent en général les registres génériques pour faire le calcul.
+Cependant, les ordinateurs ont très peu de registres génériques.  La
+plupart des informations sont en mémoire principale, lues dans les
+registres le temps du calcul et renvoyées en mémoire de suite après.  
+<emphasis>Les registres spéciaux<indexterm><primary>registres
+spéciaux</primary></indexterm></emphasis> sont des registres très
+spécifiques.  Nous verrons leur utilité en temps voulu.
+</para>
+
+<!--
+In addition to the memory on the outside of the processor, the processor
+itself has some special, high-speed memory locations called registers<indexterm><primary>registers</primary></indexterm>.  
+There are two kinds of registers - <emphasis>general registers</emphasis> and 
+<emphasis>special-purpose registers</emphasis>.  
+General-purpose registers<indexterm><primary>general-purpose registers</primary></indexterm> are where the main action happens.  Addition, 
+subtraction, multiplication, comparisions, and other operations generally
+use general-purpose registers for processing.  However, computers have very
+few general-purpose registers.  Most information is stored in main memory,
+brought in to the registers for processing, and then put back into memory
+when the processing is completed.
+<emphasis>special-purpose registers<indexterm><primary>special-purpose registers</primary></indexterm></emphasis> are registers which have very specific
+purposes.  We will discuss these as we come to them.
+-->
+
+<para>
+Maintenant que l'UC a récupérée toutes les données nécessaires, il
+passe les données et l'instruction décodée à <emphasis>l'unité
+arithmétique et logique<indexterm><primary>unité
+arithmétique et logique</primary></indexterm></emphasis> pour
+traitement.  À ce moment-là l'opération est réellement exécutée.
+Après que le résultat de l'opération ait été calculé, le résultat est
+placé dans le bus de données <indexterm><primary>bus de
+données</primary></indexterm> et envoyé à l'emplacement approprié en
+mémoire ou dans un registre, selon l'instruction.
+</para>
+<!--
+Now that the CPU has retrieved all of the data it needs, it passes on
+the data and the decoded instruction to the <emphasis>arithmetic and logic unit<indexterm><primary>arithmetic and logic unit</primary></indexterm></emphasis>
+for further processing.  Here the instruction is actually executed.
+After the results of the computation have been calculated, the results
+are then placed on the data bus<indexterm><primary>data bus</primary></indexterm> and sent to the appropriate location
+in memory or in a register, as specified by the instruction.
+-->
+
+<para>
+Ceci est une explication très simplifiée.  Les processeurs ont
+beaucoup évolué ces dernières années, et sont maintenant beaucoup plus
+complexes.  Bien que l'opération de base soit toujour la même, elle
+est complexifiée par l'utilisation de hiérarchies de
+cache<indexterm><primary>hiérarchies de cache</primary></indexterm>,
+processeurs superscalaires<indexterm><primary>processeurs
+superscalaires</primary></indexterm>,
+pipelines<indexterm><primary>pipelines</primary></indexterm>,
+prédiction de branches<indexterm><primary>prédiction de
+branches</primary></indexterm>, exécution dans le
+désordre<indexterm><primary>exécution dans le
+désordre</primary></indexterm>, traduction de
+microcode<indexterm><primary>traduction de
+microcode</primary></indexterm>,
+co-processeurs<indexterm><primary>co-processeurs</primary></indexterm>,
+et autres optimisations.  N'ayez crainte si vous ne comprenez pas ces
+termes, vous pouvez les utiliser comme termes de recherche sur
+Internet pour en apprendre plus sur l'unité centrale.
+</para>
+<!--
+This is a very simplified explanation.  Processors have advanced quite
+a bit in recent years, and are now much more complex. 
+Although the basic operation is still
+the same, it is complicated by the use of cache hierarchies<indexterm><primary>cache hierarchies</primary></indexterm>, superscalar
+processors<indexterm><primary>superscalar
+processors</primary></indexterm>, pipelining<indexterm><primary>pipelining</primary></indexterm>, branch prediction<indexterm><primary>branch prediction</primary></indexterm>, out-of-order execution<indexterm><primary>out-of-order execution</primary></indexterm>, 
+microcode translation<indexterm><primary>microcode translation</primary></indexterm>, coprocessors<indexterm><primary>coprocessors</primary></indexterm>, and other optimizations.  Don't worry
+if you don't know what those words mean, you can just use them as Internet search
+terms if you want to learn more about the CPU.
+-->
+</sect1>
+
+<sect1>
+<title><!--Some Terms-->Quelques termes</title>
+
+<para>
+La mémoire d'ordinateur<indexterm><primary>mémoire
+d'ordinateur</primary></indexterm> est une séquence numérotée
+d'emplacements de stockage de taille fixe.  Le nombre rattaché à
+chaque emplacement de stockage est appelé son
+<emphasis>adresse<indexterm><primary>adresse</primary></indexterm></emphasis>.
+La taille d'un emplacement de stockage est appelé un
+<emphasis>octet</emphasis>.  Sur les processeurs x86, un octet
+<indexterm><primary>octets</primary></indexterm> est un nombre entre 0
+et 255.
+</para>
+<!--
+Computer memory<indexterm><primary>computer memory</primary></indexterm> is a numbered sequence of fixed-size storage locations.  
+The number attached to each storage location is called its 
+<emphasis>address<indexterm><primary>address</primary></indexterm></emphasis>.  The size of a single storage location
+is called a <emphasis>byte</emphasis>.  On x86 processors, a byte<indexterm><primary>bytes</primary></indexterm> 
+is a number between 0 and 255.  
+-->
+
+<para>
+Vous devez vous demander comment les ordinateurs peuvent afficher et
+utiliser du texte, des graphiques, et même de grands nombres alors que
+tout ce qu'ils peuvent faire est de stocker des nombres entre 0 et
+255.  Tout d'abord, le matériel spécialisé comme une carte graphique a
+une interprétation spéciale de chaque nombre.  Pour afficher à
+l'écran, un ordinateur utilise une table de codes
+ASCII<indexterm><primary>ASCII</primary></indexterm> pour traduire les
+nombres que vous lui envoyez en lettres à afficher à l'écran, chaque
+nombre étant traduit en lettre ou chiffre.<footnote><para>Avec
+l'avènement des jeux de caractères internationaux et Unicode, ceci
+n'est plus totalement vrai.  Cependant, pour présenter simplement les
+choses aux débutants, nous supposerons que chaque nombre est
+directement traduit en un caractère.  Pour plus d'informations, voir 
+<xref linkend="asciilisting" />.</para></footnote>  Par exemple, la
+lettre majuscule A est représentée par le nombre 65.  Le chiffre 1 est
+représenté par le nombre 49.  Ainsi, pour afficher &laquo;&nbsp;BONJOUR&nbsp;&raquo;, vous
+devez donner à l'ordinateur la suite de nombres 66 79 78 74 79 85 82.
+Pour afficher le nombre 100, vous devriez donner à l'ordinateur la
+suite de nombre 49, 48, 48.  Une liste de caractères ASCII et de leurs
+codes numériques se trouve dans <xref linkend="asciilisting" />.
+</para>
+<!--
+You may be wondering how computers can display and use text, graphics,
+and even large numbers when all they can do is store numbers between
+0 and 255.  First of all, specialized hardware like graphics cards have special interpretations of
+each number.  When displaying to the screen, the computer uses 
+ASCII<indexterm><primary>ASCII</primary></indexterm> code tables to translate the numbers you are sending it
+into letters to display on the screen, with each number translating to
+exactly one letter or numeral.<footnote><para>With the advent of international
+character sets and Unicode, this is not entirely true anymore.  However, for
+the purposes of keeping this simple for beginners, we will use the assumption
+that one number translates directly to one character.  For more information,
+see <xref linkend="asciilisting" />.</para></footnote>  For example, 
+the capital letter A is 
+represented by the number 65.   The numeral 1 is represented by the
+number 49.  So, to print out "HELLO", you would actually give the
+computer the sequence of numbers 72, 69, 76, 76, 79.  To print out
+the number 100, you would give the computer the sequence of numbers
+49, 48, 48.  A list of ASCII characters and their numeric codes
+is found in <xref linkend="asciilisting" />.
+-->
+<para>
+En plus d'utiliser des nombres pour représenter des caractères ASCII,
+vous en tant que programmeur donnez aux nombres la signification que
+vous voulez.  Par exemple, si je tenais un magasin, j'utiliserais un
+nombre pour chaque article que je vendrais.  Chaque nombre pourrait
+être relié à une série d'autres nombres qui seraient les codes
+ASCII<indexterm><primary>ASCII</primary></indexterm> pour ce que je
+voudrais afficher lorsque les articles seraient scannés.  Je pourrais
+avoir d'autres nombres pour le prix, le nombre d'articles dans
+l'inventaire, etc.
+</para>
+<!--In addition to using numbers to represent ASCII characters, you as the 
+programmer get to make the numbers mean anything you want them to, as well.  
+For example, if I am running a store, I would use a number to represent 
+each item I was selling.  Each number would be linked to a series of 
+other numbers which would be the ASCII<indexterm><primary>ASCII</primary></indexterm> codes for what I wanted to display 
+when the items were scanned in.  I would have more numbers for the price, 
+how many I have in inventory, and so on.
+-->
+
+<para>
+Mais comment faire si l'on veut utiliser des nombres plus grands que
+255&nbsp;?  Nous pouvons simplement utiliser une combinaison d'octets pour
+représenter des nombres plus grands.  Deux octets peuvent être
+utilisés pour représenter des nombres entre 0 et 65535.  Quatre octets
+peuvent représenter des nombres entre 0 et 4294967295.  Maintenant, il
+est assez difficile d'écrire des programmes qui réunissent des octets
+pour augmenter la taille de vos nombres, et nécessite des maths.
+Heureusement, l'ordinateur le fait pour nous pour des nombres codés
+jusque sur quatre octets.  En fait, les nombres sur quatre octets sont
+ce avec quoi nous travailleront pas défaut.
+</para>
+
+<!--So what about if we need numbers larger than 255?  We can simply use
+a combination of bytes to represent larger numbers.  Two bytes can
+be used to represent any number between 0 and 65535.  Four bytes
+can be used to represent any number between 0 and 4294967295.  Now, it
+is quite difficult to write programs to stick bytes together to increase
+the size of your numbers, and requires a bit of math.  Luckily, the computer
+will do it for us for numbers up to 4 bytes long.  In fact, four-byte numbers
+are what we will work with by default.
+-->
+
+<para>
+Nous avons mentionné plus haut qu'en plus de la mémoire
+conventionnelle, l'ordinateur a aussi des emplacements mémoire
+spécifiques appelés
+<emphasis>registres<indexterm><primary>registres</primary></indexterm></emphasis>.
+Le registres sont utilisés par l'ordinateur pour faire les calculs.
+Voyez un registre comme un endroit sur votre bureau&nbsp;: il contient les
+choses sur lesquelles vous travaillez.  Vous pouvez avoir beaucoup
+d'autres informations rangées dans des dossiers et tiroirs, mais ce
+sur quoi vous êtes en train de travailler se trouve sur le bureau.
+Les registres contiennent les nombres que vous êtes en train de
+manipuler.
+</para>
+<!--
+We mentioned earlier that in addition to the regular memory that the 
+computer has, it also has
+special-purpose storage locations called <emphasis>registers<indexterm><primary>registers</primary></indexterm></emphasis>.
+Registers are what the computer uses for computation.  
+Think of a register as a place on your desk - it holds things you are currently
+working on.  You may have lots of information tucked away in folders and
+drawers, but the stuff you are working on right now is on the desk.  
+Registers keep the contents of numbers that you are currently manipulating.
+-->
+
+<para>
+Sur les ordinateurs que nous utilisons, les registres sont chacun
+d'une taille de quatre octets.  La taille d'un registre typique est
+appelée la taille d'un
+<emphasis>mot<indexterm><primary>mot</primary></indexterm></emphasis>.
+Les processeurs x86 ont des mots de quatre octets.  Cela veut dire
+qu'il est plus naturel sur ces ordinateurs de faire des calculs sur
+quatre octets à la fois.<footnote>
+<para>D'anciennes incarnations de processeurs x86 avaient des mots de
+seulement deux octets.  Ainsi, la littérature sur les processeurs x86
+appelle les entités de deux octets des mots pour des raisons
+historiques, et les entités de quatre octets des doubles mots.  Nous
+utilisons le terme <emphasis>mot</emphasis> pour désigner la taille
+normale d'un registre de l'ordinateur, qui dans ce cas est quatre
+octets.  Plus d'informations sont disponibles à <xref
+linkend="instructionsappendix" /> 
+</para></footnote>
+Ceci nous donne environ 4 milliards de valeurs.
+</para>
+
+<!--On the computers
+we are using, registers are each four bytes long.  The size of a typical
+register is called a computer's <emphasis>word<indexterm><primary>word</primary></indexterm></emphasis> size.  x86 processors have four-byte words.  This means that it is most natural on
+these computers to do computations four bytes at a time.<footnote>
+<para>
+Previous incarnations of x86 processors only had two-byte words.  Therefore,
+most other literature dealing with x86 processors refers to two-byte entities
+as words for historical reasons, and therefore refer to four-byte entities as 
+double-words.  We are using the term <emphasis>word</emphasis> to mean the 
+normal register size of a computer, which in this case is four bytes.  More
+information is available in <xref linkend="instructionsappendix" />,
+</para></footnote>
+  This gives us
+roughly 4 billion values.
+-->
+
+<para>
+Les adresses sont aussi de taille quatre octets (un mot), et 
+rentrent donc aussi dans un registre.  Les processeurs x86 peuvent
+accéder à 4294967296 octets si suffisamment de mémoire est installée.
+Notez que cela veut dire que nous pouvons stocker des adresses comme
+tout autre nombre.  En fait, l'ordinateur ne fait pas la différence
+entre une valeur qui est une adresse, une valeur qui est un nombre,
+une valeur qui est un code ASCII, ou une valeur que vous avez décidé
+d'utiliser dans un autre but.  Un nombre devient un code ASCII lorsque
+vous tentez de l'afficher.  Un nombre devient une adresse lorsque vous
+tentez de lire l'octet qu'il pointe.  Prenez un moment pour y
+réfléchir, c'est crucial pour comprendre le fonctionnement d'un
+programme.
+</para>
+<!--
+Addresses are also four bytes (1 word) long, and therefore also fit into a 
+register.  x86 processors can access
+up to 4294967296 bytes if enough memory is installed.  Notice that this
+means that we can store addresses the same way we store any other number.
+In fact, the computer can't tell the difference between a value that is
+an address, a value that is a number, a value that is an ASCII code, or
+a value that you have decided to use for another purpose.  A number becomes
+an ASCII code when you attempt to display it.  A number becomes an address
+when you try to look up the byte it points to.  Take a moment to think about
+this, because it is crucial to understanding how computer programs work.
+-->
+
+<para>
+Les adresses stockées en mémoire sont aussi appelées
+<emphasis>pointeurs<indexterm><primary>pointeurs</primary></indexterm></emphasis>,
+car au lieu d'avoir une valeur normale, ils vous pointent vers un
+nouvel emplacement en mémoire.
+</para>
+<!--
+Addresses which are stored in memory are also called 
+<emphasis>pointers<indexterm><primary>pointers</primary></indexterm></emphasis>, because instead of having a regular
+value in them, they point you to a different location in memory.
+-->
+
+<para>
+Comme nous l'avons mentionné, les instructions d'ordinateur résident
+aussi en mémoire.  En fait, elles sont stockées exactement de la même
+manière que les autres données.  La manière dont l'ordinateur sait
+qu'un emplacement mémoire contient une instruction est qu'un registre
+spécial<indexterm><primary>registre spécial</primary></indexterm>
+appelé pointeur d'instruction<indexterm><primary>pointeur
+d'instruction</primary></indexterm> pointe dessus à un moment ou à un
+autre.  Si le pointeur d'instruction pointe sur un mot en mémore, il
+est chargé comme instruction.  En dehors de ça, l'ordinateur n'a aucun
+moyen de connaître la différence entre des programmes et d'autres
+types de données.<footnote><para>Notez que nous parlons ici de théorie
+informatique.  Certains processeurs et systèmes d'exploitation
+marquent les régions de mémoire qui peuvent être exécutées avec un
+marqueur spécial.</para></footnote>
+</para>
+<!--
+As we've mentioned, computer instructions are also stored in memory.  
+In fact, they are stored
+exactly the same way that other data is stored.  The only way the computer
+knows that a memory location is an instruction is that a special-purpose register<indexterm><primary>special-purpose register</primary></indexterm> called the instruction pointer<indexterm><primary>instruction pointer</primary></indexterm> points to them at one point or another.  If the instruction pointer points
+to a memory word, it is loaded as an instruction.  Other than that, the 
+computer has no way of knowing the difference between programs and other types
+of data.<footnote><para>Note that here we are talking about general computer
+theory.  Some processors and operating systems actually mark the regions
+of memory that can be executed with a special marker that indicates this.
+</para></footnote>
+-->
+</sect1>
+
+<sect1 id="interpretingmemory">
+<title>Interpréter la mémoire<!--Interpreting Memory--></title>
+
+<para>
+Les ordinateurs sont très rigoureux.  Parce qu'ils sont rigoureux, les
+programmeurs doivent l'être tout autant.  Un ordinateur n'a aucune
+idée de ce qu'est supposé faire votre programme.  Ainsi, il fera
+exactement ce que vous lui dites de faire.  Si vous affichez
+accidentellement un nombre à la place des codes ASCII qui représentent
+les chiffres du nombre, l'ordinateur vous laissera faire, et vous
+finirez avec du charabia à l'écran (il essaiera de voir ce que
+représente votre nombre en ASCII et l'affichera).  Si vous dites à
+l'ordinateur de commencer à exécuter des instructions à un emplacement
+contenant des données et non des instructions de programme, qui sait
+comment l'ordinateur va interpréter ces données&nbsp;; mais il va essayer.
+L'ordinateur va exécuter vos instructions dans l'ordre exact que vous
+avez spécifié, même si cela n'a pas de sens.
+</para>
+<!--
+Computers are very exact.  Because they are exact, programmers have to be
+equally exact.  A computer has no idea what your program is supposed to
+do.  Therefore, it will only do exactly what you tell it to do.  If you
+accidentally print out a regular number instead of the ASCII codes that make up the number's digits, the
+computer will let you - and you will wind up with jibberish on your screen (it will try to look up what your number represents in ASCII and print that).
+If you tell the computer to start executing instructions at a location
+containing data instead of program instructions, who knows how the computer will interpret that - 
+but it will certainly try.  The computer will execute your instructions in
+the exact order you specify, even if it doesn't make sense.
+-->
+<para>
+L'important est que l'ordinateur fera exactement ce que vous lui dites de
+faire.  Ainsi, en tant que programmeur, vous devez savoir exactement
+comment sont rangées vos données en mémoire.  Souvenez-vous, les
+ordinateurs peuvent seulement stocker des nombres en mémoire, et les
+lettres, images, musiques, pages web, documents, et tout le reste sont
+juste de longues séquences de nombres dans l'ordinateur, que des
+programmes particuliers savent interpréter.
+</para>
+<!--
+The point is, the computer will do exactly
+what you tell it, no matter how little sense it makes.  Therefore, as
+a programmer, you need to know exactly how you have your data arranged
+in memory.  Remember, computers can only store numbers, so letters, pictures,
+music, web pages, documents, and anything else are just long sequences
+of numbers in the computer, which particular programs know how to interpret.
+-->
+
+<para>
+Par exemple, disons que vous voulez stocker des informations sur des
+clients en mémoire.  Une manière de faire serait de définir une
+taille maximale pour le nom du client et pour son adresse&nbsp;: disons 50
+caractères ASCII pour chacun, ce qui ferait 50 octets pour chacun.
+Après ça, avoir un nombre pour l'âge du client un son id.  Dans ce
+cas, vous auriez un bloc de mémoire qui ressemblerait à ceci&nbsp;:
+
+<programlisting>
+Début de l'enregistrement&nbsp;:
+     Nom du client (50 octets) - début de l'enregistrement
+     Adresse du client (50 octets) - début de l'enregistrement + 50 octets
+     Âge du client (1 mot = 4 octets) - début de l'enregistrement + 100 octets
+     Numéro id du client (1 mot = 4 octets) - début de l'enregistrement + 104 octets
+</programlisting>
+
+<!--
+For example, say that you wanted to store customer information in memory.
+One way to do so would be to set a maximum size for the customer's name 
+and address - say 50 ASCII characters for each, which would be 50 bytes for each.
+Then, after that, have a number for the customer's age and their customer
+id.  In this case, you would have a block of memory that would look like
+this:
+<programlisting>
+Start of Record:
+     Customer's name (50 bytes) - start of record
+     Customer's address (50 bytes) - start of record + 50 bytes
+     Customer's age (1 word = 4 bytes) - start of record + 100 bytes
+     Customer's id number (1 word = 4 bytes) - start of record + 104 bytes
+</programlisting>
+-->
+
+De cette manière, en connaissant l'adresse de l'enregistrement d'un
+client, vous savez où se trouve toutes les données.  Cependant, cela
+limite le nom et l'adresse du client à 50 caractères ASCII chacun.
+</para>
+<!--This way, given the address of a customer record, you know where the rest
+of the data lies.  However, it does limit the customer's name and address
+to only 50 ASCII characters each.
+-->
+
+<para>
+Comment faire si nous ne voulons pas spécifier de limite&nbsp;?  Une autre
+méthode serait d'avoir dans notre enregistrement des pointeurs
+<indexterm><primary>pointeurs</primary></indexterm> vers cette
+information.  Dans ce cas, la mémoire ressemblerait à ceci&nbsp;:
+</para>
+<!--
+What if we didn't want to specify a limit?
+Another way to do this would be to have in our record pointers<indexterm><primary>pointers</primary></indexterm> to this
+information.  For example, instead of the customer's name, we would have
+a pointer to their name.  In this case, the memory would look like this:
+-->
+
+<programlisting>
+Début de l'enregistrement&nbsp;:
+     Pointeur vers le nom du client (1 mot) - début de l'enregistrement
+     Pointeur vers l'adresse du client (1 mot) - début de l'enregistrement + 4
+     Âge du client (1 mot) - début de l'enregistrement + 8
+     Numéro id du client (1 mot) - début de l'enregistrement + 12
+</programlisting>
+<!--
+<programlisting>
+Start of Record:
+     Customer's name pointer (1 word) - start of record
+     Customer's address pointer (1 word) - start of record + 4
+     Customer's age (1 word) - start of record + 8
+     Customer's id number (1 word) - start of record + 12
+</programlisting>
+-->
+<para>
+Le nom et l'adresse seront alors stockés ailleurs dans la mémoire.  De
+cette manière, il est facile de dire où se trouve chaque partie des
+données depuis le début de l'enregistrement, sans limiter
+explicitement la taille du nom et de l'adresse.  Si la taille des
+champs dans notre enregistrement pouvait changer, nous ne saurions pas
+où commence le champ suivant.  Les enregistrements étant aussi de
+taille différente, il serait aussi difficile de savoir où commence
+l'enregistrement suivant.  Ainsi, presque tous les enregistrements
+sont de taille fixe.  Les données de longueur variable sont en général
+stockées séparément du reste de l'enregistrement.
+</para>
+<!--
+The actual name and address would be stored elsewhere in memory.  This
+way, it is easy to tell where each part of the data is from the start
+of the record, without explicitly limitting the size of the name and
+address.  If the length of the fields within our records could change,
+we would have no idea where the next field started.  Because records
+would be different sizes, it would also be hard to find where the
+next record began.  Therefore, almost all records are of fixed lengths.
+Variable-length data is usually stored separately from the rest of the
+record.
+-->
+</sect1>
+
+<sect1 id="dataaccessingmethods">
+<title>Méthodes d'accès<!--Data Accessing Methods--></title>
+
+<!-- FIXME - this would be a good section for diagrams -->
+
+<para>
+Les processeurs ont plusieurs méthodes d'accès aux données, appelées
+modes d'adressage<indexterm><primary>modes
+d'adressage</primary></indexterm>.  Le mode le plus simple est le
+<emphasis>mode d'adressage immédiat<indexterm><primary>mode d'adressage
+immédiat</primary></indexterm></emphasis>, dans lequel les données à
+accéder se trouvent dans l'instruction elle-même.  Par exemple, si
+vous voulez initialiser un registre à 0, plutôt que de donner à
+l'ordinateur une adresse dans laquelle lire 0, nous pouvons utiliser
+le mode immédiat, et lui donner le nombre 0.
+</para>
+<!--Processors have a number of different ways of accessing data, known
+as addressing modes<indexterm><primary>addressing modes</primary></indexterm>.  The simplest mode is 
+<emphasis>immediate mode<indexterm><primary>immediate mode addressing</primary></indexterm></emphasis>, in which the data to access is
+embedded in the instruction itself.  For example, if we want to initialize
+a register to 0, instead of giving the computer an address to read the
+0 from, we would specify immediate mode, and give it the number 0.
+-->
+
+<para>
+Dans le <emphasis>mode d'adressage
+registre</emphasis><indexterm><primary>mode d'adressage
+registre</primary></indexterm>,
+l'instruction contient un registre à accéder, plutôt qu'une adresse.
+Les autres modes travaillent sur des adresses.
+</para>
+<!--In the <emphasis>register addressing mode</emphasis><indexterm><primary>register addressing mode</primary></indexterm>,
+the instruction contains a register to access, rather than a memory location.
+The rest of the modes will deal with addresses.
+-->
+
+<para>
+Dans le <emphasis>mode d'adressage direct<indexterm><primary>mode
+d'adressage direct</primary></indexterm></emphasis>, l'instruction
+contient l'adresse mémoire à accéder.  Par exemple, je pourrais
+demander de mettre dans tel registre la valeur à l'adresse 2002.
+L'ordinateur irait directement à l'adresse 2002 pour copier le contenu
+dans le registre.
+</para>
+<!--In the <emphasis>direct addressing mode<indexterm><primary>direct addressing mode</primary></indexterm></emphasis>, the instruction contains
+the memory address to access.  For example, I could say, please load
+this register with the data at address 2002.  The computer would go
+directly to byte number 2002 and copy the contents into our register.
+-->
+
+
+<para>
+Dans le <emphasis>mode d'adressage indexé<indexterm><primary>mode
+d'adressage indexé</primary></indexterm></emphasis>, l'instruction
+contient une adresse mémoire à accéder et spécifie aussi un
+<emphasis>registre d'index<indexterm><primary>registre
+d'index</primary></indexterm></emphasis> pour décaler cette
+adresse. Par exemple, nous pouvons spécifier l'adresse 2002 et un
+registre d'index.  Si le registre d'index contient le nombre 4,
+l'adresse à laquelle la donnée est lue est 2006.  De cette manière, si
+vous avez plusieurs nombres à lire à partir de l'adresse 2002, vous
+pouvez les parcourir en utilisant un registre d'index.  Avec les
+processeurs x86, vous pouvez aussi spécifier un
+<emphasis>multiplicateur<indexterm><primary>multiplicateur</primary></indexterm></emphasis>
+pour l'index.  Ceci vous permet d'accéder à la mémoire un octet à la
+fois ou un mot à la fois (4 octets).  Si vus accédez à un mot entier,
+votre index devra être multiplié par quatre pour obtenir le bon
+emplacement du quatrième élément à partir de votre adresse.  Par
+exemple, si vous voulez accéder au quatrième octet depuis l'adresse
+2002, vous chargez le registre d'index avec la valeur 3
+(souvenez-vous, nous commençons à compter à 0) et mettez le
+multiplicateur à 1 puisque vous avancez un octet à la fois.  Ceci vous
+donnera l'emplacement 2005.  Dans un autre cas, si voulez accéder au
+quatrième mot à partir de l'emplacement 2002, vous chargez le registre
+d'index avec 3 et mettez le multiplicateur à 4.  Ceci lira dans
+l'emplacement 2014&nbsp;: le quatrième mot.  Prenez le temps de faire ces
+calculs vous-même pour être sûr de bien comprendre le fonctionnement.
+
+</para>
+<!--In the <emphasis>indexed addressing mode<indexterm><primary>indexed addressing mode</primary></indexterm></emphasis>, the instruction contains
+a memory address to access, and also specifies an <emphasis>index register<indexterm><primary>index register</primary></indexterm></emphasis> to offset that address.  For example, we could specify
+address 2002 and an index register.  If the index register contains the
+number 4, the actual address the data is loaded from would be 2006.  This
+way, if you have a set of numbers starting at location 2002, you can cycle
+between each of them using an index register.  On x86 processors, you can
+also specify a <emphasis>multiplier<indexterm><primary>multiplier</primary></indexterm></emphasis> for the index.  This allows you to access
+memory a byte at a time or a word at a time (4 bytes).  If you are accessing
+an entire word, your index will need to be multiplied by 4 to get the exact
+location of the fourth element from your address.  For example, if you wanted
+to access the fourth byte from location 2002, you would load your index
+register with 3 (remember, we start counting at 0) and set the multiplier
+to 1 since you are going a byte at a time.  This would get you location
+2005.  However, if you wanted to access the fourth word from location 2002,
+you would load your index register with 3 and set the multiplier to 4. 
+This would load from location 2014 - the fourth word.  Take the time to 
+calculate these yourself to make sure you understand how it works.
+-->
+
+<para>
+Dans le <emphasis>mode d'adressage indirect<indexterm><primary>mode
+d'adressage indirect</primary></indexterm></emphasis>, l'instruction
+contient un registre qui contient un pointeur vers un emplacement où
+lire la donnée.  Par exemple, si vous utilisez l'adressage indirect et
+indiquez le registre &eax, et que le registre &eax; contient la valeur
+4, la valeur se trouvant à l'emplacement mémoire 4 est utilisée.  Dans
+l'adressage direct, nous aurions juste utilisé la valeur 4 mais dans
+l'adressage indirect, nous utilisons la valeur 4 comme adresse à
+laquelle trouver la donnée voulue.
+</para>
+<!--In the <emphasis>indirect addressing mode<indexterm><primary>indirect addressing mode</primary></indexterm></emphasis>, the instruction contains
+a register that contains a pointer to where the data should be accessed.
+For example, if we used indirect addressing mode and specified the &eax; 
+register, and the &eax; register contained the value 4, whatever value was 
+at memory location 4 would be used.  In direct addressing, we would just 
+load the value 4, but in indirect addressing, we use 4 as the address to use 
+to find the data we want.
+-->
+
+<para>
+Pour finir, il existe le <emphasis>mode d'adressage
+basé<indexterm><primary>mode d'adressage
+basé</primary></indexterm></emphasis>.  Similaire à l'adressage
+indirect, vous incluez aussi un nombre appelé le
+<emphasis>décalage<indexterm><primary>décalage</primary></indexterm></emphasis>
+à rajouter à la valeur du registre avant de l'utiliser.  Nous
+utiliserons assez souvent ce mode dans le livre.
+</para>
+<!--Finally, there is the <emphasis>base pointer addressing mode<indexterm><primary>base pointer addressing mode</primary></indexterm></emphasis>.  This is
+similar to indirect addressing, but you also include a number called the
+<emphasis>offset<indexterm><primary>offset</primary></indexterm></emphasis> to add to the register's value before using it for lookup.  We will use this 
+mode quite a bit in this book.
+-->
+
+<para>  
+Dans <xref linkend="interpretingmemory" /> nous avions uns structure
+en mémoire comportant les informations de clients.  Disons que nous
+voulons accéder à l'âge du client, qui est le huitième octet des
+données, et que nous avons l'adresse du début de la structure dans un
+registre.  Nous pouvons utiliser l'adressage basé et spécifier le
+registre comme base et 8 comme décalage.  Ceci ressemble beaucoup à
+l'adressage indexé, avec la différence que le décalage est constant
+est que le pointeur se trouve dans un registre, alors que dans
+l'adressage indexé le décalage est dans un registre et le pointeur est
+constant.
+</para>
+<!--In <xref linkend="interpretingmemory" /> we discussed having a structure
+in memory holding customer information.  Let's say we wanted to access
+the customer's age, which was the eighth byte of the data, and we had the address 
+of the start of the structure in a register.  We could use base pointer 
+addressing and specify the register as the base pointer, and 8 as our offset.
+This is a lot like indexed addressing, with the difference that the offset is
+constant and the pointer is held in a register, and in indexed addressing
+the offset is in a register and the pointer is constant.
+-->
+
+<para>
+Il existe d'autres formes d'adressage, mais ceux-ci sont les plus
+importants.
+</para>
+<!--There are other forms of addressing, but these are the most
+important  ones.
+-->
+</sect1>
+
+<sect1>
+<title>Révisions<!--Review--></title>
+
+<sect2>
+<title>Connaître les concepts<!--Know the Concepts--></title>
+
+<itemizedlist>
+<listitem><para>Décrivez le cycle transfert-exécute.<!--Describe the fetch-execute cycle.--></para></listitem>
+<listitem><para>Qu'est-ce qu'un registre&nbsp;? Pourquoi les calculs seraient plus difficiles sans registres&nbsp;?<!-- What is a register?  How would computation be more difficult without registers?--></para></listitem>
+<listitem><para>Comment représenter des nombres supérieurs à 255&nbsp;?<!--How do you represent numbers larger than 255?--></para></listitem>
+<listitem><para>Quelle taille ont les registres sur les machines que nous allons utiliser&nbsp;?<!--How big are the registers on the machines we will be using?--></para></listitem>
+<listitem><para>Comment un ordinateur sait interpréter un octet ou un ensemble d'octets donnés en mémoire&nbsp;?<!--How does a computer know how to interpret a given byte or set of bytes of memory?--></para></listitem>
+<listitem><para>Quels sont les modes d'adressage et pour quoi sont-ils utilisés&nbsp;?<!--What are the addressing modes and what are they used for?--></para></listitem>
+<listitem><para>Que fait le pointeur d'instruction&nbsp;?<!-What does the instruction pointer do?--></para></listitem>
+</itemizedlist>
+
+</sect2>
+
+
+<sect2>
+<title>Utiliser les concepts<!--Use the Concepts--></title>
+
+<itemizedlist>
+<listitem><para>Quelles données utiliseriez-vous pour l'enregistrement
+d'un employé&nbsp;? Comment les arrangeriez-vous en mémoire&nbsp;?<!--What data would you use in an employee record?  How would you lay it out in memory?--></para></listitem>
+<listitem><para>Si j'ai le pointeur du début de l'enregistrement d'un
+employé ci-dessus et désire accéder à un élément particulier de ces
+données, quel mode d'adressage utiliser&nbsp;?<!--If I had the pointer to the beginning of the employee record above, and wanted to access a particular piece of data inside of it, what addressing mode would I use?--></para></listitem>
+<listitem><para>Dans le mode d'adressage basé, si vous avez un
+registre comportant la valeur 3122 et un décalage de 20, à quelle
+adresse allez-vous accéder&nbsp;?<!--In base pointer addressing mode, if you have a register holding the value 3122, and an offset of 20, what address would you be trying to access?--></para></listitem>
+<listitem><para>Dans le mode d'adressage indexé, si l'adresse de base
+est 6512, le registre d'index contient 5 et le multiplicateur est 4,
+à quelle adresse allez-vous accéder&nbsp;?<!--In indexed addressing mode, if the base address is 6512, the index register has a 5, and the multiplier is 4, what address would you be trying to access?--></para></listitem>
+<listitem><para>Dans le mode d'adressage indexé, si l'adresse de base
+est 123472, le registre d'index contient 0 et le multiplicateur est 4,
+à quelle adresse allez-vous accéder&nbsp;?<!--In indexed addressing mode, if the base address is 123472, the index register has a 0, and the multiplier is 4, what address would you be trying to access?--></para></listitem>
+<listitem><para>Dans le mode d'adressage indexé, si l'adresse de base
+est 9123478, le registre d'index contient 20 et le multiplicateur est
+1, à quelle adresse allez-vous accéder&nbsp;?<!--In indexed addressing mode, if the base address is 9123478, the index register has a 20, and the multiplier is 1, what address would you be trying to access?--></para></listitem>
+</itemizedlist>
+
+</sect2>
+
+
+<sect2>
+<title>Aller plus loin<!--Going Further--></title>
+
+<itemizedlist>
+<listitem><para>Quel est le nombre minimal de modes d'adressage
+nécessaires pour le calcul&nbsp;?<!--What are the minimum number of addressing modes needed for computation?--></para></listitem>
+<listitem><para>Pourquoi inclure des modes d'adressages non strictment
+requis&nbsp;?<!--Why include addressing modes that aren't strictly needed?--></para></listitem>
+<listitem><para>Recherchez puis décrivez comment le pipelining (ou l'un
+des autres facteurs complexifiant) affectent le cycle transfert-exécute.<!--Research and then describe how pipelining (or one of the other complicating factors) affects the fetch-execute cycle.--></para></listitem>
+<listitem><para>Recherchez puis décrivez les compromis entre des
+instructions à taille fixe et des instructions à taille variable.<!--Research and then describe the tradeoffs between fixed-length instructions and variable-length instructions.--></para></listitem>
+</itemizedlist>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+

@@ -1,0 +1,3 @@
+Need to use info from Knuth p.1,v,vi,x,xi
+
+Need to include discussion on Business Requirements, and how they play into the process, and why this book doesn't focus on them.

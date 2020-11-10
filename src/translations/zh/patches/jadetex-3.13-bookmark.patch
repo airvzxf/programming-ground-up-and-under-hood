@@ -1,0 +1,12 @@
+--- jadetex-3.13/jadetex.dtx.orig	2003-05-18 19:26:44.000000000 +0800
++++ jadetex-3.13/jadetex.dtx	2006-05-02 23:18:40.000000000 +0800
+@@ -134,7 +134,8 @@
+ \def\TeXFOTversion{0.0} 
+ \makeatletter
+ \ifx\pushocplist\@undefined
+- \RequirePackage[implicit=true,colorlinks,linkcolor=black,bookmarks=true]{hyperref}[2000/03/01]
++ \RequirePackage[dvipdfm,implicit=true,colorlinks,linkcolor=black,bookmarks=true,CJKbookmarks,hyperindex]{hyperref}[2000/03/01]
++ \AtBeginDvi{\special{pdf:tounicode GBK-EUC-UCS2}}
+  \def\PDFBorders{0 0 0}
+  \RequirePackage[dsssl]{inputenc}[1997/12/20]
+  \RequirePackage{mlnames}

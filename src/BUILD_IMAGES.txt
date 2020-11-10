@@ -1,0 +1,14 @@
+To build the images from the OOo Draw files, do the following:
+
+Export to .eps
+Run pstoimg -type png -density 300 FILENAME.eps
+Open in gimp - autocrop.  Resize, but only use resize to set the DPI back to 300 (pstoimg doesn't actually save the DPI, it just saves it as a really big 72dpi graphic).  Save it as the same filename
+
+You can now reference it with imagedata.  The tag looks like this:
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="filename.png" format="PNG" />
+</imageobject>
+<caption><para>Caption goes here</para></caption>
+</mediaobject>

@@ -1,0 +1,1992 @@
+# pgubook, IntroductionCh.xml
+# Copyright (C) 2006 Zhang Le
+# Zhang Le <robert.zhangle@gmail.com>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: pbubook\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: 2006-09-06 00:42+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
+"Language-Team: zh_CN <robert.zhangle@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10beta3\n"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../GUIAp.xml:2
+#, , no-wrap
+msgid "GUI Programming"
+msgstr "GUI编程"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../GUIAp.xml:16
+#, , no-wrap
+msgid "Introduction to GUI Programming"
+msgstr "GUI编程简介"
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:19
+msgid ""
+"The purpose of this appendix is not to teach you how to do Graphical User "
+"Interfaces.  It is simply meant to show how writing graphical applications "
+"is the same as writing other applications, just using an additional library "
+"to handle the graphical parts.  As a programmer you need to get used to "
+"learning new libraries.  Most of your time will be spent passing data from "
+"one library to another."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../GUIAp.xml:31
+#, no-wrap
+msgid "The GNOME Libraries"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:34
+#, fuzzy
+msgid "The GNOME<indexterm>"
+msgstr "</indexterm>"
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GUIAp.xml:34
+#, no-wrap
+msgid "GNOME"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:34
+msgid ""
+"</indexterm> projects is one of several projects to provide a complete "
+"desktop to Linux users.  The GNOME project includes a panel to hold "
+"application launchers and mini-applications called applets, several standard "
+"applications to do things such as file management, session management, and "
+"configuration, and an API for creating applications which fit in with the "
+"way the rest of the system works."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:44
+msgid ""
+"One thing to notice about the GNOME libraries is that they constantly create "
+"and give you pointers to large data structures, but you never need to know "
+"how they are laid out in memory.  All manipulation of the GUI data "
+"structures are done entirely through function calls.  This is a "
+"characteristic of good library design.  Libraries change from version to "
+"version, and so does the data that each data structure holds.  If you had to "
+"access and manipulate that data yourself, then when the library is updated "
+"you would have to modify your programs to work with the new library, or at "
+"least recompile them.  When you access the data through functions, the "
+"functions take care of knowing where in the structure each piece of data "
+"is.  The pointers you receive from the library are <emphasis>opaque</"
+"emphasis> - you don't need to know specifically what the structure they are "
+"pointing to looks like, you only need to know the functions that will "
+"properly manipulate it.  When designing libraries, even for use within only "
+"one program, this is a good practice to keep in mind."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:66
+msgid ""
+"This chapter will not go into details about how GNOME works.  If you would "
+"like to know more, visit the GNOME developer web site at http://developer."
+"gnome.org/.  This site contains tutorials, mailing lists, API documentation, "
+"and everything else you need to start programming in the GNOME environment."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../GUIAp.xml:77
+#, no-wrap
+msgid "A Simple GNOME Program in Several Languages"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:80
+msgid ""
+"This program will simply show a Window that has a button to quit the "
+"application.  When that button is clicked it will ask you if you are sure, "
+"and if you click yes it will close the application.  To run this program, "
+"type in the following as <filename>gnome-example.s</filename>:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:90
+msgid "To build this application, execute the following commands:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:98
+msgid "Then type in <literal>./gnome-example</literal> to run it."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:102
+msgid "This program, like most GUI<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GUIAp.xml:102
+#, no-wrap
+msgid "GUI"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:102
+msgid ""
+"</indexterm> programs, makes heavy use of passing pointers to functions as "
+"parameters.  In this program you create widgets with the GNOME functions and "
+"then you set up functions to be called when certain events happen.  These "
+"functions are called <emphasis>callback</emphasis> functions.  All of the "
+"event processing is handled by the function <literal>gtk_main</literal>, so "
+"you don't have to worry about how the events are being processed.  All you "
+"have to do is have callbacks set up to wait for them."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:115
+msgid ""
+"Here is a short description of all of the GNOME functions that were used in "
+"this program:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:121
+#, no-wrap
+msgid "gnome_init"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:123
+msgid ""
+"Takes the command-line arguments, argument count, application id, and "
+"application version and initializes the GNOME libraries."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:130
+#, no-wrap
+msgid "gnome_app_new"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:132
+msgid ""
+"Creates a new application window, and returns a pointer to it.  Takes the "
+"application id and the window title as arguments."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:138
+#, no-wrap
+msgid "gtk_button_new_with_label"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:140
+msgid ""
+"Creates a new button and returns a pointer to it.  Takes one argument - the "
+"text that is in the button."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:146
+#, no-wrap
+msgid "gnome_app_set_contents"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:148
+msgid ""
+"This takes a pointer to the gnome application window and whatever widget you "
+"want (a button in this case) and makes the widget be the contents of the "
+"application window"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:155
+#, no-wrap
+msgid "gtk_widget_show"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:157
+msgid ""
+"This must be called on every widget created (application window, buttons, "
+"text entry boxes, etc) in order for them to be visible.  However, in order "
+"for a given widget to be visible, all of its parents must be visible as well."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:166
+#, no-wrap
+msgid "gtk_signal_connect"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:168
+msgid ""
+"This is the function that connects widgets and their signal handling "
+"callback functions.  This function takes the widget pointer, the name of the "
+"signal, the callback function, and an extra data pointer.  After this "
+"function is called, any time the given event is triggered, the callback will "
+"be called with the widget that produced the signal and the extra data "
+"pointer.  In this application, we don't use the extra data pointer, so we "
+"just set it to NULL, which is 0."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:181
+#, no-wrap
+msgid "gtk_main"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:183
+msgid ""
+"This function causes GNOME to enter into its main loop.  To make application "
+"programming easier, GNOME handles the main loop of the program for us.  "
+"GNOME will check for events and call the appropriate callback functions when "
+"they occur.  This function will continue to process events until "
+"<literal>gtk_main_quit</literal> is called by a signal handler."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:194
+#, no-wrap
+msgid "gtk_main_quit"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:196
+msgid ""
+"This function causes GNOME to exit its main loop at the earliest opportunity."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:202
+#, no-wrap
+msgid "gnome_message_box_new"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:204
+msgid ""
+"This function creates a dialog window containing a question and response "
+"buttons.  It takes as parameters the message to display, the type of message "
+"it is (warning, question, etc), and a list of buttons to display.  The final "
+"parameter should be NULL to indicate that there are no more buttons to "
+"display."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:213
+#, no-wrap
+msgid "gtk_window_set_modal"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:215
+msgid ""
+"This function makes the given window a modal window.  In GUI programming, a "
+"modal window is one that prevents event processing in other windows until "
+"that window is closed.  This is often used with Dialog windows."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><term>
+#: ../../GUIAp.xml:223
+#, no-wrap
+msgid "gnome_dialog_run_and_close"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><variablelist><varlistentry><listitem><para>
+#: ../../GUIAp.xml:225
+msgid ""
+"This function takes a dialog pointer (the pointer returned by "
+"<literal>gnome_message_box_new</literal> can be used here) and will set up "
+"all of the appropriate signal handlers so that it will run until a button is "
+"pressed.  At that time it will close the dialog and return to you which "
+"button was pressed.  The button number refers to the order in which the "
+"buttons were set up in <literal>gnome_message_box_new</literal>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:240
+msgid ""
+"The following is the same program written in the C language.  Type it in as "
+"<filename>gnome-example-c.c</filename>:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:247
+msgid "To compile it, type"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:254
+msgid "Run it by typing <literal>./gnome-example-c</literal>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:258
+msgid "Finally, we have a version in Python.  Type it in as gnome-example.py:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:264
+msgid "To run it type <literal>python gnome-example.py</literal>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../GUIAp.xml:270
+#, no-wrap
+msgid "GUI Builders"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:273
+msgid ""
+"In the previous example, you have created the user-interface for the "
+"application by calling the create functions for each widget and placing it "
+"where you wanted it.  However, this can be quite burdensome for more complex "
+"applications.  Many programming environments, including GNOME, have programs "
+"called GUI builders that can be used to automatically create your GUI for "
+"you.  You just have to write the code for the signal handlers and for "
+"initializing your program.  The main GUI builder<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GUIAp.xml:281
+#, no-wrap
+msgid "GUI builder"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:281
+msgid ""
+"</indexterm> for GNOME applications is called GLADE.  GLADE ships with most "
+"Linux distributions."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:286
+msgid ""
+"There are GUI builders for most programming environments.  Borland has a "
+"range of tools that will build GUIs quickly and easily on Linux and "
+"Win32<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GUIAp.xml:288
+#, no-wrap
+msgid "Win32"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:288
+msgid ""
+"</indexterm> systems.  The KDE environment has a tool called QT "
+"Designer<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GUIAp.xml:289
+#, no-wrap
+msgid "QT Designer"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:289
+msgid ""
+"</indexterm> which helps you automatically develop the GUI for their system."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GUIAp.xml:294
+msgid ""
+"There is a broad range of choices for developing graphical applications, but "
+"hopefully this appendix gave you a taste of what GUI programming is like."
+msgstr ""
+
+# type: Content of: <chapter><title>
+#~ msgid "Computer Architecture"
+#~ msgstr "计算机架构"
+
+# type: Content of: <chapter><para>
+#~ msgid ""
+#~ "Before learning how to program, you need to first understand how a "
+#~ "computer interprets programs.  You don't need a degree in electrical "
+#~ "engineering, but you need to understand some basics."
+#~ msgstr ""
+#~ "在学习如何编程之前，你需要首先懂得计算机如何解释程序。你不需要获得电子工程"
+#~ "的学位，但是你要懂得一些基本的知识。"
+
+# type: Content of: <chapter><para><primary>
+#~ msgid "computer architecture"
+#~ msgstr "计算机架构"
+
+# type: Content of: <chapter><para>
+#~ msgid ""
+#~ "</indexterm> is based off of an architecture called the Von Neumann "
+#~ "architecture<indexterm>"
+#~ msgstr "</indexterm>是基于冯诺依曼架构的<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "Von Neumann architecture"
+#~ msgstr "冯诺依曼架构"
+
+# type: Content of: <chapter><para>
+#~ msgid ""
+#~ "</indexterm>, named after its creator.  The Von Neumann architecture "
+#~ "divides the computer up into two main parts - the CPU<indexterm>"
+#~ msgstr ""
+#~ "</indexterm>，该架构以它的创建者的名字而命名。冯诺依曼架构把计算机分成两个"
+#~ "主要部分——CPU<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "CPU"
+#~ msgstr "CPU"
+
+# type: Content of: <chapter><para>
+#~ msgid ""
+#~ "</indexterm> (for Central Processing Unit) and the memory.  This "
+#~ "architecture is used in all modern computers, including personal "
+#~ "computers, supercomputers, mainframes, and even cell phones."
+#~ msgstr ""
+#~ "</indexterm>（Central Processing Unit）和内存。所有现代计算使用的都是这种"
+#~ "架构，包括个人计算机、超级计算机、大型计算机，甚至手机。"
+
+# type: Content of: <chapter><sect1><title>
+#~ msgid "Structure of Computer Memory"
+#~ msgstr "计算机内存的结构"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "To understand how the computer views memory<indexterm>"
+#~ msgstr "如果要理解计算机查看内存<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "memory"
+#~ msgstr "内存"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm>, imagine your local post office.  They usually have a room "
+#~ "filled with PO Boxes.  These boxes are similar to computer memory in that "
+#~ "each are numbered sequences of fixed-size storage locations.  For "
+#~ "example, if you have 256 megabytes of computer memory, that means that "
+#~ "your computer contains roughly 256 million fixed-size storage locations.  "
+#~ "Or, to use our analogy, 256 million PO Boxes.  Each location has a "
+#~ "number, and each location has the same, fixed-length size.  The "
+#~ "difference between a PO Box and computer memory is that you can store all "
+#~ "different kinds of things in a PO Box, but you can only store a single "
+#~ "number in a computer memory storage location."
+#~ msgstr ""
+#~ "</indexterm>的方式，我们可以拿你当地的邮局来做个比喻。他们通常有个房间装满"
+#~ "了邮箱。这些邮箱和计算机内存类似，每一个都是有编号的固定大小的存储位置。例"
+#~ "如，如果你有 256 兆大小容量的内存，这就意味着你的计算机大概有 256 兆个固定"
+#~ "大小的存储空间。在邮局的例子里，就是 256 兆个邮箱。每一个存储空间都有一个"
+#~ "编号，每一个存储空间都有同样的长度固定的容量。邮局邮箱和计算机内存之间的不"
+#~ "同在于，你可以在一个邮箱里面存放任何东西，但是在内存的一个存储空间里你只能"
+#~ "存储一个数。"
+
+# type: Content of: <chapter><sect1><mediaobject><caption><para>
+#~ msgid "<emphasis>Memory locations are like PO Boxes</emphasis>"
+#~ msgstr "<emphasis>内存空间就像邮箱</emphasis>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "You may wonder why a computer is organized this way.  It is because it is "
+#~ "simple to implement.  If the computer were composed of a lot of "
+#~ "differently-sized locations, or if you could store different kinds of "
+#~ "data in them, it would be difficult and expensive to implement."
+#~ msgstr ""
+#~ "你也许想知道为什么计算机会采取这种组织形式。这是因为这种方式易于实现。如果"
+#~ "计算机由很多大小不同的存储空间组成，或者你可以在里面存储各种不同类型的数"
+#~ "据，那么实现起来将会很困难且要花费很大代价。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> is used for a number of different things.  All of the "
+#~ "results of any calculations are stored in memory.  In fact, everything "
+#~ "that is \"stored\" is stored in memory.  Think of your computer at home, "
+#~ "and imagine what all is stored in your computer's memory."
+#~ msgstr ""
+#~ "</indexterm>可以用来做很多不同的事情。所有的计算结果都存储在内存里面。实际"
+#~ "上，一切已被存储的东西都被存储在内存中。想一下你家里的电脑，想像一下所有存"
+#~ "储在内存中的东西。"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "The location of your cursor on the screen"
+#~ msgstr "屏幕上光标的位置"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "The size of each window on the screen"
+#~ msgstr "屏幕上每一个窗口的大小"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "The shape of each letter of each font being used"
+#~ msgstr "正在使用的每个字体的每个字母形状"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "The layout of all of the controls on each window"
+#~ msgstr "每一个窗口上所有控件的布局"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "The graphics for all of the toolbar icons"
+#~ msgstr "所有工具栏图标的图形"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "The text for each error message and dialog box"
+#~ msgstr "每一个错误信息和对话框的文本"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "The list goes on and on..."
+#~ msgstr "还有很多很多……"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "In addition to all of this, the Von Neumann architecture<indexterm>"
+#~ msgstr "除了这些以外，冯·诺依曼架构<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> specifies that not only computer data should live in memory, "
+#~ "but the programs that control the computer's operation should live there, "
+#~ "too.  In fact, in a computer, there is no difference between a program "
+#~ "and a program's data except how it is used by the computer.  They are "
+#~ "both stored and accessed the same way."
+#~ msgstr ""
+#~ "</indexterm>还规定了不仅计算机数据应该放在内存里面，而且控制计算机运行的程"
+#~ "序也应该放在那儿。实际上，在计算机里，程序的指令和一个程序的数据没有不同，"
+#~ "只是计算机利用它们的方式不一样。他们的存储方式和访问方式都是一样的。"
+
+# type: Content of: <chapter><sect1><title>
+#~ msgid "The CPU"
+#~ msgstr "CPU"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "So how does the computer function? Obviously, simply storing data doesn't "
+#~ "do much help - you need to be able to access, manipulate, and move it.  "
+#~ "That's where the CPU<indexterm>"
+#~ msgstr ""
+#~ "那么计算机是如何工作的呢？显然，仅仅能存储数据没有太大的帮助——你必须能够访"
+#~ "问、操作和移动他们。那么这就是 CPU<indexterm>"
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#~ msgid "</indexterm> comes in."
+#~ msgstr "</indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "The CPU reads in instructions from memory one at a time and executes "
+#~ "them.  This is known as the <emphasis>fetch-execute cycle</"
+#~ "emphasis><indexterm>"
+#~ msgstr ""
+#~ "CPU 每一次从内存中读取一条指令并执行它，这也被称作<emphasis>读取－执行周期"
+#~ "</emphasis><indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "fetch-execute cycle"
+#~ msgstr "读取－执行周期"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm>.  The CPU contains the following elements to accomplish this:"
+#~ msgstr "</indexterm>。为实现这个过程，CPU 包含下面的部分："
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "instruction decoder"
+#~ msgstr "指令解码器"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "data bus"
+#~ msgstr "数据总线"
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para>
+#~ msgid "General-purpose registers<indexterm>"
+#~ msgstr "通用寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "general-purpose registers"
+#~ msgstr "通用寄存器"
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para>
+#~ msgid "Arithmetic and logic unit<indexterm>"
+#~ msgstr "算术和逻辑单元<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "arithmetic and logic unit"
+#~ msgstr "算术和逻辑单元"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "The <emphasis>program counter</emphasis> is used to tell the computer "
+#~ "where to fetch the next instruction from.  We mentioned earlier that "
+#~ "there is no difference between the way data and programs are stored, they "
+#~ "are just interpreted differently by the CPU.  The program counter holds "
+#~ "the memory address of the next instruction to be executed.  The CPU "
+#~ "begins by looking at the program counter, and fetching whatever number is "
+#~ "stored in memory at the location specified.  It is then passed on to the "
+#~ "<emphasis>instruction decoder</emphasis><indexterm>"
+#~ msgstr ""
+#~ "<emphasis>程序计数器</emphasis>用来告诉计算机去哪里获得下一条指令。我们前"
+#~ "面已经说过数据和程序指令的存取方式没有区别，仅仅是 CPU 解释他们的方式不"
+#~ "同。程序计数器保存着下一条将要执行的指令的内存地址。 CPU 从查看程序计数器"
+#~ "开始，获得其所指定的地址上存放的数，然后交给<emphasis>指令解码器</"
+#~ "emphasis><indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> which figures out what the instruction means.  This includes "
+#~ "what process needs to take place (addition, subtraction, multiplication, "
+#~ "data movement, etc.) and what memory locations are going to be involved "
+#~ "in this process.  Computer instructions usually consist of both the "
+#~ "actual instruction and the list of memory locations that are used to "
+#~ "carry it out."
+#~ msgstr ""
+#~ "</indexterm>，由后者来解释指令的含义。这包括需要发生什么样的操作（加法、减"
+#~ "法、乘法、数据移动等等）和在这个过程中将会被用到的内存地址，计算机指令通常"
+#~ "由实际的指令和完成这个指令所要用到的内存地址组成。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "Now the computer uses the <emphasis>data bus</emphasis><indexterm>"
+#~ msgstr "</indexterm> 是<emphasis>内核</emphasis>的名字。内核<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> to fetch the memory locations to be used in the "
+#~ "calculation.  The data bus is the connection between the CPU and memory.  "
+#~ "It is the actual wire that connects them.  If you look at the motherboard "
+#~ "of the computer, the wires that go out from the memory are your data bus."
+#~ msgstr ""
+#~ "</indexterm>来获得存放于内存中的数据并用于计算。数据总线用来连接 CPU 和内"
+#~ "存。它是连接它们的实际电路线。如果你注意看计算机主板，从内存出去的电线就是"
+#~ "数据总线。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "In addition to the memory on the outside of the processor, the processor "
+#~ "itself has some special, high-speed memory locations called "
+#~ "registers<indexterm>"
+#~ msgstr ""
+#~ "除了位于处理器外部的内存之外，处理器本身还有一些特殊的高速记忆存储单元被称"
+#~ "为寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "registers"
+#~ msgstr "寄存器"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm>.  There are two kinds of registers - <emphasis>general "
+#~ "registers</emphasis> and <emphasis>special-purpose registers</emphasis>.  "
+#~ "General-purpose registers<indexterm>"
+#~ msgstr ""
+#~ "</indexterm>。寄存器有两种——<emphasis>通用寄存器</emphasis>和<emphasis>专"
+#~ "用寄存器</emphasis>。通用寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> are where the main action happens.  Addition, subtraction, "
+#~ "multiplication, comparisions, and other operations generally use general-"
+#~ "purpose registers for processing.  However, computers have very few "
+#~ "general-purpose registers.  Most information is stored in main memory, "
+#~ "brought in to the registers for processing, and then put back into memory "
+#~ "when the processing is completed.  <emphasis>special-purpose "
+#~ "registers<indexterm>"
+#~ msgstr ""
+#~ "</indexterm>是主要的操作发生的地方。加法、减法、乘法、比较和其它运算通常都"
+#~ "使用通用寄存器来处理。但是，计算机中只有很少量的通用寄存器。大部分信息是存"
+#~ "储在内存中的，需要处理的时候才放到寄存器中，当处理完成以后再放回到内存中。"
+#~ "<emphasis>专用寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "special-purpose registers"
+#~ msgstr "专用寄存器"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis> are registers which have very specific purposes.  "
+#~ "We will discuss these as we come to them."
+#~ msgstr ""
+#~ "</indexterm></emphasis>是用于特殊目的的寄存器。我们将会在碰到它们的时候再"
+#~ "作讨论。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "Now that the CPU has retrieved all of the data it needs, it passes on the "
+#~ "data and the decoded instruction to the <emphasis>arithmetic and logic "
+#~ "unit<indexterm>"
+#~ msgstr ""
+#~ "CPU 在获取了所有需要的数据之后，它就会把数据和解码后的指令传递给<emphasis>"
+#~ "算术和逻辑单元<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis> for further processing.  Here the instruction is "
+#~ "actually executed.  After the results of the computation have been "
+#~ "calculated, the results are then placed on the data bus<indexterm>"
+#~ msgstr ""
+#~ "</indexterm></emphasis>作进一步的处理。在这里，指令才真正的被执行。当计算"
+#~ "结果算出来后，CPU 会根据指令所指定的把结果放到数据总线<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> and sent to the appropriate location in memory or in a "
+#~ "register, as specified by the instruction."
+#~ msgstr "</indexterm>上并送到正确的内存地址上或者某个寄存器里。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "This is a very simplified explanation.  Processors have advanced quite a "
+#~ "bit in recent years, and are now much more complex.  Although the basic "
+#~ "operation is still the same, it is complicated by the use of cache "
+#~ "hierarchies<indexterm>"
+#~ msgstr ""
+#~ "这是一个非常简单的解释。在最近几年里，处理器获得比较大的发展，也更加复杂"
+#~ "了。尽管最基本的操作是一样的，但是包括 cache 分层结构<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "cache hierarchies"
+#~ msgstr "cache 分层结构"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "</indexterm>, superscalar processors<indexterm>"
+#~ msgstr "</indexterm>是 Linux<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid ""
+#~ "superscalar\n"
+#~ "processors"
+#~ msgstr "超标量结构处理器"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "</indexterm>, pipelining<indexterm>"
+#~ msgstr "</indexterm>是 Linux<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "pipelining"
+#~ msgstr "流水线"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "branch prediction"
+#~ msgstr "分支预测"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "out-of-order execution"
+#~ msgstr "乱序执行"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "microcode translation"
+#~ msgstr "微码翻译"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "coprocessors"
+#~ msgstr "协处理器"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm>, and other optimizations.  Don't worry if you don't know "
+#~ "what those words mean, you can just use them as Internet search terms if "
+#~ "you want to learn more about the CPU."
+#~ msgstr ""
+#~ "</indexterm>在内的一些优化方案已经使得处理器变的更加复杂。不用为不知道这些"
+#~ "术语的含义而担心，如果你想学习更多有关 CPU 的知识，你可以用它们作为关键字"
+#~ "在互联网上搜索一下。"
+
+# type: Content of: <chapter><sect1><title>
+#~ msgid "Some Terms"
+#~ msgstr "一些术语"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "computer memory"
+#~ msgstr "计算机内存"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> is a numbered sequence of fixed-size storage locations.  The "
+#~ "number attached to each storage location is called its "
+#~ "<emphasis>address<indexterm>"
+#~ msgstr ""
+#~ "</indexterm>是一系列编了号的固定大小的存储空间。每一个存储空间的编号称为该"
+#~ "存储空间的<emphasis>地址<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "address"
+#~ msgstr "地址"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis>.  The size of a single storage location is called "
+#~ "a <emphasis>byte</emphasis>.  On x86 processors, a byte<indexterm>"
+#~ msgstr ""
+#~ "</indexterm></emphasis>。单个存储空间的大小称为<emphasis>字节</emphasis>。"
+#~ "在 x86 处理器上，一个字节<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "bytes"
+#~ msgstr "字节"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "</indexterm> is a number between 0 and 255."
+#~ msgstr "</indexterm>是一个 0 到 255 之间的数。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "You may be wondering how computers can display and use text, graphics, "
+#~ "and even large numbers when all they can do is store numbers between 0 "
+#~ "and 255.  First of all, specialized hardware like graphics cards have "
+#~ "special interpretations of each number.  When displaying to the screen, "
+#~ "the computer uses ASCII<indexterm>"
+#~ msgstr ""
+#~ "你也许想知道为什么计算机只能存储 0 到 255 之间的数，但却可以显示和使用文"
+#~ "本、图像和更大的数。首先，像显卡这样的专门硬件对每一个数都有特殊的解释。当"
+#~ "这些数要显示在屏幕上的时候，计算机使用 ASCII<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "ASCII"
+#~ msgstr "ASCII"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> code tables to translate the numbers you are sending it into "
+#~ "letters to display on the screen, with each number translating to exactly "
+#~ "one letter or numeral.<footnote>"
+#~ msgstr ""
+#~ "</indexterm> 码表来把你传递给他的数翻译成要显示在屏幕上的字符，每一个数只"
+#~ "被翻译为一个字母或者阿拉伯数字。<footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#~ msgid ""
+#~ "With the advent of international character sets and Unicode, this is not "
+#~ "entirely true anymore.  However, for the purposes of keeping this simple "
+#~ "for beginners, we will use the assumption that one number translates "
+#~ "directly to one character.  For more information, see <xref linkend="
+#~ "\"asciilisting\" />."
+#~ msgstr ""
+#~ "随着国际字符集和 Unicode 的出现，事实已经不再是这样。但是为了让初学者容易"
+#~ "理解，我们这里假设一个数字会被直接翻译为一个字符。请参阅<xref linkend="
+#~ "\"asciilisting\" />以获得更多的信息。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</footnote> For example, the capital letter A is represented by the "
+#~ "number 65.  The numeral 1 is represented by the number 49.  So, to print "
+#~ "out \"HELLO\", you would actually give the computer the sequence of "
+#~ "numbers 72, 69, 76, 76, 79.  To print out the number 100, you would give "
+#~ "the computer the sequence of numbers 49, 48, 48.  A list of ASCII "
+#~ "characters and their numeric codes is found in <xref linkend="
+#~ "\"asciilisting\" />."
+#~ msgstr ""
+#~ "</footnote>例如，大写字母 A 用 65 来表示，数字 1 用 49 来表示，因此，如果"
+#~ "要显示出“HELLO”，你应该给出 72，69，76，76，79 这样一串数；如果要显示"
+#~ "出“100”，你应该给出 49，48，48 这样一串数。ASCII 字符和其对应的数可以在"
+#~ "<xref linkend=\"asciilisting\" /> 中找到。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "In addition to using numbers to represent ASCII characters, you as the "
+#~ "programmer get to make the numbers mean anything you want them to, as "
+#~ "well.  For example, if I am running a store, I would use a number to "
+#~ "represent each item I was selling.  Each number would be linked to a "
+#~ "series of other numbers which would be the ASCII<indexterm>"
+#~ msgstr ""
+#~ "除了使用数来表示 ASCII 字符以外，作为一个程序员的你，也用数来表示任何你想"
+#~ "表示的东西。例如，如果我经营一个商场，我会用数来表示每一件我卖的商品。每一"
+#~ "个数可能关联到一系列其它的数，其中可能包括商品扫描入仓时我想要显示的 "
+#~ "ASCII <indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> codes for what I wanted to display when the items were "
+#~ "scanned in.  I would have more numbers for the price, how many I have in "
+#~ "inventory, and so on."
+#~ msgstr "</indexterm> 码。我会用更多的数来表示价钱、库存量等等。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "So what about if we need numbers larger than 255? We can simply use a "
+#~ "combination of bytes to represent larger numbers.  Two bytes can be used "
+#~ "to represent any number between 0 and 65535.  Four bytes can be used to "
+#~ "represent any number between 0 and 4294967295.  Now, it is quite "
+#~ "difficult to write programs to stick bytes together to increase the size "
+#~ "of your numbers, and requires a bit of math.  Luckily, the computer will "
+#~ "do it for us for numbers up to 4 bytes long.  In fact, four-byte numbers "
+#~ "are what we will work with by default."
+#~ msgstr ""
+#~ "如果我们需要大于 255 的数该怎么办？我们可以简单的将多个字节合并来表示更大"
+#~ "的数字。两个字节可以用来表示从 0 到 65536 之间的任何数字。四个字节可以用来"
+#~ "表示从 0 到 4294967295 之间的任何数字。现在，写程序来把字节合并以增大数字"
+#~ "所表示的范围很困难，这需要一些数学运算。幸运的是，如果数不超过 4 个字节"
+#~ "长，那么计算机可以帮我们来解决。实际上，我们编程时默认处理的都是 4 个字节"
+#~ "的数。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "We mentioned earlier that in addition to the regular memory that the "
+#~ "computer has, it also has special-purpose storage locations called "
+#~ "<emphasis>registers<indexterm>"
+#~ msgstr ""
+#~ "我们早些时候提到计算机除了有常规内存以外，它还有被称为<emphasis>寄存器"
+#~ "<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis>.  Registers are what the computer uses for "
+#~ "computation.  Think of a register as a place on your desk - it holds "
+#~ "things you are currently working on.  You may have lots of information "
+#~ "tucked away in folders and drawers, but the stuff you are working on "
+#~ "right now is on the desk.  Registers keep the contents of numbers that "
+#~ "you are currently manipulating."
+#~ msgstr ""
+#~ "</indexterm></emphasis>的特殊存储空间。寄存器是计算机用来计算的。把寄存器"
+#~ "想像成你的书桌上的一块地方——它存放着你当前的工作内容。你也许还有很多信息放"
+#~ "在文件夹和抽屉里面，但是你正在工作的内容是放在桌子上的。寄存器保存着你当前"
+#~ "正在操作的数的内容。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "On the computers we are using, registers are each four bytes long.  The "
+#~ "size of a typical register is called a computer's "
+#~ "<emphasis>word<indexterm>"
+#~ msgstr ""
+#~ "我们使用的计算机上面，每个寄存器都是四字节长度。一个典型寄存器的长度称为计"
+#~ "算机的<emphasis>字<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "word"
+#~ msgstr "字"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis> size.  x86 processors have four-byte words.  This "
+#~ "means that it is most natural on these computers to do computations four "
+#~ "bytes at a time.<footnote>"
+#~ msgstr ""
+#~ "</indexterm></emphasis>长。x86 处理器字长是4。这意味着在这种计算机上做四字"
+#~ "节的计算是最本能的。<footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#~ msgid ""
+#~ "Previous incarnations of x86 processors only had two-byte words.  "
+#~ "Therefore, most other literature dealing with x86 processors refers to "
+#~ "two-byte entities as words for historical reasons, and therefore refer to "
+#~ "four-byte entities as double-words.  We are using the term "
+#~ "<emphasis>word</emphasis> to mean the normal register size of a computer, "
+#~ "which in this case is four bytes.  More information is available in <xref "
+#~ "linkend=\"instructionsappendix\" />,"
+#~ msgstr ""
+#~ "以前的 x86 处理器的实现的字长是 2。因为这一历史原因，其他多数讲述 x86 处理"
+#~ "器的著作都称两字节的组合为字，并且称四字节的组合为双字。我们使用<emphasis>"
+#~ "字</emphasis>这个术语来指一个计算机的正常寄存器大小，在我们的例子里就是四"
+#~ "字节。更多信息请看<xref linkend=\"instructionsappendix\" />。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "</footnote> This gives us roughly 4 billion values."
+#~ msgstr "</footnote> 4个字节能表示大约40亿个不同的值。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "Addresses are also four bytes (1 word) long, and therefore also fit into "
+#~ "a register.  x86 processors can access up to 4294967296 bytes if enough "
+#~ "memory is installed.  Notice that this means that we can store addresses "
+#~ "the same way we store any other number.  In fact, the computer can't tell "
+#~ "the difference between a value that is an address, a value that is a "
+#~ "number, a value that is an ASCII code, or a value that you have decided "
+#~ "to use for another purpose.  A number becomes an ASCII code when you "
+#~ "attempt to display it.  A number becomes an address when you try to look "
+#~ "up the byte it points to.  Take a moment to think about this, because it "
+#~ "is crucial to understanding how computer programs work."
+#~ msgstr ""
+#~ "地址也是四字节（一个字）长，因此也可以放入到一个寄存器中。如果有足够的内"
+#~ "存，x86 处理器可以访问 4294967296 个字节。注意这意味这我们可以像存储其他数"
+#~ "字一样来存储地址。实际上，计算机不能分辨一个值到底是一个地址，还是一个数"
+#~ "字，还是一个 ASCII 码，还是有其它的用途。当你显示它的时候，这个数字就是一"
+#~ "个 ASCII 码；当你要查看它指向的某个字节时，这个数字就是一个地址。花一点时"
+#~ "间想清楚这些东西，因为这对理解计算机编程如何工作很重要。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "Addresses which are stored in memory are also called "
+#~ "<emphasis>pointers<indexterm>"
+#~ msgstr "存放在内存中的地址称为<emphasis>指针<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "pointers"
+#~ msgstr "指针"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis>, because instead of having a regular value in "
+#~ "them, they point you to a different location in memory."
+#~ msgstr ""
+#~ "</indexterm></emphasis>，因为该位置存放的不是一个常规数值，而是另外一个内"
+#~ "存位置的地址。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "As we've mentioned, computer instructions are also stored in memory.  In "
+#~ "fact, they are stored exactly the same way that other data is stored.  "
+#~ "The only way the computer knows that a memory location is an instruction "
+#~ "is that a special-purpose register<indexterm>"
+#~ msgstr ""
+#~ "如同我们已经提到的，计算机指令也存放在内存中。实际上，他们和数据的存放方式"
+#~ "是一样的。计算机知道一个内存位置存放的是一条指令的唯一方法是通过一个专用寄"
+#~ "存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "special-purpose register"
+#~ msgstr "专用寄存器"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "instruction pointer"
+#~ msgstr "指令指针"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> points to them at one point or another.  If the instruction "
+#~ "pointer points to a memory word, it is loaded as an instruction.  Other "
+#~ "than that, the computer has no way of knowing the difference between "
+#~ "programs and other types of data.<footnote>"
+#~ msgstr ""
+#~ "</indexterm>。它所指向的就是指令。如果指令指针指向一个内存字，那么它将作为"
+#~ "一条指令被加载。除此之外，计算机无从知晓计算机指令和其他类型的数据的区别。"
+#~ "<footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#~ msgid ""
+#~ "Note that here we are talking about general computer theory.  Some "
+#~ "processors and operating systems actually mark the regions of memory that "
+#~ "can be executed with a special marker that indicates this."
+#~ msgstr ""
+#~ "注意这里我们讨论的是一般的计算机理论。有些处理器和操作系统会用一个特殊标记"
+#~ "来标记出可以执行的内存区域。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "</footnote>"
+#~ msgstr "</footnote>"
+
+# type: Content of: <chapter><sect1><title>
+#~ msgid "Interpreting Memory"
+#~ msgstr "解释内存"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "Computers are very exact.  Because they are exact, programmers have to be "
+#~ "equally exact.  A computer has no idea what your program is supposed to "
+#~ "do.  Therefore, it will only do exactly what you tell it to do.  If you "
+#~ "accidentally print out a regular number instead of the ASCII codes that "
+#~ "make up the number's digits, the computer will let you - and you will "
+#~ "wind up with jibberish on your screen (it will try to look up what your "
+#~ "number represents in ASCII and print that).  If you tell the computer to "
+#~ "start executing instructions at a location containing data instead of "
+#~ "program instructions, who knows how the computer will interpret that - "
+#~ "but it will certainly try.  The computer will execute your instructions "
+#~ "in the exact order you specify, even if it doesn't make sense."
+#~ msgstr ""
+#~ "计算机是非常精确的。正因为它很精确，程序员也必须同等精确。计算机根本不知道"
+#~ "你编制的程序想要做什么。因此，你要它做什么，计算机就会严格按照你的要求去做"
+#~ "什么。如果你不小心打印出一个常规数值，而不是能够显示数字的ASCII码，计算机"
+#~ "会允许你这样做。但是屏幕上就会出现一堆乱码（计算机会查找你的数在 ASCII 码"
+#~ "中表示什么字符，然后把它打印出来）。如果你让计算机从一个含有数据而不是计算"
+#~ "机指令的内存地址开始执行指令，没人知道计算机将会怎样解释，但它肯定会去尝"
+#~ "试。计算机会严格按照你规定的顺序来执行指令，即使看起来没有任何意义。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "The point is, the computer will do exactly what you tell it, no matter "
+#~ "how little sense it makes.  Therefore, as a programmer, you need to know "
+#~ "exactly how you have your data arranged in memory.  Remember, computers "
+#~ "can only store numbers, so letters, pictures, music, web pages, "
+#~ "documents, and anything else are just long sequences of numbers in the "
+#~ "computer, which particular programs know how to interpret."
+#~ msgstr ""
+#~ "总之，计算机一点不差地做你要它做地事情，不管事情是否有意义。因此，作为一个"
+#~ "程序员，你需要清楚地知道程序数据在内存中是如何放置的。记住，计算机只能存储"
+#~ "数，所以字母、图片、音乐、网页、文档和所以其他的东西在计算机里都是长串的数"
+#~ "而已，专门处理它们的应用程序知道如何解释它们。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "For example, say that you wanted to store customer information in "
+#~ "memory.  One way to do so would be to set a maximum size for the "
+#~ "customer's name and address - say 50 ASCII characters for each, which "
+#~ "would be 50 bytes for each.  Then, after that, have a number for the "
+#~ "customer's age and their customer id.  In this case, you would have a "
+#~ "block of memory that would look like this:"
+#~ msgstr ""
+#~ "例如，假如你想把顾客信息存储在内存中。一种方法是为顾客的名字和地址的大小设"
+#~ "定一个最大值——假定每个都是 50 个 ASCII 字符，也就是每个都有 50 个字节。然"
+#~ "后，各用一个数字来表示顾客的年龄和他们的顾客号。这样，你就可以得到一个跟下"
+#~ "面类似的内存块："
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "This way, given the address of a customer record, you know where the rest "
+#~ "of the data lies.  However, it does limit the customer's name and address "
+#~ "to only 50 ASCII characters each."
+#~ msgstr ""
+#~ "这样，给定一个顾客记录的地址，你就可以知道这个顾客记录里其他数据存放的位"
+#~ "置。但是，这种方法把顾客的名字和地址限制在了 50 个 ASCII 字符之内。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "What if we didn't want to specify a limit? Another way to do this would "
+#~ "be to have in our record pointers<indexterm>"
+#~ msgstr ""
+#~ "如果我们不想要这种限制，该如何办呢？另外一种办法就是在我们的记录里面用指针"
+#~ "<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> to this information.  For example, instead of the customer's "
+#~ "name, we would have a pointer to their name.  In this case, the memory "
+#~ "would look like this:"
+#~ msgstr ""
+#~ "</indexterm>指向这些信息。例如，我们在记录中包含一个指向顾客名字的指针，而"
+#~ "不是顾客的名字本身，这样，内存看起来就会象这样："
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "The actual name and address would be stored elsewhere in memory.  This "
+#~ "way, it is easy to tell where each part of the data is from the start of "
+#~ "the record, without explicitly limitting the size of the name and "
+#~ "address.  If the length of the fields within our records could change, we "
+#~ "would have no idea where the next field started.  Because records would "
+#~ "be different sizes, it would also be hard to find where the next record "
+#~ "began.  Therefore, almost all records are of fixed lengths.  Variable-"
+#~ "length data is usually stored separately from the rest of the record."
+#~ msgstr ""
+#~ "实际的名字和地址可能存储在内存的其他位置。这样在得知记录的起始地址之后就可"
+#~ "以知道记录里每一部分存放在什么位置，不必再明确地限制名字和地址地大小了。如"
+#~ "果记录中某个字段的长度不是固定的，我们就无法知道下一个字段从哪里开始了。这"
+#~ "样记录的长度可能不尽相同，因此找到下一条记录的起始也是很困难的，所以，几乎"
+#~ "所有的记录都是固定长度的。变长的数据通常是放在别处存储的，不和记录在一起。"
+
+# type: Content of: <chapter><sect1><title>
+#~ msgid "Data Accessing Methods"
+#~ msgstr "数据访问方式"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "Processors have a number of different ways of accessing data, known as "
+#~ "addressing modes<indexterm>"
+#~ msgstr "处理器有很多种访问数据的方式，也叫做寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "addressing modes"
+#~ msgstr "寻址模式"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "immediate mode addressing"
+#~ msgstr "立即数寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis>, in which the data to access is embedded in the "
+#~ "instruction itself.  For example, if we want to initialize a register to "
+#~ "0, instead of giving the computer an address to read the 0 from, we would "
+#~ "specify immediate mode, and give it the number 0."
+#~ msgstr ""
+#~ "</indexterm></emphasis>，要访问的数据就在指令中，例如，如果我们想初始化一"
+#~ "个寄存器为 0，我们指定立即数模式方式，直接赋 0 给它，而不是让计算机从某个"
+#~ "地址上读取 0。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "In the <emphasis>register addressing mode</emphasis><indexterm>"
+#~ msgstr "在<emphasis>寄存器寻址模式</emphasis><indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "register addressing mode"
+#~ msgstr "寄存器寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm>, the instruction contains a register to access, rather than "
+#~ "a memory location.  The rest of the modes will deal with addresses."
+#~ msgstr ""
+#~ "</indexterm>中，指令包含一个要访问的寄存器，而不是一个内存地址。其余的寻址"
+#~ "模式都是和地址有关的。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "In the <emphasis>direct addressing mode<indexterm>"
+#~ msgstr "在<emphasis>直接寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "direct addressing mode"
+#~ msgstr "直接寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis>, the instruction contains the memory address to "
+#~ "access.  For example, I could say, please load this register with the "
+#~ "data at address 2002.  The computer would go directly to byte number 2002 "
+#~ "and copy the contents into our register."
+#~ msgstr ""
+#~ "</indexterm></emphasis>中，指令包含一个用于访问的内存地址。比如，我可以"
+#~ "说，请把 2002 这个地址上的数据放到这个寄存器里。然后计算机就可以直接去找编"
+#~ "号为 2002 的字节，并把里面的内容拷贝到我们指定的寄存器里。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "In the <emphasis>indexed addressing mode<indexterm>"
+#~ msgstr "在<emphasis>索引寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "indexed addressing mode"
+#~ msgstr "索引寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis>, the instruction contains a memory address to "
+#~ "access, and also specifies an <emphasis>index register<indexterm>"
+#~ msgstr ""
+#~ "</indexterm></emphasis>中，指令包含一个要访问的内存地址，并指定一个"
+#~ "<emphasis>索引寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "index register"
+#~ msgstr "索引寄存器"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis> to offset that address.  For example, we could "
+#~ "specify address 2002 and an index register.  If the index register "
+#~ "contains the number 4, the actual address the data is loaded from would "
+#~ "be 2006.  This way, if you have a set of numbers starting at location "
+#~ "2002, you can cycle between each of them using an index register.  On x86 "
+#~ "processors, you can also specify a <emphasis>multiplier<indexterm>"
+#~ msgstr ""
+#~ "</indexterm></emphasis>，其内容要与内存地址相加以获得最终访问地址。例如，"
+#~ "我们可以指定地址 2002 和一个索引寄存器。如果索引寄存器包含数字 4，那么实际"
+#~ "要访问的并从中读取数据的地址为 2006。这样，如果从地址 2002 开始有一个数"
+#~ "组，你可以使用索引寄存器来逐个访问数组里的每个数。在 x86 处理器上，你也可"
+#~ "以为索引寄存器指定一个<emphasis>乘数<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "multiplier"
+#~ msgstr "乘数"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis> for the index.  This allows you to access memory "
+#~ "a byte at a time or a word at a time (4 bytes).  If you are accessing an "
+#~ "entire word, your index will need to be multiplied by 4 to get the exact "
+#~ "location of the fourth element from your address.  For example, if you "
+#~ "wanted to access the fourth byte from location 2002, you would load your "
+#~ "index register with 3 (remember, we start counting at 0) and set the "
+#~ "multiplier to 1 since you are going a byte at a time.  This would get you "
+#~ "location 2005.  However, if you wanted to access the fourth word from "
+#~ "location 2002, you would load your index register with 3 and set the "
+#~ "multiplier to 4.  This would load from location 2014 - the fourth word.  "
+#~ "Take the time to calculate these yourself to make sure you understand how "
+#~ "it works."
+#~ msgstr ""
+#~ "</indexterm></emphasis>。这样你就可以逐字节或者字（4 个字节）的来访问内"
+#~ "存。如果你要访问整个字，你的索引寄存器就要乘以 4。例如，如果你想要访问从地"
+#~ "址 2002 开始的第四个字节，你需要将索引寄存器赋值为 3（记住我们从 0 开始计"
+#~ "数），将乘数设为 1 因为你每次只前进一个字节。这样你就可以访问到地址 2005。"
+#~ "不过，如果你想要访问从地址 2002 开始的第四个字，则应该将索引寄存器赋值为 "
+#~ "3 并把乘数设为 4。这样 CPU 就可以从地址 2014 访问到第四个字。花些时间计算"
+#~ "一下前面的地址，这样才能确保你理解他们的含义。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "In the <emphasis>indirect addressing mode<indexterm>"
+#~ msgstr "在<emphasis>间接寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "indirect addressing mode"
+#~ msgstr "间接寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis>, the instruction contains a register that "
+#~ "contains a pointer to where the data should be accessed.  For example, if "
+#~ "we used indirect addressing mode and specified the &eax; register, and "
+#~ "the &eax; register contained the value 4, whatever value was at memory "
+#~ "location 4 would be used.  In direct addressing, we would just load the "
+#~ "value 4, but in indirect addressing, we use 4 as the address to use to "
+#~ "find the data we want."
+#~ msgstr ""
+#~ "</indexterm></emphasis>中，指令包含一个寄存器，寄存器里是一个指针，这个指"
+#~ "针指向要被访问的数据。例如，如果我们使用间接寻址模式并指定 &eax; 寄存器，"
+#~ "且 &eax; 寄存器包含的数值为 4，那么内存地址 4 上存放的数就会被用到，不管什"
+#~ "么数。在直接寻址中，我们仅仅载入数值 4，而在间接寻址中，我们载入的的是地"
+#~ "址 4 上存放的数值。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "Finally, there is the <emphasis>base pointer addressing mode<indexterm>"
+#~ msgstr "最后我们要介绍的是<emphasis>基址寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "base pointer addressing mode"
+#~ msgstr "基址寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis>.  This is similar to indirect addressing, but you "
+#~ "also include a number called the <emphasis>offset<indexterm>"
+#~ msgstr ""
+#~ "</indexterm></emphasis>。这种方式和间接寻址类似，但是你需要在指令中包含一"
+#~ "个数，叫做<emphasis>偏移<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "offset"
+#~ msgstr "偏移"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm></emphasis> to add to the register's value before using it "
+#~ "for lookup.  We will use this mode quite a bit in this book."
+#~ msgstr ""
+#~ "</indexterm></emphasis>，把这个数与寄存器的值相加，然后用所得的结果去寻"
+#~ "址。在这本书中，我们会相当多地使用到这种寻址模式。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "In <xref linkend=\"interpretingmemory\" /> we discussed having a "
+#~ "structure in memory holding customer information.  Let's say we wanted to "
+#~ "access the customer's age, which was the eighth byte of the data, and we "
+#~ "had the address of the start of the structure in a register.  We could "
+#~ "use base pointer addressing and specify the register as the base pointer, "
+#~ "and 8 as our offset.  This is a lot like indexed addressing, with the "
+#~ "difference that the offset is constant and the pointer is held in a "
+#~ "register, and in indexed addressing the offset is in a register and the "
+#~ "pointer is constant."
+#~ msgstr ""
+#~ "在<xref linkend=\"interpretingmemory\" />中，我们讨论了一个保存顾客信息的"
+#~ "内存里的数据结构。假设我们想要访问一个顾客的年龄，我们已经知道它是这个结构"
+#~ "的第 8 个字节，还知道在某个寄存器里有这个结构的起始地址。我们可以使用基址"
+#~ "寻址模式来访问它并指定该寄存器为基址指针，8 作为偏移。这很像索引寻址模式。"
+#~ "区别在于基址寻址模式中的偏移是常量，指针存放在寄存器中，索引寻址模式中偏移"
+#~ "在寄存器中，指针是常量。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "There are other forms of addressing, but these are the most important "
+#~ "ones."
+#~ msgstr "此外还有一些其他的寻址模式，不过最重要的就是这些了。"
+
+# type: Content of: <chapter><sect1><title>
+#~ msgid "Review"
+#~ msgstr "复习"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#~ msgid "Know the Concepts"
+#~ msgstr "理解概念"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid "Describe the fetch-execute cycle."
+#~ msgstr "描述抓取－执行周期"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "What is a register? How would computation be more difficult without "
+#~ "registers?"
+#~ msgstr "什么是寄存器？没有寄存器的情况下，计算为什么会变得困难？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid "How do you represent numbers larger than 255?"
+#~ msgstr "如何表示一个大于255的数？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid "How big are the registers on the machines we will be using?"
+#~ msgstr "我们正在使用的计算机上的寄存器的大小是多少？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "How does a computer know how to interpret a given byte or set of bytes of "
+#~ "memory?"
+#~ msgstr "计算机如何知道怎样去解释给定的一个字节或者一组字节的内存内容？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid "What are the addressing modes and what are they used for?"
+#~ msgstr "什么是寻址模式？它们是用来做什么的？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid "What does the instruction pointer do?"
+#~ msgstr "指令指针是作什么用的？"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#~ msgid "Use the Concepts"
+#~ msgstr "运用概念"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "What data would you use in an employee record? How would you lay it out "
+#~ "in memory?"
+#~ msgstr "在一个雇员的记录里，你会使用些什么数据？你如何在内存中放置它们？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "If I had the pointer to the beginning of the employee record above, and "
+#~ "wanted to access a particular piece of data inside of it, what addressing "
+#~ "mode would I use?"
+#~ msgstr ""
+#~ "如果我有雇员记录开始位置的指针，我想要去访问里面的一个特定数据，我应该用什"
+#~ "么样的寻址模式？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "In base pointer addressing mode, if you have a register holding the value "
+#~ "3122, and an offset of 20, what address would you be trying to access?"
+#~ msgstr ""
+#~ "在基址寻址模式中，如果你有一个寄存器，它的值为 3122，并且一个偏移为 20，那"
+#~ "么你将要访问的地址会是多少？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "In indexed addressing mode, if the base address is 6512, the index "
+#~ "register has a 5, and the multiplier is 4, what address would you be "
+#~ "trying to access?"
+#~ msgstr ""
+#~ "在索引寻址模式中，如果基址是 6512，索引寄存器是 5，乘数是 4，你将会访问到"
+#~ "什么地址？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "In indexed addressing mode, if the base address is 123472, the index "
+#~ "register has a 0, and the multiplier is 4, what address would you be "
+#~ "trying to access?"
+#~ msgstr ""
+#~ "在索引寻址模式中，如果基址是 123472，索引寄存器是 0，乘数是 4，你将会访问"
+#~ "到什么地址？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "In indexed addressing mode, if the base address is 9123478, the index "
+#~ "register has a 20, and the multiplier is 1, what address would you be "
+#~ "trying to access?"
+#~ msgstr ""
+#~ "在索引寻址模式中，如果基址是 9123478，索引寄存器是 20，乘数是 1，你将会访"
+#~ "问到什么地址？"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#~ msgid "Going Further"
+#~ msgstr "更上层楼"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "What are the minimum number of addressing modes needed for computation?"
+#~ msgstr "计算需要至少多少种寻址模式？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid "Why include addressing modes that aren't strictly needed?"
+#~ msgstr "为什么需要一些不常用的寻址模式？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "Research and then describe how pipelining (or one of the other "
+#~ "complicating factors) affects the fetch-execute cycle."
+#~ msgstr ""
+#~ "研究并描述流水线（或者其他任意一个的复杂化因素）是怎样影响抓取－执行周期"
+#~ "的。"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#~ msgid ""
+#~ "Research and then describe the tradeoffs between fixed-length "
+#~ "instructions and variable-length instructions."
+#~ msgstr "研究并描述固定长度指令和变长指令各自的好坏。"
+
+# type: Content of: <chapter><title>
+#~ msgid "Introduction"
+#~ msgstr "介绍"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm>programming.  I enjoy the challenge to not only make a "
+#~ "working program, but to do so with style.  Programming is like poetry.  "
+#~ "It conveys a message, not only to the computer, but to those who modify "
+#~ "and use your program.  With a program, you build your own world with your "
+#~ "own rules.  You create your world according to your conception of both "
+#~ "the problem and the solution.  Masterful programmers create worlds with "
+#~ "programs that are clear and succinct, much like a poem or essay."
+#~ msgstr ""
+#~ "</indexterm>编程。我追求的不仅仅是解决问题，解决的方式还要够酷。我很喜欢这"
+#~ "样做带来的挑战。编程就像写诗。它传递着信息，不仅仅给电脑，还给那些修改和使"
+#~ "用程序的人们。利用一个程序，你可以用你自己的规则组建你自己的世界，根据你对"
+#~ "你的问题和解决方案的理解来创建你的世界。老道的程序员使用简单和紧凑的程序来"
+#~ "创建世界，很像是诗和散文。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "One of the greatest programmers, Donald Knuth, describes programming not "
+#~ "as telling a computer how to do something, but telling a person how they "
+#~ "would instruct a computer to do something.  The point is that programs "
+#~ "are meant to be read by people, not just computers.  Your programs will "
+#~ "be modified and updated by others long after you move on to other "
+#~ "projects.  Thus, programming is not as much about communicating to a "
+#~ "computer as it is communicating to those who come after you.  A "
+#~ "programmer is a problem-solver, a poet, and an instructor all at once.  "
+#~ "Your goal is to solve the problem at hand, doing so with balance and "
+#~ "taste, and teach your solution to future programmers.  I hope that this "
+#~ "book can teach at least some of the poetry and magic that makes computing "
+#~ "exciting."
+#~ msgstr ""
+#~ "世界上最伟大的程序员之一，高德纳（Donald Knuth）说，编程不是告诉计算机怎样"
+#~ "去做一件事情，而是告诉一个人他们是如何让计算机去做一件事情。他的观点是，程"
+#~ "序是被人来读的，而不仅仅是计算机。当你离开一个项目而去做其它的项目很久以"
+#~ "后，你的程序也许还将会被其他人修改和升级。因此，编程不仅仅是和计算机进行交"
+#~ "流，而且还要和那些接你班的人进行交流。一个程序员，既是一个问题的解决者，也"
+#~ "是一个诗人，还是一个讲师。你的目标是解决眼前的问题，考虑周全而风格独具，并"
+#~ "且能让未来的程序员学会你的解决方案。我希望这本书至少可以教给读者一些让计算"
+#~ "兴奋的诗和魔法。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "Most introductory books on programming frustrate me to no end.  At the "
+#~ "end of them you can still ask \"how does the computer really work?\" and "
+#~ "not have a good answer.  They tend to pass over topics that are difficult "
+#~ "even though they are important.  I will take you through the difficult "
+#~ "issues because that is the only way to move on to masterful programming.  "
+#~ "My goal is to take you from knowing nothing about programming to "
+#~ "understanding how to think, write, and learn like a programmer.  You "
+#~ "won't know everything, but you will have a background for how everything "
+#~ "fits together.  At the end of this book, you should be able to do the "
+#~ "following:"
+#~ msgstr ""
+#~ "大多数关于编程书籍让我感到非常沮丧。看完这些书，你恐怕仍然会问：“计算机到"
+#~ "底是怎样工作的？”，而且得不到一个完美的答案。这些书通常会略过那些有难度的"
+#~ "但是很重要的话题。我将会让你了解这些有难度的问题，因为他们才是通向大师级编"
+#~ "程的唯一道路。我的目标是让你从对编程一无所知到理解如何像一个程序员那样去思"
+#~ "考、编写和学习。你不用记住每件事情的细枝末节，但是你将从头到尾的掌握所有的"
+#~ "相关背景。在看完这本书后，你应该能够做到以下的事情："
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "Understand how a program works and interacts with other programs"
+#~ msgstr "理解一个程序是如何工作的，以及如何和其它程序交流"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "Read other people's programs and learn how they work"
+#~ msgstr "阅读其他人的程序和了解它们如何工作"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "Learn new programming languages quickly"
+#~ msgstr "迅速掌握新的编程语言"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#~ msgid "Learn advanced concepts in computer science quickly"
+#~ msgstr "迅速掌握计算机科学中的高级概念"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "I will not teach you everything.  Computer science is a massive field, "
+#~ "especially when you combine the theory with the practice of computer "
+#~ "programming.  However, I will attempt to get you started on the "
+#~ "foundations so you can easily go wherever you want afterwards."
+#~ msgstr ""
+#~ "我不可能教会你每一件事情。计算机科学是一门研究领域广泛的学科，尤其是当你把"
+#~ "理论和计算机编程实践结合在一起的时候。但是，我会尝试让你打好基础，这样你可"
+#~ "以轻松去到以后你想要去的地方。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "There is somewhat of a chicken and egg problem in teaching programming, "
+#~ "especially assembly language.  There is a lot to learn - it is almost too "
+#~ "much to learn almost at all at once.  However, each piece depends on all "
+#~ "the others, which makes learning it a piece at a time difficult.  "
+#~ "Therefore, you must be patient with yourself and the computer while "
+#~ "learning to program.  If you don't understand something the first time, "
+#~ "reread it.  If you still don't understand it, it is sometimes best to "
+#~ "take it by faith and come back to it later.  Often after more exposure to "
+#~ "programming the ideas will make more sense.  Don't get discouraged.  It's "
+#~ "a long climb, but very worthwhile."
+#~ msgstr ""
+#~ "在教编程，特别是教汇编语言编程的时候，存在着一个类似先有鸡还是先有蛋的问"
+#~ "题。有很多东西需要学习－多到以至于不可能一下子全学到手，只能一次学一点。但"
+#~ "是每一点知识却又要依靠其他所有的知识，这样就使得学习起来非常困难。因此当学"
+#~ "习编程的时候，你必须对你和计算机有耐心。如果你第一次不能理解某个问题，那就"
+#~ "把这个问题再读一遍。如果你还不能理解他，比较好的办法是记住这个结论，等以后"
+#~ "再回来理解它。通常随着你编程经验的不断增加，这些问题就能自然而然的理解了。"
+#~ "不要气馁，学习编程是一个漫长的攀登过程，但是却非常值得。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "At the end of each chapter are three sets of review exercises.  The first "
+#~ "set is more or less regurgitation - they check to see if can you give "
+#~ "back what you learned in the chapter.  The second set contains "
+#~ "application questions - they check to see if you can apply what you "
+#~ "learned to solve problems.  The final set is to see if you are capable of "
+#~ "broadening your horizons.  Some of these questions may not be answerable "
+#~ "until later in the book, but they give you some things to think about.  "
+#~ "Other questions require some research into outside sources to discover "
+#~ "the answer.  Still others require you to simply analyze your options and "
+#~ "explain a best solution.  Many of the questions don't have right or wrong "
+#~ "answers, but that doesn't mean they are unimportant.  Learning the issues "
+#~ "involved in programming, learning how to research answers, and learning "
+#~ "how to look ahead are all a major part of a programmer's work."
+#~ msgstr ""
+#~ "在每一章的末尾有三套复习练习题。第一套是复习题－用来检查你是否能够掌握本章"
+#~ "学习的东西。第二套包含了应用问题－用来检查你是否能够学以致用。最后一套题用"
+#~ "来检验你是否能够拓宽你的视野。其中的一些问题要等到看完后面的内容才能够回"
+#~ "答，它们的目的是让你有可以思考的东西。其它的问题需要参考其他资料才能找到答"
+#~ "案。还有一些问题要求你分析你面临的选择并得出一个最佳的答案。这些问题中的大"
+#~ "部分都没有标准答案，但这并不意味着他们是不重要的。学习编程所包含的技能，学"
+#~ "会怎样研究并得到答案还有学会怎样规划，这些都是一个程序员工作中的主要部分。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "If you have problems that you just can't get past, there is a mailing "
+#~ "list for this book where readers can discuss and get help with what they "
+#~ "are reading.  The address is <literal>pgubook-readers@nongnu.org</"
+#~ "literal>.  This mailing list is open for any type of question or "
+#~ "discussion along the lines of this book.  You can subscribe to this list "
+#~ "by going to http://mail.nongnu.org/mailman/listinfo/pgubook-readers."
+#~ msgstr ""
+#~ "如果你有理解不了的问题，本书有一个的邮件列表，读者在阅读的时候可以在那里讨"
+#~ "论和获得帮助。地址是<literal>pgubook-readers@nongnu.org</literal>。有关本"
+#~ "书的任何问题都可以在这个邮件列表里进行讨论。你可以到下面这个地址订阅它"
+#~ "http://mail.nongnu.org/mailman/listinfo/pgubook-readers 。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "If you are thinking of using this book for a class on computer "
+#~ "programming but do not have access to Linux computers for your students, "
+#~ "I highly suggest you try to find help from the K-12 Linux Project.  Their "
+#~ "website is at http://www.k12linux.org/ and they have a helpful and "
+#~ "responsive mailing list available."
+#~ msgstr ""
+#~ "如果你想用本书作为计算机编程的教材，但苦于不能为你的学生找到装有Linux的计"
+#~ "算机，我强烈建议你向 K-12 Linux 项目寻求帮助。他们的网站是 http://www."
+#~ "k12linux.org/ 。他们还有一个很有用的且反应及时的邮件列表。"
+
+# type: Content of: <chapter><sect1><title>
+#~ msgid "Your Tools"
+#~ msgstr "你的工具"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "This book teaches assembly language for x86 processors and the GNU/Linux "
+#~ "operating system.  Therefore we will be giving all of the examples using "
+#~ "the GNU/Linux<indexterm>"
+#~ msgstr ""
+#~ "这本书将教授GNU/Linux操作系统上的x86处理器的汇编语言。所以书中所有的例子都"
+#~ "要用GNU/Linux<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "GNU/Linux"
+#~ msgstr "GNU/Linux"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> standard GCC tool set.  If you are not familiar with GNU/"
+#~ "Linux and the GCC tool set, they will be described shortly.  If you are "
+#~ "new to Linux, you should check out the guide available at http://rute."
+#~ "sourceforge.net/<footnote>"
+#~ msgstr ""
+#~ "</indexterm> 标准的GCC工具集来编译。如果你不熟悉 GNU/Linux 和 GCC 工具集，"
+#~ "我马上将对它们进行介绍。如果你是个Linux新手，你应该看看http://rute."
+#~ "sourceforge.net/ <footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#~ msgid ""
+#~ "This is quite a large document.  You certainly don't need to know "
+#~ "everything to get started with this book.  You simply need to know how to "
+#~ "navigate from the command line and how to use an editor like "
+#~ "<literal>pico</literal>, <literal>emacs</literal>, or <literal>vi</"
+#~ "literal> (or others)."
+#~ msgstr ""
+#~ "这是一个很大的文档。为了学习本书你不必知道上面所有的东西。你只要知道怎样使"
+#~ "用命令行和怎样使用文本编辑器，比如<literal>pico</literal>, "
+#~ "<literal>emacs</literal>, 或者<literal>vi</literal> （或者其他编辑器）。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</footnote> What I intend to show you is more about programming in "
+#~ "general than using a specific tool set on a specific platform, but "
+#~ "standardizing on one makes the task much easier."
+#~ msgstr ""
+#~ "</footnote>上的指南。本书更多的着重于介绍如何编程，而不是在某一平台上使用"
+#~ "某个特殊的工具集，不过专注于一个平台会使这个任务变的简单。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "Those new to Linux should also try to get involved in their local GNU/"
+#~ "Linux User's Group.  User's Group members are usually very helpful for "
+#~ "new people, and will help you from everything from installing Linux to "
+#~ "learning to use it most efficiently.  A listing of GNU/Linux User's "
+#~ "Groups is available at http://www.linux.org/groups/"
+#~ msgstr ""
+#~ "刚开始使用Linux的新手还应该尝试加入到本地的GNU/Linux用户组里。用户组的成员"
+#~ "通常很乐意帮助新手，他们会教你所有的事情，从安装Linux到高效的使用Linux。这"
+#~ "里有一个GNU/Linux用户组的列表 http://www.linux.org/groups/"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "All of these programs have been tested using <productname>Red Hat Linux "
+#~ "8.0</productname>, and should work with any other GNU/Linux distribution, "
+#~ "too.<footnote>"
+#~ msgstr ""
+#~ "本书里所有的程序都在<productname>Red Hat Linux 8.0</productname>上测试过，"
+#~ "在其他的 GNU/Linux 发行版上也应该可以运行。<footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#~ msgid ""
+#~ "By \"GNU/Linux distribution\", I mean an x86 GNU/Linux distribution.  GNU/"
+#~ "Linux distributions for the Power Macintosh, the Alpha processor, or "
+#~ "other processors will not work with this book."
+#~ msgstr ""
+#~ "“GNU/Linux 发行版”这里我指的是 x86 GNU/Linux 发行版。运行于苹果机、Alpha处"
+#~ "理器和其他处理器上的GNU/Linux 发行版不适用于本书。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</footnote> They will not work with non-Linux operating systems such as "
+#~ "BSD or other systems.  However, all of the <emphasis>skills</emphasis> "
+#~ "learned in this book should be easily transferable to any other system."
+#~ msgstr ""
+#~ "</footnote> 这些程序也不能运行于非 Linux 操作系统比如 BSD 或其他系统。但"
+#~ "是，所有在本书中学到的<emphasis>技巧</emphasis>稍作变化之后在其他任何系统"
+#~ "上也可以应用。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "If you do not have access to a GNU/Linux<indexterm>"
+#~ msgstr "如果你无法接触到 GNU/Linux<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> machine, you can look for a hosting provider who offers a "
+#~ "Linux <emphasis>shell account</emphasis>, which is a command-line only "
+#~ "interface to a Linux machine.  There are many low-cost shell account "
+#~ "providers, but you have to make sure that they match the requirements "
+#~ "above (i.e. - Linux on x86).  Someone at your local GNU/Linux User's "
+#~ "Group may be able to give you one as well.  Shell accounts only require "
+#~ "that you already have an Internet connection and a telnet program.  If "
+#~ "you use <trademark class=\"registered\">Windows</trademark>, you already "
+#~ "have a telnet client - just click on <literal>start</literal>, then "
+#~ "<literal>run</literal>, then type in <literal>telnet</literal>.  However, "
+#~ "it is usually better to download <productname>PuTTY</productname> from "
+#~ "http://www.chiart.greenend.co.uk/~sgtatham/putty/ because Windows' telnet "
+#~ "has some weird problems.  There are a lot of options for the Macintosh, "
+#~ "too.  <productname>NiftyTelnet</productname> is my favorite."
+#~ msgstr ""
+#~ "</indexterm> 机器，你可以找一个 Linux <emphasis>shell 帐户</emphasis>提供"
+#~ "商，这是一种以命令行界面登录 Linux 机器的方式。低成本的 shell 帐户提供商还"
+#~ "是有很多的，但是你要保证他们可以满足前面的要求（也就是 x86 上的 Linux ）。"
+#~ "你当地的 GNU/Linux 用户组的人或许也能够提供给你。要使用 Shell 帐户只要求你"
+#~ "有互联网连接和一个 telnet 程序。如果你有 <trademark class=\"registered"
+#~ "\">Windows</trademark>，那么你就已经有了一个 telnet 客户端——只需要点击 "
+#~ "<literal>start</literal>，然后 <literal>run</literal>，然后输入 "
+#~ "<literal>telnet</literal>。但是，最好还是从 http://www.chiart.greenend.co."
+#~ "uk/~sgtatham/putty/ 下载 <productname>PuTTY</productname>，因为 Windows "
+#~ "的 telnet 有一些很奇怪的问题。对于Mac机来说也有很多选择。"
+#~ "<productname>NiftyTelnet</productname> 是我的最爱。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "If you don't have GNU/Linux<indexterm>"
+#~ msgstr "如果你有没有 GNU/Linux <indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> and can't find a shell account service, then you can "
+#~ "download <productname>Knoppix</productname> from http://www.knoppix.org/ "
+#~ "Knoppix<indexterm>"
+#~ msgstr ""
+#~ "</indexterm> 而且找不到 shell 帐户服务，那么你可以从 http://www.knoppix."
+#~ "org/ 下载 <productname>Knoppix</productname>。 Knoppix<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "Knoppix"
+#~ msgstr "Knoppix"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> is a GNU/Linux distribution that boots from CD so that you "
+#~ "don't have to actually install it.  Once you are done using it, you just "
+#~ "reboot and remove the CD and you are back to your regular operating "
+#~ "system."
+#~ msgstr ""
+#~ "</indexterm> 是一个从 CD 启动的 GNU/Linux 发行版，这样就可以免去了安装的麻"
+#~ "烦。当你使用完了之后，你只需要重起并把 CD 取出就可以重新进入原来的系统。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "So what is GNU/Linux? GNU/Linux<indexterm>"
+#~ msgstr "那么什么是 GNU/Linux? GNU/Linux<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> is an operating system modeled after <trademark class="
+#~ "\"registered\">UNIX</trademark>.  The GNU part comes from the <ulink url="
+#~ "\"http://www.gnu.org/\">GNU Project</ulink><footnote>"
+#~ msgstr ""
+#~ "</indexterm> 是依照 <trademark class=\"registered\">UNIX</trademark> 设计"
+#~ "的一个操作系统。名字里的 GNU 来自于 <ulink url=\"http://www.gnu.org/"
+#~ "\">GNU 项目</ulink><footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#~ msgid ""
+#~ "The GNU Project is a project by the Free Software Foundation to produce a "
+#~ "complete, free operating system."
+#~ msgstr ""
+#~ "GNU 项目是自由软件基金会发起的一个项目，目的是创造一个完整的自由的操作系"
+#~ "统。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</footnote>, which includes most of the programs you will run, including "
+#~ "the GCC<indexterm>"
+#~ msgstr ""
+#~ "</footnote>，它包括了你将要运行的很多程序，包括我们编程时使用的 GCC "
+#~ "<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "GCC"
+#~ msgstr "GCC"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> tool set that we will use to program with.  The GCC tool set "
+#~ "contains all of the programs necessary to create programs in various "
+#~ "computer languages."
+#~ msgstr ""
+#~ "</indexterm> 工具集。GCC 工具集包含了从多种计算机语言源文件创建程序所需要"
+#~ "的所有工具。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid "Linux<indexterm>"
+#~ msgstr "Linux<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "Linux"
+#~ msgstr "Linux"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "kernel"
+#~ msgstr "内核"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> is the core part of an operating system that keeps track of "
+#~ "everything.  The kernel is both a fence and a gate.  As a gate, it allows "
+#~ "programs to access hardware in a uniform way.  Without the kernel, you "
+#~ "would have to write programs to deal with every device model ever made.  "
+#~ "The kernel handles all device-specific interactions so you don't have "
+#~ "to.  It also handles file access and interaction between processes.  For "
+#~ "example, when you type, your typing goes through several programs before "
+#~ "it hits your editor.  First, the kernel is what handles your hardware, so "
+#~ "it is the first to receive notice about the keypress.  The keyboard sends "
+#~ "in <emphasis>scancodes</emphasis> to the kernel, which then converts them "
+#~ "to the actual letters, numbers, and symbols they represent.  If you are "
+#~ "using a windowing system (like <trademark class=\"registered\">Microsoft "
+#~ "Windows</trademark> or the X Window System), then the windowing system "
+#~ "reads the keypress from the kernel, and delivers it to whatever program "
+#~ "is currently in focus on the user's display."
+#~ msgstr ""
+#~ "</indexterm>是一个操作系统的核心部分，它管理着所有的资源。像一个门一样，它"
+#~ "允许程序以一种统一的方式来访问硬件。没有内核，你需要自己写程序来和处理每一"
+#~ "种型号的硬件。内核可以处理所有设备相关的交互，所以就不必你亲自来了。它也会"
+#~ "处理所有的文件访问和进程间的通信。比如，当你打字的时候，你打的字在到达你的"
+#~ "编辑器之前要经过好几个程序。首先，内核是处理的硬件的，所以它是第一个收到你"
+#~ "的敲击键盘的讯号的。键盘把<emphasis>扫描码</emphasis>发送给内核，然后内核"
+#~ "把它们转化成他们实际所代表的字母、数字和符号。如果你正使用一个窗口系统（比"
+#~ "如 <trademark class=\"registered\">Microsoft Windows</trademark> 或者 X "
+#~ "Window System），那么这个窗口系统会读到内核传过来的键盘敲击，然后把它传递"
+#~ "给用户的显示器上的当前活动程序。"
+
+# type: Content of: <chapter><sect1><example><title>
+#~ msgid "How the computer processes keyboard sigals"
+#~ msgstr "计算机怎样处理键盘信号"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> also controls the flow of information between programs.  The "
+#~ "kernel is a program's gate to the world around it.  Every time that data "
+#~ "moves between processes, the kernel controls the messaging.  In our "
+#~ "keyboard example above, the kernel would have to be involved for the "
+#~ "windowing system to communicate the keypress to the application program."
+#~ msgstr ""
+#~ "</indexterm>内核也控制着程序间信息的流动。内核是程序通往它以外的世界的大"
+#~ "门。内核控制着进程间每一次数据的移动。在我们前面这个键盘的例子里，内核需要"
+#~ "参与窗口系统向应用程序传递键盘敲击信号的过程。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "As a fence, the kernel prevents programs from accidentally overwriting "
+#~ "each other's data and from accessing files and devices that they don't "
+#~ "have permission to.  It limits the amount of damage a poorly-written "
+#~ "program can do to other running programs."
+#~ msgstr ""
+#~ "像一道围墙一样，内核可以防止程序相互改写彼此的数据，还可以防止访问它们没有"
+#~ "访问权限的文件和设备。它能把一个写的很差的程序对其他正在运行的程序所可能造"
+#~ "成的损害程度降到最低。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm>.  Now, the kernel all by itself won't do anything.  You "
+#~ "can't even boot up a computer with just a kernel.  Think of the kernel as "
+#~ "the water pipes for a house.  Without the pipes, the faucets won't work, "
+#~ "but the pipes are pretty useless if there are no faucets.  Together, the "
+#~ "user applications (from the GNU project and other places) and the kernel "
+#~ "(Linux) make up the entire operating system, GNU/Linux."
+#~ msgstr ""
+#~ "</indexterm>。现在，内核自己并不能做任何事情。只有内核你甚至不可以启动一台"
+#~ "计算机。把内核想象成房间里的水管。没有水管，水龙头不能放出水来，但是没有水"
+#~ "龙头的话，水管也是没有用的。用户程序（来自于GNU项目和其他地方）和内核"
+#~ "（Linux），他们一起共同组成了整个操作系统——GNU/Linux。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "For the most part, this book will be using the computer's low-level "
+#~ "assembly language.  There are essentially three kinds of languages: "
+#~ "<indexterm>"
+#~ msgstr ""
+#~ "本书绝大部分程序将使用计算机底层的汇编语言。本质上有三种计算机语言："
+#~ "<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "machine language"
+#~ msgstr "机器语言"
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#~ msgid "Machine Language"
+#~ msgstr "机器语言"
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#~ msgid ""
+#~ "This is what the computer actually sees and deals with.  Every command "
+#~ "the computer sees is given as a number or sequence of numbers."
+#~ msgstr ""
+#~ "这是计算机实际看到和处理的语言。计算机看到的每一个命令都是一个数字或一串数"
+#~ "字。"
+
+# type: Content of: <chapter><sect1><para><primary>
+#~ msgid "Assembly Language"
+#~ msgstr "汇编语言"
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#~ msgid ""
+#~ "This is the same as machine language, except the command numbers have "
+#~ "been replaced by letter sequences which are easier to memorize.  Other "
+#~ "small things are done to make it easier as well."
+#~ msgstr ""
+#~ "这和机器语言是一样的，只不过更容易记忆的字母序列代替了数字。此外汇编语言还"
+#~ "有一些其他的特点，使得利用它来编程比利用机器语言容易一些。"
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#~ msgid "High-Level Language<indexterm>"
+#~ msgstr "高级语言<indexterm>"
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#~ msgid "high-level languages"
+#~ msgstr "高级语言"
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#~ msgid ""
+#~ "High-level languages are there to make programming easier.  Assembly "
+#~ "language requires you to work with the machine itself.  High-level "
+#~ "languages allow you to describe the program in a more natural language.  "
+#~ "A single command in a high-level language usually is equivalent to "
+#~ "several commands in an assembly language."
+#~ msgstr ""
+#~ "高级语言是为了是编程变得更加容易。汇编语言要求你直接跟机器打交道。高级语言"
+#~ "允许你用更加自然的语言描述程序。高级语言中的一个命令通常等于汇编语言中的几"
+#~ "个命令。"
+
+# type: Content of: <chapter><sect1><para>
+#~ msgid ""
+#~ "</indexterm> In this book we will learn assembly language, although we "
+#~ "will cover a bit of high-level languages.  Hopefully by learning assembly "
+#~ "language, your understanding of how programming and computers work will "
+#~ "put you a step ahead."
+#~ msgstr ""
+#~ "</indexterm>在这本书里我们将主要学习汇编语言，也有一些高级语言的例子。希望"
+#~ "通过学习汇编语言，能够让你加深对程序和计算机工作机制的理解。"

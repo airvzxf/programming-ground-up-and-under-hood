@@ -1,0 +1,478 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: 2006-07-30 17:57+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"X-Generator: Pootle 0.10beta3\n"
+
+# type: Content of: <chapter><title>
+#: ../../WhereNextCh.xml:2
+#, no-wrap
+msgid "Moving On from Here"
+msgstr "从这里继续前行"
+
+# type: Content of: <chapter><para>
+#: ../../WhereNextCh.xml:16
+msgid ""
+"Congratulations on getting this far.  You should now have a basis for "
+"understanding the issues involved in many areas of programming.  Even if you "
+"never use assembly language again, you have gained a valuable perspective "
+"and mental framework for understanding the rest of computer science."
+msgstr ""
+
+# type: Content of: <chapter><para>
+#: ../../WhereNextCh.xml:24
+msgid "There are essentially three methods to learn to program:"
+msgstr ""
+
+# type: Content of: <chapter><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:28
+msgid ""
+"From the Bottom Up - This is how this book teaches.  It starts with "
+"low-level programming, and works toward more generalized teaching."
+msgstr ""
+
+# type: Content of: <chapter><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:29
+msgid ""
+"From the Top Down - This is the opposite direction.  This focuses on what "
+"you want to do with the computer, and teaches you how to break it down more "
+"and more until you get to the low levels."
+msgstr ""
+
+# type: Content of: <chapter><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:30
+msgid ""
+"From the Middle - This is characterized by books which teach a specific "
+"programming language or API.  These are not as concerned with concepts as "
+"they are with specifics."
+msgstr ""
+
+# type: Content of: <chapter><para>
+#: ../../WhereNextCh.xml:34
+msgid ""
+"Different people like different approaches, but a good programmer takes all "
+"of them into account.  The bottom-up approaches help you understand the "
+"machine aspects, the top-down approaches help you understand the "
+"problem-area aspects, and the middle approaches help you with practical "
+"questions and answers.  To leave any of these aspects out would be a "
+"mistake."
+msgstr ""
+
+# type: Content of: <chapter><para>
+#: ../../WhereNextCh.xml:42
+msgid ""
+"Computer Programming is a vast subject.  As a programmer, you will need to "
+"be prepared to be constantly learning and pushing your limits.  These books "
+"will help you do that.  They not only teach their subjects, but also teach "
+"various ways and methods of <emphasis>thinking</emphasis>.  As Alan Perlis "
+"said, \"A language that doesn't affect the way you think about programming "
+"is not worth knowing\" "
+"(http://www.cs.yale.edu/homes/perlis-alan/quotes.html).  If you are "
+"constantly looking for new and better ways of doing and thinking, you will "
+"make a successful programmer.  If you do not seek to enhance yourself, \"A "
+"little sleep, a little slumber, a little folding of the hands to rest - and "
+"poverty will come on you like a bandit and scarcity like an armed man.\" "
+"(Proverbs 24:33-34 NIV).  Perhaps not quite that severe, but still, it is "
+"best to always be learning."
+msgstr ""
+
+# type: Content of: <chapter><para>
+#: ../../WhereNextCh.xml:58
+msgid ""
+"These books were selected because of their content and the amount of respect "
+"they have in the computer science world.  Each of them brings something "
+"unique.  There are many books here.  The best way to start would be to look "
+"through online reviews of several of the books, and find a starting point "
+"that interests you."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../WhereNextCh.xml:66
+#, no-wrap
+msgid "From the Bottom Up"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../WhereNextCh.xml:69
+msgid ""
+"This list is in the best reading order I could find.  It's not necessarily "
+"easiest to hardest, but based on subject matter."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:74
+msgid "<citetitle>Programming from the Ground Up</citetitle> by Jonathan Bartlett"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:75
+msgid ""
+"<citetitle>Introduction to Algorithms</citetitle> by Thomas H. Cormen, "
+"Charles E. Leiserson, and Ronald L. Rivest"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:76
+msgid ""
+"<citetitle>The Art of Computer Programming</citetitle> by Donald Knuth (3 "
+"volume set - volume 1 is the most important)"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:77
+msgid "<citetitle>Programming Languages</citetitle> by Samuel N. Kamin"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:78
+msgid "<citetitle>Modern Operating Systems</citetitle> by Andrew Tanenbaum"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:79
+msgid "<citetitle>Linkers and Loaders</citetitle> by John Levine"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:80
+msgid ""
+"<citetitle>Computer Organization and Design: The Hardware/Software "
+"Interface</citetitle> by David Patterson and John Hennessy"
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../WhereNextCh.xml:86
+#, no-wrap
+msgid "From the Top Down"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../WhereNextCh.xml:89
+msgid ""
+"These books are arranged from the simplest to the hardest.  However, they "
+"can be read in any order you feel comfortable with."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:94
+msgid ""
+"<citetitle>How to Design Programs</citetitle> by Matthias Felleisen, Robert "
+"Bruce Findler, Matthew Flatt, and Shiram Krishnamurthi, available online at "
+"http://www.htdp.org/"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:95
+msgid ""
+"<citetitle>Simply Scheme: An Introduction to Computer Science</citetitle> by "
+"Brian Harvey and Matthew Wright"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:96
+msgid ""
+"<citetitle>How to Think Like a Computer Scientist: Learning with "
+"Python</citetitle> by Allen Downey, Jeff Elkner, and Chris Meyers, available "
+"online at http://www.greenteapress.com/thinkpython/"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:97
+msgid ""
+"<citetitle>Structure and Interpretation of Computer Programs</citetitle> by "
+"Harold Abelson and Gerald Jay Sussman with Julie Sussman, available online "
+"at http://mitpress.mit.edu/sicp/"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:98
+msgid ""
+"<citetitle>Design Patterns</citetitle> by Erich Gamma, Richard Helm, Ralph "
+"Johnson, and John Vlissides"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:99
+msgid ""
+"<citetitle>What not How: The Rules Approach to Application "
+"Development</citetitle> by Chris Date"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:100
+msgid "<citetitle>The Algorithm Design Manual</citetitle> by Steve Skiena"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:101
+msgid "<citetitle>Programming Language Pragmatics</citetitle> by Michael Scott"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:102
+msgid ""
+"<citetitle>Essentials of Programming Languages</citetitle> by Daniel "
+"P. Friedman, Mitchell Wand, and Christopher T. Haynes"
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../WhereNextCh.xml:108
+#, no-wrap
+msgid "From the Middle Out"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../WhereNextCh.xml:111
+msgid ""
+"Each of these is the best book on its subject.  If you need to know these "
+"languages, these will tell you all you need to know."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:116
+msgid ""
+"<citetitle>Programming Perl</citetitle> by Larry Wall, Tom Christiansen, and "
+"Jon Orwant"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:117
+msgid "<citetitle>Common LISP: The Language</citetitle> by Guy R. Steele"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:118
+msgid "<citetitle>ANSI Common LISP</citetitle> by Paul Graham"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:119
+msgid ""
+"<citetitle>The C Programming Language</citetitle> by Brian W. Kernighan and "
+"Dennis M. Ritchie"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:120
+msgid "<citetitle>The Waite Group's C Primer Plus</citetitle> by Stephen Prata"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:121
+msgid "<citetitle>The C++ Programming Language</citetitle> by Bjarne Stroustrup"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:122
+msgid ""
+"<citetitle>Thinking in Java</citetitle> by Bruce Eckel, available online at "
+"http://www.mindview.net/Books/TIJ/"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:123
+msgid "<citetitle>The Scheme Programming Language</citetitle> by Kent Dybvig"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:124
+msgid "<citetitle>Linux Assembly Language Programming</citetitle> by Bob Neveln"
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../WhereNextCh.xml:130
+#, no-wrap
+msgid "Specialized Topics"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../WhereNextCh.xml:133
+msgid ""
+"These books are the best books that cover their topic.  They are thorough "
+"and authoritative.  To get a broad base of knowledge, you should read "
+"several outside of the areas you normally program in."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:139
+msgid ""
+"Practical Programming - <citetitle>Programming Pearls</citetitle> and "
+"<citetitle>More Programming Pearls</citetitle> by Jon Louis Bentley"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:140
+msgid ""
+"Databases - <citetitle>Understanding Relational Databases</citetitle> by "
+"Fabian Pascal"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:141
+msgid ""
+"Project Management - <citetitle>The Mythical Man-Month</citetitle> by Fred "
+"P. Brooks"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:142
+msgid ""
+"UNIX Programming - <citetitle>The Art of UNIX Programming</citetitle> by "
+"Eric S. Raymond, available online at "
+"http://www.catb.org/~esr/writings/taoup/"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:143
+msgid ""
+"UNIX Programming - <citetitle>Advanced Programming in the UNIX "
+"Environment</citetitle> by W. Richard Stevens"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:144
+msgid ""
+"Network Programming - <citetitle>UNIX Network Programming</citetitle> (2 "
+"volumes) by W. Richard Stevens"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:145
+msgid ""
+"Generic Programming - <citetitle>Modern C++ Design</citetitle> by Andrei "
+"Alexandrescu"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:146
+msgid ""
+"Compilers - <citetitle>The Art of Compiler Design: Theory and "
+"Practice</citetitle> by Thomas Pittman and James Peters"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:147
+msgid ""
+"Compilers - <citetitle>Advanced Compiler Design and "
+"Implementation</citetitle> by Steven Muchnick"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:148
+msgid ""
+"Development Process - <citetitle>Refactoring: Improving the Design of "
+"Existing Code</citetitle> by Martin Fowler, Kent Beck, John Brant, William "
+"Opdyke, and Don Roberts"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:149
+msgid ""
+"Typesetting - <citetitle>Computers and Typesetting</citetitle> (5 volumes) "
+"by Donald Knuth"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:150
+msgid "Cryptography - <citetitle>Applied Cryptography</citetitle> by Bruce Schneier"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:151
+msgid ""
+"Linux - <citetitle>Professional Linux Programming</citetitle> by Neil "
+"Matthew, Richard Stones, and 14 other people"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:152
+msgid ""
+"Linux Kernel - <citetitle>Linux Device Drivers</citetitle> by Alessandro "
+"Rubini and Jonathan Corbet"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:153
+msgid ""
+"Open Source Programming - <citetitle>The Cathedral and the Bazaar: Musings "
+"on Linux and Open Source by an Accidental Revolutionary</citetitle> by Eric "
+"S. Raymond"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:154
+msgid ""
+"Computer Architecture - <citetitle>Computer Architecture: A Quantitative "
+"Approach</citetitle> by David Patterson and John Hennessy"
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../WhereNextCh.xml:160
+#, no-wrap
+msgid "Further Resources on Assembly Language"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../WhereNextCh.xml:163
+msgid "In assembly language, your best resources are on the web."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:167
+msgid ""
+"http://www.linuxassembly.org/ - a great resource for Linux assembly language "
+"programmers"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:168
+msgid ""
+"http://www.sandpile.org/ - a repository of reference material on x86, "
+"x86-64, and compatible processors"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:169
+msgid "http://www.x86.org/ - Dr. Dobb's Journal Microprocessor Resources"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:170
+msgid ""
+"http://www.drpaulcarter.com/pcasm/ - Dr. Paul Carter's PC Assembly Language "
+"Page"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:171
+msgid "http://webster.cs.ucr.edu/ - The Art of Assembly Home Page"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:172
+msgid ""
+"http://www.intel.com/design/pentium/manuals/ - Intel's manuals for their "
+"processors"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:173
+msgid ""
+"http://www.janw.easynet.be/ - Jan Wagemaker's Linux assembly language "
+"examples"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../WhereNextCh.xml:174
+msgid "http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh's x86 Assembly Page"
+msgstr ""

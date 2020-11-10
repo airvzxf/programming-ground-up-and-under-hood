@@ -1,0 +1,956 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:00+0800\n"
+"PO-Revision-Date: 2006-07-29 16:29+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"X-Generator: Pootle 0.10beta3\n"
+
+# type: Content of: <appendix><title>
+#: ../../ASCIIAp.xml:13
+#, no-wrap
+msgid "Table of ASCII Codes"
+msgstr "ASCII码表"
+
+# type: Content of: <appendix><para>
+#: ../../ASCIIAp.xml:16
+msgid ""
+"To use this table, simply find the character or escape that you want the "
+"code for, and add the number on the left and the top."
+msgstr "这个表的用法是，先找到你要找的字符，然后把最左边和最上边的数相加，所得之和就是该字符所对应的数值。"
+
+# type: Content of: <appendix><table><title>
+#: ../../ASCIIAp.xml:21
+#, no-wrap
+msgid "Table of ASCII codes in decimal"
+msgstr "十进制的ASCII码表"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:24
+#, no-wrap
+msgid "+0"
+msgstr "+0"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:24
+#, no-wrap
+msgid "+1"
+msgstr "+1"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:24
+#, no-wrap
+msgid "+2"
+msgstr "+2"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:24
+#, no-wrap
+msgid "+3"
+msgstr "+3"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:24
+#, no-wrap
+msgid "+4"
+msgstr "+4"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:24
+#, no-wrap
+msgid "+5"
+msgstr "+5"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:24
+#, no-wrap
+msgid "+6"
+msgstr "+6"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:24
+#, no-wrap
+msgid "+7"
+msgstr "+7"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25 ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "0"
+msgstr "0"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25
+#, no-wrap
+msgid "NUL"
+msgstr "NUL"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25
+#, no-wrap
+msgid "SOH"
+msgstr "SOH"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25
+#, no-wrap
+msgid "STX"
+msgstr "STX"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25
+#, no-wrap
+msgid "ETX"
+msgstr "ETX"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25
+#, no-wrap
+msgid "EOT"
+msgstr "EOT"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25
+#, no-wrap
+msgid "ENQ"
+msgstr "ENQ"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25
+#, no-wrap
+msgid "ACK"
+msgstr "ACK"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:25
+#, no-wrap
+msgid "BEL"
+msgstr "BEL"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26 ../../ASCIIAp.xml:32
+#, no-wrap
+msgid "8"
+msgstr "8"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26
+#, no-wrap
+msgid "BS"
+msgstr "BS"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26
+#, no-wrap
+msgid "HT"
+msgstr "HT"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26
+#, no-wrap
+msgid "LF"
+msgstr "LF"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26
+#, no-wrap
+msgid "VT"
+msgstr "VT"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26
+#, no-wrap
+msgid "FF"
+msgstr "FF"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26
+#, no-wrap
+msgid "CR"
+msgstr "CR"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26
+#, no-wrap
+msgid "SO"
+msgstr "SO"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:26
+#, no-wrap
+msgid "SI"
+msgstr "SI"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "16"
+msgstr "16"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "DLE"
+msgstr "DLE"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "DC1"
+msgstr "DC1"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "DC2"
+msgstr "DC2"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "DC3"
+msgstr "DC3"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "DC4"
+msgstr "DC4"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "NAK"
+msgstr "NAK"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "SYN"
+msgstr "SYN"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:27
+#, no-wrap
+msgid "ETB"
+msgstr "ETB"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "24"
+msgstr "24"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "CAN"
+msgstr "CAN"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "EM"
+msgstr "EM"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "SUB"
+msgstr "SUB"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "ESC"
+msgstr "ESC"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "FS"
+msgstr "FS"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "GS"
+msgstr "GS"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "RS"
+msgstr "RS"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:28
+#, no-wrap
+msgid "US"
+msgstr "US"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:29
+#, no-wrap
+msgid "32"
+msgstr "32"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:29
+#, no-wrap
+msgid "!"
+msgstr "!"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:29
+#, no-wrap
+msgid "\""
+msgstr "\""
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:29
+#, no-wrap
+msgid "#"
+msgstr "#"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:29
+#, no-wrap
+msgid "$"
+msgstr "$"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:29
+#, no-wrap
+msgid "%"
+msgstr "%"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:29
+#, no-wrap
+msgid "&"
+msgstr "&"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:29
+#, no-wrap
+msgid "'"
+msgstr "'"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid "40"
+msgstr "40"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid "("
+msgstr "("
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid ")"
+msgstr ")"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid "*"
+msgstr "*"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid "+"
+msgstr "+"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid ","
+msgstr ","
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid "-"
+msgstr "-"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid "."
+msgstr "."
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:30
+#, no-wrap
+msgid "/"
+msgstr "/"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "48"
+msgstr "48"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "1"
+msgstr "1"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "2"
+msgstr "2"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "3"
+msgstr "3"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "4"
+msgstr "4"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "5"
+msgstr "5"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "6"
+msgstr "6"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:31
+#, no-wrap
+msgid "7"
+msgstr "7"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:32
+#, no-wrap
+msgid "56"
+msgstr "56"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:32
+#, no-wrap
+msgid "9"
+msgstr "9"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:32
+#, no-wrap
+msgid ":"
+msgstr ":"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:32
+#, no-wrap
+msgid ";"
+msgstr ";"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:32
+#, no-wrap
+msgid "&lt;"
+msgstr "&lt;"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:32
+#, no-wrap
+msgid "="
+msgstr "="
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:32
+#, no-wrap
+msgid "&gt;"
+msgstr "&gt;"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:32
+#, no-wrap
+msgid "?"
+msgstr "?"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "64"
+msgstr "64"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "@"
+msgstr "@"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "A"
+msgstr "A"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "B"
+msgstr "B"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "C"
+msgstr "C"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "D"
+msgstr "D"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "E"
+msgstr "E"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "F"
+msgstr "F"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:33
+#, no-wrap
+msgid "G"
+msgstr "G"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "72"
+msgstr "72"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "H"
+msgstr "H"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "I"
+msgstr "I"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "J"
+msgstr "J"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "K"
+msgstr "K"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "L"
+msgstr "L"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "M"
+msgstr "M"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "N"
+msgstr "N"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:34
+#, no-wrap
+msgid "O"
+msgstr "O"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "80"
+msgstr "80"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "P"
+msgstr "P"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "Q"
+msgstr "Q"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "R"
+msgstr "R"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "S"
+msgstr "S"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "T"
+msgstr "T"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "U"
+msgstr "U"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "V"
+msgstr "V"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:35
+#, no-wrap
+msgid "W"
+msgstr "W"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "88"
+msgstr "88"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "X"
+msgstr "X"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "Y"
+msgstr "Y"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "Z"
+msgstr "Z"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "["
+msgstr "["
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "\\"
+msgstr "\\"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "]"
+msgstr "]"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "^"
+msgstr "^"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:36
+#, no-wrap
+msgid "_"
+msgstr "_"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "96"
+msgstr "96"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "`"
+msgstr "`"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "a"
+msgstr "a"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "b"
+msgstr "b"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "c"
+msgstr "c"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "d"
+msgstr "d"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "e"
+msgstr "e"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "f"
+msgstr "f"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:37
+#, no-wrap
+msgid "g"
+msgstr "g"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "104"
+msgstr "104"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "h"
+msgstr "h"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "i"
+msgstr "i"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "j"
+msgstr "j"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "k"
+msgstr "k"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "l"
+msgstr "l"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "m"
+msgstr "m"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "n"
+msgstr "n"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:38
+#, no-wrap
+msgid "o"
+msgstr "o"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "112"
+msgstr "112"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "p"
+msgstr "p"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "q"
+msgstr "q"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "r"
+msgstr "r"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "s"
+msgstr "s"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "t"
+msgstr "t"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "u"
+msgstr "u"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "v"
+msgstr "v"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:39
+#, no-wrap
+msgid "w"
+msgstr "w"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "120"
+msgstr "120"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "x"
+msgstr "x"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "y"
+msgstr "y"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "z"
+msgstr "z"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "{"
+msgstr "{"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "|"
+msgstr "|"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "}"
+msgstr "}"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "~"
+msgstr "~"
+
+# type: Content of: <appendix><table><tgroup><tbody><row><entry>
+#: ../../ASCIIAp.xml:40
+#, no-wrap
+msgid "DEL"
+msgstr "DEL"
+
+# type: Content of: <appendix><para>
+#: ../../ASCIIAp.xml:47
+msgid ""
+"ASCII is actually being phased out in favor of an international standard "
+"known as Unicode, which allows you to display any character from any known "
+"writing system in the world.  As you may have noticed, ASCII only has "
+"support for English characters.  Unicode is much more complicated, however, "
+"because it requires more than one byte to encode a single character.  There "
+"are several different methods for encoding Unicode characters.  The most "
+"common is UTF-8 and UTF-32.  UTF-8 is somewhat backwards-compatible with "
+"ASCII (it is stored the same for English characters, but expands into "
+"multiple byte for international characters).  UTF-32 simply requires four "
+"bytes for each character rather than one.  <trademark "
+"class=\"registered\">Windows</trademark> uses UTF-16, which is a "
+"variable-length encoding which requires at least 2 bytes per character, so "
+"it is not backwards-compatible with ASCII."
+msgstr "ASCII正在逐渐被淘汰，取而代之的将是一个国际标准Unicode，它可以让你显示来自于世界上任何一个书写系统的字符。你可以已经留意到，ASCII只支持英文字符。但是Unicode复杂得多，因为它需要一个以上的字节来编码一个字符。Unicode字符有好几种编码方式。最常见的是UTF-8和UTF-32 。UTF-8某种程序上是和ASCII兼容的（英文字符的保存形式是一样的，国际字符需要多个字节来表示）。UTF-32对于每个字符都需要4个字符来表示，而不是1个字符。<trademark class=\"registered\">Windows</trademark>使用UTF-16，这是一个变长的编码方式，每个字符最少需要两个字节来表示，所以它和ASCII不兼容。"
+
+# type: Content of: <appendix><para>
+#: ../../ASCIIAp.xml:62
+msgid ""
+"A good tutorial on internationalization issues, fonts, and Unicode is "
+"available in a great Article by Joe Spolsky, called \"The Absolute Minimum "
+"Every Software Developer Absolutely, Positively Must Know About Unicode and "
+"Character Sets (No Excuses!)\", available online at "
+"http://www.joelonsoftware.com/articles/Unicode.html"
+msgstr "Joe Spolsky写过一篇非常好的有关国际化问题、字体、和Unicode的文章，叫作“The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)”，意思是“每个软件开发者必须至少要了解的有关Unicode和字符集的知识（没有任何借口！）”。这篇文章可以下面这个地址在线浏览 http://www.joelonsoftware.com/articles/Unicode.html"

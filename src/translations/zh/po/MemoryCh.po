@@ -1,0 +1,1163 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: 2006-08-13 02:03+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"X-Generator: Pootle 0.10beta3\n"
+
+# type: Content of: <chapter><title>
+#: ../../MemoryCh.xml:2
+#, no-wrap
+msgid "Computer Architecture"
+msgstr "计算机架构"
+
+# type: Content of: <chapter><para>
+#: ../../MemoryCh.xml:5
+msgid ""
+"Before learning how to program, you need to first understand how a computer "
+"interprets programs.  You don't need a degree in electrical engineering, but "
+"you need to understand some basics."
+msgstr "在学习如何编程之前，你需要首先懂得计算机如何解释程序。你不需要获得电子工程的学位，但是你要懂得一些基本的知识。"
+
+# type: Content of: <chapter><para>
+#: ../../MemoryCh.xml:11
+msgid "Modern computer architecture<indexterm>"
+msgstr "现代计算机架构<indexterm>"
+
+# type: Content of: <chapter><para><primary>
+#: ../../MemoryCh.xml:11
+#, no-wrap
+msgid "computer architecture"
+msgstr "计算机架构"
+
+# type: Content of: <chapter><para>
+#: ../../MemoryCh.xml:11
+msgid ""
+"</indexterm> is based off of an architecture called the Von Neumann "
+"architecture<indexterm>"
+msgstr "</indexterm>是基于冯诺依曼架构的<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:12 ../../MemoryCh.xml:68
+#, no-wrap
+msgid "Von Neumann architecture"
+msgstr "冯诺依曼架构"
+
+# type: Content of: <chapter><para>
+#: ../../MemoryCh.xml:12
+msgid ""
+"</indexterm>, named after its creator.  The Von Neumann architecture divides "
+"the computer up into two main parts - the CPU<indexterm>"
+msgstr "</indexterm>，该架构以它的创建者的名字而命名。冯诺依曼架构把计算机分成两个主要部分——CPU<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:14 ../../MemoryCh.xml:84
+#, no-wrap
+msgid "CPU"
+msgstr "CPU"
+
+# type: Content of: <chapter><para>
+#: ../../MemoryCh.xml:14
+msgid ""
+"</indexterm> (for Central Processing Unit) and the memory.  This "
+"architecture is used in all modern computers, including personal computers, "
+"supercomputers, mainframes, and even cell phones."
+msgstr "</indexterm>（Central Processing Unit）和内存。所有现代计算使用的都是这种架构，包括个人计算机、超级计算机、大型计算机，甚至手机。"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../MemoryCh.xml:19
+#, no-wrap
+msgid "Structure of Computer Memory"
+msgstr "计算机内存的结构"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:22
+msgid "To understand how the computer views memory<indexterm>"
+msgstr "如果要理解计算机查看内存<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:22 ../../MemoryCh.xml:51
+#, no-wrap
+msgid "memory"
+msgstr "内存"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:22
+msgid ""
+"</indexterm>, imagine your local post office.  They usually have a room "
+"filled with PO Boxes.  These boxes are similar to computer memory in that "
+"each are numbered sequences of fixed-size storage locations.  For example, "
+"if you have 256 megabytes of computer memory, that means that your computer "
+"contains roughly 256 million fixed-size storage locations.  Or, to use our "
+"analogy, 256 million PO Boxes.  Each location has a number, and each "
+"location has the same, fixed-length size.  The difference between a PO Box "
+"and computer memory is that you can store all different kinds of things in a "
+"PO Box, but you can only store a single number in a computer memory storage "
+"location."
+msgstr "</indexterm>的方式，我们可以拿你当地的邮局来做个比喻。他们通常有个房间装满了邮箱。这些邮箱和计算机内存类似，每一个都是有编号的固定大小的存储位置。例如，如果你有 256 兆大小容量的内存，这就意味着你的计算机大概有 256 兆个固定大小的存储空间。在邮局的例子里，就是 256 兆个邮箱。每一个存储空间都有一个编号，每一个存储空间都有同样的长度固定的容量。邮局邮箱和计算机内存之间的不同在于，你可以在一个邮箱里面存放任何东西，但是在内存的一个存储空间里你只能存储一个数。"
+
+# type: Content of: <chapter><sect1><mediaobject><caption><para>
+#: ../../MemoryCh.xml:39
+msgid "<emphasis>Memory locations are like PO Boxes</emphasis>"
+msgstr "<emphasis>内存空间就像邮箱</emphasis>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:43
+msgid ""
+"You may wonder why a computer is organized this way.  It is because it is "
+"simple to implement.  If the computer were composed of a lot of "
+"differently-sized locations, or if you could store different kinds of data "
+"in them, it would be difficult and expensive to implement."
+msgstr "你也许想知道为什么计算机会采取这种组织形式。这是因为这种方式易于实现。如果计算机由很多大小不同的存储空间组成，或者你可以在里面存储各种不同类型的数据，那么实现起来将会很困难且要花费很大代价。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:51
+msgid "The computer's memory<indexterm>"
+msgstr "计算机内存<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:51
+msgid ""
+"</indexterm> is used for a number of different things.  All of the results "
+"of any calculations are stored in memory.  In fact, everything that is "
+"\"stored\" is stored in memory.  Think of your computer at home, and imagine "
+"what all is stored in your computer's memory."
+msgstr "</indexterm>可以用来做很多不同的事情。所有的计算结果都存储在内存里面。实际上，一切已被存储的东西都被存储在内存中。想一下你家里的电脑，想像一下所有存储在内存中的东西。"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:58
+msgid "The location of your cursor on the screen"
+msgstr "屏幕上光标的位置"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:59
+msgid "The size of each window on the screen"
+msgstr "屏幕上每一个窗口的大小"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:60
+msgid "The shape of each letter of each font being used"
+msgstr "正在使用的每个字体的每个字母形状"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:61
+msgid "The layout of all of the controls on each window"
+msgstr "每一个窗口上所有控件的布局"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:62
+msgid "The graphics for all of the toolbar icons"
+msgstr "所有工具栏图标的图形"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:63
+msgid "The text for each error message and dialog box"
+msgstr "每一个错误信息和对话框的文本"
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:64
+msgid "The list goes on and on..."
+msgstr "还有很多很多……"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:68
+msgid "In addition to all of this, the Von Neumann architecture<indexterm>"
+msgstr "除了这些以外，冯·诺依曼架构<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:68
+msgid ""
+"</indexterm> specifies that not only computer data should live in memory, "
+"but the programs that control the computer's operation should live there, "
+"too.  In fact, in a computer, there is no difference between a program and a "
+"program's data except how it is used by the computer.  They are both stored "
+"and accessed the same way."
+msgstr "</indexterm>还规定了不仅计算机数据应该放在内存里面，而且控制计算机运行的程序也应该放在那儿。实际上，在计算机里，程序的指令和一个程序的数据没有不同，只是计算机利用它们的方式不一样。他们的存储方式和访问方式都是一样的。"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../MemoryCh.xml:79
+#, no-wrap
+msgid "The CPU"
+msgstr "CPU"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:82
+msgid ""
+"So how does the computer function? Obviously, simply storing data doesn't do "
+"much help - you need to be able to access, manipulate, and move it.  That's "
+"where the CPU<indexterm>"
+msgstr "那么计算机是如何工作的呢？显然，仅仅能存储数据没有太大的帮助——你必须能够访问、操作和移动他们。那么这就是 CPU<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:84
+msgid "</indexterm> comes in."
+msgstr "</indexterm> 的工作了。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:88
+msgid ""
+"The CPU reads in instructions from memory one at a time and executes them.  "
+"This is known as the <emphasis>fetch-execute cycle</emphasis><indexterm>"
+msgstr "CPU 每一次从内存中读取一条指令并执行它，这也被称作<emphasis>读取－执行周期</emphasis><indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:89
+#, no-wrap
+msgid "fetch-execute cycle"
+msgstr "读取－执行周期"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:89
+msgid "</indexterm>.  The CPU contains the following elements to accomplish this:"
+msgstr "</indexterm>。为实现这个过程，CPU 包含下面的部分："
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:93
+msgid "Program Counter<indexterm>"
+msgstr "程序计数器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para><primary>
+#: ../../MemoryCh.xml:93
+#, no-wrap
+msgid "program counter"
+msgstr "程序计数器"
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:93 ../../MemoryCh.xml:94 ../../MemoryCh.xml:95 ../../MemoryCh.xml:96 ../../MemoryCh.xml:97
+msgid "</indexterm>"
+msgstr "</indexterm>"
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:94
+msgid "Instruction Decoder<indexterm>"
+msgstr "指令解码器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:94 ../../MemoryCh.xml:107
+#, no-wrap
+msgid "instruction decoder"
+msgstr "指令解码器"
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:95
+msgid "Data bus<indexterm>"
+msgstr "数据总线<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:95 ../../MemoryCh.xml:116 ../../MemoryCh.xml:143
+#, no-wrap
+msgid "data bus"
+msgstr "数据总线"
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:96
+msgid "General-purpose registers<indexterm>"
+msgstr "通用寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:96 ../../MemoryCh.xml:128
+#, no-wrap
+msgid "general-purpose registers"
+msgstr "通用寄存器"
+
+# type: Content of: <chapter><sect1><para><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:97
+msgid "Arithmetic and logic unit<indexterm>"
+msgstr "算术和逻辑单元<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:97 ../../MemoryCh.xml:140
+#, no-wrap
+msgid "arithmetic and logic unit"
+msgstr "算术和逻辑单元"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:100
+msgid ""
+"The <emphasis>program counter</emphasis> is used to tell the computer where "
+"to fetch the next instruction from.  We mentioned earlier that there is no "
+"difference between the way data and programs are stored, they are just "
+"interpreted differently by the CPU.  The program counter holds the memory "
+"address of the next instruction to be executed.  The CPU begins by looking "
+"at the program counter, and fetching whatever number is stored in memory at "
+"the location specified.  It is then passed on to the <emphasis>instruction "
+"decoder</emphasis><indexterm>"
+msgstr "<emphasis>程序计数器</emphasis>用来告诉计算机去哪里获得下一条指令。我们前面已经说过数据和程序指令的存取方式没有区别，仅仅是 CPU 解释他们的方式不同。程序计数器保存着下一条将要执行的指令的内存地址。 CPU 从查看程序计数器开始，获得其所指定的地址上存放的数，然后交给<emphasis>指令解码器</emphasis><indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:107
+msgid ""
+"</indexterm> which figures out what the instruction means.  This includes "
+"what process needs to take place (addition, subtraction, multiplication, "
+"data movement, etc.) and what memory locations are going to be involved in "
+"this process.  Computer instructions usually consist of both the actual "
+"instruction and the list of memory locations that are used to carry it out."
+msgstr "</indexterm>，由后者来解释指令的含义。这包括需要发生什么样的操作（加法、减法、乘法、数据移动等等）和在这个过程中将会被用到的内存地址，计算机指令通常由实际的指令和完成这个指令所要用到的内存地址组成。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:116
+msgid "Now the computer uses the <emphasis>data bus</emphasis><indexterm>"
+msgstr "现在计算机使用<emphasis>数据总线</emphasis><indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:116
+msgid ""
+"</indexterm> to fetch the memory locations to be used in the calculation.  "
+"The data bus is the connection between the CPU and memory.  It is the actual "
+"wire that connects them.  If you look at the motherboard of the computer, "
+"the wires that go out from the memory are your data bus."
+msgstr "</indexterm>来获得存放于内存中的数据并用于计算。数据总线用来连接 CPU 和内存。它是连接它们的实际电路线。如果你注意看计算机主板，从内存出去的电线就是数据总线。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:124
+msgid ""
+"In addition to the memory on the outside of the processor, the processor "
+"itself has some special, high-speed memory locations called "
+"registers<indexterm>"
+msgstr "除了位于处理器外部的内存之外，处理器本身还有一些特殊的高速记忆存储单元被称为寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:125 ../../MemoryCh.xml:216
+#, no-wrap
+msgid "registers"
+msgstr "寄存器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:125
+msgid ""
+"</indexterm>.  There are two kinds of registers - <emphasis>general "
+"registers</emphasis> and <emphasis>special-purpose registers</emphasis>.  "
+"General-purpose registers<indexterm>"
+msgstr "</indexterm>。寄存器有两种——<emphasis>通用寄存器</emphasis>和<emphasis>专用寄存器</emphasis>。通用寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:128
+msgid ""
+"</indexterm> are where the main action happens.  Addition, subtraction, "
+"multiplication, comparisions, and other operations generally use "
+"general-purpose registers for processing.  However, computers have very few "
+"general-purpose registers.  Most information is stored in main memory, "
+"brought in to the registers for processing, and then put back into memory "
+"when the processing is completed.  <emphasis>special-purpose "
+"registers<indexterm>"
+msgstr "</indexterm>是主要的操作发生的地方。加法、减法、乘法、比较和其它运算通常都使用通用寄存器来处理。但是，计算机中只有很少量的通用寄存器。大部分信息是存储在内存中的，需要处理的时候才放到寄存器中，当处理完成以后再放回到内存中。<emphasis>专用寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:134
+#, no-wrap
+msgid "special-purpose registers"
+msgstr "专用寄存器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:134
+msgid ""
+"</indexterm></emphasis> are registers which have very specific purposes.  We "
+"will discuss these as we come to them."
+msgstr "</indexterm></emphasis>是用于特殊目的的寄存器。我们将会在碰到它们的时候再作讨论。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:139
+msgid ""
+"Now that the CPU has retrieved all of the data it needs, it passes on the "
+"data and the decoded instruction to the <emphasis>arithmetic and logic "
+"unit<indexterm>"
+msgstr "CPU 在获取了所有需要的数据之后，它就会把数据和解码后的指令传递给<emphasis>算术和逻辑单元<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:140
+msgid ""
+"</indexterm></emphasis> for further processing.  Here the instruction is "
+"actually executed.  After the results of the computation have been "
+"calculated, the results are then placed on the data bus<indexterm>"
+msgstr "</indexterm></emphasis>作进一步的处理。在这里，指令才真正的被执行。当计算结果算出来后，CPU 会根据指令所指定的把结果放到数据总线<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:143
+msgid ""
+"</indexterm> and sent to the appropriate location in memory or in a "
+"register, as specified by the instruction."
+msgstr "</indexterm>上并送到正确的内存地址上或者某个寄存器里。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:148
+msgid ""
+"This is a very simplified explanation.  Processors have advanced quite a bit "
+"in recent years, and are now much more complex.  Although the basic "
+"operation is still the same, it is complicated by the use of cache "
+"hierarchies<indexterm>"
+msgstr "这是一个非常简单的解释。在最近几年里，处理器获得比较大的发展，也更加复杂了。尽管最基本的操作是一样的，但是包括 cache 分层结构<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:151
+#, no-wrap
+msgid "cache hierarchies"
+msgstr "cache 分层结构"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:151
+msgid "</indexterm>, superscalar processors<indexterm>"
+msgstr "</indexterm>、超标量结构处理器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:152
+#, no-wrap
+msgid ""
+"superscalar\n"
+"processors"
+msgstr "超标量结构处理器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:153
+msgid "</indexterm>, pipelining<indexterm>"
+msgstr "</indexterm>、流水线<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:153
+#, no-wrap
+msgid "pipelining"
+msgstr "流水线"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:153
+msgid "</indexterm>, branch prediction<indexterm>"
+msgstr "</indexterm>、分支预测<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:153
+#, no-wrap
+msgid "branch prediction"
+msgstr "分支预测"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:153
+msgid "</indexterm>, out-of-order execution<indexterm>"
+msgstr "</indexterm>、乱序执行<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:153
+#, no-wrap
+msgid "out-of-order execution"
+msgstr "乱序执行"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:153
+msgid "</indexterm>, microcode translation<indexterm>"
+msgstr "</indexterm>、微码翻译<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:154
+#, no-wrap
+msgid "microcode translation"
+msgstr "微码翻译"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:154
+msgid "</indexterm>, coprocessors<indexterm>"
+msgstr "</indexterm>、协处理器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:154
+#, no-wrap
+msgid "coprocessors"
+msgstr "协处理器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:154
+msgid ""
+"</indexterm>, and other optimizations.  Don't worry if you don't know what "
+"those words mean, you can just use them as Internet search terms if you want "
+"to learn more about the CPU."
+msgstr "</indexterm>在内的一些优化方案已经使得处理器变的更加复杂。不用为不知道这些术语的含义而担心，如果你想学习更多有关 CPU 的知识，你可以用它们作为关键字在互联网上搜索一下。"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../MemoryCh.xml:161
+#, no-wrap
+msgid "Some Terms"
+msgstr "一些术语"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:164
+msgid "Computer memory<indexterm>"
+msgstr "计算机内存<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:164
+#, no-wrap
+msgid "computer memory"
+msgstr "计算机内存"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:164
+msgid ""
+"</indexterm> is a numbered sequence of fixed-size storage locations.  The "
+"number attached to each storage location is called its "
+"<emphasis>address<indexterm>"
+msgstr "</indexterm>是一系列编了号的固定大小的存储空间。每一个存储空间的编号称为该存储空间的<emphasis>地址<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:166
+#, no-wrap
+msgid "address"
+msgstr "地址"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:166
+msgid ""
+"</indexterm></emphasis>.  The size of a single storage location is called a "
+"<emphasis>byte</emphasis>.  On x86 processors, a byte<indexterm>"
+msgstr "</indexterm></emphasis>。单个存储空间的大小称为<emphasis>字节</emphasis>。在 x86 处理器上，一个字节<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:167
+#, no-wrap
+msgid "bytes"
+msgstr "字节"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:167
+msgid "</indexterm> is a number between 0 and 255."
+msgstr "</indexterm>是一个 0 到 255 之间的数。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:172
+msgid ""
+"You may be wondering how computers can display and use text, graphics, and "
+"even large numbers when all they can do is store numbers between 0 and 255.  "
+"First of all, specialized hardware like graphics cards have special "
+"interpretations of each number.  When displaying to the screen, the computer "
+"uses ASCII<indexterm>"
+msgstr "你也许想知道为什么计算机只能存储 0 到 255 之间的数，但却可以显示和使用文本、图像和更大的数。首先，像显卡这样的专门硬件对每一个数都有特殊的解释。当这些数要显示在屏幕上的时候，计算机使用 ASCII<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:176 ../../MemoryCh.xml:197
+#, no-wrap
+msgid "ASCII"
+msgstr "ASCII"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:176
+msgid ""
+"</indexterm> code tables to translate the numbers you are sending it into "
+"letters to display on the screen, with each number translating to exactly "
+"one letter or numeral.<footnote>"
+msgstr "</indexterm> 码表来把你传递给他的数翻译成要显示在屏幕上的字符，每一个数只被翻译为一个字母或者阿拉伯数字。<footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../MemoryCh.xml:178
+msgid ""
+"With the advent of international character sets and Unicode, this is not "
+"entirely true anymore.  However, for the purposes of keeping this simple for "
+"beginners, we will use the assumption that one number translates directly to "
+"one character.  For more information, see <xref linkend=\"asciilisting\" />."
+msgstr "随着国际字符集和 Unicode 的出现，事实已经不再是这样。但是为了让初学者容易理解，我们这里假设一个数字会被直接翻译为一个字符。请参阅<xref linkend=\"asciilisting\" />以获得更多的信息。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:182
+msgid ""
+"</footnote> For example, the capital letter A is represented by the number "
+"65.  The numeral 1 is represented by the number 49.  So, to print out "
+"\"HELLO\", you would actually give the computer the sequence of numbers 72, "
+"69, 76, 76, 79.  To print out the number 100, you would give the computer "
+"the sequence of numbers 49, 48, 48.  A list of ASCII characters and their "
+"numeric codes is found in <xref linkend=\"asciilisting\" />."
+msgstr "</footnote>例如，大写字母 A 用 65 来表示，数字 1 用 49 来表示，因此，如果要显示出“HELLO”，你应该给出 72，69，76，76，79 这样一串数；如果要显示出“100”，你应该给出 49，48，48 这样一串数。ASCII 字符和其对应的数可以在<xref linkend=\"asciilisting\" /> 中找到。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:193
+msgid ""
+"In addition to using numbers to represent ASCII characters, you as the "
+"programmer get to make the numbers mean anything you want them to, as well.  "
+"For example, if I am running a store, I would use a number to represent each "
+"item I was selling.  Each number would be linked to a series of other "
+"numbers which would be the ASCII<indexterm>"
+msgstr "除了使用数来表示 ASCII 字符以外，作为一个程序员的你，也用数来表示任何你想表示的东西。例如，如果我经营一个商场，我会用数来表示每一件我卖的商品。每一个数可能关联到一系列其它的数，其中可能包括商品扫描入仓时我想要显示的 ASCII <indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:197
+msgid ""
+"</indexterm> codes for what I wanted to display when the items were scanned "
+"in.  I would have more numbers for the price, how many I have in inventory, "
+"and so on."
+msgstr "</indexterm> 码。我会用更多的数来表示价钱、库存量等等。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:203
+msgid ""
+"So what about if we need numbers larger than 255? We can simply use a "
+"combination of bytes to represent larger numbers.  Two bytes can be used to "
+"represent any number between 0 and 65535.  Four bytes can be used to "
+"represent any number between 0 and 4294967295.  Now, it is quite difficult "
+"to write programs to stick bytes together to increase the size of your "
+"numbers, and requires a bit of math.  Luckily, the computer will do it for "
+"us for numbers up to 4 bytes long.  In fact, four-byte numbers are what we "
+"will work with by default."
+msgstr "如果我们需要大于 255 的数该怎么办？我们可以简单的将多个字节合并来表示更大的数字。两个字节可以用来表示从 0 到 65536 之间的任何数字。四个字节可以用来表示从 0 到 4294967295 之间的任何数字。现在，写程序来把字节合并以增大数字所表示的范围很困难，这需要一些数学运算。幸运的是，如果数不超过 4 个字节长，那么计算机可以帮我们来解决。实际上，我们编程时默认处理的都是 4 个字节的数。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:214
+msgid ""
+"We mentioned earlier that in addition to the regular memory that the "
+"computer has, it also has special-purpose storage locations called "
+"<emphasis>registers<indexterm>"
+msgstr "我们早些时候提到计算机除了有常规内存以外，它还有被称为<emphasis>寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:216
+msgid ""
+"</indexterm></emphasis>.  Registers are what the computer uses for "
+"computation.  Think of a register as a place on your desk - it holds things "
+"you are currently working on.  You may have lots of information tucked away "
+"in folders and drawers, but the stuff you are working on right now is on the "
+"desk.  Registers keep the contents of numbers that you are currently "
+"manipulating."
+msgstr "</indexterm></emphasis>的特殊存储空间。寄存器是计算机用来计算的。把寄存器想像成你的书桌上的一块地方——它存放着你当前的工作内容。你也许还有很多信息放在文件夹和抽屉里面，但是你正在工作的内容是放在桌子上的。寄存器保存着你当前正在操作的数的内容。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:225
+msgid ""
+"On the computers we are using, registers are each four bytes long.  The size "
+"of a typical register is called a computer's <emphasis>word<indexterm>"
+msgstr "我们使用的计算机上面，每个寄存器都是四字节长度。一个典型寄存器的长度称为计算机的<emphasis>字<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:227
+#, no-wrap
+msgid "word"
+msgstr "字"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:227
+msgid ""
+"</indexterm></emphasis> size.  x86 processors have four-byte words.  This "
+"means that it is most natural on these computers to do computations four "
+"bytes at a time.<footnote>"
+msgstr "</indexterm></emphasis>长。x86 处理器字长是4。这意味着在这种计算机上做四字节的计算是最本能的。<footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../MemoryCh.xml:230
+msgid ""
+"Previous incarnations of x86 processors only had two-byte words.  Therefore, "
+"most other literature dealing with x86 processors refers to two-byte "
+"entities as words for historical reasons, and therefore refer to four-byte "
+"entities as double-words.  We are using the term <emphasis>word</emphasis> "
+"to mean the normal register size of a computer, which in this case is four "
+"bytes.  More information is available in <xref "
+"linkend=\"instructionsappendix\" />,"
+msgstr "以前的 x86 处理器的实现的字长是 2。因为这一历史原因，其他多数讲述 x86 处理器的著作都称两字节的组合为字，并且称四字节的组合为双字。我们使用<emphasis>字</emphasis>这个术语来指一个计算机的正常寄存器大小，在我们的例子里就是四字节。更多信息请看<xref linkend=\"instructionsappendix\" />。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:236
+msgid "</footnote> This gives us roughly 4 billion values."
+msgstr "</footnote> 4个字节能表示大约40亿个不同的值。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:242
+msgid ""
+"Addresses are also four bytes (1 word) long, and therefore also fit into a "
+"register.  x86 processors can access up to 4294967296 bytes if enough memory "
+"is installed.  Notice that this means that we can store addresses the same "
+"way we store any other number.  In fact, the computer can't tell the "
+"difference between a value that is an address, a value that is a number, a "
+"value that is an ASCII code, or a value that you have decided to use for "
+"another purpose.  A number becomes an ASCII code when you attempt to display "
+"it.  A number becomes an address when you try to look up the byte it points "
+"to.  Take a moment to think about this, because it is crucial to "
+"understanding how computer programs work."
+msgstr "地址也是四字节（一个字）长，因此也可以放入到一个寄存器中。如果有足够的内存，x86 处理器可以访问 4294967296 个字节。注意这意味这我们可以像存储其他数字一样来存储地址。实际上，计算机不能分辨一个值到底是一个地址，还是一个数字，还是一个 ASCII 码，还是有其它的用途。当你显示它的时候，这个数字就是一个 ASCII 码；当你要查看它指向的某个字节时，这个数字就是一个地址。花一点时间想清楚这些东西，因为这对理解计算机编程如何工作很重要。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:255
+msgid ""
+"Addresses which are stored in memory are also called "
+"<emphasis>pointers<indexterm>"
+msgstr "存放在内存中的地址称为<emphasis>指针<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:256 ../../MemoryCh.xml:319
+#, no-wrap
+msgid "pointers"
+msgstr "指针"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:256
+msgid ""
+"</indexterm></emphasis>, because instead of having a regular value in them, "
+"they point you to a different location in memory."
+msgstr "</indexterm></emphasis>，因为该位置存放的不是一个常规数值，而是另外一个内存位置的地址。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:260
+msgid ""
+"As we've mentioned, computer instructions are also stored in memory.  In "
+"fact, they are stored exactly the same way that other data is stored.  The "
+"only way the computer knows that a memory location is an instruction is that "
+"a special-purpose register<indexterm>"
+msgstr "如同我们已经提到的，计算机指令也存放在内存中。实际上，他们和数据的存放方式是一样的。计算机知道一个内存位置存放的是一条指令的唯一方法是通过一个专用寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:263
+#, no-wrap
+msgid "special-purpose register"
+msgstr "专用寄存器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:263
+msgid "</indexterm> called the instruction pointer<indexterm>"
+msgstr "</indexterm>，它被称作指令指针<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:263
+#, no-wrap
+msgid "instruction pointer"
+msgstr "指令指针"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:263
+msgid ""
+"</indexterm> points to them at one point or another.  If the instruction "
+"pointer points to a memory word, it is loaded as an instruction.  Other than "
+"that, the computer has no way of knowing the difference between programs and "
+"other types of data.<footnote>"
+msgstr "</indexterm>。它所指向的就是指令。如果指令指针指向一个内存字，那么它将作为一条指令被加载。除此之外，计算机无从知晓计算机指令和其他类型的数据的区别。<footnote>"
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../MemoryCh.xml:266
+msgid ""
+"Note that here we are talking about general computer theory.  Some "
+"processors and operating systems actually mark the regions of memory that "
+"can be executed with a special marker that indicates this."
+msgstr "注意这里我们讨论的是一般的计算机理论。有些处理器和操作系统会用一个特殊标记来标记出可以执行的内存区域。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:269
+msgid "</footnote>"
+msgstr "</footnote>"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../MemoryCh.xml:275
+#, no-wrap
+msgid "Interpreting Memory"
+msgstr "解释内存"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:278
+msgid ""
+"Computers are very exact.  Because they are exact, programmers have to be "
+"equally exact.  A computer has no idea what your program is supposed to do.  "
+"Therefore, it will only do exactly what you tell it to do.  If you "
+"accidentally print out a regular number instead of the ASCII codes that make "
+"up the number's digits, the computer will let you - and you will wind up "
+"with jibberish on your screen (it will try to look up what your number "
+"represents in ASCII and print that).  If you tell the computer to start "
+"executing instructions at a location containing data instead of program "
+"instructions, who knows how the computer will interpret that - but it will "
+"certainly try.  The computer will execute your instructions in the exact "
+"order you specify, even if it doesn't make sense."
+msgstr "计算机是非常精确的。正因为它很精确，程序员也必须同等精确。计算机根本不知道你编制的程序想要做什么。因此，你要它做什么，计算机就会严格按照你的要求去做什么。如果你不小心打印出一个常规数值，而不是能够显示数字的ASCII码，计算机会允许你这样做。但是屏幕上就会出现一堆乱码（计算机会查找你的数在 ASCII 码中表示什么字符，然后把它打印出来）。如果你让计算机从一个含有数据而不是计算机指令的内存地址开始执行指令，没人知道计算机将会怎样解释，但它肯定会去尝试。计算机会严格按照你规定的顺序来执行指令，即使看起来没有任何意义。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:289
+msgid ""
+"The point is, the computer will do exactly what you tell it, no matter how "
+"little sense it makes.  Therefore, as a programmer, you need to know exactly "
+"how you have your data arranged in memory.  Remember, computers can only "
+"store numbers, so letters, pictures, music, web pages, documents, and "
+"anything else are just long sequences of numbers in the computer, which "
+"particular programs know how to interpret."
+msgstr "总之，计算机一点不差地做你要它做地事情，不管事情是否有意义。因此，作为一个程序员，你需要清楚地知道程序数据在内存中是如何放置的。记住，计算机只能存储数，所以字母、图片、音乐、网页、文档和所以其他的东西在计算机里都是长串的数而已，专门处理它们的应用程序知道如何解释它们。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:298
+msgid ""
+"For example, say that you wanted to store customer information in memory.  "
+"One way to do so would be to set a maximum size for the customer's name and "
+"address - say 50 ASCII characters for each, which would be 50 bytes for "
+"each.  Then, after that, have a number for the customer's age and their "
+"customer id.  In this case, you would have a block of memory that would look "
+"like this:"
+msgstr "例如，假如你想把顾客信息存储在内存中。一种方法是为顾客的名字和地址的大小设定一个最大值——假定每个都是 50 个 ASCII 字符，也就是每个都有 50 个字节。然后，各用一个数字来表示顾客的年龄和他们的顾客号。这样，你就可以得到一个跟下面类似的内存块："
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:313
+msgid ""
+"This way, given the address of a customer record, you know where the rest of "
+"the data lies.  However, it does limit the customer's name and address to "
+"only 50 ASCII characters each."
+msgstr "这样，给定一个顾客记录的地址，你就可以知道这个顾客记录里其他数据存放的位置。但是，这种方法把顾客的名字和地址限制在了 50 个 ASCII 字符之内。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:318
+msgid ""
+"What if we didn't want to specify a limit? Another way to do this would be "
+"to have in our record pointers<indexterm>"
+msgstr "如果我们不想要这种限制，该如何办呢？另外一种办法就是在我们的记录里面用指针<indexterm>"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:319
+msgid ""
+"</indexterm> to this information.  For example, instead of the customer's "
+"name, we would have a pointer to their name.  In this case, the memory would "
+"look like this:"
+msgstr "</indexterm>指向这些信息。例如，我们在记录中包含一个指向顾客名字的指针，而不是顾客的名字本身，这样，内存看起来就会象这样："
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:333
+msgid ""
+"The actual name and address would be stored elsewhere in memory.  This way, "
+"it is easy to tell where each part of the data is from the start of the "
+"record, without explicitly limitting the size of the name and address.  If "
+"the length of the fields within our records could change, we would have no "
+"idea where the next field started.  Because records would be different "
+"sizes, it would also be hard to find where the next record began.  "
+"Therefore, almost all records are of fixed lengths.  Variable-length data is "
+"usually stored separately from the rest of the record."
+msgstr "实际的名字和地址可能存储在内存的其他位置。这样在得知记录的起始地址之后就可以知道记录里每一部分存放在什么位置，不必再明确地限制名字和地址地大小了。如果记录中某个字段的长度不是固定的，我们就无法知道下一个字段从哪里开始了。这样记录的长度可能不尽相同，因此找到下一条记录的起始也是很困难的，所以，几乎所有的记录都是固定长度的。变长的数据通常是放在别处存储的，不和记录在一起。"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../MemoryCh.xml:347
+#, no-wrap
+msgid "Data Accessing Methods"
+msgstr "数据访问方式"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:352
+msgid ""
+"Processors have a number of different ways of accessing data, known as "
+"addressing modes<indexterm>"
+msgstr "处理器有很多种访问数据的方式，也叫做寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:353
+#, no-wrap
+msgid "addressing modes"
+msgstr "寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:353
+msgid "</indexterm>.  The simplest mode is <emphasis>immediate mode<indexterm>"
+msgstr "</indexterm>。最简单的模式是<emphasis>立即数模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:354
+#, no-wrap
+msgid "immediate mode addressing"
+msgstr "立即数寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:354
+msgid ""
+"</indexterm></emphasis>, in which the data to access is embedded in the "
+"instruction itself.  For example, if we want to initialize a register to 0, "
+"instead of giving the computer an address to read the 0 from, we would "
+"specify immediate mode, and give it the number 0."
+msgstr "</indexterm></emphasis>，要访问的数据就在指令中，例如，如果我们想初始化一个寄存器为 0，我们指定立即数模式方式，直接赋 0 给它，而不是让计算机从某个地址上读取 0。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:361
+msgid "In the <emphasis>register addressing mode</emphasis><indexterm>"
+msgstr "在<emphasis>寄存器寻址模式</emphasis><indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:361
+#, no-wrap
+msgid "register addressing mode"
+msgstr "寄存器寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:361
+msgid ""
+"</indexterm>, the instruction contains a register to access, rather than a "
+"memory location.  The rest of the modes will deal with addresses."
+msgstr "</indexterm>中，指令包含一个要访问的寄存器，而不是一个内存地址。其余的寻址模式都是和地址有关的。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:367
+msgid "In the <emphasis>direct addressing mode<indexterm>"
+msgstr "在<emphasis>直接寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:367
+#, no-wrap
+msgid "direct addressing mode"
+msgstr "直接寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:367
+msgid ""
+"</indexterm></emphasis>, the instruction contains the memory address to "
+"access.  For example, I could say, please load this register with the data "
+"at address 2002.  The computer would go directly to byte number 2002 and "
+"copy the contents into our register."
+msgstr "</indexterm></emphasis>中，指令包含一个用于访问的内存地址。比如，我可以说，请把 2002 这个地址上的数据放到这个寄存器里。然后计算机就可以直接去找编号为 2002 的字节，并把里面的内容拷贝到我们指定的寄存器里。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:374
+msgid "In the <emphasis>indexed addressing mode<indexterm>"
+msgstr "在<emphasis>索引寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:374
+#, no-wrap
+msgid "indexed addressing mode"
+msgstr "索引寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:374
+msgid ""
+"</indexterm></emphasis>, the instruction contains a memory address to "
+"access, and also specifies an <emphasis>index register<indexterm>"
+msgstr "</indexterm></emphasis>中，指令包含一个要访问的内存地址，并指定一个<emphasis>索引寄存器<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:375
+#, no-wrap
+msgid "index register"
+msgstr "索引寄存器"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:375
+msgid ""
+"</indexterm></emphasis> to offset that address.  For example, we could "
+"specify address 2002 and an index register.  If the index register contains "
+"the number 4, the actual address the data is loaded from would be 2006.  "
+"This way, if you have a set of numbers starting at location 2002, you can "
+"cycle between each of them using an index register.  On x86 processors, you "
+"can also specify a <emphasis>multiplier<indexterm>"
+msgstr "</indexterm></emphasis>，其内容要与内存地址相加以获得最终访问地址。例如，我们可以指定地址 2002 和一个索引寄存器。如果索引寄存器包含数字 4，那么实际要访问的并从中读取数据的地址为 2006。这样，如果从地址 2002 开始有一个数组，你可以使用索引寄存器来逐个访问数组里的每个数。在 x86 处理器上，你也可以为索引寄存器指定一个<emphasis>乘数<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:380
+#, no-wrap
+msgid "multiplier"
+msgstr "乘数"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:380
+msgid ""
+"</indexterm></emphasis> for the index.  This allows you to access memory a "
+"byte at a time or a word at a time (4 bytes).  If you are accessing an "
+"entire word, your index will need to be multiplied by 4 to get the exact "
+"location of the fourth element from your address.  For example, if you "
+"wanted to access the fourth byte from location 2002, you would load your "
+"index register with 3 (remember, we start counting at 0) and set the "
+"multiplier to 1 since you are going a byte at a time.  This would get you "
+"location 2005.  However, if you wanted to access the fourth word from "
+"location 2002, you would load your index register with 3 and set the "
+"multiplier to 4.  This would load from location 2014 - the fourth word.  "
+"Take the time to calculate these yourself to make sure you understand how it "
+"works."
+msgstr "</indexterm></emphasis>。这样你就可以逐字节或者字（4 个字节）的来访问内存。如果你要访问整个字，你的索引寄存器就要乘以 4。例如，如果你想要访问从地址 2002 开始的第四个字节，你需要将索引寄存器赋值为 3（记住我们从 0 开始计数），将乘数设为 1 因为你每次只前进一个字节。这样你就可以访问到地址 2005。不过，如果你想要访问从地址 2002 开始的第四个字，则应该将索引寄存器赋值为 3 并把乘数设为 4。这样 CPU 就可以从地址 2014 访问到第四个字。花些时间计算一下前面的地址，这样才能确保你理解他们的含义。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:394
+msgid "In the <emphasis>indirect addressing mode<indexterm>"
+msgstr "在<emphasis>间接寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:394
+#, no-wrap
+msgid "indirect addressing mode"
+msgstr "间接寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:394
+msgid ""
+"</indexterm></emphasis>, the instruction contains a register that contains a "
+"pointer to where the data should be accessed.  For example, if we used "
+"indirect addressing mode and specified the &eax; register, and the &eax; "
+"register contained the value 4, whatever value was at memory location 4 "
+"would be used.  In direct addressing, we would just load the value 4, but in "
+"indirect addressing, we use 4 as the address to use to find the data we "
+"want."
+msgstr "</indexterm></emphasis>中，指令包含一个寄存器，寄存器里是一个指针，这个指针指向要被访问的数据。例如，如果我们使用间接寻址模式并指定 &eax; 寄存器，且 &eax; 寄存器包含的数值为 4，那么内存地址 4 上存放的数就会被用到，不管什么数。在直接寻址中，我们仅仅载入数值 4，而在间接寻址中，我们载入的的是地址 4 上存放的数值。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:404
+msgid "Finally, there is the <emphasis>base pointer addressing mode<indexterm>"
+msgstr "最后我们要介绍的是<emphasis>基址寻址模式<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:404
+#, no-wrap
+msgid "base pointer addressing mode"
+msgstr "基址寻址模式"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:404
+msgid ""
+"</indexterm></emphasis>.  This is similar to indirect addressing, but you "
+"also include a number called the <emphasis>offset<indexterm>"
+msgstr "</indexterm></emphasis>。这种方式和间接寻址类似，但是你需要在指令中包含一个数，叫做<emphasis>偏移<indexterm>"
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../MemoryCh.xml:406
+#, no-wrap
+msgid "offset"
+msgstr "偏移"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:406
+msgid ""
+"</indexterm></emphasis> to add to the register's value before using it for "
+"lookup.  We will use this mode quite a bit in this book."
+msgstr "</indexterm></emphasis>，把这个数与寄存器的值相加，然后用所得的结果去寻址。在这本书中，我们会相当多地使用到这种寻址模式。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:411
+msgid ""
+"In <xref linkend=\"interpretingmemory\" /> we discussed having a structure "
+"in memory holding customer information.  Let's say we wanted to access the "
+"customer's age, which was the eighth byte of the data, and we had the "
+"address of the start of the structure in a register.  We could use base "
+"pointer addressing and specify the register as the base pointer, and 8 as "
+"our offset.  This is a lot like indexed addressing, with the difference that "
+"the offset is constant and the pointer is held in a register, and in indexed "
+"addressing the offset is in a register and the pointer is constant."
+msgstr "在<xref linkend=\"interpretingmemory\" />中，我们讨论了一个保存顾客信息的内存里的数据结构。假设我们想要访问一个顾客的年龄，我们已经知道它是这个结构的第 8 个字节，还知道在某个寄存器里有这个结构的起始地址。我们可以使用基址寻址模式来访问它并指定该寄存器为基址指针，8 作为偏移。这很像索引寻址模式。区别在于基址寻址模式中的偏移是常量，指针存放在寄存器中，索引寻址模式中偏移在寄存器中，指针是常量。"
+
+# type: Content of: <chapter><sect1><para>
+#: ../../MemoryCh.xml:422
+msgid "There are other forms of addressing, but these are the most important ones."
+msgstr "此外还有一些其他的寻址模式，不过最重要的就是这些了。"
+
+# type: Content of: <chapter><sect1><title>
+#: ../../MemoryCh.xml:429
+#, no-wrap
+msgid "Review"
+msgstr "复习"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../MemoryCh.xml:432
+#, no-wrap
+msgid "Know the Concepts"
+msgstr "理解概念"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:435
+msgid "Describe the fetch-execute cycle."
+msgstr "描述抓取－执行周期"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:436
+msgid ""
+"What is a register? How would computation be more difficult without "
+"registers?"
+msgstr "什么是寄存器？没有寄存器的情况下，计算为什么会变得困难？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:437
+msgid "How do you represent numbers larger than 255?"
+msgstr "如何表示一个大于255的数？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:438
+msgid "How big are the registers on the machines we will be using?"
+msgstr "我们正在使用的计算机上的寄存器的大小是多少？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:439
+msgid ""
+"How does a computer know how to interpret a given byte or set of bytes of "
+"memory?"
+msgstr "计算机如何知道怎样去解释给定的一个字节或者一组字节的内存内容？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:440
+msgid "What are the addressing modes and what are they used for?"
+msgstr "什么是寻址模式？它们是用来做什么的？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:441
+msgid "What does the instruction pointer do?"
+msgstr "指令指针是作什么用的？"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../MemoryCh.xml:448
+#, no-wrap
+msgid "Use the Concepts"
+msgstr "运用概念"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:451
+msgid ""
+"What data would you use in an employee record? How would you lay it out in "
+"memory?"
+msgstr "在一个雇员的记录里，你会使用些什么数据？你如何在内存中放置它们？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:452
+msgid ""
+"If I had the pointer to the beginning of the employee record above, and "
+"wanted to access a particular piece of data inside of it, what addressing "
+"mode would I use?"
+msgstr "如果我有雇员记录开始位置的指针，我想要去访问里面的一个特定数据，我应该用什么样的寻址模式？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:453
+msgid ""
+"In base pointer addressing mode, if you have a register holding the value "
+"3122, and an offset of 20, what address would you be trying to access?"
+msgstr "在基址寻址模式中，如果你有一个寄存器，它的值为 3122，并且一个偏移为 20，那么你将要访问的地址会是多少？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:454
+msgid ""
+"In indexed addressing mode, if the base address is 6512, the index register "
+"has a 5, and the multiplier is 4, what address would you be trying to "
+"access?"
+msgstr "在索引寻址模式中，如果基址是 6512，索引寄存器是 5，乘数是 4，你将会访问到什么地址？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:455
+msgid ""
+"In indexed addressing mode, if the base address is 123472, the index "
+"register has a 0, and the multiplier is 4, what address would you be trying "
+"to access?"
+msgstr "在索引寻址模式中，如果基址是 123472，索引寄存器是 0，乘数是 4，你将会访问到什么地址？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:456
+msgid ""
+"In indexed addressing mode, if the base address is 9123478, the index "
+"register has a 20, and the multiplier is 1, what address would you be trying "
+"to access?"
+msgstr "在索引寻址模式中，如果基址是 9123478，索引寄存器是 20，乘数是 1，你将会访问到什么地址？"
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../MemoryCh.xml:463
+#, no-wrap
+msgid "Going Further"
+msgstr "更上层楼"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:466
+msgid "What are the minimum number of addressing modes needed for computation?"
+msgstr "计算需要至少多少种寻址模式？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:467
+msgid "Why include addressing modes that aren't strictly needed?"
+msgstr "为什么需要一些不常用的寻址模式？"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:468
+msgid ""
+"Research and then describe how pipelining (or one of the other complicating "
+"factors) affects the fetch-execute cycle."
+msgstr "研究并描述流水线（或者其他任意一个的复杂化因素）是怎样影响抓取－执行周期的。"
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../MemoryCh.xml:469
+msgid ""
+"Research and then describe the tradeoffs between fixed-length instructions "
+"and variable-length instructions."
+msgstr "研究并描述固定长度指令和变长指令各自的好坏。"

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg1568"
+   sodipodi:version="0.32"
+   width="8in"
+   height="9.75in"
+   sodipodi:docbase="/home/johnnyb/Projects/BartlettPublishing/Books/PGU/ProgrammingGroundUp/Move3/"
+   sodipodi:docname="/home/johnnyb/Projects/BartlettPublishing/Books/PGU/ProgrammingGroundUp/Move3/PGU_galleybackcover.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs1570" />
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="0.19685in"
+     gridspacingx="0.19685in" />
+  <rect
+     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     id="rect762"
+     width="824.738892"
+     height="913.599731"
+     x="-19.4382896"
+     y="-5.55381775" />
+  <text
+     style="fill:black;stroke:none;font-family:Bitstream Charter;font-style:normal;font-weight:normal;font-size:16;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="110.497086"
+     y="211.457703"
+     id="text1571">
+    <tspan
+       x="110.497086"
+       y="211.457703"
+       sodipodi:role="line"
+       id="tspan2065">
+The difference between mediocre and star programmers is that star</tspan>
+    <tspan
+       x="110.497086"
+       y="227.457703"
+       sodipodi:role="line"
+       id="tspan2067">
+programmers understand assembly language, whether or not they use</tspan>
+    <tspan
+       x="110.497086"
+       y="243.457703"
+       sodipodi:role="line"
+       id="tspan2069">
+it on a daily basis. Knowing assembly language gives programmers</tspan>
+    <tspan
+       x="110.497086"
+       y="259.457703"
+       sodipodi:role="line"
+       id="tspan2071">
+the edge they need to be successful.</tspan>
+    <tspan
+       x="110.497086"
+       y="275.457703"
+       sodipodi:role="line"
+       id="tspan2073">
+</tspan>
+    <tspan
+       x="110.497086"
+       y="291.457703"
+       sodipodi:role="line"
+       id="tspan2075">
+Assembly language is the language of the computer itself. To be a</tspan>
+    <tspan
+       x="110.497086"
+       y="307.457703"
+       sodipodi:role="line"
+       id="tspan2077">
+programmer without ever learning assembly language is like being a</tspan>
+    <tspan
+       x="110.497086"
+       y="323.457703"
+       sodipodi:role="line"
+       id="tspan2079">
+professional race car driver without understanding how your carburetor</tspan>
+    <tspan
+       x="110.497086"
+       y="339.457703"
+       sodipodi:role="line"
+       id="tspan2081">
+works. To be a truly successful programmer, you have to understand</tspan>
+    <tspan
+       x="110.497086"
+       y="355.457703"
+       sodipodi:role="line"
+       id="tspan2083">
+exactly what the computer sees when it is running a program.  Nothing</tspan>
+    <tspan
+       x="110.497086"
+       y="371.457703"
+       sodipodi:role="line"
+       id="tspan2085">
+short of learning assembly language will do that for you. Assembly</tspan>
+    <tspan
+       x="110.497086"
+       y="387.457703"
+       sodipodi:role="line"
+       id="tspan2087">
+language is often seen as a black art among today's programmers - with</tspan>
+    <tspan
+       x="110.497086"
+       y="403.457703"
+       sodipodi:role="line"
+       id="tspan2089">
+those knowing this art being more productive, more knowledgeable, and</tspan>
+    <tspan
+       x="110.497086"
+       y="419.457703"
+       sodipodi:role="line"
+       id="tspan2091">
+better paid, even if they primarily work using other programming</tspan>
+    <tspan
+       x="110.497086"
+       y="435.457703"
+       sodipodi:role="line"
+       id="tspan2093">
+languages.</tspan>
+    <tspan
+       x="110.497086"
+       y="451.457703"
+       sodipodi:role="line"
+       id="tspan2095">
+</tspan>
+    <tspan
+       x="110.497086"
+       y="467.457703"
+       sodipodi:role="line"
+       id="tspan2097">
+This book uses Linux assembly language to take you a step at a time</tspan>
+    <tspan
+       x="110.497086"
+       y="483.457703"
+       sodipodi:role="line"
+       id="tspan2099">
+through these concepts:</tspan>
+    <tspan
+       x="110.497086"
+       y="499.457703"
+       sodipodi:role="line"
+       id="tspan2101">
+</tspan>
+    <tspan
+       x="110.497086"
+       y="515.457703"
+       sodipodi:role="line"
+       id="tspan2103">
+* How the processor views memory</tspan>
+    <tspan
+       x="110.497086"
+       y="531.457703"
+       sodipodi:role="line"
+       id="tspan2105">
+* How the processor operates</tspan>
+    <tspan
+       x="110.497086"
+       y="547.457703"
+       sodipodi:role="line"
+       id="tspan2107">
+* How programs interact with the operating system</tspan>
+    <tspan
+       x="110.497086"
+       y="563.457703"
+       sodipodi:role="line"
+       id="tspan2109">
+* How computers represent data internally</tspan>
+    <tspan
+       x="110.497086"
+       y="579.457703"
+       sodipodi:role="line"
+       id="tspan2111">
+* How to do low-level and high-level optimization</tspan>
+    <tspan
+       x="110.497086"
+       y="595.457703"
+       sodipodi:role="line"
+       id="tspan2113">
+</tspan>
+    <tspan
+       x="110.497086"
+       y="611.457703"
+       sodipodi:role="line"
+       id="tspan2115">
+With this book you also get:</tspan>
+    <tspan
+       x="110.497086"
+       y="627.457703"
+       sodipodi:role="line"
+       id="tspan2117">
+</tspan>
+    <tspan
+       x="110.497086"
+       y="643.457703"
+       sodipodi:role="line"
+       id="tspan2119">
+* Access to online updates</tspan>
+    <tspan
+       x="110.497086"
+       y="659.457703"
+       sodipodi:role="line"
+       id="tspan2121">
+* Access to an email discussion group with the author and other readers</tspan>
+  </text>
+  <text
+     style="fill:black;stroke:none;font-family:Bitstream Charter;font-style:normal;font-weight:bold;font-size:24;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="167.500000"
+     y="120.000000"
+     id="text2123">
+    <tspan
+       x="167.500000"
+       y="120.000000"
+       sodipodi:role="line"
+       id="tspan2126">
+A Better Approach to Programming</tspan>
+  </text>
+</svg>

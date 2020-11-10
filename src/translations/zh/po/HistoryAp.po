@@ -1,0 +1,74 @@
+# pgubook, HistoryAp.po
+# Copyright (C) 2006 Xiaohong Zhao <mrluanma@gmail.com>
+# Copyright (C) 2006 Zhang Le <robert.zhangle@gmail.com>
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: 2006-08-06 19:00+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"X-Generator: Pootle 0.10beta3\n"
+
+# type: Content of: <appendix><title>
+#: ../../HistoryAp.xml:14
+#, no-wrap
+msgid "Document History"
+msgstr "文档历史"
+
+# type: Content of: <appendix><itemizedlist><listitem><para>
+#: ../../HistoryAp.xml:17
+msgid "12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL"
+msgstr "2002年12月17日 - 版本 0.5 - 首次以 GNU FDL 协议发布本书"
+
+# type: Content of: <appendix><itemizedlist><listitem><para>
+#: ../../HistoryAp.xml:18
+msgid ""
+"07/18/2003 - Version 0.6 - Added ASCII appendix, finished the discussion of "
+"the CPU in the Memory chapter, reworked exercises into a new format, "
+"corrected several errors.  Thanks to Harald Korneliussen for the many "
+"suggestions and the ASCII table."
+msgstr "2003年7月18日 - 版本 0.6 - 加入附录《ASCII 码表》，完成了内存一章中对CPU的讨论，以新格式重写了练习，更正了一些错误。感谢 Harald Korneliussen 贡献的诸多建议和 ASCII 码表。"
+
+# type: Content of: <appendix><itemizedlist><listitem><para>
+#: ../../HistoryAp.xml:19
+msgid ""
+"01/11/2004 - Version 0.7 - Added C translation appendix, added the "
+"beginnings of an appendix of x86 instructions, added the beginnings of a GDB "
+"appendix, finished out the files chapter, finished out the counting chapter, "
+"added a records chapter, created a source file of common linux definitions, "
+"corrected several errors, and lots of other fixes"
+msgstr "2004年1月11日 - 版本 0.7 - 加入了附录《以汇编语言翻译 C 语句》，加入了附录《常见的 X86 指令》的开头，加入了附录《用 GDB 调试程序》的开头，完成了《处理文件》一章，完成了《读写简单的记录》一章。创建了一个通用 Linux 定义的源文件。更正了一些错误，并做了很多其他的修正。"
+
+# type: Content of: <appendix><itemizedlist><listitem><para>
+#: ../../HistoryAp.xml:20
+msgid ""
+"01/22/2004 - Version 0.8 - Finished GDB appendix, mostly finished w/ "
+"appendix of x86 instructions, added section on planning programs, added lots "
+"of review questions, and got everything to a completed, initial draft state."
+msgstr "2004年1月22日 - 版本 0.8 - 完成了附录《用 GDB 调试程序》，基本完成了附录《常见的 X86 指令》，增加规划程序一节，加入了很多复习题，整书达到完整的初稿状态。"
+
+# type: Content of: <appendix><itemizedlist><listitem><para>
+#: ../../HistoryAp.xml:21
+msgid ""
+"01/29/2004 - Version 0.9 - Lots of editting of all chapters.  Made code more "
+"consistent and made explanations clearer.  Added some illustrations."
+msgstr "2004年1月29日 - 版本 0.9 - 对全部的章节作了大量的编辑。使前后代码更加一致，解释更加清楚。加入了一些插图。"
+
+# type: Content of: <appendix><itemizedlist><listitem><para>
+#: ../../HistoryAp.xml:22
+msgid ""
+"01/31/2004 - Version 1.0 - Rewrote chapter 9.  Added full index.  Lots of "
+"minor corrections."
+msgstr "2004年1月32日 - 版本 1.0 - 重写第九章。加入了完整的索引。更正了很多小错误。"
+
+# type: Content of: <appendix><itemizedlist><listitem><para>
+#: ../../HistoryAp.xml:23
+msgid ""
+"04/18/2004 - Version 1.1 - Lots of minor updates based on reader comments.  "
+"Made cleared distinction between dynamic and shared libraries."
+msgstr "2004年4月18日 - 版本 1.1 - 根据读者的建议做了很多小的修正。对动态库和共享库做了明确的区分。"

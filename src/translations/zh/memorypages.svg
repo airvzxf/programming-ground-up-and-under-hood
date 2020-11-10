@@ -1,0 +1,328 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG August 1999//EN"
+"http://www.w3.org/Graphics/SVG/SVG-19990812.dtd">
+<svg
+   id="svg1"
+   sodipodi:docbase="/home/christa/Projects/asm/"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   sodipodi:docname="/home/christa/Projects/asm/memorypages.svg"
+   xmlns="http://www.w3.org/Graphics/SVG/SVG-19991203.dtd"
+   style="fill:#000000;fill-opacity:50%;stroke:none"
+   height="2267.716535"
+   width="2267.716535">  <rect
+     id="rect32"
+     style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+     y="153.343926"
+     x="138.805274"
+     height="273.675836"
+     width="547.351671"
+     transform="matrix(1 0 0 1 860.125 803.923)">
+  </rect>
+  <rect
+     id="rect67"
+     y="133.795652"
+     x="950.058644"
+     height="1058.050329"
+     width="686.633123"
+     transform="matrix(1 0 0 1.09469 -2.11442e-13 -12.6689)">
+  </rect>
+  <sodipodi:namedview
+     id="base">
+  </sodipodi:namedview>
+  <text
+     id="text4"
+     style="font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; "
+     y="439.237432"
+     x="994.042260"
+     transform="matrix(1 0 0 1 -51.3142 -334.764)">The physical memory layout</text>
+  <g
+     id="g18"
+     transform="matrix(1 0 0 1 21.9918 0)">    <rect
+       id="rect8"
+       style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+       y="275.520638"
+       x="290.304397"
+       height="273.675836"
+       width="547.351671"
+       transform="matrix(1 0 0 1 -173.491 -119.734)">
+    </rect>
+    <text
+       id="text3"
+       style="font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; "
+       y="189.996939"
+       x="412.481110"
+       transform="matrix(1 0 0 1 -327.434 -85.5237)">The virtual memory layout</text>
+    <rect
+       id="rect9"
+       style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+       y="275.520638"
+       x="290.304397"
+       height="273.675836"
+       width="547.351671"
+       transform="matrix(1 0 0 1 -173.491 153.942)">
+    </rect>
+    <rect
+       id="rect10"
+       style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+       y="275.520638"
+       x="290.304397"
+       height="273.675836"
+       width="547.351671"
+       transform="matrix(1 0 0 1 -173.491 427.618)">
+    </rect>
+    <rect
+       id="rect11"
+       style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+       y="275.520638"
+       x="290.304397"
+       height="273.675836"
+       width="547.351671"
+       transform="matrix(1 0 0 1 -173.491 701.294)">
+    </rect>
+    <rect
+       id="rect12"
+       style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+       y="275.520638"
+       x="290.304397"
+       height="273.675836"
+       width="547.351671"
+       transform="matrix(1 0 0 1 -173.491 974.969)">
+    </rect>
+    <text
+       id="text13"
+       style="font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; "
+       y="282.851241"
+       x="280.530260"
+       transform="matrix(1 0 0 1 9.77414 9.77414)">Page 1</text>
+    <text
+       id="text14"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="282.851241"
+       x="280.530260"
+       transform="matrix(1 0 0 1 12.2177 298.111)">Page 2</text>
+    <text
+       id="text15"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="282.851241"
+       x="280.530260"
+       transform="matrix(1 0 0 1 9.77414 574.231)">Page 3</text>
+    <text
+       id="text16"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="282.851241"
+       x="280.530260"
+       transform="matrix(1 0 0 1 4.88707 850.35)">Page 4</text>
+    <text
+       id="text17"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="282.851241"
+       x="280.530260"
+       transform="matrix(1 0 0 1 4.88707 1116.7)">Page 5</text>
+
+  </g>
+  <rect
+     id="rect30"
+     style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+     y="153.343926"
+     x="138.805274"
+     height="273.675836"
+     width="547.351671"
+     transform="matrix(1 0 0 1 860.125 4.88707)">
+  </rect>
+  <rect
+     id="rect31"
+     style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+     y="153.343926"
+     x="138.805274"
+     height="273.675836"
+     width="547.351671"
+     transform="matrix(1 0 0 1 860.125 371.417)">
+  </rect>
+  <text
+     id="text33"
+     style="font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; "
+     y="461.229241"
+     x="1094.227164"
+     transform="matrix(1 0 0 1 588.892 202.813)">Computer Memory</text>
+  <text
+     id="text34"
+     style="font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; "
+     y="1524.166638"
+     x="1881.045192"
+     transform="matrix(1 0 0 1 -202.813 136.838)">Disk Swap Space</text>
+  <text
+     id="text37"
+     style="font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; "
+     y="270.633569"
+     x="1189.525000"
+     transform="matrix(1 0 0 1 -70.8625 29.3224)">Page 1036</text>
+  <text
+     id="text38"
+     style="fill:#000000; font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+     y="270.633569"
+     x="1189.525000"
+     transform="matrix(1 0 0 1 -58.6448 405.627)">Page 1038</text>
+  <text
+     id="text39"
+     style="fill:#000000; font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+     y="270.633569"
+     x="1189.525000"
+     transform="matrix(1 0 0 1 -58.6448 843.02)">Page 3026</text>
+  <g
+     id="g49"
+     transform="matrix(1 0 0 1 -4.88709 43.9836)">    <rect
+       id="rect36"
+       style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+       y="153.343926"
+       x="138.805274"
+       height="273.675836"
+       width="547.351671"
+       transform="matrix(1 0 0 1 865.012 1576.08)">
+    </rect>
+    <text
+       id="text41"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="270.633569"
+       x="1189.525000"
+       transform="matrix(1 0 0 1 -87.9672 1617.62)">Disk Page 784</text>
+
+  </g>
+  <g
+     id="g52">    <rect
+       id="rect35"
+       style="fill:#000000; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; stroke-opacity:100%; stroke:#000000; fill-opacity:0%; "
+       y="153.343926"
+       x="138.805274"
+       height="273.675836"
+       width="547.351671"
+       transform="matrix(1 0 0 1 860.125 1219.32)">
+    </rect>
+    <text
+       id="text40"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:56.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="270.633569"
+       x="1189.525000"
+       transform="matrix(1 0 0 1 -92.8543 1248.65)">Disk Page 520</text>
+
+  </g>
+  <g
+     id="g55"
+     style="fill:#000000; stroke:none; fill-opacity:50%; "
+     transform="matrix(1 0 0 1 0 398.296)">    <text
+       id="text56"
+       style="font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -139.282)">...</text>
+    <text
+       id="text57"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -114.847)">...</text>
+    <text
+       id="text58"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -90.4113)">...</text>
+
+  </g>
+  <g
+     id="g59"
+     style="fill:#000000; stroke:none; fill-opacity:50%; "
+     transform="matrix(1 0 0 1 0 -434.949)">    <text
+       id="text60"
+       style="font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -139.282)">...</text>
+    <text
+       id="text61"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -114.847)">...</text>
+    <text
+       id="text62"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -90.4113)">...</text>
+
+  </g>
+  <g
+     id="g63"
+     style="fill:#000000; stroke:none; fill-opacity:50%; "
+     transform="matrix(1 0 0 1 0 -828.358)">    <text
+       id="text64"
+       style="font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -139.282)">...</text>
+    <text
+       id="text65"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -114.847)">...</text>
+    <text
+       id="text66"
+       style="fill:#000000; font-style:normal; font-weight:normal; font-size:72.000000; font-family:Helvetica; stroke:none; fill-opacity:50%; "
+       y="1426.425268"
+       x="1834.618041"
+       transform="matrix(1 0 0 1 -598.666 -90.4113)">...</text>
+
+  </g>
+  <rect
+     id="rect68"
+     y="1343.345104"
+     x="954.945712"
+     height="745.277945"
+     width="681.746055"
+     transform="matrix(1.00358 0 -0 0.996721 -8.30981 6.84794)">
+  </rect>
+  <path
+     id="path134"
+     d="M 686.157 1979.92 C 686.971 1979.92 687.786 1979.92 688.6 1979.92 "
+     style="stroke:#000;stroke-width:1"
+     transform="matrix(1 0 0 -1 -0 2267.72)">
+  </path>
+  <path
+     id="path136"
+     d="M 686.157 1965.26 L 1001.37 1158.89 "
+     style="stroke:#000;stroke-width:1"
+     transform="matrix(1 0 0 -1 -0 2267.72)">
+  </path>
+  <path
+     id="path137"
+     d="M 686.157 1694.03 L 1001.37 745.935 "
+     style="stroke:#000;stroke-width:1"
+     transform="matrix(1 0 0 -1 -0 2267.72)">
+  </path>
+  <path
+     id="path138"
+     d="M 683.713 1420.35 L 1001.37 1613.39 "
+     style="stroke:#000;stroke-width:1"
+     transform="matrix(1 0 0 -1 -0 2267.72)">
+  </path>
+  <path
+     id="path139"
+     d="M 686.157 1166.22 L 998.929 354.97 "
+     style="stroke:#000;stroke-width:1"
+     transform="matrix(1 0 0 -1 -0 2267.72)">
+  </path>
+  <path
+     id="path140"
+     d="M 686.157 885.217 L 1001.37 1984.81 "
+     style="stroke:#000;stroke-width:1"
+     transform="matrix(1 0 0 -1 -0 2267.72)">
+  </path>
+  <text
+     id="text141"
+     style="font-style:normal; font-weight:normal; font-size:48.000000; font-family:Helvetica; "
+     y="2159.543919"
+     x="556.649630"
+     transform="matrix(1 0 0 1 -454.496 41.54)">Example of a program's virtual memory mapped into real memory and disk swap space</text>
+
+</svg>
