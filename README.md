@@ -15,10 +15,13 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
 - Deep thanks to the men and companies who inspired me to be better and thanks to Linux, GNU and the Open Source: [Linus Torvalds](https://github.com/torvalds), [Richard Stallman](https://stallman.org/), [Linux](https://www.linux.org/), [GNU](https://www.gnu.org/), [GitHub](https://github.com/).
 
 ### First steps.
-- Download the original source code.
-- Figured out how to compile the source code.
-- Make decisions if keeps this format or use other tool/format.
-- Start with the TO-DO's.
+- [x] ~~Download the original source code.~~
+- [x] ~~Figured out how to compile the source code.~~
+  - [x] It's not easy and needs to install some packages also I couldn't compile the book. Other reason is that the DSSSL is an old technology.
+- [x] ~~Make decisions if keeps this format or use other tool/format.~~
+  - [ ] Transcript the book to the Markdown format.
+    - [ ] Export and save the Markdown to ePUB, PDF and HTML format and release it, example: https://github.com/TheFern2/markdown-book.
+- [ ] Start with the TO-DO's.
 
 ### TO-DO's.
 - Apply the bugs reported in the official resource page: [https://savannah.nongnu.org/bugs/?group=pgubook](https://savannah.nongnu.org/bugs/?group=pgubook)
