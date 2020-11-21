@@ -1,8 +1,15 @@
-# Programming Ground Up — x86 v2020.11 Updated by AirvZxf and the community.
+# Programming Ground Up — Updated by AirvZxf — x86 v2020.11.
 
 ## About this project.
 
-This is a 1% of the WIP (work in progress) project trying to fix, improve and update the [original book](https://savannah.nongnu.org/projects/pgubook) which looks like it is not updated since 2004.
+This is a 3% of the WIP (work in progress) project.
+
+Goals:
+
+- [ ] Convert the original _DocBook_ to a _Markdown_ then with [pandoc](https://pandoc.org/) convert it to _ePUB_
+- [ ] Try to fix the [bugs](https://savannah.nongnu.org/bugs/?group=pgubook) and [support tickets](https://savannah.nongnu.org/support/?group=pgubook), this [book](https://savannah.nongnu.org/projects/pgubook) is not updated since 2004.
+- [ ] Improve and update the sections where I am missing.
+- [ ] Create a new version for x64 architecture.
 
 You're able to find my documents about assembly in my GitHub repository [airvzxf/assembly](https://github.com/airvzxf/assembly) also I was working in some assembler scripts that I wrote based on the [exercises of this book](https://github.com/airvzxf/assembly/tree/master/linux/gas/programmingGroundUp), it contains a Linux shell script to make all the binaries very easy.
 
@@ -19,8 +26,12 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
 - [x] ~~Figured out how to compile the source code.~~
   - [x] It's not easy and needs to install some packages also I couldn't compile the book. Other reason is that the DSSSL is an old technology.
 - [x] ~~Make decisions if keeps this format or use other tool/format.~~
-  - [ ] Transcript the book to the Markdown format.
-    - [ ] Export and save the Markdown to ePUB, PDF and HTML format and release it, example: https://github.com/TheFern2/markdown-book.
+  - [x] ~~Use `pandoc` ([official project](https://pandoc.org/)) to convert the original DocBook to Markdown format.~~
+    - [ ] Fix all the conversions failures.
+      - [ ] Source references needs to create a new numeration.
+      - [ ] Link reference are broken.
+      - [ ] Create a TOC (Table of contents).
+    - [ ] Export to the final version to ePUB.
 - [ ] Start with the TO-DO's.
 
 ### TO-DO's.
