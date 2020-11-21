@@ -26,7 +26,7 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
 - [x] ~~Figured out how to compile the source code.~~
   - [x] It's not easy and needs to install some packages also I couldn't compile the book. Other reason is that the DSSSL is an old technology.
 - [x] ~~Make decisions if keeps this format or use other tool/format.~~
-  - [x] ~~Use `pandoc` ([official project](https://pandoc.org/)) to convert the original DocBook to Markdown format.~~
+  - [x] Use `pandoc` ([official project](https://pandoc.org/)) to convert the original DocBook to Markdown format.
     - [ ] Fix all the conversions failures.
       - [ ] Source references needs to create a new numeration.
       - [ ] Link reference are broken.
