@@ -2,6 +2,8 @@
 
 ## About this project.
 
+I try to learn the GNU Assembler (`as` or `gas`) and I didn't found many resources but this book is great.
+
 This is a 3% of the WIP (work in progress) project.
 
 Goals:
@@ -14,12 +16,12 @@ Goals:
 You're able to find my documents about assembly in my GitHub repository [airvzxf/assembly](https://github.com/airvzxf/assembly) also I was working in some assembler scripts that I wrote based on the [exercises of this book](https://github.com/airvzxf/assembly/tree/master/linux/gas/programmingGroundUp). It contains a Linux shell script to make all the binaries straightforward.
 
 ### Motivations.
-- I believe that Linux is the future, I dream with a world when everyone is using Linux in our laptops, desktop computers, all the video game companies make perfect games for Linux.
+- I believe that Linux is the future, I dream with a world when everyone is using Linux in our laptops, desktop computers, and all the video game companies make perfect games for Linux.
 - I was researching about GNU Assembler (“as” or “gas”) but unfortunately, there are not many resources, these resources talk about the most popular as “[NASM](https://nasm.us/)” and “[FASM](https://flatassembler.net/)”.
-- Why NOT focus on “NASM” or “FASM”? I started with “NASM” then I saw a few years ago the active development stopped also I researched about “FASM” and looks like it's awesome but then I discovered some curious detail. These assemblers can compile in many architectures and I searched in the “FASM” forums. It is powerful but trying to be very compatible they spend a lot of effort to create the most generic binary source possible ([1](#1)). At this moment I start to consider the possibility to use the pure Linux assembler because for me the idea to use a multi-architectural assembler is only marketing. I have been software developer over 14  years and I never created a multi-architecture system neither in my personal projects. Why am I living in a utopia? Trying to want a tool to convert to other architectures if I always create programs for Linux and very rarely for Windows. In these cases I usually use Python or Java. Note: This is my personal point of view, haters please hate more.
+- Why NOT focus on “NASM” or “FASM”? I started with “NASM” then I saw a few years ago the active development stopped. I researched about “FASM” and looks like it's awesome but then I discovered some curious detail. These assemblers can compile in many architectures and it is powerful but trying to be very compatible they spend a lot of effort to create the most generic binary source possible ([1](#1)). At this moment I start to consider the possibility to use the pure Linux assembler because for me the idea to use a multi-architectural assembler is only marketing. I have been software developer over 14  years and I never created a multi-architecture system neither in my personal projects. Why am I living in a utopia? Wanted a tool to convert to other architectures, if I always create programs for Linux and very rarely for Windows. In these cases I usually use Python or Java. Note: This is my personal point of view, haters please hate more.
 - Why use Assembler rather other languages programs? The benchmarks that I did demonstrate that Assembler is the most powerful even tan C which is the top language. [My benchmarks](https://github.com/airvzxf/assembly/tree/master/linux/benchmark/fibonacci/without_print) and the [C benchmarks](https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/cpp.html).
-- Why update this book? I read until the chapter 3 and I had three doubts in the final exercises but there are no answers. The book said that we saw this subject and I reviewed all the chapters and it didn't. If the assembler language is difficult then add that the GNU assembler multiply this difficulty then try to imagine if the book is missing some little details. I really mean this book is one of the best but it has many areas of opportunity.
-- Deep thanks to the men and companies who inspired me to be better and thanks to Linux, GNU and the Open Source: [Linus Torvalds](https://github.com/torvalds), [Richard Stallman](https://stallman.org/), [Linux](https://www.linux.org/), [GNU](https://www.gnu.org/), [GitHub](https://github.com/).
+- Why update this book? I read until the chapter 3 and I had three doubts in the final exercises but there are no answers. The book said that we saw this subject and I reviewed all the chapters and it didn't. If the assembler language is difficult then add that the GNU assembler multiply this difficulty then try to imagine if the book is missing some little details. In fact, this book is one of the best that I found but it has many areas of opportunity.
+- Deep thanks to the men and companies who inspired me to be better and thanks to the Open Source: [Linus Torvalds](https://github.com/torvalds), [Richard Stallman](https://stallman.org/), [Linux](https://www.linux.org/), [GNU](https://www.gnu.org/), [GitHub](https://github.com/).
 
 ### First steps.
 - [x] ~~Download the original source code.~~
