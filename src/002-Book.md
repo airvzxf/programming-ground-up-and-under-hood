@@ -1,3 +1,24 @@
+<!-- FIXME - Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
+
+<!-- FIXME - need to find places that need more filling out.  Reviews, definitely.  -->
+
+<!-- TODO -
+  * Go back through and make sure that registers and memory are both fully described and fully distinguished
+-->
+
+<!-- INCOMPLETE PARTS:
+  * Instructions needs some more beef from reference books
+  * Reviews need to be finished out
+  * Finish index
+-->
+<!-- Appendices it would be nice to have:
+  * A full description of the calling sequence for UNIX
+  * A complete examination of the fetch-execute cycle
+  * A complete listing of registers and flags
+-->
+
+
+
 by Jonathan Bartlett
 
 Edited by Dominick Bruno, Jr.
@@ -28,7 +49,7 @@ Library of Congress Control Number: 2004091465
 
 Bartlett Publishing Cataloging-in-Publication Data
 
-![CIP](resource/image/cip.png)
+![Cataloging-in-Publication](resource/image/cip.png)
 
 This book can be purchased at http://www.bartlettpublishing.com/
 
