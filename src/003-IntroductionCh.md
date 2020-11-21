@@ -1,10 +1,10 @@
-Introduction
-============
+Chapter 1. Introduction
+=======================
 
 Welcome to Programming
 ----------------------
 
-I love programmingprogramming. I enjoy the challenge to not only make a
+I love programming. I enjoy the challenge to not only make a
 working program, but to do so with style. Programming is like poetry. It
 conveys a message, not only to the computer, but to those who modify and
 use your program. With a program, you build your own world with your own
@@ -78,68 +78,63 @@ If you have problems that you just can\'t get past, there is a mailing
 list for this book where readers can discuss and get help with what they
 are reading. The address is `pgubook-readers@nongnu.org`. This mailing
 list is open for any type of question or discussion along the lines of
-this book. You can subscribe to this list by going to
-http://mail.nongnu.org/mailman/listinfo/pgubook-readers.
+this book. You can subscribe to the [Mailing Lists][3-PGUBookMail].
 
 If you are thinking of using this book for a class on computer
 programming but do not have access to Linux computers for your students,
-I highly suggest you try to find help from the K-12 Linux Project. Their
-website is at http://www.k12linux.org/ and they have a helpful and
-responsive mailing list available.
+I highly suggest you try to find help from the K-12 Linux Project.
+Their website is at [K12 Linux][3-K12Linux]
+and they have a helpful and responsive mailing list available.
 
 Your Tools
 ----------
 
 This book teaches assembly language for x86 processors and the GNU/Linux
 operating system. Therefore we will be giving all of the examples using
-the GNU/LinuxGNU/Linux standard GCC tool set. If you are not familiar
+the GNU/Linux standard GCC tool set. If you are not familiar
 with GNU/Linux and the GCC tool set, they will be described shortly. If
 you are new to Linux, you should check out the guide available at
-http://rute.sourceforge.net/[^1] What I intend to show you is more about
+[TutorialsPoint][3-TutorialsPoint] [^3-1]
+What I intend to show you is more about
 programming in general than using a specific tool set on a specific
 platform, but standardizing on one makes the task much easier.
 
-Those new to Linux should also try to get involved in their local
-GNU/Linux User\'s Group. User\'s Group members are usually very helpful
-for new people, and will help you from everything from installing Linux
-to learning to use it most efficiently. A listing of GNU/Linux User\'s
-Groups is available at http://www.linux.org/groups/
+Those new to Linux should also try to get involved in the
+[GNU/Linux Forums][3-LinuxForums].
 
-All of these programs have been tested using Red Hat Linux 8.0, and
-should work with any other GNU/Linux distribution, too.[^2] They will
+All of these programs have been tested using _Arch Linux v2020.11.01_, and
+should work with any other GNU/Linux distribution, too. [^3-2] They will
 not work with non-Linux operating systems such as BSD or other systems.
 However, all of the *skills* learned in this book should be easily
 transferable to any other system.
 
-If you do not have access to a GNU/LinuxGNU/Linux machine, you can look
+If you do not have access to a GNU/Linux machine, you can look
 for a hosting provider who offers a Linux *shell account*, which is a
 command-line only interface to a Linux machine. There are many low-cost
 shell account providers, but you have to make sure that they match the
-requirements above (i.e. - Linux on x86). Someone at your local
-GNU/Linux User\'s Group may be able to give you one as well. Shell
+requirements above (i.e. - Linux on x86). Shell
 accounts only require that you already have an Internet connection and a
-telnet program. If you use Windows, you already have a telnet client -
+telnet program. If you use Windows®, you already have a telnet client -
 just click on `start`, then `run`, then type in `telnet`. However, it is
-usually better to download PuTTY from
-http://www.chiart.greenend.co.uk/\~sgtatham/putty/ because Windows\'
+usually better to download [PuTTY][3-PuTTY] because Windows\'
 telnet has some weird problems. There are a lot of options for the
-Macintosh, too. NiftyTelnet is my favorite.
+Macintosh, too. _NiftyTelnet_ is my favorite.
 
-If you don\'t have GNU/LinuxGNU/Linux and can\'t find a shell account
-service, then you can download Knoppix from http://www.knoppix.org/
-KnoppixKnoppix is a GNU/Linux distribution that boots from CD so that
+If you don\'t have GNU/Linux and can\'t find a shell account
+service, then you can download [Knoppix][3-Knoppix].
+_Knoppix_ is a GNU/Linux distribution that boots from CD so that
 you don\'t have to actually install it. Once you are done using it, you
 just reboot and remove the CD and you are back to your regular operating
 system.
 
-So what is GNU/Linux? GNU/LinuxGNU/Linux is an operating system modeled
-after UNIX. The GNU part comes from the [GNU
-Project](http://www.gnu.org/)[^3], which includes most of the programs
-you will run, including the GCCGCC tool set that we will use to program
+So what is GNU/Linux? GNU/Linux is an operating system modeled
+after UNIX®. The GNU part comes from the [GNU
+Project][3-GNUProject] [^3-3], which includes most of the programs
+you will run, including the GCC tool set that we will use to program
 with. The GCC tool set contains all of the programs necessary to create
 programs in various computer languages.
 
-LinuxLinux is the name of the *kernel*. The kernelkernel is the core
+Linux is the name of the *kernel*. The kernel is the core
 part of an operating system that keeps track of everything. The kernel
 is both a fence and a gate. As a gate, it allows programs to access
 hardware in a uniform way. Without the kernel, you would have to write
@@ -151,13 +146,15 @@ editor. First, the kernel is what handles your hardware, so it is the
 first to receive notice about the keypress. The keyboard sends in
 *scancodes* to the kernel, which then converts them to the actual
 letters, numbers, and symbols they represent. If you are using a
-windowing system (like Microsoft Windows or the X Window System), then
+windowing system (like Microsoft Windows® or the X Window System), then
 the windowing system reads the keypress from the kernel, and delivers it
 to whatever program is currently in focus on the user\'s display.
 
+**Example 1-1. How the computer processes keyboard sigals**
+
     Keyboard -> Kernel -> Windowing system -> Application program
 
-The kernelkernel also controls the flow of information between programs.
+The kernel also controls the flow of information between programs.
 The kernel is a program\'s gate to the world around it. Every time that
 data moves between processes, the kernel controls the messaging. In our
 keyboard example above, the kernel would have to be involved for the
@@ -168,7 +165,7 @@ each other\'s data and from accessing files and devices that they don\'t
 have permission to. It limits the amount of damage a poorly-written
 program can do to other running programs.
 
-In our case, the kernelkernel is LinuxLinux. Now, the kernel all by
+In our case, the kernel is Linux. Now, the kernel all by
 itself won\'t do anything. You can\'t even boot up a computer with just
 a kernel. Think of the kernel as the water pipes for a house. Without
 the pipes, the faucets won\'t work, but the pipes are pretty useless if
@@ -178,7 +175,6 @@ operating system, GNU/Linux.
 
 For the most part, this book will be using the computer\'s low-level
 assembly language. There are essentially three kinds of languages:
-machine language
 
 Machine Language
 
@@ -192,7 +188,7 @@ Assembly Language
     have been replaced by letter sequences which are easier to memorize.
     Other small things are done to make it easier as well.
 
-High-Level Languagehigh-level languages
+High-Level Languages
 
 :   High-level languages are there to make programming easier. Assembly
     language requires you to work with the machine itself. High-level
@@ -200,19 +196,27 @@ High-Level Languagehigh-level languages
     language. A single command in a high-level language usually is
     equivalent to several commands in an assembly language.
 
-Assembly Language In this book we will learn assembly language, although
+In this book we will learn assembly language, although
 we will cover a bit of high-level languages. Hopefully by learning
 assembly language, your understanding of how programming and computers
 work will put you a step ahead.
 
-[^1]: This is quite a large document. You certainly don\'t need to know
+[^3-1]: This is quite a large document. You certainly don\'t need to know
     everything to get started with this book. You simply need to know
     how to navigate from the command line and how to use an editor like
     `pico`, `emacs`, or `vi` (or others).
 
-[^2]: By \"GNU/Linux distribution\", I mean an x86 GNU/Linux
+[^3-2]: By \"GNU/Linux distribution\", I mean an x86 GNU/Linux
     distribution. GNU/Linux distributions for the Power Macintosh, the
     Alpha processor, or other processors will not work with this book.
 
-[^3]: The GNU Project is a project by the Free Software Foundation to
+[^3-3]: The GNU Project is a project by the Free Software Foundation to
     produce a complete, free operating system.
+
+[3-K12Linux]: https://fedoraproject.org/wiki/K12Linux
+[3-PuTTY]: https://www.chiark.greenend.org.uk/~sgtatham/putty/
+[3-Knoppix]: http://www.knoppix.org/
+[3-TutorialsPoint]: https://www.tutorialspoint.com/unix/index.htm
+[3-LinuxForums]: https://www.linux.org/forums/
+[3-GNUProject]: https://www.gnu.org
+[3-PGUBookMail]: https://lists.nongnu.org/mailman/listinfo/pgubook-readers
