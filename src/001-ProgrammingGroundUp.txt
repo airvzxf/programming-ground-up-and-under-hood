@@ -1,0 +1,23 @@
+---
+title:
+- type: main
+  text: Programming from the Ground Up
+- type: subtitle
+  text: Updated by AirvZxf
+- type: edition
+  text: x86 v2020.11
+creator:
+- role: author
+  text: Jonathan Bartlett
+- role: editor
+  text: Dominick Bruno, Jr.
+date: 2004-07-01
+identifier:
+- scheme: ISBN-10
+  text: 0975283847
+- scheme: ISBN-13
+  text: 978-0975283844
+publisher:  Bartlett Publishing in Broken Arrow, Oklahom
+rights: © 2003 by Jonathan Bartlett
+language: en-US
+...
