@@ -49,8 +49,6 @@ Library of Congress Control Number: 2004091465
 
 Bartlett Publishing Cataloging-in-Publication Data
 
-![Cataloging-in-Publication](resource/image/cip.png)
-
 This book can be purchased at http://www.bartlettpublishing.com/
 
 This book is not a reference book, it is an introductory book. It is
