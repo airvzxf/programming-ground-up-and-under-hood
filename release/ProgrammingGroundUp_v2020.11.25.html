@@ -192,17 +192,18 @@
 <h1 class="title">truetruetrue</h1>
 <p class="date">2004-07-01</p>
 </header>
-<!-- FIXME - Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
-<!-- FIXME - need to find places that need more filling out.  Reviews, definitely.  -->
-<!-- TODO -
+<!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
+<!-- TODO: Need to find places that need more filling out.  Reviews, definitely.  -->
+<!-- TODO:
   * Go back through and make sure that registers and memory are both fully described and fully distinguished
 -->
-<!-- INCOMPLETE PARTS:
+<!-- TODO:
   * Instructions needs some more beef from reference books
   * Reviews need to be finished out
   * Finish index
 -->
-<!-- Appendices it would be nice to have:
+<!--  TODO:
+  Appendices it would be nice to have:
   * A full description of the calling sequence for UNIX
   * A complete examination of the fetch-execute cycle
   * A complete listing of registers and flags
@@ -366,15 +367,15 @@
 <p>These programs may overwhelm you at first. However, go through them with diligence, read them and their explanations as many times as necessary, and you will have a solid foundation of knowledge to build on. Please tinker around with the programs as much as you can. Even if your tinkering does not work, every failure will help you learn.</p>
 <h2 id="entering-in-the-program">Entering in the Program</h2>
 <p>Okay, this first program is simple. In fact, it's not going to do anything but exit! It's short, but it shows some basics about assembly language and Linux programming. You need to enter the program in an editor exactly as written, with the filename <code>exit.s</code>. The program follows. Don't worry about not understanding it. This section only deals with typing it in and running it. In <a href="#outline-of-an-assembly-language-program">Outline of an Assembly Language Program</a> we will describe how it works.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">#PURPOSE:  Simple program that exits and returns a</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  Simple program that exits and returns a</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          status code back to the Linux kernel.</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#INPUT:    None.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># INPUT:    None.</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#OUTPUT:   Returns a status code.  This can be viewed</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OUTPUT:   Returns a status code.  This can be viewed</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          by typing `echo $?` after running the program</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#VARIABLES:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># VARIABLES:</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          %eax holds the system call number.</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          %ebx holds the return status .</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>

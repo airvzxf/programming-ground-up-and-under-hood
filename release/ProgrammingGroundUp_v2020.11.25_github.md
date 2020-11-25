@@ -1,14 +1,15 @@
-<!-- FIXME - Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
-<!-- FIXME - need to find places that need more filling out.  Reviews, definitely.  -->
-<!-- TODO -
+<!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
+<!-- TODO: Need to find places that need more filling out.  Reviews, definitely.  -->
+<!-- TODO:
   * Go back through and make sure that registers and memory are both fully described and fully distinguished
 -->
-<!-- INCOMPLETE PARTS:
+<!-- TODO:
   * Instructions needs some more beef from reference books
   * Reviews need to be finished out
   * Finish index
 -->
-<!-- Appendices it would be nice to have:
+<!--  TODO:
+  Appendices it would be nice to have:
   * A full description of the calling sequence for UNIX
   * A complete examination of the fetch-execute cycle
   * A complete listing of registers and flags
@@ -683,15 +684,15 @@ Program](#outline-of-an-assembly-language-program) we will describe how
 it works.
 
 ``` gnuassembler
-    #PURPOSE:  Simple program that exits and returns a
+    # PURPOSE:  Simple program that exits and returns a
     #          status code back to the Linux kernel.
     #
-    #INPUT:    None.
+    # INPUT:    None.
     #
-    #OUTPUT:   Returns a status code.  This can be viewed
+    # OUTPUT:   Returns a status code.  This can be viewed
     #          by typing `echo $?` after running the program
     #
-    #VARIABLES:
+    # VARIABLES:
     #          %eax holds the system call number.
     #          %ebx holds the return status .
     #
