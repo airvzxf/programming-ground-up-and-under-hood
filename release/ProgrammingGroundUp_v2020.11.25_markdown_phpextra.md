@@ -44,8 +44,6 @@ Library of Congress Control Number: 2004091465
 
 Bartlett Publishing Cataloging-in-Publication Data
 
-![Cataloging-in-Publication](resource/image/cip.png)
-
 This book can be purchased at http://www.bartlettpublishing.com/
 
 This book is not a reference book, it is an introductory book. It is
@@ -56,10 +54,10 @@ understand how assembly language and computer programming works, not to
 be a reference to the subject. Reference information about a particular
 processor can be obtained by contacting the company which makes it.
 
-Chapter 1. Introduction
+Chapter 1. Introduction {#chapter-1.-introduction}
 =======================
 
-Welcome to Programming
+Welcome to Programming {#welcome-to-programming}
 ----------------------
 
 I love programming. I enjoy the challenge to not only make a working
@@ -145,7 +143,7 @@ I highly suggest you try to find help from the K-12 Linux Project. Their
 website is at [K12 Linux](https://fedoraproject.org/wiki/K12Linux) and
 they have a helpful and responsive mailing list available.
 
-Your Tools
+Your Tools {#your-tools}
 ----------
 
 This book teaches assembly language for x86 processors and the GNU/Linux
@@ -153,19 +151,19 @@ operating system. Therefore we will be giving all of the examples using
 the GNU/Linux standard GCC tool set. If you are not familiar with
 GNU/Linux and the GCC tool set, they will be described shortly. If you
 are new to Linux, you should check out the guide available at
-[TutorialsPoint](https://www.tutorialspoint.com/unix/index.htm).[1] What
-I intend to show you is more about programming in general than using a
-specific tool set on a specific platform, but standardizing on one makes
-the task much easier.
+[TutorialsPoint](https://www.tutorialspoint.com/unix/index.htm).[^1]
+What I intend to show you is more about programming in general than
+using a specific tool set on a specific platform, but standardizing on
+one makes the task much easier.
 
 Those new to Linux should also try to get involved in the [GNU/Linux
 Forums](https://www.linux.org/forums/).
 
 All of these programs have been tested using *Arch Linux v2020.11.01*,
-and should work with any other GNU/Linux distribution, too.[2] They will
-not work with non-Linux operating systems such as BSD or other systems.
-However, all of the *skills* learned in this book should be easily
-transferable to any other system.
+and should work with any other GNU/Linux distribution, too.[^2] They
+will not work with non-Linux operating systems such as BSD or other
+systems. However, all of the *skills* learned in this book should be
+easily transferable to any other system.
 
 If you do not have access to a GNU/Linux machine, you can look for a
 hosting provider who offers a Linux *shell account*, which is a
@@ -188,7 +186,7 @@ remove the CD and you are back to your regular operating system.
 
 So what is GNU/Linux? GNU/Linux is an operating system modeled after
 UNIX®. The GNU part comes from the [GNU
-Project](https://www.gnu.org),[3] which includes most of the programs
+Project](https://www.gnu.org),[^3] which includes most of the programs
 you will run, including the GCC tool set that we will use to program
 with. The GCC tool set contains all of the programs necessary to create
 programs in various computer languages.
@@ -235,28 +233,32 @@ GNU/Linux.
 For the most part, this book will be using the computer's low-level
 assembly language. There are essentially three kinds of languages:
 
-Machine Language  
-This is what the computer actually sees and deals with. Every command
-the computer sees is given as a number or sequence of numbers.
+Machine Language
 
-Assembly Language  
-This is the same as machine language, except the command numbers have
-been replaced by letter sequences which are easier to memorize. Other
-small things are done to make it easier as well.
+:   This is what the computer actually sees and deals with. Every
+    command the computer sees is given as a number or sequence of
+    numbers.
 
-High-Level Languages  
-High-level languages are there to make programming easier. Assembly
-language requires you to work with the machine itself. High-level
-languages allow you to describe the program in a more natural language.
-A single command in a high-level language usually is equivalent to
-several commands in an assembly language.
+Assembly Language
+
+:   This is the same as machine language, except the command numbers
+    have been replaced by letter sequences which are easier to memorize.
+    Other small things are done to make it easier as well.
+
+High-Level Languages
+
+:   High-level languages are there to make programming easier. Assembly
+    language requires you to work with the machine itself. High-level
+    languages allow you to describe the program in a more natural
+    language. A single command in a high-level language usually is
+    equivalent to several commands in an assembly language.
 
 In this book we will learn assembly language, although we will cover a
 bit of high-level languages. Hopefully by learning assembly language,
 your understanding of how programming and computers work will put you a
 step ahead.
 
-Chapter 2. Computer Architecture
+Chapter 2. Computer Architecture {#chapter-2-computer-architecture}
 ================================
 
 Before learning how to program, you need to first understand how a
@@ -270,7 +272,7 @@ main parts - the CPU (for Central Processing Unit) and the memory. This
 architecture is used in all modern computers, including personal
 computers, supercomputers, mainframes, and even cell phones.
 
-Structure of Computer Memory
+Structure of Computer Memory {#structure-of-computer-memory}
 ----------------------------
 
 To understand how the computer views memory, imagine your local post
@@ -318,7 +320,7 @@ computer, there is no difference between a program and a program's data
 except how it is used by the computer. They are both stored and accessed
 the same way.
 
-The CPU
+The CPU {#the-cpu}
 -------
 
 So how does the computer function? Obviously, simply storing data
@@ -388,7 +390,7 @@ optimizations. Don't worry if you don't know what those words mean, you
 can just use them as Internet search terms if you want to learn more
 about the CPU.
 
-Some Terms
+Some Terms {#some-terms}
 ----------
 
 Computer memory is a numbered sequence of fixed-size storage locations.
@@ -402,7 +404,7 @@ and 255. First of all, specialized hardware like graphics cards have
 special interpretations of each number. When displaying to the screen,
 the computer uses ASCII code tables to translate the numbers you are
 sending it into letters to display on the screen, with each number
-translating to exactly one letter or numeral.[4] For example, the
+translating to exactly one letter or numeral.[^4] For example, the
 capital letter A is represented by the number 65. The numeral 1 is
 represented by the number 49. So, to print out "HELLO", you would
 actually give the computer the sequence of numbers 72, 69, 76, 76, 79.
@@ -439,7 +441,7 @@ manipulating.
 On the computers we are using, registers are each four bytes long. The
 size of a typical register is called a computer's *word* size. x86
 processors have four-byte words. This means that it is most natural on
-these computers to do computations four bytes at a time.[5] This gives
+these computers to do computations four bytes at a time.[^5] This gives
 us roughly 4 billion values.
 
 Addresses are also four bytes (1 word) long, and therefore also fit into
@@ -464,9 +466,9 @@ is that a special-purpose register called the instruction pointer points
 to them at one point or another. If the instruction pointer points to a
 memory word, it is loaded as an instruction. Other than that, the
 computer has no way of knowing the difference between programs and other
-types of data.[6]
+types of data.[^6]
 
-Interpreting Memory
+Interpreting Memory {#interpreting-memory}
 -------------------
 
 Computers are very exact. Because they are exact, programmers have to be
@@ -526,7 +528,7 @@ began. Therefore, almost all records are of fixed lengths.
 Variable-length data is usually stored separately from the rest of the
 record.
 
-Data Accessing Methods
+Data Accessing Methods {#data-accessing-methods}
 ----------------------
 
 <!-- TODO: This would be a good section for diagrams -->
@@ -597,10 +599,10 @@ the pointer is constant.
 There are other forms of addressing, but these are the most important
 ones.
 
-Review
+Review {#review}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts}
 
 -   Describe the fetch-execute cycle.
 
@@ -618,7 +620,7 @@ Review
 
 -   What does the instruction pointer do?
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts}
 
 -   What data would you use in an employee record? How would you lay it
     out in memory?
@@ -643,7 +645,7 @@ Review
     index register has a 20, and the multiplier is 1, what address would
     you be trying to access?
 
-### Going Further
+### Going Further {#going-further}
 
 -   What are the minimum number of addressing modes needed for
     computation?
@@ -656,7 +658,7 @@ Review
 -   Research and then describe the tradeoffs between fixed-length
     instructions and variable-length instructions.
 
-Chapter 3. Your First Programs
+Chapter 3. Your First Programs {#chapter-3-your-first-programs}
 ==============================
 
 In this chapter you will learn the process for writing and building
@@ -672,7 +674,7 @@ and you will have a solid foundation of knowledge to build on. Please
 tinker around with the programs as much as you can. Even if your
 tinkering does not work, every failure will help you learn.
 
-Entering in the Program
+Entering in the Program {#entering-in-the-program}
 -----------------------
 
 Okay, this first program is simple. In fact, it's not going to do
@@ -686,7 +688,7 @@ it works.
 
 ------------------------------------------------------------------------
 
-``` gnuassembler
+~~~ gnuassembler
     #PURPOSE:  Simple program that exits and returns a
     #          status code back to the Linux kernel
     #
@@ -715,7 +717,7 @@ _start:
                        # echo $?
     int $0x80          # this wakes up the kernel to run
                        # the exit command
-```
+~~~
 
 ------------------------------------------------------------------------
 
@@ -747,7 +749,7 @@ information to enable it to run. To *link* the file, enter the command
 
 `ld`ld is the command to run the linker, `exit.o` is the object file we
 want to link, and `-o exit` instructs the linker to output the new
-program into a file called `exit`.[7] If any of these commands reported
+program into a file called `exit`.[^7] If any of these commands reported
 errors, you have either mistyped your program or the command. After
 correcting the program, you have to re-run all the commands. *You must
 always re-assemble and re-link programs after you modify the source file
@@ -758,7 +760,7 @@ in the command
 
 The ``` ./``./ ``` is used to tell the computer that the program isn't
 in one of the normal program directories, but is the current directory
-instead[8]. You'll notice when you type this command, the only thing
+instead[^8]. You'll notice when you type this command, the only thing
 that happens is that you'll go to the next line. That's because this
 program does nothing but exit. However, immediately after you run the
 program, if you type in echo $?
@@ -773,7 +775,7 @@ errors, warnings, or statuses. The programmer determines what each
 number means. You can view this code by typing in `echo $?`. In the
 following section we will look at what each part of the code does.
 
-Outline of an Assembly Language Program
+Outline of an Assembly Language Program {#outline-of-an-assembly-language-program}
 ---------------------------------------
 
 Take a look at the program we just entered. At the beginning there are
@@ -789,7 +791,7 @@ the following in your comments:
 
 -   An overview of the processing involved
 
--   Anything strange your program does and why it does it[9]
+-   Anything strange your program does and why it does it[^9]
 
 After the comments, the next line says
 
@@ -877,7 +879,7 @@ quotient is then transferred to EAX and the remainder to EDX. However,
 the divisor can be any register or memory location.
 
 On x86 processors, there are several general-purpose
-registersgeneral-purpose registers[10] (all of which can be used with
+registersgeneral-purpose registers[^10] (all of which can be used with
 `movl`):
 
 -   EAX-INDEXED
@@ -903,7 +905,7 @@ special-purpose registersspecial-purpose registers, including:
 
 -   EFLAGS-INDEXED
 
-We'll discuss these later, just be aware that they exist.[11] Some of
+We'll discuss these later, just be aware that they exist.[^11] Some of
 these registers, like EIP-INDEXED and EFLAGS-INDEXED can only be
 accessed through special instructions. The others can be accessed using
 the same instructions as general-purpose registers, but they have
@@ -963,10 +965,10 @@ The next instruction is the "magic" one. It looks like this:
         int $0x80
 
 The `intint` stands for *interruptinterrupts*. The `0x800x80` is the
-interrupt number to use.[12] An *interruptinterrupts* interrupts the
+interrupt number to use.[^12] An *interruptinterrupts* interrupts the
 normal program flow, and transfers control from our program to
-LinuxLinux so that it will do a system call.[13]. You can think of it as
-like signaling Batman(or Larry-BoyLarry-Boy[14], if you prefer). You
+LinuxLinux so that it will do a system call.[^13]. You can think of it
+as like signaling Batman(or Larry-BoyLarry-Boy[^14], if you prefer). You
 need something done, you send the signal, and then he comes to the
 rescue. You don't care how he does his work - it's more or less magic -
 and when he's done you're back in control. In this case, all we're doing
@@ -974,9 +976,9 @@ is asking Linux to terminate the program, in which case we won't be back
 in control. If we didn't signal the interrupt, then no system call would
 have been performed.
 
-<div class="note">
+<div class="note" markdown="1">
 
-<div class="title">
+<div class="title" markdown="1">
 
 Quick System Call Review
 
@@ -1001,7 +1003,7 @@ running it. Add some comments. Don't worry, the worse thing that would
 happen is that the program won't assemble or link, or will freeze your
 screen. That's just part of learning!
 
-Planning the Program
+Planning the Program {#planning-the-program}
 --------------------
 
 In our next program we will try to find the maximum of a list of
@@ -1124,7 +1126,7 @@ that our minds are using to process problems. As you read and write
 programs, however, this will eventually become very natural to you. Just
 have patience.
 
-Finding a Maximum Value
+Finding a Maximum Value {#maximum}
 -----------------------
 
 Enter the following program as `maximum.s`:
@@ -1163,35 +1165,40 @@ numbers start during assembly. For example, the instruction
 several different types of memory locations other than `.long.long` that
 can be reserved. The main ones are as follows:
 
-`.byte.byte`  
-Bytes take up one storage location for each number. They are limited to
-numbers between 0 and 255.
+`.byte.byte`
 
-`.int.int`  
-Ints (which differ from the `int` instruction) take up two storage
-locations for each number. These are limitted to numbers between 0 and
-65535.[15]
+:   Bytes take up one storage location for each number. They are limited
+    to numbers between 0 and 255.
 
-`.long.long`  
-Longs take up four storage locations. This is the same amount of space
-the registers use, which is why they are used in this program. They can
-hold numbers between 0 and 4294967295.
+`.int.int`
 
-`.ascii.ascii`  
-The `.ascii` directive is to enter in characters into memory. Characters
-each take up one storage location (they are converted into bytes
-internally). So, if you gave the directive `.ascii "Hello there\0"`, the
-assembler would reserve 12 storage locations (bytes). The first byte
-contains the numeric code for `H`, the second byte contains the numeric
-code for `e`, and so forth. The last character is represented by
-`\0`\\0, and it is the terminating character (it will never display, it
-just tells other parts of the program that that's the end of the
-characters). Letters and numbers that start with a backslash represent
-characters that are not typeable on the keyboard or easily viewable on
-the screen. For example, `\n`\\n refers to the "newline"newline
-character which causes the computer to start output on the next line and
-`\t` \\t refers to the "tab"tab character. All of the letters in an
-`.ascii` directive should be in quotes.
+:   Ints (which differ from the `int` instruction) take up two storage
+    locations for each number. These are limitted to numbers between 0
+    and 65535.[^15]
+
+`.long.long`
+
+:   Longs take up four storage locations. This is the same amount of
+    space the registers use, which is why they are used in this program.
+    They can hold numbers between 0 and 4294967295.
+
+`.ascii.ascii`
+
+:   The `.ascii` directive is to enter in characters into memory.
+    Characters each take up one storage location (they are converted
+    into bytes internally). So, if you gave the directive
+    `.ascii "Hello there\0"`, the assembler would reserve 12 storage
+    locations (bytes). The first byte contains the numeric code for `H`,
+    the second byte contains the numeric code for `e`, and so forth. The
+    last character is represented by `\0`\\0, and it is the terminating
+    character (it will never display, it just tells other parts of the
+    program that that's the end of the characters). Letters and numbers
+    that start with a backslash represent characters that are not
+    typeable on the keyboard or easily viewable on the screen. For
+    example, `\n`\\n refers to the "newline"newline character which
+    causes the computer to start output on the next line and `\t` \\t
+    refers to the "tab"tab character. All of the letters in an `.ascii`
+    directive should be in quotes.
 
 In our example, the assembler reserves 14 `.long`s, one right after
 another. Since each long takes up 4 bytes, that means that the whole
@@ -1294,7 +1301,7 @@ If you look at the numbers in `data_items`, you will see that the number
 3 is now in EAX. If EDI was set to 1, the number 67 would be in EAX, and
 if it was set to 2, the number 34 would be in EAX, and so forth. Very
 strange things would happen if we used a number other than 4 as the size
-of our storage locations.[16] The way you write this is very awkward,
+of our storage locations.[^16] The way you write this is very awkward,
 but if you know what each piece does, it's not too difficult. For more
 information about this, see [Addressing Modes](#movaddrmodes)
 
@@ -1306,7 +1313,7 @@ We have the first item to look at stored in `%eax`. Since it is the
 first item, we know it's the biggest one we've looked at. We store it in
 `%ebx`, since that's where we are keeping the largest number found.
 Also, even though `movlmovl` stands for *move*, it actually copies the
-value, so `%eax` and `%ebx` both contain the starting value.[17]
+value, so `%eax` and `%ebx` both contain the starting value.[^17]
 
 Now we move into a *looploop*. A loop is a segment of your program that
 might run more than once. We have marked the starting location of the
@@ -1353,28 +1360,36 @@ equal (that's what the `e` of `je` means). It uses the status register
 to hold the value of the last comparison. We used `je`, but there are
 many jump statements that you can use:
 
-`je`  
-Jump if the values were equal
+`je`
 
-`jg`  
-Jump if the second value was greater than the first value[18]
+:   Jump if the values were equal
 
-`jge`  
-Jump if the second value was greater than or equal to the first value
+`jg`
 
-`jl`  
-Jump if the second value was less than the first value
+:   Jump if the second value was greater than the first value[^18]
 
-`jle`  
-Jump if the second value was less than or equal to the first value
+`jge`
 
-`jmp`  
-Jump no matter what. This does not need to be preceeded by a comparison.
+:   Jump if the second value was greater than or equal to the first
+    value
+
+`jl`
+
+:   Jump if the second value was less than the first value
+
+`jle`
+
+:   Jump if the second value was less than or equal to the first value
+
+`jmp`
+
+:   Jump no matter what. This does not need to be preceeded by a
+    comparison.
 
 The complete list is documented in [Common x86
 Instructions](#common-x86-instructions). In this case, we are jumping if
 EAX holds the value of zero. If so, we are done and we go to
-`loop_exit`.[19]
+`loop_exit`.[^19]
 
 If the last loaded element was not zero, we go on to the next
 instructions:
@@ -1429,7 +1444,7 @@ You might also grab a piece of paper, and go through the program
 step-by-step, recording every change to every register, so you can see
 more clearly what is going on.
 
-Addressing Modes
+Addressing Modes {#movaddrmodes}
 ----------------
 
 In [Data Accessing Methods](#data-accessing-methods) we learned the
@@ -1454,60 +1469,68 @@ All of the addressing modes mentioned in [Data Accessing
 Methods](#data-accessing-methods) except immediate-mode can be
 represented in this fashion.
 
-direct addressing modedirect addressing mode  
-This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
+direct addressing modedirect addressing mode
 
-    movl ADDRESS, %eax
+:   This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
-This loads EAX with the value at memory address `ADDRESS`.
+        movl ADDRESS, %eax
 
-indexed addressing modeindexed addressing mode  
-This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX` portion.
-You can use any general-purpose register as the index register. You can
-also have a constant multipliermultiplier of 1, 2, or 4 for the index
-registerindex register, to make it easier to index by bytes,
-double-bytes, and words. For example, let's say that we had a string of
-bytes as `string_start` and wanted to access the third one (an index of
-2 since we start counting the index at zero), and ECX held the value 2.
-If you wanted to load it into EAX you could do the following:
+    This loads EAX with the value at memory address `ADDRESS`.
 
-    movl string_start(,%ecx,1), %eax
+indexed addressing modeindexed addressing mode
 
-This starts at `string_start`, and adds `1 * %ecx` to that address, and
-loads the value into EAX.
+:   This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX`
+    portion. You can use any general-purpose register as the index
+    register. You can also have a constant multipliermultiplier of 1, 2,
+    or 4 for the index registerindex register, to make it easier to
+    index by bytes, double-bytes, and words. For example, let's say that
+    we had a string of bytes as `string_start` and wanted to access the
+    third one (an index of 2 since we start counting the index at zero),
+    and ECX held the value 2. If you wanted to load it into EAX you
+    could do the following:
 
-indirect addressing modeindirect addressing mode  
-Indirect addressing mode loads a value from the address indicated by a
-register. For example, if EAX held an address, we could move the value
-at that address to EBX by doing the following:
+        movl string_start(,%ecx,1), %eax
 
-    movl (%eax), %ebx
+    This starts at `string_start`, and adds `1 * %ecx` to that address,
+    and loads the value into EAX.
 
-base pointer addressing modebase pointer addressing mode  
-Base-pointer addressing is similar to indirect addressing, except that
-it adds a constant value to the address in the register. For example, if
-you have a record where the age value is 4 bytes into the record, and
-you have the address of the record in EAX, you can retrieve the age into
-EBX by issuing the following instruction:
+indirect addressing modeindirect addressing mode
 
-    movl  4(%eax), %ebx
+:   Indirect addressing mode loads a value from the address indicated by
+    a register. For example, if EAX held an address, we could move the
+    value at that address to EBX by doing the following:
 
-immediate modeimmediate mode addressing  
-Immediate mode is very simple. It does not follow the general form we
-have been using. Immediate mode is used to load direct values into
-registers or memory locations. For example, if you wanted to load the
-number 12 into EAX, you would simply do the following:
+        movl (%eax), %ebx
 
-    movl $12, %eax
+base pointer addressing modebase pointer addressing mode
 
-Notice that to indicate immediate mode, we used a dollar sign in front
-of the number. If we did not, it would be direct addressing mode, in
-which case the value located at memory location 12 would be loaded into
-EAX rather than the number 12 itself.
+:   Base-pointer addressing is similar to indirect addressing, except
+    that it adds a constant value to the address in the register. For
+    example, if you have a record where the age value is 4 bytes into
+    the record, and you have the address of the record in EAX, you can
+    retrieve the age into EBX by issuing the following instruction:
 
-register addressing moderegister addressing mode  
-Register mode simply moves data in or out of a register. In all of our
-examples, register addressing mode was used for the other operand.
+        movl  4(%eax), %ebx
+
+immediate modeimmediate mode addressing
+
+:   Immediate mode is very simple. It does not follow the general form
+    we have been using. Immediate mode is used to load direct values
+    into registers or memory locations. For example, if you wanted to
+    load the number 12 into EAX, you would simply do the following:
+
+        movl $12, %eax
+
+    Notice that to indicate immediate mode, we used a dollar sign in
+    front of the number. If we did not, it would be direct addressing
+    mode, in which case the value located at memory location 12 would be
+    loaded into EAX rather than the number 12 itself.
+
+register addressing moderegister addressing mode
+
+:   Register mode simply moves data in or out of a register. In all of
+    our examples, register addressing mode was used for the other
+    operand.
 
 These addressing modes are very important, as every memory access will
 use one of these. Every mode except immediate mode can be used as either
@@ -1527,7 +1550,7 @@ time, you could just use AX-INDEXED. AX is the least-significant half
 (i.e. - the last part of the number) of the EAX register, and is useful
 when dealing with two-byte quantities. AX is further divided up into
 AL-INDEXED and AH-INDEXED. AL is the least-significant byte of AX, and
-AH is the most significant byte.[20] Loading a value into EAX will wipe
+AH is the most significant byte.[^20] Loading a value into EAX will wipe
 out whatever was in AL and AH (and also AX, since AX is made up of
 them). Similarly, loading a value into either AL or AH will corrupt any
 value that was formerly in EAX. Basically, it's wise to only use a
@@ -1538,10 +1561,10 @@ register for either a byte or a word, but never both at the same time.
 For a more comprehensive list of instructions, see [Common x86
 Instructions](#common-x86-instructions).
 
-Review
+Review {#review-1}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-1}
 
 -   What does it mean if a line in the program starts with the '\#'
     character?
@@ -1578,7 +1601,7 @@ Review
 -   Go through every instruction and list what addressing mode is being
     used for each operand.
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-1}
 
 -   Modify the first program to return the value 3.
 
@@ -1598,7 +1621,7 @@ Review
     `_start`. How would this differ from the instruction
     `movl $_start, %eax`?
 
-### Going Further
+### Going Further {#going-further-1}
 
 -   Modify the first program to leave off the `int` instruction line.
     Assemble, link, and execute the new program. What error message do
@@ -1609,10 +1632,10 @@ Review
     the length count. Which approach do you think is best? Why? Which
     approach would you use if you knew that the list was sorted? Why?
 
-All About Functions
+All About Functions {#functionschapter}
 ===================
 
-Dealing with Complexity
+Dealing with Complexity {#dealing-with-complexity}
 -----------------------
 
 In [???](#chapter-3-your-first-programs), the programs we wrote only
@@ -1664,63 +1687,74 @@ large picture in focus. In assembly language, the primitives are usually
 the same thing as the system callssystem calls, even though system calls
 aren't true functions as we will talk about in this chapter.
 
-How Functions Work
+How Functions Work {#howfunctionswork}
 ------------------
 
 Functions are composed of several different pieces:
 
-function name  
-A function's name is a symbolsymbol that represents the address where
-the function's code starts. In assembly language, the symbol is defined
-by typing the function's name as a label before the function's code.
-This is just like labelslabels you have used for jumping.
+function name
 
-function parameters  
-A function's parametersparameters are the data items that are explicitly
-given to the function for processing. For example, in mathematics, there
-is a sine function. If you were to ask a computer to find the sine of 2,
-sine would be the function's name, and 2 would be the parameter. Some
-functions have many parameters, others have none.[21]
+:   A function's name is a symbolsymbol that represents the address
+    where the function's code starts. In assembly language, the symbol
+    is defined by typing the function's name as a label before the
+    function's code. This is just like labelslabels you have used for
+    jumping.
 
-local variables  
-Local variableslocal variables are data storage that a function uses
-while processing that is thrown away when it returns. It's kind of like
-a scratch pad of paper. Functions get a new piece of paper every time
-they are activated, and they have to throw it away when they are
-finished processing. Local variables of a function are not accessible to
-any other function within a program.
+function parameters
 
-static variables  
-Static variablesstatic variables are data storage that a function uses
-while processing that is not thrown away afterwards, but is reused for
-every time the function's code is activated. This data is not accessible
-to any other part of the program. Static variables are generally not
-used unless absolutely necessary, as they can cause problems later on.
+:   A function's parametersparameters are the data items that are
+    explicitly given to the function for processing. For example, in
+    mathematics, there is a sine function. If you were to ask a computer
+    to find the sine of 2, sine would be the function's name, and 2
+    would be the parameter. Some functions have many parameters, others
+    have none.[^21]
 
-global variables  
-Global variables are data storage that a function uses for processing
-which are managed outside the function. For example, a simple text
-editor may put the entire contents of the file it is working on in a
-global variable so it doesn't have to be passed to every function that
-operates on it.[22] Configuration values are also often stored in global
-variables.
+local variables
 
-return address  
-The return addressreturn address is an "invisible" parameter in that it
-isn't directly used during the function. The return address is a
-parameter which tells the function where to resume executing after the
-function is completed. This is needed because functions can be called to
-do processing from many different parts of your program, and the
-function needs to be able to get back to wherever it was called from. In
-most programming languages, this parameter is passed automatically when
-the function is called. In assembly language, the `callcall` instruction
-handles passing the return address for you, and `retret` handles using
-that address to return back to where you called the function from.
+:   Local variableslocal variables are data storage that a function uses
+    while processing that is thrown away when it returns. It's kind of
+    like a scratch pad of paper. Functions get a new piece of paper
+    every time they are activated, and they have to throw it away when
+    they are finished processing. Local variables of a function are not
+    accessible to any other function within a program.
 
-return value  
-The return valuereturn value is the main method of transferring data
-back to the main program. Most programming languages only allow a single
-return value for a function.
+static variables
+
+:   Static variablesstatic variables are data storage that a function
+    uses while processing that is not thrown away afterwards, but is
+    reused for every time the function's code is activated. This data is
+    not accessible to any other part of the program. Static variables
+    are generally not used unless absolutely necessary, as they can
+    cause problems later on.
+
+global variables
+
+:   Global variables are data storage that a function uses for
+    processing which are managed outside the function. For example, a
+    simple text editor may put the entire contents of the file it is
+    working on in a global variable so it doesn't have to be passed to
+    every function that operates on it.[^22] Configuration values are
+    also often stored in global variables.
+
+return address
+
+:   The return addressreturn address is an "invisible" parameter in that
+    it isn't directly used during the function. The return address is a
+    parameter which tells the function where to resume executing after
+    the function is completed. This is needed because functions can be
+    called to do processing from many different parts of your program,
+    and the function needs to be able to get back to wherever it was
+    called from. In most programming languages, this parameter is passed
+    automatically when the function is called. In assembly language, the
+    `callcall` instruction handles passing the return address for you,
+    and `retret` handles using that address to return back to where you
+    called the function from.
+
+return value
+
+:   The return valuereturn value is the main method of transferring data
+    back to the main program. Most programming languages only allow a
+    single return value for a function.
 
 global variables These pieces are present in most programming languages.
 How you specify each piece is different in each one, however.
@@ -1729,7 +1763,7 @@ The way that the variables are stored and the parameters and return
 values are transferred by the computer varies from language to language
 as well. This variance is known as a language's *calling
 convention*calling conventions, because it describes how functions
-expect to get and receive data when they are called.[23]
+expect to get and receive data when they are called.[^23]
 
 Assembly language can use any calling convention it wants to. You can
 even make one up yourself. However, if you want to interoperate with
@@ -1738,7 +1772,7 @@ conventions. We will use the calling convention of the C programming
 languageC programming language for our examples because it is the most
 widely used, and because it is the standard for Linux platforms.
 
-Assembly-Language Functions using the C Calling Convention
+Assembly-Language Functions using the C Calling Convention {#callingwritingassemblyfunctions}
 ----------------------------------------------------------
 
 You cannot write assembly-language functions without understanding how
@@ -1873,7 +1907,7 @@ this:
 
     subl $8, %esp
 
-This subtracts 8 from ESP (remember, a word is four bytes long).[24]
+This subtracts 8 from ESP (remember, a word is four bytes long).[^24]
 This way, we can use the stack for variable storage without worring
 about clobbering them with pushes that we may make for function calls.
 Also, since it is allocated on the stack frame for this function call,
@@ -1948,11 +1982,11 @@ also needs to pop off all of the parameters it pushed onto the stack in
 order to get the stack pointerstack pointer back where it was (you can
 also simply add 4 \* number of parameters to ESP-INDEXED using the
 `addl` instruction, if you don't need the values of the parameters
-anymore).[25]
+anymore).[^25]
 
-<div class="warning">
+<div class="warning" markdown="1">
 
-<div class="title">
+<div class="title" markdown="1">
 
 Destruction of Registers
 
@@ -1986,9 +2020,9 @@ you know how to call the other language's functions.
 
 </div>
 
-<div class="note">
+<div class="note" markdown="1">
 
-<div class="title">
+<div class="title" markdown="1">
 
 Extended Specification
 
@@ -2005,7 +2039,7 @@ Processor Supplement.
 
 </div>
 
-A Function Example
+A Function Example {#a-function-example}
 ------------------
 
 Let's take a look at how a function callfunction call works in a real
@@ -2103,7 +2137,7 @@ your program by hand with a scrap of paper, keeping track of where EBP
 and ESP are pointing, what is on the stack, and what the values are in
 each register.
 
-Recursive Functions
+Recursive Functions {#recursivefunctions}
 -------------------
 
 The next program will stretch your brains even more. The program will
@@ -2139,7 +2173,7 @@ This would be problematic if we didn't have local variableslocal
 variables. In other programs, storing values in global variables worked
 fine. However, global variables only provide one copy of each variable.
 In this program, we will have multiple copies of the function running at
-the same time, all of them needing their own copies of the data![26]
+the same time, all of them needing their own copies of the data![^26]
 Since local variables exist on the stack frame, and each function call
 gets its own stack framestack frame, we are okay.
 
@@ -2320,10 +2354,10 @@ step-by-step, keeping track of what the values of the registers are at
 each step, and what values are on the stack. Doing this should deepen
 your understanding of what is going on.
 
-Review
+Review {#review-2}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-2}
 
 -   What are primitives?
 
@@ -2342,7 +2376,7 @@ Review
 
 -   What is a stack frame?
 
-### Use the Concepts
+### Use the Concepts {#functionsreviewuseconcepts}
 
 -   Write a function called `square` which receives one argument and
     returns the square of that argument.
@@ -2358,7 +2392,7 @@ Review
 -   Explain the problems that would arise without a standard calling
     convention.
 
-### Going Further
+### Going Further {#going-further-2}
 
 -   Do you think it's better for a system to have a large set of
     primitives or a small one, assuming that the larger set can be
@@ -2384,7 +2418,7 @@ Review
 -   What test cases should we use in our example program to check to see
     if it is working properly?
 
-Dealing with Files
+Dealing with Files {#filesch}
 ==================
 
 A lot of computer programming deals with filesfiles. After all, when we
@@ -2393,7 +2427,7 @@ are the things that have been put on disk. Data which is stored in files
 is called *persistentpersistance* data, because it persists in files
 that remain on the disk even when the program isn't running..
 
-The UNIX File Concept
+The UNIX File Concept {#the-unix-file-concept}
 ---------------------
 
 Each operating system has its own way of dealing with files. However,
@@ -2419,7 +2453,7 @@ In our programs we will deal with files in the following ways:
     read/write intentions, represented as a number, should be stored in
     ECX-INDEXED. For now, use 0 for files you want to read from, and
     03101 for files you want to write to (you must include the leading
-    zero).[27] Finally, the permission set should be stored as a number
+    zero).[^27] Finally, the permission set should be stored as a number
     in EDX-INDEXED. If you are unfamiliar with UNIX permissions, just
     use 0666 for the permissions (again, you must include the leading
     zero).
@@ -2449,7 +2483,7 @@ In our programs we will deal with files in the following ways:
     only parameter to `close` is the file descriptor, which is placed in
     EBX
 
-Buffers and `.bss`
+Buffers and `.bss` {#buffersbss}
 ------------------
 
 In the previous section we mentioned buffersbuffers without explaining
@@ -2467,7 +2501,7 @@ characters to that end-of-line character to another location. If you
 didn't find an end-of-line character, you would allocate another buffer
 and continue reading. You would probably wind up with some characters
 left over in your buffer in this case, which you would use as the
-starting point when you next need data from the file.[28]
+starting point when you next need data from the file.[^28]
 
 Another thing to note is that buffersbuffers are a fixed size, set by
 the programmer. So, if you want to read in data 500 bytes at a time, you
@@ -2518,28 +2552,33 @@ addressing, which actually loads the number represented by `my_buffer`
 itself (i.e. - the address of the start of our buffer, which is the
 address of `my_buffer`) into ECX.
 
-Standard and Special Files
+Standard and Special Files {#standard-and-special-files}
 --------------------------
 
 You might think that programs start without any files open by default.
 This is not true. Linux programs usually have at least three open file
 descriptorsfile descriptors when they begin. They are:
 
-STDINSTDIN  
-This is the *standard inputstandard input*. It is a read-only file, and
-usually represents your keyboard.[29] This is always file descriptor 0.
+STDINSTDIN
 
-STDOUTSTDOUT  
-This is the *standard outputstandard output*. It is a write-only file,
-and usually represents your screen display. This is always file
-descriptor 1.
+:   This is the *standard inputstandard input*. It is a read-only file,
+    and usually represents your keyboard.[^29] This is always file
+    descriptor 0.
 
-STDERRSTDERR  
-This is your *standard errorstandard error*. It is a write-only file,
-and usually represents your screen display. Most regular processing
-output goes to `STDOUT`, but any error messages that come up in the
-process go to `STDERR`. This way, if you want to, you can split them up
-into separate places. This is always file descriptor 2.
+STDOUTSTDOUT
+
+:   This is the *standard outputstandard output*. It is a write-only
+    file, and usually represents your screen display. This is always
+    file descriptor 1.
+
+STDERRSTDERR
+
+:   This is your *standard errorstandard error*. It is a write-only
+    file, and usually represents your screen display. Most regular
+    processing output goes to `STDOUT`, but any error messages that come
+    up in the process go to `STDERR`. This way, if you want to, you can
+    split them up into separate places. This is always file
+    descriptor 2.
 
 Any of these "filesfiles" can be redirected from or to a real file,
 rather than a screen or a keyboard. This is outside the scope of this
@@ -2558,7 +2597,7 @@ methods of opening and creating them than regular filesregular files
 (i.e. - they don't use the `open` system call), but they can all be read
 from and written to using the standard `read` and `write` system calls.
 
-Using Files in a Program
+Using Files in a Program {#using-files-in-a-program}
 ------------------------
 
 We are going to write a simple program to illustrate these concepts. The
@@ -2585,7 +2624,7 @@ open files, and continually read and write blocks to disk. One of the
 keys of programming is continually breaking down problems into smaller
 and smaller chunks until it's small enough that you can easily solve the
 problem. Then you can build these chunks back up until you have a
-working program.[30]
+working program.[^30]
 
 You may have been thinking that you will never remember all of these
 numbers being thrown at you - the system call numbers, the interrupt
@@ -2632,10 +2671,10 @@ constants together at the beginning of the program. It's only necessary
 to declare them before you use them, but putting them all at the
 beginning makes them easy to find. Making them all upper-case makes it
 obvious in your program which values are constants and where to find
-them.[31] In assembly language, we declare constants with the `.equ.equ`
-directive as mentioned before. Here, we simply give names to all of the
-standard numbers we've used so far, like system call numbers, the
-syscall interrupt number, and file open options.
+them.[^31] In assembly language, we declare constants with the
+`.equ.equ` directive as mentioned before. Here, we simply give names to
+all of the standard numbers we've used so far, like system call numbers,
+the syscall interrupt number, and file open options.
 
 The next section is marked `BUFFERS`. We only use one bufferbuffer in
 this program, which we call `BUFFER_DATA`. We also define a constant,
@@ -2754,7 +2793,7 @@ parameters:
 -   EDX-INDEXED contains the permissions that are used to open the file.
     This is used in case the file has to be created first, so Linux
     knows what permissions to create the file with. These are expressed
-    in octal, just like regular UNIX permissions.[32]
+    in octal, just like regular UNIX permissions.[^32]
 
 permissions After making the system call, the file descriptor of the
 newly-opened file is stored in EAX-INDEXED.
@@ -2778,7 +2817,7 @@ command-line argument. We do this by setting up the system call. We put
 the file name into EBX-INDEXED, the read-only mode number into
 ECX-INDEXED, the default mode of `$0666` into EDX-INDEXED, and the
 system call number into EAX-INDEXED After the system call, the file is
-open and the file descriptor is stored in EAX-INDEXED.[33] The file
+open and the file descriptor is stored in EAX-INDEXED.[^33] The file
 descriptor is then transferred to its appropriate place on the stack.
 
 The same is then done for the output file, except that it is created
@@ -2819,10 +2858,10 @@ EBX-INDEXED.
 
 The program is then finished!
 
-Review
+Review {#review-3}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-3}
 
 -   Describe the lifecycle of a file descriptor.
 
@@ -2835,7 +2874,7 @@ Review
 
 -   What are the system calls related to reading and writing files?
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-2}
 
 -   Modify the `toupper` program so that it reads from `STDIN` and
     writes to `STDOUT` instead of using the files on the command-line.
@@ -2848,7 +2887,7 @@ Review
 -   Write a program that will create a file called `heynow.txt` and
     write the words "Hey diddle diddle!" into it.
 
-### Going Further
+### Going Further {#going-further-3}
 
 -   What difference does the size of the buffer make?
 
@@ -2861,7 +2900,7 @@ Review
 -   Modify the program so that it checks the results of each system
     call, and prints out an error message to `STDOUT` when it occurs.
 
-Developing Robust Programs
+Developing Robust Programs {#developingrobustprograms}
 ==========================
 
 This chapter deals with developing programs that are *robustrobust*.
@@ -2872,7 +2911,7 @@ programming. Writing robust programs takes discipline and work - it
 usually entails finding every possible problem that can occur, and
 coming up with an action plan for your program to take.
 
-Where Does the Time Go?
+Where Does the Time Go? {#where-does-the-time-go}
 -----------------------
 
 Programmers schedule poorly. In almost every programming project,
@@ -2922,10 +2961,10 @@ weeks to develop a program, it will likely take at least two more to
 make it robustrobust. Remember that every error message that pops up on
 your screen had to be programmed in by someone.
 
-Some Tips for Developing Robust Programs
+Some Tips for Developing Robust Programs {#some-tips-for-developing-robust-programs}
 ----------------------------------------
 
-### User Testing
+### User Testing {#user-testing}
 
 Testingtesting is one of the most essential things a programmer does. If
 you haven't tested something, you should assume it doesn't work.
@@ -2958,7 +2997,7 @@ Users enter data that makes sense to them. Allowing non-programmers to
 use your program for testingtesting purposes usually gives you much more
 accurate results as to how robustrobust your program truly is.
 
-### Data Testing
+### Data Testing {#data-testing}
 
 When designing programs, each of your functions needs to be very
 specific about the type and range of data that it will or won't accept.
@@ -3011,7 +3050,7 @@ compile-time. This makes sure that your functions are receiving good
 data without causing unnecessary slowdowns for code released to the
 public.
 
-### Module Testing
+### Module Testing {#module-testing}
 
 Not only should you test your program as a whole, you need to test the
 individual pieces of your program. As you develop your program, you
@@ -3036,13 +3075,13 @@ functions which relied on it would have an answer. This allowed me to
 test functions which relied on `is_ready_to_checkout` without the
 function being fully implemented.
 
-Handling Errors Effectively
+Handling Errors Effectively {#handlingerrors}
 ---------------------------
 
 Not only is it important to know how to test, but it is also important
 to know what to do when an error is detected.
 
-### Have an Error Code for Everything
+### Have an Error Code for Everything {#have-an-error-code-for-everything}
 
 Truly robust software has a unique error code for every possible
 contingency. By simply knowing the error codeerror code, you should be
@@ -3071,7 +3110,7 @@ the application. A troubleshooting guide, not the program itself, is an
 appropriate place to list possible reasons and courses for action for
 each error message.
 
-### Recovery Points
+### Recovery Points {#recovery-points}
 
 In order to simplify error handling, it is often useful to break your
 program apart into distinct units, where each unit fails and is
@@ -3106,7 +3145,7 @@ message. The function would print them and and simply exit the program.
 This is not usually the best solution for real-world situations, but it
 is a good fall-back, last resort mechanism.
 
-Making Our Program More Robust
+Making Our Program More Robust {#making-our-program-more-robust}
 ------------------------------
 
 This section will go through making the `add-year.s` program from
@@ -3179,10 +3218,10 @@ To assemble and link the files, do:
 Now try to run it without the necessary files. It now exits cleanly and
 gracefully!
 
-Review
+Review {#review-4}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-4}
 
 -   What are the reasons programmer's have trouble with scheduling?
 
@@ -3203,7 +3242,7 @@ Review
 
 -   How many different error codes should a program have?
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-3}
 
 -   Go through the `add-year.s` program and add error-checking code
     after every system call.
@@ -3214,7 +3253,7 @@ Review
 -   Add a recovery mechanism for `add-year.s` that allows it to read
     from STDIN if it cannot open the standard file.
 
-### Going Further
+### Going Further {#going-further-4}
 
 -   What, if anything, should you do if your error-reporting function
     fails? Why?
@@ -3224,10 +3263,10 @@ Review
 
 -   Try to fix the bug you found in the previous exercise.
 
-Intermediate Memory Topics
+Intermediate Memory Topics {#memoryintermediate}
 ==========================
 
-How a Computer Views Memory
+How a Computer Views Memory {#how-a-computer-views-memory}
 ---------------------------
 
 Let's review how memory within a computer works. You may also want to
@@ -3263,41 +3302,46 @@ This chapter is focused on the details of computer memory. To get
 started let's review some basic terms that we will be using in this
 chapter:
 
-Byte  
-This is the size of a storage location. On x86 processors, a byte can
-hold numbers between 0 and 255.
+Byte
 
-Word  
-This is the size of a normal register. On x86 processors, a word is four
-bytes long. Most computer operations handle a word at a time.
+:   This is the size of a storage location. On x86 processors, a byte
+    can hold numbers between 0 and 255.
 
-Address  
-An address is a number that refers to a byte in memory. For example, the
-first byte on a computer has an address of 0, the second has an address
-of 1, and so on.[34] Every piece of data on the computer not in a
-register has an address. The address of data which spans several bytes
-is the same as the address of its first byte.
+Word
 
-Normally, we don't ever type the numeric address of anything, but we let
-the assembler do it for us. When we use labels in code, the symbol used
-in the label will be equivalent to the address it is labelling. The
-assembler will then replace that symbol with its address wherever you
-use it in your program. For example, say you have the following code:
+:   This is the size of a normal register. On x86 processors, a word is
+    four bytes long. Most computer operations handle a word at a time.
 
-        .section .data
-    my_data:
-        .long 2, 3, 4
+Address
 
-Now, any time in the program that `my_data` is used, it will be replaced
-by the address of the first value of the `.long` directive.
+:   An address is a number that refers to a byte in memory. For example,
+    the first byte on a computer has an address of 0, the second has an
+    address of 1, and so on.[^34] Every piece of data on the computer
+    not in a register has an address. The address of data which spans
+    several bytes is the same as the address of its first byte.
 
-Pointer  
-A pointer is a register or memory word whose value is an address. In our
-programs we use `%ebp` as a pointer to the current stack frame. All base
-pointer addressing involves pointers. Programming uses a lot of
-pointers, so it's an important concept to grasp.
+    Normally, we don't ever type the numeric address of anything, but we
+    let the assembler do it for us. When we use labels in code, the
+    symbol used in the label will be equivalent to the address it is
+    labelling. The assembler will then replace that symbol with its
+    address wherever you use it in your program. For example, say you
+    have the following code:
 
-The Memory Layout of a Linux Program
+            .section .data
+        my_data:
+            .long 2, 3, 4
+
+    Now, any time in the program that `my_data` is used, it will be
+    replaced by the address of the first value of the `.long` directive.
+
+Pointer
+
+:   A pointer is a register or memory word whose value is an address. In
+    our programs we use `%ebp` as a pointer to the current stack frame.
+    All base pointer addressing involves pointers. Programming uses a
+    lot of pointers, so it's an important concept to grasp.
+
+The Memory Layout of a Linux Program {#the-memory-layout-of-a-linux-program}
 ------------------------------------
 
 When you program is loaded into memory, each `.section.section` is
@@ -3307,7 +3351,7 @@ source code.
 
 The actual instructions (the `.text.text` section) are loaded at the
 address 0x08048000 (numbers starting with `0x` are in hexadecimal, which
-will be discussed in [???](#countingchapter)).[35] The `.data.data`
+will be discussed in [???](#countingchapter)).[^35] The `.data.data`
 section is loaded immediately after that, followed by the `.bss.bss`
 section.
 
@@ -3347,7 +3391,7 @@ Your program's data region starts at the bottom of memory and goes up.
 The stack starts at the top of memory, and moves downward with each
 push. This middle part between the stack and your program's data
 sections is inaccessible memory - you are not allowed to access it until
-you tell the kernel that you need it.[36] If you try, you will get an
+you tell the kernel that you need it.[^36] If you try, you will get an
 error (the error message is usually "segmentation fault"). The same will
 happen if you try to access data before the beginning of your program,
 0x08048000. The last accessible memory address to your program is called
@@ -3357,7 +3401,7 @@ break* or just the *break*).
 ![*Memory Layout of a Linux Program at
 Startup*](resource/image/memorylayout.png)
 
-Every Memory Address is a Lie
+Every Memory Address is a Lie {#every-memory-address-is-a-lie}
 -----------------------------
 
 So, why does the computer not allow you to access memory in the break
@@ -3429,7 +3473,7 @@ virtual-to-physical memory lookup tables so that it can find the memory
 in the new location. Finally, Linux returns control to the program and
 restarts it at the instruction which was trying to access the data in
 the first place. This instruction can now be completed successfully,
-because the memory is now in physical RAM.[37]
+because the memory is now in physical RAM.[^37]
 
 Here is an overview of the way memory accesses are handled under Linux:
 
@@ -3483,9 +3527,9 @@ system being unresponsive and unproductive. It's usually usually
 recoverable if you start terminating your memory-hungry programs, but
 it's a pain.
 
-<div class="note">
+<div class="note" markdown="1">
 
-<div class="title">
+<div class="title" markdown="1">
 
 Resident Set Size
 
@@ -3498,7 +3542,7 @@ column labelled "RSS".
 
 </div>
 
-Getting More Memory
+Getting More Memory {#dynamicmemory}
 -------------------
 
 We now know that Linux maps all of our virtual memory into physical
@@ -3540,7 +3584,7 @@ needed is a *memory managermemory manager*.
 
 A memory manager is a set of routines that takes care of the dirty work
 of getting your program memory for you. Most memory managers have two
-basic functions - `allocate` and `deallocate`.[38] Whenever you need a
+basic functions - `allocate` and `deallocate`.[^38] Whenever you need a
 certain amount of memory, you can simply tell `allocate` how much you
 need, and it will give you back an address to the memory. When you're
 done with it, you tell `deallocate` that you are through with it.
@@ -3559,7 +3603,7 @@ to request more memory. When you free memory it marks the block as
 unused so that future requests can retrieve it. In the next section we
 will look at building our own memory manager.
 
-A Simple Memory Manager
+A Simple Memory Manager {#a-simple-memory-manager}
 -----------------------
 
 Here I will show you a simple memory manager. It is very primitive but
@@ -3580,7 +3624,7 @@ To assemble the program, do the following:
 
 Okay, now let's look at the code.
 
-### Variables and Constants
+### Variables and Constants {#variables-and-constants}
 
 At the beginning of the program, we have two locations set up:
 
@@ -3629,7 +3673,7 @@ Finally, we have our Linux system call definitions:
         .equ BRK, 45
         .equ LINUX_SYSCALL, 0x80
 
-### The `allocate_init` function
+### The `allocate_init` function {#the-allocate_init-function}
 
 Okay, this is a simple function. All it does is set up the `heap_begin`
 and `current_break` variables we discussed earlier. So, if you remember
@@ -3661,7 +3705,7 @@ The heap consists of the memory between `heap_begin` and
 bytes. Our `allocate` function will then extend the heap as much as it
 needs to when it is called.
 
-### The `allocate` function
+### The `allocate` function {#the-allocate-function}
 
 This is the doozy function. Let's start by looking at an outline of the
 function:
@@ -3823,7 +3867,7 @@ region, we will eventually reach the end of the heap, because it is a
 finite size. Therefore, we know that no matter which condition is true,
 the loop has to eventually hit a terminating condition.
 
-### The `deallocate` function
+### The `deallocate` function {#the-deallocate-function}
 
 The `deallocate` function is much easier than the `allocate` one. That's
 because it doesn't have to do any searching at all. It can just mark the
@@ -3842,7 +3886,7 @@ backing up to the beginning of the header, and marking the region as
 available. This function has no return value, so we don't care what we
 leave in EAX.
 
-### Performance Issues and Other Problems
+### Performance Issues and Other Problems {#performance-issues-and-other-problems}
 
 Our simplistic memory manager is not really useful for anything more
 than an academic exercise. This section looks at the problems with such
@@ -3857,7 +3901,7 @@ addition, remember that Linux can keep pages of memory on disk instead
 of in memory. So, since you have to go through every piece of memory
 your program's memory, that means that Linux has to load every part of
 memory that's currently on disk to check to see if it is available. You
-can see how this could get really, really slow.[39] This method is said
+can see how this could get really, really slow.[^39] This method is said
 to run in *linear* time, which means that every element you have to
 manage makes your program take longer. A program that runs in *constant*
 time takes the same amount of time no matter how many elements you are
@@ -3893,7 +3937,7 @@ break it apart so the other 995 bytes can be used later. It would also
 be nice to combine consecutive free spaces when looking for large
 allocations.
 
-Using our Allocator
+Using our Allocator {#using-our-allocator}
 -------------------
 
 The programs we do in this book aren't complicated enough to necessitate
@@ -3996,7 +4040,7 @@ The uses of dynamic memory allocation may not be apparent to you at this
 point, but as you go from academic exercises to real-life programs you
 will use it continually.
 
-More Information
+More Information {#more-information}
 ----------------
 
 More information on memory handling in Linux and other operating systems
@@ -4019,10 +4063,10 @@ can be found at the following locations:
 -   A paper on the 4.4 BSD memory allocator is available at
     http://docs.freebsd.org/44doc/papers/malloc.html
 
-Review
+Review {#review-5}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-5}
 
 -   Describe the layout of memory when a Linux program starts.
 
@@ -4044,7 +4088,7 @@ Review
 
 -   Why do you need an allocator?
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-4}
 
 -   Modify the memory manager so that it calls `allocate_init`
     automatically if it hasn't been initialized.
@@ -4057,7 +4101,7 @@ Review
 -   Modify one of your programs that uses buffers to use the memory
     manager to get buffer memory rather than using the `.bss`.
 
-### Going Further
+### Going Further {#going-further-5}
 
 -   Research *garbage collection*. What advantages and disadvantages
     does this have over the style of memory management used here?
@@ -4071,7 +4115,7 @@ Review
     `write` system calls to STDOUT to verify that your memory manager is
     being used instead of the default one.
 
-Sharing Functions with Code Libraries
+Sharing Functions with Code Libraries {#linking}
 =====================================
 
 By now you should realize that the computer has to do a lot of work even
@@ -4134,10 +4178,10 @@ is generally assumed that the advantages outweigh the disadvantages.
 In programming, these shared code files are referred to as *shared
 libraries* shared libraries, *dynamic libraries* dynamic libraries,
 *shared objectsshared objects*, *dynamic-link librariesdynamic-link
-libraries*, *DLLsDLLs*, or *.so files*.[40] We will refer to all of
+libraries*, *DLLsDLLs*, or *.so files*.[^40] We will refer to all of
 these as *dynamic libraries*.
 
-Using a Dynamic Library
+Using a Dynamic Library {#using-a-dynamic-library}
 -----------------------
 
 The program we will examine here is simple - it writes the characters
@@ -4197,7 +4241,7 @@ loads. It then replaces all of the names with the addresses which they
 are loaded at. This sounds time-consuming. It is to a small degree, but
 it only happens once - at program startup time.
 
-How Dynamic Libraries Work
+How Dynamic Libraries Work {#how-dynamic-libraries-work}
 --------------------------
 
 In our first programs, all of the code was contained within the source
@@ -4253,7 +4297,7 @@ have to be loaded before the program can be run. If you are interested,
 run the `ldd` program on various programs that are on your Linux
 distribution, and see what libraries they rely on.
 
-Finding Information about Libraries
+Finding Information about Libraries {#finding-information-about-libraries}
 -----------------------------------
 
 Okay, so now that you know about libraries, the question is, how do you
@@ -4317,7 +4361,7 @@ Then run the program with `./printf-example`, and it should say this:
 
 Now, if you look at the code, you'll see that we actually push the
 format string last, even though it's the first parameter listed. You
-always push a functions parameters in reverse order.[41] You may be
+always push a functions parameters in reverse order.[^41] You may be
 wondering how the `printfprintf` function knows how many parameters
 there are. Well, it searches through your string, and counts how many
 `%d`s and `%s`s it finds, and then grabs that number of parameters from
@@ -4336,80 +4380,93 @@ prototypesprototypes to call library functions. To use them effectively,
 however, you need to know several more of the possible data types for
 reading functions. Here are the main ones:
 
-`intint`  
-An `int` is an integer number (4 bytes on x86 processor).
+`intint`
 
-`longlong`  
-A `long` is also an integer number (4 bytes on an x86 processor).
+:   An `int` is an integer number (4 bytes on x86 processor).
 
-`long longlong long`  
-A `long long` is an integer number that's larger than a `long` (8 bytes
-on an x86 processor).
+`longlong`
 
-`shortshort`  
-A short is an integer number that's shorter than an `int` (2 bytes on an
-x86 processor).
+:   A `long` is also an integer number (4 bytes on an x86 processor).
 
-`charchar`  
-A `char` is a single-byte integer number. This is mostly used for
-storing character data, since ASCII strings usually are represented with
-one byte per character.
+`long longlong long`
 
-`floatfloat`  
-A `float` is a floating-point number (4 bytes on an x86 processor).
-Floating-point numbers will be explained in more depth in
-[???](#floatingpoint).
+:   A `long long` is an integer number that's larger than a `long` (8
+    bytes on an x86 processor).
 
-`doubledouble`  
-A `double` is a floating-point number that is larger than a float (8
-bytes on an x86 processor).
+`shortshort`
 
-`unsignedunsigned`  
-`unsigned` is a modifier used for any of the above types which keeps
-them from being used as signed quantities. The difference between signed
-and unsigned numbers will be discussed in [???](#countingchapter).
+:   A short is an integer number that's shorter than an `int` (2 bytes
+    on an x86 processor).
 
-`**`  
-An asterisk (`*`) is used to denote that the data isn't an actual value,
-but instead is a pointer to a location holding the given value (4 bytes
-on an x86 processor). So, let's say in memory location `my_location` you
-have the number 20 stored. If the prototype said to pass an `int`, you
-would use direct addressing modedirect addressing mode and do
-`pushl my_location`. However, if the prototype said to pass an `int *`,
-you would do `pushl $my_location` - an immediate modeimmediate mode
-addressing push of the address that the value resides in. In addition to
-indicating the address of a single value, pointers can also be used to
-pass a sequence of consecutive locations, starting with the one pointed
-to by the given value. This is called an arrayarray.
+`charchar`
 
-`structstruct`  
-A `struct` is a set of data items that have been put together under a
-name. For example you could declare:
+:   A `char` is a single-byte integer number. This is mostly used for
+    storing character data, since ASCII strings usually are represented
+    with one byte per character.
 
-    struct teststruct {
-        int a;
-        char *b;
-    };
+`floatfloat`
 
-and any time you ran into `struct teststruct` you would know that it is
-actually two words right next to each other, the first being an integer,
-and the second a pointer to a character or group of characters. You
-never see structs passed as arguments to functions. Instead, you usually
-see pointers to structs passed as arguments. This is because passing
-structs to functions is fairly complicated, since they can take up so
-many storage locations.
+:   A `float` is a floating-point number (4 bytes on an x86 processor).
+    Floating-point numbers will be explained in more depth in
+    [???](#floatingpoint).
 
-`typedeftypedef`  
-A `typedef` basically allows you to rename a type. For example, I can do
-`typedef int myowntype;` in a C program, and any time I typed
-`myowntype`, it would be just as if I typed `int`. This can get kind of
-annoying, because you have to look up what all of the typedefs and
-structs in a function prototype really mean. However, `typedef`s are
-useful for giving types more meaningful and descriptive names.
+`doubledouble`
 
-<div class="note">
+:   A `double` is a floating-point number that is larger than a float (8
+    bytes on an x86 processor).
 
-<div class="title">
+`unsignedunsigned`
+
+:   `unsigned` is a modifier used for any of the above types which keeps
+    them from being used as signed quantities. The difference between
+    signed and unsigned numbers will be discussed in
+    [???](#countingchapter).
+
+`**`
+
+:   An asterisk (`*`) is used to denote that the data isn't an actual
+    value, but instead is a pointer to a location holding the given
+    value (4 bytes on an x86 processor). So, let's say in memory
+    location `my_location` you have the number 20 stored. If the
+    prototype said to pass an `int`, you would use direct addressing
+    modedirect addressing mode and do `pushl my_location`. However, if
+    the prototype said to pass an `int *`, you would do
+    `pushl $my_location` - an immediate modeimmediate mode addressing
+    push of the address that the value resides in. In addition to
+    indicating the address of a single value, pointers can also be used
+    to pass a sequence of consecutive locations, starting with the one
+    pointed to by the given value. This is called an arrayarray.
+
+`structstruct`
+
+:   A `struct` is a set of data items that have been put together under
+    a name. For example you could declare:
+
+        struct teststruct {
+            int a;
+            char *b;
+        };
+
+    and any time you ran into `struct teststruct` you would know that it
+    is actually two words right next to each other, the first being an
+    integer, and the second a pointer to a character or group of
+    characters. You never see structs passed as arguments to functions.
+    Instead, you usually see pointers to structs passed as arguments.
+    This is because passing structs to functions is fairly complicated,
+    since they can take up so many storage locations.
+
+`typedeftypedef`
+
+:   A `typedef` basically allows you to rename a type. For example, I
+    can do `typedef int myowntype;` in a C program, and any time I typed
+    `myowntype`, it would be just as if I typed `int`. This can get kind
+    of annoying, because you have to look up what all of the typedefs
+    and structs in a function prototype really mean. However, `typedef`s
+    are useful for giving types more meaningful and descriptive names.
+
+<div class="note" markdown="1">
+
+<div class="title" markdown="1">
 
 Compatibility Note
 
@@ -4433,7 +4490,7 @@ pages for their functions. The web is the best source of documentation
 for libraries. Most libraries from the GNU project also have info pages
 on them, which are a little more thorough than man pages.
 
-Useful Functions
+Useful Functions {#useful-functions}
 ----------------
 
 Several useful functions you will want to be aware of from the `c`
@@ -4451,7 +4508,7 @@ library include:
 
 -   `FILE * fopenfopen (const char *filename, const char *opentype)`
     opens a managed, buffered file (allows easier reading and writing
-    than using file descriptors directly).[42][43]
+    than using file descriptors directly).[^42][^43]
 
 -   `int fclosefclose (FILE *stream)` closes a file opened with `fopen`.
 
@@ -4468,7 +4525,7 @@ library include:
 You can find the complete manual on this library by going to
 http://www.gnu.org/software/libc/manual/
 
-Building a Dynamic Library
+Building a Dynamic Library {#building-a-dynamic-library}
 --------------------------
 
 Let's say that we wanted to take all of our shared code from
@@ -4542,7 +4599,7 @@ on the Internet:
 -   http://www.linuxjournal.com/article.php?sid=1059 and
     http://www.linuxjournal.com/article.php?sid=1060 provide a good
     introduction to the ELFELF file format, with more detail available
-    at http://www.cs.ucdavis.edu/\~haungs/paper/node10.html
+    at http://www.cs.ucdavis.edu/~haungs/paper/node10.html
 
 -   http://www.iecc.com/linker/linker10.html contains a great
     description of how dynamic linking works with ELF files.
@@ -4551,10 +4608,10 @@ on the Internet:
     contains a good introduction to programming position-independent
     code for shared libraries under Linux.
 
-Review
+Review {#review-6}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-6}
 
 -   What are the advantages and disadvantages of shared libraries?
 
@@ -4579,7 +4636,7 @@ Review
 
 -   What is the purpose of LD_LIBRARY_PATH?
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-5}
 
 -   Rewrite one or more of the programs from the previous chapters to
     print their results to the screen using `printf` rather than
@@ -4597,7 +4654,7 @@ Review
 -   Rewrite the `toupper` program so that it uses the `c` library
     functions for files rather than system calls.
 
-### Going Further
+### Going Further {#going-further-6}
 
 -   Make a list of all the environment variables used by the GNU/Linux
     dynamic linker.
@@ -4615,13 +4672,13 @@ Review
     write a message to STDERR before exitting. Use `LD_PRELOAD` and run
     various programs with it. What are the results?
 
-Counting Like a Computer
+Counting Like a Computer {#countingchapter}
 ========================
 
-Counting
+Counting {#counting}
 --------
 
-### Counting Like a Human
+### Counting Like a Human {#counting-like-a-human}
 
 In many ways, computers count just like humans. So, before we start
 learning how computers count, let's take a deeper look at how we count.
@@ -4658,7 +4715,7 @@ example, let's say we grouped by nine instead of ten. Moving the decimal
 point one digit to the right no longer multiplies by ten, it now
 multiplies by nine. In base nine, 500 is only nine times as large as 50.
 
-### Counting Like a Computer
+### Counting Like a Computer {#counting-like-a-computer}
 
 The question is, how many fingers does the computer have to count with?
 The computer only has two fingers. So that means all of the groups are
@@ -4712,7 +4769,7 @@ Now, let's multiply them:
      ---------------
       11101011001001
 
-### Conversions Between Binary and Decimal
+### Conversions Between Binary and Decimal {#conversions-between-binary-and-decimal}
 
 Let's learn how to convert numbers from binarybinary (base twobase two)
 to decimaldecimal (base tenbase ten). This is actually a rather simple
@@ -4823,7 +4880,7 @@ largest number you can hold in 128 bits is
 picture. For x86 processors, most of the time you will deal with 4-byte
 numbers (32 bits), because that's the size of the registersregisters.
 
-Truth, Falsehood, and Binary Numbers
+Truth, Falsehood, and Binary Numbers {#truthbinarynumbers}
 ------------------------------------
 
 Now we've seen that the computer stores everything as sequences of 1's
@@ -5117,28 +5174,34 @@ in the same register using a mechanism like we've described. The
 of flags to tell the operating system how to open the file. Some of the
 flags include:
 
-`O_WRONLYO_WRONLY`  
-This flag is `0b00000000000000000000000000000001` in binary, or `01` in
-octal (or any number system for that matter). This says to open the file
-in write-only mode.
+`O_WRONLYO_WRONLY`
 
-`O_RDWRO_RDWR`  
-This flag is `0b00000000000000000000000000000010` in binary, or `02` in
-octal. This says to open the file for both reading and writing.
+:   This flag is `0b00000000000000000000000000000001` in binary, or `01`
+    in octal (or any number system for that matter). This says to open
+    the file in write-only mode.
 
-`O_CREATO_CREAT`  
-This flag is `0b00000000000000000000000001000000` in binary, or `0100`
-in octal. It means to create the file if it doesn't already exist.
+`O_RDWRO_RDWR`
 
-`O_TRUNCO_TRUNC`  
-This flag is `0b00000000000000000000001000000000` in binary, or `01000`
-in octal. It means to erase the contents of the file if the file already
-exists.
+:   This flag is `0b00000000000000000000000000000010` in binary, or `02`
+    in octal. This says to open the file for both reading and writing.
 
-`O_APPENDO_APPEND`  
-This flag is `0b00000000000000000000010000000000` in binary, or `02000`
-in octal. It means to start writing at the end of the file rather than
-at the beginning.
+`O_CREATO_CREAT`
+
+:   This flag is `0b00000000000000000000000001000000` in binary, or
+    `0100` in octal. It means to create the file if it doesn't already
+    exist.
+
+`O_TRUNCO_TRUNC`
+
+:   This flag is `0b00000000000000000000001000000000` in binary, or
+    `01000` in octal. It means to erase the contents of the file if the
+    file already exists.
+
+`O_APPENDO_APPEND`
+
+:   This flag is `0b00000000000000000000010000000000` in binary, or
+    `02000` in octal. It means to start writing at the end of the file
+    rather than at the beginning.
 
 To use these flags, you simply OROR them together in the combination
 that you want. For example, to open a file in write-only mode, and have
@@ -5153,7 +5216,7 @@ Many functions and system calls use flags for options, as it allows a
 single word to hold up to 32 possible options if each option is
 represented by a single bit.
 
-The Program Status Register
+The Program Status Register {#the-program-status-register}
 ---------------------------
 
 We've seen how bits on a register can be used to give the answers of
@@ -5189,14 +5252,14 @@ regularly.
 Additional program status register flags are examined in [Common x86
 Instructions](#common-x86-instructions).
 
-Other Numbering Systems
+Other Numbering Systems {#other-numbering-systems}
 -----------------------
 
 What we have studied so far only applies to positive integers. However,
 real-world numbers are not always positive integers. Negative numbers
 and numbers with decimals are also used.
 
-### Floating-point Numbers
+### Floating-point Numbers {#floatingpoint}
 
 So far, the only numbers we've dealt with are integers - numbers with no
 decimal point. Computers have a general problem with numbers with
@@ -5236,7 +5299,7 @@ You should note that it takes most computers a lot longer to do
 floating-point arithmetic than it does integer arithmetic. So, for
 programs that really need speed, integers are mostly used.
 
-### Negative Numbers
+### Negative Numbers {#negative-numbers}
 
 How would you think that negative numbersnegative numbers on a computer
 might be represented? One thought might be to use the first digit of a
@@ -5300,7 +5363,7 @@ Instructions](#common-x86-instructions). For example, the x86 processor
 has both a sign-preserving shift-right, `sarlsarl`, and a shift-right
 which does not preserve the sign bit, `shrlshrl`.
 
-Octal and Hexadecimal Numbers
+Octal and Hexadecimal Numbers {#octalhexadecimal}
 -----------------------------
 
 The numbering systems discussed so far have been decimaldecimal and
@@ -5369,13 +5432,13 @@ heavily used in computer programming. It might be worthwhile to make up
 some numbers in hex and try to convert them back and forth to binary,
 decimal, and octal.
 
-Order of Bytes in a Word
+Order of Bytes in a Word {#order-of-bytes-in-a-word}
 ------------------------
 
 One thing that confuses many people when dealing with bitsbits and
 bytesbytes on a low level is that, when bytes are written from
 registersregisters to memory, their bytes are written out
-least-significant-portion-first.[44] What most people expect is that if
+least-significant-portion-first.[^44] What most people expect is that if
 they have a word in a register, say `0x5d 23 ef ee` (the spacing is so
 you can see where the bytes are), the bytes will be written to memory in
 that order. However, on x86 processors, the bytes are actually written
@@ -5418,10 +5481,10 @@ order can cause problems in several instances:
 
 As long as you are aware of the issue, it usually isn't a big deal. For
 more in-depth look at byte order issues, you should read DAV's Endian
-FAQ at http://www.rdrop.com/\~cary/html/endian_faq.html, especially the
+FAQ at http://www.rdrop.com/~cary/html/endian_faq.html, especially the
 article "On Holy Wars and a Plea for Peace" by Daniel Cohen.
 
-Converting Numbers for Display
+Converting Numbers for Display {#converting-numbers-for-display}
 ------------------------------
 
 So far, we have been unable to display any number stored to the user,
@@ -5479,10 +5542,10 @@ To build the program, issue the following commands:
 
 To run just type `./conversion-program` and the output should say `824`.
 
-Review
+Review {#review-7}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-7}
 
 -   Convert the decimal number 5,294 to binary.
 
@@ -5510,7 +5573,7 @@ Review
 -   Describe the difference between little-endian and big-endian storage
     of words in memory.
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-6}
 
 -   Go back to previous programs that returned numeric results through
     the exit status code, and rewrite them to print out the results
@@ -5526,7 +5589,7 @@ Review
     a parameter and returns 1 if the parameter is negative, and 0 if the
     parameter is positive.
 
-### Going Further
+### Going Further {#going-further-7}
 
 -   Modify the `integer2string` code so that the conversion base can be
     greater than 10 (this requires you to use letters for numbers past
@@ -5544,7 +5607,7 @@ Review
 -   Write a program that reads a string of characters from STDIN and
     converts them to a number.
 
-High-Level Languages
+High-Level Languages {#highlevellanguages}
 ====================
 
 In this chapter we will begin to look at our first "real-world"
@@ -5575,7 +5638,7 @@ chapter will introduce you to a few of the languages available to you. I
 encourage you to explore as many languages as you are interested in. I
 personally try to learn a new language every few months.
 
-Compiled and Interpreted Languages
+Compiled and Interpreted Languages {#compiled-and-interpreted-languages}
 ----------------------------------
 
 Many languages are *compiled* languages. When you write assembly
@@ -5650,7 +5713,7 @@ language you are using, often they can be simulated. However, if you
 don't have a broad experience with languages, you won't know of all the
 possibilities you have to choose from.
 
-Your First C Program
+Your First C Program {#your-first-c-program}
 --------------------
 
 C Programming Language Here is your first C program, which prints "Hello
@@ -5738,7 +5801,7 @@ hardware running a number of operating systems.
 Additional information on the C programming language can be found in
 [???](#ctranslationap).
 
-Perl
+Perl {#perl}
 ----
 
 Perl is an interpreted language, existing mostly on Linux and UNIX-based
@@ -5784,7 +5847,7 @@ directly as values, and thus hides the complication of manipulating them
 for you. In fact, one of Perl's main strengths is its ability and speed
 at manipulating text.
 
-Python
+Python {#python}
 ------
 
 The PythonPython version of the program looks almost exactly like the
@@ -5796,10 +5859,10 @@ into a file named `Hello-World.py`. The program follows:
 
 You should be able to tell what the different lines of the program do.
 
-Review
+Review {#review-8}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-8}
 
 -   What is the difference between an intepretted language and a
     compiled language?
@@ -5807,7 +5870,7 @@ Review
 -   What reasons might cause you to need to learn a new programming
     language?
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-7}
 
 -   Learn the basic syntax of a new programming language. Re-code one of
     the programs in this book in that language.
@@ -5823,7 +5886,7 @@ Review
 -   How does the programming language's input/output methods differ from
     that of the Linux system calls?
 
-### Going Further
+### Going Further {#going-further-8}
 
 -   Having seen languages which have such brevity as Perl, why do you
     think this book started you with a language as verbose as assembly
@@ -5838,7 +5901,7 @@ Review
     other? How are they similar? What approach to problem-solving does
     each take?
 
-Optimization
+Optimization {#optimizationch}
 ============
 
 Optimizationoptimization is the process of making your application run
@@ -5846,7 +5909,7 @@ more effectively. You can optimize for many things - speed, memory space
 usage, disk space usage, etc. This chapter, however, focuses on speed
 optimization.
 
-When to Optimize
+When to Optimize {#when-to-optimize}
 ----------------
 
 It is better to not optimize at all than to optimize too soon. When you
@@ -5885,7 +5948,7 @@ not necessary during early development for the following reasons:
     is often much cheaper than a programmer's time.
 
 -   Your application will change dramatically as you revise it,
-    therefore wasting most of your efforts to optimize it.[45]
+    therefore wasting most of your efforts to optimize it.[^45]
 
 -   Speed problems are usually localized in a few places in your code -
     finding these is difficult before you have most of the program
@@ -5906,7 +5969,7 @@ the bottlenecks, bringing the average processing time under a quarter of
 a second. By focusing on the correct order, I was able to finish a
 project that was both correct and efficient.
 
-Where to Optimize
+Where to Optimize {#wheretooptimize}
 -----------------
 
 Once you have determined that you have a performance issue you need to
@@ -5946,119 +6009,132 @@ of meeting in person. Global optimization often involves restructuring
 code to avoid performance problems, rather than trying to find the best
 way through them.
 
-Local Optimizations
+Local Optimizations {#local-optimizations}
 -------------------
 
 The following are some well-known methods of optimizing pieces of code.
 When using high level languages, some of these may be done automatically
 by your compiler's optimizer.
 
-Precomputing Calculations  
-Sometimes a function has a limitted number of possible inputs and
-outputs. In fact, it may be so few that you can actually precompute all
-of the possible answers beforehand, and simply look up the answer when
-the function is called. This takes up some space since you have to store
-all of the answers, but for small sets of data this works out really
-well, especially if the computation normally takes a long time.
+Precomputing Calculations
 
-Remembering Calculation Results  
-This is similar to the previous method, but instead of computing results
-beforehand, the result of each calculation requested is stored. This way
-when the function starts, if the result has been computed before it will
-simply return the previous answer, otherwise it will do the full
-computation and store the result for later lookup. This has the
-advantage of requiring less storage space because you aren't
-precomputing all results. This is sometimes termed *cachingcaching* or
-*memoizingmemoizing*.
+:   Sometimes a function has a limitted number of possible inputs and
+    outputs. In fact, it may be so few that you can actually precompute
+    all of the possible answers beforehand, and simply look up the
+    answer when the function is called. This takes up some space since
+    you have to store all of the answers, but for small sets of data
+    this works out really well, especially if the computation normally
+    takes a long time.
 
-Locality of Reference  
-*Locality of referencelocality of reference* is a term for where in
-memory the data items you are accessing are. With virtual memory, you
-may access pages of memory which are stored on disk. In such a case, the
-operating system has to load that memory page from disk, and unload
-others to disk. Let's say, for instance, that the operating system will
-allow you to have 20k of memory in physical memory and forces the rest
-of it to be on disk, and your application uses 60k of memory. Let's say
-your program has to do 5 operations on each piece of data. If it does
-one operation on every piece of data, and then goes through and does the
-next operation on each piece of data, eventually every page of data will
-be loaded and unloaded from the disk 5 times. Instead, if you did all 5
-operations on a given data item, you only have to load each page from
-disk once. When you bundle as many operations on data that is physically
-close to each other in memory, then you are taking advantage of locality
-of reference. In addition, processors usually store some data on-chip in
-a cachecache. If you keep all of your operations within a small area of
-physical memoryphysical memory, your program may bypass even main memory
-and only use the chip's ultra-fast cache memory. This is all done for
-you - all you have to do is to try to operate on small sections of
-memory at a time, rather than bouncing all over the place.
+Remembering Calculation Results
 
-Register Usage  
-Registersregisters are the fastest memory locations on the computer.
-When you access memory, the processor has to wait while it is loaded
-from the memory bus. However, registers are located on the processor
-itself, so access is extremely fast. Therefore making wise usage of
-registers is extremely important. If you have few enough data items you
-are working with, try to store them all in registers. In high level
-languages, you do not always have this option - the compiler decides
-what goes in registers and what doesn't.
+:   This is similar to the previous method, but instead of computing
+    results beforehand, the result of each calculation requested is
+    stored. This way when the function starts, if the result has been
+    computed before it will simply return the previous answer, otherwise
+    it will do the full computation and store the result for later
+    lookup. This has the advantage of requiring less storage space
+    because you aren't precomputing all results. This is sometimes
+    termed *cachingcaching* or *memoizingmemoizing*.
 
-Inline Functions  
-Functions are great from the point of view of program management - they
-make it easy to break up your program into independent, understandable,
-and reuseable parts. However, function calls do involve the overhead of
-pushing arguments onto the stack and doing the jumps (remember locality
-of reference - your code may be swapped out on disk instead of in
-memory). For high level languages, it's often impossible for compilers
-to do optimizations across function-call boundaries. However, some
-languages support inline functionsinline functions or function
-macrosmacros. These functions look, smell, taste, and act like real
-functions, except the compiler has the option to simply plug the code in
-exactly where it was called. This makes the program faster, but it also
-increases the size of the code. There are also many functions, like
-recursive functions, which cannot be inlined because they call
-themselves either directly or indirectly.
+Locality of Reference
 
-Optimized Instructions  
-Often times there are multiple assembly language instructions which
-accomplish the same purpose. A skilled assembly language programmer
-knows which instructions are the fastest. However, this can change from
-processor to processor. For more information on this topic, you need to
-see the user's manual that is provided for the specific chip you are
-using. As an example, let's look at the process of loading the number 0
-into a register. On most processors, doing a `movl $0, %eax` is not the
-quickest way. The quickest way is to exclusive-or the register with
-itself, `xorl %eax, %eax`. This is because it only has to access the
-register, and doesn't have to transfer any data. For users of high-level
-languages, the compiler handles this kind of optimizations for you. For
-assembly-language programmers, you need to know your processor well.
+:   *Locality of referencelocality of reference* is a term for where in
+    memory the data items you are accessing are. With virtual memory,
+    you may access pages of memory which are stored on disk. In such a
+    case, the operating system has to load that memory page from disk,
+    and unload others to disk. Let's say, for instance, that the
+    operating system will allow you to have 20k of memory in physical
+    memory and forces the rest of it to be on disk, and your application
+    uses 60k of memory. Let's say your program has to do 5 operations on
+    each piece of data. If it does one operation on every piece of data,
+    and then goes through and does the next operation on each piece of
+    data, eventually every page of data will be loaded and unloaded from
+    the disk 5 times. Instead, if you did all 5 operations on a given
+    data item, you only have to load each page from disk once. When you
+    bundle as many operations on data that is physically close to each
+    other in memory, then you are taking advantage of locality of
+    reference. In addition, processors usually store some data on-chip
+    in a cachecache. If you keep all of your operations within a small
+    area of physical memoryphysical memory, your program may bypass even
+    main memory and only use the chip's ultra-fast cache memory. This is
+    all done for you - all you have to do is to try to operate on small
+    sections of memory at a time, rather than bouncing all over the
+    place.
 
-Addressing Modes  
-Different addressing modesaddressing modes work at different speeds. The
-fastest are the immediateimmediate mode addressing and register
-addressing modes. Directdirect addressing mode is the next fastest,
-indirect is next, and base pointerbase pointer addressing mode and
-indexed indirectindexed indirect addressing mode are the slowest. Try to
-use the faster addressing modes, when possible. One interesting
-consequence of this is that when you have a structured piece of memory
-that you are accessing using base pointer addressing, the first element
-can be accessed the quickest. Since its offset is 0, you can access it
-using indirect addressing instead of base pointer addressing, which
-makes it faster.
+Register Usage
 
-Data Alignment  
-Some processors can access data on word-aligned memoryaligned memory
-boundaries (i.e. - addresses divisible by the word size) faster than
-non-aligned data. So, when setting up structures in memory, it is best
-to keep it word-aligned. Some non-x86 processors, in fact, cannot access
-non-aligned data in some modes.
+:   Registersregisters are the fastest memory locations on the computer.
+    When you access memory, the processor has to wait while it is loaded
+    from the memory bus. However, registers are located on the processor
+    itself, so access is extremely fast. Therefore making wise usage of
+    registers is extremely important. If you have few enough data items
+    you are working with, try to store them all in registers. In high
+    level languages, you do not always have this option - the compiler
+    decides what goes in registers and what doesn't.
+
+Inline Functions
+
+:   Functions are great from the point of view of program management -
+    they make it easy to break up your program into independent,
+    understandable, and reuseable parts. However, function calls do
+    involve the overhead of pushing arguments onto the stack and doing
+    the jumps (remember locality of reference - your code may be swapped
+    out on disk instead of in memory). For high level languages, it's
+    often impossible for compilers to do optimizations across
+    function-call boundaries. However, some languages support inline
+    functionsinline functions or function macrosmacros. These functions
+    look, smell, taste, and act like real functions, except the compiler
+    has the option to simply plug the code in exactly where it was
+    called. This makes the program faster, but it also increases the
+    size of the code. There are also many functions, like recursive
+    functions, which cannot be inlined because they call themselves
+    either directly or indirectly.
+
+Optimized Instructions
+
+:   Often times there are multiple assembly language instructions which
+    accomplish the same purpose. A skilled assembly language programmer
+    knows which instructions are the fastest. However, this can change
+    from processor to processor. For more information on this topic, you
+    need to see the user's manual that is provided for the specific chip
+    you are using. As an example, let's look at the process of loading
+    the number 0 into a register. On most processors, doing a
+    `movl $0, %eax` is not the quickest way. The quickest way is to
+    exclusive-or the register with itself, `xorl %eax, %eax`. This is
+    because it only has to access the register, and doesn't have to
+    transfer any data. For users of high-level languages, the compiler
+    handles this kind of optimizations for you. For assembly-language
+    programmers, you need to know your processor well.
+
+Addressing Modes
+
+:   Different addressing modesaddressing modes work at different speeds.
+    The fastest are the immediateimmediate mode addressing and register
+    addressing modes. Directdirect addressing mode is the next fastest,
+    indirect is next, and base pointerbase pointer addressing mode and
+    indexed indirectindexed indirect addressing mode are the slowest.
+    Try to use the faster addressing modes, when possible. One
+    interesting consequence of this is that when you have a structured
+    piece of memory that you are accessing using base pointer
+    addressing, the first element can be accessed the quickest. Since
+    its offset is 0, you can access it using indirect addressing instead
+    of base pointer addressing, which makes it faster.
+
+Data Alignment
+
+:   Some processors can access data on word-aligned memoryaligned memory
+    boundaries (i.e. - addresses divisible by the word size) faster than
+    non-aligned data. So, when setting up structures in memory, it is
+    best to keep it word-aligned. Some non-x86 processors, in fact,
+    cannot access non-aligned data in some modes.
 
 These are just a smattering of examples of the kinds of local
 optimizations possible. However, remember that the maintainability and
 readability of code is much more important except under extreme
 circumstances.
 
-Global Optimization
+Global Optimization {#global-optimization}
 -------------------
 
 Global optimizationglobal optimizations has two goals. The first one is
@@ -6090,36 +6166,39 @@ memoized.
 Global optimization usually often involves achieving the following
 properties in your functions:
 
-Parallelization  
-Parallelizationparallelization means that your algorithm can effectively
-be split among multiple processes. For example, pregnancy is not very
-parallelizable because no matter how many women you have, it still takes
-nine months. However, building a car is parallelizable because you can
-have one worker working on the engine while another one is working on
-the interior. Usually, applications have a limit to how parallelizable
-they are. The more parallelizable your application is, the better it can
-take advantage of multiprocessor and clustered computer configurations.
+Parallelization
 
-Statelessness  
-As we've discussed, statelessstateless functions functions and programs
-are those that rely entirely on the data explicitly passed to them for
-functioning. Most processes are not entirely stateless, but they can be
-within limits. In my e-commerce example, the function wasn't entirely
-stateless, but it was within the confines of a single day. Therefore, I
-optimized it as if it were a stateless function, but made allowances for
-changes at night. Two great benefits resulting from statelessness is
-that most stateless functions are parallelizable and often benefit from
-memoization.
+:   Parallelizationparallelization means that your algorithm can
+    effectively be split among multiple processes. For example,
+    pregnancy is not very parallelizable because no matter how many
+    women you have, it still takes nine months. However, building a car
+    is parallelizable because you can have one worker working on the
+    engine while another one is working on the interior. Usually,
+    applications have a limit to how parallelizable they are. The more
+    parallelizable your application is, the better it can take advantage
+    of multiprocessor and clustered computer configurations.
+
+Statelessness
+
+:   As we've discussed, statelessstateless functions functions and
+    programs are those that rely entirely on the data explicitly passed
+    to them for functioning. Most processes are not entirely stateless,
+    but they can be within limits. In my e-commerce example, the
+    function wasn't entirely stateless, but it was within the confines
+    of a single day. Therefore, I optimized it as if it were a stateless
+    function, but made allowances for changes at night. Two great
+    benefits resulting from statelessness is that most stateless
+    functions are parallelizable and often benefit from memoization.
 
 Global optimization takes quite a bit of practice to know what works and
 what doesn't. Deciding how to tackle optimization problems in code
 involves looking at all the issues, and knowing that fixing some issues
 may cause others.
 
-Review
+Review {#review-9}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-9}
 
 -   At what level of importance is optimization compared to the other
     priorities in programming?
@@ -6134,15 +6213,15 @@ Review
     priorities in programming? Why do you think I repeated that
     question?
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-8}
 
 -   Go back through each program in this book and try to make
     optimizations according to the procedures outlined in this chapter
 
 -   Pick a program from the previous exercise and try to calculate the
-    performance impact on your code under specific inputs.[46]
+    performance impact on your code under specific inputs.[^46]
 
-### Going Further
+### Going Further {#going-further-9}
 
 -   Find an open-source program that you find particularly fast. Contact
     one of the developers and ask about what kinds of optimizations they
@@ -6160,10 +6239,10 @@ Review
 -   What kind of problems might a compiler run in to if it tried to
     optimize code across function call boundaries?
 
-Basic Guidelines for Software Development
+Basic Guidelines for Software Development {#basic-guidelines-for-software-development}
 =========================================
 
-Moving On from Here
+Moving On from Here {#wherenextch}
 ===================
 
 Congratulations on getting this far. You should now have a basis for
@@ -6212,7 +6291,7 @@ something unique. There are many books here. The best way to start would
 be to look through online reviews of several of the books, and find a
 starting point that interests you.
 
-From the Bottom Up
+From the Bottom Up {#from-the-bottom-up}
 ------------------
 
 This list is in the best reading order I could find. It's not
@@ -6235,7 +6314,7 @@ necessarily easiest to hardest, but based on subject matter.
 -   Computer Organization and Design: The Hardware/Software Interface by
     David Patterson and John Hennessy
 
-From the Top Down
+From the Top Down {#from-the-top-down}
 -----------------
 
 These books are arranged from the simplest to the hardest. However, they
@@ -6269,7 +6348,7 @@ can be read in any order you feel comfortable with.
 -   Essentials of Programming Languages by Daniel P. Friedman, Mitchell
     Wand, and Christopher T. Haynes
 
-From the Middle Out
+From the Middle Out {#from-the-middle-out}
 -------------------
 
 Each of these is the best book on its subject. If you need to know these
@@ -6295,7 +6374,7 @@ languages, these will tell you all you need to know.
 
 -   Linux Assembly Language Programming by Bob Neveln
 
-Specialized Topics
+Specialized Topics {#specialized-topics}
 ------------------
 
 These books are the best books that cover their topic. They are thorough
@@ -6310,7 +6389,7 @@ several outside of the areas you normally program in.
 -   Project Management - The Mythical Man-Month by Fred P. Brooks
 
 -   UNIX Programming - The Art of UNIX Programming by Eric S. Raymond,
-    available online at http://www.catb.org/\~esr/writings/taoup/
+    available online at http://www.catb.org/~esr/writings/taoup/
 
 -   UNIX Programming - Advanced Programming in the UNIX Environment
     by W. Richard Stevens
@@ -6347,7 +6426,7 @@ several outside of the areas you normally program in.
 -   Computer Architecture - Computer Architecture: A Quantitative
     Approach by David Patterson and John Hennessy
 
-Further Resources on Assembly Language
+Further Resources on Assembly Language {#further-resources-on-assembly-language}
 --------------------------------------
 
 In assembly language, your best resources are on the web.
@@ -6374,7 +6453,7 @@ In assembly language, your best resources are on the web.
 -   http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh's x86
     Assembly Page
 
-Reading and Writing Simple Records
+Reading and Writing Simple Records {#records}
 ==================================
 
 As mentioned in [???](#filesch), many applications deal with data that
@@ -6393,7 +6472,7 @@ fieldsfields and recordsrecords. For the most part, the fields and
 records are fixed-length. Because the data is divided into fixed-length
 records and fixed-format fields, the computer can interpret the data.
 Structured data can contain variable-length fields, but at that point
-you are usually better off with a databasedatabase. [47]
+you are usually better off with a databasedatabase. [^47]
 
 This chapter deals with reading and writing simple fixed-length
 recordsrecords. Let's say we wanted to store some basic information
@@ -6464,7 +6543,7 @@ descriptor. The writing one is similar:
 Now that we have our basic definitions down, we are ready to write our
 programs.
 
-Writing Records
+Writing Records {#writing-records}
 ---------------
 
 This program will simply write some hardcoded records to disk. It will:
@@ -6521,7 +6600,7 @@ records. However, since they contain non-printable characters (the null
 character, specifically), they may not be viewable by a text editor.
 Therefore we need the next program to read them for us.
 
-Reading Records
+Reading Records {#reading-records}
 ---------------
 
 Now we will consider the process of reading records. In this program, we
@@ -6531,8 +6610,8 @@ record.
 Since each person's name is a different length, we will need a function
 to count the number of characters we want to write. Since we pad each
 field with null charactersnull characters, we can simply count
-characters until we reach a null character.[48] Note that this means our
-records must contain at least one null character each.
+characters until we reach a null character.[^48] Note that this means
+our records must contain at least one null character each.
 
 Here is the code. Put it in a file called `count-chars.s`:
 
@@ -6606,7 +6685,7 @@ is the name of our buffer for holding records. Adding them together gets
 us the address of the first name member of the record stored in
 `record_buffer`.
 
-Modifying the Records
+Modifying the Records {#modifying-the-records}
 ---------------------
 
 In this section, we will write a program that:
@@ -6620,16 +6699,17 @@ In this section, we will write a program that:
 -   Writes the new record to the output file
 
 Like most programs we've encountered recently, this program is pretty
-straightforward.[49]
+straightforward.[^49]
 
     ADD-YEAR
 
-You can type it in as `add-year.s`. To build it, type the following[50]:
+You can type it in as `add-year.s`. To build it, type the
+following[^50]:
 
     as add-year.s -o add-year.o
     ld add-year.o read-record.o write-record.o -o add-year
 
-To run the program, just type in the following[51]:
+To run the program, just type in the following[^51]:
 
     ./add-year
 
@@ -6645,10 +6725,10 @@ because we won't get to displaying numbers until [???](#linking) and
 and rewrite this program to display the numeric data that we are
 modifying.
 
-Review
+Review {#review-10}
 ------
 
-### Know the Concepts
+### Know the Concepts {#know-the-concepts-10}
 
 -   What is a record?
 
@@ -6664,7 +6744,7 @@ Review
     instructions have in this case? Which parts are being handled by the
     assembler and which parts are being handled when the program is run?
 
-### Use the Concepts
+### Use the Concepts {#use-the-concepts-9}
 
 -   Add another data member to the person structure defined in this
     chapter, and rewrite the reading and writing functions and programs
@@ -6680,7 +6760,7 @@ Review
 -   Create a program to find the smallest age in the file and return
     that age as the status code of the program.
 
-### Going Further
+### Going Further {#going-further-10}
 
 -   Rewrite the programs in this chapter to use command-line arguments
     to specify the filesnames.
@@ -6708,31 +6788,31 @@ Review
     user to enter 5 characters, and have the program return all records
     whose first name starts with those 5 characters.
 
-Table of ASCII Codes
+Table of ASCII Codes {#table-of-ascii-codes}
 ====================
 
 To use this table, simply find the character or escape that you want the
 code for, and add the number on the left and the top.
 
-|     |     |     |     |     |     |     |     |     |
-|-----|:----|:----|:----|:----|:----|:----|:----|:----|
-|     | +0  | +1  | +2  | +3  | +4  | +5  | +6  | +7  |
-| 0   | NUL | SOH | STX | ETX | EOT | ENQ | ACK | BEL |
-| 8   | BS  | HT  | LF  | VT  | FF  | CR  | SO  | SI  |
-| 16  | DLE | DC1 | DC2 | DC3 | DC4 | NAK | SYN | ETB |
-| 24  | CAN | EM  | SUB | ESC | FS  | GS  | RS  | US  |
-| 32  |     | !   | "   | \#  | $   | %   | &   | '   |
-| 40  | (   | )   | \*  | \+  | ,   | \-  | .   | /   |
-| 48  | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   |
-| 56  | 8   | 9   | :   | ;   | \<  | =   | \>  | ?   |
-| 64  | @   | A   | B   | C   | D   | E   | F   | G   |
-| 72  | H   | I   | J   | K   | L   | M   | N   | O   |
-| 80  | P   | Q   | R   | S   | T   | U   | V   | W   |
-| 88  | X   | Y   | Z   | \[  | \\  | \]  | ^   | \_  |
-| 96  | \`  | a   | b   | c   | d   | e   | f   | g   |
-| 104 | h   | i   | j   | k   | l   | m   | n   | o   |
-| 112 | p   | q   | r   | s   | t   | u   | v   | w   |
-| 120 | x   | y   | z   | {   | \|  | }   | \~  | DEL |
+|     |     |     |     |     |      |     |      |     |
+|-----|:----|:----|:----|:----|:-----|:----|:-----|:----|
+|     | +0  | +1  | +2  | +3  | +4   | +5  | +6   | +7  |
+| 0   | NUL | SOH | STX | ETX | EOT  | ENQ | ACK  | BEL |
+| 8   | BS  | HT  | LF  | VT  | FF   | CR  | SO   | SI  |
+| 16  | DLE | DC1 | DC2 | DC3 | DC4  | NAK | SYN  | ETB |
+| 24  | CAN | EM  | SUB | ESC | FS   | GS  | RS   | US  |
+| 32  |     | !   | "   | \#  | $    | %   | &    | '   |
+| 40  | (   | )   | \*  | \+  | ,    | \-  | .    | /   |
+| 48  | 0   | 1   | 2   | 3   | 4    | 5   | 6    | 7   |
+| 56  | 8   | 9   | :   | ;   | &lt; | =   | &gt; | ?   |
+| 64  | @   | A   | B   | C   | D    | E   | F    | G   |
+| 72  | H   | I   | J   | K   | L    | M   | N    | O   |
+| 80  | P   | Q   | R   | S   | T    | U   | V    | W   |
+| 88  | X   | Y   | Z   | \[  | \\   | \]  | ^    | \_  |
+| 96  | \`  | a   | b   | c   | d    | e   | f    | g   |
+| 104 | h   | i   | j   | k   | l    | m   | n    | o   |
+| 112 | p   | q   | r   | s   | t    | u   | v    | w   |
+| 120 | x   | y   | z   | {   | \|   | }   | ~    | DEL |
 
 Table of ASCII codes in decimal
 
@@ -6756,10 +6836,10 @@ Minimum Every Software Developer Absolutely, Positively Must Know About
 Unicode and Character Sets (No Excuses!)", available online at
 http://www.joelonsoftware.com/articles/Unicode.html
 
-GUI Programming
+GUI Programming {#gui-programming}
 ===============
 
-Introduction to GUI Programming
+Introduction to GUI Programming {#introduction-to-gui-programming .unnumbered}
 ===============================
 
 The purpose of this appendix is not to teach you how to do Graphical
@@ -6769,7 +6849,7 @@ additional library to handle the graphical parts. As a programmer you
 need to get used to learning new libraries. Most of your time will be
 spent passing data from one library to another.
 
-The GNOME Libraries
+The GNOME Libraries {#the-gnome-libraries .unnumbered}
 ===================
 
 The GNOMEGNOME projects is one of several projects to provide a complete
@@ -6801,7 +6881,7 @@ http://developer.gnome.org/. This site contains tutorials, mailing
 lists, API documentation, and everything else you need to start
 programming in the GNOME environment.
 
-A Simple GNOME Program in Several Languages
+A Simple GNOME Program in Several Languages {#a-simple-gnome-program-in-several-languages .unnumbered}
 ===========================================
 
 This program will simply show a Window that has a button to quit the
@@ -6830,68 +6910,80 @@ you have to do is have callbacks set up to wait for them.
 Here is a short description of all of the GNOME functions that were used
 in this program:
 
-gnome_init  
-Takes the command-line arguments, argument count, application id, and
-application version and initializes the GNOME libraries.
+gnome_init
 
-gnome_app_new  
-Creates a new application window, and returns a pointer to it. Takes the
-application id and the window title as arguments.
+:   Takes the command-line arguments, argument count, application id,
+    and application version and initializes the GNOME libraries.
 
-gtk_button_new_with_label  
-Creates a new button and returns a pointer to it. Takes one argument -
-the text that is in the button.
+gnome_app_new
 
-gnome_app_set_contents  
-This takes a pointer to the gnome application window and whatever widget
-you want (a button in this case) and makes the widget be the contents of
-the application window
+:   Creates a new application window, and returns a pointer to it. Takes
+    the application id and the window title as arguments.
 
-gtk_widget_show  
-This must be called on every widget created (application window,
-buttons, text entry boxes, etc) in order for them to be visible.
-However, in order for a given widget to be visible, all of its parents
-must be visible as well.
+gtk_button_new_with_label
 
-gtk_signal_connect  
-This is the function that connects widgets and their signal handling
-callback functions. This function takes the widget pointer, the name of
-the signal, the callback function, and an extra data pointer. After this
-function is called, any time the given event is triggered, the callback
-will be called with the widget that produced the signal and the extra
-data pointer. In this application, we don't use the extra data pointer,
-so we just set it to NULL, which is 0.
+:   Creates a new button and returns a pointer to it. Takes one
+    argument - the text that is in the button.
 
-gtk_main  
-This function causes GNOME to enter into its main loop. To make
-application programming easier, GNOME handles the main loop of the
-program for us. GNOME will check for events and call the appropriate
-callback functions when they occur. This function will continue to
-process events until `gtk_main_quit` is called by a signal handler.
+gnome_app_set_contents
 
-gtk_main_quit  
-This function causes GNOME to exit its main loop at the earliest
-opportunity.
+:   This takes a pointer to the gnome application window and whatever
+    widget you want (a button in this case) and makes the widget be the
+    contents of the application window
 
-gnome_message_box_new  
-This function creates a dialog window containing a question and response
-buttons. It takes as parameters the message to display, the type of
-message it is (warning, question, etc), and a list of buttons to
-display. The final parameter should be NULL to indicate that there are
-no more buttons to display.
+gtk_widget_show
 
-gtk_window_set_modal  
-This function makes the given window a modal window. In GUI programming,
-a modal window is one that prevents event processing in other windows
-until that window is closed. This is often used with Dialog windows.
+:   This must be called on every widget created (application window,
+    buttons, text entry boxes, etc) in order for them to be visible.
+    However, in order for a given widget to be visible, all of its
+    parents must be visible as well.
 
-gnome_dialog_run_and_close  
-This function takes a dialog pointer (the pointer returned by
-`gnome_message_box_new` can be used here) and will set up all of the
-appropriate signal handlers so that it will run until a button is
-pressed. At that time it will close the dialog and return to you which
-button was pressed. The button number refers to the order in which the
-buttons were set up in `gnome_message_box_new`.
+gtk_signal_connect
+
+:   This is the function that connects widgets and their signal handling
+    callback functions. This function takes the widget pointer, the name
+    of the signal, the callback function, and an extra data pointer.
+    After this function is called, any time the given event is
+    triggered, the callback will be called with the widget that produced
+    the signal and the extra data pointer. In this application, we don't
+    use the extra data pointer, so we just set it to NULL, which is 0.
+
+gtk_main
+
+:   This function causes GNOME to enter into its main loop. To make
+    application programming easier, GNOME handles the main loop of the
+    program for us. GNOME will check for events and call the appropriate
+    callback functions when they occur. This function will continue to
+    process events until `gtk_main_quit` is called by a signal handler.
+
+gtk_main_quit
+
+:   This function causes GNOME to exit its main loop at the earliest
+    opportunity.
+
+gnome_message_box_new
+
+:   This function creates a dialog window containing a question and
+    response buttons. It takes as parameters the message to display, the
+    type of message it is (warning, question, etc), and a list of
+    buttons to display. The final parameter should be NULL to indicate
+    that there are no more buttons to display.
+
+gtk_window_set_modal
+
+:   This function makes the given window a modal window. In GUI
+    programming, a modal window is one that prevents event processing in
+    other windows until that window is closed. This is often used with
+    Dialog windows.
+
+gnome_dialog_run_and_close
+
+:   This function takes a dialog pointer (the pointer returned by
+    `gnome_message_box_new` can be used here) and will set up all of the
+    appropriate signal handlers so that it will run until a button is
+    pressed. At that time it will close the dialog and return to you
+    which button was pressed. The button number refers to the order in
+    which the buttons were set up in `gnome_message_box_new`.
 
 The following is the same program written in the C language. Type it in
 as `gnome-example-c.c`:
@@ -6911,7 +7003,7 @@ Finally, we have a version in Python. Type it in as gnome-example.py:
 
 To run it type `python gnome-example.py`.
 
-GUI Builders
+GUI Builders {#gui-builders .unnumbered}
 ============
 
 In the previous example, you have created the user-interface for the
@@ -6933,7 +7025,7 @@ There is a broad range of choices for developing graphical applications,
 but hopefully this appendix gave you a taste of what GUI programming is
 like.
 
-Important System Calls
+Important System Calls {#syscallap}
 ======================
 
 These are some of the more important system calls to use when dealing
@@ -6979,14 +7071,14 @@ Linux, see the Linux Kernel 2.4 Internals section on how system calls
 are implemented at
 http://www.faqs.org/docs/kernel_2\_4/lki-2.html\#ss2.11
 
-C Idioms in Assembly Language
+C Idioms in Assembly Language {#ctranslationap}
 =============================
 
 C programming language This appendix is for C programmers learning
 assembly language. It is meant to give a general idea about how C
 constructs can be implemented in assembly language.
 
-If Statement
+If Statement {#if-statement .unnumbered}
 ============
 
 In C, an if statementif statement consists of three parts - the
@@ -7041,7 +7133,7 @@ the system.
 A case statementcase statement is written just like a sequence of if
 statements.
 
-Function Call
+Function Call {#function-call .unnumbered}
 =============
 
 A function callfunction call in assembly language simply requires
@@ -7068,7 +7160,7 @@ In assembly language, this would be rendered as:
                         #directly re-adjust %esp to the
                         #proper location.
 
-Variables and Assignment
+Variables and Assignment {#variables-and-assignment .unnumbered}
 ========================
 
 global variables static variables local variables Global and static
@@ -7134,7 +7226,7 @@ to the variable are done to the memory location itself, rather than a
 register copy of it, in case other processes, threads, or hardware may
 be modifying the value while your function is running.
 
-Loops
+Loops {#loops .unnumbered}
 =====
 
 Loopsloops work a lot like if statements in assembly language - the
@@ -7204,7 +7296,7 @@ For really tight loops of character string operations, there is also the
 `reprep` instruction, but we will leave learning about that as an
 exercise to the reader.
 
-Structs
+Structs {#structs .unnumbered}
 =======
 
 Structsstructs are simply descriptions of memory blocks. For example, in
@@ -7264,7 +7356,7 @@ In assembly language it would look like this:
 
         movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
 
-Pointers
+Pointers {#pointers .unnumbered}
 ========
 
 Pointerspointers are very easy. Remember, pointers are simply the
@@ -7351,7 +7443,7 @@ value, you simply have to move it to a general-purpose register and use
 indirect addressingindirect addressing mode, as shown in the example
 above.
 
-Getting GCC to Help
+Getting GCC to Help {#getting-gcc-to-help .unnumbered}
 ===================
 
 One of the nice things about GCCGCC is its ability to spit out assembly
@@ -7367,7 +7459,7 @@ start with, you probably want to turn off optimizations with `-O0` so
 that the assembly language output will follow your source code better.
 
 Something else you might notice is that GCC reserves more stack space
-for local variables than we do, and then AND's ESP-INDEXED [52] This is
+for local variables than we do, and then AND's ESP-INDEXED [^52] This is
 to increase memory and cache efficiency by double-word aligning
 variables.
 
@@ -7389,7 +7481,7 @@ try again. See how the compiler chose to rearrange your program to be
 more optimized, and try to figure out why it chose the arrangement and
 instructions it did.
 
-Document History
+Document History {#document-history}
 ================
 
 -   12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL
@@ -7422,10 +7514,10 @@ Document History
     comments. Made cleared distinction between dynamic and shared
     libraries.
 
-Common x86 Instructions
+Common x86 Instructions {#common-x86-instructions}
 =======================
 
-Reading the Tables
+Reading the Tables {#reading-the-tables .unnumbered}
 ==================
 
 The tables of instructions presented in this appendix include:
@@ -7451,36 +7543,43 @@ one operand be a memory location.
 In the flagsflags section, it lists the flags in the EFLAGS-INDEXED
 register affected by the instruction. The following flags are mentioned:
 
-O  
-Overflow flagoverflow flag. This is set to true if the destination
-operand was not large enough to hold the result of the instruction.
+O
 
-S  
-Sign flagsign flag. This is set to the sign of the last result.
+:   Overflow flagoverflow flag. This is set to true if the destination
+    operand was not large enough to hold the result of the instruction.
 
-Z  
-Zero flagzero flag. This flag is set to true if the result of the
-instruction is zero.
+S
 
-A  
-Auxiliary carry flagauxiliary carry flag. This flag is set for carries
-and borrows between the third and fourth bit. It is not often used.
+:   Sign flagsign flag. This is set to the sign of the last result.
 
-P  
-Parity flagparity flag. This flag is set to true if the low byte of the
-last result had an even number of 1 bits.
+Z
 
-C  
-Carry flagcarry flag. Used in arithmetic to say whether or not the
-result should be carried over to an additional byte. If the carry flag
-is set, that usually means that the destination register could not hold
-the full result. It is up to the programmer to decide on what action to
-take (i.e. - propogate the result to another byte, signal an error, or
-ignore it entirely).
+:   Zero flagzero flag. This flag is set to true if the result of the
+    instruction is zero.
+
+A
+
+:   Auxiliary carry flagauxiliary carry flag. This flag is set for
+    carries and borrows between the third and fourth bit. It is not
+    often used.
+
+P
+
+:   Parity flagparity flag. This flag is set to true if the low byte of
+    the last result had an even number of 1 bits.
+
+C
+
+:   Carry flagcarry flag. Used in arithmetic to say whether or not the
+    result should be carried over to an additional byte. If the carry
+    flag is set, that usually means that the destination register could
+    not hold the full result. It is up to the programmer to decide on
+    what action to take (i.e. - propogate the result to another byte,
+    signal an error, or ignore it entirely).
 
 Other flags exist, but they are much less important.
 
-Data Transfer Instructions
+Data Transfer Instructions {#dtins .unnumbered}
 ==========================
 
 These instructions perform little, if any computation. Instead they are
@@ -7503,7 +7602,7 @@ mostly used for moving data from one place to another.
 
 Data Transfer Instructions
 
-Integer Instructions
+Integer Instructions {#intins .unnumbered}
 ====================
 
 These are basic calculating instructions that operate on signed or
@@ -7540,7 +7639,7 @@ unsigned integers.
 
 Integer Instructions
 
-Logic Instructions
+Logic Instructions {#logicins .unnumbered}
 ==================
 
 These instructions operate on memory as bits instead of words.
@@ -7576,7 +7675,7 @@ These instructions operate on memory as bits instead of words.
 
 Logic Instructions
 
-Flow Control Instructions
+Flow Control Instructions {#flowins .unnumbered}
 =========================
 
 These instructions may alter the flow of the program.
@@ -7664,7 +7763,7 @@ These instructions may alter the flow of the program.
 
 Flow Control Instructions
 
-Assembler Directives
+Assembler Directives {#dirins .unnumbered}
 ====================
 
 These are instructions to the assembler and linker, instead of
@@ -7698,7 +7797,7 @@ your code together properly, and make it easier to use.
 
 Assembler Directives
 
-Differences in Other Syntaxes and Terminology
+Differences in Other Syntaxes and Terminology {#differences-in-other-syntaxes-and-terminology .unnumbered}
 =============================================
 
 The syntax for assembly language used in this book is known at the
@@ -7752,7 +7851,7 @@ The memory reference is a bit easier to read than its AT&T counterpart
 because it spells out exactly how the address will be computed. However,
 but the order of operands in Intel syntax can be confusing.
 
-Where to Go for More Information
+Where to Go for More Information {#where-to-go-for-more-information .unnumbered}
 ================================
 
 Intel has a set of comprehensive guides to their processors. These are
@@ -7776,7 +7875,7 @@ http://www.gnu.org/software/binutils/manual/gas-2.9.1/as.html.
 Similarly, the manual for the GNU linker is available online at
 http://www.gnu.org/software/binutils/manual/ld-2.9.1/ld.html.
 
-Using the GDB Debugger
+Using the GDB Debugger {#using-the-gdb-debugger}
 ======================
 
 By the time you read this appendix, you will likely have written at
@@ -7800,7 +7899,7 @@ application is present on almost all GNU/Linux distributions. It can
 debug programs in multiple programming languages, including assembly
 language.
 
-An Example Debugging Session
+An Example Debugging Session {#an-example-debugging-session .unnumbered}
 ============================
 
 The best way to explain how a debugger works is by using it. The program
@@ -7953,7 +8052,7 @@ that it now works correctly.
 Hopefully this exercise provided some insight into using GDB to help you
 find errors in your programs.
 
-Breakpoints and Other GDB Features
+Breakpoints and Other GDB Features {#breakpoints-and-other-gdb-features .unnumbered}
 ==================================
 
 The program we entered in the last section had an infinite loop, and
@@ -7989,7 +8088,7 @@ will wait until completion of the function before going on. Otherwise,
 with `stepi`, GDB would step you through every instruction within every
 called function.
 
-<div class="warning">
+<div class="warning" markdown="1">
 
 One problem that GDB has is with handling interruptsinterrupts. Often
 times GDB will miss the instruction that immediately follows an
@@ -7999,7 +8098,7 @@ happen.
 
 </div>
 
-GDB Quick-Reference
+GDB Quick-Reference {#gdbquickref .unnumbered}
 ===================
 
 This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and
@@ -8014,7 +8113,7 @@ optional.
 
 Common GDB Debugging Commands
 
-GNU Free Documentation License
+GNU Free Documentation License {#gnu-free-documentation-license}
 ==============================
 
 `0. PREAMBLE`
@@ -8391,7 +8490,7 @@ recommend releasing these examples in parallel under your choice of free
 software license, such as the GNU General Public License, to permit
 their use in free software.
 
-Personal Dedication
+Personal Dedication {#dedicationap}
 ===================
 
 There are so many people I could thank. I will name here but a few of
@@ -8439,211 +8538,221 @@ by personal crises to even think about anything more than getting
 through a day, much less putting this book together. You have all been a
 great blessing to me, and I will keep you in my prayers always.
 
-[1] This is quite a large document. You certainly don't need to know
-everything to get started with this book. You simply need to know how to
-navigate from the command line and how to use an editor like `pico`,
-`emacs`, or `vi` (or others).
+[^1]: This is quite a large document. You certainly don't need to know
+    everything to get started with this book. You simply need to know
+    how to navigate from the command line and how to use an editor like
+    `pico`, `emacs`, or `vi` (or others).
 
-[2] By "GNU/Linux distribution", I mean an x86 GNU/Linux distribution.
-GNU/Linux distributions for the Power Macintosh, the Alpha processor, or
-other processors will not work with this book.
+[^2]: By "GNU/Linux distribution", I mean an x86 GNU/Linux distribution.
+    GNU/Linux distributions for the Power Macintosh, the Alpha
+    processor, or other processors will not work with this book.
 
-[3] The GNU Project is a project by the Free Software Foundation to
-produce a complete, free operating system.
+[^3]: The GNU Project is a project by the Free Software Foundation to
+    produce a complete, free operating system.
 
-[4] With the advent of international character sets and Unicode, this is
-not entirely true anymore. However, for the purposes of keeping this
-simple for beginners, we will use the assumption that one number
-translates directly to one character. For more information, see the
-[Table of ASCII Codes](#table-of-ascii-codes).
+[^4]: With the advent of international character sets and Unicode, this
+    is not entirely true anymore. However, for the purposes of keeping
+    this simple for beginners, we will use the assumption that one
+    number translates directly to one character. For more information,
+    see the [Table of ASCII Codes](#table-of-ascii-codes).
 
-[5] Previous incarnations of x86 processors only had two-byte words.
-Therefore, most other literature dealing with x86 processors refers to
-two-byte entities as words for historical reasons, and therefore refer
-to four-byte entities as double-words. We are using the term *word* to
-mean the normal register size of a computer, which in this case is four
-bytes. More information is available in [Common x86
-Instructions](#common-x86-instructions),
+[^5]: Previous incarnations of x86 processors only had two-byte words.
+    Therefore, most other literature dealing with x86 processors refers
+    to two-byte entities as words for historical reasons, and therefore
+    refer to four-byte entities as double-words. We are using the term
+    *word* to mean the normal register size of a computer, which in this
+    case is four bytes. More information is available in [Common x86
+    Instructions](#common-x86-instructions),
 
-[6] Note that here we are talking about general computer theory. Some
-processors and operating systems actually mark the regions of memory
-that can be executed with a special marker that indicates this.
+[^6]: Note that here we are talking about general computer theory. Some
+    processors and operating systems actually mark the regions of memory
+    that can be executed with a special marker that indicates this.
 
-[7] Note that different versions of GCC do this differently.
+[^7]: Note that different versions of GCC do this differently.
 
-[8] If you have used C, this is what the `strlenstrlen` function does.
+[^8]: If you have used C, this is what the `strlenstrlen` function does.
 
-[9] You will find that after learning the mechanics of programming, most
-programs are pretty straightforward once you know exactly what it is you
-want to do. Most of them initialize data, do some processing in a loop,
-and then clean everything up.
+[^9]: You will find that after learning the mechanics of programming,
+    most programs are pretty straightforward once you know exactly what
+    it is you want to do. Most of them initialize data, do some
+    processing in a loop, and then clean everything up.
 
-[10] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[^10]: This assumes that you have already built the object files
+    `read-record.o` and `write-record.o` in the previous examples. If
+    not, you will have to do so.
 
-[11] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[^11]: This is assuming you created the file in a previous run of
+    `write-records`. If not, you need to run `write-records` first
+    before running this program.
 
-[12] This is why adding more memory to your computer makes it run
-faster. The more memory your computer has, the less it puts on disk, so
-it doesn't have to always be interrupting your programs to retreive
-pages off the disk.
+[^12]: This is why adding more memory to your computer makes it run
+    faster. The more memory your computer has, the less it puts on disk,
+    so it doesn't have to always be interrupting your programs to
+    retreive pages off the disk.
 
-[13] Notice that we don't do any error checking on this. That is done
-just to keep the program simple. In normal programs, every system call
-should normally be checked for success or failure. In failure cases, EAX
-will hold an error code instead of a return value. Error codes are
-negative, so they can be detected by comparing EAX-INDEXED to zero and
-jumping if it is less than zero.
+[^13]: Notice that we don't do any error checking on this. That is done
+    just to keep the program simple. In normal programs, every system
+    call should normally be checked for success or failure. In failure
+    cases, EAX will hold an error code instead of a return value. Error
+    codes are negative, so they can be detected by comparing EAX-INDEXED
+    to zero and jumping if it is less than zero.
 
-[14] If you don't watch Veggie Tales, you should. Start with Dave and
-the Giant Pickle.
+[^14]: If you don't watch Veggie Tales, you should. Start with Dave and
+    the Giant Pickle.
 
-[15] Note that no numbers in assembly language (or any other computer
-language I've seen) have commas embedded in them. So, always write
-numbers like `65535`, and never like `65,535`.
+[^15]: Note that no numbers in assembly language (or any other computer
+    language I've seen) have commas embedded in them. So, always write
+    numbers like `65535`, and never like `65,535`.
 
-[16] The instruction doesn't really use 4 for the size of the storage
-locations, although looking at it that way works for our purposes now.
-It's actually what's called a *multipliermultiplier*. basically, the way
-it works is that you start at the location specified by `data_items`,
-then you add `%edi`\*4 storage locations, and retrieve the number there.
-Usually, you use the size of the numbers as your multiplier, but in some
-circumstances you'll want to do other things.
+[^16]: The instruction doesn't really use 4 for the size of the storage
+    locations, although looking at it that way works for our purposes
+    now. It's actually what's called a *multipliermultiplier*.
+    basically, the way it works is that you start at the location
+    specified by `data_items`, then you add `%edi`\*4 storage locations,
+    and retrieve the number there. Usually, you use the size of the
+    numbers as your multiplier, but in some circumstances you'll want to
+    do other things.
 
-[17] Also, the `l` in `movlmovl` stands for *move long* since we are
-moving a value that takes up four storage locations.
+[^17]: Also, the `l` in `movlmovl` stands for *move long* since we are
+    moving a value that takes up four storage locations.
 
-[18] notice that the comparison is to see if the *second* value is
-greater than the first. I would have thought it the other way around.
-You will find a lot of things like this when learning programming. It
-occurs because different things make sense to different people. Anyway,
-you'll just have to memorize such things and go on.
+[^18]: notice that the comparison is to see if the *second* value is
+    greater than the first. I would have thought it the other way
+    around. You will find a lot of things like this when learning
+    programming. It occurs because different things make sense to
+    different people. Anyway, you'll just have to memorize such things
+    and go on.
 
-[19] The names of these symbols can be anything you want them to be, as
-long as they only contain letters and the underscore character(`_`). The
-only one that is forced is `_start_start`, and possibly others that you
-declare with `.globl.globl`. However, if it is a symbol you define and
-only you use, feel free to call it anything you want that is adequately
-descriptive (remember that others will have to modify your code later,
-and will have to figure out what your symbols mean).
+[^19]: The names of these symbols can be anything you want them to be,
+    as long as they only contain letters and the underscore
+    character(`_`). The only one that is forced is `_start_start`, and
+    possibly others that you declare with `.globl.globl`. However, if it
+    is a symbol you define and only you use, feel free to call it
+    anything you want that is adequately descriptive (remember that
+    others will have to modify your code later, and will have to figure
+    out what your symbols mean).
 
-[20] When we talk about the most or least *significant* byte, it may be
-a little confusing. Let's take the number 5432. In that number, 54 is
-the most significant half of that number and 32 is the least significant
-half. You can't quite divide it like that for registers, since they
-operate on base 2 rather than base 10 numbers, but that's the basic
-idea. For more information on this topic, see [???](#countingchapter).
+[^20]: When we talk about the most or least *significant* byte, it may
+    be a little confusing. Let's take the number 5432. In that number,
+    54 is the most significant half of that number and 32 is the least
+    significant half. You can't quite divide it like that for registers,
+    since they operate on base 2 rather than base 10 numbers, but that's
+    the basic idea. For more information on this topic, see
+    [???](#countingchapter).
 
-[21] Note that different versions of GCC do this differently.
+[^21]: Note that different versions of GCC do this differently.
 
-[22] If you have used C, this is what the `strlenstrlen` function does.
+[^22]: If you have used C, this is what the `strlenstrlen` function
+    does.
 
-[23] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[^23]: You will find that after learning the mechanics of programming,
+    most programs are pretty straightforward once you know exactly what
+    it is you want to do. Most of them initialize data, do some
+    processing in a loop, and then clean everything up.
 
-[24] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[^24]: This assumes that you have already built the object files
+    `read-record.o` and `write-record.o` in the previous examples. If
+    not, you will have to do so.
 
-[25] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[^25]: This is assuming you created the file in a previous run of
+    `write-records`. If not, you need to run `write-records` first
+    before running this program.
 
-[26] This is why adding more memory to your computer makes it run
-faster. The more memory your computer has, the less it puts on disk, so
-it doesn't have to always be interrupting your programs to retreive
-pages off the disk.
+[^26]: This is why adding more memory to your computer makes it run
+    faster. The more memory your computer has, the less it puts on disk,
+    so it doesn't have to always be interrupting your programs to
+    retreive pages off the disk.
 
-[27] Note that different versions of GCC do this differently.
+[^27]: Note that different versions of GCC do this differently.
 
-[28] If you have used C, this is what the `strlenstrlen` function does.
+[^28]: If you have used C, this is what the `strlenstrlen` function
+    does.
 
-[29] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[^29]: You will find that after learning the mechanics of programming,
+    most programs are pretty straightforward once you know exactly what
+    it is you want to do. Most of them initialize data, do some
+    processing in a loop, and then clean everything up.
 
-[30] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[^30]: This assumes that you have already built the object files
+    `read-record.o` and `write-record.o` in the previous examples. If
+    not, you will have to do so.
 
-[31] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[^31]: This is assuming you created the file in a previous run of
+    `write-records`. If not, you need to run `write-records` first
+    before running this program.
 
-[32] This is why adding more memory to your computer makes it run
-faster. The more memory your computer has, the less it puts on disk, so
-it doesn't have to always be interrupting your programs to retreive
-pages off the disk.
+[^32]: This is why adding more memory to your computer makes it run
+    faster. The more memory your computer has, the less it puts on disk,
+    so it doesn't have to always be interrupting your programs to
+    retreive pages off the disk.
 
-[33] Notice that we don't do any error checking on this. That is done
-just to keep the program simple. In normal programs, every system call
-should normally be checked for success or failure. In failure cases, EAX
-will hold an error code instead of a return value. Error codes are
-negative, so they can be detected by comparing EAX-INDEXED to zero and
-jumping if it is less than zero.
+[^33]: Notice that we don't do any error checking on this. That is done
+    just to keep the program simple. In normal programs, every system
+    call should normally be checked for success or failure. In failure
+    cases, EAX will hold an error code instead of a return value. Error
+    codes are negative, so they can be detected by comparing EAX-INDEXED
+    to zero and jumping if it is less than zero.
 
-[34] Note that different versions of GCC do this differently.
+[^34]: Note that different versions of GCC do this differently.
 
-[35] If you have used C, this is what the `strlenstrlen` function does.
+[^35]: If you have used C, this is what the `strlenstrlen` function
+    does.
 
-[36] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[^36]: You will find that after learning the mechanics of programming,
+    most programs are pretty straightforward once you know exactly what
+    it is you want to do. Most of them initialize data, do some
+    processing in a loop, and then clean everything up.
 
-[37] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[^37]: This assumes that you have already built the object files
+    `read-record.o` and `write-record.o` in the previous examples. If
+    not, you will have to do so.
 
-[38] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[^38]: This is assuming you created the file in a previous run of
+    `write-records`. If not, you need to run `write-records` first
+    before running this program.
 
-[39] This is why adding more memory to your computer makes it run
-faster. The more memory your computer has, the less it puts on disk, so
-it doesn't have to always be interrupting your programs to retreive
-pages off the disk.
+[^39]: This is why adding more memory to your computer makes it run
+    faster. The more memory your computer has, the less it puts on disk,
+    so it doesn't have to always be interrupting your programs to
+    retreive pages off the disk.
 
-[40] Note that different versions of GCC do this differently.
+[^40]: Note that different versions of GCC do this differently.
 
-[41] If you have used C, this is what the `strlenstrlen` function does.
+[^41]: If you have used C, this is what the `strlenstrlen` function
+    does.
 
-[42] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[^42]: You will find that after learning the mechanics of programming,
+    most programs are pretty straightforward once you know exactly what
+    it is you want to do. Most of them initialize data, do some
+    processing in a loop, and then clean everything up.
 
-[43] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[^43]: This assumes that you have already built the object files
+    `read-record.o` and `write-record.o` in the previous examples. If
+    not, you will have to do so.
 
-[44] Note that different versions of GCC do this differently.
+[^44]: Note that different versions of GCC do this differently.
 
-[45] Note that different versions of GCC do this differently.
+[^45]: Note that different versions of GCC do this differently.
 
-[46] If you have used C, this is what the `strlenstrlen` function does.
+[^46]: If you have used C, this is what the `strlenstrlen` function
+    does.
 
-[47] Note that different versions of GCC do this differently.
+[^47]: Note that different versions of GCC do this differently.
 
-[48] If you have used C, this is what the `strlenstrlen` function does.
+[^48]: If you have used C, this is what the `strlenstrlen` function
+    does.
 
-[49] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[^49]: You will find that after learning the mechanics of programming,
+    most programs are pretty straightforward once you know exactly what
+    it is you want to do. Most of them initialize data, do some
+    processing in a loop, and then clean everything up.
 
-[50] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[^50]: This assumes that you have already built the object files
+    `read-record.o` and `write-record.o` in the previous examples. If
+    not, you will have to do so.
 
-[51] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[^51]: This is assuming you created the file in a previous run of
+    `write-records`. If not, you need to run `write-records` first
+    before running this program.
 
-[52] Note that different versions of GCC do this differently.
+[^52]: Note that different versions of GCC do this differently.
