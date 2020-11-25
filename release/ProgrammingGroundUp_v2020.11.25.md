@@ -25,8 +25,9 @@ under the terms of the GNU Free Documentation License, Version 1.1 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts. A copy of the license is included in [GNU Free Documentation
-License](#fdl). In addition, you are granted full rights to use the code
-examples for any purpose without even having to credit the authors.
+License](#gnu-free-documentation-license). In addition, you are granted
+full rights to use the code examples for any purpose without even having
+to credit the authors.
 
 To receive a copy of this book in electronic form, please visit the
 website http://savannah.nongnu.org/projects/pgubook/ This site contains
@@ -407,7 +408,7 @@ represented by the number 49. So, to print out "HELLO", you would
 actually give the computer the sequence of numbers 72, 69, 76, 76, 79.
 To print out the number 100, you would give the computer the sequence of
 numbers 49, 48, 48. A list of ASCII characters and their numeric codes
-is found in the [Table of ASCII Codes](#asciilisting).
+is found in the [Table of ASCII Codes](#table-of-ascii-codes).
 
 In addition to using numbers to represent ASCII characters, you as the
 programmer get to make the numbers mean anything you want them to, as
@@ -583,7 +584,7 @@ indirect addressing, but you also include a number called the *offset*
 to add to the register's value before using it for lookup. We will use
 this mode quite a bit in this book.
 
-In [Interpreting Memory](#interpretingmemory) we discussed having a
+In [Interpreting Memory](#interpreting-memory) we discussed having a
 structure in memory holding customer information. Let's say we wanted to
 access the customer's age, which was the eighth byte of the data, and we
 had the address of the start of the structure in a register. We could
@@ -655,15 +656,15 @@ Review
 -   Research and then describe the tradeoffs between fixed-length
     instructions and variable-length instructions.
 
-Your First Programs
-===================
+Chapter 3. Your First Programs
+==============================
 
 In this chapter you will learn the process for writing and building
 Linux assembly-language programs. In addition, you will learn the
 structure of assembly-language programs, and a few assembly-language
 commands. As you go through this chapter, you may want to refer also to
-[Common x86 Instructions](#instructionsappendix) and
-[???](#gdbappendix).
+[Common x86 Instructions](#common-x86-instructions) and [Using the GDB
+Debugger](#using-the-gdb-debugger).
 
 These programs may overwhelm you at first. However, go through them with
 diligence, read them and their explanations as many times as necessary,
@@ -680,36 +681,34 @@ language and Linux programming. You need to enter the program in an
 editor exactly as written, with the filename `exit.s`. The program
 follows. Don't worry about not understanding it. This section only deals
 with typing it in and running it. In [Outline of an Assembly Language
-Program](#assemblyoutline) we will describe how it works.
+Program](#outline-of-an-assembly-language-program) we will describe how
+it works.
 
     EXIT-S
 
-What you have typed in is called the *source codesource code*. Source
-code is the human-readable form of a program. In order to transform it
-into a program that a computer can run, we need to *assembleassemble*
-and *linklink* it.
+What you have typed in is called the *source code*. Source code is the
+human-readable form of a program. In order to transform it into a
+program that a computer can run, we need to *assemble* and *link* it.
 
 The first step is to *assemble* it. Assembling is the process that
 transforms what you typed into instructions for the machine. The machine
 itself only reads sets of numbers, but humans prefer words. An *assembly
-languageassembly language* is a more human-readable form of the
-instructions a computer understands. Assembling transforms the
-human-readable file into a machine-readable one. To assembly the program
-type in the command
+language* is a more human-readable form of the instructions a computer
+understands. Assembling transforms the human-readable file into a
+machine-readable one. To assembly the program type in the command
 
     as exit.s -o exit.o
 
-``` as``as ``` is the command which runs the assembler, `exit.s` is the
-source filesource file, and `-o exit.o` tells the assemble to put its
-output in the file `exit.o`. `exit.o` is an *object fileobject file*. An
-object file is code that is in the machine's language, but has not been
-completely put together. In most large programs, you will have several
-source files, and you will convert each one into an object file. The
-*linker*linker is the program that is responsible for putting the object
-files together and adding information to it so that the kernel knows how
-to load and run it. In our case, we only have one object file, so the
-linker is only adding the information to enable it to run. To *linklink*
-the file, enter the command
+`as` is the command which runs the assembler, `exit.s` is the source
+file, and `-o exit.o` tells the assemble to put its output in the file
+`exit.o`. `exit.o` is an *object file*. An object file is code that is
+in the machine's language, but has not been completely put together. In
+most large programs, you will have several source files, and you will
+convert each one into an object file. The *linker* is the program that
+is responsible for putting the object files together and adding
+information to it so that the kernel knows how to load and run it. In
+our case, we only have one object file, so the linker is only adding the
+information to enable it to run. To *link* the file, enter the command
 
     ld exit.o -o exit
 
@@ -830,7 +829,7 @@ the EAX register. In assembly language, many instructions have
 destination is the EAX register. Operands can be numbers, memory
 location references, or registers. Different instructions allow
 different types of operands. See [Common x86
-Instructions](#instructionsappendix) for more information on which
+Instructions](#common-x86-instructions) for more information on which
 instructions take which kinds of operands.
 
 On most instructions which have two operands, the first one is the
@@ -881,7 +880,7 @@ specific way.
 So, the ``` movl``movl ``` instruction moves the number `1` into `%eax`.
 The dollar-sign in front of the one indicates that we want to use
 immediate mode addressingimmediate mode addressing (refer back to [Data
-Accessing Methods](#dataaccessingmethods)). Without the dollar-sign it
+Accessing Methods](#data-accessing-methods)). Without the dollar-sign it
 would do direct addressingdirect addressing mode, loading whatever
 number is at address `1`. We want the actual number `1` loaded in, so we
 have to use immediate mode.
@@ -1340,7 +1339,7 @@ Jump if the second value was less than or equal to the first value
 Jump no matter what. This does not need to be preceeded by a comparison.
 
 The complete list is documented in [Common x86
-Instructions](#instructionsappendix). In this case, we are jumping if
+Instructions](#common-x86-instructions). In this case, we are jumping if
 EAX holds the value of zero. If so, we are done and we go to
 `loop_exit`.[19]
 
@@ -1400,7 +1399,7 @@ more clearly what is going on.
 Addressing Modes
 ----------------
 
-In [Data Accessing Methods](#dataaccessingmethods) we learned the
+In [Data Accessing Methods](#data-accessing-methods) we learned the
 different types of addressing modesaddressing modes available for use in
 assembly language. This section will deal with how those addressing
 modes are represented in assembly language instructions.
@@ -1419,8 +1418,8 @@ other two must be registers. If any of the pieces is left out, it is
 just substituted with zero in the equation.
 
 All of the addressing modes mentioned in [Data Accessing
-Methods](#dataaccessingmethods) except immediate-mode can be represented
-in this fashion.
+Methods](#data-accessing-methods) except immediate-mode can be
+represented in this fashion.
 
 direct addressing modedirect addressing mode  
 This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
@@ -1504,7 +1503,7 @@ register for either a byte or a word, but never both at the same time.
 ![*Layout of the EAX register*](resource/image/registerdescription.png)
 
 For a more comprehensive list of instructions, see [Common x86
-Instructions](#instructionsappendix).
+Instructions](#common-x86-instructions).
 
 Review
 ------
@@ -1583,11 +1582,12 @@ All About Functions
 Dealing with Complexity
 -----------------------
 
-In [???](#firstprogs), the programs we wrote only consisted of one
-section of code. However, if we wrote real programs like that, it would
-be impossible to maintain them. It would be really difficult to get
-multiple people working on the project, as any change in one part might
-adversely affect another part that another developer is working on.
+In [???](#chapter-3-your-first-programs), the programs we wrote only
+consisted of one section of code. However, if we wrote real programs
+like that, it would be impossible to maintain them. It would be really
+difficult to get multiple people working on the project, as any change
+in one part might adversely affect another part that another developer
+is working on.
 
 To assist programmers in working together in groups, it is necessary to
 break programs apart into separate pieces, which communicate with each
@@ -1768,7 +1768,7 @@ right below the top of the stack, we can simply issue this instruction:
     movl 4(%esp), %eax
 
 This instruction uses the base pointer addressing modebase pointer
-addressing mode (see [Data Accessing Methods](#dataaccessingmethods))
+addressing mode (see [Data Accessing Methods](#data-accessing-methods))
 which simply adds 4 to ESP-INDEXED before looking up the value being
 pointed to.
 
@@ -2061,7 +2061,7 @@ only things you should need to know is that `imullimull` does integer
 multiplication and stores the result in the second operand, and
 `decldecl` decreases the given register by 1. For more information on
 these and other instructions, see [Common x86
-Instructions](#instructionsappendix)
+Instructions](#common-x86-instructions)
 
 A good project to try now is to extend the program so it will return the
 value of a number if the power is 0 (hint, anything raised to the zero
@@ -2633,10 +2633,10 @@ Since letters are represented as numbers, we can subtract them.
 Subtracting an upper-case letter from the same lower-case letter gives
 us how much we need to add to a lower-case letter to make it upper case.
 If that doesn't make sense, look at the ASCIIASCII code tables
-themselves (see the [Table of ASCII Codes](#asciilisting)). You'll
-notice that the number for the character `A` is 65 and the character `a`
-is 97. The conversion factor is then -32. For any lowercase letter if
-you add -32, you will get its capital equivalent.
+themselves (see the [Table of ASCII Codes](#table-of-ascii-codes)).
+You'll notice that the number for the character `A` is 65 and the
+character `a` is 97. The conversion factor is then -32. For any
+lowercase letter if you add -32, you will get its capital equivalent.
 
 After this, we have some constants labelled `STACK POSITIONS`. Remember
 that function parametersfunction parameters are pushed onto the stack
@@ -3198,7 +3198,8 @@ How a Computer Views Memory
 ---------------------------
 
 Let's review how memory within a computer works. You may also want to
-re-read [Computer Architecture](#chapter-2-computer-architecture).
+re-read [Chapter 2. Computer
+Architecture](#chapter-2-computer-architecture).
 
 A computer looks at memory as a long sequence of numbered storage
 locations. A sequence of *millions* of numbered storage locations.
@@ -5153,7 +5154,7 @@ Luckily, 32 bits is usually big enough to hold the numbers we use
 regularly.
 
 Additional program status register flags are examined in [Common x86
-Instructions](#instructionsappendix).
+Instructions](#common-x86-instructions).
 
 Other Numbering Systems
 -----------------------
@@ -5262,9 +5263,9 @@ the extension of -3 from four to eight bits will yield `11111101`.
 The x86 processor has different forms of several instructions depending
 on whether they expect the quantities they operate on to be signedsigned
 or unsignedunsigned. These are listed in [Common x86
-Instructions](#instructionsappendix). For example, the x86 processor has
-both a sign-preserving shift-right, `sarlsarl`, and a shift-right which
-does not preserve the sign bit, `shrlshrl`.
+Instructions](#common-x86-instructions). For example, the x86 processor
+has both a sign-preserving shift-right, `sarlsarl`, and a shift-right
+which does not preserve the sign bit, `shrlshrl`.
 
 Octal and Hexadecimal Numbers
 -----------------------------
@@ -7771,8 +7772,8 @@ An Example Debugging Session
 
 The best way to explain how a debugger works is by using it. The program
 we will be using the debugger on is the `maximum` program used in
-[???](#firstprogs). Let's say that you entered the program perfectly,
-except that you left out the line:
+[???](#chapter-3-your-first-programs). Let's say that you entered the
+program perfectly, except that you left out the line:
 
         incl %edi
 
@@ -8421,7 +8422,7 @@ produce a complete, free operating system.
 not entirely true anymore. However, for the purposes of keeping this
 simple for beginners, we will use the assumption that one number
 translates directly to one character. For more information, see the
-[Table of ASCII Codes](#asciilisting).
+[Table of ASCII Codes](#table-of-ascii-codes).
 
 [5] Previous incarnations of x86 processors only had two-byte words.
 Therefore, most other literature dealing with x86 processors refers to
@@ -8429,7 +8430,7 @@ two-byte entities as words for historical reasons, and therefore refer
 to four-byte entities as double-words. We are using the term *word* to
 mean the normal register size of a computer, which in this case is four
 bytes. More information is available in [Common x86
-Instructions](#instructionsappendix),
+Instructions](#common-x86-instructions),
 
 [6] Note that here we are talking about general computer theory. Some
 processors and operating systems actually mark the regions of memory
