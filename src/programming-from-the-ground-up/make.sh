@@ -14,47 +14,27 @@ pandoc -f markdown -t epub3 --standalone -o \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
-pandoc -f markdown -t markdown_github --standalone -o \
+pandoc -f markdown -t markdown_github+footnotes --standalone -o \
   "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_github.md" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
-pandoc -f markdown -t gfm --standalone -o \
+pandoc -f markdown -t gfm+footnotes --standalone -o \
   "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_gfm.md" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
-pandoc -f markdown -t commonmark --standalone -o \
+pandoc -f markdown -t commonmark+footnotes --standalone -o \
   "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_commonmark.md" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
-pandoc -f markdown -t commonmark_x --standalone -o \
-  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_commonmarkx.md" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md
-
-pandoc -f markdown -t markdown --standalone -o \
-  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown.md" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md
-
-pandoc -f markdown -t markdown_mmd --standalone -o \
-  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown_mmd.md" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md
-
-pandoc -f markdown -t markdown_phpextra --standalone -o \
-  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown_phpextra.md" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md
-
-pandoc -f markdown -t markdown_strict --standalone -o \
+pandoc -f markdown -t markdown_strict+footnotes --standalone -o \
   "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown_strict.md" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
-pandoc -f markdown -t html5 --standalone --highlight-style pygments -o \
+pandoc -f markdown -t html5 --standalone+footnotes --highlight-style pygments -o \
   "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.html" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
