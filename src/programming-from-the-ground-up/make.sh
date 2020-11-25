@@ -9,12 +9,12 @@ rm -fR "${RELEASE_PATH}"resource
 cp -R resource "${RELEASE_PATH}"resource
 
 # Create the release versions.
-pandoc -f markdown -t epub3 --standalone -o \
+pandoc -f markdown -t epub3 --standalone --highlight-style pygments -o \
   "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.epub" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
-pandoc -f markdown -t markdown_strict --standalone -o \
+pandoc -f markdown -t markdown_strict --standalone --highlight-style pygments -o \
   "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.md" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
@@ -24,7 +24,7 @@ pandoc -f markdown -t html5 --standalone --highlight-style pygments -o \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
-pandoc -f markdown -t pdf --standalone -o \
+pandoc -f markdown -t pdf --standalone --highlight-style pygments -o \
   "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.pdf" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
