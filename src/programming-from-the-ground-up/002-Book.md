@@ -289,7 +289,7 @@ work will put you a step ahead.
 
 
 
-Chapter 2. Computer Architecture {#computerarchitecture}
+Chapter 2. Computer Architecture {#chapter-2-computer-architecture}
 ================================
 
 Before learning how to program, you need to first understand how a
@@ -3442,7 +3442,7 @@ How a Computer Views Memory
 ---------------------------
 
 Let\'s review how memory within a computer works. You may also want to
-re-read [Computer Architecture](#computerarchitecture).
+re-read [Computer Architecture](#chapter-2-computer-architecture).
 
 A computer looks at memory as a long sequence of numbered storage
 locations. A sequence of *millions* of numbered storage locations.

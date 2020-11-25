@@ -70,7 +70,7 @@
 </dd>
 </dl>
 <p>In this book we will learn assembly language, although we will cover a bit of high-level languages. Hopefully by learning assembly language, your understanding of how programming and computers work will put you a step ahead.</p>
-<h1 id="computerarchitecture">Chapter 2. Computer Architecture</h1>
+<h1 id="chapter-2-computer-architecture">Chapter 2. Computer Architecture</h1>
 <p>Before learning how to program, you need to first understand how a computer interprets programs. You don't need a degree in electrical engineering, but you need to understand some basics.</p>
 <p>Modern computer architecture is based off of an architecture called the Von Neumann architectureVon Neumann architecture, named after its creator. The Von Neumann architecture divides the computer up into two main parts - the CPU (for Central Processing Unit) and the memory. This architecture is used in all modern computers, including personal computers, supercomputers, mainframes, and even cell phones.</p>
 <h2 id="structure-of-computer-memory">Structure of Computer Memory</h2>
@@ -923,7 +923,7 @@ ld add-year.o write-newline.o error-exit.o read-record.o write-record.o count-ch
 </ul>
 <h1 id="memoryintermediate">Intermediate Memory Topics</h1>
 <h2 id="how-a-computer-views-memory">How a Computer Views Memory</h2>
-<p>Let's review how memory within a computer works. You may also want to re-read <a href="#computerarchitecture">Computer Architecture</a>.</p>
+<p>Let's review how memory within a computer works. You may also want to re-read <a href="#chapter-2-computer-architecture">Computer Architecture</a>.</p>
 <p>A computer looks at memory as a long sequence of numbered storage locations. A sequence of <em>millions</em> of numbered storage locations. Everything is stored in these locations. Your programs are stored there, your data is stored there, everything. Each storage location looks like every other one. The locations holding your program are just like the ones holding your data. In fact, the computer has no idea which are which, except that the executable file tells it where to start executing.</p>
 <p>These storage locations are called bytes. The computer can combine up to four of them together into a single word. Normally numeric data is operated on a word at a time. As we mentioned, instructions are also stored in this same memory. Each instruction is a different length. Most instructions take up one or two storage locations for the instruction itself, and then storage locations for the instruction's arguments. For example, the instruction</p>
 <pre><code>    movl data_items(,%edi,4), %ebx</code></pre>
