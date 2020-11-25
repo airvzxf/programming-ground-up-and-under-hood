@@ -9,7 +9,7 @@ This is a 3% of the WIP (work in progress) project.
 Goals:
 
 - [ ] Programming from the ground up.
-  - [ ] Convert the original _DocBook_ to a _Markdown_ then with [pandoc](https://pandoc.org/) then convert it to _ePUB_, _MOBI_ and _PDF_.
+  - [ ] Convert the original _DocBook_ to a _Markdown_ then with [pandoc](https://pandoc.org/) convert it to _ePUB_, _MOBI_ and _PDF_.
   - [ ] Try to fix the [bugs](https://savannah.nongnu.org/bugs/?group=pgubook) and [support tickets](https://savannah.nongnu.org/support/?group=pgubook), since 2004 is not updated this [book](https://savannah.nongnu.org/projects/pgubook).
   - [ ] Improve and update the sections where I am missing.
 - [ ] Programming under hood.
@@ -37,6 +37,7 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
       - [ ] Footnotes needs to create a new numeration.
       - [ ] Internal broken links for references.
       - [ ] Styles and formats.
+      - [ ] Create a ToC (Table of contents).
     - [ ] Export to the final version to ePUB.
     - [ ] Export to the final version to MOBI for Kindle.
 - [ ] Start with the [TO-DO's file](TODO.md).

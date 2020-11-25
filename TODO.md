@@ -1,7 +1,6 @@
 # TO-DO's
 
 ## Me.
-- [ ] Create a TOC (Table of contents).
 - [ ] Update the GDB debug appendix.
   - [ ] Example: `as --gstabs` vs `as --gstabs+`
 - [ ] Refer the GDB debug in the review sections for chapter 3.
