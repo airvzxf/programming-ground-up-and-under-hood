@@ -741,8 +741,6 @@ deals with typing it in and running it. In [Outline of an Assembly
 Language Program](#outline-of-an-assembly-language-program)
 we will describe how it works.
 
----
-
 ```{#exit .gnuassembler}
     #PURPOSE:  Simple program that exits and returns a
     #          status code back to the Linux kernel
@@ -773,8 +771,6 @@ _start:
     int $0x80          # this wakes up the kernel to run
                        # the exit command
 ```
-
----
 
 What you have typed in is called the *source code*. Source
 code is the human-readable form of a program. In order to transform it
