@@ -15,7 +15,17 @@ pandoc -f markdown -t epub3 --standalone --highlight-style pygments -o \
   002-Book.md
 
 pandoc -f markdown -t markdown_strict --standalone --highlight-style pygments -o \
-  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.md" \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown_strict.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t commonmark --standalone --highlight-style pygments -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_commonmark.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t gfm --standalone --highlight-style pygments -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_github.md" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
