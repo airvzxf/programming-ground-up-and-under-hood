@@ -366,36 +366,32 @@
 <p>These programs may overwhelm you at first. However, go through them with diligence, read them and their explanations as many times as necessary, and you will have a solid foundation of knowledge to build on. Please tinker around with the programs as much as you can. Even if your tinkering does not work, every failure will help you learn.</p>
 <h2 id="entering-in-the-program">Entering in the Program</h2>
 <p>Okay, this first program is simple. In fact, it's not going to do anything but exit! It's short, but it shows some basics about assembly language and Linux programming. You need to enter the program in an editor exactly as written, with the filename <code>exit.s</code>. The program follows. Don't worry about not understanding it. This section only deals with typing it in and running it. In <a href="#outline-of-an-assembly-language-program">Outline of an Assembly Language Program</a> we will describe how it works.</p>
-<hr />
-<div class="sourceCode" id="exit"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="exit-1"><a href="#exit-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">#PURPOSE:  Simple program that exits and returns a</span></span>
-<span id="exit-2"><a href="#exit-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          status code back to the Linux kernel</span></span>
-<span id="exit-3"><a href="#exit-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="exit-4"><a href="#exit-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#INPUT:    none</span></span>
-<span id="exit-5"><a href="#exit-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="exit-6"><a href="#exit-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#OUTPUT:   returns a status code.  This can be viewed</span></span>
-<span id="exit-7"><a href="#exit-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          by typing</span></span>
-<span id="exit-8"><a href="#exit-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          echo $?</span></span>
-<span id="exit-9"><a href="#exit-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          after running the program</span></span>
-<span id="exit-10"><a href="#exit-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="exit-11"><a href="#exit-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#VARIABLES:</span></span>
-<span id="exit-12"><a href="#exit-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          %eax holds the system call number </span></span>
-<span id="exit-13"><a href="#exit-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          %ebx holds the return status </span></span>
-<span id="exit-14"><a href="#exit-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="exit-15"><a href="#exit-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
-<span id="exit-16"><a href="#exit-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
-<span id="exit-17"><a href="#exit-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
-<span id="exit-18"><a href="#exit-18" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
-<span id="exit-19"><a href="#exit-19" aria-hidden="true" tabindex="-1"></a>    movl $1, %eax      <span class="co"># this is the linux kernel command  </span></span>
-<span id="exit-20"><a href="#exit-20" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># number (system call) for exiting </span></span>
-<span id="exit-21"><a href="#exit-21" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># a program</span></span>
-<span id="exit-22"><a href="#exit-22" aria-hidden="true" tabindex="-1"></a>    movl $0, %ebx      <span class="co"># this is the status number we will</span></span>
-<span id="exit-23"><a href="#exit-23" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># return to the operating system.</span></span>
-<span id="exit-24"><a href="#exit-24" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># Change this around and it will</span></span>
-<span id="exit-25"><a href="#exit-25" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># return different things to </span></span>
-<span id="exit-26"><a href="#exit-26" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># echo $?</span></span>
-<span id="exit-27"><a href="#exit-27" aria-hidden="true" tabindex="-1"></a>    int $0x80          <span class="co"># this wakes up the kernel to run</span></span>
-<span id="exit-28"><a href="#exit-28" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># the exit command</span></span></code></pre></div>
-<hr />
+<div class="sourceCode" id="cb4"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">#PURPOSE:  Simple program that exits and returns a</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          status code back to the Linux kernel.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#INPUT:    None.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#OUTPUT:   Returns a status code.  This can be viewed</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          by typing `echo $?` after running the program</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#VARIABLES:</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          %eax holds the system call number.</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#          %ebx holds the return status .</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    movl $1, %eax      <span class="co"># This is the linux kernel command</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># number (system call) for exiting</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># a program.</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    movl $0, %ebx      <span class="co"># This is the status number we will</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># return to the operating system.</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># Change this around and it will</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># return different things to</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># `echo $?`.</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    int $0x80          <span class="co"># This wakes up the kernel to run</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># the exit command.</span></span></code></pre></div>
 <p>What you have typed in is called the <em>source code</em>. Source code is the human-readable form of a program. In order to transform it into a program that a computer can run, we need to <em>assemble</em> and <em>link</em> it.</p>
 <p>The first step is to <em>assemble</em> it. Assembling is the process that transforms what you typed into instructions for the machine. The machine itself only reads sets of numbers, but humans prefer words. An <em>assembly language</em> is a more human-readable form of the instructions a computer understands. Assembling transforms the human-readable file into a machine-readable one. To assembly the program type in the command</p>
 <pre><code>as exit.s -o exit.o</code></pre>
