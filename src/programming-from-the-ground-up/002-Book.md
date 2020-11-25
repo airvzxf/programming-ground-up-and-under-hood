@@ -1,17 +1,19 @@
-<!-- FIXME - Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
+<!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
 
-<!-- FIXME - need to find places that need more filling out.  Reviews, definitely.  -->
+<!-- TODO: Need to find places that need more filling out.  Reviews, definitely.  -->
 
-<!-- TODO -
+<!-- TODO:
   * Go back through and make sure that registers and memory are both fully described and fully distinguished
 -->
 
-<!-- INCOMPLETE PARTS:
+<!-- TODO:
   * Instructions needs some more beef from reference books
   * Reviews need to be finished out
   * Finish index
 -->
-<!-- Appendices it would be nice to have:
+
+<!--  TODO:
+  Appendices it would be nice to have:
   * A full description of the calling sequence for UNIX
   * A complete examination of the fetch-execute cycle
   * A complete listing of registers and flags
