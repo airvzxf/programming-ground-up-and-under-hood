@@ -15,7 +15,42 @@ pandoc -f markdown -t epub3 --standalone -o \
   002-Book.md
 
 pandoc -f markdown -t markdown_github --standalone -o \
-  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.md" \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_github.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t gfm --standalone -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_gfm.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t commonmark --standalone -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_commonmark.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t commonmark_x --standalone -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_commonmarkx.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t markdown --standalone -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t markdown_mmd --standalone -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown_mmd.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t markdown_phpextra --standalone -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown_phpextra.md" \
+  001-ProgrammingGroundUp.txt \
+  002-Book.md
+
+pandoc -f markdown -t markdown_strict --standalone -o \
+  "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown_strict.md" \
   001-ProgrammingGroundUp.txt \
   002-Book.md
 
