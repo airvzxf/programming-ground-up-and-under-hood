@@ -504,7 +504,7 @@ another. If the instruction pointer points to a memory word, it is
 loaded as an instruction. Other than that, the computer has no way of
 knowing the difference between programs and other types of data.[^2-3]
 
-Interpreting Memory {#interpretingmemory}
+Interpreting Memory {#interpreting-memory}
 -------------------
 
 Computers are very exact. Because they are exact, programmers have to be
@@ -564,7 +564,7 @@ began. Therefore, almost all records are of fixed lengths.
 Variable-length data is usually stored separately from the rest of the
 record.
 
-Data Accessing Methods {#dataaccessingmethods}
+Data Accessing Methods {#data-accessing-methods}
 ----------------------
 
 <!-- TODO: This would be a good section for diagrams -->
@@ -623,7 +623,7 @@ include a number called the *offset* to add to the register\'s
 value before using it for lookup. We will use this mode quite a bit in
 this book.
 
-In [Interpreting Memory](#interpretingmemory) we discussed having a
+In [Interpreting Memory](#interpreting-memory) we discussed having a
 structure in memory holding customer information. Let\'s say we wanted
 to access the customer\'s age, which was the eighth byte of the data,
 and we had the address of the start of the structure in a register. We
@@ -939,7 +939,7 @@ specific way.
 So, the `movl``movl` instruction moves the number `1` into `%eax`. The
 dollar-sign in front of the one indicates that we want to use immediate
 mode addressingimmediate mode addressing (refer back to
-[Data Accessing Methods](#dataaccessingmethods)). Without the dollar-sign it would do
+[Data Accessing Methods](#data-accessing-methods)). Without the dollar-sign it would do
 direct addressingdirect addressing mode, loading whatever number is at
 address `1`. We want the actual number `1` loaded in, so we have to use
 immediate mode.
@@ -1467,7 +1467,7 @@ more clearly what is going on.
 Addressing Modes {#movaddrmodes}
 ----------------
 
-In [Data Accessing Methods](#dataaccessingmethods) we learned the different types of
+In [Data Accessing Methods](#data-accessing-methods) we learned the different types of
 addressing modesaddressing modes available for use in assembly language.
 This section will deal with how those addressing modes are represented
 in assembly language instructions.
@@ -1485,7 +1485,7 @@ the following calculation:
 other two must be registers. If any of the pieces is left out, it is
 just substituted with zero in the equation.
 
-All of the addressing modes mentioned in [Data Accessing Methods](#dataaccessingmethods)
+All of the addressing modes mentioned in [Data Accessing Methods](#data-accessing-methods)
 except immediate-mode can be represented in this fashion.
 
 direct addressing modedirect addressing mode
@@ -1947,7 +1947,7 @@ right below the top of the stack, we can simply issue this instruction:
     movl 4(%esp), %eax
 
 This instruction uses the base pointer addressing modebase pointer
-addressing mode (see [Data Accessing Methods](#dataaccessingmethods)) which simply adds 4
+addressing mode (see [Data Accessing Methods](#data-accessing-methods)) which simply adds 4
 to ESP-INDEXED before looking up the value being pointed to.
 
 In the C language calling conventionC language calling convention, the
@@ -3442,7 +3442,7 @@ How a Computer Views Memory
 ---------------------------
 
 Let\'s review how memory within a computer works. You may also want to
-re-read [Computer Architecture](#chapter-2-computer-architecture).
+re-read [Chapter 2. Computer Architecture](#chapter-2-computer-architecture).
 
 A computer looks at memory as a long sequence of numbered storage
 locations. A sequence of *millions* of numbered storage locations.
