@@ -1,6 +1,7 @@
 # TO-DO's
 
 ## Me.
+- [ ] Generate my theme of GNU Assembler and apply to the fenced code blocks. [Pandoc: Syntax highlighting](https://pandoc.org/MANUAL.html#syntax-highlighting).
 - [ ] Update the GDB debug appendix.
   - [ ] Example: `as --gstabs` vs `as --gstabs+`
 - [ ] Refer the GDB debug in the review sections for chapter 3.
