@@ -1539,7 +1539,7 @@ All of the addressing modes mentioned in
 [Data Accessing Methods](#data-accessing-methods)
 except immediate-mode can be represented in this fashion.
 
-Direct addressing mode:
+**Direct addressing mode:**
 
 :   This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
@@ -1549,7 +1549,7 @@ Direct addressing mode:
 movl ADDRESS, %eax
 ```
 
-Indexed addressing mode:
+**Indexed addressing mode:**
 
 :   This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX`
     portion. You can use any general-purpose register as the index
@@ -1568,7 +1568,7 @@ Indexed addressing mode:
 movl string_start(,%ecx,1), %eax
 ```
 
-Indirect addressing mode:
+**Indirect addressing mode:**
 
 :   Indirect addressing mode loads a value from the address indicated by
     a register. For example, if _%eax_ held an address, we could move the
@@ -1578,7 +1578,7 @@ Indirect addressing mode:
 movl (%eax), %ebx
 ```
 
-Base pointer addressing mode:
+**Base pointer addressing mode:**
 
 :   Base-pointer addressing is similar to indirect addressing, except
     that it adds a constant value to the address in the register. For
@@ -1590,7 +1590,7 @@ Base pointer addressing mode:
 movl 4(%eax), %ebx
 ```
 
-Immediate mode addressing:
+**Immediate mode addressing:**
 
 :   Immediate mode is very simple. It does not follow the general form
     we have been using. Immediate mode is used to load direct values
@@ -1606,7 +1606,7 @@ Immediate mode addressing:
 movl $12, %eax
 ```
 
-Register addressing mode:
+**Register addressing mode:**
 
 :   Register mode simply moves data in or out of a register. In all of
     our examples, register addressing mode was used for the other
