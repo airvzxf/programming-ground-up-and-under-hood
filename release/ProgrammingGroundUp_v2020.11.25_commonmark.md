@@ -234,16 +234,16 @@ GNU/Linux.
 For the most part, this book will be using the computer's low-level
 assembly language. There are essentially three kinds of languages:
 
-Machine Language  
+Machine Language:  
 This is what the computer actually sees and deals with. Every command
 the computer sees is given as a number or sequence of numbers.
 
-Assembly Language  
+Assembly Language:  
 This is the same as machine language, except the command numbers have
 been replaced by letter sequences which are easier to memorize. Other
 small things are done to make it easier as well.
 
-High-Level Languages  
+High-Level Languages:  
 High-level languages are there to make programming easier. Assembly
 language requires you to work with the machine itself. High-level
 languages allow you to describe the program in a more natural language.
@@ -684,23 +684,23 @@ Program](#outline-of-an-assembly-language-program) we will describe how
 it works.
 
 ``` gnuassembler
-    # PURPOSE:  Simple program that exits and returns a
-    #          status code back to the Linux kernel.
+    # PURPOSE:    Simple program that exits and returns a
+    #             status code back to the Linux kernel.
     #
-    # INPUT:    None.
+    # INPUT:      None.
     #
-    # OUTPUT:   Returns a status code.  This can be viewed
-    #          by typing `echo $?` after running the program
+    # OUTPUT:     Returns a status code.  This can be viewed
+    #             by typing `echo $?` after running the program
     #
     # VARIABLES:
-    #          %eax holds the system call number.
-    #          %ebx holds the return status .
+    #             %eax holds the system call number.
+    #             %ebx holds the return status .
     #
     .section .data
     .section .text
     .globl _start
 _start:
-    movl $1, %eax      # This is the linux kernel command
+    movl $1, %eax      # This is the Linux kernel command
                        # number (system call) for exiting
                        # a program.
     movl $0, %ebx      # This is the status number we will
@@ -721,9 +721,11 @@ transforms what you typed into instructions for the machine. The machine
 itself only reads sets of numbers, but humans prefer words. An *assembly
 language* is a more human-readable form of the instructions a computer
 understands. Assembling transforms the human-readable file into a
-machine-readable one. To assembly the program type in the command
+machine-readable one. To assembly the program type in the command:
 
-    as exit.s -o exit.o
+``` bash
+as exit.s -o exit.o
+```
 
 `as` is the command which runs the assembler, `exit.s` is the source
 file, and `-o exit.o` tells the assemble to put its output in the file
@@ -734,125 +736,142 @@ convert each one into an object file. The *linker* is the program that
 is responsible for putting the object files together and adding
 information to it so that the kernel knows how to load and run it. In
 our case, we only have one object file, so the linker is only adding the
-information to enable it to run. To *link* the file, enter the command
+information to enable it to run. To *link* the file, enter the command:
 
-    ld exit.o -o exit
+``` bash
+ld exit.o -o exit
+```
 
-`ld`ld is the command to run the linker, `exit.o` is the object file we
+`ld` is the command to run the linker, `exit.o` is the object file we
 want to link, and `-o exit` instructs the linker to output the new
 program into a file called `exit`.[7] If any of these commands reported
 errors, you have either mistyped your program or the command. After
 correcting the program, you have to re-run all the commands. *You must
 always re-assemble and re-link programs after you modify the source file
 for the changes to occur in the program*. You can run `exit` by typing
-in the command
+in the command:
 
-    ./exit
+``` bash
+./exit
+```
 
-The ``` ./``./ ``` is used to tell the computer that the program isn't
-in one of the normal program directories, but is the current directory
-instead[8]. You'll notice when you type this command, the only thing
-that happens is that you'll go to the next line. That's because this
-program does nothing but exit. However, immediately after you run the
-program, if you type in echo $?
+The `./` is used to tell the computer that the program isn't in one of
+the normal program directories, but is the current directory instead[8].
+You'll notice when you type this command, the only thing that happens is
+that you'll go to the next line. That's because this program does
+nothing but exit. However, immediately after you run the program, if you
+type in:
 
-    echo $?
+``` bash
+echo $?
+```
 
 It will say `0`. What is happening is that every program when it exits
-gives Linux an *exit status codeexit status code*, which tells it if
-everything went all right. If everything was okay, it returns 0. UNIX
-programs return numbers other than zero to indicate failure or other
-errors, warnings, or statuses. The programmer determines what each
-number means. You can view this code by typing in `echo $?`. In the
-following section we will look at what each part of the code does.
+gives Linux an *exit status code*, which tells it if everything went all
+right. If everything was okay, it returns 0. UNIX programs return
+numbers other than zero to indicate failure or other errors, warnings,
+or statuses. The programmer determines what each number means. You can
+view this code by typing in `echo $?`. In the following section we will
+look at what each part of the code does.
 
 Outline of an Assembly Language Program
 ---------------------------------------
 
 Take a look at the program we just entered. At the beginning there are
-lots of lines that begin with hashes (`#`). These are
-*commentscomments*. Comments are not translated by the assembler. They
-are used only for the programmer to talk to anyone who looks at the code
-in the future. Most programs you write will be modified by others. Get
-into the habit of writing comments in your code that will help them
-understand both why the program exists and how it works. Always include
-the following in your comments:
+lots of lines that begin with hashes (`#`). These are *comments*.
+Comments are not translated by the assembler. They are used only for the
+programmer to talk to anyone who looks at the code in the future. Most
+programs you write will be modified by others. Get into the habit of
+writing comments in your code that will help them understand both why
+the program exists and how it works. Always include the following in
+your comments:
 
--   The purpose of the code
+-   The purpose of the code.
 
--   An overview of the processing involved
+-   An overview of the processing involved.
 
--   Anything strange your program does and why it does it[9]
+<!-- TODO: Dominique suggests an extended example of this: -->
 
-After the comments, the next line says
+-   Anything strange your program does and why it does it.[9]
 
-        .section .data
+After the comments, the next line says:
+
+``` gnuassembler
+.section .data
+```
 
 Anything starting with a period isn't directly translated into a machine
 instruction. Instead, it's an instruction to the assembler itself. These
-are called *assembler directivesassembler directives* or
-*pseudo-operationspseudo-operations* because they are handled by the
-assembler and are not actually run by the computer. The
-``` .section``.section ``` command breaks your program up into sections.
-This command starts the data sectiondata section, where you list any
-memory storage you will need for data. Our program doesn't use any, so
-we don't need the section. It's just here for completeness. Almost every
-program you write in the future will have data.
+are called *assembler directives* or *pseudo-operations* because they
+are handled by the assembler and are not actually run by the computer.
+The `.section` command breaks your program up into sections. This
+command starts the data section, where you list any memory storage you
+will need for data. Our program doesn't use any, so we don't need the
+section. It's just here for completeness. Almost every program you write
+in the future will have data.
 
-Right after this you have
+Right after this you have:
 
-        .section .text
+``` gnuassembler
+.section .text
+```
 
 `.text` which starts the text section. The text sectiontext section of a
 program is where the program instructions live.
 
-The next instruction is
+The next instruction is:
 
-        .globl _start
+``` gnuassembler
+.globl _start
+```
 
-This instructs the assembler that ``` _start``_start ``` is important to
-remember. `_start` is a *symbolsymbol*, which means that it is going to
-be replaced by something else either during assembly or linking. Symbols
-are generally used to mark locations of programs or data, so you can
-refer to them by name instead of by their location number. Imagine if
-you had to refer to every memory location by its address. First of all,
-it would be very confusing because you would have to memorize or look up
-the numeric memory address of every piece of code or data. In addition,
-every time you had to insert a piece of data or code you would have to
-change all the addresses in your program! Symbols are used so that the
-assembler and linker can take care of keeping track of addresses, and
-you can concentrate on writing your program.
+This instructs the assembler that `_start` is important to remember.
+`_start` is a *symbol*, which means that it is going to be replaced by
+something else either during assembly or linking. Symbols are generally
+used to mark locations of programs or data, so you can refer to them by
+name instead of by their location number. Imagine if you had to refer to
+every memory location by its address. First of all, it would be very
+confusing because you would have to memorize or look up the numeric
+memory address of every piece of code or data. In addition, every time
+you had to insert a piece of data or code you would have to change all
+the addresses in your program! Symbols are used so that the assembler
+and linker can take care of keeping track of addresses, and you can
+concentrate on writing your program.
 
-``` .globl``.globl ``` means that the assembler shouldn't discard this
-symbol after assembly, because the linker will need it.
-``` _start``_start ``` is a special symbol that always needs to be
-marked with `.globl` because it marks the location of the start of the
-program. *Without marking this location in this way, when the computer
-loads your program it won't know where to begin running your program*.
+`.globl` means that the assembler shouldn't discard this symbol after
+assembly, because the linker will need it. `_start` is a special symbol
+that always needs to be marked with `.globl` because it marks the
+location of the start of the program. *Without marking this location in
+this way, when the computer loads your program it won't know where to
+begin running your program*.
 
-The next line
+The next line:
 
-    _start:
+``` gnuassembler
+_start:
+```
 
-*defines* the value of the `_start`\_start label. A *labellabels* is a
-symbolsymbol followed by a colon. Labels define a symbol's value. When
-the assemblerassembler is assembling the program, it has to assign each
-data value and instruction an address. Labels tell the assembler to make
-the symbol's value be wherever the next instruction or data element will
-be. This way, if the actual physical location of the data or instruction
-changes, you don't have to rewrite any references to it - the symbol
+*defines* the value of the `_start` label. A *label* is a symbol
+followed by a colon. Labels define a symbol's value. When the assembler
+is assembling the program, it has to assign each data value and
+instruction an address. Labels tell the assembler to make the symbol's
+value be wherever the next instruction or data element will be. This
+way, if the actual physical location of the data or instruction changes,
+you don't have to rewrite any references to it - the symbol
 automatically gets the new value.
 
 Now we get into actual computer instructions. The first such instruction
 is this:
 
-    movl $1, %eax
+``` gnuassembler
+movl $1, %eax
+```
 
 When the program runs, this instruction transfers the number `1` into
-the EAX register. In assembly language, many instructions have
-*operands*operands. `movl`movl has two operands - the *source* and the
+the *%eax* register. In assembly language, many instructions have
+*operands*. `movl` has two operands - the *source* and the
 *destination*. In this case, the source is the literal number 1, and the
-destination is the EAX register. Operands can be numbers, memory
+destination is the *%eax* register. Operands can be numbers, memory
 location references, or registers. Different instructions allow
 different types of operands. See [Common x86
 Instructions](#common-x86-instructions) for more information on which
@@ -861,138 +880,127 @@ instructions take which kinds of operands.
 On most instructions which have two operands, the first one is the
 source operand and the second one is the destination. Note that in these
 cases, the source operand is not modified at all. Other instructions of
-this type are, for example, `addl`addl, `subl`subl, and `imull`imull.
-These add/subtract/multiply the source operand from/to/by the
-destination operand and and save the result in the destination operand.
-Other instructions may have an operand hardcoded in. `idivl`idivl, for
-example, requires that the dividend be in EAX, and EDX be zero, and the
-quotient is then transferred to EAX and the remainder to EDX. However,
-the divisor can be any register or memory location.
+this type are, for example, `addl`, `subl`, and `imull`. These
+add/subtract/multiply the source operand from/to/by the destination
+operand and and save the result in the destination operand. Other
+instructions may have an operand hardcoded in. `idivl`, for example,
+requires that the dividend be in *%eax*, and *%edx* be zero, and the
+quotient is then transferred to *%eax* and the remainder to *%edx*.
+However, the divisor can be any register or memory location.
 
-On x86 processors, there are several general-purpose
-registersgeneral-purpose registers[10] (all of which can be used with
-`movl`):
+On x86 processors, there are several general-purpose registers[10] (all
+of which can be used with `movl`):
 
--   EAX-INDEXED
+-   *%eax*
 
--   EBX-INDEXED
+-   *%ebx*
 
--   ECX-INDEXED
+-   *%ecx*
 
--   EDX-INDEXED
+-   *%edx*
 
--   EDI-INDEXED
+-   *%edi*
 
--   ESI-INDEXED
+-   *%esi*
 
 In addition to these general-purpose registers, there are also several
-special-purpose registersspecial-purpose registers, including:
+special-purpose registers, including:
 
--   EBP-INDEXED
+-   *%ebp*
 
--   ESP-INDEXED
+-   *%esp*
 
--   EIP-INDEXED
+-   *%eip*
 
--   EFLAGS-INDEXED
+-   *%eflags*
 
 We'll discuss these later, just be aware that they exist.[11] Some of
-these registers, like EIP-INDEXED and EFLAGS-INDEXED can only be
-accessed through special instructions. The others can be accessed using
-the same instructions as general-purpose registers, but they have
-special meanings, special uses, or are simply faster when used in a
-specific way.
+these registers, like *%eip* and *%eflags* can only be accessed through
+special instructions. The others can be accessed using the same
+instructions as general-purpose registers, but they have special
+meanings, special uses, or are simply faster when used in a specific
+way.
 
-So, the ``` movl``movl ``` instruction moves the number `1` into `%eax`.
-The dollar-sign in front of the one indicates that we want to use
-immediate mode addressingimmediate mode addressing (refer back to [Data
-Accessing Methods](#data-accessing-methods)). Without the dollar-sign it
-would do direct addressingdirect addressing mode, loading whatever
-number is at address `1`. We want the actual number `1` loaded in, so we
-have to use immediate mode.
+So, the `movl` instruction moves the number `1` into `%eax`. The
+dollar-sign in front of the one indicates that we want to use immediate
+mode addressing (refer back to [Data Accessing
+Methods](#data-accessing-methods)). Without the dollar-sign it would do
+direct addressing mode, loading whatever number is at address `1`. We
+want the actual number `1` loaded in, so we have to use immediate mode.
 
-The reason we are moving the number 1 into EAX is because we are
+The reason we are moving the number 1 into *%eax* is because we are
 preparing to call the Linux Kernel. The number `1` is the number of the
-``` exit``exit ``` *system call* system call. We will discuss system
-calls in more depth soon, but basically they are requests for the
-operating system's help. Normal programs can't do everything. Many
-operations such as calling other programs, dealing with files, and
-exiting have to be handled by the operating system through system
-callssystem calls. When you make a system call, which we will do
-shortly, the system call number has to be loaded into EAX-INDEXED (for a
-complete listing of system calls and their numbers, see
-[???](#syscallap)). Depending on the system call, other registers may
-have to have values in them as well. Note that system calls is not the
-only use or even the main use of registers. It is just the one we are
-dealing with in this first program. Later programs will use registers
-for regular computation.
+`exit` *system call*. We will discuss system calls in more depth soon,
+but basically they are requests for the operating system's help. Normal
+programs can't do everything. Many operations such as calling other
+programs, dealing with files, and exiting have to be handled by the
+operating system through system calls. When you make a system call,
+which we will do shortly, the system call number has to be loaded into
+*%eax* (for a complete listing of system calls and their numbers, see
+[Important System Calls](#important-system-calls)). Depending on the
+system call, other registers may have to have values in them as well.
+Note that system calls is not the only use or even the main use of
+registers. It is just the one we are dealing with in this first program.
+Later programs will use registers for regular computation.
 
 The operating system, however, usually needs more information than just
 which call to make. For example, when dealing with files, the operating
 system needs to know which file you are dealing with, what data you want
-to write, and other details. The extra details, called
-*parametersparameters* are stored in other registers. In the case of the
-`exit` system call, the operating system requires a status code be
-loaded in EBX-INDEXED. This value is then returned to the system. This
-is the value you retrieved when you typed `echo $?`. So, we load EBX
-with `0` by typing the following:
+to write, and other details. The extra details, called *parameters* are
+stored in other registers. In the case of the `exit` system call, the
+operating system requires a status code be loaded in *%ebx*. This value
+is then returned to the system. This is the value you retrieved when you
+typed `echo $?`. So, we load *%ebx* with `0` by typing the following:
 
-    movl $0, %ebx
+``` gnuassembler
+movl $0, %ebx
+```
 
-Now, loading registersregisters with these numbers doesn't do anything
-itself. Registers are used for all sorts of things besides system calls.
-They are where all program logic such as addition, subtraction, and
+Now, loading registers with these numbers doesn't do anything itself.
+Registers are used for all sorts of things besides system calls. They
+are where all program logic such as addition, subtraction, and
 comparisons take place. Linux simply requires that certain registers be
-loaded with certain parameter values before making a system call.
-EAX-INDEXED is always required to be loaded with the system call number.
-For the other registers, however, each system call has different
-requirements. In the `exitexit` system call, EBX-INDEXED is required to
-be loaded with the exit statusexit status code. We will discuss
-different system calls as they are needed. For a list of common system
-calls and what is required to be in each register, see [???](#syscallap)
+loaded with certain parameter values before making a system call. *%eax*
+is always required to be loaded with the system call number. For the
+other registers, however, each system call has different requirements.
+In the `exit` system call, *%ebx* is required to be loaded with the exit
+status code. We will discuss different system calls as they are needed.
+For a list of common system calls and what is required to be in each
+register, see [Important System Calls](#important-system-calls).
 
 The next instruction is the "magic" one. It looks like this:
 
-        int $0x80
+``` gnuassembler
+int $0x80
+```
 
-The `intint` stands for *interruptinterrupts*. The `0x800x80` is the
-interrupt number to use.[12] An *interruptinterrupts* interrupts the
-normal program flow, and transfers control from our program to
-LinuxLinux so that it will do a system call.[13]. You can think of it as
-like signaling Batman(or Larry-BoyLarry-Boy[14], if you prefer). You
-need something done, you send the signal, and then he comes to the
-rescue. You don't care how he does his work - it's more or less magic -
-and when he's done you're back in control. In this case, all we're doing
-is asking Linux to terminate the program, in which case we won't be back
-in control. If we didn't signal the interrupt, then no system call would
-have been performed.
+The `int` stands for *interrupt*. The `0x80` is the interrupt number to
+use.[12] An *interrupt* interrupts the normal program flow, and
+transfers control from our program to Linux so that it will do a system
+call.[13]. You can think of it as like signaling Batman (or
+Larry-Boy[14], if you prefer). You need something done, you send the
+signal, and then he comes to the rescue. You don't care how he does his
+work - it's more or less magic - and when he's done you're back in
+control. In this case, all we're doing is asking Linux to terminate the
+program, in which case we won't be back in control. If we didn't signal
+the interrupt, then no system call would have been performed.
 
-<div class="note">
-
-<div class="title">
-
-Quick System Call Review
-
-</div>
-
-To recap - Operating System features are accessed through system
-callssystem calls. These are invoked by setting up the registers in a
-special way and issuing the instruction `int $0x80`. Linux knows which
-system call we want to access by what we stored in the EAX-INDEXED
-register. Each system call has other requirements as to what needs to be
-stored in the other registers. System call number 1 is the `exit` system
-call, which requires the status codestatus code to be placed in
-EBX-INDEXED.
-
-</div>
+> **Quick System Call Review:** To recap - Operating System features are
+> accessed through system calls. These are invoked by setting up the
+> registers in a special way and issuing the instruction `int $0x80`.
+> Linux knows which system call we want to access by what we stored in
+> the *%eax* register. Each system call has other requirements as to
+> what needs to be stored in the other registers. System call number 1
+> is the `exit` system call, which requires the status code to be placed
+> in *%ebx*.
 
 Now that you've assembled, linked, run, and examined the program, you
 should make some basic edits. Do things like change the number that is
-loaded into `%ebx`, and watch it come out at the end with
-`echo $?echo$?`. Don't forget to assemble and link it again before
-running it. Add some comments. Don't worry, the worse thing that would
-happen is that the program won't assemble or link, or will freeze your
-screen. That's just part of learning!
+loaded into `%ebx`, and watch it come out at the end with `echo $?`.
+Don't forget to assemble and link it again before running it. Add some
+comments. Don't worry, the worse thing that would happen is that the
+program won't assemble or link, or will freeze your screen. That's just
+part of learning!
 
 Planning the Program
 --------------------
@@ -1036,11 +1044,11 @@ also need a value to hold the current position in the list, a value to
 hold the current list element being examined, and the current highest
 value on the list. Let's assign each of these a register:
 
--   EDI will hold the current position in the list.
+-   *%edi* will hold the current position in the list.
 
--   EBX will hold the current highest value in the list.
+-   *%ebx* will hold the current highest value in the list.
 
--   EAX will hold the current element being examined.
+-   *%eax* will hold the current element being examined.
 
 When we begin the program and look at the first item in the list, since
 we haven't seen any other items, that item will automatically be the
@@ -1048,18 +1056,18 @@ current largest element in the list. Also, we will set the current
 position in the list to be zero - the first element. From then, we will
 follow the following steps:
 
-1.  Check the current list element (EAX) to see if it's zero (the
+1.  Check the current list element (*%eax*) to see if it's zero (the
     terminating element).
 
 2.  If it is zero, exit.
 
-3.  Increase the current position (EDI).
+3.  Increase the current position (*%edi*).
 
 4.  Load the next value in the list into the current value register
-    (EAX). What addressing mode might we use here? Why?
+    (*%eax*). What addressing mode might we use here? Why?
 
-5.  Compare the current value (EAX) with the current highest value
-    (EBX).
+5.  Compare the current value (*%eax*) with the current highest value
+    (*%ebx*).
 
 6.  If the current value is greater than the current highest value,
     replace the current highest value with the current value.
@@ -1075,38 +1083,37 @@ have the highest value. In that case, it will skip step 6, but come back
 to step 7. In every case except the last one, it will skip step 2. In
 more complicated programs, the skipping around increases dramatically.
 
-These "if"s are a class of instructions called *flow controlflow
-control* instructions, because they tell the computer which steps to
-follow and which paths to take. In the previous program, we did not have
-any flow control instructions, as there was only one possible path to
-take - exit. This program is much more dynamic in that it is directed by
-data. Depending on what data it receives, it will follow different
-instruction paths.
+These "if"s are a class of instructions called *flow control*
+instructions, because they tell the computer which steps to follow and
+which paths to take. In the previous program, we did not have any flow
+control instructions, as there was only one possible path to take -
+exit. This program is much more dynamic in that it is directed by data.
+Depending on what data it receives, it will follow different instruction
+paths.
 
 In this program, this will be accomplished by two different
-instructions, the conditional jumpconditional jump and the unconditional
-jumpunconditional jump. The conditional jump changes paths based on the
-results of a previous comparison or calculation. The unconditional jump
-just goes directly to a different path no matter what. The unconditional
-jump may seem useless, but it is very necessary since all of the
-instructions will be laid out on a line. If a path needs to converge
-back to the main path, it will have to do this by an unconditional jump.
-We will see more of both of these jumps in the next section.
+instructions, the conditional jump and the unconditional jump. The
+conditional jump changes paths based on the results of a previous
+comparison or calculation. The unconditional jump just goes directly to
+a different path no matter what. The unconditional jump may seem
+useless, but it is very necessary since all of the instructions will be
+laid out on a line. If a path needs to converge back to the main path,
+it will have to do this by an unconditional jump. We will see more of
+both of these jumps in the next section.
 
-Another use of flow controlflow control is in implementing loopsloops. A
-loop is a piece of program code that is meant to be repeated. In our
-example, the first part of the program (setting the current position to
-0 and loading the current highest value with the current value) was only
-done once, so it wasn't a loop. However, the next part is repeated over
-and over again for every number in the list. It is only left when we
-have come to the last element, indicated by a zero. This is called a
-*loop* because it occurs over and over again. It is implemented by doing
-unconditional jumps to the beginning of the loop at the end of the loop,
-which causes it to start over. However, you have to always remember to
-have a conditional jump to exit the loop somewhere, or the loop will
-continue forever! This condition is called an *infinite loopinfinite
-loop*. If we accidentally left out step 1, 2, or 3, the loop (and our
-program) would never end.
+Another use of flow control is in implementing loops. A loop is a piece
+of program code that is meant to be repeated. In our example, the first
+part of the program (setting the current position to 0 and loading the
+current highest value with the current value) was only done once, so it
+wasn't a loop. However, the next part is repeated over and over again
+for every number in the list. It is only left when we have come to the
+last element, indicated by a zero. This is called a *loop* because it
+occurs over and over again. It is implemented by doing unconditional
+jumps to the beginning of the loop at the end of the loop, which causes
+it to start over. However, you have to always remember to have a
+conditional jump to exit the loop somewhere, or the loop will continue
+forever! This condition is called an *infinite loop*. If we accidentally
+left out step 1, 2, or 3, the loop (and our program) would never end.
 
 In the next section, we will implement this program that we have
 planned. Program planning sounds complicated - and it is, to some
@@ -1122,69 +1129,113 @@ Finding a Maximum Value
 
 Enter the following program as `maximum.s`:
 
-    MAXIMUM-S
+``` gnuassembler
+    # PURPOSE:    This program finds the maximum number of a
+    #             set of data items.
+    #
+    # VARIABLES:  The registers have the following uses:
+    #      %edi - Holds the index of the data item being examined.
+    #      %ebx - Largest data item found.
+    #      %eax - Current data item.
+    #
+    # The following memory locations are used:
+    #      data_items - contains the item data.  A 0 is used
+    #                   to terminate the data.
+    #
+    .section .data
+data_items:                          # These are the data items.
+    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+    .section .text
+    .globl _start
+_start:
+    movl $0, %edi                    # Move 0 into the index register.
+    movl data_items(,%edi,4), %eax   # Load the first byte of data.
+    movl %eax, %ebx                  # Since this is the first item,
+                                     # %eax is the biggest.
+start_loop:                          # Start loop.
+    cmpl $0, %eax                    # Check to see if we've hit the end.
+    je loop_exit
+    incl %edi                        # Load next value.
+    movl data_items(,%edi,4), %eax
+    cmpl %ebx, %eax                  # Compare values.
+    jle start_loop                   # Jump to loop beginning if the new
+                                     # one isn't bigger.
+    movl %eax, %ebx                  # Move the value as the largest.
+    jmp start_loop                   # Jump to loop beginning.
+loop_exit:
+                                     # %ebx is the status code for the
+                                     # exit systemcall and it already has
+                                     # the maximum number 1 is the
+        movl $1, %eax                # exit() syscall.
+        int  $0x80
+```
 
 Now, assemble and link it with these commands:
 
-    as maximum.s -o maximum.o
-    ld maximum.o -o maximum
+``` bash
+as maximum.s -o maximum.o
+ld maximum.o -o maximum
+```
 
 Now run it, and check its status.
 
-    ./maximum
-    echo $?
+``` bash
+./maximum
+echo $?
+```
 
 You'll notice it returns the value `222`. Let's take a look at the
 program and what it does. If you look in the comments, you'll see that
 the program finds the maximum of a set of numbers (aren't comments
 wonderful!). You may also notice that in this program we actually have
-something in the data sectiondata section. These lines are the data
-section:
+something in the data section. These lines are the data section:
 
-    data_items:                       #These are the data items
-            .long 3,67,34,222,45,75,54,34,44,33,22,11,66,0
+``` gnuassembler
+data_items:                         # These are the data items.
+    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+```
 
-Lets look at this. `data_items` is a labellabels that refers to the
-location that follows it. Then, there is a directive that starts with
-`.long.long`. That causes the assembler to reserve memory for the list
-of numbers that follow it. `data_items` refers to the location of the
-first one. Because `data_items` is a label, any time in our program
-where we need to refer to this address we can use the `data_items`
-symbol, and the assembler will substitute it with the address where the
-numbers start during assembly. For example, the instruction
-`movl data_items, %eax` would move the value 3 into EAX. There are
-several different types of memory locations other than `.long.long` that
-can be reserved. The main ones are as follows:
+Lets look at this. `data_items` is a label that refers to the location
+that follows it. Then, there is a directive that starts with `.long`.
+That causes the assembler to reserve memory for the list of numbers that
+follow it. `data_items` refers to the location of the first one. Because
+`data_items` is a label, any time in our program where we need to refer
+to this address we can use the `data_items` symbol, and the assembler
+will substitute it with the address where the numbers start during
+assembly. For example, the instruction `movl data_items, %eax` would
+move the value 3 into *%eax*. There are several different types of
+memory locations other than `.long` that can be reserved. The main ones
+are as follows:
 
-`.byte.byte`  
+`.byte`:  
 Bytes take up one storage location for each number. They are limited to
 numbers between 0 and 255.
 
-`.int.int`  
+`.int`:  
 Ints (which differ from the `int` instruction) take up two storage
 locations for each number. These are limitted to numbers between 0 and
 65535.[15]
 
-`.long.long`  
+`.long`:  
 Longs take up four storage locations. This is the same amount of space
 the registers use, which is why they are used in this program. They can
 hold numbers between 0 and 4294967295.
 
-`.ascii.ascii`  
+`.ascii`:  
 The `.ascii` directive is to enter in characters into memory. Characters
 each take up one storage location (they are converted into bytes
 internally). So, if you gave the directive `.ascii "Hello there\0"`, the
 assembler would reserve 12 storage locations (bytes). The first byte
 contains the numeric code for `H`, the second byte contains the numeric
-code for `e`, and so forth. The last character is represented by
-`\0`\\0, and it is the terminating character (it will never display, it
-just tells other parts of the program that that's the end of the
-characters). Letters and numbers that start with a backslash represent
-characters that are not typeable on the keyboard or easily viewable on
-the screen. For example, `\n`\\n refers to the "newline"newline
-character which causes the computer to start output on the next line and
-`\t` \\t refers to the "tab"tab character. All of the letters in an
-`.ascii` directive should be in quotes.
+code for `e`, and so forth. The last character is represented by `\0`,
+and it is the terminating character (it will never display, it just
+tells other parts of the program that that's the end of the characters).
+Letters and numbers that start with a backslash represent characters
+that are not typeable on the keyboard or easily viewable on the screen.
+For example, `\n` refers to the "newline" character which causes the
+computer to start output on the next line and `\t` refers to the "tab"
+character. All of the letters in an `.ascii` directive should be in
+quotes.
 
 In our example, the assembler reserves 14 `.long`s, one right after
 another. Since each long takes up 4 bytes, that means that the whole
@@ -1205,103 +1256,108 @@ Otherwise it would continue processing past the end of the list into the
 data that follows it, and even to locations where we haven't put any
 data.
 
-Notice that we don't have a `.globl.globl` declaration for `data_items`.
-This is because we only refer to these locations within the program. No
-other file or program needs to know where they are located. This is in
-contrast to the `_start_start` symbol, which Linux needs to know where
-it is so that it knows where to begin the program's execution. It's not
-an error to write `.globl data_items`, it's just not necessary. Anyway,
+Notice that we don't have a `.globl` declaration for `data_items`. This
+is because we only refer to these locations within the program. No other
+file or program needs to know where they are located. This is in
+contrast to the `_start` symbol, which Linux needs to know where it is
+so that it knows where to begin the program's execution. It's not an
+error to write `.globl data_items`, it's just not necessary. Anyway,
 play around with this line and add your own numbers. Even though they
 are `.long`, the program will produce strange results if any number is
-greater than 255, because that's the largest allowed exit statusexit
-status code. Also notice that if you move the 0 to earlier in the list,
-the rest get ignored. *Remember that any time you change the source
-file, you have to re-assemble and re-link your program. Do this now and
-see the results*.
+greater than 255, because that's the largest allowed exit status code.
+Also notice that if you move the 0 to earlier in the list, the rest get
+ignored. *Remember that any time you change the source file, you have to
+re-assemble and re-link your program. Do this now and see the results*.
 
 All right, we've played with the data a little bit. Now let's look at
 the code. In the comments you will notice that we've marked some
-*variablesvariables* that we plan to use. A variable is a dedicated
-storage location used for a specific purpose, usually given a distinct
-name by the programmer. We talked about these in the previous section,
-but didn't give them a name. In this program, we have several variables:
+*variables* that we plan to use. A variable is a dedicated storage
+location used for a specific purpose, usually given a distinct name by
+the programmer. We talked about these in the previous section, but
+didn't give them a name. In this program, we have several variables:
 
--   a variable for the current maximum number found
+-   A variable for the current maximum number found.
 
--   a variable for which number of the list we are currently examining,
-    called the index
+-   A variable for which number of the list we are currently examining,
+    called the index.
 
--   a variable holding the current number being examined
+-   A variable holding the current number being examined.
 
 In this case,we have few enough variables that we can hold them all in
 registers. In larger programs, you have to put them in memory, and then
-move them to registersregisters when you are ready to use them. We will
-discuss how to do that later. When people start out programming, they
-usually underestimate the number of variables they will need. People are
-not used to having to think through every detail of a process, and
-therefore leave out needed variables in their first programming
-attempts.
+move them to registers when you are ready to use them. We will discuss
+how to do that later. When people start out programming, they usually
+underestimate the number of variables they will need. People are not
+used to having to think through every detail of a process, and therefore
+leave out needed variables in their first programming attempts.
 
-In this program, we are using EBX as the location of the largest item
-we've found. EDI is used as the *indexindex* to the current data item
+In this program, we are using *%ebx* as the location of the largest item
+we've found. *%edi* is used as the *index* to the current data item
 we're looking at. Now, let's talk about what an index is. When we read
 the information from `data_items`, we will start with the first one
 (data item number 0), then go to the second one (data item number 1),
 then the third (data item number 2), and so on. The data item number is
-the *indexindex* of `data_items`. You'll notice that the first
-instruction we give to the computer is:
+the *index* of `data_items`. You'll notice that the first instruction we
+give to the computer is:
 
-        movl $0, %edi
+``` gnuassembler
+movl $0, %edi
+```
 
 Since we are using `%edi` as our index, and we want to start looking at
 the first item, we load `%edi` with 0. Now, the next instruction is
 tricky, but crucial to what we're doing. It says:
 
-        movl data_items(,%edi,4), %eax
-
-movl
+``` gnuassembler
+movl data_items(,%edi,4), %eax
+```
 
 Now to understand this line, you need to keep several things in mind:
 
 -   `data_items` is the location number of the start of our number list.
 
 -   Each number is stored across 4 storage locations (because we
-    declared it using `.long`)
+    declared it using `.long`).
 
--   `%edi` is holding 0 at this point
+-   `%edi` is holding 0 at this point.
 
 So, basically what this line does is say, "start at the beginning of
 data\_items, and take the first item number (because `%edi` is 0), and
 remember that each number takes up four storage locations." Then it
 stores that number in `%eax`. This is how you write indexed addressing
-modeindexed addressing mode instructions in assembly language. The
-instruction in a general form is this:
+mode instructions in assembly language. The instruction in a general
+form is this:
 
-    movl  BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)
+``` gnuassembler
+movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
+```
 
-In our case `data_items` was our beginning address, EDI was our index
-registerindex register, and 4 was our word size. This topic is discussed
-further in [Addressing Modes](#movaddrmodes).
+In our case `data_items` was our beginning address, *%edi* was our index
+register, and 4 was our word size. This topic is discussed further in
+[Addressing Modes](#addressing-modes).
 
 If you look at the numbers in `data_items`, you will see that the number
-3 is now in EAX. If EDI was set to 1, the number 67 would be in EAX, and
-if it was set to 2, the number 34 would be in EAX, and so forth. Very
-strange things would happen if we used a number other than 4 as the size
-of our storage locations.[16] The way you write this is very awkward,
-but if you know what each piece does, it's not too difficult. For more
-information about this, see [Addressing Modes](#movaddrmodes)
+3 is now in *%eax*. If *%edi* was set to 1, the number 67 would be in
+*%eax*, and if it was set to 2, the number 34 would be in *%eax*, and so
+forth. Very strange things would happen if we used a number other than 4
+as the size of our storage locations.[16] The way you write this is very
+awkward, but if you know what each piece does, it's not too difficult.
+For more information about this, see [Addressing
+Modes](#addressing-modes).
 
 Let's look at the next line:
 
-        movl %eax, %ebx
+``` gnuassembler
+movl %eax, %ebx
+```
 
 We have the first item to look at stored in `%eax`. Since it is the
 first item, we know it's the biggest one we've looked at. We store it in
 `%ebx`, since that's where we are keeping the largest number found.
-Also, even though `movlmovl` stands for *move*, it actually copies the
+Also, even though `movl` stands for *move*, it actually copies the
 value, so `%eax` and `%ebx` both contain the starting value.[17]
 
-Now we move into a *looploop*. A loop is a segment of your program that
+Now we move into a *loop*. A loop is a segment of your program that
 might run more than once. We have marked the starting location of the
 loop in the symbol `start_loop`. The reason we are doing a loop is
 because we don't know how many data items we have to process, but the
@@ -1331,85 +1387,93 @@ Okay, so now lets go to the code. We have the beginning of the loop
 marked with `start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
-        cmpl $0, %eax
-        je loop_exit
+``` gnuassembler
+cmpl $0, %eax
+je loop_exit
+```
 
-The `cmplcmpl` instruction compares the two values. Here, we are
-comparing the number 0 to the number stored in EAX This compare
-instruction also affects a register not mentioned here, the
-EFLAGS-INDEXED register. This is also known as the status registerstatus
-register, and has many uses which we will discuss later. Just be aware
-that the result of the comparison is stored in the status register. The
-next line is a flow controlflow control instruction which says to *jump*
-to the `loop_exit` location if the values that were just compared are
-equal (that's what the `e` of `je` means). It uses the status register
-to hold the value of the last comparison. We used `je`, but there are
-many jump statements that you can use:
+The `cmpl` instruction compares the two values. Here, we are comparing
+the number 0 to the number stored in *%eax*. This compare instruction
+also affects a register not mentioned here, the *%eflags* register. This
+is also known as the status register, and has many uses which we will
+discuss later. Just be aware that the result of the comparison is stored
+in the status register. The next line is a flow control instruction
+which says to *jump* to the `loop_exit` location if the values that were
+just compared are equal (that's what the `e` of `je` means). It uses the
+status register to hold the value of the last comparison. We used `je`,
+but there are many jump statements that you can use:
 
-`je`  
-Jump if the values were equal
+`je`:  
+Jump if the values were equal.
 
-`jg`  
-Jump if the second value was greater than the first value[18]
+`jg`:  
+Jump if the second value was greater than the first value.[18]
 
-`jge`  
-Jump if the second value was greater than or equal to the first value
+`jge`:  
+Jump if the second value was greater than or equal to the first value.
 
-`jl`  
-Jump if the second value was less than the first value
+`jl`:  
+Jump if the second value was less than the first value.
 
-`jle`  
-Jump if the second value was less than or equal to the first value
+`jle`:  
+Jump if the second value was less than or equal to the first value.
 
-`jmp`  
+`jmp`:  
 Jump no matter what. This does not need to be preceeded by a comparison.
 
 The complete list is documented in [Common x86
 Instructions](#common-x86-instructions). In this case, we are jumping if
-EAX holds the value of zero. If so, we are done and we go to
+*%eax* holds the value of zero. If so, we are done and we go to
 `loop_exit`.[19]
 
 If the last loaded element was not zero, we go on to the next
 instructions:
 
-        incl %edi
-        movl data_items(,%edi,4), %eax
+``` gnuassembler
+incl %edi
+movl data_items(,%edi,4), %eax
+```
 
-If you remember from our previous discussion, EDI contains the
-indexindex to our list of values in `data_items`. `inclincl` increments
-the value of EDI by one. Then the `movl` is just like the one we did
-beforehand. However, since we already incremented EDI, EAX is getting
-the next value from the list. Now EAX has the next value to be tested.
-So, let's test it!
+If you remember from our previous discussion, *%edi* contains the index
+to our list of values in `data_items`. `incl` increments the value of
+*%edi* by one. Then the `movl` is just like the one we did beforehand.
+However, since we already incremented *%edi*, *%eax* is getting the next
+value from the list. Now *%eax* has the next value to be tested. So,
+let's test it!
 
-        cmpl %ebx, %eax
-        jle start_loop
+``` gnuassembler
+cmpl %ebx, %eax
+jle start_loop
+```
 
-Here we compare our current value, stored in EAX to our biggest value so
-far, stored in EBX. If the current value is less or equal to our biggest
-value so far, we don't care about it, so we just jump back to the
-beginning of the loop. Otherwise, we need to record that value as the
-largest one:
+Here we compare our current value, stored in *%eax* to our biggest value
+so far, stored in *%ebx*. If the current value is less or equal to our
+biggest value so far, we don't care about it, so we just jump back to
+the beginning of the loop. Otherwise, we need to record that value as
+the largest one:
 
-        movl %eax, %ebx
-        jmp start_loop
+``` gnuassembler
+movl %eax, %ebx
+jmp start_loop
+```
 
-which moves the current value into EBX, which we are using to store the
-current largest value, and starts the loop over again.
+which moves the current value into *%ebx*, which we are using to store
+the current largest value, and starts the loop over again.
 
 Okay, so the loop executes until it reaches a 0, when it jumps to
 `loop_exit`. This part of the program calls the Linux kernel to exit. If
 you remember from the last program, when you call the operating system
-(remember it's like signaling Batman), you store the system callsystem
-call number in EAX-INDEXED (1 for the `exit` call), and store the other
-values in the other registers. The exit call requires that we put our
-exit statusexit status code in EBX-INDEXED We already have the exit
-status there since we are using EBX as our largest number, so all we
-have to do is load EAX with the number one and call the kernel to exit.
-Like this:
+(remember it's like signaling Batman), you store the system call number
+in *%eax* (1 for the `exit` call), and store the other values in the
+other registers. The exit call requires that we put our exit status code
+in *%ebx*. We already have the exit status there since we are using
+*%ebx* as our largest number, so all we have to do is load *%eax* with
+the number one and call the kernel to exit. Like this:
 
-        movl $1, %eax
-        int  $0x80
+``` gnuassembler
+movl $1, %eax
+int  $0x80
+```
 
 Okay, that was a lot of work and explanation, especially for such a
 small program. But hey, you're learning a lot! Now, read through the
@@ -1426,18 +1490,22 @@ Addressing Modes
 ----------------
 
 In [Data Accessing Methods](#data-accessing-methods) we learned the
-different types of addressing modesaddressing modes available for use in
-assembly language. This section will deal with how those addressing
-modes are represented in assembly language instructions.
+different types of addressing modes available for use in assembly
+language. This section will deal with how those addressing modes are
+represented in assembly language instructions.
 
-The general form of memory addressmemory address references is this:
+The general form of memory address references is this:
 
-    ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
+``` gnuassembler
+ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
+```
 
 All of the fields are optional. To calculate the address, simply perform
 the following calculation:
 
-    FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
+``` gnuassembler
+FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
+```
 
 `ADDRESS_OR_OFFSET` and `MULTIPLIER` must both be constants, while the
 other two must be registers. If any of the pieces is left out, it is
@@ -1447,86 +1515,98 @@ All of the addressing modes mentioned in [Data Accessing
 Methods](#data-accessing-methods) except immediate-mode can be
 represented in this fashion.
 
-direct addressing modedirect addressing mode  
+Direct addressing mode:  
 This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
-    movl ADDRESS, %eax
+``` gnuassembler
+movl ADDRESS, %eax
+```
 
-This loads EAX with the value at memory address `ADDRESS`.
+    This loads _%eax_ with the value at memory address `ADDRESS`.
 
-indexed addressing modeindexed addressing mode  
+Indexed addressing mode:  
 This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX` portion.
 You can use any general-purpose register as the index register. You can
-also have a constant multipliermultiplier of 1, 2, or 4 for the index
-registerindex register, to make it easier to index by bytes,
-double-bytes, and words. For example, let's say that we had a string of
-bytes as `string_start` and wanted to access the third one (an index of
-2 since we start counting the index at zero), and ECX held the value 2.
-If you wanted to load it into EAX you could do the following:
+also have a constant multiplier of 1, 2, or 4 for the index register, to
+make it easier to index by bytes, double-bytes, and words. For example,
+let's say that we had a string of bytes as `string_start` and wanted to
+access the third one (an index of 2 since we start counting the index at
+zero), and *%ecx* held the value 2. If you wanted to load it into *%eax*
+you could do the following:
 
-    movl string_start(,%ecx,1), %eax
+``` gnuassembler
+movl string_start(,%ecx,1), %eax
+```
 
-This starts at `string_start`, and adds `1 * %ecx` to that address, and
-loads the value into EAX.
+    This starts at `string_start`, and adds `1 * %ecx` to that address,
+    and loads the value into _%eax_.
 
-indirect addressing modeindirect addressing mode  
+Indirect addressing mode:  
 Indirect addressing mode loads a value from the address indicated by a
-register. For example, if EAX held an address, we could move the value
-at that address to EBX by doing the following:
+register. For example, if *%eax* held an address, we could move the
+value at that address to *%ebx* by doing the following:
 
-    movl (%eax), %ebx
+``` gnuassembler
+movl (%eax), %ebx
+```
 
-base pointer addressing modebase pointer addressing mode  
+Base pointer addressing mode:  
 Base-pointer addressing is similar to indirect addressing, except that
 it adds a constant value to the address in the register. For example, if
 you have a record where the age value is 4 bytes into the record, and
-you have the address of the record in EAX, you can retrieve the age into
-EBX by issuing the following instruction:
+you have the address of the record in *%eax*, you can retrieve the age
+into *%ebx* by issuing the following instruction:
 
-    movl  4(%eax), %ebx
+``` gnuassembler
+movl 4(%eax), %ebx
+```
 
-immediate modeimmediate mode addressing  
+Immediate mode addressing:  
 Immediate mode is very simple. It does not follow the general form we
 have been using. Immediate mode is used to load direct values into
 registers or memory locations. For example, if you wanted to load the
-number 12 into EAX, you would simply do the following:
+number 12 into *%eax*, you would simply do the following:
 
-    movl $12, %eax
+``` gnuassembler
+movl $12, %eax
+```
 
-Notice that to indicate immediate mode, we used a dollar sign in front
-of the number. If we did not, it would be direct addressing mode, in
-which case the value located at memory location 12 would be loaded into
-EAX rather than the number 12 itself.
+    Notice that to indicate immediate mode, we used a dollar sign in
+    front of the number. If we did not, it would be direct addressing
+    mode, in which case the value located at memory location 12 would be
+    loaded into _%eax_ rather than the number 12 itself.
 
-register addressing moderegister addressing mode  
+Register addressing mode:  
 Register mode simply moves data in or out of a register. In all of our
 examples, register addressing mode was used for the other operand.
 
 These addressing modes are very important, as every memory access will
 use one of these. Every mode except immediate mode can be used as either
-the source or destination operanddestination operand. Immediate mode can
-only be a source operandsource operand.
+the source or destination operand. Immediate mode can only be a source
+operand.
 
 In addition to these modes, there are also different instructions for
 different sizes of values to move. For example, we have been using
-`movl` to move data a wordword at a time. in many cases, you will only
-want to move data a bytebytes at a time. This is accomplished by the
-instruction `movbmovb`. However, since the registers we have discussed
-are word-sized and not byte-sized, you cannot use the full register.
-Instead, you have to use a portion of the register.
+`movl` to move data a word at a time. in many cases, you will only want
+to move data a byte at a time. This is accomplished by the instruction
+`movb`. However, since the registers we have discussed are word-sized
+and not byte-sized, you cannot use the full register. Instead, you have
+to use a portion of the register.
 
-Take for instance EAX. If you only wanted to work with two bytes at a
-time, you could just use AX-INDEXED. AX is the least-significant half
-(i.e. - the last part of the number) of the EAX register, and is useful
-when dealing with two-byte quantities. AX is further divided up into
-AL-INDEXED and AH-INDEXED. AL is the least-significant byte of AX, and
-AH is the most significant byte.[20] Loading a value into EAX will wipe
-out whatever was in AL and AH (and also AX, since AX is made up of
-them). Similarly, loading a value into either AL or AH will corrupt any
-value that was formerly in EAX. Basically, it's wise to only use a
-register for either a byte or a word, but never both at the same time.
+Take for instance *%eax*. If you only wanted to work with two bytes at a
+time, you could just use *%ax*. *%ax* is the least-significant half
+(i.e. - the last part of the number) of the *%eax* register, and is
+useful when dealing with two-byte quantities. *%ax* is further divided
+up into *%al* and *%ah*. *%al* is the least-significant byte of *%ax*,
+and *%ah* is the most significant byte.[20] Loading a value into *%eax*
+will wipe out whatever was in *%al* and *%ah* (and also *%ax*, since
+*%ax* is made up of them). Similarly, loading a value into either *%al*
+or *%ah* will corrupt any value that was formerly in *%eax*. Basically,
+it's wise to only use a register for either a byte or a word, but never
+both at the same time.
 
-![*Layout of the EAX register*](resource/image/registerdescription.png)
+![*Layout of the *%eax*
+register*](resource/image/registerdescription.png)
 
 For a more comprehensive list of instructions, see [Common x86
 Instructions](#common-x86-instructions).
@@ -1555,8 +1635,8 @@ Review
 -   Why do indexes usually start at 0?
 
 -   If I issued the command `movl data_items(,%edi,4), %eax` and
-    data\_items was address 3634 and EDI held the value 13, what address
-    would you be using to move into EAX?
+    data\_items was address 3634 and *%edi* held the value 13, what
+    address would you be using to move into *%eax*?
 
 -   List the general-purpose registers.
 
@@ -1602,18 +1682,18 @@ Review
     the length count. Which approach do you think is best? Why? Which
     approach would you use if you knew that the list was sorted? Why?
 
-All About Functions
-===================
+Chapter 4. All About Functions
+==============================
 
 Dealing with Complexity
 -----------------------
 
-In [???](#chapter-3-your-first-programs), the programs we wrote only
-consisted of one section of code. However, if we wrote real programs
-like that, it would be impossible to maintain them. It would be really
-difficult to get multiple people working on the project, as any change
-in one part might adversely affect another part that another developer
-is working on.
+In [Chapter 3. Your First Programs](#chapter-3-your-first-programs), the
+programs we wrote only consisted of one section of code. However, if we
+wrote real programs like that, it would be impossible to maintain them.
+It would be really difficult to get multiple people working on the
+project, as any change in one part might adversely affect another part
+that another developer is working on.
 
 To assist programmers in working together in groups, it is necessary to
 break programs apart into separate pieces, which communicate with each
@@ -1662,20 +1742,20 @@ How Functions Work
 
 Functions are composed of several different pieces:
 
-function name  
+Function name:  
 A function's name is a symbolsymbol that represents the address where
 the function's code starts. In assembly language, the symbol is defined
 by typing the function's name as a label before the function's code.
 This is just like labelslabels you have used for jumping.
 
-function parameters  
+Function parameters:  
 A function's parametersparameters are the data items that are explicitly
 given to the function for processing. For example, in mathematics, there
 is a sine function. If you were to ask a computer to find the sine of 2,
 sine would be the function's name, and 2 would be the parameter. Some
 functions have many parameters, others have none.[21]
 
-local variables  
+Local variables:  
 Local variableslocal variables are data storage that a function uses
 while processing that is thrown away when it returns. It's kind of like
 a scratch pad of paper. Functions get a new piece of paper every time
@@ -1683,14 +1763,14 @@ they are activated, and they have to throw it away when they are
 finished processing. Local variables of a function are not accessible to
 any other function within a program.
 
-static variables  
+Static variables:  
 Static variablesstatic variables are data storage that a function uses
 while processing that is not thrown away afterwards, but is reused for
 every time the function's code is activated. This data is not accessible
 to any other part of the program. Static variables are generally not
 used unless absolutely necessary, as they can cause problems later on.
 
-global variables  
+Global variables:  
 Global variables are data storage that a function uses for processing
 which are managed outside the function. For example, a simple text
 editor may put the entire contents of the file it is working on in a
@@ -1698,7 +1778,7 @@ global variable so it doesn't have to be passed to every function that
 operates on it.[22] Configuration values are also often stored in global
 variables.
 
-return address  
+Return address:  
 The return addressreturn address is an "invisible" parameter in that it
 isn't directly used during the function. The return address is a
 parameter which tells the function where to resume executing after the
@@ -1710,7 +1790,7 @@ the function is called. In assembly language, the `callcall` instruction
 handles passing the return address for you, and `retret` handles using
 that address to return back to where you called the function from.
 
-return value  
+Return value:  
 The return valuereturn value is the main method of transferring data
 back to the main program. Most programming languages only allow a single
 return value for a function.
@@ -1761,23 +1841,23 @@ When we push a value onto the stack, the top of the stack moves to
 accomodate the additional value. We can actually continually push values
 onto the stack and it will keep growing further and further down in
 memory until we hit our code or data. So how do we know where the
-current "top" of the stack is? The stack registerstack register,
-ESP-INDEXED, always contains a pointerpointer to the current top of the
-stack, wherever it is.
+current "top" of the stack is? The stack registerstack register, *%esp*,
+always contains a pointerpointer to the current top of the stack,
+wherever it is.
 
-Every time we push something onto the stack with `pushl`, ESP gets
+Every time we push something onto the stack with `pushl`, *%esp* gets
 subtracted by 4 so that it points to the new top of the stack (remember,
 each word is four bytes long, and the stack grows downward). If we want
 to remove something from the stack, we simply use the `popl`
-instruction, which adds 4 to ESP and puts the previous top value in
+instruction, which adds 4 to *%esp* and puts the previous top value in
 whatever register you specified. `pushl` and `popl` each take one
 operand - the register to push onto the stack for `pushl`, or receive
 the data that is popped off the stack for `popl`.
 
 If we simply want to access the value on the top of the stack without
-removing it, we can simply use the ESP-INDEXED register in indirect
+removing it, we can simply use the *%esp* register in indirect
 addressing modeindirect addressing mode. For example, the following code
-moves whatever is at the top of the stack into EAX:
+moves whatever is at the top of the stack into *%eax*:
 
     movl (%esp), %eax
 
@@ -1785,18 +1865,19 @@ If we were to just do this:
 
     movl %esp, %eax
 
-then EAX would just hold the pointer to the top of the stack rather than
-the value at the top. Putting ESP in parenthesis causes the computer to
-go to indirect addressing modeindirect addressing mode, and therefore we
-get the value pointed to by ESP-INDEXED. If we want to access the value
-right below the top of the stack, we can simply issue this instruction:
+then *%eax* would just hold the pointer to the top of the stack rather
+than the value at the top. Putting *%esp* in parenthesis causes the
+computer to go to indirect addressing modeindirect addressing mode, and
+therefore we get the value pointed to by *%esp*. If we want to access
+the value right below the top of the stack, we can simply issue this
+instruction:
 
     movl 4(%esp), %eax
 
 This instruction uses the base pointer addressing modebase pointer
 addressing mode (see [Data Accessing Methods](#data-accessing-methods))
-which simply adds 4 to ESP-INDEXED before looking up the value being
-pointed to.
+which simply adds 4 to *%esp* before looking up the value being pointed
+to.
 
 In the C language calling conventionC language calling convention, the
 stack is the key element for implementing a function's local variables,
@@ -1809,7 +1890,7 @@ instruction indicating which function it wishes to start. The `call`
 instruction does two things. First it pushes the address of the next
 instruction, which is the return addressreturn address, onto the
 stackstack. Then it modifies the instruction pointerinstruction pointer
-(EIP-INDEXED) to point to the start of the function. So, at the time the
+(*%eip*) to point to the start of the function. So, at the time the
 function starts, the stack looks like this (the "top" of the stack is at
 the bottom on this example):
 
@@ -1824,10 +1905,10 @@ and finally the return address is there. Now the function itself has
 some work to do.
 
 The first thing it does is save the current base pointer registerbase
-pointer register, EBP-INDEXED, by doing `pushl %ebp`. The base pointer
-is a special registerspecial register used for accessing function
+pointer register, *%ebp*, by doing `pushl %ebp`. The base pointer is a
+special registerspecial register used for accessing function
 parametersfunction parameters and local variableslocal variables. Next,
-it copies the stack pointerstack pointer to EBP-INDEXED by doing
+it copies the stack pointerstack pointer to *%ebp* by doing
 `movl %esp, %ebp`. This allows you to be able to access the function
 parameters as fixed indexes from the base pointer. You may think that
 you can use the stack pointer for this. However, during your program you
@@ -1837,8 +1918,8 @@ functions.
 Copying the stack pointer into the base pointer at the beginning of a
 function allows you to always know where your parameters are (and as we
 will see, local variables too), even while you may be pushing things on
-and off the stack. EBP-INDEXED will always be where the stack pointer
-was at the beginning of the function, so it is more or less a constant
+and off the stack. *%ebp* will always be where the stack pointer was at
+the beginning of the function, so it is more or less a constant
 reference to the *stack framestack frame* (the stack frame consists of
 all of the stack variables used within a function, including
 parametersparameters, local variableslocal variables, and the return
@@ -1854,8 +1935,7 @@ At this point, the stack looks like this:
     Old %ebp       <--- (%esp) and (%ebp)
 
 As you can see, each parameter can be accessed using base pointer
-addressing modebase pointer addressing mode using the EBP-INDEXED
-register.
+addressing modebase pointer addressing mode using the *%ebp* register.
 
 Next, the function reserves space on the stack for any local
 variableslocal variables it needs. This is done by simply moving the
@@ -1866,7 +1946,7 @@ this:
 
     subl $8, %esp
 
-This subtracts 8 from ESP (remember, a word is four bytes long).[24]
+This subtracts 8 from *%esp* (remember, a word is four bytes long).[24]
 This way, we can use the stack for variable storage without worring
 about clobbering them with pushes that we may make for function calls.
 Also, since it is allocated on the stack frame for this function call,
@@ -1888,11 +1968,10 @@ Now we have two words for local storage. Our stack now looks like this:
 
 So we can now access all of the data we need for this function by using
 base pointer addressingbase pointer addressing mode using different
-offsets from EBP-INDEXED. EBP-INDEXED was made specifically for this
-purpose, which is why it is called the base pointerbase pointer
-register. You can use other registers in base pointer addressing mode,
-but the x86 architecture makes using the EBP-INDEXED register a lot
-faster.
+offsets from *%ebp*. *%ebp* was made specifically for this purpose,
+which is why it is called the base pointerbase pointer register. You can
+use other registers in base pointer addressing mode, but the x86
+architecture makes using the *%ebp* register a lot faster.
 
 static variables global variables Global variables and static variables
 are accessed just like the memory we have been accessing memory in
@@ -1903,7 +1982,7 @@ them exactly the same, although most other languages distinguish them.
 
 When a function is done executing, it does three things:
 
-1.  It stores its return value in EAX-INDEXED.
+1.  It stores its return value in *%eax*.
 
 2.  It resets the stack to what it was when it was called (it gets rid
     of the current stack framestack frame and puts the stack frame of
@@ -1912,15 +1991,14 @@ When a function is done executing, it does three things:
 3.  It returns control back to wherever it was called from. This is done
     using the `retret` instruction, which pops whatever value is at the
     top of the stack, and sets the instruction pointerinstruction
-    pointer, EIP-INDEXED, to that value.
+    pointer, *%eip*, to that value.
 
 So, before a function returns control to the code that called it, it
 must restore the previous stack frame. Note also that without doing
 this, `ret` wouldn't work, because in our current stack frame, the
 return address is not at the top of the stack. Therefore, before we
-return, we have to reset the stack pointerstack pointer ESP-INDEXED and
-base pointerbase pointer EBP-INDEXED to what they were when the function
-began.
+return, we have to reset the stack pointerstack pointer *%esp* and base
+pointerbase pointer *%ebp* to what they were when the function began.
 
 Therefore to return from the function you have to do the following:
 
@@ -1936,37 +2014,34 @@ past the life of the function it was created in, or else it will be
 overwritten after the life of its stack frame ends.
 
 Control has now been handed back to the calling code, which can now
-examine EAX-INDEXED for the return valuereturn value. The calling code
-also needs to pop off all of the parameters it pushed onto the stack in
-order to get the stack pointerstack pointer back where it was (you can
-also simply add 4 \* number of parameters to ESP-INDEXED using the
-`addl` instruction, if you don't need the values of the parameters
+examine *%eax* for the return valuereturn value. The calling code also
+needs to pop off all of the parameters it pushed onto the stack in order
+to get the stack pointerstack pointer back where it was (you can also
+simply add 4 \* number of parameters to *%esp* using the `addl`
+instruction, if you don't need the values of the parameters
 anymore).[25]
 
-<div class="warning">
+------------------------------------------------------------------------
 
-<div class="title">
-
-Destruction of Registers
-
-</div>
+**Destruction of Registers**
 
 When you call a functionfunctions, you should assume that everything
 currently in your registersregisters will be wiped out. The only
 register that is guaranteed to be left with the value it started with
-are EBP-INDEXED and a few others (the Linux C calling convention
-requires functions to preserve the values of EBX-INDEXED, EDI-INDEXED,
-and ESI-INDEXED if they are altered - this is not strictly held during
-this book because these programs are self-contained and not called by
-outside functions). EBX also has some other uses in position-independent
-code, which is not covered in this book. EAX-INDEXED is guaranteed to be
-overwritten with the return value, and the others likely are. If there
-are registers you want to save before calling a function, you need to
-save them by pushing them on the stackstack before pushing the
-function's parameters. You can then pop them back off in reverse order
-after popping off the parameters. Even if you know a function does not
-overwrite a register you should save it, because future versions of that
-function may.
+are *%ebp* and a few others (the Linux C calling convention requires
+functions to preserve the values of *%ebx*, *%edi*, and *%esi* if they
+are altered - this is not strictly held during this book because these
+programs are self-contained and not called by outside functions). *%ebx*
+also has some other uses in position-independent code, which is not
+covered in this book. *%eax* is guaranteed to be overwritten with the
+return value, and the others likely are. If there are registers you want
+to save before calling a function, you need to save them by pushing them
+on the stackstack before pushing the function's parameters. You can then
+pop them back off in reverse order after popping off the parameters.
+Even if you know a function does not overwrite a register you should
+save it, because future versions of that function may.
+
+------------------------------------------------------------------------
 
 Note that in Linux assembly language, functions are
 
@@ -1977,26 +2052,14 @@ sure the calling conventions of your languages are compatible before
 trying to mix languages. Or in the case of assembly language, be sure
 you know how to call the other language's functions.
 
-</div>
-
-<div class="note">
-
-<div class="title">
-
-Extended Specification
-
-</div>
-
-Details of the C language calling conventioncalling convention (also
-known as the ABIABI, or Application Binary InterfaceApplication Binary
-Interface) is available online. We have oversimplified and left out
-several important pieces to make this simpler for new programmers. For
-full details, you should check out the documents available at
-http://www.linuxbase.org/spec/refspecs/ Specifically, you should look
-for the System V Application Binary Interface - Intel386 Architecture
-Processor Supplement.
-
-</div>
+> **Extended Specification:** Details of the C language calling
+> conventioncalling convention (also known as the ABIABI, or Application
+> Binary InterfaceApplication Binary Interface) is available online. We
+> have oversimplified and left out several important pieces to make this
+> simpler for new programmers. For full details, you should check out
+> the documents available at http://www.linuxbase.org/spec/refspecs/
+> Specifically, you should look for the System V Application Binary
+> Interface - Intel386 Architecture Processor Supplement.
 
 A Function Example
 ------------------
@@ -2021,9 +2084,9 @@ function, and add its result back in.
 
 The main program code is pretty simple. You push the arguments onto the
 stack, call the function, and then move the stack pointer back. The
-result is stored in EAX. Note that between the two calls to `power`, we
-save the first value onto the stack. This is because the only register
-that is guaranteed to be saved is EBP-INDEXED. Therefore we push the
+result is stored in *%eax*. Note that between the two calls to `power`,
+we save the first value onto the stack. This is because the only
+register that is guaranteed to be saved is *%ebp*. Therefore we push the
 value onto the stack, and pop the value back off after the second
 function call is complete.
 
@@ -2032,7 +2095,7 @@ function, there is documentation as to what the function does, what its
 arguments are, and what it gives as a return value. This is useful for
 programmers who use this function. This is the function's interface.
 This lets the programmer know what values are needed on the stack, and
-what will be in EAX at the end.
+what will be in *%eax* at the end.
 
 We then have the following line:
 
@@ -2077,10 +2140,10 @@ registerregister, so you have to store it in a local variable in order
 to send a pointer to it.
 
 Basically, what the program does is start with the base number, and
-store it both as the multiplier (stored in EBX) and the current value
-(stored in -4(%ebp)). It also has the power stored in ECX It then
+store it both as the multiplier (stored in *%ebx*) and the current value
+(stored in -4(%ebp)). It also has the power stored in *%ecx* It then
 continually multiplies the current value by the multiplier, decreases
-the power, and leaves the loop if the power (in ECX) gets down to 1.
+the power, and leaves the loop if the power (in *%ecx*) gets down to 1.
 
 By now, you should be able to go through the program without help. The
 only things you should need to know is that `imullimull` does integer
@@ -2092,9 +2155,9 @@ Instructions](#common-x86-instructions)
 A good project to try now is to extend the program so it will return the
 value of a number if the power is 0 (hint, anything raised to the zero
 power is 1). Keep trying. If it doesn't work at first, try going through
-your program by hand with a scrap of paper, keeping track of where EBP
-and ESP are pointing, what is on the stack, and what the values are in
-each register.
+your program by hand with a scrap of paper, keeping track of where
+*%ebp* and *%esp* are pointing, what is on the stack, and what the
+values are in each register.
 
 Recursive Functions
 -------------------
@@ -2181,14 +2244,13 @@ instruction moves the stack pointer back to where it was before we
 pushed the `$4` onto the stack. You should always clean up your stack
 parameters after a function call returns.
 
-The next instruction moves EAX to EBX. What's in EAX-INDEXED? It is
+The next instruction moves *%eax* to *%ebx*. What's in *%eax*? It is
 `factorial`'s return valuereturn value. In our case, it is the value of
 the factorial function. With 4 as our parameter, 24 should be our return
-value. Remember, return values are always stored in EAX-INDEXED. We want
-to return this value as the status code to the operating system.
-However, Linux requires that the program's exit status be stored in
-EBX-INDEXED, not EAX, so we have to move it. Then we do the standard
-exit system call.
+value. Remember, return values are always stored in *%eax*. We want to
+return this value as the status code to the operating system. However,
+Linux requires that the program's exit status be stored in *%ebx*, not
+*%eax*, so we have to move it. Then we do the standard exit system call.
 
 The nice thing about function calls is that:
 
@@ -2236,8 +2298,8 @@ The next instruction is this:
         movl  8(%ebp), %eax
 
 This uses base pointer addressingbase pointer addressing mode to move
-the first parameterparameter of the function into EAX. Remember,
-`(%ebp)` has the old EBP, `4(%ebp)` has the return address, and
+the first parameterparameter of the function into *%eax*. Remember,
+`(%ebp)` has the old *%ebp*, `4(%ebp)` has the return address, and
 `8(%ebp)` is the location of the first parameter to the function. If you
 think back, this will be the value 4 on the first call, since that was
 what we pushed on the stack before calling the function the first time
@@ -2246,7 +2308,7 @@ values, too.
 
 Next, we check to see if we've hit our base case (a parameter of 1). If
 so, we jump to the instruction at the label `end_factorial`, where it
-will be returned. It's already in EAX which we mentioned earlier is
+will be returned. It's already in *%eax* which we mentioned earlier is
 where you put return valuesreturn values. That is accomplished by these
 lines:
 
@@ -2255,13 +2317,13 @@ lines:
 
 If it's not our base case, what did we say we would do? We would call
 the `factorial` function again with our parameter minus one. So, first
-we decrease EAX by one:
+we decrease *%eax* by one:
 
         decl %eax
 
 `decldecl` stands for decrement. It subtracts 1 from the given register
-or memory location (EAX in our case). `inclincl` is the inverse - it
-adds 1. After decrementing EAX we push it onto the stack since it's
+or memory location (*%eax* in our case). `inclincl` is the inverse - it
+adds 1. After decrementing *%eax* we push it onto the stack since it's
 going to be the parameter of the next function call. And then we call
 `factorial` again!
 
@@ -2279,17 +2341,17 @@ we do this:
 
 Now, we want to multiply that number with the result of the factorial
 function. If you remember our previous discussion, the result of
-functions are left in EAX. So, we need to multiply EBX with EAX. This is
-done with this instruction:
+functions are left in *%eax*. So, we need to multiply *%ebx* with
+*%eax*. This is done with this instruction:
 
         imull %ebx, %eax
 
-This also stores the result in EAX, which is exactly where we want the
-return value for the function to be! Since the return valuereturn value
-is in place we just need to leave the function. If you remember, at the
-start of the function we pushed EBP, and moved ESP into EBP to create
-the current stack frame. Now we reverse the operation to destroy the
-current stack frame and reactivate the last one:
+This also stores the result in *%eax*, which is exactly where we want
+the return value for the function to be! Since the return valuereturn
+value is in place we just need to leave the function. If you remember,
+at the start of the function we pushed *%ebp*, and moved *%esp* into
+*%ebp* to create the current stack frame. Now we reverse the operation
+to destroy the current stack frame and reactivate the last one:
 
     end_factorial:
         movl %ebp, %esp
@@ -2331,7 +2393,7 @@ Review
 
 -   Why are local variables so necessary in recursive functions?
 
--   What are EBP and ESP used for?
+-   What are *%ebp* and *%esp* used for?
 
 -   What is a stack frame?
 
@@ -2342,11 +2404,11 @@ Review
 
 -   Write a program to test your `square` function.
 
--   Convert the maximum program given in [???](#maximum) so that it is a
-    function which takes a pointer to several values and returns their
-    maximum. Write a program that calls maximum with 3 different lists,
-    and returns the result of the last one as the program's exit status
-    code.
+-   Convert the maximum program given in [Finding a Maximum
+    Value](#finding-a-maximum-value) so that it is a function which
+    takes a pointer to several values and returns their maximum. Write a
+    program that calls maximum with 3 different lists, and returns the
+    result of the last one as the program's exit status code.
 
 -   Explain the problems that would arise without a standard calling
     convention.
@@ -2406,41 +2468,40 @@ In our programs we will deal with files in the following ways:
     it opened (read, write, both read and write, create it if it doesn't
     exist, etc.). This is handled with the `openopen` system call, which
     takes a filename, a number representing the mode, and a
-    permissionpermissions set as its parameters. EAX-INDEXED will hold
-    the system call number, which is 5. The address of the first
-    character of the filename should be stored in EBX-INDEXED. The
-    read/write intentions, represented as a number, should be stored in
-    ECX-INDEXED. For now, use 0 for files you want to read from, and
-    03101 for files you want to write to (you must include the leading
-    zero).[27] Finally, the permission set should be stored as a number
-    in EDX-INDEXED. If you are unfamiliar with UNIX permissions, just
-    use 0666 for the permissions (again, you must include the leading
-    zero).
+    permissionpermissions set as its parameters. *%eax* will hold the
+    system call number, which is 5. The address of the first character
+    of the filename should be stored in *%ebx*. The read/write
+    intentions, represented as a number, should be stored in *%ecx*. For
+    now, use 0 for files you want to read from, and 03101 for files you
+    want to write to (you must include the leading zero).[27] Finally,
+    the permission set should be stored as a number in *%edx*. If you
+    are unfamiliar with UNIX permissions, just use 0666 for the
+    permissions (again, you must include the leading zero).
 
 2.  Linux will then return to you a file descriptorfile descriptors in
-    EAX-INDEXED. Remember, this is a number that you use to refer to
-    this file throughout your program.
+    *%eax*. Remember, this is a number that you use to refer to this
+    file throughout your program.
 
 3.  Next you will operate on the file doing reads and/or writes, each
     time giving Linux the file descriptor you want to use. `readread` is
     system call 3, and to call it you need to have the file descriptor
-    in EBX, the address of a buffer for storing the data that is read in
-    ECX, and the size of the buffer in EDX. Buffers will be explained in
-    [Buffers and](#buffersbss). `read` will return with either the
-    number of characters read from the file, or an error code. Error
-    codes can be distinguished because they are always negative numbers
-    (more information on negative numbers can be found in
-    [???](#countingchapter)). `writewrite` is system call 4, and it
-    requires the same parameters as the `read` system call, except that
-    the buffer should already be filled with the data to write out. The
-    `write` system call will give back the number of bytes written in
-    EAX or an error code.
+    in *%ebx*, the address of a buffer for storing the data that is read
+    in *%ecx*, and the size of the buffer in *%edx*. Buffers will be
+    explained in [Buffers and](#buffersbss). `read` will return with
+    either the number of characters read from the file, or an error
+    code. Error codes can be distinguished because they are always
+    negative numbers (more information on negative numbers can be found
+    in [Counting Like a Computer](#counting-like-a-computer)).
+    `writewrite` is system call 4, and it requires the same parameters
+    as the `read` system call, except that the buffer should already be
+    filled with the data to write out. The `write` system call will give
+    back the number of bytes written in *%eax* or an error code.
 
 4.  When you are through with your files, you can then tell Linux to
     close them. Afterwards, your file descriptorfile descriptors is no
     longer valid. This is done using `closeclose`, system call 6. The
     only parameter to `close` is the file descriptor, which is placed in
-    EBX
+    *%ebx*
 
 Buffers and `.bss`
 ------------------
@@ -2495,7 +2556,7 @@ following commands:
 This directive, `.lcomm.lcomm`, will create a symbol, `my_buffer`, that
 refers to a 500-byte storage location that we can use as a buffer. We
 can then do the following, assuming we have opened a file for reading
-and have placed the file descriptor in EBX:
+and have placed the file descriptor in *%ebx*:
 
         movl $my_buffer, %ecx
         movl 500, %edx
@@ -2509,7 +2570,7 @@ memory location, and is accessed in direct addressing modedirect
 addressing mode. The dollar sign switches it to immediate mode
 addressing, which actually loads the number represented by `my_buffer`
 itself (i.e. - the address of the start of our buffer, which is the
-address of `my_buffer`) into ECX.
+address of `my_buffer`) into *%ecx*.
 
 Standard and Special Files
 --------------------------
@@ -2518,16 +2579,16 @@ You might think that programs start without any files open by default.
 This is not true. Linux programs usually have at least three open file
 descriptorsfile descriptors when they begin. They are:
 
-STDINSTDIN  
+STDIN:  
 This is the *standard inputstandard input*. It is a read-only file, and
 usually represents your keyboard.[29] This is always file descriptor 0.
 
-STDOUTSTDOUT  
+STDOUT:  
 This is the *standard outputstandard output*. It is a write-only file,
 and usually represents your screen display. This is always file
 descriptor 1.
 
-STDERRSTDERR  
+STDERR:  
 This is your *standard errorstandard error*. It is a write-only file,
 and usually represents your screen display. Most regular processing
 output goes to `STDOUT`, but any error messages that come up in the
@@ -2668,11 +2729,11 @@ After this, we have some constants labelled `STACK POSITIONS`. Remember
 that function parametersfunction parameters are pushed onto the stack
 before function calls. These constants (prefixed with `ST` for clarity)
 define where in the stack we should expect to find each piece of data.
-The return addressreturn address is at position 4 + ESP, the length of
-the buffer is at position 8 + ESP, and the address of the buffer is at
-position 12 + ESP. Using symbols for these numbers instead of the
-numbers themselves makes it easier to see what data is being used and
-moved.
+The return addressreturn address is at position 4 + *%esp*, the length
+of the buffer is at position 8 + *%esp*, and the address of the buffer
+is at position 12 + *%esp*. Using symbols for these numbers instead of
+the numbers themselves makes it easier to see what data is being used
+and moved.
 
 Next comes the label `convert_to_upper`. This is the entry point of the
 function. The first two lines are our standard function lines to save
@@ -2682,10 +2743,10 @@ the stack pointer. The next two lines
         movl  ST_BUFFER_LEN(%ebp), %ebx
 
 move the function parameters into the appropriate registers for use.
-Then, we load zero into EDI. What we are going to do is iterate through
-each byte of the buffer by loading from the location EAX + EDI,
-incrementing EDI, and repeating until EDI is equal to the buffer length
-stored in EBX. The lines
+Then, we load zero into *%edi*. What we are going to do is iterate
+through each byte of the buffer by loading from the location *%eax* +
+*%edi*, incrementing *%edi*, and repeating until *%edi* is equal to the
+buffer length stored in *%ebx*. The lines
 
         cmpl  $0, %ebx
         je    end_convert_loop
@@ -2703,15 +2764,15 @@ is
         movb  (%eax,%edi,1), %cl
 
 It is using an indexed indirect addressing modeindexed indirect
-addressing mode. It says to start at EAX and go EDI locations forward,
-with each location being 1 byte big. It takes the value found there, and
-put it in CL. After this it checks to see if that value is in the range
-of lower-case *a* to lower-case *z*. To check the range, it simply
-checks to see if the letter is smaller than *a*. If it is, it can't be a
-lower-case letter. Likewise, if it is larger than *z*, it can't be a
-lower-case letter. So, in each of these cases, it simply moves on. If it
-is in the proper range, it then adds the uppercase conversion, and
-stores it back into the buffer.
+addressing mode. It says to start at *%eax* and go *%edi* locations
+forward, with each location being 1 byte big. It takes the value found
+there, and put it in CL. After this it checks to see if that value is in
+the range of lower-case *a* to lower-case *z*. To check the range, it
+simply checks to see if the letter is smaller than *a*. If it is, it
+can't be a lower-case letter. Likewise, if it is larger than *z*, it
+can't be a lower-case letter. So, in each of these cases, it simply
+moves on. If it is in the proper range, it then adds the uppercase
+conversion, and stores it back into the buffer.
 
 Either way, it then goes to the next value by incrementing %cl;. Next it
 checks to see if we are at the end of the buffer. If we are not at the
@@ -2729,28 +2790,27 @@ Before reading and writing the files we must open them. The UNIX
 `openopen` system call is what handles this. It takes the following
 parameters:
 
--   EAX-INDEXED contains the system call number as usual - 5 in this
-    case.
+-   *%eax* contains the system call number as usual - 5 in this case.
 
--   EBX-INDEXED contains a pointer to a string that is the name of the
-    file to open. The string must be terminated with the null
-    characternull character.
+-   *%ebx* contains a pointer to a string that is the name of the file
+    to open. The string must be terminated with the null characternull
+    character.
 
--   ECX-INDEXED contains the options used for opening the file. These
-    tell Linux how to open the file. They can indicate things such as
-    open for reading, open for writing, open for reading and writing,
-    create if it doesn't exist, delete the file if it already exists,
-    etc. We will not go into how to create the numbers for the options
-    until [???](#truthbinarynumbers). For now, just trust the numbers we
-    come up with.
+-   *%ecx* contains the options used for opening the file. These tell
+    Linux how to open the file. They can indicate things such as open
+    for reading, open for writing, open for reading and writing, create
+    if it doesn't exist, delete the file if it already exists, etc. We
+    will not go into how to create the numbers for the options until
+    [???](#truthbinarynumbers). For now, just trust the numbers we come
+    up with.
 
--   EDX-INDEXED contains the permissions that are used to open the file.
-    This is used in case the file has to be created first, so Linux
-    knows what permissions to create the file with. These are expressed
-    in octal, just like regular UNIX permissions.[32]
+-   *%edx* contains the permissions that are used to open the file. This
+    is used in case the file has to be created first, so Linux knows
+    what permissions to create the file with. These are expressed in
+    octal, just like regular UNIX permissions.[32]
 
 permissions After making the system call, the file descriptor of the
-newly-opened file is stored in EAX-INDEXED.
+newly-opened file is stored in *%eax*.
 
 So, what files are we opening? In this example, we will be opening the
 files specified on the command-linecommand-line. Fortunately,
@@ -2763,16 +2823,16 @@ the C Programming language, this is referred to as the `argvargv` array,
 so we will refer to it that way in our program.
 
 The first thing our program does is save the current stack position in
-EBP and then reserve some space on the stack to store the file
+*%ebp* and then reserve some space on the stack to store the file
 descriptors. After this, it starts opening files.
 
 The first file the program opens is the input file, which is the first
 command-line argument. We do this by setting up the system call. We put
-the file name into EBX-INDEXED, the read-only mode number into
-ECX-INDEXED, the default mode of `$0666` into EDX-INDEXED, and the
-system call number into EAX-INDEXED After the system call, the file is
-open and the file descriptor is stored in EAX-INDEXED.[33] The file
-descriptor is then transferred to its appropriate place on the stack.
+the file name into *%ebx*, the read-only mode number into *%ecx*, the
+default mode of `$0666` into *%edx*, and the system call number into
+*%eax* After the system call, the file is open and the file descriptor
+is stored in *%eax*.[33] The file descriptor is then transferred to its
+appropriate place on the stack.
 
 The same is then done for the output file, except that it is created
 with a write-only, create-if-doesn't-exist, truncate-if-does-exist mode.
@@ -2792,8 +2852,8 @@ buffer to write into, and the size of the bufferbuffer (i.e. - the
 maximum number of bytes that could be written). The system call returns
 the number of bytes actually read, or end-of-file (the number 0).
 
-After reading a block, we check EAX-INDEXED for an end-of-file marker.
-If found, it exits the loop. Otherwise we keep on going.
+After reading a block, we check *%eax* for an end-of-file marker. If
+found, it exits the loop. Otherwise we keep on going.
 
 After the data is read, the `convert_to_upper` function is called with
 the buffer we just read in and the number of characters read in the
@@ -2807,8 +2867,7 @@ the file. Now we just go back to the beginning of the loop.
 
 After the loop exits (remember, it exits if, after a read, it detects
 the end of the file), it simply closes its file descriptors and exits.
-The close system call just takes the file descriptor to close in
-EBX-INDEXED.
+The close system call just takes the file descriptor to close in *%ebx*.
 
 The program is then finished!
 
@@ -2901,10 +2960,10 @@ to work anyway. It doesn't report any error message so the user won't
 even know that they typed in the name wrong. Let's say that the
 destination file is on a network drive, and the network temporarily
 fails. The operating system is returning a status codestatus code to us
-in EAX-INDEXED, but we aren't checking it. Therefore, if a failure
-occurs, the user is totally unaware. This program is definitely not
-robust. As you can see, even in a simple program there are a lot of
-things that can go wrong that a programmer must contend with.
+in *%eax*, but we aren't checking it. Therefore, if a failure occurs,
+the user is totally unaware. This program is definitely not robust. As
+you can see, even in a simple program there are a lot of things that can
+go wrong that a programmer must contend with.
 
 In a large program, it gets much more problematic. There are usually
 many more possible error conditionserror conditions than possible
@@ -3118,8 +3177,8 @@ stack, and call the function.
 
 Now let's look for potential error spots in our `add-year` program.
 First of all, we don't check to see if either of our `open` system calls
-actually complete properly. Linux returns its status code in
-EAX-INDEXED, so we need to check and see if there is an error.
+actually complete properly. Linux returns its status code in *%eax*, so
+we need to check and see if there is an error.
 
         #Open file for reading
         movl  $SYS_OPEN, %eax
@@ -3256,15 +3315,15 @@ This chapter is focused on the details of computer memory. To get
 started let's review some basic terms that we will be using in this
 chapter:
 
-Byte  
+Byte:  
 This is the size of a storage location. On x86 processors, a byte can
 hold numbers between 0 and 255.
 
-Word  
+Word:  
 This is the size of a normal register. On x86 processors, a word is four
 bytes long. Most computer operations handle a word at a time.
 
-Address  
+Address:  
 An address is a number that refers to a byte in memory. For example, the
 first byte on a computer has an address of 0, the second has an address
 of 1, and so on.[34] Every piece of data on the computer not in a
@@ -3284,7 +3343,7 @@ use it in your program. For example, say you have the following code:
 Now, any time in the program that `my_data` is used, it will be replaced
 by the address of the first value of the `.long` directive.
 
-Pointer  
+Pointer:  
 A pointer is a register or memory word whose value is an address. In our
 programs we use `%ebp` as a pointer to the current stack frame. All base
 pointer addressing involves pointers. Programming uses a lot of
@@ -3300,25 +3359,26 @@ source code.
 
 The actual instructions (the `.text.text` section) are loaded at the
 address 0x08048000 (numbers starting with `0x` are in hexadecimal, which
-will be discussed in [???](#countingchapter)).[35] The `.data.data`
-section is loaded immediately after that, followed by the `.bss.bss`
-section.
+will be discussed in [Counting Like a
+Computer](#counting-like-a-computer)).[35] The `.data.data` section is
+loaded immediately after that, followed by the `.bss.bss` section.
 
 The last byte that can be addressed on Linux is location 0xbfffffff.
 Linux starts the stack here and grows it downward toward the other
 sections. Between them is a huge gap. The initial layout of the stack is
 as follows: At the bottom of the stack (the bottom of the stack is the
-top address of memory - see [???](#functionschapter)), there is a word
-of memory that is zero. After that comes the null-terminated name of the
-program using ASCII characters. After the program name comes the
-program's environment variables (these are not important to us in this
-book). Then come the program's command-line arguments. These are the
-values that the user typed in on the command line to run this program.
-When we run `as`, for example, we give it several arguments - `as`,
-`sourcefile.s`, `-o`, and `objectfile.o`. After these, we have the
-number of arguments that were used. When the program begins, this is
-where the stack pointer, ESP-INDEXED, is pointing. Further pushes on the
-stack move ESP down in memory. For example, the instruction
+top address of memory - see [Chapter 4. All About
+Functions](#chapter-4-all-about-functions)), there is a word of memory
+that is zero. After that comes the null-terminated name of the program
+using ASCII characters. After the program name comes the program's
+environment variables (these are not important to us in this book). Then
+come the program's command-line arguments. These are the values that the
+user typed in on the command line to run this program. When we run `as`,
+for example, we give it several arguments - `as`, `sourcefile.s`, `-o`,
+and `objectfile.o`. After these, we have the number of arguments that
+were used. When the program begins, this is where the stack pointer,
+*%esp*, is pointing. Further pushes on the stack move *%esp* down in
+memory. For example, the instruction
 
         pushl %eax
 
@@ -3476,20 +3536,10 @@ system being unresponsive and unproductive. It's usually usually
 recoverable if you start terminating your memory-hungry programs, but
 it's a pain.
 
-<div class="note">
-
-<div class="title">
-
-Resident Set Size
-
-</div>
-
-The amount of memory that your program currently has in physical memory
-is called its resident set sizeresident set size, and can be viewed by
-using the program `top`. The resident set size is listed under the
-column labelled "RSS".
-
-</div>
+> **Resident Set Size:** The amount of memory that your program
+> currently has in physical memory is called its resident set
+> sizeresident set size, and can be viewed by using the program `top`.
+> The resident set size is listed under the column labelled "RSS".
 
 Getting More Memory
 -------------------
@@ -3514,14 +3564,14 @@ the current and new break point, and then move the break point to the
 spot you specify. That memory is now available for your program to use.
 The way we tell Linux to move the break point is through the `brkbrk`
 system call. The `brk` system call is call number 45 (which will be in
-EAX). EBX should be loaded with the requested breakpoint. Then you call
-`int $0x80` to signal Linux to do its work. After mapping in your
-memory, Linux will return the new break point in EAX. The new break
+*%eax*). *%ebx* should be loaded with the requested breakpoint. Then you
+call `int $0x80` to signal Linux to do its work. After mapping in your
+memory, Linux will return the new break point in *%eax*. The new break
 point might actually be larger than what you asked for, because Linux
 rounds up to the nearest page. If there is not enough physical memory or
-swap to fulfill your request, Linux will return a zero in EAX. Also, if
-you call `brk` with a zero in EBX, it will simply return the last usable
-memory address.
+swap to fulfill your request, Linux will return a zero in *%eax*. Also,
+if you call `brk` with a zero in *%ebx*, it will simply return the last
+usable memory address.
 
 The problem with this method is keeping track of the memory we request.
 Let's say I need to move the break to have room to load a file, and then
@@ -3702,9 +3752,9 @@ if we need more memory:
         cmpl %ebx, %eax
         je   move_break
 
-EAX holds the current memory region being examined and EBX holds the
-location past the end of the heap. Therefore if the next region to be
-examined is past the end of the heap, it means we need more memory to
+*%eax* holds the current memory region being examined and *%ebx* holds
+the location past the end of the heap. Therefore if the next region to
+be examined is past the end of the heap, it means we need more memory to
 allocate a region of this size. Let's skip down to `move_break` and see
 what happens there:
 
@@ -3717,18 +3767,19 @@ what happens there:
         movl  $SYS_BRK, %eax
         int   $LINUX_SYSCALL
 
-When we reach this point in the code, EBX holds where we want the next
-region of memory to be. So, we add our header size and region size to
-EBX, and that's where we want the system break to be. We then push all
-the registers we want to save on the stack, and call the `brk` system
-call. After that we check for errors:
+When we reach this point in the code, *%ebx* holds where we want the
+next region of memory to be. So, we add our header size and region size
+to *%ebx*, and that's where we want the system break to be. We then push
+all the registers we want to save on the stack, and call the `brk`
+system call. After that we check for errors:
 
         cmpl  $0, %eax
         je    error
 
 If there were no errors we pop the registers back off the stack, mark
 the memory as unavailable, record the size of the memory, and make sure
-EAX points to the start of usable memory (which is *after* the header).
+*%eax* points to the start of usable memory (which is *after* the
+header).
 
         popl  %ebx
         popl  %ecx
@@ -3745,7 +3796,7 @@ allocated memory.
         popl  %ebp
         ret
 
-The `error` code just returns 0 in EAX, so we won't discuss it.
+The `error` code just returns 0 in *%eax*, so we won't discuss it.
 
 Let's go back look at the rest of the loop. What happens if the current
 memory being looked at isn't past the end of the heap? Well, let's look.
@@ -3754,16 +3805,16 @@ memory being looked at isn't past the end of the heap? Well, let's look.
         cmpl $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
         je   next_location
 
-This first grabs the size of the memory region and puts it in EDX. Then
-it looks at the available flag to see if it is set to `UNAVAILABLE`. If
-so, that means that memory region is in use, so we'll have to skip over
-it. So, if the available flag is set to `UNAVAILABLE`, you go to the
-code labeled `next_location`. If the available flag is set to
-`AVAILABLE`, then we keep on going.
+This first grabs the size of the memory region and puts it in *%edx*.
+Then it looks at the available flag to see if it is set to
+`UNAVAILABLE`. If so, that means that memory region is in use, so we'll
+have to skip over it. So, if the available flag is set to `UNAVAILABLE`,
+you go to the code labeled `next_location`. If the available flag is set
+to `AVAILABLE`, then we keep on going.
 
 Let's say that the space was available, and so we keep going. Then we
 check to see if this space is big enough to hold the requested amount of
-memory. The size of this region is being held in EDX, so we do this:
+memory. The size of this region is being held in *%edx*, so we do this:
 
         cmpl  %edx, %ecx
         jle   allocate_here
@@ -3779,19 +3830,20 @@ let's jump down to `allocate_here` and see what happens:
         popl  %ebp
         ret
 
-It marks the memory as being unavailable. Then it moves the pointer EAX
-past the header, and uses it as the return value for the function.
-Remember, the person using this function doesn't need to even know about
-our memory header record. They just need a pointer to usable memory.
+It marks the memory as being unavailable. Then it moves the pointer
+*%eax* past the header, and uses it as the return value for the
+function. Remember, the person using this function doesn't need to even
+know about our memory header record. They just need a pointer to usable
+memory.
 
 Okay, so let's say the region wasn't big enough. What then? Well, we
 would then be at the code labeled `next_location`. This section of code
 is used any time that we figure out that the current memory region won't
-work for allocating memory. All it does is advance EAX to the next
+work for allocating memory. All it does is advance *%eax* to the next
 possible memory region, and goes back to the beginning of the loop.
-Remember that EDX is holding the size of the current memory region, and
-`HEADER_SIZE` is the symbol for the size of the memory region's header.
-So this code will move us to the next memory region:
+Remember that *%edx* is holding the size of the current memory region,
+and `HEADER_SIZE` is the symbol for the size of the memory region's
+header. So this code will move us to the next memory region:
 
         addl  $HEADER_SIZE, %eax
         addl  %edx, %eax
@@ -3828,12 +3880,12 @@ time it is called. So we have:
         movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
         ret
 
-In this function, we don't have to save EBP-INDEXED or ESP-INDEXED since
-we're not changing them, nor do we have to restore them at the end. All
-we're doing is reading the address of the memory region from the stack,
+In this function, we don't have to save *%ebp* or *%esp* since we're not
+changing them, nor do we have to restore them at the end. All we're
+doing is reading the address of the memory region from the stack,
 backing up to the beginning of the header, and marking the region as
 available. This function has no return value, so we don't care what we
-leave in EAX.
+leave in *%eax*.
 
 ### Performance Issues and Other Problems
 
@@ -4285,8 +4337,8 @@ string. The way that `printfprintf` found the end of the string was
 because we ended it with a null characternull character (`\0`). Many
 functions work that way, especially C language functions. The `intint`
 before the function definition tell what type of value the function will
-return in EAX-INDEXED when it returns. `printf` will return an `int`
-when it's through. Now, after the `char *string`, we have a series of
+return in *%eax* when it returns. `printf` will return an `int` when
+it's through. Now, after the `char *string`, we have a series of
 periods, `......`. This means that it can take an indefinite number of
 additional arguments after the string. Most functions can only take a
 specified number of arguments. `printf`, however, can take many. It will
@@ -4329,38 +4381,39 @@ prototypesprototypes to call library functions. To use them effectively,
 however, you need to know several more of the possible data types for
 reading functions. Here are the main ones:
 
-`intint`  
+`int`:  
 An `int` is an integer number (4 bytes on x86 processor).
 
-`longlong`  
+`long`:  
 A `long` is also an integer number (4 bytes on an x86 processor).
 
-`long longlong long`  
+`long long`:  
 A `long long` is an integer number that's larger than a `long` (8 bytes
 on an x86 processor).
 
-`shortshort`  
+`short`:  
 A short is an integer number that's shorter than an `int` (2 bytes on an
 x86 processor).
 
-`charchar`  
+`char`:  
 A `char` is a single-byte integer number. This is mostly used for
 storing character data, since ASCII strings usually are represented with
 one byte per character.
 
-`floatfloat`  
+`float`:  
 A `float` is a floating-point number (4 bytes on an x86 processor).
 Floating-point numbers will be explained in more depth in
 [???](#floatingpoint).
 
-`doubledouble`  
+`double`:  
 A `double` is a floating-point number that is larger than a float (8
 bytes on an x86 processor).
 
-`unsignedunsigned`  
+`unsigned`:  
 `unsigned` is a modifier used for any of the above types which keeps
 them from being used as signed quantities. The difference between signed
-and unsigned numbers will be discussed in [???](#countingchapter).
+and unsigned numbers will be discussed in [Counting Like a
+Computer](#counting-like-a-computer).
 
 `**`  
 An asterisk (`*`) is used to denote that the data isn't an actual value,
@@ -4375,7 +4428,7 @@ indicating the address of a single value, pointers can also be used to
 pass a sequence of consecutive locations, starting with the one pointed
 to by the given value. This is called an arrayarray.
 
-`structstruct`  
+`struct`:  
 A `struct` is a set of data items that have been put together under a
 name. For example you could declare:
 
@@ -4392,7 +4445,7 @@ see pointers to structs passed as arguments. This is because passing
 structs to functions is fairly complicated, since they can take up so
 many storage locations.
 
-`typedeftypedef`  
+`typedef`:  
 A `typedef` basically allows you to rename a type. For example, I can do
 `typedef int myowntype;` in a C program, and any time I typed
 `myowntype`, it would be just as if I typed `int`. This can get kind of
@@ -4400,31 +4453,22 @@ annoying, because you have to look up what all of the typedefs and
 structs in a function prototype really mean. However, `typedef`s are
 useful for giving types more meaningful and descriptive names.
 
-<div class="note">
-
-<div class="title">
-
-Compatibility Note
-
-</div>
-
-The listed sizes are for intel-compatible (x86) machines. Other machines
-will have different sizes. Also, even when parameters shorter than a
-word are passed to functions, they are passed as longs on the stack.
-
-</div>
+> **Compatibility Note:** The listed sizes are for intel-compatible
+> (x86) machines. Other machines will have different sizes. Also, even
+> when parameters shorter than a word are passed to functions, they are
+> passed as longs on the stack.
 
 That's how to read function documentation. Now, let's get back to the
 question of how to find out about libraries. Most of your system
 libraries are in `/usr/lib/usr/lib` or `/lib/lib`. If you want to just
-see what symbols they define, just run `objdumpobjdump -R FILENAME`
-where `FILENAME` is the full path to the library. The output of that
-isn't too helpful, though, for finding an interface that you might need.
-Usually, you have to know what library you want at the beginning, and
-then just read the documentation. Most libraries have manuals or man
-pages for their functions. The web is the best source of documentation
-for libraries. Most libraries from the GNU project also have info pages
-on them, which are a little more thorough than man pages.
+see what symbols they define, just run `objdump -R FILENAME` where
+`FILENAME` is the full path to the library. The output of that isn't too
+helpful, though, for finding an interface that you might need. Usually,
+you have to know what library you want at the beginning, and then just
+read the documentation. Most libraries have manuals or man pages for
+their functions. The web is the best source of documentation for
+libraries. Most libraries from the GNU project also have info pages on
+them, which are a little more thorough than man pages.
 
 Useful Functions
 ----------------
@@ -5110,25 +5154,25 @@ in the same register using a mechanism like we've described. The
 of flags to tell the operating system how to open the file. Some of the
 flags include:
 
-`O_WRONLYO_WRONLY`  
+`O_WRONLY`:  
 This flag is `0b00000000000000000000000000000001` in binary, or `01` in
 octal (or any number system for that matter). This says to open the file
 in write-only mode.
 
-`O_RDWRO_RDWR`  
+`O_RDWR`:  
 This flag is `0b00000000000000000000000000000010` in binary, or `02` in
 octal. This says to open the file for both reading and writing.
 
-`O_CREATO_CREAT`  
+`O_CREAT`:  
 This flag is `0b00000000000000000000000001000000` in binary, or `0100`
 in octal. It means to create the file if it doesn't already exist.
 
-`O_TRUNCO_TRUNC`  
+`O_TRUNC`:  
 This flag is `0b00000000000000000000001000000000` in binary, or `01000`
 in octal. It means to erase the contents of the file if the file already
 exists.
 
-`O_APPENDO_APPEND`  
+`O_APPEND`:  
 This flag is `0b00000000000000000000010000000000` in binary, or `02000`
 in octal. It means to start writing at the end of the file rather than
 at the beginning.
@@ -5714,7 +5758,7 @@ the pointers to that storage onto the stack before calling the function.
 As you can see, it's a lot less work.
 
 Finally our function returns the number `0`. In assembly language, we
-stored our return value in EAX, but in C we just use the `return`
+stored our return value in *%eax*, but in C we just use the `return`
 command and it takes care of that for us. The return value of the `main`
 function is what is used as the exit code for the program.
 
@@ -5946,7 +5990,7 @@ The following are some well-known methods of optimizing pieces of code.
 When using high level languages, some of these may be done automatically
 by your compiler's optimizer.
 
-Precomputing Calculations  
+Precomputing Calculations:  
 Sometimes a function has a limitted number of possible inputs and
 outputs. In fact, it may be so few that you can actually precompute all
 of the possible answers beforehand, and simply look up the answer when
@@ -5954,7 +5998,7 @@ the function is called. This takes up some space since you have to store
 all of the answers, but for small sets of data this works out really
 well, especially if the computation normally takes a long time.
 
-Remembering Calculation Results  
+Remembering Calculation Results:  
 This is similar to the previous method, but instead of computing results
 beforehand, the result of each calculation requested is stored. This way
 when the function starts, if the result has been computed before it will
@@ -5964,7 +6008,7 @@ advantage of requiring less storage space because you aren't
 precomputing all results. This is sometimes termed *cachingcaching* or
 *memoizingmemoizing*.
 
-Locality of Reference  
+Locality of Reference:  
 *Locality of referencelocality of reference* is a term for where in
 memory the data items you are accessing are. With virtual memory, you
 may access pages of memory which are stored on disk. In such a case, the
@@ -5986,7 +6030,7 @@ and only use the chip's ultra-fast cache memory. This is all done for
 you - all you have to do is to try to operate on small sections of
 memory at a time, rather than bouncing all over the place.
 
-Register Usage  
+Register Usage:  
 Registersregisters are the fastest memory locations on the computer.
 When you access memory, the processor has to wait while it is loaded
 from the memory bus. However, registers are located on the processor
@@ -5996,7 +6040,7 @@ are working with, try to store them all in registers. In high level
 languages, you do not always have this option - the compiler decides
 what goes in registers and what doesn't.
 
-Inline Functions  
+Inline Functions:  
 Functions are great from the point of view of program management - they
 make it easy to break up your program into independent, understandable,
 and reuseable parts. However, function calls do involve the overhead of
@@ -6012,7 +6056,7 @@ increases the size of the code. There are also many functions, like
 recursive functions, which cannot be inlined because they call
 themselves either directly or indirectly.
 
-Optimized Instructions  
+Optimized Instructions:  
 Often times there are multiple assembly language instructions which
 accomplish the same purpose. A skilled assembly language programmer
 knows which instructions are the fastest. However, this can change from
@@ -6026,7 +6070,7 @@ register, and doesn't have to transfer any data. For users of high-level
 languages, the compiler handles this kind of optimizations for you. For
 assembly-language programmers, you need to know your processor well.
 
-Addressing Modes  
+Addressing Modes:  
 Different addressing modesaddressing modes work at different speeds. The
 fastest are the immediateimmediate mode addressing and register
 addressing modes. Directdirect addressing mode is the next fastest,
@@ -6039,7 +6083,7 @@ can be accessed the quickest. Since its offset is 0, you can access it
 using indirect addressing instead of base pointer addressing, which
 makes it faster.
 
-Data Alignment  
+Data Alignment:  
 Some processors can access data on word-aligned memoryaligned memory
 boundaries (i.e. - addresses divisible by the word size) faster than
 non-aligned data. So, when setting up structures in memory, it is best
@@ -6083,7 +6127,7 @@ memoized.
 Global optimization usually often involves achieving the following
 properties in your functions:
 
-Parallelization  
+Parallelization:  
 Parallelizationparallelization means that your algorithm can effectively
 be split among multiple processes. For example, pregnancy is not very
 parallelizable because no matter how many women you have, it still takes
@@ -6093,7 +6137,7 @@ the interior. Usually, applications have a limit to how parallelizable
 they are. The more parallelizable your application is, the better it can
 take advantage of multiprocessor and clustered computer configurations.
 
-Statelessness  
+Statelessness:  
 As we've discussed, statelessstateless functions functions and programs
 are those that rely entirely on the data explicitly passed to them for
 functioning. Most processes are not entirely stateless, but they can be
@@ -6476,7 +6520,8 @@ Type the following code into a file called `write-records.s`: .rept
 This is a fairly simple program. It merely consists of defining the data
 we want to write in the `.data.data` section, and then calling the right
 system calls and function calls to accomplish it. For a refresher of all
-of the system calls used, see [???](#syscallap).
+of the system calls used, see [Important System
+Calls](#important-system-calls).
 
 You may have noticed the lines:
 
@@ -6634,9 +6679,9 @@ have to read in blocks of data to a buffer, process them, and write them
 back out. Unfortunately, this program doesn't write the new ages out to
 the screen so you can verify your program's effectiveness. This is
 because we won't get to displaying numbers until [???](#linking) and
-[???](#countingchapter). After reading those you may want to come back
-and rewrite this program to display the numeric data that we are
-modifying.
+[Counting Like a Computer](#counting-like-a-computer). After reading
+those you may want to come back and rewrite this program to display the
+numeric data that we are modifying.
 
 Review
 ------
@@ -6685,8 +6730,8 @@ Review
 
 -   Research the various error codes that can be returned by the system
     calls made in these programs. Pick one to rewrite, and add code that
-    checks EAX-INDEXED for error conditions, and, if one is found,
-    writes a message about it to `STDERR` and exit.
+    checks *%eax* for error conditions, and, if one is found, writes a
+    message about it to `STDERR` and exit.
 
 -   Write a program that will add a single record to the file by reading
     the data from the keyboard. Remember, you will have to make sure
@@ -6996,30 +7041,30 @@ you have to do is have callbacks set up to wait for them.
 Here is a short description of all of the GNOME functions that were used
 in this program:
 
-gnome\_init  
+gnome\_init:  
 Takes the command-line arguments, argument count, application id, and
 application version and initializes the GNOME libraries.
 
-gnome\_app\_new  
+gnome\_app\_new:  
 Creates a new application window, and returns a pointer to it. Takes the
 application id and the window title as arguments.
 
-gtk\_button\_new\_with\_label  
+gtk\_button\_new\_with\_label:  
 Creates a new button and returns a pointer to it. Takes one argument -
 the text that is in the button.
 
-gnome\_app\_set\_contents  
+gnome\_app\_set\_contents:  
 This takes a pointer to the gnome application window and whatever widget
 you want (a button in this case) and makes the widget be the contents of
 the application window
 
-gtk\_widget\_show  
+gtk\_widget\_show:  
 This must be called on every widget created (application window,
 buttons, text entry boxes, etc) in order for them to be visible.
 However, in order for a given widget to be visible, all of its parents
 must be visible as well.
 
-gtk\_signal\_connect  
+gtk\_signal\_connect:  
 This is the function that connects widgets and their signal handling
 callback functions. This function takes the widget pointer, the name of
 the signal, the callback function, and an extra data pointer. After this
@@ -7028,30 +7073,30 @@ will be called with the widget that produced the signal and the extra
 data pointer. In this application, we don't use the extra data pointer,
 so we just set it to NULL, which is 0.
 
-gtk\_main  
+gtk\_main:  
 This function causes GNOME to enter into its main loop. To make
 application programming easier, GNOME handles the main loop of the
 program for us. GNOME will check for events and call the appropriate
 callback functions when they occur. This function will continue to
 process events until `gtk_main_quit` is called by a signal handler.
 
-gtk\_main\_quit  
+gtk\_main\_quit:  
 This function causes GNOME to exit its main loop at the earliest
 opportunity.
 
-gnome\_message\_box\_new  
+gnome\_message\_box\_new:  
 This function creates a dialog window containing a question and response
 buttons. It takes as parameters the message to display, the type of
 message it is (warning, question, etc), and a list of buttons to
 display. The final parameter should be NULL to indicate that there are
 no more buttons to display.
 
-gtk\_window\_set\_modal  
+gtk\_window\_set\_modal:  
 This function makes the given window a modal window. In GUI programming,
 a modal window is one that prevents event processing in other windows
 until that window is closed. This is often used with Dialog windows.
 
-gnome\_dialog\_run\_and\_close  
+gnome\_dialog\_run\_and\_close:  
 This function takes a dialog pointer (the pointer returned by
 `gnome_message_box_new` can be used here) and will set up all of the
 appropriate signal handlers so that it will run until a button is
@@ -7109,9 +7154,9 @@ to be minimalistic while the library functions were designed to be easy
 to program with. For information about the Linux C library, see the
 manual at http://www.gnu.org/software/libc/manual/
 
-Remember that EAX-INDEXED holds the system call numbers, and that the
-return values and error codes are also stored in EAX. PERCENTeax
-PERCENTebx PERCENTecx PERCENTedx
+Remember that *%eax* holds the system call numbers, and that the return
+values and error codes are also stored in *%eax*. PERCENTeax PERCENTebx
+PERCENTecx PERCENTedx
 
 <table style="width:97%;">
 <caption>Important Linux System Calls</caption>
@@ -7120,7 +7165,7 @@ PERCENTebx PERCENTecx PERCENTedx
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">EAX</th>
+<th style="text-align: left;"><em>%eax</em></th>
 </tr>
 </thead>
 <tbody>
@@ -7375,9 +7420,9 @@ This can be rendered in assembly language like this:
         #Finished looping
 
 The x86 assembly language has some direct support for looping as well.
-The ECX-INDEXED register can be used as a counter that *ends* with zero.
-The `looploop` instruction will decrement ECX and jump to a specified
-address unless ECX is zero. For example, if you wanted to execute a
+The *%ecx* register can be used as a counter that *ends* with zero. The
+`looploop` instruction will decrement *%ecx* and jump to a specified
+address unless *%ecx* is zero. For example, if you wanted to execute a
 statement 100 times, you would do this in C:
 
         for(i=0; i < 100; i++)
@@ -7572,9 +7617,8 @@ start with, you probably want to turn off optimizations with `-O0` so
 that the assembly language output will follow your source code better.
 
 Something else you might notice is that GCC reserves more stack space
-for local variables than we do, and then AND's ESP-INDEXED [52] This is
-to increase memory and cache efficiency by double-word aligning
-variables.
+for local variables than we do, and then AND's *%esp* [52] This is to
+increase memory and cache efficiency by double-word aligning variables.
 
 Finally, at the end of functions, we usually do the following
 instructions to clean up the stack before issuing a `retret`
@@ -7653,29 +7697,29 @@ value, while the second operand must be a register or memory location.
 Note, however, that in x86 assembly language you cannot have more than
 one operand be a memory location.
 
-In the flagsflags section, it lists the flags in the EFLAGS-INDEXED
-register affected by the instruction. The following flags are mentioned:
+In the flagsflags section, it lists the flags in the *%eflags* register
+affected by the instruction. The following flags are mentioned:
 
-O  
+O:  
 Overflow flagoverflow flag. This is set to true if the destination
 operand was not large enough to hold the result of the instruction.
 
-S  
+S:  
 Sign flagsign flag. This is set to the sign of the last result.
 
-Z  
+Z:  
 Zero flagzero flag. This flag is set to true if the result of the
 instruction is zero.
 
-A  
+A:  
 Auxiliary carry flagauxiliary carry flag. This flag is set for carries
 and borrows between the third and fourth bit. It is not often used.
 
-P  
+P:  
 Parity flagparity flag. This flag is set to true if the low byte of the
 last result had an even number of 1 bits.
 
-C  
+C:  
 Carry flagcarry flag. Used in arithmetic to say whether or not the
 result should be carried over to an additional byte. If the carry flag
 is set, that usually means that the destination register could not hold
@@ -7707,7 +7751,7 @@ mostly used for moving data from one place to another.
 <td style="text-align: left;">O/S/Z/A/C</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">This copies a word of data from one location to another. <code>movl %eax, %ebx</code> copies the contents of EAX to EBX</td>
+<td style="text-align: left;">This copies a word of data from one location to another. <code>movl %eax, %ebx</code> copies the contents of <em>%eax</em> to <em>%ebx</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -7727,7 +7771,7 @@ mostly used for moving data from one place to another.
 <td style="text-align: left;">O/S/Z/A/C</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">This takes a memory location given in the standard format, and, instead of loading the contents of the memory location, loads the computed address. For example, <code>leal 5(%ebp,%ecx,1), %eax</code> loads the address computed by <code>5 + %ebp + 1*%ecx</code> and stores that in EAX</td>
+<td style="text-align: left;">This takes a memory location given in the standard format, and, instead of loading the contents of the memory location, loads the computed address. For example, <code>leal 5(%ebp,%ecx,1), %eax</code> loads the address computed by <code>5 + %ebp + 1*%ecx</code> and stores that in <em>%eax</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -7737,7 +7781,7 @@ mostly used for moving data from one place to another.
 <td style="text-align: left;">O/S/Z/A/C</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Pops the top of the stack into the given location. This is equivalent to performing <code>movl (%esp), R/M</code> followed by <code>addl $4, %esp</code>. <code>popfl</code> is a variant which pops the top of the stack into the EFLAGSPERCENTeflags register.</td>
+<td style="text-align: left;">Pops the top of the stack into the given location. This is equivalent to performing <code>movl (%esp), R/M</code> followed by <code>addl $4, %esp</code>. <code>popfl</code> is a variant which pops the top of the stack into the <em>%eflags</em> register.</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -7747,7 +7791,7 @@ mostly used for moving data from one place to another.
 <td style="text-align: left;">O/S/Z/A/C</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Pushes the given value onto the stack. This is the equivalent to performing <code>subl $4, %esp</code> followed by <code>movl I/R/M, (%esp)</code>. <code>pushfl</code> is a variant which pushes the current contents of the EFLAGSPERCENTeflags register onto the top of the stack.</td>
+<td style="text-align: left;">Pushes the given value onto the stack. This is the equivalent to performing <code>subl $4, %esp</code> followed by <code>movl I/R/M, (%esp)</code>. <code>pushfl</code> is a variant which pushes the current contents of the <em>%eflags</em> register onto the top of the stack.</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -7808,7 +7852,7 @@ unsigned integers.
 <td style="text-align: left;">O/S/Z/A/P/C</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Converts the EAXEDXEAX word into the double-word consisting of EDX:EAX with sign extension. The <code>q</code> signifies that it is a <em>quad-word</em>. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an <code>idivl</code> instruction.</td>
+<td style="text-align: left;">Converts the <em>%eax<strong>%edx</strong>%eax</em> word into the double-word consisting of <em>%edx</em>:<em>%eax</em> with sign extension. The <code>q</code> signifies that it is a <em>quad-word</em>. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an <code>idivl</code> instruction.</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -7838,7 +7882,7 @@ unsigned integers.
 <td style="text-align: left;">O/S/Z/A/P</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Performs unsigned division. Divides the contents of the double-word contained in the combined EDX:EAX-INDEXED registers by the value in the register or memory location specified. The EAX register contains the resulting quotient, and the EDX register contains the resulting remainder. If the quotient is too large to fit in EAX, it triggers a type 0 interrupt.</td>
+<td style="text-align: left;">Performs unsigned division. Divides the contents of the double-word contained in the combined <em>%edx</em>:<em>%eax</em> registers by the value in the register or memory location specified. The <em>%eax</em> register contains the resulting quotient, and the <em>%edx</em> register contains the resulting remainder. If the quotient is too large to fit in <em>%eax</em>, it triggers a type 0 interrupt.</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -7858,7 +7902,7 @@ unsigned integers.
 <td style="text-align: left;">O/S/Z/A/P/C</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be EAX, and the full result is stored in the double-word EDX-INDEXED:EAX-INDEXED.</td>
+<td style="text-align: left;">Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be <em>%eax</em>, and the full result is stored in the double-word <em>%edx</em>:<em>%eax</em>.</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -8093,9 +8137,11 @@ These instructions may alter the flow of the program.
 <td>O/S/Z/A/C</td>
 </tr>
 <tr class="even">
-<td>This pushes what would be the next value for EIP onto the stack, and jumps to the destination address. Used for function calls. Alternatively, the destination address can be an asterisk followed by a register for an indirect function call. For example, <code>call *%eax</code> will call the function at the address in EAX.</td>
-<td></td>
-<td></td>
+<td>This pushes what would be the next value for <em>%eip</em> ont the stack, and jumps to the destination address. Used for function calls. Alternatively, the destination address can be an asterisk followed by a register for an indirect function call. For example, <code>call *%eax</code> will call the function at the address in <em>%eax</em>.</td>
+<td><p>o |</p>
+<p>|</p></td>
+<td><p>|</p>
+<p>|</p></td>
 </tr>
 <tr class="odd">
 <td>intint</td>
@@ -8125,10 +8171,10 @@ These instructions may alter the flow of the program.
 <li><p><code>[n]o</code> - overflow flag set</p></li>
 <li><p><code>[p]p</code> - parity flag set</p></li>
 <li><p><code>[n]s</code> - sign flag set</p></li>
-<li><p><code>ecxz</code> - ECXPERCENTecx is zero</p></li>
+<li><p><code>ecxz</code> - _%ecx_PERCENTecx is zero</p></li>
 </ul></td>
-<td></td>
-<td></td>
+<td>|</td>
+<td>|</td>
 </tr>
 <tr class="odd">
 <td>jmpjmp</td>
@@ -8136,9 +8182,11 @@ These instructions may alter the flow of the program.
 <td>O/S/Z/A/C</td>
 </tr>
 <tr class="even">
-<td>An unconditional jump. This simply sets EIP to the destination address. Alternatively, the destination address can be an asterisk followed by a register for an indirect jump. For example, <code>jmp *%eax</code> will jump to the address in EAX.</td>
-<td></td>
-<td></td>
+<td>An unconditional jump. This simply sets <em>%eip</em> to the destination address. Alternatively, the destination address can be an asterisk followed by a register for an indirect jump. For example, <code>jmp *%eax</code> will jump to the address in <em>%eax</em>.</td>
+<td><p>|</p>
+<p>|</p></td>
+<td><p>|</p>
+<p>|</p></td>
 </tr>
 <tr class="odd">
 <td>retret</td>
@@ -8146,9 +8194,9 @@ These instructions may alter the flow of the program.
 <td>O/S/Z/A/C</td>
 </tr>
 <tr class="even">
-<td>Pops a value off of the stack and then sets EIP to that value. Used to return from function calls.</td>
-<td></td>
-<td></td>
+<td>Pops a value off of the stack and then sets <em>%eip</em> to that value. Used to return from function calls.</td>
+<td>|</td>
+<td>|</td>
 </tr>
 </tbody>
 </table>
@@ -8371,8 +8419,9 @@ An Example Debugging Session
 
 The best way to explain how a debugger works is by using it. The program
 we will be using the debugger on is the `maximum` program used in
-[???](#chapter-3-your-first-programs). Let's say that you entered the
-program perfectly, except that you left out the line:
+[Chapter 3. Your First Programs](#chapter-3-your-first-programs). Let's
+say that you entered the program perfectly, except that you left out the
+line:
 
         incl %edi
 
@@ -8454,20 +8503,20 @@ our code where we should be exitting the looploop:
     cmpl  $0, %eax
     je    loop_exit
 
-Basically, it is checking to see if EAX hits zero. If so, it should exit
-the loop. There are several things to check here. First of all, you may
-have left this piece out altogether. It is not uncommon for a programmer
-to forget to include a way to exit a loop. However, this is not the case
-here. Second, you should make sure that `loop_exit` actually is outside
-the loop. If we put the label in the wrong place, strange things would
-happen. However, again, this is not the case.
+Basically, it is checking to see if *%eax* hits zero. If so, it should
+exit the loop. There are several things to check here. First of all, you
+may have left this piece out altogether. It is not uncommon for a
+programmer to forget to include a way to exit a loop. However, this is
+not the case here. Second, you should make sure that `loop_exit`
+actually is outside the loop. If we put the label in the wrong place,
+strange things would happen. However, again, this is not the case.
 
 Neither of those potential problems are the culprit. So, the next option
-is that perhaps EAX has the wrong value. There are two ways to check the
-contents of register in GDB. The first one is the command
+is that perhaps *%eax* has the wrong value. There are two ways to check
+the contents of register in GDB. The first one is the command
 `info registerinfo register`. This will display the contents of all
-registers in hexadecimal. However, we are only interested in EAX at this
-point. To just display EAX we can do `print/$eax` to print it in
+registers in hexadecimal. However, we are only interested in *%eax* at
+this point. To just display *%eax* we can do `print/$eax` to print it in
 hexadecimal, or do `printprint/d $eax` to print it in decimal. Notice
 that in GDB, registers are prefixed with dollar signs rather than
 percent signs. Your screen should have this on it:
@@ -8480,41 +8529,41 @@ This means that the result of your first inquiry is 3. Every inquiry you
 make will be assigned a number prefixed with a dollar sign. Now, if you
 look back into the code, you will find that 3 is the first number in the
 list of numbers to search through. If you step through the loop a few
-more times, you will find that in every loop iteration EAX has the
-number 3. This is not what should be happening. EAX should go to the
+more times, you will find that in every loop iteration *%eax* has the
+number 3. This is not what should be happening. *%eax* should go to the
 next value in the list in every iteration.
 
-Okay, now we know that EAX is being loaded with the same value over and
-over again. Let's search to see where EAX is being loaded from. The line
-of code is this:
+Okay, now we know that *%eax* is being loaded with the same value over
+and over again. Let's search to see where *%eax* is being loaded from.
+The line of code is this:
 
         movl data_items(,%edi,4), %eax
 
 So, step until this line of code is ready to execute. Now, this code
-depends on two values - `data_items` and EDI. `data_items` is a symbol,
-and therefore constant. It's a good idea to check your source code to
-make sure the label is in front of the right data, but in our case it
-is. Therefore, we need to look at EDI. So, we need to print it out. It
-will look like this:
+depends on two values - `data_items` and *%edi*. `data_items` is a
+symbol, and therefore constant. It's a good idea to check your source
+code to make sure the label is in front of the right data, but in our
+case it is. Therefore, we need to look at *%edi*. So, we need to print
+it out. It will look like this:
 
     (gdb) print/d $edi
     $2 = 0
     (gdb)
 
-This indicates that EDI is set to zero, which is why it keeps on loading
-the first element of the array. This should cause you to ask yourself
-two questions - what is the purpose of EDI, and how should its value be
-changed? To answer the first question, we just need to look in the
-comments. EDI is holding the current index of `data_items`. Since our
-search is a sequential search through the list of numbers in
-`data_items`, it would make sense that EDI should be incremented with
+This indicates that *%edi* is set to zero, which is why it keeps on
+loading the first element of the array. This should cause you to ask
+yourself two questions - what is the purpose of *%edi*, and how should
+its value be changed? To answer the first question, we just need to look
+in the comments. *%edi* is holding the current index of `data_items`.
+Since our search is a sequential search through the list of numbers in
+`data_items`, it would make sense that *%edi* should be incremented with
 every loop iteration.
 
-Scanning the code, there is no code which alters EDI at all. Therefore,
-we should add a line to increment EDI at the beginning of every loop
-iteration. This happens to be exactly the line we tossed out at the
-beginning. Assembling, linking, and running the program again will show
-that it now works correctly.
+Scanning the code, there is no code which alters *%edi* at all.
+Therefore, we should add a line to increment *%edi* at the beginning of
+every loop iteration. This happens to be exactly the line we tossed out
+at the beginning. Assembling, linking, and running the program again
+will show that it now works correctly.
 
 Hopefully this exercise provided some insight into using GDB to help you
 find errors in your programs.
@@ -8541,11 +8590,12 @@ simply use the command `l`. This will print out your program with line
 numbers a screen at a time.
 
 When dealing with functions, you can also break on the function names.
-For example, in the factorial program in [???](#functionschapter), we
-could set a breakpoint for the factorial function by typing in
-`break factorial`. This will cause the debugger to break immediately
-after the function call and the function setup (it skips the pushing of
-EBP-INDEXED and the copying of ESP-INDEXED).
+For example, in the factorial program in [Chapter 4. All About
+Functions](#chapter-4-all-about-functions), we could set a breakpoint
+for the factorial function by typing in `break factorial`. This will
+cause the debugger to break immediately after the function call and the
+function setup (it skips the pushing of *%ebp* and the copying of
+*%esp*).
 
 When stepping through code, you often don't want to have to step through
 every instruction of every function. Well-tested functions are usually a
@@ -8555,7 +8605,7 @@ will wait until completion of the function before going on. Otherwise,
 with `stepi`, GDB would step you through every instruction within every
 called function.
 
-<div class="warning">
+------------------------------------------------------------------------
 
 One problem that GDB has is with handling interruptsinterrupts. Often
 times GDB will miss the instruction that immediately follows an
@@ -8563,7 +8613,7 @@ interrupt. The instruction is actually executed, but GDB doesn't step
 through it. This should not be a problem - just be aware that it may
 happen.
 
-</div>
+------------------------------------------------------------------------
 
 GDB Quick-Reference
 ===================
@@ -9053,34 +9103,54 @@ Instructions](#common-x86-instructions),
 processors and operating systems actually mark the regions of memory
 that can be executed with a special marker that indicates this.
 
-[7] Note that different versions of GCC do this differently.
+[7] If you are new to Linux and UNIX®, you may not be aware that files
+don't have to have extensions. In fact, while Windows® uses the `.exe`
+extension to signify an executable program, UNIX executables usually
+have no extension.
 
-[8] If you have used C, this is what the `strlenstrlen` function does.
+[8] `.` refers to the current directory in Linux and UNIX systems.
 
-[9] You will find that after learning the mechanics of programming, most
-programs are pretty straightforward once you know exactly what it is you
-want to do. Most of them initialize data, do some processing in a loop,
-and then clean everything up.
+[9] You'll find that many programs end up doing things strange ways.
+Usually there is a reason for that, but, unfortunately, programmers
+never document such things in their comments. So, future programmers
+either have to learn the reason the hard way by modifying the code and
+watching it break, or just leaving it alone whether it is still needed
+or not. You should *always* document any strange behavior your program
+performs. Unfortunately, figuring out what is strange and what is
+straightforward comes mostly with experience.
 
-[10] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[10] Note that on x86 processors, even the general-purpose registers
+have some special purposes, or used to before it went 32-bit. However,
+these are general-purpose registers for most instructions. Each of them
+has at least one instruction where it is used in a special way. However,
+for most of them, those instructions aren't covered in this book.
 
-[11] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[11] You may be wondering, *why do all of these registers begin with the
+letter `e`?* The reason is that early generations of x86 processors were
+16 bits rather than 32 bits. Therefore, the registers were only half the
+length they are now. In later generations of x86 processors, the size of
+the registers doubled. They kept the old names to refer to the first
+half of the register, and added an `e` to refer to the extended versions
+of the register. Usually you will only use the extended versions. Newer
+models also offer a 64-bit mode, which doubles the size of these
+registers yet again and uses an `r` prefix to indicate the larger
+registers (i.e. *%ax* is the 64-bit version of *%eax*). However, these
+processors are not widely used, and are not covered in this book.
 
-[12] This is why adding more memory to your computer makes it run
-faster. The more memory your computer has, the less it puts on disk, so
-it doesn't have to always be interrupting your programs to retreive
-pages off the disk.
+[12] You may be wondering why it's `0x80` instead of just `80`. The
+reason is that the number is written in hexadecimalhexadecimal. In
+hexadecimal, a single digit can hold 16 values instead of the normal 10.
+This is done by utilizing the letters `a` through `f` in addition to the
+regular digits. `a` represents 10, `b` represents 11, and so on. 0x10
+represents the number 16, and so on. This will be discussed more in
+depth later, but just be aware that numbers starting with `0x` are in
+hexadecimal. Tacking on an `H` at the end is also sometimes used
+instead, but we won't do that in this book. For more information about
+this, see [Counting Like a Computer](#counting-like-a-computer)
 
-[13] Notice that we don't do any error checking on this. That is done
-just to keep the program simple. In normal programs, every system call
-should normally be checked for success or failure. In failure cases, EAX
-will hold an error code instead of a return value. Error codes are
-negative, so they can be detected by comparing EAX-INDEXED to zero and
-jumping if it is less than zero.
+[13] Actually, the interrupt transfers control to whoever set up an
+*interrupt handler* for the interrupt number. In the case of Linux, all
+of them are set to be handled by the Linux kernel.
 
 [14] If you don't watch Veggie Tales, you should. Start with Dave and
 the Giant Pickle.
@@ -9091,16 +9161,16 @@ numbers like `65535`, and never like `65,535`.
 
 [16] The instruction doesn't really use 4 for the size of the storage
 locations, although looking at it that way works for our purposes now.
-It's actually what's called a *multipliermultiplier*. basically, the way
-it works is that you start at the location specified by `data_items`,
-then you add `%edi`\*4 storage locations, and retrieve the number there.
-Usually, you use the size of the numbers as your multiplier, but in some
+It's actually what's called a *multiplier*. basically, the way it works
+is that you start at the location specified by `data_items`, then you
+add `%edi`\*4 storage locations, and retrieve the number there. Usually,
+you use the size of the numbers as your multiplier, but in some
 circumstances you'll want to do other things.
 
-[17] Also, the `l` in `movlmovl` stands for *move long* since we are
-moving a value that takes up four storage locations.
+[17] Also, the `l` in `movl` stands for *move long* since we are moving
+a value that takes up four storage locations.
 
-[18] notice that the comparison is to see if the *second* value is
+[18] Notice that the comparison is to see if the *second* value is
 greater than the first. I would have thought it the other way around.
 You will find a lot of things like this when learning programming. It
 occurs because different things make sense to different people. Anyway,
@@ -9108,9 +9178,9 @@ you'll just have to memorize such things and go on.
 
 [19] The names of these symbols can be anything you want them to be, as
 long as they only contain letters and the underscore character(`_`). The
-only one that is forced is `_start_start`, and possibly others that you
-declare with `.globl.globl`. However, if it is a symbol you define and
-only you use, feel free to call it anything you want that is adequately
+only one that is forced is `_start`, and possibly others that you
+declare with `.globl`. However, if it is a symbol you define and only
+you use, feel free to call it anything you want that is adequately
 descriptive (remember that others will have to modify your code later,
 and will have to figure out what your symbols mean).
 
@@ -9119,7 +9189,8 @@ a little confusing. Let's take the number 5432. In that number, 54 is
 the most significant half of that number and 32 is the least significant
 half. You can't quite divide it like that for registers, since they
 operate on base 2 rather than base 10 numbers, but that's the basic
-idea. For more information on this topic, see [???](#countingchapter).
+idea. For more information on this topic, see [Counting Like a
+Computer](#counting-like-a-computer).
 
 [21] Note that different versions of GCC do this differently.
 
@@ -9167,9 +9238,9 @@ pages off the disk.
 
 [33] Notice that we don't do any error checking on this. That is done
 just to keep the program simple. In normal programs, every system call
-should normally be checked for success or failure. In failure cases, EAX
-will hold an error code instead of a return value. Error codes are
-negative, so they can be detected by comparing EAX-INDEXED to zero and
+should normally be checked for success or failure. In failure cases,
+*%eax* will hold an error code instead of a return value. Error codes
+are negative, so they can be detected by comparing *%eax* to zero and
 jumping if it is less than zero.
 
 [34] Note that different versions of GCC do this differently.
