@@ -1543,11 +1543,11 @@ Direct addressing mode:
 
 :   This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
+    This loads _%eax_ with the value at memory address `ADDRESS`.
+
 ```{.gnuassembler}
 movl ADDRESS, %eax
 ```
-
-    This loads _%eax_ with the value at memory address `ADDRESS`.
 
 Indexed addressing mode:
 
@@ -1561,12 +1561,12 @@ Indexed addressing mode:
     zero), and _%ecx_ held the value 2. If you wanted to load it into _%eax_
     you could do the following:
 
+    This starts at `string_start`, and adds `1 * %ecx` to that address,
+    and loads the value into _%eax_.
+
 ```{.gnuassembler}
 movl string_start(,%ecx,1), %eax
 ```
-
-    This starts at `string_start`, and adds `1 * %ecx` to that address,
-    and loads the value into _%eax_.
 
 Indirect addressing mode:
 
@@ -1597,14 +1597,14 @@ Immediate mode addressing:
     into registers or memory locations. For example, if you wanted to
     load the number 12 into _%eax_, you would simply do the following:
 
-```{.gnuassembler}
-movl $12, %eax
-```
-
     Notice that to indicate immediate mode, we used a dollar sign in
     front of the number. If we did not, it would be direct addressing
     mode, in which case the value located at memory location 12 would be
     loaded into _%eax_ rather than the number 12 itself.
+
+```{.gnuassembler}
+movl $12, %eax
+```
 
 Register addressing mode:
 
