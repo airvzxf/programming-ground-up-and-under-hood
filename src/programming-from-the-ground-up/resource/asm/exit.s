@@ -1,20 +1,20 @@
-    # PURPOSE:  Simple program that exits and returns a
-    #          status code back to the Linux kernel.
+    # PURPOSE:    Simple program that exits and returns a
+    #             status code back to the Linux kernel.
     #
-    # INPUT:    None.
+    # INPUT:      None.
     #
-    # OUTPUT:   Returns a status code.  This can be viewed
-    #          by typing `echo $?` after running the program
+    # OUTPUT:     Returns a status code.  This can be viewed
+    #             by typing `echo $?` after running the program
     #
     # VARIABLES:
-    #          %eax holds the system call number.
-    #          %ebx holds the return status .
+    #             %eax holds the system call number.
+    #             %ebx holds the return status .
     #
     .section .data
     .section .text
     .globl _start
 _start:
-    movl $1, %eax      # This is the linux kernel command
+    movl $1, %eax      # This is the Linux kernel command
                        # number (system call) for exiting
                        # a program.
     movl $0, %ebx      # This is the status number we will
