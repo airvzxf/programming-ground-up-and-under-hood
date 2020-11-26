@@ -1464,11 +1464,11 @@ represented in this fashion.
 Direct addressing mode:  
 This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
+This loads *%eax* with the value at memory address `ADDRESS`.
+
 <!-- -->
 
     movl ADDRESS, %eax
-
-    This loads _%eax_ with the value at memory address `ADDRESS`.
 
 Indexed addressing mode:  
 This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX` portion.
@@ -1480,12 +1480,12 @@ access the third one (an index of 2 since we start counting the index at
 zero), and *%ecx* held the value 2. If you wanted to load it into *%eax*
 you could do the following:
 
+This starts at `string_start`, and adds `1 * %ecx` to that address, and
+loads the value into *%eax*.
+
 <!-- -->
 
     movl string_start(,%ecx,1), %eax
-
-    This starts at `string_start`, and adds `1 * %ecx` to that address,
-    and loads the value into _%eax_.
 
 Indirect addressing mode:  
 Indirect addressing mode loads a value from the address indicated by a
@@ -1513,14 +1513,14 @@ have been using. Immediate mode is used to load direct values into
 registers or memory locations. For example, if you wanted to load the
 number 12 into *%eax*, you would simply do the following:
 
+Notice that to indicate immediate mode, we used a dollar sign in front
+of the number. If we did not, it would be direct addressing mode, in
+which case the value located at memory location 12 would be loaded into
+*%eax* rather than the number 12 itself.
+
 <!-- -->
 
     movl $12, %eax
-
-    Notice that to indicate immediate mode, we used a dollar sign in
-    front of the number. If we did not, it would be direct addressing
-    mode, in which case the value located at memory location 12 would be
-    loaded into _%eax_ rather than the number 12 itself.
 
 Register addressing mode:  
 Register mode simply moves data in or out of a register. In all of our

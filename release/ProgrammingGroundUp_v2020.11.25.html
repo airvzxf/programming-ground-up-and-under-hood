@@ -640,40 +640,36 @@
 <dl>
 <dt>Direct addressing mode:</dt>
 <dd><p>This is done by only using the <code>ADDRESS_OR_OFFSET</code> portion. Example:</p>
+<p>This loads <em>%eax</em> with the value at memory address <code>ADDRESS</code>.</p>
 </dd>
 </dl>
 <div class="sourceCode" id="cb31"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>movl ADDRESS, %eax</span></code></pre></div>
-<pre><code>This loads _%eax_ with the value at memory address `ADDRESS`.</code></pre>
 <dl>
 <dt>Indexed addressing mode:</dt>
 <dd><p>This is done by using the <code>ADDRESS_OR_OFFSET</code> and the <code>%INDEX</code> portion. You can use any general-purpose register as the index register. You can also have a constant multiplier of 1, 2, or 4 for the index register, to make it easier to index by bytes, double-bytes, and words. For example, let's say that we had a string of bytes as <code>string_start</code> and wanted to access the third one (an index of 2 since we start counting the index at zero), and <em>%ecx</em> held the value 2. If you wanted to load it into <em>%eax</em> you could do the following:</p>
+<p>This starts at <code>string_start</code>, and adds <code>1 * %ecx</code> to that address, and loads the value into <em>%eax</em>.</p>
 </dd>
 </dl>
-<div class="sourceCode" id="cb33"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>movl string_start(,%ecx,<span class="dv">1</span>), %eax</span></code></pre></div>
-<pre><code>This starts at `string_start`, and adds `1 * %ecx` to that address,
-and loads the value into _%eax_.</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>movl string_start(,%ecx,<span class="dv">1</span>), %eax</span></code></pre></div>
 <dl>
 <dt>Indirect addressing mode:</dt>
 <dd><p>Indirect addressing mode loads a value from the address indicated by a register. For example, if <em>%eax</em> held an address, we could move the value at that address to <em>%ebx</em> by doing the following:</p>
 </dd>
 </dl>
-<div class="sourceCode" id="cb35"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>movl (%eax), %ebx</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>movl (%eax), %ebx</span></code></pre></div>
 <dl>
 <dt>Base pointer addressing mode:</dt>
 <dd><p>Base-pointer addressing is similar to indirect addressing, except that it adds a constant value to the address in the register. For example, if you have a record where the age value is 4 bytes into the record, and you have the address of the record in <em>%eax</em>, you can retrieve the age into <em>%ebx</em> by issuing the following instruction:</p>
 </dd>
 </dl>
-<div class="sourceCode" id="cb36"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>movl <span class="dv">4</span>(%eax), %ebx</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>movl <span class="dv">4</span>(%eax), %ebx</span></code></pre></div>
 <dl>
 <dt>Immediate mode addressing:</dt>
 <dd><p>Immediate mode is very simple. It does not follow the general form we have been using. Immediate mode is used to load direct values into registers or memory locations. For example, if you wanted to load the number 12 into <em>%eax</em>, you would simply do the following:</p>
+<p>Notice that to indicate immediate mode, we used a dollar sign in front of the number. If we did not, it would be direct addressing mode, in which case the value located at memory location 12 would be loaded into <em>%eax</em> rather than the number 12 itself.</p>
 </dd>
 </dl>
-<div class="sourceCode" id="cb37"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>movl $12, %eax</span></code></pre></div>
-<pre><code>Notice that to indicate immediate mode, we used a dollar sign in
-front of the number. If we did not, it would be direct addressing
-mode, in which case the value located at memory location 12 would be
-loaded into _%eax_ rather than the number 12 itself.</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>movl $12, %eax</span></code></pre></div>
 <dl>
 <dt>Register addressing mode:</dt>
 <dd><p>Register mode simply moves data in or out of a register. In all of our examples, register addressing mode was used for the other operand.</p>
