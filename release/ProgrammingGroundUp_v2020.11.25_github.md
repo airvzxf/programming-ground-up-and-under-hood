@@ -1515,7 +1515,7 @@ All of the addressing modes mentioned in [Data Accessing
 Methods](#data-accessing-methods) except immediate-mode can be
 represented in this fashion.
 
-Direct addressing mode:  
+**Direct addressing mode:**  
 This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
 This loads *%eax* with the value at memory address `ADDRESS`.
@@ -1524,7 +1524,7 @@ This loads *%eax* with the value at memory address `ADDRESS`.
 movl ADDRESS, %eax
 ```
 
-Indexed addressing mode:  
+**Indexed addressing mode:**  
 This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX` portion.
 You can use any general-purpose register as the index register. You can
 also have a constant multiplier of 1, 2, or 4 for the index register, to
@@ -1541,7 +1541,7 @@ loads the value into *%eax*.
 movl string_start(,%ecx,1), %eax
 ```
 
-Indirect addressing mode:  
+**Indirect addressing mode:**  
 Indirect addressing mode loads a value from the address indicated by a
 register. For example, if *%eax* held an address, we could move the
 value at that address to *%ebx* by doing the following:
@@ -1550,7 +1550,7 @@ value at that address to *%ebx* by doing the following:
 movl (%eax), %ebx
 ```
 
-Base pointer addressing mode:  
+**Base pointer addressing mode:**  
 Base-pointer addressing is similar to indirect addressing, except that
 it adds a constant value to the address in the register. For example, if
 you have a record where the age value is 4 bytes into the record, and
@@ -1561,7 +1561,7 @@ into *%ebx* by issuing the following instruction:
 movl 4(%eax), %ebx
 ```
 
-Immediate mode addressing:  
+**Immediate mode addressing:**  
 Immediate mode is very simple. It does not follow the general form we
 have been using. Immediate mode is used to load direct values into
 registers or memory locations. For example, if you wanted to load the
@@ -1576,7 +1576,7 @@ which case the value located at memory location 12 would be loaded into
 movl $12, %eax
 ```
 
-Register addressing mode:  
+**Register addressing mode:**  
 Register mode simply moves data in or out of a register. In all of our
 examples, register addressing mode was used for the other operand.
 
