@@ -1626,13 +1626,13 @@ are word-sized and not byte-sized, you cannot use the full register.
 Instead, you have to use a portion of the register.
 
 Take for instance _%eax_. If you only wanted to work with two bytes at a
-time, you could just use AX-INDEXED. AX is the least-significant half
+time, you could just use _%ax_. _%ax_ is the least-significant half
 (i.e. - the last part of the number) of the _%eax_ register, and is useful
-when dealing with two-byte quantities. AX is further divided up into
-AL-INDEXED and AH-INDEXED. AL is the least-significant byte of AX, and
-AH is the most significant byte.[^3-14] Loading a value into _%eax_ will wipe
-out whatever was in AL and AH (and also AX, since AX is made up of
-them). Similarly, loading a value into either AL or AH will corrupt any
+when dealing with two-byte quantities. _%ax_ is further divided up into
+_%al_ and _%ah_. _%al_ is the least-significant byte of _%ax_, and
+_%ah_ is the most significant byte.[^3-14] Loading a value into _%eax_ will wipe
+out whatever was in _%al_ and _%ah_ (and also _%ax_, since _%ax_ is made up of
+them). Similarly, loading a value into either _%al_ or _%ah_ will corrupt any
 value that was formerly in _%eax_. Basically, it\'s wise to only use a
 register for either a byte or a word, but never both at the same time.
 
@@ -1745,7 +1745,7 @@ Review
     Usually you will only use the extended versions. Newer models also
     offer a 64-bit mode, which doubles the size of these registers yet
     again and uses an `r` prefix to indicate the larger registers (i.e.
-    RAX is the 64-bit version of _%eax_). However, these processors are not
+    _%ax_ is the 64-bit version of _%eax_). However, these processors are not
     widely used, and are not covered in this book.
 
 [^3-6]: You may be wondering why it\'s `0x80` instead of just `80`. The
@@ -1809,13 +1809,14 @@ Review
 
 
 
-All About Functions {#functionschapter}
-===================
+Chapter 4. All About Functions {#chapter-4-all-about-functions}
+==============================
 
 Dealing with Complexity
 -----------------------
 
-In [???](#chapter-3-your-first-programs), the programs we wrote only consisted of one
+In [Chapter 3. Your First Programs](#chapter-3-your-first-programs),
+the programs we wrote only consisted of one
 section of code. However, if we wrote real programs like that, it would
 be impossible to maintain them. It would be really difficult to get
 multiple people working on the project, as any change in one part might
@@ -3591,7 +3592,9 @@ The last byte that can be addressed on Linux is location 0xbfffffff.
 Linux starts the stack here and grows it downward toward the other
 sections. Between them is a huge gap. The initial layout of the stack is
 as follows: At the bottom of the stack (the bottom of the stack is the
-top address of memory - see [???](#functionschapter)), there is a word
+top address of memory - see
+[Chapter 4. All About Functions](#chapter-4-all-about-functions)),
+there is a word
 of memory that is zero. After that comes the null-terminated name of the
 program using ASCII characters. After the program name comes the
 program\'s environment variables (these are not important to us in this
@@ -8244,7 +8247,8 @@ An Example Debugging Session {.unnumbered}
 
 The best way to explain how a debugger works is by using it. The program
 we will be using the debugger on is the `maximum` program used in
-[???](#chapter-3-your-first-programs). Let\'s say that you entered the program perfectly,
+[Chapter 3. Your First Programs](#chapter-3-your-first-programs).
+Let\'s say that you entered the program perfectly,
 except that you left out the line:
 
         incl %edi
@@ -8415,7 +8419,8 @@ simply use the command `l`. This will print out your program with line
 numbers a screen at a time.
 
 When dealing with functions, you can also break on the function names.
-For example, in the factorial program in [???](#functionschapter), we
+For example, in the factorial program in
+[Chapter 4. All About Functions](#chapter-4-all-about-functions), we
 could set a breakpoint for the factorial function by typing in
 `break factorial`. This will cause the debugger to break immediately
 after the function call and the function setup (it skips the pushing of
