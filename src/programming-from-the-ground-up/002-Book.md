@@ -1636,7 +1636,24 @@ them). Similarly, loading a value into either _%al_ or _%ah_ will corrupt any
 value that was formerly in _%eax_. Basically, it\'s wise to only use a
 register for either a byte or a word, but never both at the same time.
 
-![*Layout of the _%eax_ register*](resource/image/registerdescription.png)
+    Layout of the 32-bit registers
+    |=======================================|
+    |-----------------%eax------------------| ===> 32-bit = 4-byte.
+    |-------------------|--------%ax--------| ===> 16-bit = 2-byte.
+    |-------------------|---%ah---|---%al---| ===>  8-bit = 1-byte each one.
+    |=======================================|
+    |-----------------%ebx------------------| ===> 32-bit = 4-byte.
+    |-------------------|--------%bx--------| ===> 16-bit = 2-byte.
+    |-------------------|---%bh---|---%bl---| ===>  8-bit = 1-byte each one.
+    |=======================================|
+    |-----------------%ecx------------------| ===> 32-bit = 4-byte.
+    |-------------------|--------%cx--------| ===> 16-bit = 2-byte.
+    |-------------------|---%ch---|---%cl---| ===>  8-bit = 1-byte each one.
+    |=======================================|
+    |-----------------%edx------------------| ===> 32-bit = 4-byte.
+    |-------------------|--------%dx--------| ===> 16-bit = 2-byte.
+    |-------------------|---%dh---|---%dl---| ===>  8-bit = 1-byte each one.
+    |=======================================|
 
 For a more comprehensive list of instructions, see
 [Common x86 Instructions](#common-x86-instructions).
