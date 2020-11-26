@@ -3082,6 +3082,8 @@ parameters:
 After making the system call, the file descriptor of the
 newly-opened file is stored in _%eax_.
 
+<!-- TODO: Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct -->
+
 So, what files are we opening? In this example, we will be opening the
 files specified on the command-line. Fortunately,
 command-line parameters are already stored by Linux in an easy-to-access
