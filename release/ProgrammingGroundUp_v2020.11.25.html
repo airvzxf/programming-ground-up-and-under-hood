@@ -678,9 +678,24 @@
 <p>These addressing modes are very important, as every memory access will use one of these. Every mode except immediate mode can be used as either the source or destination operand. Immediate mode can only be a source operand.</p>
 <p>In addition to these modes, there are also different instructions for different sizes of values to move. For example, we have been using <code>movl</code> to move data a word at a time. in many cases, you will only want to move data a byte at a time. This is accomplished by the instruction <code>movb</code>. However, since the registers we have discussed are word-sized and not byte-sized, you cannot use the full register. Instead, you have to use a portion of the register.</p>
 <p>Take for instance <em>%eax</em>. If you only wanted to work with two bytes at a time, you could just use <em>%ax</em>. <em>%ax</em> is the least-significant half (i.e. - the last part of the number) of the <em>%eax</em> register, and is useful when dealing with two-byte quantities. <em>%ax</em> is further divided up into <em>%al</em> and <em>%ah</em>. <em>%al</em> is the least-significant byte of <em>%ax</em>, and <em>%ah</em> is the most significant byte.<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a> Loading a value into <em>%eax</em> will wipe out whatever was in <em>%al</em> and <em>%ah</em> (and also <em>%ax</em>, since <em>%ax</em> is made up of them). Similarly, loading a value into either <em>%al</em> or <em>%ah</em> will corrupt any value that was formerly in <em>%eax</em>. Basically, it's wise to only use a register for either a byte or a word, but never both at the same time.</p>
-<figure>
-<img src="resource/image/registerdescription.png" alt="Layout of the %eax register" /><figcaption aria-hidden="true"><em>Layout of the <em>%eax</em> register</em></figcaption>
-</figure>
+<pre><code>Layout of the 32-bit registers
+|=======================================|
+|-----------------%eax------------------| ===&gt; 32-bit = 4-byte.
+|-------------------|--------%ax--------| ===&gt; 16-bit = 2-byte.
+|-------------------|---%ah---|---%al---| ===&gt;  8-bit = 1-byte each one.
+|=======================================|
+|-----------------%ebx------------------| ===&gt; 32-bit = 4-byte.
+|-------------------|--------%bx--------| ===&gt; 16-bit = 2-byte.
+|-------------------|---%bh---|---%bl---| ===&gt;  8-bit = 1-byte each one.
+|=======================================|
+|-----------------%ecx------------------| ===&gt; 32-bit = 4-byte.
+|-------------------|--------%cx--------| ===&gt; 16-bit = 2-byte.
+|-------------------|---%ch---|---%cl---| ===&gt;  8-bit = 1-byte each one.
+|=======================================|
+|-----------------%edx------------------| ===&gt; 32-bit = 4-byte.
+|-------------------|--------%dx--------| ===&gt; 16-bit = 2-byte.
+|-------------------|---%dh---|---%dl---| ===&gt;  8-bit = 1-byte each one.
+|=======================================|</code></pre>
 <p>For a more comprehensive list of instructions, see <a href="#common-x86-instructions">Common x86 Instructions</a>.</p>
 <h2 id="review-1">Review</h2>
 <h3 id="know-the-concepts-1">Know the Concepts</h3>
