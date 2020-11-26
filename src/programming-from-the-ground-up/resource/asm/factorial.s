@@ -6,6 +6,7 @@
     # This program shows how to call a function recursively.
     # This program has no global data.
     #
+    .code32                   # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start

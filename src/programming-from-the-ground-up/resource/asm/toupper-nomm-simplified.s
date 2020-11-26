@@ -9,6 +9,7 @@
     #                      lower-case letter, convert it to uppercase.
     #                 c) Write the memory buffer to output file.
     #
+    .code32                            # Compile this code as 32-bits.
     .section .data
         # ----- CONSTANTS ----- #
         #

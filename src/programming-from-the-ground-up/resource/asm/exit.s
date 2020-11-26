@@ -10,6 +10,7 @@
     #             %eax holds the system call number.
     #             %ebx holds the return status .
     #
+    .code32            # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start

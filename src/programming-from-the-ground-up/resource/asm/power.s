@@ -5,6 +5,7 @@
     # Everything in the main program is stored in registers,
     # so the data section doesn't have anything.
     #
+    .code32                   # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start
