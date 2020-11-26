@@ -42,6 +42,7 @@
                                        # which means we've hit the end of
                                        # the file.
         .equ NUMBER_ARGUMENTS,  2
+
     .section .bss
         # Buffer:  This is where the data is loaded into from the data file
         #          and written from into the output file.  This should
@@ -49,6 +50,7 @@
         #
         .equ   BUFFER_SIZE,     500
         .lcomm BUFFER_DATA,     BUFFER_SIZE
+
     .section .text
         # ----- STACK POSITIONS ----- #
         #
@@ -59,6 +61,7 @@
         .equ ST_ARGV_0,         4      # Name of program.
         .equ ST_ARGV_1,         8      # Input file name.
         .equ ST_ARGV_2,         12     # Output file name.
+
     .globl _start
 _start:
     # ----- INITIALIZE PROGRAM ----- #
@@ -184,6 +187,7 @@ end_loop:
     #
     .equ  ST_BUFFER,      12           # Actual buffer.
     .equ  ST_BUFFER_LEN,  8            # Length of buffer.
+
 convert_to_upper:
     pushl %ebp
     movl  %esp, %ebp
