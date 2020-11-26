@@ -93,13 +93,13 @@ won't know everything, but you will have a background for how everything
 fits together. At the end of this book, you should be able to do the
 following:
 
--   Understand how a program works and interacts with other programs
+-   Understand how a program works and interacts with other programs.
 
--   Read other people's programs and learn how they work
+-   Read other people's programs and learn how they work.
 
--   Learn new programming languages quickly
+-   Learn new programming languages quickly.
 
--   Learn advanced concepts in computer science quickly
+-   Learn advanced concepts in computer science quickly.
 
 I will not teach you everything. Computer science is a massive field,
 especially when you combine the theory with the practice of computer
@@ -296,17 +296,17 @@ the results of any calculations are stored in memory. In fact,
 everything that is "stored" is stored in memory. Think of your computer
 at home, and imagine what all is stored in your computer's memory.
 
--   The location of your cursor on the screen
+-   The location of your cursor on the screen.
 
--   The size of each window on the screen
+-   The size of each window on the screen.
 
--   The shape of each letter of each font being used
+-   The shape of each letter of each font being used.
 
--   The layout of all of the controls on each window
+-   The layout of all of the controls on each window.
 
--   The graphics for all of the toolbar icons
+-   The graphics for all of the toolbar icons.
 
--   The text for each error message and dialog box
+-   The text for each error message and dialog box.
 
 -   The list goes on and on...
 
@@ -328,15 +328,15 @@ The CPU reads in instructions from memory one at a time and executes
 them. This is known as the *fetch-execute cycle*. The CPU contains the
 following elements to accomplish this:
 
--   Program Counter
+-   Program Counter.
 
--   Instruction Decoder
+-   Instruction Decoder.
 
--   Data bus
+-   Data bus.
 
--   General-purpose registers
+-   General-purpose registers.
 
--   Arithmetic and logic unit
+-   Arithmetic and logic unit.
 
 The *program counter* is used to tell the computer where to fetch the
 next instruction from. We mentioned earlier that there is no difference
@@ -683,32 +683,34 @@ with typing it in and running it. In [Outline of an Assembly Language
 Program](#outline-of-an-assembly-language-program) we will describe how
 it works.
 
-        # PURPOSE:    Simple program that exits and returns a
-        #             status code back to the Linux kernel.
-        #
-        # INPUT:      None.
-        #
-        # OUTPUT:     Returns a status code.  This can be viewed
-        #             by typing `echo $?` after running the program
-        #
-        # VARIABLES:
-        #             %eax holds the system call number.
-        #             %ebx holds the return status .
-        #
-        .section .data
-        .section .text
-        .globl _start
-    _start:
-        movl $1, %eax      # This is the Linux kernel command
-                           # number (system call) for exiting
-                           # a program.
-        movl $0, %ebx      # This is the status number we will
-                           # return to the operating system.
-                           # Change this around and it will
-                           # return different things to
-                           # `echo $?`.
-        int $0x80          # This wakes up the kernel to run
-                           # the exit command.
+``` gnuassembler
+    # PURPOSE:    Simple program that exits and returns a
+    #             status code back to the Linux kernel.
+    #
+    # INPUT:      None.
+    #
+    # OUTPUT:     Returns a status code.  This can be viewed
+    #             by typing `echo $?` after running the program
+    #
+    # VARIABLES:
+    #             %eax holds the system call number.
+    #             %ebx holds the return status .
+    #
+    .section .data
+    .section .text
+    .globl _start
+_start:
+    movl $1, %eax      # This is the Linux kernel command
+                       # number (system call) for exiting
+                       # a program.
+    movl $0, %ebx      # This is the status number we will
+                       # return to the operating system.
+                       # Change this around and it will
+                       # return different things to
+                       # `echo $?`.
+    int $0x80          # This wakes up the kernel to run
+                       # the exit command.
+```
 
 What you have typed in is called the *source code*. Source code is the
 human-readable form of a program. In order to transform it into a
@@ -721,7 +723,9 @@ language* is a more human-readable form of the instructions a computer
 understands. Assembling transforms the human-readable file into a
 machine-readable one. To assembly the program type in the command:
 
-    as exit.s -o exit.o
+``` bash
+as exit.s -o exit.o
+```
 
 `as` is the command which runs the assembler, `exit.s` is the source
 file, and `-o exit.o` tells the assemble to put its output in the file
@@ -734,7 +738,9 @@ information to it so that the kernel knows how to load and run it. In
 our case, we only have one object file, so the linker is only adding the
 information to enable it to run. To *link* the file, enter the command:
 
-    ld exit.o -o exit
+``` bash
+ld exit.o -o exit
+```
 
 `ld` is the command to run the linker, `exit.o` is the object file we
 want to link, and `-o exit` instructs the linker to output the new
@@ -745,7 +751,9 @@ always re-assemble and re-link programs after you modify the source file
 for the changes to occur in the program*. You can run `exit` by typing
 in the command:
 
-    ./exit
+``` bash
+./exit
+```
 
 The `./` is used to tell the computer that the program isn't in one of
 the normal program directories, but is the current directory instead[8].
@@ -754,7 +762,9 @@ that you'll go to the next line. That's because this program does
 nothing but exit. However, immediately after you run the program, if you
 type in:
 
-    echo $?
+``` bash
+echo $?
+```
 
 It will say `0`. What is happening is that every program when it exits
 gives Linux an *exit status code*, which tells it if everything went all
@@ -786,7 +796,9 @@ your comments:
 
 After the comments, the next line says:
 
-    .section .data
+``` gnuassembler
+.section .data
+```
 
 Anything starting with a period isn't directly translated into a machine
 instruction. Instead, it's an instruction to the assembler itself. These
@@ -800,14 +812,18 @@ in the future will have data.
 
 Right after this you have:
 
-    .section .text
+``` gnuassembler
+.section .text
+```
 
 `.text` which starts the text section. The text sectiontext section of a
 program is where the program instructions live.
 
 The next instruction is:
 
-    .globl _start
+``` gnuassembler
+.globl _start
+```
 
 This instructs the assembler that `_start` is important to remember.
 `_start` is a *symbol*, which means that it is going to be replaced by
@@ -831,7 +847,9 @@ begin running your program*.
 
 The next line:
 
-    _start:
+``` gnuassembler
+_start:
+```
 
 *defines* the value of the `_start` label. A *label* is a symbol
 followed by a colon. Labels define a symbol's value. When the assembler
@@ -845,7 +863,9 @@ automatically gets the new value.
 Now we get into actual computer instructions. The first such instruction
 is this:
 
-    movl $1, %eax
+``` gnuassembler
+movl $1, %eax
+```
 
 When the program runs, this instruction transfers the number `1` into
 the *%eax* register. In assembly language, many instructions have
@@ -932,7 +952,9 @@ operating system requires a status code be loaded in *%ebx*. This value
 is then returned to the system. This is the value you retrieved when you
 typed `echo $?`. So, we load *%ebx* with `0` by typing the following:
 
-    movl $0, %ebx
+``` gnuassembler
+movl $0, %ebx
+```
 
 Now, loading registers with these numbers doesn't do anything itself.
 Registers are used for all sorts of things besides system calls. They
@@ -948,7 +970,9 @@ register, see [Important System Calls](#important-system-calls).
 
 The next instruction is the "magic" one. It looks like this:
 
-    int $0x80
+``` gnuassembler
+int $0x80
+```
 
 The `int` stands for *interrupt*. The `0x80` is the interrupt number to
 use.[12] An *interrupt* interrupts the normal program flow, and
@@ -1105,54 +1129,61 @@ Finding a Maximum Value
 
 Enter the following program as `maximum.s`:
 
-        # PURPOSE:    This program finds the maximum number of a
-        #             set of data items.
-        #
-        # VARIABLES:  The registers have the following uses:
-        #      %edi - Holds the index of the data item being examined.
-        #      %ebx - Largest data item found.
-        #      %eax - Current data item.
-        #
-        # The following memory locations are used:
-        #      data_items - contains the item data.  A 0 is used
-        #                   to terminate the data.
-        #
-        .section .data
-    data_items:                          # These are the data items.
-        .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
-        .section .text
-        .globl _start
-    _start:
-        movl $0, %edi                    # Move 0 into the index register.
-        movl data_items(,%edi,4), %eax   # Load the first byte of data.
-        movl %eax, %ebx                  # Since this is the first item,
-                                         # %eax is the biggest.
-    start_loop:                          # Start loop.
-        cmpl $0, %eax                    # Check to see if we've hit the end.
-        je loop_exit
-        incl %edi                        # Load next value.
-        movl data_items(,%edi,4), %eax
-        cmpl %ebx, %eax                  # Compare values.
-        jle start_loop                   # Jump to loop beginning if the new
-                                         # one isn't bigger.
-        movl %eax, %ebx                  # Move the value as the largest.
-        jmp start_loop                   # Jump to loop beginning.
-    loop_exit:
-                                         # %ebx is the status code for the
-                                         # exit systemcall and it already has
-                                         # the maximum number 1 is the
-            movl $1, %eax                # exit() syscall.
-            int  $0x80
+``` gnuassembler
+    # PURPOSE:  This program finds the maximum number of a
+    #           set of data items.
+    #
+    # VARIABLES:
+    #     The registers have the following uses:
+    #     %edi - Holds the index of the data item being examined.
+    #     %ebx - Largest data item found.
+    #     %eax - Current data item.
+    #
+    # The following memory locations are used:
+    #     data_items - contains the item data.  A 0 is used
+    #                  to terminate the data.
+    #
+    .section .data
+data_items:                          # These are the data items.
+    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+    .section .text
+    .globl _start
+_start:
+    movl $0, %edi                    # Move 0 into the index register.
+    movl data_items(,%edi,4), %eax   # Load the first byte of data.
+    movl %eax, %ebx                  # Since this is the first item,
+                                     # %eax is the biggest.
+start_loop:                          # Start loop.
+    cmpl $0, %eax                    # Check to see if we've hit the end.
+    je loop_exit
+    incl %edi                        # Load next value.
+    movl data_items(,%edi,4), %eax
+    cmpl %ebx, %eax                  # Compare values.
+    jle start_loop                   # Jump to loop beginning if the new
+                                     # one isn't bigger.
+    movl %eax, %ebx                  # Move the value as the largest.
+    jmp start_loop                   # Jump to loop beginning.
+loop_exit:
+                                     # %ebx is the status code for the
+                                     # exit systemcall and it already has
+                                     # the maximum number 1 is the
+        movl $1, %eax                # exit() syscall.
+        int  $0x80
+```
 
 Now, assemble and link it with these commands:
 
-    as maximum.s -o maximum.o
-    ld maximum.o -o maximum
+``` bash
+as maximum.s -o maximum.o
+ld maximum.o -o maximum
+```
 
 Now run it, and check its status.
 
-    ./maximum
-    echo $?
+``` bash
+./maximum
+echo $?
+```
 
 You'll notice it returns the value `222`. Let's take a look at the
 program and what it does. If you look in the comments, you'll see that
@@ -1160,8 +1191,10 @@ the program finds the maximum of a set of numbers (aren't comments
 wonderful!). You may also notice that in this program we actually have
 something in the data section. These lines are the data section:
 
-    data_items:                         # These are the data items.
-        .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+``` gnuassembler
+data_items:                         # These are the data items.
+    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+```
 
 Lets look at this. `data_items` is a label that refers to the location
 that follows it. Then, there is a directive that starts with `.long`.
@@ -1268,13 +1301,17 @@ then the third (data item number 2), and so on. The data item number is
 the *index* of `data_items`. You'll notice that the first instruction we
 give to the computer is:
 
-    movl $0, %edi
+``` gnuassembler
+movl $0, %edi
+```
 
 Since we are using `%edi` as our index, and we want to start looking at
 the first item, we load `%edi` with 0. Now, the next instruction is
 tricky, but crucial to what we're doing. It says:
 
-    movl data_items(,%edi,4), %eax
+``` gnuassembler
+movl data_items(,%edi,4), %eax
+```
 
 Now to understand this line, you need to keep several things in mind:
 
@@ -1292,7 +1329,9 @@ stores that number in `%eax`. This is how you write indexed addressing
 mode instructions in assembly language. The instruction in a general
 form is this:
 
-    movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
+``` gnuassembler
+movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
+```
 
 In our case `data_items` was our beginning address, *%edi* was our index
 register, and 4 was our word size. This topic is discussed further in
@@ -1309,7 +1348,9 @@ Modes](#addressing-modes).
 
 Let's look at the next line:
 
-    movl %eax, %ebx
+``` gnuassembler
+movl %eax, %ebx
+```
 
 We have the first item to look at stored in `%eax`. Since it is the
 first item, we know it's the biggest one we've looked at. We store it in
@@ -1347,8 +1388,10 @@ Okay, so now lets go to the code. We have the beginning of the loop
 marked with `start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
-    cmpl $0, %eax
-    je loop_exit
+``` gnuassembler
+cmpl $0, %eax
+je loop_exit
+```
 
 The `cmpl` instruction compares the two values. Here, we are comparing
 the number 0 to the number stored in *%eax*. This compare instruction
@@ -1387,8 +1430,10 @@ Instructions](#common-x86-instructions). In this case, we are jumping if
 If the last loaded element was not zero, we go on to the next
 instructions:
 
-    incl %edi
-    movl data_items(,%edi,4), %eax
+``` gnuassembler
+incl %edi
+movl data_items(,%edi,4), %eax
+```
 
 If you remember from our previous discussion, *%edi* contains the index
 to our list of values in `data_items`. `incl` increments the value of
@@ -1397,8 +1442,10 @@ However, since we already incremented *%edi*, *%eax* is getting the next
 value from the list. Now *%eax* has the next value to be tested. So,
 let's test it!
 
-    cmpl %ebx, %eax
-    jle start_loop
+``` gnuassembler
+cmpl %ebx, %eax
+jle start_loop
+```
 
 Here we compare our current value, stored in *%eax* to our biggest value
 so far, stored in *%ebx*. If the current value is less or equal to our
@@ -1406,8 +1453,10 @@ biggest value so far, we don't care about it, so we just jump back to
 the beginning of the loop. Otherwise, we need to record that value as
 the largest one:
 
-    movl %eax, %ebx
-    jmp start_loop
+``` gnuassembler
+movl %eax, %ebx
+jmp start_loop
+```
 
 which moves the current value into *%ebx*, which we are using to store
 the current largest value, and starts the loop over again.
@@ -1422,8 +1471,10 @@ in *%ebx*. We already have the exit status there since we are using
 *%ebx* as our largest number, so all we have to do is load *%eax* with
 the number one and call the kernel to exit. Like this:
 
-    movl $1, %eax
-    int  $0x80
+``` gnuassembler
+movl $1, %eax
+int  $0x80
+```
 
 Okay, that was a lot of work and explanation, especially for such a
 small program. But hey, you're learning a lot! Now, read through the
@@ -1446,12 +1497,16 @@ represented in assembly language instructions.
 
 The general form of memory address references is this:
 
-    ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
+``` gnuassembler
+ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
+```
 
 All of the fields are optional. To calculate the address, simply perform
 the following calculation:
 
-    FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
+``` gnuassembler
+FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
+```
 
 `ADDRESS_OR_OFFSET` and `MULTIPLIER` must both be constants, while the
 other two must be registers. If any of the pieces is left out, it is
@@ -1466,9 +1521,9 @@ This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
 This loads *%eax* with the value at memory address `ADDRESS`.
 
-<!-- -->
-
-    movl ADDRESS, %eax
+``` gnuassembler
+movl ADDRESS, %eax
+```
 
 **Indexed addressing mode:**  
 This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX` portion.
@@ -1483,18 +1538,18 @@ you could do the following:
 This starts at `string_start`, and adds `1 * %ecx` to that address, and
 loads the value into *%eax*.
 
-<!-- -->
-
-    movl string_start(,%ecx,1), %eax
+``` gnuassembler
+movl string_start(,%ecx,1), %eax
+```
 
 **Indirect addressing mode:**  
 Indirect addressing mode loads a value from the address indicated by a
 register. For example, if *%eax* held an address, we could move the
 value at that address to *%ebx* by doing the following:
 
-<!-- -->
-
-    movl (%eax), %ebx
+``` gnuassembler
+movl (%eax), %ebx
+```
 
 **Base pointer addressing mode:**  
 Base-pointer addressing is similar to indirect addressing, except that
@@ -1503,9 +1558,9 @@ you have a record where the age value is 4 bytes into the record, and
 you have the address of the record in *%eax*, you can retrieve the age
 into *%ebx* by issuing the following instruction:
 
-<!-- -->
-
-    movl 4(%eax), %ebx
+``` gnuassembler
+movl 4(%eax), %ebx
+```
 
 **Immediate mode addressing:**  
 Immediate mode is very simple. It does not follow the general form we
@@ -1518,9 +1573,9 @@ of the number. If we did not, it would be direct addressing mode, in
 which case the value located at memory location 12 would be loaded into
 *%eax* rather than the number 12 itself.
 
-<!-- -->
-
-    movl $12, %eax
+``` gnuassembler
+movl $12, %eax
+```
 
 **Register addressing mode:**  
 Register mode simply moves data in or out of a register. In all of our
@@ -1620,7 +1675,7 @@ Review
 -   Modify the `maximum` program to find the minimum instead.
 
 -   Modify the `maximum` program to use the number 255 to end the list
-    rather than the number 0
+    rather than the number 0.
 
 -   Modify the `maximum` program to use an ending address rather than
     the number 0 to know when to stop.
@@ -1663,18 +1718,18 @@ other through well-defined interfaces. This way, each piece can be
 developed and tested independently of the others, making it easier for
 multiple programmers to work on the project.
 
-Programmers use *functionsfunctions* to break their programs into pieces
-which can be independently developed and tested. Functions are units of
-code that do a defined piece of work on specified types of data. For
-example, in a word processor program, I may have a function called
+Programmers use *functions* to break their programs into pieces which
+can be independently developed and tested. Functions are units of code
+that do a defined piece of work on specified types of data. For example,
+in a word processor program, I may have a function called
 `handle_typed_character` which is activated whenever a user types in a
 key. The data the function uses would probably be the keypress itself
 and the document the user currently has open. The function would then
 modify the document according to the keypress it was told about.
 
 The data items a function is given to process are called its
-*parametersparameters*. In the word processing example, the key which
-was pressed and the document would be considered parameters to the
+*parameters*. In the word processing example, the key which was pressed
+and the document would be considered parameters to the
 `handle_typed_characters` function. The parameter list and the
 processing expectations of a function (what it is expected to do with
 the parameters) are called the function's interface. Much care goes into
@@ -1684,20 +1739,20 @@ places within a project, it is difficult to change them if necessary.
 A typical program is composed of hundreds or thousands of functions,
 each with a small, well-defined task to perform. However, ultimately
 there are things that you cannot write functions for which must be
-provided by the system. Those are called *primitive functionsprimitive
-functions* (or just *primitivesprimitives*) - they are the basics which
-everything else is built off of. For example, imagine a program that
-draws a graphical user interface. There has to be a function to create
-the menus. That function probably calls other functions to write text,
-to write icons, to paint the background, calculate where the mouse
-pointer is, etc. However, ultimately, they will reach a set of
-primitives provided by the operating system to do basic line or point
-drawing. Programming can either be viewed as breaking a large program
-down into smaller pieces until you get to the primitive functions, or
-incrementally building functions on top of primitives until you get the
-large picture in focus. In assembly language, the primitives are usually
-the same thing as the system callssystem calls, even though system calls
-aren't true functions as we will talk about in this chapter.
+provided by the system. Those are called *primitive functions* (or just
+*primitives*) - they are the basics which everything else is built off
+of. For example, imagine a program that draws a graphical user
+interface. There has to be a function to create the menus. That function
+probably calls other functions to write text, to write icons, to paint
+the background, calculate where the mouse pointer is, etc. However,
+ultimately, they will reach a set of primitives provided by the
+operating system to do basic line or point drawing. Programming can
+either be viewed as breaking a large program down into smaller pieces
+until you get to the primitive functions, or incrementally building
+functions on top of primitives until you get the large picture in focus.
+In assembly language, the primitives are usually the same thing as the
+system calls, even though system calls aren't true functions as we will
+talk about in this chapter.
 
 How Functions Work
 ------------------
@@ -1705,32 +1760,32 @@ How Functions Work
 Functions are composed of several different pieces:
 
 Function name:  
-A function's name is a symbolsymbol that represents the address where
-the function's code starts. In assembly language, the symbol is defined
-by typing the function's name as a label before the function's code.
-This is just like labelslabels you have used for jumping.
+A function's name is a symbol that represents the address where the
+function's code starts. In assembly language, the symbol is defined by
+typing the function's name as a label before the function's code. This
+is just like labels you have used for jumping.
 
 Function parameters:  
-A function's parametersparameters are the data items that are explicitly
-given to the function for processing. For example, in mathematics, there
-is a sine function. If you were to ask a computer to find the sine of 2,
-sine would be the function's name, and 2 would be the parameter. Some
+A function's parameters are the data items that are explicitly given to
+the function for processing. For example, in mathematics, there is a
+sine function. If you were to ask a computer to find the sine of 2, sine
+would be the function's name, and 2 would be the parameter. Some
 functions have many parameters, others have none.[21]
 
 Local variables:  
-Local variableslocal variables are data storage that a function uses
-while processing that is thrown away when it returns. It's kind of like
-a scratch pad of paper. Functions get a new piece of paper every time
-they are activated, and they have to throw it away when they are
-finished processing. Local variables of a function are not accessible to
-any other function within a program.
+Local variables are data storage that a function uses while processing
+that is thrown away when it returns. It's kind of like a scratch pad of
+paper. Functions get a new piece of paper every time they are activated,
+and they have to throw it away when they are finished processing. Local
+variables of a function are not accessible to any other function within
+a program.
 
 Static variables:  
-Static variablesstatic variables are data storage that a function uses
-while processing that is not thrown away afterwards, but is reused for
-every time the function's code is activated. This data is not accessible
-to any other part of the program. Static variables are generally not
-used unless absolutely necessary, as they can cause problems later on.
+Static variables are data storage that a function uses while processing
+that is not thrown away afterwards, but is reused for every time the
+function's code is activated. This data is not accessible to any other
+part of the program. Static variables are generally not used unless
+absolutely necessary, as they can cause problems later on.
 
 Global variables:  
 Global variables are data storage that a function uses for processing
@@ -1741,52 +1796,52 @@ operates on it.[22] Configuration values are also often stored in global
 variables.
 
 Return address:  
-The return addressreturn address is an "invisible" parameter in that it
-isn't directly used during the function. The return address is a
-parameter which tells the function where to resume executing after the
-function is completed. This is needed because functions can be called to
-do processing from many different parts of your program, and the
-function needs to be able to get back to wherever it was called from. In
-most programming languages, this parameter is passed automatically when
-the function is called. In assembly language, the `callcall` instruction
-handles passing the return address for you, and `retret` handles using
-that address to return back to where you called the function from.
+The return address is an "invisible" parameter in that it isn't directly
+used during the function. The return address is a parameter which tells
+the function where to resume executing after the function is completed.
+This is needed because functions can be called to do processing from
+many different parts of your program, and the function needs to be able
+to get back to wherever it was called from. In most programming
+languages, this parameter is passed automatically when the function is
+called. In assembly language, the `call` instruction handles passing the
+return address for you, and `ret` handles using that address to return
+back to where you called the function from.
 
 Return value:  
-The return valuereturn value is the main method of transferring data
-back to the main program. Most programming languages only allow a single
-return value for a function.
+The return value is the main method of transferring data back to the
+main program. Most programming languages only allow a single return
+value for a function.
 
-global variables These pieces are present in most programming languages.
-How you specify each piece is different in each one, however.
+These pieces are present in most programming languages. How you specify
+each piece is different in each one, however.
 
 The way that the variables are stored and the parameters and return
 values are transferred by the computer varies from language to language
-as well. This variance is known as a language's *calling
-convention*calling conventions, because it describes how functions
-expect to get and receive data when they are called.[23]
+as well. This variance is known as a language's *calling convention*,
+because it describes how functions expect to get and receive data when
+they are called.[23]
 
 Assembly language can use any calling convention it wants to. You can
 even make one up yourself. However, if you want to interoperate with
 functions written in other languages, you have to obey their calling
 conventions. We will use the calling convention of the C programming
-languageC programming language for our examples because it is the most
-widely used, and because it is the standard for Linux platforms.
+language for our examples because it is the most widely used, and
+because it is the standard for Linux platforms.
 
 Assembly-Language Functions using the C Calling Convention
 ----------------------------------------------------------
 
 You cannot write assembly-language functions without understanding how
-the computer's *stackstack* works. Each computer program that runs uses
-a region of memory called the stack to enable functions to work
-properly. Think of a stack as a pile of papers on your desk which can be
-added to indefinitely. You generally keep the things that you are
-working on toward the top, and you take things off as you are finished
-working with them.
+the computer's *stack* works. Each computer program that runs uses a
+region of memory called the stack to enable functions to work properly.
+Think of a stack as a pile of papers on your desk which can be added to
+indefinitely. You generally keep the things that you are working on
+toward the top, and you take things off as you are finished working with
+them.
 
 Your computer has a stack, too. The computer's stackstack lives at the
 very top addresses of memory. You can push values onto the top of the
-stack through an instruction called `pushlpushl`, which pushes either a
+stack through an instruction called `pushl`, which pushes either a
 register or memory value onto the top of the stack. Well, we say it's
 the top, but the "top" of the stack is actually the bottom of the
 stack's memory. Although this is confusing, the reason for it is that
@@ -1794,18 +1849,17 @@ when we think of a stack of anything - dishes, papers, etc. - we think
 of adding and removing to the top of it. However, in memory the stack
 starts at the top of memory and grows downward due to architectural
 considerations. Therefore, when we refer to the "top of the stack"
-remember it's at the bottom of the stack's memorystack memory. You can
-also pop values off the top using an instruction called `poplpopl`. This
-removes the top value from the stack and places it into a register or
-memory location of your choosing..
+remember it's at the bottom of the stack's memory. You can also pop
+values off the top using an instruction called `popl`. This removes the
+top value from the stack and places it into a register or memory
+location of your choosing.
 
 When we push a value onto the stack, the top of the stack moves to
 accomodate the additional value. We can actually continually push values
 onto the stack and it will keep growing further and further down in
 memory until we hit our code or data. So how do we know where the
-current "top" of the stack is? The stack registerstack register, *%esp*,
-always contains a pointerpointer to the current top of the stack,
-wherever it is.
+current "top" of the stack is? The stack register, *%esp*, always
+contains a pointer to the current top of the stack, wherever it is.
 
 Every time we push something onto the stack with `pushl`, *%esp* gets
 subtracted by 4 so that it points to the new top of the stack (remember,
@@ -1818,43 +1872,48 @@ the data that is popped off the stack for `popl`.
 
 If we simply want to access the value on the top of the stack without
 removing it, we can simply use the *%esp* register in indirect
-addressing modeindirect addressing mode. For example, the following code
-moves whatever is at the top of the stack into *%eax*:
+addressing mode. For example, the following code moves whatever is at
+the top of the stack into *%eax*:
 
-    movl (%esp), %eax
+``` gnuassembler
+movl (%esp), %eax
+```
 
 If we were to just do this:
 
-    movl %esp, %eax
+``` gnuassembler
+movl %esp, %eax
+```
 
 then *%eax* would just hold the pointer to the top of the stack rather
 than the value at the top. Putting *%esp* in parenthesis causes the
-computer to go to indirect addressing modeindirect addressing mode, and
-therefore we get the value pointed to by *%esp*. If we want to access
-the value right below the top of the stack, we can simply issue this
-instruction:
+computer to go to indirect addressing mode, and therefore we get the
+value pointed to by *%esp*. If we want to access the value right below
+the top of the stack, we can simply issue this instruction:
 
-    movl 4(%esp), %eax
+``` gnuassembler
+movl 4(%esp), %eax
+```
 
-This instruction uses the base pointer addressing modebase pointer
-addressing mode (see [Data Accessing Methods](#data-accessing-methods))
-which simply adds 4 to *%esp* before looking up the value being pointed
-to.
+This instruction uses the base pointer addressing mode (see [Data
+Accessing Methods](#data-accessing-methods)) which simply adds 4 to
+*%esp* before looking up the value being pointed to.
 
-In the C language calling conventionC language calling convention, the
-stack is the key element for implementing a function's local variables,
-parameters, and return address.
+In the C language calling convention, the stack is the key element for
+implementing a function's local variables, parameters, and return
+address.
 
-Before executing a functionfunctions, a program pushes all of the
-parametersparameters for the function onto the stack in the reverse
-order that they are documented. Then the program issues a `callcall`
-instruction indicating which function it wishes to start. The `call`
-instruction does two things. First it pushes the address of the next
-instruction, which is the return addressreturn address, onto the
-stackstack. Then it modifies the instruction pointerinstruction pointer
-(*%eip*) to point to the start of the function. So, at the time the
-function starts, the stack looks like this (the "top" of the stack is at
-the bottom on this example):
+Before executing a function, a program pushes all of the parameters for
+the function onto the stack in the reverse order that they are
+documented. Then the program issues a `call` instruction indicating
+which function it wishes to start. The `call` instruction does two
+things. First it pushes the address of the next instruction, which is
+the return address, onto the stack. Then it modifies the instruction
+pointer (*%eip*) to point to the start of the function. So, at the time
+the function starts, the stack looks like this (the "top" of the stack
+is at the bottom on this example):
+
+<!-- TODO: Dominique says "This part can be confusing until one gets to the sample illustration code and then it makes sense." -->
 
     Parameter #N
     ...
@@ -1866,26 +1925,23 @@ Each of the parameters of the function have been pushed onto the stack,
 and finally the return address is there. Now the function itself has
 some work to do.
 
-The first thing it does is save the current base pointer registerbase
-pointer register, *%ebp*, by doing `pushl %ebp`. The base pointer is a
-special registerspecial register used for accessing function
-parametersfunction parameters and local variableslocal variables. Next,
-it copies the stack pointerstack pointer to *%ebp* by doing
-`movl %esp, %ebp`. This allows you to be able to access the function
-parameters as fixed indexes from the base pointer. You may think that
-you can use the stack pointer for this. However, during your program you
-may do other things with the stack such as pushing arguments to other
-functions.
+The first thing it does is save the current base pointer register,
+*%ebp*, by doing `pushl %ebp`. The base pointer is a special register
+used for accessing function parameters and local variables. Next, it
+copies the stack pointer to *%ebp* by doing `movl %esp, %ebp`. This
+allows you to be able to access the function parameters as fixed indexes
+from the base pointer. You may think that you can use the stack pointer
+for this. However, during your program you may do other things with the
+stack such as pushing arguments to other functions.
 
 Copying the stack pointer into the base pointer at the beginning of a
 function allows you to always know where your parameters are (and as we
 will see, local variables too), even while you may be pushing things on
 and off the stack. *%ebp* will always be where the stack pointer was at
 the beginning of the function, so it is more or less a constant
-reference to the *stack framestack frame* (the stack frame consists of
-all of the stack variables used within a function, including
-parametersparameters, local variableslocal variables, and the return
-addressreturn address).
+reference to the *stack frame* (the stack frame consists of all of the
+stack variables used within a function, including parameters, local
+variables, and the return address).
 
 At this point, the stack looks like this:
 
@@ -1897,16 +1953,17 @@ At this point, the stack looks like this:
     Old %ebp       <--- (%esp) and (%ebp)
 
 As you can see, each parameter can be accessed using base pointer
-addressing modebase pointer addressing mode using the *%ebp* register.
+addressing mode using the *%ebp* register.
 
-Next, the function reserves space on the stack for any local
-variableslocal variables it needs. This is done by simply moving the
-stack pointerstack pointer out of the way. Let's say that we are going
-to need two words of memory to run a function. We can simply move the
-stack pointer down two words to reserve the space. This is done like
-this:
+Next, the function reserves space on the stack for any local variables
+it needs. This is done by simply moving the stack pointer out of the
+way. Let's say that we are going to need two words of memory to run a
+function. We can simply move the stack pointer down two words to reserve
+the space. This is done like this:
 
-    subl $8, %esp
+``` gnuassembler
+subl $8, %esp
+```
 
 This subtracts 8 from *%esp* (remember, a word is four bytes long).[24]
 This way, we can use the stack for variable storage without worring
@@ -1929,114 +1986,194 @@ Now we have two words for local storage. Our stack now looks like this:
     Local Variable 2 <--- -8(%ebp) and (%esp)
 
 So we can now access all of the data we need for this function by using
-base pointer addressingbase pointer addressing mode using different
-offsets from *%ebp*. *%ebp* was made specifically for this purpose,
-which is why it is called the base pointerbase pointer register. You can
-use other registers in base pointer addressing mode, but the x86
-architecture makes using the *%ebp* register a lot faster.
+base pointer addressing mode using different offsets from *%ebp*. *%ebp*
+was made specifically for this purpose, which is why it is called the
+base pointer register. You can use other registers in base pointer
+addressing mode, but the x86 architecture makes using the *%ebp*
+register a lot faster.
 
-static variables global variables Global variables and static variables
-are accessed just like the memory we have been accessing memory in
-previous chapters. The only difference between the global and static
-variables is that static variables are only used by one function, while
-global variables are used by many functions. Assembly language treats
-them exactly the same, although most other languages distinguish them.
+Global variables and static variables are accessed just like the memory
+we have been accessing memory in previous chapters. The only difference
+between the global and static variables is that static variables are
+only used by one function, while global variables are used by many
+functions. Assembly language treats them exactly the same, although most
+other languages distinguish them.
 
 When a function is done executing, it does three things:
 
 1.  It stores its return value in *%eax*.
 
 2.  It resets the stack to what it was when it was called (it gets rid
-    of the current stack framestack frame and puts the stack frame of
-    the calling code back into effect).
+    of the current stack frame and puts the stack frame of the calling
+    code back into effect).
 
 3.  It returns control back to wherever it was called from. This is done
-    using the `retret` instruction, which pops whatever value is at the
-    top of the stack, and sets the instruction pointerinstruction
-    pointer, *%eip*, to that value.
+    using the `ret` instruction, which pops whatever value is at the top
+    of the stack, and sets the instruction pointer, *%eip*, to that
+    value.
 
 So, before a function returns control to the code that called it, it
 must restore the previous stack frame. Note also that without doing
 this, `ret` wouldn't work, because in our current stack frame, the
 return address is not at the top of the stack. Therefore, before we
-return, we have to reset the stack pointerstack pointer *%esp* and base
-pointerbase pointer *%ebp* to what they were when the function began.
+return, we have to reset the stack pointer *%esp* and base pointer
+*%ebp* to what they were when the function began.
 
 Therefore to return from the function you have to do the following:
 
-    movl %ebp, %esp
-    popl %ebp
-    ret
+``` gnuassembler
+movl %ebp, %esp
+popl %ebp
+ret
+```
 
 *At this point, you should consider all local variables to be disposed
 of.* The reason is that after you move the stack pointer back, future
 stack pushes will likely overwrite everything you put there. Therefore,
-you should never save the address of a local variablelocal variables
-past the life of the function it was created in, or else it will be
-overwritten after the life of its stack frame ends.
+you should never save the address of a local variable past the life of
+the function it was created in, or else it will be overwritten after the
+life of its stack frame ends.
 
 Control has now been handed back to the calling code, which can now
-examine *%eax* for the return valuereturn value. The calling code also
-needs to pop off all of the parameters it pushed onto the stack in order
-to get the stack pointerstack pointer back where it was (you can also
-simply add 4 \* number of parameters to *%esp* using the `addl`
-instruction, if you don't need the values of the parameters
-anymore).[25]
+examine *%eax* for the return value. The calling code also needs to pop
+off all of the parameters it pushed onto the stack in order to get the
+stack pointer back where it was (you can also simply add 4 \* number of
+parameters to *%esp* using the `addl` instruction, if you don't need the
+values of the parameters anymore).[25]
 
 ------------------------------------------------------------------------
 
 **Destruction of Registers**
 
-When you call a functionfunctions, you should assume that everything
-currently in your registersregisters will be wiped out. The only
-register that is guaranteed to be left with the value it started with
-are *%ebp* and a few others (the Linux C calling convention requires
-functions to preserve the values of *%ebx*, *%edi*, and *%esi* if they
-are altered - this is not strictly held during this book because these
-programs are self-contained and not called by outside functions). *%ebx*
-also has some other uses in position-independent code, which is not
-covered in this book. *%eax* is guaranteed to be overwritten with the
-return value, and the others likely are. If there are registers you want
-to save before calling a function, you need to save them by pushing them
-on the stackstack before pushing the function's parameters. You can then
-pop them back off in reverse order after popping off the parameters.
-Even if you know a function does not overwrite a register you should
-save it, because future versions of that function may.
+When you call a function, you should assume that everything currently in
+your registers will be wiped out. The only register that is guaranteed
+to be left with the value it started with are *%ebp* and a few others
+(the Linux C calling convention requires functions to preserve the
+values of *%ebx*, *%edi*, and *%esi* if they are altered - this is not
+strictly held during this book because these programs are self-contained
+and not called by outside functions). *%ebx* also has some other uses in
+position-independent code, which is not covered in this book. *%eax* is
+guaranteed to be overwritten with the return value, and the others
+likely are. If there are registers you want to save before calling a
+function, you need to save them by pushing them on the stack before
+pushing the function's parameters. You can then pop them back off in
+reverse order after popping off the parameters. Even if you know a
+function does not overwrite a register you should save it, because
+future versions of that function may.
+
+Other languages' calling convention may be different. For example, other
+calling conventions may place the burden on the function to save any
+registers it uses. Be sure to check to make sure the calling conventions
+of your languages are compatible before trying to mix languages. Or in
+the case of assembly language, be sure you know how to call the other
+language's functions.
 
 ------------------------------------------------------------------------
 
-Note that in Linux assembly language, functions are
-
-Other languages' calling conventionscalling conventions may be
-different. For example, other calling conventions may place the burden
-on the function to save any registers it uses. Be sure to check to make
-sure the calling conventions of your languages are compatible before
-trying to mix languages. Or in the case of assembly language, be sure
-you know how to call the other language's functions.
-
 > **Extended Specification:** Details of the C language calling
-> conventioncalling convention (also known as the ABIABI, or Application
-> Binary InterfaceApplication Binary Interface) is available online. We
-> have oversimplified and left out several important pieces to make this
-> simpler for new programmers. For full details, you should check out
-> the documents available at http://www.linuxbase.org/spec/refspecs/
-> Specifically, you should look for the System V Application Binary
-> Interface - Intel386 Architecture Processor Supplement.
+> convention (also known as the ABI, or Application Binary Interface) is
+> available online. We have oversimplified and left out several
+> important pieces to make this simpler for new programmers. For full
+> details, you should check out the documents available at [Linux
+> Standard Base (LSB)](https://refspecs.linuxfoundation.org/lsb.shtml),
+> you should look for the [System V Application Binary Interface -
+> Intel386 Architecture Processor Supplement, Fourth
+> Edition](https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/programming-from-the-ground-up/resource/pdf/abi386-4.pdf).
 
 A Function Example
 ------------------
 
-Let's take a look at how a function callfunction call works in a real
-program. The function we are going to write is the `power` function. We
-will give the power function two parameters - the number and the power
-we want to raise it to. For example, if we gave it the parameters 2 and
-3, it would raise 2 to the power of 3, or 2\*2\*2, giving 8. In order to
-make this program simple, we will only allow numbers 1 and greater.
+Let's take a look at how a function call works in a real program. The
+function we are going to write is the `power` function. We will give the
+power function two parameters - the number and the power we want to
+raise it to. For example, if we gave it the parameters 2 and 3, it would
+raise 2 to the power of 3, or 2\*2\*2, giving 8. In order to make this
+program simple, we will only allow numbers 1 and greater.
 
 The following is the code for the complete program. As usual, an
 explanation follows. Name the file `power.s`.
 
-    POWER-S
+``` gnuassembler
+    # PURPOSE:  Program to illustrate how functions work.
+    #           This program will compute the value of
+    #           2^3 + 5^2
+    #
+    # Everything in the main program is stored in registers,
+    # so the data section doesn't have anything.
+    #
+    .section .data
+    .section .text
+    .globl _start
+_start:
+    pushl $3                  # Push second argument.
+    pushl $2                  # Push first argument.
+    call  power               # Call the function.
+    addl  $8, %esp            # Move the stack pointer back.
+
+    pushl %eax                # Save the first answer before
+                              # calling the next function.
+
+    pushl $2                  # Push second argument.
+    pushl $5                  # Push first argument.
+    call  power               # Call the function.
+    addl  $8, %esp            # Move the stack pointer back.
+
+    popl  %ebx                # The second answer is already
+                              # in %eax.  We saved the
+                              # first answer onto the stack,
+                              # so now we can just pop it
+                              # out into %ebx.
+
+    addl  %eax, %ebx          # Add them together
+                              # the result is in %ebx.
+
+    movl  $1, %eax            # Exit (%ebx is returned).
+    int   $0x80
+
+    # PURPOSE:  This function is used to compute the value of a
+    #           number raised to a power.
+    #
+    # INPUT:    First argument -  the base number.
+    #           Second argument - the power to raise it to.
+    #
+    # OUTPUT:   Will give the result as a return value.
+    #
+    # NOTES:    The power must be 1 or greater.
+    #
+    # VARIABLES:
+    #     %ebx - holds the base number.
+    #     %ecx - holds the power.
+    #     -4(%ebp) - holds the current result.
+    #     %eax is used for temporary storage.
+    #
+    .type power, @function
+power:
+    pushl %ebp                # Save old base pointer.
+    movl  %esp, %ebp          # Make stack pointer the base pointer.
+    subl  $4, %esp            # Get room for our local storage.
+
+    movl  8(%ebp), %ebx       # Put first argument in %ebx.
+    movl  12(%ebp), %ecx      # Put second argument in %ecx.
+
+    movl  %ebx, -4(%ebp)      # Store current result.
+
+power_loop_start:
+    cmpl  $1, %ecx            # If the power is 1, we are done.
+    je    end_power
+    movl  -4(%ebp), %eax      # Move the current result into %eax.
+    imull %ebx, %eax          # Multiply the current result by
+                              # the base number.
+    movl  %eax, -4(%ebp)      # Store the current result.
+
+    decl  %ecx                # Decrease the power.
+    jmp   power_loop_start    # Run for the next power.
+
+end_power:
+    movl -4(%ebp), %eax       # Return value goes in %eax.
+    movl %ebp, %esp           # Restore the stack pointer.
+    popl %ebp                 # Restore the base pointer.
+    ret
+```
 
 Type in the program, assemble it, and run it. Try calling power for
 different values, but remember that the result has to be less than 256
@@ -2061,28 +2198,34 @@ what will be in *%eax* at the end.
 
 We then have the following line:
 
-        .type power,@function
+``` gnuassembler
+.type power,@function
+```
 
-.type @functions This tells the linker that the symbol `power` should be
-treated as a function. Since this program is only in one file, it would
-work just the same with this left out. However, it is good practice.
+This tells the linker that the symbol `power` should be treated as a
+function. Since this program is only in one file, it would work just the
+same with this left out. However, it is good practice.
 
 After that, we define the value of the `power` label:
 
-    power:
+``` gnuassembler
+power:
+```
 
 As mentioned previously, this defines the symbol `power` to be the
 address where the instructions following the label begin. This is how
 `call power` works. It transfers control to this spot of the program.
-The difference between `callcall` and `jmpjmp` is that `call` also
-pushes the return address onto the stack so that the function can
-return, while the `jmp` does not.
+The difference between `call` and `jmp` is that `call` also pushes the
+return address onto the stack so that the function can return, while the
+`jmp` does not.
 
 Next, we have our instructions to set up our function:
 
-        pushl %ebp
-        movl  %esp, %ebp
-        subl  $4, %esp
+``` gnuassembler
+pushl %ebp
+movl  %esp, %ebp
+subl  $4, %esp
+```
 
 At this point, our stack looks like this:
 
@@ -2093,13 +2236,12 @@ At this point, our stack looks like this:
     Current result <--- -4(%ebp) and (%esp)
 
 Although we could use a register for temporary storage, this program
-uses a local variablelocal variables in order to show how to set it up.
-Often times there just aren't enough registers to store everything, so
-you have to offload them into local variables. Other times, your
-function will need to call another function and send it a pointer to
-some of your data. You can't have a pointerpointer to a
-registerregister, so you have to store it in a local variable in order
-to send a pointer to it.
+uses a local variable in order to show how to set it up. Often times
+there just aren't enough registers to store everything, so you have to
+offload them into local variables. Other times, your function will need
+to call another function and send it a pointer to some of your data. You
+can't have a pointer to a register, so you have to store it in a local
+variable in order to send a pointer to it.
 
 Basically, what the program does is start with the base number, and
 store it both as the multiplier (stored in *%ebx*) and the current value
@@ -2108,10 +2250,10 @@ continually multiplies the current value by the multiplier, decreases
 the power, and leaves the loop if the power (in *%ecx*) gets down to 1.
 
 By now, you should be able to go through the program without help. The
-only things you should need to know is that `imullimull` does integer
-multiplication and stores the result in the second operand, and
-`decldecl` decreases the given register by 1. For more information on
-these and other instructions, see [Common x86
+only things you should need to know is that `imull` does integer
+multiplication and stores the result in the second operand, and `decl`
+decreases the given register by 1. For more information on these and
+other instructions, see [Common x86
 Instructions](#common-x86-instructions)
 
 A good project to try now is to extend the program so it will return the
@@ -2133,44 +2275,107 @@ number is the same as the product of a number and the factorial just
 below it. For example, the factorial of 4 is 4 times the factorial of 3.
 The factorial of 3 is 3 times the factorial of 2. 2 is 2 times the
 factorial of 1. The factorial of 1 is 1. This type of definition is
-called a recursiverecursive definition. That means, the definition of
-the factorial functionfunctions includes the factorial function itself.
-However, since all functions need to end, a recursive definition must
-include a *base casebase case*. The base case is the point where
-recursion will stop. Without a base case, the function would go on
-forever calling itself until it eventually ran out of stack space. In
-the case of the factorial, the base case is the number 1. When we hit
-the number 1, we don't run the factorial again, we just say that the
-factorial of 1 is 1. So, let's run through what we want the code to look
-like for our factorial function:
+called a recursive definition. That means, the definition of the
+factorial function includes the factorial function itself. However,
+since all functions need to end, a recursive definition must include a
+*base case*. The base case is the point where recursion will stop.
+Without a base case, the function would go on forever calling itself
+until it eventually ran out of stack space. In the case of the
+factorial, the base case is the number 1. When we hit the number 1, we
+don't run the factorial again, we just say that the factorial of 1 is 1.
+So, let's run through what we want the code to look like for our
+factorial function:
 
-1.  Examine the number
+1.  Examine the number.
 
 2.  Is the number 1?
 
-3.  If so, the answer is one
+3.  If so, the answer is one.
 
 4.  Otherwise, the answer is the number times the factorial of the
-    number minus one
+    number minus one.
 
-This would be problematic if we didn't have local variableslocal
-variables. In other programs, storing values in global variables worked
-fine. However, global variables only provide one copy of each variable.
-In this program, we will have multiple copies of the function running at
-the same time, all of them needing their own copies of the data![26]
-Since local variables exist on the stack frame, and each function call
-gets its own stack framestack frame, we are okay.
+This would be problematic if we didn't have local variables. In other
+programs, storing values in global variables worked fine. However,
+global variables only provide one copy of each variable. In this
+program, we will have multiple copies of the function running at the
+same time, all of them needing their own copies of the data![26] Since
+local variables exist on the stack frame, and each function call gets
+its own stack frame, we are okay.
 
 Let's look at the code to see how this works:
 
-    FACTORIAL-S
+``` gnuassembler
+    # PURPOSE:  Given a number, this program computes the
+    #           factorial.  For example, the factorial of
+    #           3 is 3 * 2 * 1, or 6.  The factorial of
+    #           4 is 4 * 3 * 2 * 1, or 24, and so on.
+    #
+    # This program shows how to call a function recursively.
+    # This program has no global data.
+    #
+    .section .data
+    .section .text
+    .globl _start
+    .globl factorial          # This is unneeded unless we want to share
+                              # this function among other programs.
+_start:
+    pushl $4                  # The factorial takes one argument - the
+                              # number we want a factorial of.  So, it
+                              # gets pushed.
+    call  factorial           # Run the factorial function.
+    addl  $4, %esp            # Scrubs the parameter that was pushed on
+                              # the stack.
+    movl  %eax, %ebx          # Factorial returns the answer in %eax, but
+                              # we want it in %ebx to send it as our exit
+                              # status.
+    movl  $1, %eax            # Call the kernel's exit function.
+    int   $0x80
+
+
+    # This is the actual function definition.
+    #
+    .type factorial,@function
+factorial:
+    pushl %ebp                # Atandard function stuff - we have to
+                              # restore %ebp to its prior state before
+                              # returning, so we have to push it.
+    movl  %esp, %ebp          # This is because we don't want to modify
+                              # the stack pointer, so we use %ebp.
+
+    movl  8(%ebp), %eax       # This moves the first argument to %eax
+                              # 4(%ebp) holds the return address, and
+                              # 8(%ebp) holds the first parameter.
+    cmpl  $1, %eax            # If the number is 1, that is our base
+                              # case, and we simply return (1 is
+                              # already in %eax as the return value).
+    je end_factorial
+    decl  %eax                # Otherwise, decrease the value.
+    pushl %eax                # Push it for our call to factorial.
+    call  factorial           # Call factorial.
+    movl  8(%ebp), %ebx       # %eax has the return value, so we
+                              # reload our parameter into %ebx
+    imull %ebx, %eax          # Multiply that by the result of the
+                              # last call to factorial (in %eax)
+                              # the answer is stored in %eax, which
+                              # is good since that's where return
+                              # values go.
+end_factorial:
+    movl  %ebp, %esp          # Standard function return stuff - we
+    popl  %ebp                # have to restore %ebp and %esp to where
+                              # they were before the function started
+    ret                       # return from the function (this pops the
+                              # return value, too).
+```
 
 Assemble, link, and run it with these commands:
 
-    as factorial.s -o factorial.o
-    ld factorial.o -o factorial
-    ./factorial
-    echo $?
+``` bash
+as factorial.s -o factorial.o
+ld factorial.o -o factorial
+./factorial
+echo $?
+```
 
 This should give you the value 24. 24 is the factorial of 4, you can
 test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
@@ -2178,27 +2383,30 @@ test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
 I'm guessing you didn't understand the whole code listing. Let's go
 through it a line at a time to see what is happening.
 
-    _start:
-        pushl $4
-        call factorial
+``` gnuassembler
+_start:
+    pushl $4
+    call factorial
+```
 
 Okay, this program is intended to compute the factorial of the number 4.
-When programming functions, you are supposed to put the
-parametersparameters of the function on the top of the stack right
-before you call it. Remember, a function's *parametersparameters* are
-the data that you want the function to work with. In this case, the
-factorial function takes 1 parameter - the number you want the factorial
-of.
+When programming functions, you are supposed to put the parameters of
+the function on the top of the stack right before you call it. Remember,
+a function's *parameters* are the data that you want the function to
+work with. In this case, the factorial function takes 1 parameter - the
+number you want the factorial of.
 
-The `pushlpushl` instruction puts the given value at the top of the
-stack. The `callcall` instruction then makes the function call.
+The `pushl` instruction puts the given value at the top of the stack.
+The `call` instruction then makes the function call.
 
 Next we have these lines:
 
-            addl  $4, %esp
-            movl  %eax, %ebx
-            movl  $1, %eax
-            int   $0x80
+``` gnuassembler
+addl  $4, %esp
+movl  %eax, %ebx
+movl  $1, %eax
+int   $0x80
+```
 
 This takes place after `factorial` has finished and computed the
 factorial of 4 for us. Now we have to clean up the stack. The `addl`
@@ -2207,8 +2415,8 @@ pushed the `$4` onto the stack. You should always clean up your stack
 parameters after a function call returns.
 
 The next instruction moves *%eax* to *%ebx*. What's in *%eax*? It is
-`factorial`'s return valuereturn value. In our case, it is the value of
-the factorial function. With 4 as our parameter, 24 should be our return
+`factorial`'s return value. In our case, it is the value of the
+factorial function. With 4 as our parameter, 24 should be our return
 value. Remember, return values are always stored in *%eax*. We want to
 return this value as the status code to the operating system. However,
 Linux requires that the program's exit status be stored in *%ebx*, not
@@ -2223,7 +2431,7 @@ The nice thing about function calls is that:
     program.
 
 -   They can be called multiple times and from multiple locations and
-    they always know how to get back to where they were since `callcall`
+    they always know how to get back to where they were since `call`
     pushes the return address onto the stack.
 
 These are the main advantages of functions. Larger programs also use
@@ -2236,61 +2444,71 @@ implemented.
 
 Before the function starts, we have this directive:
 
-        .type factorial,@function
-    factorial:
+``` gnuassembler
+    .type factorial,@function
+factorial:
+```
 
-The `.type.type` directive tells the linker that `factorial` is a
-function. This isn't really needed unless we were using `factorial` in
-other programs. We have included it for completeness. The line that says
+The `.type` directive tells the linker that `factorial` is a function.
+This isn't really needed unless we were using `factorial` in other
+programs. We have included it for completeness. The line that says
 `factorial:` gives the symbol `factorial` the storage location of the
 next instruction. That's how `call` knew where to go when we said
 `call factorial`.
 
 The first real instructions of the function are:
 
-        pushl %ebp
-        movl  %esp, %ebp
+``` gnuassembler
+pushl %ebp
+movl  %esp, %ebp
+```
 
-As shown in the previous program, this creates the stack framestack
-frame for this function. These two lines will be the way you should
-start every function.
+As shown in the previous program, this creates the stack frame for this
+function. These two lines will be the way you should start every
+function.
 
 The next instruction is this:
 
-        movl  8(%ebp), %eax
+``` gnuassembler
+movl  8(%ebp), %eax
+```
 
-This uses base pointer addressingbase pointer addressing mode to move
-the first parameterparameter of the function into *%eax*. Remember,
-`(%ebp)` has the old *%ebp*, `4(%ebp)` has the return address, and
-`8(%ebp)` is the location of the first parameter to the function. If you
-think back, this will be the value 4 on the first call, since that was
-what we pushed on the stack before calling the function the first time
-(with `pushl $4`). As this function calls itself, it will have other
-values, too.
+This uses base pointer addressing mode to move the first parameter of
+the function into *%eax*. Remember, `(%ebp)` has the old *%ebp*,
+`4(%ebp)` has the return address, and `8(%ebp)` is the location of the
+first parameter to the function. If you think back, this will be the
+value 4 on the first call, since that was what we pushed on the stack
+before calling the function the first time (with `pushl $4`). As this
+function calls itself, it will have other values, too.
 
 Next, we check to see if we've hit our base case (a parameter of 1). If
 so, we jump to the instruction at the label `end_factorial`, where it
 will be returned. It's already in *%eax* which we mentioned earlier is
-where you put return valuesreturn values. That is accomplished by these
-lines:
+where you put return values. That is accomplished by these lines:
 
-        cmpl $1, %eax
-        je end_factorial
+``` gnuassembler
+cmpl $1, %eax
+je end_factorial
+```
 
 If it's not our base case, what did we say we would do? We would call
 the `factorial` function again with our parameter minus one. So, first
 we decrease *%eax* by one:
 
-        decl %eax
+``` gnuassembler
+decl %eax
+```
 
-`decldecl` stands for decrement. It subtracts 1 from the given register
-or memory location (*%eax* in our case). `inclincl` is the inverse - it
-adds 1. After decrementing *%eax* we push it onto the stack since it's
-going to be the parameter of the next function call. And then we call
-`factorial` again!
+`decl` stands for decrement. It subtracts 1 from the given register or
+memory location (*%eax* in our case). `incl` is the inverse - it adds 1.
+After decrementing *%eax* we push it onto the stack since it's going to
+be the parameter of the next function call. And then we call `factorial`
+again!
 
-        pushl %eax
-        call factorial
+``` gnuassembler
+pushl %eax
+call factorial
+```
 
 Okay, now we've called `factorial`. One thing to remember is that after
 a function call, we can never know what the registers are (except `%esp`
@@ -2299,35 +2517,43 @@ and `%ebp`). So even though we had the value we were called with in
 stack from the same place we got it the first time (at `8(%ebp)`). So,
 we do this:
 
-        movl 8(%ebp), %ebx
+``` gnuassembler
+movl 8(%ebp), %ebx
+```
 
 Now, we want to multiply that number with the result of the factorial
 function. If you remember our previous discussion, the result of
 functions are left in *%eax*. So, we need to multiply *%ebx* with
 *%eax*. This is done with this instruction:
 
-        imull %ebx, %eax
+``` gnuassembler
+imull %ebx, %eax
+```
 
 This also stores the result in *%eax*, which is exactly where we want
-the return value for the function to be! Since the return valuereturn
-value is in place we just need to leave the function. If you remember,
-at the start of the function we pushed *%ebp*, and moved *%esp* into
-*%ebp* to create the current stack frame. Now we reverse the operation
-to destroy the current stack frame and reactivate the last one:
+the return value for the function to be! Since the return value is in
+place we just need to leave the function. If you remember, at the start
+of the function we pushed *%ebp*, and moved *%esp* into *%ebp* to create
+the current stack frame. Now we reverse the operation to destroy the
+current stack frame and reactivate the last one:
 
-    end_factorial:
-        movl %ebp, %esp
-        popl %ebp
+``` gnuassembler
+end_factorial:
+    movl %ebp, %esp
+    popl %ebp
+```
 
 Now we're already to return, so we issue the following command
 
-        ret
+``` gnuassembler
+ret
+```
 
 This pops the top value off of the stack, and then jumps to it. If you
-remember our discussion about `call`, we said that `callcall` first
-pushed the address of the next instruction onto the stack before it
-jumped to the beginning of the function. So, here we pop it back off so
-we can return there. The function is done, and we have our answer!
+remember our discussion about `call`, we said that `call` first pushed
+the address of the next instruction onto the stack before it jumped to
+the beginning of the function. So, here we pop it back off so we can
+return there. The function is done, and we have our answer!
 
 Like our previous program, you should look over the program again, and
 make sure you know what everything does. Look back through this section
@@ -2401,8 +2627,8 @@ Review
 -   What test cases should we use in our example program to check to see
     if it is working properly?
 
-Dealing with Files
-==================
+Chapter 5. Dealing with Files
+=============================
 
 A lot of computer programming deals with filesfiles. After all, when we
 reboot our computers, the only thing that remains from previous sessions
@@ -4585,9 +4811,10 @@ Review
     returning the result as the exit status code. Also, make the exit
     status code be 0.
 
--   Use the `factorial` function you developed in
-    [???](#recursivefunctions) to make a shared library. Then re-write
-    the main program so that it links with the library dynamically.
+-   Use the `factorial` function you developed in [Recursive
+    Functions](#recursive-functions) to make a shared library. Then
+    re-write the main program so that it links with the library
+    dynamically.
 
 -   Rewrite the program above so that it also links with the 'c'
     library. Use the 'c' library's `printf` function to display the
@@ -6376,15 +6603,17 @@ In assembly language, your best resources are on the web.
 Reading and Writing Simple Records
 ==================================
 
-As mentioned in [???](#filesch), many applications deal with data that
-is *persistentpersistent* - meaning that the data lives longer than the
-program by being stored on disk in files. You can shut down the program
-and open it back up, and you are back where you started. Now, there are
-two basic kinds of persistent data - structured and unstructured.
-Unstructured dataunstructured data is like what we dealt with in the
-`toupper` program. It just dealt with text files that were entered by a
-person. The contents of the files weren't usable by a program because a
-program can't interpret what the user is trying to say in random text.
+As mentioned in [Chapter 5. Dealing with
+Files](#chapter-5-dealing-with-files), many applications deal with data
+that is *persistentpersistent* - meaning that the data lives longer than
+the program by being stored on disk in files. You can shut down the
+program and open it back up, and you are back where you started. Now,
+there are two basic kinds of persistent data - structured and
+unstructured. Unstructured dataunstructured data is like what we dealt
+with in the `toupper` program. It just dealt with text files that were
+entered by a person. The contents of the files weren't usable by a
+program because a program can't interpret what the user is trying to say
+in random text.
 
 Structured datastructured data, on the other hand, is what computers
 excel at handling. Structured data is data that is divided up into
@@ -9059,7 +9288,7 @@ two-byte entities as words for historical reasons, and therefore refer
 to four-byte entities as double-words. We are using the term *word* to
 mean the normal register size of a computer, which in this case is four
 bytes. More information is available in [Common x86
-Instructions](#common-x86-instructions),
+Instructions](#common-x86-instructions).
 
 [6] Note that here we are talking about general computer theory. Some
 processors and operating systems actually mark the regions of memory
@@ -9154,27 +9383,37 @@ operate on base 2 rather than base 10 numbers, but that's the basic
 idea. For more information on this topic, see [Counting Like a
 Computer](#counting-like-a-computer).
 
-[21] Note that different versions of GCC do this differently.
+[21] Function parameters can also be used to hold pointers to data that
+the function wants to send back to the program.
 
-[22] If you have used C, this is what the `strlenstrlen` function does.
+[22] This is generally considered bad practice. Imagine if a program is
+written this way, and in the next version they decided to allow a single
+instance of the program edit multiple files. Each function would then
+have to be modified so that the file that was being manipulated would be
+passed as a parameter. If you had simply passed it as a parameter to
+begin with, most of your functions could have survived your upgrade
+unchanged.
 
-[23] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[23] A *convention* is a way of doing things that is standardized, but
+not forcibly so. For example, it is a convention for people to shake
+hands when they meet. If I refuse to shake hands with you, you may think
+I don't like you. Following conventions is important because it makes it
+easier for others to understand what you are doing, and makes it easier
+for programs written by multiple independent authors to work together.
 
-[24] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[24] Just a reminder - the dollar sign in front of the eight indicates
+immediate mode addressing, meaning that we subtract the number 8 itself
+from *%esp* rather than the value at address 8.
 
-[25] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[25] This is not always strictly needed unless you are saving registers
+on the stack before a function call. The base pointer keeps the stack
+frame in a reasonably consistent state. However, it is still a good
+idea, and is absolutely necessary if you are temporarily saving
+registers on the stack.
 
-[26] This is why adding more memory to your computer makes it run
-faster. The more memory your computer has, the less it puts on disk, so
-it doesn't have to always be interrupting your programs to retreive
-pages off the disk.
+[26] By "running at the same time" I am talking about the fact that one
+will not have finished before a new one is activated. I am not implying
+that their instructions are running at the same time.
 
 [27] Note that different versions of GCC do this differently.
 

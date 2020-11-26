@@ -226,10 +226,10 @@
 <p>One of the greatest programmers, Donald Knuth, describes programming not as telling a computer how to do something, but telling a person how they would instruct a computer to do something. The point is that programs are meant to be read by people, not just computers. Your programs will be modified and updated by others long after you move on to other projects. Thus, programming is not as much about communicating to a computer as it is communicating to those who come after you. A programmer is a problem-solver, a poet, and an instructor all at once. Your goal is to solve the problem at hand, doing so with balance and taste, and teach your solution to future programmers. I hope that this book can teach at least some of the poetry and magic that makes computing exciting.</p>
 <p>Most introductory books on programming frustrate me to no end. At the end of them you can still ask "how does the computer really work?" and not have a good answer. They tend to pass over topics that are difficult even though they are important. I will take you through the difficult issues because that is the only way to move on to masterful programming. My goal is to take you from knowing nothing about programming to understanding how to think, write, and learn like a programmer. You won't know everything, but you will have a background for how everything fits together. At the end of this book, you should be able to do the following:</p>
 <ul>
-<li><p>Understand how a program works and interacts with other programs</p></li>
-<li><p>Read other people's programs and learn how they work</p></li>
-<li><p>Learn new programming languages quickly</p></li>
-<li><p>Learn advanced concepts in computer science quickly</p></li>
+<li><p>Understand how a program works and interacts with other programs.</p></li>
+<li><p>Read other people's programs and learn how they work.</p></li>
+<li><p>Learn new programming languages quickly.</p></li>
+<li><p>Learn advanced concepts in computer science quickly.</p></li>
 </ul>
 <p>I will not teach you everything. Computer science is a massive field, especially when you combine the theory with the practice of computer programming. However, I will attempt to get you started on the foundations so you can easily go wherever you want afterwards.</p>
 <p>There is somewhat of a chicken and egg problem in teaching programming, especially assembly language. There is a lot to learn - it is almost too much to learn almost at all at once. However, each piece depends on all the others, which makes learning it a piece at a time difficult. Therefore, you must be patient with yourself and the computer while learning to program. If you don't understand something the first time, reread it. If you still don't understand it, it is sometimes best to take it by faith and come back to it later. Often after more exposure to programming the ideas will make more sense. Don't get discouraged. It's a long climb, but very worthwhile.</p>
@@ -273,12 +273,12 @@
 <p>You may wonder why a computer is organized this way. It is because it is simple to implement. If the computer were composed of a lot of differently-sized locations, or if you could store different kinds of data in them, it would be difficult and expensive to implement.</p>
 <p>The computer's memory is used for a number of different things. All of the results of any calculations are stored in memory. In fact, everything that is "stored" is stored in memory. Think of your computer at home, and imagine what all is stored in your computer's memory.</p>
 <ul>
-<li><p>The location of your cursor on the screen</p></li>
-<li><p>The size of each window on the screen</p></li>
-<li><p>The shape of each letter of each font being used</p></li>
-<li><p>The layout of all of the controls on each window</p></li>
-<li><p>The graphics for all of the toolbar icons</p></li>
-<li><p>The text for each error message and dialog box</p></li>
+<li><p>The location of your cursor on the screen.</p></li>
+<li><p>The size of each window on the screen.</p></li>
+<li><p>The shape of each letter of each font being used.</p></li>
+<li><p>The layout of all of the controls on each window.</p></li>
+<li><p>The graphics for all of the toolbar icons.</p></li>
+<li><p>The text for each error message and dialog box.</p></li>
 <li><p>The list goes on and on...</p></li>
 </ul>
 <p>In addition to all of this, the Von Neumann architecture specifies that not only computer data should live in memory, but the programs that control the computer's operation should live there, too. In fact, in a computer, there is no difference between a program and a program's data except how it is used by the computer. They are both stored and accessed the same way.</p>
@@ -286,11 +286,11 @@
 <p>So how does the computer function? Obviously, simply storing data doesn't do much help - you need to be able to access, manipulate, and move it. That's where the CPU comes in.</p>
 <p>The CPU reads in instructions from memory one at a time and executes them. This is known as the <em>fetch-execute cycle</em>. The CPU contains the following elements to accomplish this:</p>
 <ul>
-<li><p>Program Counter</p></li>
-<li><p>Instruction Decoder</p></li>
-<li><p>Data bus</p></li>
-<li><p>General-purpose registers</p></li>
-<li><p>Arithmetic and logic unit</p></li>
+<li><p>Program Counter.</p></li>
+<li><p>Instruction Decoder.</p></li>
+<li><p>Data bus.</p></li>
+<li><p>General-purpose registers.</p></li>
+<li><p>Arithmetic and logic unit.</p></li>
 </ul>
 <p>The <em>program counter</em> is used to tell the computer where to fetch the next instruction from. We mentioned earlier that there is no difference between the way data and programs are stored, they are just interpreted differently by the CPU. The program counter holds the memory address of the next instruction to be executed. The CPU begins by looking at the program counter, and fetching whatever number is stored in memory at the location specified. It is then passed on to the <em>instruction decoder</em> which figures out what the instruction means. This includes what process needs to take place (addition, subtraction, multiplication, data movement, etc.) and what memory locations are going to be involved in this process. Computer instructions usually consist of both the actual instruction and the list of memory locations that are used to carry it out.</p>
 <p>Now the computer uses the <em>data bus</em> to fetch the memory locations to be used in the calculation. The data bus is the connection between the CPU and memory. It is the actual wire that connects them. If you look at the motherboard of the computer, the wires that go out from the memory are your data bus.</p>
@@ -491,44 +491,45 @@
 <p>In the next section, we will implement this program that we have planned. Program planning sounds complicated - and it is, to some degree. When you first start programming, it's often hard to convert our normal thought process into a procedure that the computer can understand. We often forget the number of "temporary storage locations" that our minds are using to process problems. As you read and write programs, however, this will eventually become very natural to you. Just have patience.</p>
 <h2 id="finding-a-maximum-value">Finding a Maximum Value</h2>
 <p>Enter the following program as <code>maximum.s</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:    This program finds the maximum number of a</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#             set of data items.</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  This program finds the maximum number of a</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           set of data items.</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># VARIABLES:  The registers have the following uses:</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#      %edi - Holds the index of the data item being examined.</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#      %ebx - Largest data item found.</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#      %eax - Current data item.</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The following memory locations are used:</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#      data_items - contains the item data.  A 0 is used</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                   to terminate the data.</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="kw">data_items:</span>                          <span class="co"># These are the data items.</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.long</span> <span class="dv">3</span>, <span class="dv">67</span>, <span class="dv">34</span>, <span class="dv">222</span>, <span class="dv">45</span>, <span class="dv">75</span>, <span class="dv">54</span>, <span class="dv">34</span>, <span class="dv">44</span>, <span class="dv">33</span>, <span class="dv">22</span>, <span class="dv">11</span>, <span class="dv">66</span>, <span class="dv">0</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    movl $0, %edi                    <span class="co"># Move 0 into the index register.</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    movl data_items(,%edi,<span class="dv">4</span>), %eax   <span class="co"># Load the first byte of data.</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    movl %eax, %ebx                  <span class="co"># Since this is the first item,</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># %eax is the biggest.</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="kw">start_loop:</span>                          <span class="co"># Start loop.</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    cmpl $0, %eax                    <span class="co"># Check to see if we&#39;ve hit the end.</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    je loop_exit</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    incl %edi                        <span class="co"># Load next value.</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    movl data_items(,%edi,<span class="dv">4</span>), %eax</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    cmpl %ebx, %eax                  <span class="co"># Compare values.</span></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    jle start_loop                   <span class="co"># Jump to loop beginning if the new</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># one isn&#39;t bigger.</span></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    movl %eax, %ebx                  <span class="co"># Move the value as the largest.</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    jmp start_loop                   <span class="co"># Jump to loop beginning.</span></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_exit:</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># %ebx is the status code for the</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># exit systemcall and it already has</span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># the maximum number 1 is the</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>        movl $1, %eax                <span class="co"># exit() syscall.</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>        int  $0x80</span></code></pre></div>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># VARIABLES:</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     The registers have the following uses:</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     %edi - Holds the index of the data item being examined.</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     %ebx - Largest data item found.</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     %eax - Current data item.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The following memory locations are used:</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     data_items - contains the item data.  A 0 is used</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                  to terminate the data.</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="kw">data_items:</span>                          <span class="co"># These are the data items.</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.long</span> <span class="dv">3</span>, <span class="dv">67</span>, <span class="dv">34</span>, <span class="dv">222</span>, <span class="dv">45</span>, <span class="dv">75</span>, <span class="dv">54</span>, <span class="dv">34</span>, <span class="dv">44</span>, <span class="dv">33</span>, <span class="dv">22</span>, <span class="dv">11</span>, <span class="dv">66</span>, <span class="dv">0</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    movl $0, %edi                    <span class="co"># Move 0 into the index register.</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    movl data_items(,%edi,<span class="dv">4</span>), %eax   <span class="co"># Load the first byte of data.</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    movl %eax, %ebx                  <span class="co"># Since this is the first item,</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># %eax is the biggest.</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="kw">start_loop:</span>                          <span class="co"># Start loop.</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    cmpl $0, %eax                    <span class="co"># Check to see if we&#39;ve hit the end.</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    je loop_exit</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    incl %edi                        <span class="co"># Load next value.</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    movl data_items(,%edi,<span class="dv">4</span>), %eax</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    cmpl %ebx, %eax                  <span class="co"># Compare values.</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    jle start_loop                   <span class="co"># Jump to loop beginning if the new</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># one isn&#39;t bigger.</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    movl %eax, %ebx                  <span class="co"># Move the value as the largest.</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    jmp start_loop                   <span class="co"># Jump to loop beginning.</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_exit:</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># %ebx is the status code for the</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># exit systemcall and it already has</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># the maximum number 1 is the</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>        movl $1, %eax                <span class="co"># exit() syscall.</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>        int  $0x80</span></code></pre></div>
 <p>Now, assemble and link it with these commands:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> maximum.s -o maximum.o</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> maximum.o -o maximum</span></code></pre></div>
@@ -720,7 +721,7 @@
 <ul>
 <li><p>Modify the first program to return the value 3.</p></li>
 <li><p>Modify the <code>maximum</code> program to find the minimum instead.</p></li>
-<li><p>Modify the <code>maximum</code> program to use the number 255 to end the list rather than the number 0</p></li>
+<li><p>Modify the <code>maximum</code> program to use the number 255 to end the list rather than the number 0.</p></li>
 <li><p>Modify the <code>maximum</code> program to use an ending address rather than the number 0 to know when to stop.</p></li>
 <li><p>Modify the <code>maximum</code> program to use a length count rather than the number 0 to know when to stop.</p></li>
 <li><p>What would the instruction <code>movl _start, %eax</code> do? Be specific, based on your knowledge of both addressing modes and the meaning of <code>_start</code>. How would this differ from the instruction <code>movl $_start, %eax</code>?</p></li>
@@ -734,59 +735,60 @@
 <h2 id="dealing-with-complexity">Dealing with Complexity</h2>
 <p>In <a href="#chapter-3-your-first-programs">Chapter 3. Your First Programs</a>, the programs we wrote only consisted of one section of code. However, if we wrote real programs like that, it would be impossible to maintain them. It would be really difficult to get multiple people working on the project, as any change in one part might adversely affect another part that another developer is working on.</p>
 <p>To assist programmers in working together in groups, it is necessary to break programs apart into separate pieces, which communicate with each other through well-defined interfaces. This way, each piece can be developed and tested independently of the others, making it easier for multiple programmers to work on the project.</p>
-<p>Programmers use <em>functionsfunctions</em> to break their programs into pieces which can be independently developed and tested. Functions are units of code that do a defined piece of work on specified types of data. For example, in a word processor program, I may have a function called <code>handle_typed_character</code> which is activated whenever a user types in a key. The data the function uses would probably be the keypress itself and the document the user currently has open. The function would then modify the document according to the keypress it was told about.</p>
-<p>The data items a function is given to process are called its <em>parametersparameters</em>. In the word processing example, the key which was pressed and the document would be considered parameters to the <code>handle_typed_characters</code> function. The parameter list and the processing expectations of a function (what it is expected to do with the parameters) are called the function's interface. Much care goes into designing function interfaces, because if they are called from many places within a project, it is difficult to change them if necessary.</p>
-<p>A typical program is composed of hundreds or thousands of functions, each with a small, well-defined task to perform. However, ultimately there are things that you cannot write functions for which must be provided by the system. Those are called <em>primitive functionsprimitive functions</em> (or just <em>primitivesprimitives</em>) - they are the basics which everything else is built off of. For example, imagine a program that draws a graphical user interface. There has to be a function to create the menus. That function probably calls other functions to write text, to write icons, to paint the background, calculate where the mouse pointer is, etc. However, ultimately, they will reach a set of primitives provided by the operating system to do basic line or point drawing. Programming can either be viewed as breaking a large program down into smaller pieces until you get to the primitive functions, or incrementally building functions on top of primitives until you get the large picture in focus. In assembly language, the primitives are usually the same thing as the system callssystem calls, even though system calls aren't true functions as we will talk about in this chapter.</p>
-<h2 id="howfunctionswork">How Functions Work</h2>
+<p>Programmers use <em>functions</em> to break their programs into pieces which can be independently developed and tested. Functions are units of code that do a defined piece of work on specified types of data. For example, in a word processor program, I may have a function called <code>handle_typed_character</code> which is activated whenever a user types in a key. The data the function uses would probably be the keypress itself and the document the user currently has open. The function would then modify the document according to the keypress it was told about.</p>
+<p>The data items a function is given to process are called its <em>parameters</em>. In the word processing example, the key which was pressed and the document would be considered parameters to the <code>handle_typed_characters</code> function. The parameter list and the processing expectations of a function (what it is expected to do with the parameters) are called the function's interface. Much care goes into designing function interfaces, because if they are called from many places within a project, it is difficult to change them if necessary.</p>
+<p>A typical program is composed of hundreds or thousands of functions, each with a small, well-defined task to perform. However, ultimately there are things that you cannot write functions for which must be provided by the system. Those are called <em>primitive functions</em> (or just <em>primitives</em>) - they are the basics which everything else is built off of. For example, imagine a program that draws a graphical user interface. There has to be a function to create the menus. That function probably calls other functions to write text, to write icons, to paint the background, calculate where the mouse pointer is, etc. However, ultimately, they will reach a set of primitives provided by the operating system to do basic line or point drawing. Programming can either be viewed as breaking a large program down into smaller pieces until you get to the primitive functions, or incrementally building functions on top of primitives until you get the large picture in focus. In assembly language, the primitives are usually the same thing as the system calls, even though system calls aren't true functions as we will talk about in this chapter.</p>
+<h2 id="how-functions-work">How Functions Work</h2>
 <p>Functions are composed of several different pieces:</p>
 <dl>
 <dt>Function name:</dt>
-<dd><p>A function's name is a symbolsymbol that represents the address where the function's code starts. In assembly language, the symbol is defined by typing the function's name as a label before the function's code. This is just like labelslabels you have used for jumping.</p>
+<dd><p>A function's name is a symbol that represents the address where the function's code starts. In assembly language, the symbol is defined by typing the function's name as a label before the function's code. This is just like labels you have used for jumping.</p>
 </dd>
 <dt>Function parameters:</dt>
-<dd><p>A function's parametersparameters are the data items that are explicitly given to the function for processing. For example, in mathematics, there is a sine function. If you were to ask a computer to find the sine of 2, sine would be the function's name, and 2 would be the parameter. Some functions have many parameters, others have none.<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></p>
+<dd><p>A function's parameters are the data items that are explicitly given to the function for processing. For example, in mathematics, there is a sine function. If you were to ask a computer to find the sine of 2, sine would be the function's name, and 2 would be the parameter. Some functions have many parameters, others have none.<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></p>
 </dd>
 <dt>Local variables:</dt>
-<dd><p>Local variableslocal variables are data storage that a function uses while processing that is thrown away when it returns. It's kind of like a scratch pad of paper. Functions get a new piece of paper every time they are activated, and they have to throw it away when they are finished processing. Local variables of a function are not accessible to any other function within a program.</p>
+<dd><p>Local variables are data storage that a function uses while processing that is thrown away when it returns. It's kind of like a scratch pad of paper. Functions get a new piece of paper every time they are activated, and they have to throw it away when they are finished processing. Local variables of a function are not accessible to any other function within a program.</p>
 </dd>
 <dt>Static variables:</dt>
-<dd><p>Static variablesstatic variables are data storage that a function uses while processing that is not thrown away afterwards, but is reused for every time the function's code is activated. This data is not accessible to any other part of the program. Static variables are generally not used unless absolutely necessary, as they can cause problems later on.</p>
+<dd><p>Static variables are data storage that a function uses while processing that is not thrown away afterwards, but is reused for every time the function's code is activated. This data is not accessible to any other part of the program. Static variables are generally not used unless absolutely necessary, as they can cause problems later on.</p>
 </dd>
 <dt>Global variables:</dt>
 <dd><p>Global variables are data storage that a function uses for processing which are managed outside the function. For example, a simple text editor may put the entire contents of the file it is working on in a global variable so it doesn't have to be passed to every function that operates on it.<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a> Configuration values are also often stored in global variables.</p>
 </dd>
 <dt>Return address:</dt>
-<dd><p>The return addressreturn address is an "invisible" parameter in that it isn't directly used during the function. The return address is a parameter which tells the function where to resume executing after the function is completed. This is needed because functions can be called to do processing from many different parts of your program, and the function needs to be able to get back to wherever it was called from. In most programming languages, this parameter is passed automatically when the function is called. In assembly language, the <code>callcall</code> instruction handles passing the return address for you, and <code>retret</code> handles using that address to return back to where you called the function from.</p>
+<dd><p>The return address is an "invisible" parameter in that it isn't directly used during the function. The return address is a parameter which tells the function where to resume executing after the function is completed. This is needed because functions can be called to do processing from many different parts of your program, and the function needs to be able to get back to wherever it was called from. In most programming languages, this parameter is passed automatically when the function is called. In assembly language, the <code>call</code> instruction handles passing the return address for you, and <code>ret</code> handles using that address to return back to where you called the function from.</p>
 </dd>
 <dt>Return value:</dt>
-<dd><p>The return valuereturn value is the main method of transferring data back to the main program. Most programming languages only allow a single return value for a function.</p>
+<dd><p>The return value is the main method of transferring data back to the main program. Most programming languages only allow a single return value for a function.</p>
 </dd>
 </dl>
-<p>global variables These pieces are present in most programming languages. How you specify each piece is different in each one, however.</p>
-<p>The way that the variables are stored and the parameters and return values are transferred by the computer varies from language to language as well. This variance is known as a language's <em>calling convention</em>calling conventions, because it describes how functions expect to get and receive data when they are called.<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a></p>
-<p>Assembly language can use any calling convention it wants to. You can even make one up yourself. However, if you want to interoperate with functions written in other languages, you have to obey their calling conventions. We will use the calling convention of the C programming languageC programming language for our examples because it is the most widely used, and because it is the standard for Linux platforms.</p>
-<h2 id="callingwritingassemblyfunctions">Assembly-Language Functions using the C Calling Convention</h2>
-<p>You cannot write assembly-language functions without understanding how the computer's <em>stackstack</em> works. Each computer program that runs uses a region of memory called the stack to enable functions to work properly. Think of a stack as a pile of papers on your desk which can be added to indefinitely. You generally keep the things that you are working on toward the top, and you take things off as you are finished working with them.</p>
-<p>Your computer has a stack, too. The computer's stackstack lives at the very top addresses of memory. You can push values onto the top of the stack through an instruction called <code>pushlpushl</code>, which pushes either a register or memory value onto the top of the stack. Well, we say it's the top, but the "top" of the stack is actually the bottom of the stack's memory. Although this is confusing, the reason for it is that when we think of a stack of anything - dishes, papers, etc. - we think of adding and removing to the top of it. However, in memory the stack starts at the top of memory and grows downward due to architectural considerations. Therefore, when we refer to the "top of the stack" remember it's at the bottom of the stack's memorystack memory. You can also pop values off the top using an instruction called <code>poplpopl</code>. This removes the top value from the stack and places it into a register or memory location of your choosing..</p>
-<p>When we push a value onto the stack, the top of the stack moves to accomodate the additional value. We can actually continually push values onto the stack and it will keep growing further and further down in memory until we hit our code or data. So how do we know where the current "top" of the stack is? The stack registerstack register, <em>%esp</em>, always contains a pointerpointer to the current top of the stack, wherever it is.</p>
+<p>These pieces are present in most programming languages. How you specify each piece is different in each one, however.</p>
+<p>The way that the variables are stored and the parameters and return values are transferred by the computer varies from language to language as well. This variance is known as a language's <em>calling convention</em>, because it describes how functions expect to get and receive data when they are called.<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a></p>
+<p>Assembly language can use any calling convention it wants to. You can even make one up yourself. However, if you want to interoperate with functions written in other languages, you have to obey their calling conventions. We will use the calling convention of the C programming language for our examples because it is the most widely used, and because it is the standard for Linux platforms.</p>
+<h2 id="assembly-language-functions-using-the-c-calling-convention">Assembly-Language Functions using the C Calling Convention</h2>
+<p>You cannot write assembly-language functions without understanding how the computer's <em>stack</em> works. Each computer program that runs uses a region of memory called the stack to enable functions to work properly. Think of a stack as a pile of papers on your desk which can be added to indefinitely. You generally keep the things that you are working on toward the top, and you take things off as you are finished working with them.</p>
+<p>Your computer has a stack, too. The computer's stackstack lives at the very top addresses of memory. You can push values onto the top of the stack through an instruction called <code>pushl</code>, which pushes either a register or memory value onto the top of the stack. Well, we say it's the top, but the "top" of the stack is actually the bottom of the stack's memory. Although this is confusing, the reason for it is that when we think of a stack of anything - dishes, papers, etc. - we think of adding and removing to the top of it. However, in memory the stack starts at the top of memory and grows downward due to architectural considerations. Therefore, when we refer to the "top of the stack" remember it's at the bottom of the stack's memory. You can also pop values off the top using an instruction called <code>popl</code>. This removes the top value from the stack and places it into a register or memory location of your choosing.</p>
+<p>When we push a value onto the stack, the top of the stack moves to accomodate the additional value. We can actually continually push values onto the stack and it will keep growing further and further down in memory until we hit our code or data. So how do we know where the current "top" of the stack is? The stack register, <em>%esp</em>, always contains a pointer to the current top of the stack, wherever it is.</p>
 <p>Every time we push something onto the stack with <code>pushl</code>, <em>%esp</em> gets subtracted by 4 so that it points to the new top of the stack (remember, each word is four bytes long, and the stack grows downward). If we want to remove something from the stack, we simply use the <code>popl</code> instruction, which adds 4 to <em>%esp</em> and puts the previous top value in whatever register you specified. <code>pushl</code> and <code>popl</code> each take one operand - the register to push onto the stack for <code>pushl</code>, or receive the data that is popped off the stack for <code>popl</code>.</p>
-<p>If we simply want to access the value on the top of the stack without removing it, we can simply use the <em>%esp</em> register in indirect addressing modeindirect addressing mode. For example, the following code moves whatever is at the top of the stack into <em>%eax</em>:</p>
-<pre><code>movl (%esp), %eax</code></pre>
+<p>If we simply want to access the value on the top of the stack without removing it, we can simply use the <em>%esp</em> register in indirect addressing mode. For example, the following code moves whatever is at the top of the stack into <em>%eax</em>:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>movl (%esp), %eax</span></code></pre></div>
 <p>If we were to just do this:</p>
-<pre><code>movl %esp, %eax</code></pre>
-<p>then <em>%eax</em> would just hold the pointer to the top of the stack rather than the value at the top. Putting <em>%esp</em> in parenthesis causes the computer to go to indirect addressing modeindirect addressing mode, and therefore we get the value pointed to by <em>%esp</em>. If we want to access the value right below the top of the stack, we can simply issue this instruction:</p>
-<pre><code>movl 4(%esp), %eax</code></pre>
-<p>This instruction uses the base pointer addressing modebase pointer addressing mode (see <a href="#data-accessing-methods">Data Accessing Methods</a>) which simply adds 4 to <em>%esp</em> before looking up the value being pointed to.</p>
-<p>In the C language calling conventionC language calling convention, the stack is the key element for implementing a function's local variables, parameters, and return address.</p>
-<p>Before executing a functionfunctions, a program pushes all of the parametersparameters for the function onto the stack in the reverse order that they are documented. Then the program issues a <code>callcall</code> instruction indicating which function it wishes to start. The <code>call</code> instruction does two things. First it pushes the address of the next instruction, which is the return addressreturn address, onto the stackstack. Then it modifies the instruction pointerinstruction pointer (<em>%eip</em>) to point to the start of the function. So, at the time the function starts, the stack looks like this (the "top" of the stack is at the bottom on this example):</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>movl %esp, %eax</span></code></pre></div>
+<p>then <em>%eax</em> would just hold the pointer to the top of the stack rather than the value at the top. Putting <em>%esp</em> in parenthesis causes the computer to go to indirect addressing mode, and therefore we get the value pointed to by <em>%esp</em>. If we want to access the value right below the top of the stack, we can simply issue this instruction:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>movl <span class="dv">4</span>(%esp), %eax</span></code></pre></div>
+<p>This instruction uses the base pointer addressing mode (see <a href="#data-accessing-methods">Data Accessing Methods</a>) which simply adds 4 to <em>%esp</em> before looking up the value being pointed to.</p>
+<p>In the C language calling convention, the stack is the key element for implementing a function's local variables, parameters, and return address.</p>
+<p>Before executing a function, a program pushes all of the parameters for the function onto the stack in the reverse order that they are documented. Then the program issues a <code>call</code> instruction indicating which function it wishes to start. The <code>call</code> instruction does two things. First it pushes the address of the next instruction, which is the return address, onto the stack. Then it modifies the instruction pointer (<em>%eip</em>) to point to the start of the function. So, at the time the function starts, the stack looks like this (the "top" of the stack is at the bottom on this example):</p>
+<!-- TODO: Dominique says "This part can be confusing until one gets to the sample illustration code and then it makes sense." -->
 <pre><code>Parameter #N
 ...
 Parameter 2
 Parameter 1
 Return Address &lt;--- (%esp)</code></pre>
 <p>Each of the parameters of the function have been pushed onto the stack, and finally the return address is there. Now the function itself has some work to do.</p>
-<p>The first thing it does is save the current base pointer registerbase pointer register, <em>%ebp</em>, by doing <code>pushl %ebp</code>. The base pointer is a special registerspecial register used for accessing function parametersfunction parameters and local variableslocal variables. Next, it copies the stack pointerstack pointer to <em>%ebp</em> by doing <code>movl %esp, %ebp</code>. This allows you to be able to access the function parameters as fixed indexes from the base pointer. You may think that you can use the stack pointer for this. However, during your program you may do other things with the stack such as pushing arguments to other functions.</p>
-<p>Copying the stack pointer into the base pointer at the beginning of a function allows you to always know where your parameters are (and as we will see, local variables too), even while you may be pushing things on and off the stack. <em>%ebp</em> will always be where the stack pointer was at the beginning of the function, so it is more or less a constant reference to the <em>stack framestack frame</em> (the stack frame consists of all of the stack variables used within a function, including parametersparameters, local variableslocal variables, and the return addressreturn address).</p>
+<p>The first thing it does is save the current base pointer register, <em>%ebp</em>, by doing <code>pushl %ebp</code>. The base pointer is a special register used for accessing function parameters and local variables. Next, it copies the stack pointer to <em>%ebp</em> by doing <code>movl %esp, %ebp</code>. This allows you to be able to access the function parameters as fixed indexes from the base pointer. You may think that you can use the stack pointer for this. However, during your program you may do other things with the stack such as pushing arguments to other functions.</p>
+<p>Copying the stack pointer into the base pointer at the beginning of a function allows you to always know where your parameters are (and as we will see, local variables too), even while you may be pushing things on and off the stack. <em>%ebp</em> will always be where the stack pointer was at the beginning of the function, so it is more or less a constant reference to the <em>stack frame</em> (the stack frame consists of all of the stack variables used within a function, including parameters, local variables, and the return address).</p>
 <p>At this point, the stack looks like this:</p>
 <pre><code>Parameter #N   &lt;--- N*4+4(%ebp)
 ...
@@ -794,9 +796,9 @@ Parameter 2    &lt;--- 12(%ebp)
 Parameter 1    &lt;--- 8(%ebp)
 Return Address &lt;--- 4(%ebp)
 Old %ebp       &lt;--- (%esp) and (%ebp)</code></pre>
-<p>As you can see, each parameter can be accessed using base pointer addressing modebase pointer addressing mode using the <em>%ebp</em> register.</p>
-<p>Next, the function reserves space on the stack for any local variableslocal variables it needs. This is done by simply moving the stack pointerstack pointer out of the way. Let's say that we are going to need two words of memory to run a function. We can simply move the stack pointer down two words to reserve the space. This is done like this:</p>
-<pre><code>subl $8, %esp</code></pre>
+<p>As you can see, each parameter can be accessed using base pointer addressing mode using the <em>%ebp</em> register.</p>
+<p>Next, the function reserves space on the stack for any local variables it needs. This is done by simply moving the stack pointer out of the way. Let's say that we are going to need two words of memory to run a function. We can simply move the stack pointer down two words to reserve the space. This is done like this:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>subl $8, %esp</span></code></pre></div>
 <p>This subtracts 8 from <em>%esp</em> (remember, a word is four bytes long).<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a> This way, we can use the stack for variable storage without worring about clobbering them with pushes that we may make for function calls. Also, since it is allocated on the stack frame for this function call, the variable will only be alive during this function. When we return, the stack frame will go away, and so will these variables. That's why they are called local - they only exist while this function is being called.</p>
 <p>Now we have two words for local storage. Our stack now looks like this:</p>
 <pre><code>Parameter #N     &lt;--- N*4+4(%ebp)
@@ -807,125 +809,261 @@ Return Address   &lt;--- 4(%ebp)
 Old %ebp         &lt;--- (%ebp)
 Local Variable 1 &lt;--- -4(%ebp)
 Local Variable 2 &lt;--- -8(%ebp) and (%esp)</code></pre>
-<p>So we can now access all of the data we need for this function by using base pointer addressingbase pointer addressing mode using different offsets from <em>%ebp</em>. <em>%ebp</em> was made specifically for this purpose, which is why it is called the base pointerbase pointer register. You can use other registers in base pointer addressing mode, but the x86 architecture makes using the <em>%ebp</em> register a lot faster.</p>
-<p>static variables global variables Global variables and static variables are accessed just like the memory we have been accessing memory in previous chapters. The only difference between the global and static variables is that static variables are only used by one function, while global variables are used by many functions. Assembly language treats them exactly the same, although most other languages distinguish them.</p>
+<p>So we can now access all of the data we need for this function by using base pointer addressing mode using different offsets from <em>%ebp</em>. <em>%ebp</em> was made specifically for this purpose, which is why it is called the base pointer register. You can use other registers in base pointer addressing mode, but the x86 architecture makes using the <em>%ebp</em> register a lot faster.</p>
+<p>Global variables and static variables are accessed just like the memory we have been accessing memory in previous chapters. The only difference between the global and static variables is that static variables are only used by one function, while global variables are used by many functions. Assembly language treats them exactly the same, although most other languages distinguish them.</p>
 <p>When a function is done executing, it does three things:</p>
 <ol type="1">
 <li><p>It stores its return value in <em>%eax</em>.</p></li>
-<li><p>It resets the stack to what it was when it was called (it gets rid of the current stack framestack frame and puts the stack frame of the calling code back into effect).</p></li>
-<li><p>It returns control back to wherever it was called from. This is done using the <code>retret</code> instruction, which pops whatever value is at the top of the stack, and sets the instruction pointerinstruction pointer, <em>%eip</em>, to that value.</p></li>
+<li><p>It resets the stack to what it was when it was called (it gets rid of the current stack frame and puts the stack frame of the calling code back into effect).</p></li>
+<li><p>It returns control back to wherever it was called from. This is done using the <code>ret</code> instruction, which pops whatever value is at the top of the stack, and sets the instruction pointer, <em>%eip</em>, to that value.</p></li>
 </ol>
-<p>So, before a function returns control to the code that called it, it must restore the previous stack frame. Note also that without doing this, <code>ret</code> wouldn't work, because in our current stack frame, the return address is not at the top of the stack. Therefore, before we return, we have to reset the stack pointerstack pointer <em>%esp</em> and base pointerbase pointer <em>%ebp</em> to what they were when the function began.</p>
+<p>So, before a function returns control to the code that called it, it must restore the previous stack frame. Note also that without doing this, <code>ret</code> wouldn't work, because in our current stack frame, the return address is not at the top of the stack. Therefore, before we return, we have to reset the stack pointer <em>%esp</em> and base pointer <em>%ebp</em> to what they were when the function began.</p>
 <p>Therefore to return from the function you have to do the following:</p>
-<pre><code>movl %ebp, %esp
-popl %ebp
-ret</code></pre>
-<p><em>At this point, you should consider all local variables to be disposed of.</em> The reason is that after you move the stack pointer back, future stack pushes will likely overwrite everything you put there. Therefore, you should never save the address of a local variablelocal variables past the life of the function it was created in, or else it will be overwritten after the life of its stack frame ends.</p>
-<p>Control has now been handed back to the calling code, which can now examine <em>%eax</em> for the return valuereturn value. The calling code also needs to pop off all of the parameters it pushed onto the stack in order to get the stack pointerstack pointer back where it was (you can also simply add 4 * number of parameters to <em>%esp</em> using the <code>addl</code> instruction, if you don't need the values of the parameters anymore).<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>movl %ebp, %esp</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>popl %ebp</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>ret</span></code></pre></div>
+<p><em>At this point, you should consider all local variables to be disposed of.</em> The reason is that after you move the stack pointer back, future stack pushes will likely overwrite everything you put there. Therefore, you should never save the address of a local variable past the life of the function it was created in, or else it will be overwritten after the life of its stack frame ends.</p>
+<p>Control has now been handed back to the calling code, which can now examine <em>%eax</em> for the return value. The calling code also needs to pop off all of the parameters it pushed onto the stack in order to get the stack pointer back where it was (you can also simply add 4 * number of parameters to <em>%esp</em> using the <code>addl</code> instruction, if you don't need the values of the parameters anymore).<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a></p>
 <hr />
 <p><strong>Destruction of Registers</strong></p>
-<p>When you call a functionfunctions, you should assume that everything currently in your registersregisters will be wiped out. The only register that is guaranteed to be left with the value it started with are <em>%ebp</em> and a few others (the Linux C calling convention requires functions to preserve the values of <em>%ebx</em>, <em>%edi</em>, and <em>%esi</em> if they are altered - this is not strictly held during this book because these programs are self-contained and not called by outside functions). <em>%ebx</em> also has some other uses in position-independent code, which is not covered in this book. <em>%eax</em> is guaranteed to be overwritten with the return value, and the others likely are. If there are registers you want to save before calling a function, you need to save them by pushing them on the stackstack before pushing the function's parameters. You can then pop them back off in reverse order after popping off the parameters. Even if you know a function does not overwrite a register you should save it, because future versions of that function may.</p>
+<p>When you call a function, you should assume that everything currently in your registers will be wiped out. The only register that is guaranteed to be left with the value it started with are <em>%ebp</em> and a few others (the Linux C calling convention requires functions to preserve the values of <em>%ebx</em>, <em>%edi</em>, and <em>%esi</em> if they are altered - this is not strictly held during this book because these programs are self-contained and not called by outside functions). <em>%ebx</em> also has some other uses in position-independent code, which is not covered in this book. <em>%eax</em> is guaranteed to be overwritten with the return value, and the others likely are. If there are registers you want to save before calling a function, you need to save them by pushing them on the stack before pushing the function's parameters. You can then pop them back off in reverse order after popping off the parameters. Even if you know a function does not overwrite a register you should save it, because future versions of that function may.</p>
+<p>Other languages' calling convention may be different. For example, other calling conventions may place the burden on the function to save any registers it uses. Be sure to check to make sure the calling conventions of your languages are compatible before trying to mix languages. Or in the case of assembly language, be sure you know how to call the other language's functions.</p>
 <hr />
-<p>Note that in Linux assembly language, functions are</p>
-<p>Other languages' calling conventionscalling conventions may be different. For example, other calling conventions may place the burden on the function to save any registers it uses. Be sure to check to make sure the calling conventions of your languages are compatible before trying to mix languages. Or in the case of assembly language, be sure you know how to call the other language's functions.</p>
 <blockquote>
-<p><strong>Extended Specification:</strong> Details of the C language calling conventioncalling convention (also known as the ABIABI, or Application Binary InterfaceApplication Binary Interface) is available online. We have oversimplified and left out several important pieces to make this simpler for new programmers. For full details, you should check out the documents available at http://www.linuxbase.org/spec/refspecs/ Specifically, you should look for the System V Application Binary Interface - Intel386 Architecture Processor Supplement.</p>
+<p><strong>Extended Specification:</strong> Details of the C language calling convention (also known as the ABI, or Application Binary Interface) is available online. We have oversimplified and left out several important pieces to make this simpler for new programmers. For full details, you should check out the documents available at <a href="https://refspecs.linuxfoundation.org/lsb.shtml">Linux Standard Base (LSB)</a>, you should look for the <a href="https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/programming-from-the-ground-up/resource/pdf/abi386-4.pdf">System V Application Binary Interface - Intel386 Architecture Processor Supplement, Fourth Edition</a>.</p>
 </blockquote>
 <h2 id="a-function-example">A Function Example</h2>
-<p>Let's take a look at how a function callfunction call works in a real program. The function we are going to write is the <code>power</code> function. We will give the power function two parameters - the number and the power we want to raise it to. For example, if we gave it the parameters 2 and 3, it would raise 2 to the power of 3, or 2*2*2, giving 8. In order to make this program simple, we will only allow numbers 1 and greater.</p>
+<p>Let's take a look at how a function call works in a real program. The function we are going to write is the <code>power</code> function. We will give the power function two parameters - the number and the power we want to raise it to. For example, if we gave it the parameters 2 and 3, it would raise 2 to the power of 3, or 2*2*2, giving 8. In order to make this program simple, we will only allow numbers 1 and greater.</p>
 <p>The following is the code for the complete program. As usual, an explanation follows. Name the file <code>power.s</code>.</p>
-<pre><code>POWER-S</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  Program to illustrate how functions work.</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           This program will compute the value of</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           2^3 + 5^2</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Everything in the main program is stored in registers,</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># so the data section doesn&#39;t have anything.</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    pushl $3                  <span class="co"># Push second argument.</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    pushl $2                  <span class="co"># Push first argument.</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    call  power               <span class="co"># Call the function.</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    addl  $8, %esp            <span class="co"># Move the stack pointer back.</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    pushl %eax                <span class="co"># Save the first answer before</span></span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># calling the next function.</span></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>    pushl $2                  <span class="co"># Push second argument.</span></span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>    pushl $5                  <span class="co"># Push first argument.</span></span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    call  power               <span class="co"># Call the function.</span></span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>    addl  $8, %esp            <span class="co"># Move the stack pointer back.</span></span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>    popl  %ebx                <span class="co"># The second answer is already</span></span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># in %eax.  We saved the</span></span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># first answer onto the stack,</span></span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># so now we can just pop it</span></span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># out into %ebx.</span></span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>    addl  %eax, %ebx          <span class="co"># Add them together</span></span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># the result is in %ebx.</span></span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>    movl  $1, %eax            <span class="co"># Exit (%ebx is returned).</span></span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>    int   $0x80</span>
+<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  This function is used to compute the value of a</span></span>
+<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           number raised to a power.</span></span>
+<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># INPUT:    First argument -  the base number.</span></span>
+<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           Second argument - the power to raise it to.</span></span>
+<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OUTPUT:   Will give the result as a return value.</span></span>
+<span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># NOTES:    The power must be 1 or greater.</span></span>
+<span id="cb45-46"><a href="#cb45-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb45-47"><a href="#cb45-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># VARIABLES:</span></span>
+<span id="cb45-48"><a href="#cb45-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     %ebx - holds the base number.</span></span>
+<span id="cb45-49"><a href="#cb45-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     %ecx - holds the power.</span></span>
+<span id="cb45-50"><a href="#cb45-50" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     -4(%ebp) - holds the current result.</span></span>
+<span id="cb45-51"><a href="#cb45-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     %eax is used for temporary storage.</span></span>
+<span id="cb45-52"><a href="#cb45-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb45-53"><a href="#cb45-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.type</span> power, <span class="co">@function</span></span>
+<span id="cb45-54"><a href="#cb45-54" aria-hidden="true" tabindex="-1"></a><span class="kw">power:</span></span>
+<span id="cb45-55"><a href="#cb45-55" aria-hidden="true" tabindex="-1"></a>    pushl %ebp                <span class="co"># Save old base pointer.</span></span>
+<span id="cb45-56"><a href="#cb45-56" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp          <span class="co"># Make stack pointer the base pointer.</span></span>
+<span id="cb45-57"><a href="#cb45-57" aria-hidden="true" tabindex="-1"></a>    subl  $4, %esp            <span class="co"># Get room for our local storage.</span></span>
+<span id="cb45-58"><a href="#cb45-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-59"><a href="#cb45-59" aria-hidden="true" tabindex="-1"></a>    movl  <span class="dv">8</span>(%ebp), %ebx       <span class="co"># Put first argument in %ebx.</span></span>
+<span id="cb45-60"><a href="#cb45-60" aria-hidden="true" tabindex="-1"></a>    movl  <span class="dv">12</span>(%ebp), %ecx      <span class="co"># Put second argument in %ecx.</span></span>
+<span id="cb45-61"><a href="#cb45-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-62"><a href="#cb45-62" aria-hidden="true" tabindex="-1"></a>    movl  %ebx, -<span class="dv">4</span>(%ebp)      <span class="co"># Store current result.</span></span>
+<span id="cb45-63"><a href="#cb45-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-64"><a href="#cb45-64" aria-hidden="true" tabindex="-1"></a><span class="kw">power_loop_start:</span></span>
+<span id="cb45-65"><a href="#cb45-65" aria-hidden="true" tabindex="-1"></a>    cmpl  $1, %ecx            <span class="co"># If the power is 1, we are done.</span></span>
+<span id="cb45-66"><a href="#cb45-66" aria-hidden="true" tabindex="-1"></a>    je    end_power</span>
+<span id="cb45-67"><a href="#cb45-67" aria-hidden="true" tabindex="-1"></a>    movl  -<span class="dv">4</span>(%ebp), %eax      <span class="co"># Move the current result into %eax.</span></span>
+<span id="cb45-68"><a href="#cb45-68" aria-hidden="true" tabindex="-1"></a>    imull %ebx, %eax          <span class="co"># Multiply the current result by</span></span>
+<span id="cb45-69"><a href="#cb45-69" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># the base number.</span></span>
+<span id="cb45-70"><a href="#cb45-70" aria-hidden="true" tabindex="-1"></a>    movl  %eax, -<span class="dv">4</span>(%ebp)      <span class="co"># Store the current result.</span></span>
+<span id="cb45-71"><a href="#cb45-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-72"><a href="#cb45-72" aria-hidden="true" tabindex="-1"></a>    decl  %ecx                <span class="co"># Decrease the power.</span></span>
+<span id="cb45-73"><a href="#cb45-73" aria-hidden="true" tabindex="-1"></a>    jmp   power_loop_start    <span class="co"># Run for the next power.</span></span>
+<span id="cb45-74"><a href="#cb45-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-75"><a href="#cb45-75" aria-hidden="true" tabindex="-1"></a><span class="kw">end_power:</span></span>
+<span id="cb45-76"><a href="#cb45-76" aria-hidden="true" tabindex="-1"></a>    movl -<span class="dv">4</span>(%ebp), %eax       <span class="co"># Return value goes in %eax.</span></span>
+<span id="cb45-77"><a href="#cb45-77" aria-hidden="true" tabindex="-1"></a>    movl %ebp, %esp           <span class="co"># Restore the stack pointer.</span></span>
+<span id="cb45-78"><a href="#cb45-78" aria-hidden="true" tabindex="-1"></a>    popl %ebp                 <span class="co"># Restore the base pointer.</span></span>
+<span id="cb45-79"><a href="#cb45-79" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
 <p>Type in the program, assemble it, and run it. Try calling power for different values, but remember that the result has to be less than 256 when it is passed back to the operating system. Also try subtracting the results of the two computations. Try adding a third call to the <code>power</code> function, and add its result back in.</p>
 <p>The main program code is pretty simple. You push the arguments onto the stack, call the function, and then move the stack pointer back. The result is stored in <em>%eax</em>. Note that between the two calls to <code>power</code>, we save the first value onto the stack. This is because the only register that is guaranteed to be saved is <em>%ebp</em>. Therefore we push the value onto the stack, and pop the value back off after the second function call is complete.</p>
 <p>Let's look at how the function itself is written. Notice that before the function, there is documentation as to what the function does, what its arguments are, and what it gives as a return value. This is useful for programmers who use this function. This is the function's interface. This lets the programmer know what values are needed on the stack, and what will be in <em>%eax</em> at the end.</p>
 <p>We then have the following line:</p>
-<pre><code>    .type power,@function</code></pre>
-<p>.type @functions This tells the linker that the symbol <code>power</code> should be treated as a function. Since this program is only in one file, it would work just the same with this left out. However, it is good practice.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.type</span> power,<span class="co">@function</span></span></code></pre></div>
+<p>This tells the linker that the symbol <code>power</code> should be treated as a function. Since this program is only in one file, it would work just the same with this left out. However, it is good practice.</p>
 <p>After that, we define the value of the <code>power</code> label:</p>
-<pre><code>power:</code></pre>
-<p>As mentioned previously, this defines the symbol <code>power</code> to be the address where the instructions following the label begin. This is how <code>call power</code> works. It transfers control to this spot of the program. The difference between <code>callcall</code> and <code>jmpjmp</code> is that <code>call</code> also pushes the return address onto the stack so that the function can return, while the <code>jmp</code> does not.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">power:</span></span></code></pre></div>
+<p>As mentioned previously, this defines the symbol <code>power</code> to be the address where the instructions following the label begin. This is how <code>call power</code> works. It transfers control to this spot of the program. The difference between <code>call</code> and <code>jmp</code> is that <code>call</code> also pushes the return address onto the stack so that the function can return, while the <code>jmp</code> does not.</p>
 <p>Next, we have our instructions to set up our function:</p>
-<pre><code>    pushl %ebp
-    movl  %esp, %ebp
-    subl  $4, %esp</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>pushl %ebp</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>movl  %esp, %ebp</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>subl  $4, %esp</span></code></pre></div>
 <p>At this point, our stack looks like this:</p>
 <pre><code>Base Number    &lt;--- 12(%ebp)
 Power          &lt;--- 8(%ebp)
 Return Address &lt;--- 4(%ebp)
 Old %ebp       &lt;--- (%ebp)
 Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
-<p>Although we could use a register for temporary storage, this program uses a local variablelocal variables in order to show how to set it up. Often times there just aren't enough registers to store everything, so you have to offload them into local variables. Other times, your function will need to call another function and send it a pointer to some of your data. You can't have a pointerpointer to a registerregister, so you have to store it in a local variable in order to send a pointer to it.</p>
+<p>Although we could use a register for temporary storage, this program uses a local variable in order to show how to set it up. Often times there just aren't enough registers to store everything, so you have to offload them into local variables. Other times, your function will need to call another function and send it a pointer to some of your data. You can't have a pointer to a register, so you have to store it in a local variable in order to send a pointer to it.</p>
 <p>Basically, what the program does is start with the base number, and store it both as the multiplier (stored in <em>%ebx</em>) and the current value (stored in -4(%ebp)). It also has the power stored in <em>%ecx</em> It then continually multiplies the current value by the multiplier, decreases the power, and leaves the loop if the power (in <em>%ecx</em>) gets down to 1.</p>
-<p>By now, you should be able to go through the program without help. The only things you should need to know is that <code>imullimull</code> does integer multiplication and stores the result in the second operand, and <code>decldecl</code> decreases the given register by 1. For more information on these and other instructions, see <a href="#common-x86-instructions">Common x86 Instructions</a></p>
+<p>By now, you should be able to go through the program without help. The only things you should need to know is that <code>imull</code> does integer multiplication and stores the result in the second operand, and <code>decl</code> decreases the given register by 1. For more information on these and other instructions, see <a href="#common-x86-instructions">Common x86 Instructions</a></p>
 <p>A good project to try now is to extend the program so it will return the value of a number if the power is 0 (hint, anything raised to the zero power is 1). Keep trying. If it doesn't work at first, try going through your program by hand with a scrap of paper, keeping track of where <em>%ebp</em> and <em>%esp</em> are pointing, what is on the stack, and what the values are in each register.</p>
-<h2 id="recursivefunctions">Recursive Functions</h2>
-<p>The next program will stretch your brains even more. The program will compute the <em>factorial</em> of a number. A factorial is the product of a number and all the numbers between it and one. For example, the factorial of 7 is 7*6*5*4*3*2*1, and the factorial of 4 is 4*3*2*1. Now, one thing you might notice is that the factorial of a number is the same as the product of a number and the factorial just below it. For example, the factorial of 4 is 4 times the factorial of 3. The factorial of 3 is 3 times the factorial of 2. 2 is 2 times the factorial of 1. The factorial of 1 is 1. This type of definition is called a recursiverecursive definition. That means, the definition of the factorial functionfunctions includes the factorial function itself. However, since all functions need to end, a recursive definition must include a <em>base casebase case</em>. The base case is the point where recursion will stop. Without a base case, the function would go on forever calling itself until it eventually ran out of stack space. In the case of the factorial, the base case is the number 1. When we hit the number 1, we don't run the factorial again, we just say that the factorial of 1 is 1. So, let's run through what we want the code to look like for our factorial function:</p>
+<h2 id="recursive-functions">Recursive Functions</h2>
+<p>The next program will stretch your brains even more. The program will compute the <em>factorial</em> of a number. A factorial is the product of a number and all the numbers between it and one. For example, the factorial of 7 is 7*6*5*4*3*2*1, and the factorial of 4 is 4*3*2*1. Now, one thing you might notice is that the factorial of a number is the same as the product of a number and the factorial just below it. For example, the factorial of 4 is 4 times the factorial of 3. The factorial of 3 is 3 times the factorial of 2. 2 is 2 times the factorial of 1. The factorial of 1 is 1. This type of definition is called a recursive definition. That means, the definition of the factorial function includes the factorial function itself. However, since all functions need to end, a recursive definition must include a <em>base case</em>. The base case is the point where recursion will stop. Without a base case, the function would go on forever calling itself until it eventually ran out of stack space. In the case of the factorial, the base case is the number 1. When we hit the number 1, we don't run the factorial again, we just say that the factorial of 1 is 1. So, let's run through what we want the code to look like for our factorial function:</p>
 <ol type="1">
-<li><p>Examine the number</p></li>
+<li><p>Examine the number.</p></li>
 <li><p>Is the number 1?</p></li>
-<li><p>If so, the answer is one</p></li>
-<li><p>Otherwise, the answer is the number times the factorial of the number minus one</p></li>
+<li><p>If so, the answer is one.</p></li>
+<li><p>Otherwise, the answer is the number times the factorial of the number minus one.</p></li>
 </ol>
-<p>This would be problematic if we didn't have local variableslocal variables. In other programs, storing values in global variables worked fine. However, global variables only provide one copy of each variable. In this program, we will have multiple copies of the function running at the same time, all of them needing their own copies of the data!<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a> Since local variables exist on the stack frame, and each function call gets its own stack framestack frame, we are okay.</p>
+<p>This would be problematic if we didn't have local variables. In other programs, storing values in global variables worked fine. However, global variables only provide one copy of each variable. In this program, we will have multiple copies of the function running at the same time, all of them needing their own copies of the data!<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a> Since local variables exist on the stack frame, and each function call gets its own stack frame, we are okay.</p>
 <p>Let's look at the code to see how this works:</p>
-<pre><code>FACTORIAL-S</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  Given a number, this program computes the</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           factorial.  For example, the factorial of</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           3 is 3 * 2 * 1, or 6.  The factorial of</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           4 is 4 * 3 * 2 * 1, or 24, and so on.</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This program shows how to call a function recursively.</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This program has no global data.</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> factorial          <span class="co"># This is unneeded unless we want to share</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># this function among other programs.</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>    pushl $4                  <span class="co"># The factorial takes one argument - the</span></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># number we want a factorial of.  So, it</span></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># gets pushed.</span></span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>    call  factorial           <span class="co"># Run the factorial function.</span></span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>    addl  $4, %esp            <span class="co"># Scrubs the parameter that was pushed on</span></span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># the stack.</span></span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>    movl  %eax, %ebx          <span class="co"># Factorial returns the answer in %eax, but</span></span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># we want it in %ebx to send it as our exit</span></span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># status.</span></span>
+<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a>    movl  $1, %eax            <span class="co"># Call the kernel&#39;s exit function.</span></span>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>    int   $0x80</span>
+<span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-27"><a href="#cb50-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-28"><a href="#cb50-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This is the actual function definition.</span></span>
+<span id="cb50-29"><a href="#cb50-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb50-30"><a href="#cb50-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.type</span> factorial,<span class="co">@function</span></span>
+<span id="cb50-31"><a href="#cb50-31" aria-hidden="true" tabindex="-1"></a><span class="kw">factorial:</span></span>
+<span id="cb50-32"><a href="#cb50-32" aria-hidden="true" tabindex="-1"></a>    pushl %ebp                <span class="co"># Atandard function stuff - we have to</span></span>
+<span id="cb50-33"><a href="#cb50-33" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># restore %ebp to its prior state before</span></span>
+<span id="cb50-34"><a href="#cb50-34" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># returning, so we have to push it.</span></span>
+<span id="cb50-35"><a href="#cb50-35" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp          <span class="co"># This is because we don&#39;t want to modify</span></span>
+<span id="cb50-36"><a href="#cb50-36" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># the stack pointer, so we use %ebp.</span></span>
+<span id="cb50-37"><a href="#cb50-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-38"><a href="#cb50-38" aria-hidden="true" tabindex="-1"></a>    movl  <span class="dv">8</span>(%ebp), %eax       <span class="co"># This moves the first argument to %eax</span></span>
+<span id="cb50-39"><a href="#cb50-39" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># 4(%ebp) holds the return address, and</span></span>
+<span id="cb50-40"><a href="#cb50-40" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># 8(%ebp) holds the first parameter.</span></span>
+<span id="cb50-41"><a href="#cb50-41" aria-hidden="true" tabindex="-1"></a>    cmpl  $1, %eax            <span class="co"># If the number is 1, that is our base</span></span>
+<span id="cb50-42"><a href="#cb50-42" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># case, and we simply return (1 is</span></span>
+<span id="cb50-43"><a href="#cb50-43" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># already in %eax as the return value).</span></span>
+<span id="cb50-44"><a href="#cb50-44" aria-hidden="true" tabindex="-1"></a>    je end_factorial</span>
+<span id="cb50-45"><a href="#cb50-45" aria-hidden="true" tabindex="-1"></a>    decl  %eax                <span class="co"># Otherwise, decrease the value.</span></span>
+<span id="cb50-46"><a href="#cb50-46" aria-hidden="true" tabindex="-1"></a>    pushl %eax                <span class="co"># Push it for our call to factorial.</span></span>
+<span id="cb50-47"><a href="#cb50-47" aria-hidden="true" tabindex="-1"></a>    call  factorial           <span class="co"># Call factorial.</span></span>
+<span id="cb50-48"><a href="#cb50-48" aria-hidden="true" tabindex="-1"></a>    movl  <span class="dv">8</span>(%ebp), %ebx       <span class="co"># %eax has the return value, so we</span></span>
+<span id="cb50-49"><a href="#cb50-49" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># reload our parameter into %ebx</span></span>
+<span id="cb50-50"><a href="#cb50-50" aria-hidden="true" tabindex="-1"></a>    imull %ebx, %eax          <span class="co"># Multiply that by the result of the</span></span>
+<span id="cb50-51"><a href="#cb50-51" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># last call to factorial (in %eax)</span></span>
+<span id="cb50-52"><a href="#cb50-52" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># the answer is stored in %eax, which</span></span>
+<span id="cb50-53"><a href="#cb50-53" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># is good since that&#39;s where return</span></span>
+<span id="cb50-54"><a href="#cb50-54" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># values go.</span></span>
+<span id="cb50-55"><a href="#cb50-55" aria-hidden="true" tabindex="-1"></a><span class="kw">end_factorial:</span></span>
+<span id="cb50-56"><a href="#cb50-56" aria-hidden="true" tabindex="-1"></a>    movl  %ebp, %esp          <span class="co"># Standard function return stuff - we</span></span>
+<span id="cb50-57"><a href="#cb50-57" aria-hidden="true" tabindex="-1"></a>    popl  %ebp                <span class="co"># have to restore %ebp and %esp to where</span></span>
+<span id="cb50-58"><a href="#cb50-58" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># they were before the function started</span></span>
+<span id="cb50-59"><a href="#cb50-59" aria-hidden="true" tabindex="-1"></a>    ret                       <span class="co"># return from the function (this pops the</span></span>
+<span id="cb50-60"><a href="#cb50-60" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># return value, too).</span></span></code></pre></div>
 <p>Assemble, link, and run it with these commands:</p>
-<pre><code>as factorial.s -o factorial.o
-ld factorial.o -o factorial
-./factorial
-echo $?</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> factorial.s -o factorial.o</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> factorial.o -o factorial</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./factorial</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$?</span></span></code></pre></div>
 <p>This should give you the value 24. 24 is the factorial of 4, you can test it out yourself with a calculator: 4 * 3 * 2 * 1 = 24.</p>
 <p>I'm guessing you didn't understand the whole code listing. Let's go through it a line at a time to see what is happening.</p>
-<pre><code>_start:
-    pushl $4
-    call factorial</code></pre>
-<p>Okay, this program is intended to compute the factorial of the number 4. When programming functions, you are supposed to put the parametersparameters of the function on the top of the stack right before you call it. Remember, a function's <em>parametersparameters</em> are the data that you want the function to work with. In this case, the factorial function takes 1 parameter - the number you want the factorial of.</p>
-<p>The <code>pushlpushl</code> instruction puts the given value at the top of the stack. The <code>callcall</code> instruction then makes the function call.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    pushl $4</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    call factorial</span></code></pre></div>
+<p>Okay, this program is intended to compute the factorial of the number 4. When programming functions, you are supposed to put the parameters of the function on the top of the stack right before you call it. Remember, a function's <em>parameters</em> are the data that you want the function to work with. In this case, the factorial function takes 1 parameter - the number you want the factorial of.</p>
+<p>The <code>pushl</code> instruction puts the given value at the top of the stack. The <code>call</code> instruction then makes the function call.</p>
 <p>Next we have these lines:</p>
-<pre><code>        addl  $4, %esp
-        movl  %eax, %ebx
-        movl  $1, %eax
-        int   $0x80</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>addl  $4, %esp</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>movl  %eax, %ebx</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>movl  $1, %eax</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>int   $0x80</span></code></pre></div>
 <p>This takes place after <code>factorial</code> has finished and computed the factorial of 4 for us. Now we have to clean up the stack. The <code>addl</code> instruction moves the stack pointer back to where it was before we pushed the <code>$4</code> onto the stack. You should always clean up your stack parameters after a function call returns.</p>
-<p>The next instruction moves <em>%eax</em> to <em>%ebx</em>. What's in <em>%eax</em>? It is <code>factorial</code>'s return valuereturn value. In our case, it is the value of the factorial function. With 4 as our parameter, 24 should be our return value. Remember, return values are always stored in <em>%eax</em>. We want to return this value as the status code to the operating system. However, Linux requires that the program's exit status be stored in <em>%ebx</em>, not <em>%eax</em>, so we have to move it. Then we do the standard exit system call.</p>
+<p>The next instruction moves <em>%eax</em> to <em>%ebx</em>. What's in <em>%eax</em>? It is <code>factorial</code>'s return value. In our case, it is the value of the factorial function. With 4 as our parameter, 24 should be our return value. Remember, return values are always stored in <em>%eax</em>. We want to return this value as the status code to the operating system. However, Linux requires that the program's exit status be stored in <em>%ebx</em>, not <em>%eax</em>, so we have to move it. Then we do the standard exit system call.</p>
 <p>The nice thing about function calls is that:</p>
 <ul>
 <li><p>Other programmers don't have to know anything about them except its arguments to use them.</p></li>
 <li><p>They provide standardized building blocks from which you can form a program.</p></li>
-<li><p>They can be called multiple times and from multiple locations and they always know how to get back to where they were since <code>callcall</code> pushes the return address onto the stack.</p></li>
+<li><p>They can be called multiple times and from multiple locations and they always know how to get back to where they were since <code>call</code> pushes the return address onto the stack.</p></li>
 </ul>
 <p>These are the main advantages of functions. Larger programs also use functions to break down complex pieces of code into smaller, simpler ones. In fact, almost all of programming is writing and calling functions.</p>
 <p>Let's now take a look at how the <code>factorial</code> function itself is implemented.</p>
 <p>Before the function starts, we have this directive:</p>
-<pre><code>    .type factorial,@function
-factorial:</code></pre>
-<p>The <code>.type.type</code> directive tells the linker that <code>factorial</code> is a function. This isn't really needed unless we were using <code>factorial</code> in other programs. We have included it for completeness. The line that says <code>factorial:</code> gives the symbol <code>factorial</code> the storage location of the next instruction. That's how <code>call</code> knew where to go when we said <code>call factorial</code>.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.type</span> factorial,<span class="co">@function</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="kw">factorial:</span></span></code></pre></div>
+<p>The <code>.type</code> directive tells the linker that <code>factorial</code> is a function. This isn't really needed unless we were using <code>factorial</code> in other programs. We have included it for completeness. The line that says <code>factorial:</code> gives the symbol <code>factorial</code> the storage location of the next instruction. That's how <code>call</code> knew where to go when we said <code>call factorial</code>.</p>
 <p>The first real instructions of the function are:</p>
-<pre><code>    pushl %ebp
-    movl  %esp, %ebp</code></pre>
-<p>As shown in the previous program, this creates the stack framestack frame for this function. These two lines will be the way you should start every function.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>pushl %ebp</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>movl  %esp, %ebp</span></code></pre></div>
+<p>As shown in the previous program, this creates the stack frame for this function. These two lines will be the way you should start every function.</p>
 <p>The next instruction is this:</p>
-<pre><code>    movl  8(%ebp), %eax</code></pre>
-<p>This uses base pointer addressingbase pointer addressing mode to move the first parameterparameter of the function into <em>%eax</em>. Remember, <code>(%ebp)</code> has the old <em>%ebp</em>, <code>4(%ebp)</code> has the return address, and <code>8(%ebp)</code> is the location of the first parameter to the function. If you think back, this will be the value 4 on the first call, since that was what we pushed on the stack before calling the function the first time (with <code>pushl $4</code>). As this function calls itself, it will have other values, too.</p>
-<p>Next, we check to see if we've hit our base case (a parameter of 1). If so, we jump to the instruction at the label <code>end_factorial</code>, where it will be returned. It's already in <em>%eax</em> which we mentioned earlier is where you put return valuesreturn values. That is accomplished by these lines:</p>
-<pre><code>    cmpl $1, %eax
-    je end_factorial</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>movl  <span class="dv">8</span>(%ebp), %eax</span></code></pre></div>
+<p>This uses base pointer addressing mode to move the first parameter of the function into <em>%eax</em>. Remember, <code>(%ebp)</code> has the old <em>%ebp</em>, <code>4(%ebp)</code> has the return address, and <code>8(%ebp)</code> is the location of the first parameter to the function. If you think back, this will be the value 4 on the first call, since that was what we pushed on the stack before calling the function the first time (with <code>pushl $4</code>). As this function calls itself, it will have other values, too.</p>
+<p>Next, we check to see if we've hit our base case (a parameter of 1). If so, we jump to the instruction at the label <code>end_factorial</code>, where it will be returned. It's already in <em>%eax</em> which we mentioned earlier is where you put return values. That is accomplished by these lines:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>cmpl $1, %eax</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>je end_factorial</span></code></pre></div>
 <p>If it's not our base case, what did we say we would do? We would call the <code>factorial</code> function again with our parameter minus one. So, first we decrease <em>%eax</em> by one:</p>
-<pre><code>    decl %eax</code></pre>
-<p><code>decldecl</code> stands for decrement. It subtracts 1 from the given register or memory location (<em>%eax</em> in our case). <code>inclincl</code> is the inverse - it adds 1. After decrementing <em>%eax</em> we push it onto the stack since it's going to be the parameter of the next function call. And then we call <code>factorial</code> again!</p>
-<pre><code>    pushl %eax
-    call factorial</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>decl %eax</span></code></pre></div>
+<p><code>decl</code> stands for decrement. It subtracts 1 from the given register or memory location (<em>%eax</em> in our case). <code>incl</code> is the inverse - it adds 1. After decrementing <em>%eax</em> we push it onto the stack since it's going to be the parameter of the next function call. And then we call <code>factorial</code> again!</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>pushl %eax</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>call factorial</span></code></pre></div>
 <p>Okay, now we've called <code>factorial</code>. One thing to remember is that after a function call, we can never know what the registers are (except <code>%esp</code> and <code>%ebp</code>). So even though we had the value we were called with in <code>%eax</code>, it's not there any more. Therefore, we need pull it off the stack from the same place we got it the first time (at <code>8(%ebp)</code>). So, we do this:</p>
-<pre><code>    movl 8(%ebp), %ebx</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>movl <span class="dv">8</span>(%ebp), %ebx</span></code></pre></div>
 <p>Now, we want to multiply that number with the result of the factorial function. If you remember our previous discussion, the result of functions are left in <em>%eax</em>. So, we need to multiply <em>%ebx</em> with <em>%eax</em>. This is done with this instruction:</p>
-<pre><code>    imull %ebx, %eax</code></pre>
-<p>This also stores the result in <em>%eax</em>, which is exactly where we want the return value for the function to be! Since the return valuereturn value is in place we just need to leave the function. If you remember, at the start of the function we pushed <em>%ebp</em>, and moved <em>%esp</em> into <em>%ebp</em> to create the current stack frame. Now we reverse the operation to destroy the current stack frame and reactivate the last one:</p>
-<pre><code>end_factorial:
-    movl %ebp, %esp
-    popl %ebp</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>imull %ebx, %eax</span></code></pre></div>
+<p>This also stores the result in <em>%eax</em>, which is exactly where we want the return value for the function to be! Since the return value is in place we just need to leave the function. If you remember, at the start of the function we pushed <em>%ebp</em>, and moved <em>%esp</em> into <em>%ebp</em> to create the current stack frame. Now we reverse the operation to destroy the current stack frame and reactivate the last one:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end_factorial:</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    movl %ebp, %esp</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    popl %ebp</span></code></pre></div>
 <p>Now we're already to return, so we issue the following command</p>
-<pre><code>    ret</code></pre>
-<p>This pops the top value off of the stack, and then jumps to it. If you remember our discussion about <code>call</code>, we said that <code>callcall</code> first pushed the address of the next instruction onto the stack before it jumped to the beginning of the function. So, here we pop it back off so we can return there. The function is done, and we have our answer!</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>ret</span></code></pre></div>
+<p>This pops the top value off of the stack, and then jumps to it. If you remember our discussion about <code>call</code>, we said that <code>call</code> first pushed the address of the next instruction onto the stack before it jumped to the beginning of the function. So, here we pop it back off so we can return there. The function is done, and we have our answer!</p>
 <p>Like our previous program, you should look over the program again, and make sure you know what everything does. Look back through this section and the previous sections for the explanation of anything you don't understand. Then, take a piece of paper, and go through the program step-by-step, keeping track of what the values of the registers are at each step, and what values are on the stack. Doing this should deepen your understanding of what is going on.</p>
 <h2 id="review-2">Review</h2>
 <h3 id="know-the-concepts-2">Know the Concepts</h3>
@@ -939,7 +1077,7 @@ factorial:</code></pre>
 <li><p>What are <em>%ebp</em> and <em>%esp</em> used for?</p></li>
 <li><p>What is a stack frame?</p></li>
 </ul>
-<h3 id="functionsreviewuseconcepts">Use the Concepts</h3>
+<h3 id="use-the-concepts-2">Use the Concepts</h3>
 <ul>
 <li><p>Write a function called <code>square</code> which receives one argument and returns the square of that argument.</p></li>
 <li><p>Write a program to test your <code>square</code> function.</p></li>
@@ -955,7 +1093,7 @@ factorial:</code></pre>
 <li><p>Can you build a calling convention without using the stack? What limitations might it have?</p></li>
 <li><p>What test cases should we use in our example program to check to see if it is working properly?</p></li>
 </ul>
-<h1 id="filesch">Dealing with Files</h1>
+<h1 id="chapter-5-dealing-with-files">Chapter 5. Dealing with Files</h1>
 <p>A lot of computer programming deals with filesfiles. After all, when we reboot our computers, the only thing that remains from previous sessions are the things that have been put on disk. Data which is stored in files is called <em>persistentpersistance</em> data, because it persists in files that remain on the disk even when the program isn't running..</p>
 <h2 id="the-unix-file-concept">The UNIX File Concept</h2>
 <p>Each operating system has its own way of dealing with files. However, the UNIX method, which is used on Linux, is the simplest and most universal. UNIX files, no matter what program created them, can all be accessed as a sequential stream of bytes. When you access a file, you start by opening it by name. The operating system then gives you a number, called a <em>file descriptorfile descriptors</em>, which you use to refer to the file until you are through with it. You can then read and write to the file using its file descriptor. When you are done reading and writing, you then close the file, which then makes the file descriptor useless.</p>
@@ -1062,7 +1200,7 @@ ld toupper.o -o toupper</code></pre>
 <li><p>What is the difference between the <code>.data</code> section and the <code>.bss</code> section?</p></li>
 <li><p>What are the system calls related to reading and writing files?</p></li>
 </ul>
-<h3 id="use-the-concepts-2">Use the Concepts</h3>
+<h3 id="use-the-concepts-3">Use the Concepts</h3>
 <ul>
 <li><p>Modify the <code>toupper</code> program so that it reads from <code>STDIN</code> and writes to <code>STDOUT</code> instead of using the files on the command-line.</p></li>
 <li><p>Change the size of the buffer.</p></li>
@@ -1182,7 +1320,7 @@ ld add-year.o write-newline.o error-exit.o read-record.o write-record.o count-ch
 <li><p>What are recovery points used for?</p></li>
 <li><p>How many different error codes should a program have?</p></li>
 </ul>
-<h3 id="use-the-concepts-3">Use the Concepts</h3>
+<h3 id="use-the-concepts-4">Use the Concepts</h3>
 <ul>
 <li><p>Go through the <code>add-year.s</code> program and add error-checking code after every system call.</p></li>
 <li><p>Find one other program we have done so far, and add error-checking to that program.</p></li>
@@ -1458,7 +1596,7 @@ ld alloc.o read-record.o read-records.o write-newline.o count-chars.o -o read-re
 <li><p>Describe the process that occurs if a piece of memory you are using is currently residing on disk?</p></li>
 <li><p>Why do you need an allocator?</p></li>
 </ul>
-<h3 id="use-the-concepts-4">Use the Concepts</h3>
+<h3 id="use-the-concepts-5">Use the Concepts</h3>
 <ul>
 <li><p>Modify the memory manager so that it calls <code>allocate_init</code> automatically if it hasn't been initialized.</p></li>
 <li><p>Modify the memory manager so that if the requested size of memory is smaller than the region chosen, it will break up the region into multiple parts. Be sure to take into account the size of the new header record when you do this.</p></li>
@@ -1635,10 +1773,10 @@ export LD_LIBRARY_PATH</code></pre>
 <li><p>If you had a object file called <code>foo.o</code>, what would be the command to create a shared library called 'bar'?</p></li>
 <li><p>What is the purpose of LD_LIBRARY_PATH?</p></li>
 </ul>
-<h3 id="use-the-concepts-5">Use the Concepts</h3>
+<h3 id="use-the-concepts-6">Use the Concepts</h3>
 <ul>
 <li><p>Rewrite one or more of the programs from the previous chapters to print their results to the screen using <code>printf</code> rather than returning the result as the exit status code. Also, make the exit status code be 0.</p></li>
-<li><p>Use the <code>factorial</code> function you developed in <a href="#recursivefunctions">???</a> to make a shared library. Then re-write the main program so that it links with the library dynamically.</p></li>
+<li><p>Use the <code>factorial</code> function you developed in <a href="#recursive-functions">Recursive Functions</a> to make a shared library. Then re-write the main program so that it links with the library dynamically.</p></li>
 <li><p>Rewrite the program above so that it also links with the 'c' library. Use the 'c' library's <code>printf</code> function to display the result of the <code>factorial</code> call.</p></li>
 <li><p>Rewrite the <code>toupper</code> program so that it uses the <code>c</code> library functions for files rather than system calls.</p></li>
 </ul>
@@ -1991,7 +2129,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>Sign-extend the previous quantity into a 64-bit register.</p></li>
 <li><p>Describe the difference between little-endian and big-endian storage of words in memory.</p></li>
 </ul>
-<h3 id="use-the-concepts-6">Use the Concepts</h3>
+<h3 id="use-the-concepts-7">Use the Concepts</h3>
 <ul>
 <li><p>Go back to previous programs that returned numeric results through the exit status code, and rewrite them to print out the results instead using our integer to string conversion function.</p></li>
 <li><p>Modify the <code>integer2string</code> code to return results in octal rather than decimal.</p></li>
@@ -2066,7 +2204,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>What is the difference between an intepretted language and a compiled language?</p></li>
 <li><p>What reasons might cause you to need to learn a new programming language?</p></li>
 </ul>
-<h3 id="use-the-concepts-7">Use the Concepts</h3>
+<h3 id="use-the-concepts-8">Use the Concepts</h3>
 <ul>
 <li><p>Learn the basic syntax of a new programming language. Re-code one of the programs in this book in that language.</p></li>
 <li><p>In the program you wrote in the question above, what specific things were automated in the programming language you chose?</p></li>
@@ -2155,7 +2293,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>How do you determine what parts of your program need optimization?</p></li>
 <li><p>At what level of importance is optimization compared to the other priorities in programming? Why do you think I repeated that question?</p></li>
 </ul>
-<h3 id="use-the-concepts-8">Use the Concepts</h3>
+<h3 id="use-the-concepts-9">Use the Concepts</h3>
 <ul>
 <li><p>Go back through each program in this book and try to make optimizations according to the procedures outlined in this chapter</p></li>
 <li><p>Pick a program from the previous exercise and try to calculate the performance impact on your code under specific inputs.<a href="#fn46" class="footnote-ref" id="fnref46" role="doc-noteref"><sup>46</sup></a></p></li>
@@ -2249,7 +2387,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh's x86 Assembly Page</p></li>
 </ul>
 <h1 id="records">Reading and Writing Simple Records</h1>
-<p>As mentioned in <a href="#filesch">???</a>, many applications deal with data that is <em>persistentpersistent</em> - meaning that the data lives longer than the program by being stored on disk in files. You can shut down the program and open it back up, and you are back where you started. Now, there are two basic kinds of persistent data - structured and unstructured. Unstructured dataunstructured data is like what we dealt with in the <code>toupper</code> program. It just dealt with text files that were entered by a person. The contents of the files weren't usable by a program because a program can't interpret what the user is trying to say in random text.</p>
+<p>As mentioned in <a href="#chapter-5-dealing-with-files">Chapter 5. Dealing with Files</a>, many applications deal with data that is <em>persistentpersistent</em> - meaning that the data lives longer than the program by being stored on disk in files. You can shut down the program and open it back up, and you are back where you started. Now, there are two basic kinds of persistent data - structured and unstructured. Unstructured dataunstructured data is like what we dealt with in the <code>toupper</code> program. It just dealt with text files that were entered by a person. The contents of the files weren't usable by a program because a program can't interpret what the user is trying to say in random text.</p>
 <p>Structured datastructured data, on the other hand, is what computers excel at handling. Structured data is data that is divided up into fieldsfields and recordsrecords. For the most part, the fields and records are fixed-length. Because the data is divided into fixed-length records and fixed-format fields, the computer can interpret the data. Structured data can contain variable-length fields, but at that point you are usually better off with a databasedatabase. <a href="#fn47" class="footnote-ref" id="fnref47" role="doc-noteref"><sup>47</sup></a></p>
 <p>This chapter deals with reading and writing simple fixed-length recordsrecords. Let's say we wanted to store some basic information about people we know. We could imagine the following example fixed-length record about people:</p>
 <ul>
@@ -2355,7 +2493,7 @@ ld add-year.o read-record.o write-record.o -o add-year</code></pre>
 <li><p>Why might you want to split up a project into multiple source files?</p></li>
 <li><p>What does the instruction <code>incl record_buffer + RECORD_AGE</code> do? What addressing mode is it using? How many operands does the <code>incl</code> instructions have in this case? Which parts are being handled by the assembler and which parts are being handled when the program is run?</p></li>
 </ul>
-<h3 id="use-the-concepts-9">Use the Concepts</h3>
+<h3 id="use-the-concepts-10">Use the Concepts</h3>
 <ul>
 <li><p>Add another data member to the person structure defined in this chapter, and rewrite the reading and writing functions and programs to take them into account. Remember to reassemble and relink your files before running your programs.</p></li>
 <li><p>Create a program that uses a loop to write 30 identical records to a file.</p></li>
@@ -3743,7 +3881,7 @@ $2 = 0
 <li id="fn2" role="doc-endnote"><p>By "GNU/Linux distribution", I mean an x86 GNU/Linux distribution. GNU/Linux distributions for the Power Macintosh, the Alpha processor, or other processors will not work with this book.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3" role="doc-endnote"><p>The GNU Project is a project by the Free Software Foundation to produce a complete, free operating system.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4" role="doc-endnote"><p>With the advent of international character sets and Unicode, this is not entirely true anymore. However, for the purposes of keeping this simple for beginners, we will use the assumption that one number translates directly to one character. For more information, see the <a href="#table-of-ascii-codes">Table of ASCII Codes</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>Previous incarnations of x86 processors only had two-byte words. Therefore, most other literature dealing with x86 processors refers to two-byte entities as words for historical reasons, and therefore refer to four-byte entities as double-words. We are using the term <em>word</em> to mean the normal register size of a computer, which in this case is four bytes. More information is available in <a href="#common-x86-instructions">Common x86 Instructions</a>,<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Previous incarnations of x86 processors only had two-byte words. Therefore, most other literature dealing with x86 processors refers to two-byte entities as words for historical reasons, and therefore refer to four-byte entities as double-words. We are using the term <em>word</em> to mean the normal register size of a computer, which in this case is four bytes. More information is available in <a href="#common-x86-instructions">Common x86 Instructions</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6" role="doc-endnote"><p>Note that here we are talking about general computer theory. Some processors and operating systems actually mark the regions of memory that can be executed with a special marker that indicates this.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7" role="doc-endnote"><p>If you are new to Linux and UNIX®, you may not be aware that files don't have to have extensions. In fact, while Windows® uses the <code>.exe</code> extension to signify an executable program, UNIX executables usually have no extension.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8" role="doc-endnote"><p><code>.</code> refers to the current directory in Linux and UNIX systems.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -3759,12 +3897,12 @@ $2 = 0
 <li id="fn18" role="doc-endnote"><p>Notice that the comparison is to see if the <em>second</em> value is greater than the first. I would have thought it the other way around. You will find a lot of things like this when learning programming. It occurs because different things make sense to different people. Anyway, you'll just have to memorize such things and go on.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn19" role="doc-endnote"><p>The names of these symbols can be anything you want them to be, as long as they only contain letters and the underscore character(<code>_</code>). The only one that is forced is <code>_start</code>, and possibly others that you declare with <code>.globl</code>. However, if it is a symbol you define and only you use, feel free to call it anything you want that is adequately descriptive (remember that others will have to modify your code later, and will have to figure out what your symbols mean).<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn20" role="doc-endnote"><p>When we talk about the most or least <em>significant</em> byte, it may be a little confusing. Let's take the number 5432. In that number, 54 is the most significant half of that number and 32 is the least significant half. You can't quite divide it like that for registers, since they operate on base 2 rather than base 10 numbers, but that's the basic idea. For more information on this topic, see <a href="#counting-like-a-computer">Counting Like a Computer</a>.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn21" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn22" role="doc-endnote"><p>If you have used C, this is what the <code>strlenstrlen</code> function does.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn23" role="doc-endnote"><p>You will find that after learning the mechanics of programming, most programs are pretty straightforward once you know exactly what it is you want to do. Most of them initialize data, do some processing in a loop, and then clean everything up.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn24" role="doc-endnote"><p>This assumes that you have already built the object files <code>read-record.o</code> and <code>write-record.o</code> in the previous examples. If not, you will have to do so.<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn25" role="doc-endnote"><p>This is assuming you created the file in a previous run of <code>write-records</code>. If not, you need to run <code>write-records</code> first before running this program.<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn26" role="doc-endnote"><p>This is why adding more memory to your computer makes it run faster. The more memory your computer has, the less it puts on disk, so it doesn't have to always be interrupting your programs to retreive pages off the disk.<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21" role="doc-endnote"><p>Function parameters can also be used to hold pointers to data that the function wants to send back to the program.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22" role="doc-endnote"><p>This is generally considered bad practice. Imagine if a program is written this way, and in the next version they decided to allow a single instance of the program edit multiple files. Each function would then have to be modified so that the file that was being manipulated would be passed as a parameter. If you had simply passed it as a parameter to begin with, most of your functions could have survived your upgrade unchanged.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23" role="doc-endnote"><p>A <em>convention</em> is a way of doing things that is standardized, but not forcibly so. For example, it is a convention for people to shake hands when they meet. If I refuse to shake hands with you, you may think I don't like you. Following conventions is important because it makes it easier for others to understand what you are doing, and makes it easier for programs written by multiple independent authors to work together.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn24" role="doc-endnote"><p>Just a reminder - the dollar sign in front of the eight indicates immediate mode addressing, meaning that we subtract the number 8 itself from <em>%esp</em> rather than the value at address 8.<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn25" role="doc-endnote"><p>This is not always strictly needed unless you are saving registers on the stack before a function call. The base pointer keeps the stack frame in a reasonably consistent state. However, it is still a good idea, and is absolutely necessary if you are temporarily saving registers on the stack.<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn26" role="doc-endnote"><p>By "running at the same time" I am talking about the fact that one will not have finished before a new one is activated. I am not implying that their instructions are running at the same time.<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn27" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn28" role="doc-endnote"><p>If you have used C, this is what the <code>strlenstrlen</code> function does.<a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn29" role="doc-endnote"><p>You will find that after learning the mechanics of programming, most programs are pretty straightforward once you know exactly what it is you want to do. Most of them initialize data, do some processing in a loop, and then clean everything up.<a href="#fnref29" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
