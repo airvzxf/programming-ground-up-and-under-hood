@@ -696,6 +696,7 @@ it works.
     #             %eax holds the system call number.
     #             %ebx holds the return status .
     #
+    .code32            # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start
@@ -1143,6 +1144,7 @@ Enter the following program as `maximum.s`:
     #     data_items - contains the item data.  A 0 is used
     #                  to terminate the data.
     #
+    .code32                          # Compile this code as 32-bits.
     .section .data
 data_items:                          # These are the data items.
     .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
@@ -2101,6 +2103,7 @@ explanation follows. Name the file `power.s`.
     # Everything in the main program is stored in registers,
     # so the data section doesn't have anything.
     #
+    .code32                   # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start
@@ -2314,6 +2317,7 @@ Let's look at the code to see how this works:
     # This program shows how to call a function recursively.
     # This program has no global data.
     #
+    .code32                   # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start
@@ -2630,11 +2634,11 @@ Review
 Chapter 5. Dealing with Files
 =============================
 
-A lot of computer programming deals with filesfiles. After all, when we
+A lot of computer programming deals with files. After all, when we
 reboot our computers, the only thing that remains from previous sessions
 are the things that have been put on disk. Data which is stored in files
-is called *persistentpersistance* data, because it persists in files
-that remain on the disk even when the program isn't running..
+is called *persistent* data, because it persists in files that remain on
+the disk even when the program isn't running.
 
 The UNIX File Concept
 ---------------------
@@ -2644,63 +2648,61 @@ the UNIX method, which is used on Linux, is the simplest and most
 universal. UNIX files, no matter what program created them, can all be
 accessed as a sequential stream of bytes. When you access a file, you
 start by opening it by name. The operating system then gives you a
-number, called a *file descriptorfile descriptors*, which you use to
-refer to the file until you are through with it. You can then read and
-write to the file using its file descriptor. When you are done reading
-and writing, you then close the file, which then makes the file
-descriptor useless.
+number, called a *file descriptor*, which you use to refer to the file
+until you are through with it. You can then read and write to the file
+using its file descriptor. When you are done reading and writing, you
+then close the file, which then makes the file descriptor useless.
 
 In our programs we will deal with files in the following ways:
 
 1.  Tell Linux the name of the file to open, and in what mode you want
     it opened (read, write, both read and write, create it if it doesn't
-    exist, etc.). This is handled with the `openopen` system call, which
-    takes a filename, a number representing the mode, and a
-    permissionpermissions set as its parameters. *%eax* will hold the
-    system call number, which is 5. The address of the first character
-    of the filename should be stored in *%ebx*. The read/write
-    intentions, represented as a number, should be stored in *%ecx*. For
-    now, use 0 for files you want to read from, and 03101 for files you
-    want to write to (you must include the leading zero).[27] Finally,
-    the permission set should be stored as a number in *%edx*. If you
-    are unfamiliar with UNIX permissions, just use 0666 for the
-    permissions (again, you must include the leading zero).
+    exist, etc.). This is handled with the `open` system call, which
+    takes a filename, a number representing the mode, and a permission
+    set as its parameters. *%eax* will hold the system call number,
+    which is 5. The address of the first character of the filename
+    should be stored in *%ebx*. The read/write intentions, represented
+    as a number, should be stored in *%ecx*. For now, use 0 for files
+    you want to read from, and 03101 for files you want to write to (you
+    must include the leading zero).[27] Finally, the permission set
+    should be stored as a number in *%edx*. If you are unfamiliar with
+    UNIX permissions, just use 0666 for the permissions (again, you must
+    include the leading zero).
 
-2.  Linux will then return to you a file descriptorfile descriptors in
-    *%eax*. Remember, this is a number that you use to refer to this
-    file throughout your program.
+2.  Linux will then return to you a file descriptor in *%eax*. Remember,
+    this is a number that you use to refer to this file throughout your
+    program.
 
 3.  Next you will operate on the file doing reads and/or writes, each
-    time giving Linux the file descriptor you want to use. `readread` is
+    time giving Linux the file descriptor you want to use. `read` is
     system call 3, and to call it you need to have the file descriptor
     in *%ebx*, the address of a buffer for storing the data that is read
     in *%ecx*, and the size of the buffer in *%edx*. Buffers will be
-    explained in [Buffers and](#buffersbss). `read` will return with
-    either the number of characters read from the file, or an error
-    code. Error codes can be distinguished because they are always
-    negative numbers (more information on negative numbers can be found
-    in [Counting Like a Computer](#counting-like-a-computer)).
-    `writewrite` is system call 4, and it requires the same parameters
-    as the `read` system call, except that the buffer should already be
-    filled with the data to write out. The `write` system call will give
-    back the number of bytes written in *%eax* or an error code.
+    explained in [Buffers and `.bss`](#buffers-and-bss). `read` will
+    return with either the number of characters read from the file, or
+    an error code. Error codes can be distinguished because they are
+    always negative numbers (more information on negative numbers can be
+    found in [Counting Like a Computer](#counting-like-a-computer)).
+    `write` is system call 4, and it requires the same parameters as the
+    `read` system call, except that the buffer should already be filled
+    with the data to write out. The `write` system call will give back
+    the number of bytes written in *%eax* or an error code.
 
 4.  When you are through with your files, you can then tell Linux to
-    close them. Afterwards, your file descriptorfile descriptors is no
-    longer valid. This is done using `closeclose`, system call 6. The
-    only parameter to `close` is the file descriptor, which is placed in
-    *%ebx*
+    close them. Afterwards, your file descriptor is no longer valid.
+    This is done using `close`, system call 6. The only parameter to
+    `close` is the file descriptor, which is placed in *%ebx*.
 
 Buffers and `.bss`
 ------------------
 
-In the previous section we mentioned buffersbuffers without explaining
-what they were. A buffer is a continuous block of bytes used for bulk
-data transfer. When you request to read a file, the operating system
-needs to have a place to store the data it reads. That place is called a
-buffer. Usually buffers are only used to store data temporarily, and it
-is then read from the buffers and converted to a form that is easier for
-the programs to handle. Our programs won't be complicated enough to need
+In the previous section we mentioned buffers without explaining what
+they were. A buffer is a continuous block of bytes used for bulk data
+transfer. When you request to read a file, the operating system needs to
+have a place to store the data it reads. That place is called a buffer.
+Usually buffers are only used to store data temporarily, and it is then
+read from the buffers and converted to a form that is easier for the
+programs to handle. Our programs won't be complicated enough to need
 that done. For an example, let's say that you want to read in a single
 line of text from a file but you do not know how long that line is. You
 would then simply read a large number of bytes/characters from the file
@@ -2711,8 +2713,8 @@ and continue reading. You would probably wind up with some characters
 left over in your buffer in this case, which you would use as the
 starting point when you next need data from the file.[28]
 
-Another thing to note is that buffersbuffers are a fixed size, set by
-the programmer. So, if you want to read in data 500 bytes at a time, you
+Another thing to note is that buffers are a fixed size, set by the
+programmer. So, if you want to read in data 500 bytes at a time, you
 send the `read` system call the address of a 500-byte unused location,
 and send it the number 500 so it knows how big it is. You can make it
 smaller or bigger, depending on your application's needs.
@@ -2720,85 +2722,86 @@ smaller or bigger, depending on your application's needs.
 To create a buffer, you need to either reserve static or dynamic
 storage. Static storage is what we have talked about so far, storage
 locations declared using `.long` or `.byte` directives. Dynamic storage
-will be discussed in [???](#dynamicmemory). There are problems, though,
-with declaring buffers using `.byte.byte`. First, it is tedious to type.
-You would have to type 500 numbers after the `.byte` declaration, and
-they wouldn't be used for anything but to take up space. Second, it uses
-up space in the executable. In the examples we've used so far, it
-doesn't use up too much, but that can change in larger programs. If you
-want 500 bytes you have to type in 500 numbers and it wastes 500 bytes
-in the executable. There is a solution to both of these. So far, we have
-discussed two program sections, the `.text.text` and the `.data.data`
-sections. There is another section called the `.bss.bss`. This section
-is like the data section, except that it doesn't take up space in the
-executable. This section can reserve storage, but it can't initialize
-it. In the `.data` section, you could reserve storage and set it to an
-initial value. In the `.bss` section, you can't set an initial value.
-This is useful for buffers because we don't need to initialize them
-anyway, we just need to reserve storage. In order to do this, we do the
-following commands:
+will be discussed in [Getting More Memory](#getting-more-memory). There
+are problems, though, with declaring buffers using `.byte`. First, it is
+tedious to type. You would have to type 500 numbers after the `.byte`
+declaration, and they wouldn't be used for anything but to take up
+space. Second, it uses up space in the executable. In the examples we've
+used so far, it doesn't use up too much, but that can change in larger
+programs. If you want 500 bytes you have to type in 500 numbers and it
+wastes 500 bytes in the executable. There is a solution to both of
+these. So far, we have discussed two program sections, the `.text` and
+the `.data` sections. There is another section called the `.bss`. This
+section is like the data section, except that it doesn't take up space
+in the executable. This section can reserve storage, but it can't
+initialize it. In the `.data` section, you could reserve storage and set
+it to an initial value. In the `.bss` section, you can't set an initial
+value. This is useful for buffers because we don't need to initialize
+them anyway, we just need to reserve storage. In order to do this, we do
+the following commands:
 
-    .section .bss
-        .lcomm my_buffer, 500
+``` gnuassembler
+.section .bss
+    .lcomm my_buffer, 500
+```
 
-This directive, `.lcomm.lcomm`, will create a symbol, `my_buffer`, that
-refers to a 500-byte storage location that we can use as a buffer. We
-can then do the following, assuming we have opened a file for reading
-and have placed the file descriptor in *%ebx*:
+This directive, `.lcomm`, will create a symbol, `my_buffer`, that refers
+to a 500-byte storage location that we can use as a buffer. We can then
+do the following, assuming we have opened a file for reading and have
+placed the file descriptor in *%ebx*:
 
-        movl $my_buffer, %ecx
-        movl 500, %edx
-        movl 3, %eax
-        int  $0x80
+``` gnuassembler
+movl $my_buffer, %ecx
+movl 500, %edx
+movl 3, %eax
+int  $0x80
+```
 
 This will read up to 500 bytes into our buffer. In this example, I
 placed a dollar sign in front of `my_buffer`. Remember that the reason
 for this is that without the dollar sign, `my_buffer` is treated as a
-memory location, and is accessed in direct addressing modedirect
-addressing mode. The dollar sign switches it to immediate mode
-addressing, which actually loads the number represented by `my_buffer`
-itself (i.e. - the address of the start of our buffer, which is the
-address of `my_buffer`) into *%ecx*.
+memory location, and is accessed in direct addressing mode. The dollar
+sign switches it to immediate mode addressing, which actually loads the
+number represented by `my_buffer` itself (i.e. - the address of the
+start of our buffer, which is the address of `my_buffer`) into *%ecx*.
 
 Standard and Special Files
 --------------------------
 
 You might think that programs start without any files open by default.
 This is not true. Linux programs usually have at least three open file
-descriptorsfile descriptors when they begin. They are:
+descriptors when they begin. They are:
 
 STDIN:  
-This is the *standard inputstandard input*. It is a read-only file, and
-usually represents your keyboard.[29] This is always file descriptor 0.
+This is the *standard input*. It is a read-only file, and usually
+represents your keyboard.[29] This is always file descriptor 0.
 
 STDOUT:  
-This is the *standard outputstandard output*. It is a write-only file,
-and usually represents your screen display. This is always file
-descriptor 1.
+This is the *standard output*. It is a write-only file, and usually
+represents your screen display. This is always file descriptor 1.
 
 STDERR:  
-This is your *standard errorstandard error*. It is a write-only file,
-and usually represents your screen display. Most regular processing
-output goes to `STDOUT`, but any error messages that come up in the
-process go to `STDERR`. This way, if you want to, you can split them up
-into separate places. This is always file descriptor 2.
+This is your *standard error*. It is a write-only file, and usually
+represents your screen display. Most regular processing output goes to
+`STDOUT`, but any error messages that come up in the process go to
+`STDERR`. This way, if you want to, you can split them up into separate
+places. This is always file descriptor 2.
 
-Any of these "filesfiles" can be redirected from or to a real file,
-rather than a screen or a keyboard. This is outside the scope of this
-book, but any good book on the UNIX command-linecommand-line will
-describe it in detail. The program itself does not even need to be aware
-of this indirection - it can just use the standard file descriptorsfile
-descriptors as usual.
+Any of these "files" can be redirected from or to a real file, rather
+than a screen or a keyboard. This is outside the scope of this book, but
+any good book on the UNIX command-line will describe it in detail. The
+program itself does not even need to be aware of this indirection - it
+can just use the standard file descriptors as usual.
 
 Notice that many of the files you write to aren't files at all.
 UNIX-based operating systems treat all input/output systems as files.
-Network connections are treated as filesfiles, your serial port is
-treated like a file, even your audio devices are treated as files.
-Communication between processes is usually done through special
-filesspecial files called pipespipes. Some of these files have different
-methods of opening and creating them than regular filesregular files
-(i.e. - they don't use the `open` system call), but they can all be read
-from and written to using the standard `read` and `write` system calls.
+Network connections are treated as files, your serial port is treated
+like a file, even your audio devices are treated as files. Communication
+between processes is usually done through special files called pipes.
+Some of these files have different methods of opening and creating them
+than regular files (i.e. - they don't use the `open` system call), but
+they can all be read from and written to using the standard `read` and
+`write` system calls.
 
 Using Files in a Program
 ------------------------
@@ -2818,6 +2821,8 @@ do so, let's think about what we need to do to get the job done:
 
 -   Begin the program by opening the necessary files.
 
+<!-- TODO: Do I need to introduce flowcharting or reference it here? -->
+
 Notice that I've specified things in reverse order that they will be
 done. That's a useful trick in writing complex programs - first decide
 the meat of what is being done. In this case, it's converting blocks of
@@ -2832,35 +2837,269 @@ working program.[30]
 You may have been thinking that you will never remember all of these
 numbers being thrown at you - the system call numbers, the interrupt
 number, etc. In this program we will also introduce a new directive,
-`.equ` which should help out. `.equ.equ` allows you to assign names to
-numbers. For example, if you did `.equ LINUX_SYSCALL, 0x800x80`, any
-time after that you wrote `LINUX_SYSCALL`, the assembler would substitue
-`0x80` for that. So now, you can write
+`.equ` which should help out. `.equ` allows you to assign names to
+numbers. For example, if you did `.equ LINUX_SYSCALL, 0x80`, any time
+after that you wrote `LINUX_SYSCALL`, the assembler would substitue
+`0x80` for that. So now, you can write:
 
-    int $LINUX_SYSCALL
+``` gnuassembler
+int $LINUX_SYSCALL
+```
 
-which is much easier to read, and much easier to remember. Coding is
+Which is much easier to read, and much easier to remember. Coding is
 complex, but there are a lot of things we can do like this to make it
 easier.
 
-Here is the program. Note that we have more labelslabels than we
-actually use for jumps, because some of them are just there for clarity.
-Try to trace through the program and see what happens in various cases.
-An in-depth explanation of the program will follow.
+Here is the program. Note that we have more labels than we actually use
+for jumps, because some of them are just there for clarity. Try to trace
+through the program and see what happens in various cases. An in-depth
+explanation of the program will follow.
 
-    TOUPPER-NOMM-SIMPLIFIED-S
+``` gnuassembler
+    # PURPOSE:     This program converts an input file to an output file
+    #              with all letters converted to uppercase.
+    #
+    # PROCESSING:  1) Open the input file.
+    #              2) Open the output file.
+    #              3) While we're not at the end of the input file.
+    #                 a) Read part of file into our memory buffer.
+    #                 b) Go through each byte of memory if the byte is a
+    #                      lower-case letter, convert it to uppercase.
+    #                 c) Write the memory buffer to output file.
+    #
+    .code32                            # Compile this code as 32-bits.
+    .section .data
+        # ----- CONSTANTS ----- #
+        #
+        # System call numbers.
+        #
+        .equ SYS_OPEN,   5
+        .equ SYS_WRITE,  4
+        .equ SYS_READ,   3
+        .equ SYS_CLOSE,  6
+        .equ SYS_EXIT,   1
+
+        # Options for open:
+        # Look at /usr/include/asm-generic/fcntl.h or
+        # /usr/include/asm/fcntl.h for various values.  You can combine
+        # them by adding them or ORing them).
+        # It is discussed at greater length in "Counting Like a Computer".
+        # 
+        .equ O_RDONLY,              0
+        .equ O_CREAT_WRONLY_TRUNC,  03101
+
+        # Standard file descriptors.
+        #
+        .equ STDIN,   0
+        .equ STDOUT,  1
+        .equ STDERR,  2
+
+        # System call interrupt.
+        #
+        .equ LINUX_SYSCALL,     0x80
+        .equ END_OF_FILE,       0      # This is the return value of read
+                                       # which means we've hit the end of
+                                       # the file.
+        .equ NUMBER_ARGUMENTS,  2
+
+    .section .bss
+        # Buffer:  This is where the data is loaded into from the data file
+        #          and written from into the output file.  This should
+        #          never exceed 16,000 for various reasons.
+        #
+        .equ   BUFFER_SIZE,     500
+        .lcomm BUFFER_DATA,     BUFFER_SIZE
+
+    .section .text
+        # ----- STACK POSITIONS ----- #
+        #
+        .equ ST_SIZE_RESERVE,   8
+        .equ ST_FD_IN,         -4
+        .equ ST_FD_OUT,        -8
+        .equ ST_ARGC,           0      # Number of arguments.
+        .equ ST_ARGV_0,         4      # Name of program.
+        .equ ST_ARGV_1,         8      # Input file name.
+        .equ ST_ARGV_2,         12     # Output file name.
+
+    .globl _start
+_start:
+    # ----- INITIALIZE PROGRAM ----- #
+    #
+    movl  %esp, %ebp                   # Save the stack pointer.
+    subl  $ST_SIZE_RESERVE, %esp       # Allocate space for our file
+                                       # descriptors on the stack
+_open_files_:
+_open_fd_in_:
+    # ----- OPEN INPUT FILE ----- #
+    #
+    movl  $SYS_OPEN, %eax              # Open syscall.
+    movl  ST_ARGV_1(%ebp), %ebx        # Input filename into %ebx.
+    movl  $O_RDONLY, %ecx              # Read-only flag.
+    movl  $0666, %edx                  # This doesn't matter for reading.
+    int   $LINUX_SYSCALL               # Call Linux.
+
+_store_fd_in_:
+    # ----- STORE INPUT FILE DESCRIPTION ----- #
+    #
+    movl  %eax, ST_FD_IN(%ebp)         # Save the given file descriptor.
+
+_open_fd_out_:
+    # ----- OPEN OUTPUT FILE ----- #
+    #
+    movl  $SYS_OPEN, %eax              # Open the file.
+    movl  ST_ARGV_2(%ebp), %ebx        # Output filename into %ebx.
+    movl  $O_CREAT_WRONLY_TRUNC, %ecx  # Flags for writing to the file.
+    movl  $0666, %edx                  # Permission set for new file
+                                       # (if it's created).
+    int   $LINUX_SYSCALL               # Call Linux
+
+_store_fd_out_:
+    # ----- STORE OUTPUT FILE DESCRIPTION ----- #
+    #
+    movl  %eax, ST_FD_OUT(%ebp)        # Store the file descriptor here.
+
+    # ----- BEGIN MAIN LOOP ----- #
+    #
+read_loop_begin:
+    # ----- READ IN A BLOCK FROM THE INPUT FILE ----- #
+    #
+    movl  $SYS_READ, %eax
+    movl  ST_FD_IN(%ebp), %ebx         # Get the input file descriptor.
+    movl  $BUFFER_DATA, %ecx           # The location to read into.
+    movl  $BUFFER_SIZE, %edx           # The size of the buffer.
+    int   $LINUX_SYSCALL               # Size of buffer read is returned
+                                       # in %eax.
+
+    # ----- EXIT IF WE'VE REACHED THE END ----- #
+    #
+    cmpl  $END_OF_FILE, %eax           # Check for end of file marker.
+    jle   end_loop                     # If found or on error, go to the
+                                       # end.
+
+_continue_read_loop_:
+    # ----- CONVERT THE BLOCK TO UPPER CASE ----- #
+    #
+    pushl $BUFFER_DATA                 # Location of buffer.
+    pushl %eax                         # Size of the buffer.
+    call  convert_to_upper
+    popl  %eax                         # Get the size back.
+    addl  $4, %esp                     # Restore %esp.
+
+    # ----- WRITE THE BLOCK OUT TO THE OUTPUT FILE ----- #
+    #
+    movl  %eax, %edx                   # Size of the buffer.
+    movl  $SYS_WRITE, %eax
+    movl  ST_FD_OUT(%ebp), %ebx        # File to use.
+    movl  $BUFFER_DATA, %ecx           # Location of the buffer.
+    int   $LINUX_SYSCALL
+
+    # ----- CONTINUE THE LOOP ----- #
+    #
+    jmp   read_loop_begin
+
+end_loop:
+    # ----- CLOSE THE FILES ----- #
+    # NOTE:  We don't need to do error checking on these, because error
+    #        conditions don't signify anything special here
+    #
+    movl  $SYS_CLOSE, %eax
+    movl  ST_FD_OUT(%ebp), %ebx
+    int   $LINUX_SYSCALL
+
+    movl  $SYS_CLOSE, %eax
+    movl  ST_FD_IN(%ebp), %ebx
+    int   $LINUX_SYSCALL
+
+    # ----- EXIT ----- #
+    #
+    movl  $SYS_EXIT, %eax
+    movl  $0, %ebx
+    int   $LINUX_SYSCALL
+
+
+    # PURPOSE:   This function actually does the
+    #            conversion to upper case for a block.
+    #
+    # INPUT:     The first parameter is the length of
+    #            the block of memory to convert.
+    #
+    #            The second parameter is the starting
+    #            address of that block of memory.
+    #
+    # OUTPUT:    This function overwrites the current
+    #            buffer with the upper-casified version.
+    #
+    # VARIABLES:
+    #            %eax - beginning of buffer.
+    #            %ebx - length of buffer.
+    #            %edi - current buffer offset.
+    #            %cl - current byte being examined (first part of %ecx).
+    #
+    # ----- CONSTANTS ----- #
+    #
+    .equ  LOWERCASE_A,       'a'       # The lower boundary of our search.
+    .equ  LOWERCASE_Z,       'z'       # The upper boundary of our search.
+    .equ  UPPER_CONVERSION,  'A' - 'a' # Conversion between upper and
+                                       # lower case.
+
+    # ----- STACK STUFF ----- #
+    #
+    .equ  ST_BUFFER,      12           # Actual buffer.
+    .equ  ST_BUFFER_LEN,  8            # Length of buffer.
+
+convert_to_upper:
+    pushl %ebp
+    movl  %esp, %ebp
+
+    # ----- SET UP VARIABLES ----- #
+    #
+    movl  ST_BUFFER(%ebp), %eax
+    movl  ST_BUFFER_LEN(%ebp), %ebx
+    movl  $0, %edi
+
+    cmpl  $0, %ebx                     # If a buffer with zero length was
+                                       # given to us, just leave.
+    je    end_convert_loop
+
+convert_loop:
+    movb  (%eax,%edi,1), %cl           # Get the current byte.
+
+    cmpb  $LOWERCASE_A, %cl            # Go to the next byte unless it is
+                                       # between 'a' and 'z'.
+    jl    next_byte
+    cmpb  $LOWERCASE_Z, %cl
+    jg    next_byte
+
+    addb  $UPPER_CONVERSION, %cl       # Otherwise convert the byte to
+                                       # uppercase and store it back.
+    movb  %cl, (%eax,%edi,1)
+next_byte:
+    incl  %edi                         # Next byte.
+    cmpl  %edi, %ebx                   # Continue unless we've reached the
+                                       # end.
+    jne   convert_loop
+
+end_convert_loop:
+    movl  %ebp, %esp                   # No return value, just leave.
+    popl  %ebp
+    ret
+```
 
 Type in this program as `toupper.s`, and then enter in the following
 commands:
 
-    as toupper.s -o toupper.o
-    ld toupper.o -o toupper
+``` bash
+as toupper.s -o toupper.o
+ld toupper.o -o toupper
+```
 
 This builds a program called `toupper`, which converts all of the
 lowercase characters in a file to uppercase. For example, to convert the
 file `toupper.s` to uppercase, type in the following command:
 
-    ./toupper toupper.s toupper.uppercase
+``` bash
+./toupper toupper.s toupper.uppercase
+```
 
 You will now find in the file `toupper.uppercase` an uppercase version
 of your original file.
@@ -2868,19 +3107,19 @@ of your original file.
 Let's examine how the program works.
 
 The first section of the program is marked `CONSTANTS`. In programming,
-a constantconstants is a value that is assigned when a program assembles
-or compiles, and is never changed. I make a habit of placing all of my
+a constant is a value that is assigned when a program assembles or
+compiles, and is never changed. I make a habit of placing all of my
 constants together at the beginning of the program. It's only necessary
 to declare them before you use them, but putting them all at the
 beginning makes them easy to find. Making them all upper-case makes it
 obvious in your program which values are constants and where to find
-them.[31] In assembly language, we declare constants with the `.equ.equ`
+them.[31] In assembly language, we declare constants with the `.equ`
 directive as mentioned before. Here, we simply give names to all of the
 standard numbers we've used so far, like system call numbers, the
 syscall interrupt number, and file open options.
 
-The next section is marked `BUFFERS`. We only use one bufferbuffer in
-this program, which we call `BUFFER_DATA`. We also define a constant,
+The next section is marked `BUFFERS`. We only use one buffer in this
+program, which we call `BUFFER_DATA`. We also define a constant,
 `BUFFER_SIZE`, which holds the size of the buffer. If we always refer to
 this constant rather than typing out the number 500 whenever we need to
 use the size of the buffer, if it later changes, we only need to modify
@@ -2895,9 +3134,11 @@ This section begins with a list of constants that we will use The reason
 these are put here rather than at the top is that they only deal with
 this one function. We have these definitions:
 
-        .equ  LOWERCASE_A, 'a'
-        .equ  LOWERCASE_Z, 'z'
-        .equ  UPPER_CONVERSION, 'A' - 'a' 
+``` gnuassembler
+.equ  LOWERCASE_A,       'a'
+.equ  LOWERCASE_Z,       'z'
+.equ  UPPER_CONVERSION,  'A' - 'a' 
+```
 
 The first two simply define the letters that are the boundaries of what
 we are searching for. Remember that in the computer, letters are
@@ -2907,60 +3148,65 @@ numbers in. Also, notice we define the constant `UPPER_CONVERSION`.
 Since letters are represented as numbers, we can subtract them.
 Subtracting an upper-case letter from the same lower-case letter gives
 us how much we need to add to a lower-case letter to make it upper case.
-If that doesn't make sense, look at the ASCIIASCII code tables
-themselves (see the [Table of ASCII Codes](#table-of-ascii-codes)).
-You'll notice that the number for the character `A` is 65 and the
-character `a` is 97. The conversion factor is then -32. For any
-lowercase letter if you add -32, you will get its capital equivalent.
+If that doesn't make sense, look at the ASCII code tables themselves
+(see the [Table of ASCII Codes](#table-of-ascii-codes)). You'll notice
+that the number for the character `A` is 65 and the character `a` is 97.
+The conversion factor is then -32. For any lowercase letter if you add
+-32, you will get its capital equivalent.
 
 After this, we have some constants labelled `STACK POSITIONS`. Remember
-that function parametersfunction parameters are pushed onto the stack
-before function calls. These constants (prefixed with `ST` for clarity)
-define where in the stack we should expect to find each piece of data.
-The return addressreturn address is at position 4 + *%esp*, the length
-of the buffer is at position 8 + *%esp*, and the address of the buffer
-is at position 12 + *%esp*. Using symbols for these numbers instead of
-the numbers themselves makes it easier to see what data is being used
-and moved.
+that function parameters are pushed onto the stack before function
+calls. These constants (prefixed with `ST` for clarity) define where in
+the stack we should expect to find each piece of data. The return
+address is at position 4 + *%esp*, the length of the buffer is at
+position 8 + *%esp*, and the address of the buffer is at position 12 +
+*%esp*. Using symbols for these numbers instead of the numbers
+themselves makes it easier to see what data is being used and moved.
 
 Next comes the label `convert_to_upper`. This is the entry point of the
 function. The first two lines are our standard function lines to save
-the stack pointer. The next two lines
+the stack pointer. The next two lines:
 
-        movl  ST_BUFFER(%ebp), %eax
-        movl  ST_BUFFER_LEN(%ebp), %ebx
+``` gnuassembler
+movl  ST_BUFFER(%ebp), %eax
+movl  ST_BUFFER_LEN(%ebp), %ebx
+```
 
-move the function parameters into the appropriate registers for use.
+Move the function parameters into the appropriate registers for use.
 Then, we load zero into *%edi*. What we are going to do is iterate
 through each byte of the buffer by loading from the location *%eax* +
 *%edi*, incrementing *%edi*, and repeating until *%edi* is equal to the
-buffer length stored in *%ebx*. The lines
+buffer length stored in *%ebx*. The lines:
 
-        cmpl  $0, %ebx
-        je    end_convert_loop
+``` gnuassembler
+cmpl  $0, %ebx
+je    end_convert_loop
+```
 
-are just a sanity check to make sure that noone gave us a buffer of zero
-size. If they did, we just clean up and leave. Guarding against
+They are just a sanity check to make sure that noone gave us a buffer of
+zero size. If they did, we just clean up and leave. Guarding against
 potential user and programming errors is an important task of a
 programmer. You can always specify that your function should not take a
 buffer of zero size, but it's even better to have the function check and
 have a reliable exit plan if it happens.
 
-Now we start our loop. First, it moves a byte into CL. The code for this
-is
+Now we start our loop. First, it moves a byte into *%cl*. The code for
+this is:
 
-        movb  (%eax,%edi,1), %cl
+``` gnuassembler
+movb  (%eax,%edi,1), %cl
+```
 
-It is using an indexed indirect addressing modeindexed indirect
-addressing mode. It says to start at *%eax* and go *%edi* locations
-forward, with each location being 1 byte big. It takes the value found
-there, and put it in CL. After this it checks to see if that value is in
-the range of lower-case *a* to lower-case *z*. To check the range, it
-simply checks to see if the letter is smaller than *a*. If it is, it
-can't be a lower-case letter. Likewise, if it is larger than *z*, it
-can't be a lower-case letter. So, in each of these cases, it simply
-moves on. If it is in the proper range, it then adds the uppercase
-conversion, and stores it back into the buffer.
+It is using an indexed indirect addressing mode. It says to start at
+*%eax* and go *%edi* locations forward, with each location being 1 byte
+big. It takes the value found there, and put it in *%cl*. After this it
+checks to see if that value is in the range of lower-case *a* to
+lower-case *z*. To check the range, it simply checks to see if the
+letter is smaller than *a*. If it is, it can't be a lower-case letter.
+Likewise, if it is larger than *z*, it can't be a lower-case letter. So,
+in each of these cases, it simply moves on. If it is in the proper
+range, it then adds the uppercase conversion, and stores it back into
+the buffer.
 
 Either way, it then goes to the next value by incrementing %cl;. Next it
 checks to see if we are at the end of the buffer. If we are not at the
@@ -2974,41 +3220,42 @@ it's easy to see where the parts of the program are.
 Now we know how the conversion process works. Now we need to figure out
 how to get the data in and out of the files.
 
-Before reading and writing the files we must open them. The UNIX
-`openopen` system call is what handles this. It takes the following
-parameters:
+Before reading and writing the files we must open them. The UNIX `open`
+system call is what handles this. It takes the following parameters:
 
 -   *%eax* contains the system call number as usual - 5 in this case.
 
 -   *%ebx* contains a pointer to a string that is the name of the file
-    to open. The string must be terminated with the null characternull
-    character.
+    to open. The string must be terminated with the null character.
 
 -   *%ecx* contains the options used for opening the file. These tell
     Linux how to open the file. They can indicate things such as open
     for reading, open for writing, open for reading and writing, create
     if it doesn't exist, delete the file if it already exists, etc. We
     will not go into how to create the numbers for the options until
-    [???](#truthbinarynumbers). For now, just trust the numbers we come
-    up with.
+    [Truth, Falsehood, and Binary
+    Numbers](#truth-falsehood-and-binary-numbers). For now, just trust
+    the numbers we come up with.
 
 -   *%edx* contains the permissions that are used to open the file. This
     is used in case the file has to be created first, so Linux knows
     what permissions to create the file with. These are expressed in
     octal, just like regular UNIX permissions.[32]
 
-permissions After making the system call, the file descriptor of the
-newly-opened file is stored in *%eax*.
+After making the system call, the file descriptor of the newly-opened
+file is stored in *%eax*.
+
+<!-- TODO: Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct -->
 
 So, what files are we opening? In this example, we will be opening the
-files specified on the command-linecommand-line. Fortunately,
-command-line parameters are already stored by Linux in an easy-to-access
-location, and are already null-terminated. When a Linux program begins,
-all pointers to command-line arguments are stored on the stack. The
-number of arguments is stored at `(%esp)`, the name of the program is
-stored at `4(%esp)`, and the arguments are stored from `8(%esp)` on. In
-the C Programming language, this is referred to as the `argvargv` array,
-so we will refer to it that way in our program.
+files specified on the command-line. Fortunately, command-line
+parameters are already stored by Linux in an easy-to-access location,
+and are already null-terminated. When a Linux program begins, all
+pointers to command-line arguments are stored on the stack. The number
+of arguments is stored at `(%esp)`, the name of the program is stored at
+`4(%esp)`, and the arguments are stored from `8(%esp)` on. In the C
+Programming language, this is referred to as the `argv` array, so we
+will refer to it that way in our program.
 
 The first thing our program does is save the current stack position in
 *%ebp* and then reserve some space on the stack to store the file
@@ -3034,11 +3281,11 @@ program - we are just operating on straight sequences of characters. We
 could read it in with as little or as large of chunks as we want, and it
 still would work properly.
 
-The first part of the loop is to read the data. This uses the `readread`
+The first part of the loop is to read the data. This uses the `read`
 system call. This call just takes a file descriptor to read from, a
-buffer to write into, and the size of the bufferbuffer (i.e. - the
-maximum number of bytes that could be written). The system call returns
-the number of bytes actually read, or end-of-file (the number 0).
+buffer to write into, and the size of the buffer (i.e. - the maximum
+number of bytes that could be written). The system call returns the
+number of bytes actually read, or end-of-file (the number 0).
 
 After reading a block, we check *%eax* for an end-of-file marker. If
 found, it exits the loop. Otherwise we keep on going.
@@ -3049,7 +3296,7 @@ previous system call. After this function executes, the buffer should be
 capitalized and ready to write out. The registers are then restored with
 what they had before.
 
-Finally, we issue a `writewrite` system call, which is exactly like the
+Finally, we issue a `write` system call, which is exactly like the
 `read` system call, except that it moves the data from the buffer out to
 the file. Now we just go back to the beginning of the loop.
 
@@ -3058,6 +3305,9 @@ the end of the file), it simply closes its file descriptors and exits.
 The close system call just takes the file descriptor to close in *%ebx*.
 
 The program is then finished!
+
+<!-- TODO: Needs to be re-sectionalized and reviewed -->
+<!-- TODO: Probably need to start with a "hello world" program -->
 
 Review
 ------
@@ -3101,8 +3351,346 @@ Review
 -   Modify the program so that it checks the results of each system
     call, and prints out an error message to `STDOUT` when it occurs.
 
-Developing Robust Programs
-==========================
+Chapter 6. Reading and Writing Simple Records
+=============================================
+
+As mentioned in [Chapter 5. Dealing with
+Files](#chapter-5-dealing-with-files), many applications deal with data
+that is *persistentpersistent* - meaning that the data lives longer than
+the program by being stored on disk in files. You can shut down the
+program and open it back up, and you are back where you started. Now,
+there are two basic kinds of persistent data - structured and
+unstructured. Unstructured dataunstructured data is like what we dealt
+with in the `toupper` program. It just dealt with text files that were
+entered by a person. The contents of the files weren't usable by a
+program because a program can't interpret what the user is trying to say
+in random text.
+
+Structured datastructured data, on the other hand, is what computers
+excel at handling. Structured data is data that is divided up into
+fieldsfields and recordsrecords. For the most part, the fields and
+records are fixed-length. Because the data is divided into fixed-length
+records and fixed-format fields, the computer can interpret the data.
+Structured data can contain variable-length fields, but at that point
+you are usually better off with a databasedatabase. [34]
+
+This chapter deals with reading and writing simple fixed-length
+recordsrecords. Let's say we wanted to store some basic information
+about people we know. We could imagine the following example
+fixed-length record about people:
+
+-   Firstname - 40 bytes
+
+-   Lastname - 40 bytes
+
+-   Address - 240 bytes
+
+-   Age - 4 bytes
+
+In this, everything is character data except for the age, which is
+simply a numeric field, using a standard 4-byte word (we could just use
+a single byte for this, but keeping it at a word makes it easier to
+process).
+
+In programming, you often have certain definitions that you will use
+over and over again within the program, or perhaps within several
+programs. It is good to separate these out into files that are simply
+included into the assembly language files as needed. For example, in our
+next programs we will need to access the different parts of the record
+above. This means we need to know the offsetsoffsets of each field from
+the beginning of the record in order to access them using base pointer
+addressingbase pointer addressing mode. The following constants describe
+the offsets to the above structure. Put them in a file named
+`record-def.s`:
+
+    RECORD-DEF
+
+In addition, there are several constants that we have been defining over
+and over in our programs, and it is useful to put them in a file, so
+that we don't have to keep entering them. Put the following
+constantsconstants in a file called `linux.s`:
+
+    LINUX
+
+We will write three programs in this chapter using the structure defined
+in `record-def.s`. The first program will build a file containing
+several records as defined above. The second program will display the
+records in the file. The third program will add 1 year to the age of
+every record.
+
+In addition to the standard constants we will be using throughout the
+programs, there are also two functions that we will be using in several
+of the programs - one which reads a record and one which writes a
+record.
+
+What parameters do these functions need in order to operate? We
+basically need:
+
+-   The location of a buffer that we can read a record into
+
+-   The file descriptor that we want to read from or write to
+
+Let's look at our reading function first:
+
+    READ-RECORD
+
+It's a pretty simple function. It just reads data the size of our
+structure into an appropriately sized buffer from the given file
+descriptor. The writing one is similar:
+
+    WRITE-RECORD
+
+Now that we have our basic definitions down, we are ready to write our
+programs.
+
+Writing Records
+---------------
+
+This program will simply write some hardcoded records to disk. It will:
+
+-   Open the file
+
+-   Write three records
+
+-   Close the file
+
+Type the following code into a file called `write-records.s`: .rept
+.endr padding null
+
+    WRITE-RECORDS
+
+This is a fairly simple program. It merely consists of defining the data
+we want to write in the `.data.data` section, and then calling the right
+system calls and function calls to accomplish it. For a refresher of all
+of the system calls used, see [Important System
+Calls](#important-system-calls).
+
+You may have noticed the lines:
+
+        .include "linux.s"
+        .include "record-def.s"
+
+.include These statements cause the given files to basically be pasted
+right there in the code. You don't need to do this with functions,
+because the linkerlinker can take care of combining functions exported
+with `.globl.globl`. However, constantsconstants defined in another file
+do need to be imported in this way.
+
+Also, you may have noticed the use of a new assembler directive,
+`.rept.rept`. This directive repeats the contents of the file between
+the `.rept` and the `.endr.endr` directives the number of times
+specified after `.rept`. This is usually used the way we used it - to
+padpad values in the `.data.data` section. In our case, we are adding
+null charactersnull characters to the end of each field until they are
+their defined lengths.
+
+To build the application, run the commands:
+
+    as write-records.s -o write-records.o
+    as write-record.s -o write-record.o
+    ld write-record.o write-records.o -o write-records
+
+Here we are assembling two files separately, and then combining them
+together using the linkerlinker. To run the program, just type the
+following:
+
+    ./write-records
+
+This will cause a file called `test.dat` to be created containing the
+records. However, since they contain non-printable characters (the null
+character, specifically), they may not be viewable by a text editor.
+Therefore we need the next program to read them for us.
+
+Reading Records
+---------------
+
+Now we will consider the process of reading records. In this program, we
+will read each record and display the first name listed with each
+record.
+
+Since each person's name is a different length, we will need a function
+to count the number of characters we want to write. Since we pad each
+field with null charactersnull characters, we can simply count
+characters until we reach a null character.[35] Note that this means our
+records must contain at least one null character each.
+
+Here is the code. Put it in a file called `count-chars.s`:
+
+    COUNT-CHARS
+
+As you can see, it's a fairly straightforward function. It simply loops
+through the bytes, counting as it goes, until it hits a null character.
+Then it returns the count.
+
+Our record-reading program will be fairly straightforward, too. It will
+do the following:
+
+-   Open the file
+
+-   Attempt to read a record
+
+-   If we are at the end of the file, exit
+
+-   Otherwise, count the characters of the first name
+
+-   Write the first name to `STDOUT`
+
+-   Write a newline to `STDOUT`
+
+-   Go back to read another record
+
+To write this, we need one more simple function - a function to write
+out a newline to `STDOUT`. Put the following code into
+`write-newline.s`:
+
+    WRITE-NEWLINE-S
+
+Now we are ready to write the main program. Here is the code to
+`read-records.s`:
+
+    READ-RECORDS
+
+To build this program, we need to assemble all of the parts and link
+them together:
+
+    as read-record.s -o read-record.o
+    as count-chars.s -o count-chars.o
+    as write-newline.s -o write-newline.o
+    as read-records.s -o read-records.o
+    ld read-record.o count-chars.o write-newline.o \
+       read-records.o -o read-records
+
+The backslash in the first line simply means that the command continues
+on the next line. You can run your program by doing `./read-records`.
+
+As you can see, this program opens the file and then runs a loop of
+reading, checking for the end of file, and writing the firstname. The
+one construct that might be new is the line that says:
+
+        pushl  $RECORD_FIRSTNAME + record_buffer
+
+It looks like we are combining and add instruction with a push
+instruction, but we are not. You see, both `RECORD_FIRSTNAME` and
+`record_buffer` are constantsconstants. The first is a direct constant,
+created through the use of a `.equ.equ` directive, while the latter is
+defined automatically by the assemblerassembler through its use as a
+label (it's value being the addressaddress that the data that follows it
+will start at). Since they are both constants that the assembler knows,
+it is able to add them together while it is assembling your program, so
+the whole instruction is a single immediate-modeimmediate mode
+addressing push of a single constant.
+
+The `RECORD_FIRSTNAME` constantconstants is the number of bytes after
+the beginning of a record before we hit the first name. `record_buffer`
+is the name of our buffer for holding records. Adding them together gets
+us the address of the first name member of the record stored in
+`record_buffer`.
+
+Modifying the Records
+---------------------
+
+In this section, we will write a program that:
+
+-   Opens an input and output file
+
+-   Reads records from the input
+
+-   Increments the age
+
+-   Writes the new record to the output file
+
+Like most programs we've encountered recently, this program is pretty
+straightforward.[36]
+
+    ADD-YEAR
+
+You can type it in as `add-year.s`. To build it, type the following[37]:
+
+    as add-year.s -o add-year.o
+    ld add-year.o read-record.o write-record.o -o add-year
+
+To run the program, just type in the following[38]:
+
+    ./add-year
+
+This will add a year to every record listed in `test.dat` and write the
+new records to the file `testout.dat`.
+
+As you can see, writing fixed-length records is pretty simple. You only
+have to read in blocks of data to a buffer, process them, and write them
+back out. Unfortunately, this program doesn't write the new ages out to
+the screen so you can verify your program's effectiveness. This is
+because we won't get to displaying numbers until [Sharing Functions with
+Code Libraries](#sharing-functions-with-code-libraries) and [Counting
+Like a Computer](#counting-like-a-computer). After reading those you may
+want to come back and rewrite this program to display the numeric data
+that we are modifying.
+
+Review
+------
+
+### Know the Concepts
+
+-   What is a record?
+
+-   What is the advantage of fixed-length records over variable-length
+    records?
+
+-   How do you include constants in multiple assembly source files?
+
+-   Why might you want to split up a project into multiple source files?
+
+-   What does the instruction `incl record_buffer + RECORD_AGE` do? What
+    addressing mode is it using? How many operands does the `incl`
+    instructions have in this case? Which parts are being handled by the
+    assembler and which parts are being handled when the program is run?
+
+### Use the Concepts
+
+-   Add another data member to the person structure defined in this
+    chapter, and rewrite the reading and writing functions and programs
+    to take them into account. Remember to reassemble and relink your
+    files before running your programs.
+
+-   Create a program that uses a loop to write 30 identical records to a
+    file.
+
+-   Create a program to find the largest age in the file and return that
+    age as the status code of the program.
+
+-   Create a program to find the smallest age in the file and return
+    that age as the status code of the program.
+
+### Going Further
+
+-   Rewrite the programs in this chapter to use command-line arguments
+    to specify the filesnames.
+
+-   Research the `lseek` system call. Rewrite the `add-year` program to
+    open the source file for both reading and writing (use $2 for the
+    read/write mode), and write the modified records back to the same
+    file they were read from.
+
+-   Research the various error codes that can be returned by the system
+    calls made in these programs. Pick one to rewrite, and add code that
+    checks *%eax* for error conditions, and, if one is found, writes a
+    message about it to `STDERR` and exit.
+
+-   Write a program that will add a single record to the file by reading
+    the data from the keyboard. Remember, you will have to make sure
+    that the data has at least one null character at the end, and you
+    need to have a way for the user to indicate they are done typing.
+    Because we have not gotten into characters to numbers conversion,
+    you will not be able to read the age in from the keyboard, so you'll
+    have to have a default age.
+
+-   Write a function called `compare-strings` that will compare two
+    strings up to 5 characters. Then write a program that allows the
+    user to enter 5 characters, and have the program return all records
+    whose first name starts with those 5 characters.
+
+Chapter 7. Developing Robust Programs
+=====================================
 
 This chapter deals with developing programs that are *robustrobust*.
 Robust programs are able to handle error conditionserror conditions
@@ -3350,7 +3938,9 @@ Making Our Program More Robust
 ------------------------------
 
 This section will go through making the `add-year.s` program from
-[???](#records) a little more robust.
+[Chapter 6. Reading and Writing Simple
+Records](#chapter-6-reading-and-writing-simple-records) a little more
+robust.
 
 Since this is a pretty simple program, we will limit ourselves to a
 single recovery point that covers the whole program. The only thing we
@@ -3514,7 +4104,7 @@ bytes long. Most computer operations handle a word at a time.
 Address:  
 An address is a number that refers to a byte in memory. For example, the
 first byte on a computer has an address of 0, the second has an address
-of 1, and so on.[34] Every piece of data on the computer not in a
+of 1, and so on.[39] Every piece of data on the computer not in a
 register has an address. The address of data which spans several bytes
 is the same as the address of its first byte.
 
@@ -3548,7 +4138,7 @@ source code.
 The actual instructions (the `.text.text` section) are loaded at the
 address 0x08048000 (numbers starting with `0x` are in hexadecimal, which
 will be discussed in [Counting Like a
-Computer](#counting-like-a-computer)).[35] The `.data.data` section is
+Computer](#counting-like-a-computer)).[40] The `.data.data` section is
 loaded immediately after that, followed by the `.bss.bss` section.
 
 The last byte that can be addressed on Linux is location 0xbfffffff.
@@ -3588,7 +4178,7 @@ Your program's data region starts at the bottom of memory and goes up.
 The stack starts at the top of memory, and moves downward with each
 push. This middle part between the stack and your program's data
 sections is inaccessible memory - you are not allowed to access it until
-you tell the kernel that you need it.[36] If you try, you will get an
+you tell the kernel that you need it.[41] If you try, you will get an
 error (the error message is usually "segmentation fault"). The same will
 happen if you try to access data before the beginning of your program,
 0x08048000. The last accessible memory address to your program is called
@@ -3670,7 +4260,7 @@ virtual-to-physical memory lookup tables so that it can find the memory
 in the new location. Finally, Linux returns control to the program and
 restarts it at the instruction which was trying to access the data in
 the first place. This instruction can now be completed successfully,
-because the memory is now in physical RAM.[37]
+because the memory is now in physical RAM.[42]
 
 Here is an overview of the way memory accesses are handled under Linux:
 
@@ -3771,7 +4361,7 @@ needed is a *memory managermemory manager*.
 
 A memory manager is a set of routines that takes care of the dirty work
 of getting your program memory for you. Most memory managers have two
-basic functions - `allocate` and `deallocate`.[38] Whenever you need a
+basic functions - `allocate` and `deallocate`.[43] Whenever you need a
 certain amount of memory, you can simply tell `allocate` how much you
 need, and it will give you back an address to the memory. When you're
 done with it, you tell `deallocate` that you are through with it.
@@ -4090,7 +4680,7 @@ addition, remember that Linux can keep pages of memory on disk instead
 of in memory. So, since you have to go through every piece of memory
 your program's memory, that means that Linux has to load every part of
 memory that's currently on disk to check to see if it is available. You
-can see how this could get really, really slow.[39] This method is said
+can see how this could get really, really slow.[44] This method is said
 to run in *linear* time, which means that every element you have to
 manage makes your program take longer. A program that runs in *constant*
 time takes the same amount of time no matter how many elements you are
@@ -4135,12 +4725,13 @@ allocate a buffer for one of our file reading/writing programs instead
 of assigning it in the `.bss`.
 
 The program we will demonstrate this on is `read-records.s` from
-[???](#records). This program uses a buffer named `record_buffer` to
-handle its input/output needs. We will simply change this from being a
-buffer defined in `.bss` to being a pointer to a dynamically-allocated
-buffer using our memory manager. You will need to have the code from
-that program handy as we will only be discussing the changes in this
-section.
+[Chapter 6. Reading and Writing Simple
+Records](#chapter-6-reading-and-writing-simple-records). This program
+uses a buffer named `record_buffer` to handle its input/output needs. We
+will simply change this from being a buffer defined in `.bss` to being a
+pointer to a dynamically-allocated buffer using our memory manager. You
+will need to have the code from that program handy as we will only be
+discussing the changes in this section.
 
 The first change we need to make is in the declaration. Currently it
 looks like this:
@@ -4367,7 +4958,7 @@ is generally assumed that the advantages outweigh the disadvantages.
 In programming, these shared code files are referred to as *shared
 libraries* shared libraries, *dynamic libraries* dynamic libraries,
 *shared objectsshared objects*, *dynamic-link librariesdynamic-link
-libraries*, *DLLsDLLs*, or *.so files*.[40] We will refer to all of
+libraries*, *DLLsDLLs*, or *.so files*.[45] We will refer to all of
 these as *dynamic libraries*.
 
 Using a Dynamic Library
@@ -4437,12 +5028,13 @@ In our first programs, all of the code was contained within the source
 file. Such programs are called *statically-linked
 executablesstatically-linked*, because they contained all of the
 necessary functionality for the program that wasn't handled by the
-kernel. In the programs we wrote in [???](#records), we used both our
-main program file and files containing routines used by multiple
-programs. In these cases, we combined all of the code together using the
-linker at link-time, so it was still statically-linked. However, in the
-`helloworld-lib` program, we started using dynamic libraries. When you
-use dynamic libraries, your program is then
+kernel. In the programs we wrote in [Chapter 6. Reading and Writing
+Simple Records](#chapter-6-reading-and-writing-simple-records), we used
+both our main program file and files containing routines used by
+multiple programs. In these cases, we combined all of the code together
+using the linker at link-time, so it was still statically-linked.
+However, in the `helloworld-lib` program, we started using dynamic
+libraries. When you use dynamic libraries, your program is then
 *dynamically-linkeddynamically-linked*, which means that not all of the
 code needed to run the program is actually contained within the program
 file itself, but in external libraries.
@@ -4550,7 +5142,7 @@ Then run the program with `./printf-example`, and it should say this:
 
 Now, if you look at the code, you'll see that we actually push the
 format string last, even though it's the first parameter listed. You
-always push a functions parameters in reverse order.[41] You may be
+always push a functions parameters in reverse order.[46] You may be
 wondering how the `printfprintf` function knows how many parameters
 there are. Well, it searches through your string, and counts how many
 `%d`s and `%s`s it finds, and then grabs that number of parameters from
@@ -4676,7 +5268,7 @@ library include:
 
 -   `FILE * fopenfopen (const char *filename, const char *opentype)`
     opens a managed, buffered file (allows easier reading and writing
-    than using file descriptors directly).[42][43]
+    than using file descriptors directly).[47][48]
 
 -   `int fclosefclose (FILE *stream)` closes a file opened with `fopen`.
 
@@ -4696,10 +5288,11 @@ http://www.gnu.org/software/libc/manual/
 Building a Dynamic Library
 --------------------------
 
-Let's say that we wanted to take all of our shared code from
-[???](#records) and build it into a dynamic librarydynamic library to
-use in our programs. The first thing we would do is assemble them like
-normal:
+Let's say that we wanted to take all of our shared code from [Chapter 6.
+Reading and Writing Simple
+Records](#chapter-6-reading-and-writing-simple-records) and build it
+into a dynamic librarydynamic library to use in our programs. The first
+thing we would do is assemble them like normal:
 
     as write-record.s -o write-record.o
     as read-record.s -o read-record.o
@@ -5601,7 +6194,7 @@ Order of Bytes in a Word
 One thing that confuses many people when dealing with bitsbits and
 bytesbytes on a low level is that, when bytes are written from
 registersregisters to memory, their bytes are written out
-least-significant-portion-first.[44] What most people expect is that if
+least-significant-portion-first.[49] What most people expect is that if
 they have a word in a register, say `0x5d 23 ef ee` (the spacing is so
 you can see where the bytes are), the bytes will be written to memory in
 that order. However, on x86 processors, the bytes are actually written
@@ -6111,7 +6704,7 @@ not necessary during early development for the following reasons:
     is often much cheaper than a programmer's time.
 
 -   Your application will change dramatically as you revise it,
-    therefore wasting most of your efforts to optimize it.[45]
+    therefore wasting most of your efforts to optimize it.[50]
 
 -   Speed problems are usually localized in a few places in your code -
     finding these is difficult before you have most of the program
@@ -6366,7 +6959,7 @@ Review
     optimizations according to the procedures outlined in this chapter
 
 -   Pick a program from the previous exercise and try to calculate the
-    performance impact on your code under specific inputs.[46]
+    performance impact on your code under specific inputs.[51]
 
 ### Going Further
 
@@ -6599,343 +7192,6 @@ In assembly language, your best resources are on the web.
 
 -   http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh's x86
     Assembly Page
-
-Reading and Writing Simple Records
-==================================
-
-As mentioned in [Chapter 5. Dealing with
-Files](#chapter-5-dealing-with-files), many applications deal with data
-that is *persistentpersistent* - meaning that the data lives longer than
-the program by being stored on disk in files. You can shut down the
-program and open it back up, and you are back where you started. Now,
-there are two basic kinds of persistent data - structured and
-unstructured. Unstructured dataunstructured data is like what we dealt
-with in the `toupper` program. It just dealt with text files that were
-entered by a person. The contents of the files weren't usable by a
-program because a program can't interpret what the user is trying to say
-in random text.
-
-Structured datastructured data, on the other hand, is what computers
-excel at handling. Structured data is data that is divided up into
-fieldsfields and recordsrecords. For the most part, the fields and
-records are fixed-length. Because the data is divided into fixed-length
-records and fixed-format fields, the computer can interpret the data.
-Structured data can contain variable-length fields, but at that point
-you are usually better off with a databasedatabase. [47]
-
-This chapter deals with reading and writing simple fixed-length
-recordsrecords. Let's say we wanted to store some basic information
-about people we know. We could imagine the following example
-fixed-length record about people:
-
--   Firstname - 40 bytes
-
--   Lastname - 40 bytes
-
--   Address - 240 bytes
-
--   Age - 4 bytes
-
-In this, everything is character data except for the age, which is
-simply a numeric field, using a standard 4-byte word (we could just use
-a single byte for this, but keeping it at a word makes it easier to
-process).
-
-In programming, you often have certain definitions that you will use
-over and over again within the program, or perhaps within several
-programs. It is good to separate these out into files that are simply
-included into the assembly language files as needed. For example, in our
-next programs we will need to access the different parts of the record
-above. This means we need to know the offsetsoffsets of each field from
-the beginning of the record in order to access them using base pointer
-addressingbase pointer addressing mode. The following constants describe
-the offsets to the above structure. Put them in a file named
-`record-def.s`:
-
-    RECORD-DEF
-
-In addition, there are several constants that we have been defining over
-and over in our programs, and it is useful to put them in a file, so
-that we don't have to keep entering them. Put the following
-constantsconstants in a file called `linux.s`:
-
-    LINUX
-
-We will write three programs in this chapter using the structure defined
-in `record-def.s`. The first program will build a file containing
-several records as defined above. The second program will display the
-records in the file. The third program will add 1 year to the age of
-every record.
-
-In addition to the standard constants we will be using throughout the
-programs, there are also two functions that we will be using in several
-of the programs - one which reads a record and one which writes a
-record.
-
-What parameters do these functions need in order to operate? We
-basically need:
-
--   The location of a buffer that we can read a record into
-
--   The file descriptor that we want to read from or write to
-
-Let's look at our reading function first:
-
-    READ-RECORD
-
-It's a pretty simple function. It just reads data the size of our
-structure into an appropriately sized buffer from the given file
-descriptor. The writing one is similar:
-
-    WRITE-RECORD
-
-Now that we have our basic definitions down, we are ready to write our
-programs.
-
-Writing Records
----------------
-
-This program will simply write some hardcoded records to disk. It will:
-
--   Open the file
-
--   Write three records
-
--   Close the file
-
-Type the following code into a file called `write-records.s`: .rept
-.endr padding null
-
-    WRITE-RECORDS
-
-This is a fairly simple program. It merely consists of defining the data
-we want to write in the `.data.data` section, and then calling the right
-system calls and function calls to accomplish it. For a refresher of all
-of the system calls used, see [Important System
-Calls](#important-system-calls).
-
-You may have noticed the lines:
-
-        .include "linux.s"
-        .include "record-def.s"
-
-.include These statements cause the given files to basically be pasted
-right there in the code. You don't need to do this with functions,
-because the linkerlinker can take care of combining functions exported
-with `.globl.globl`. However, constantsconstants defined in another file
-do need to be imported in this way.
-
-Also, you may have noticed the use of a new assembler directive,
-`.rept.rept`. This directive repeats the contents of the file between
-the `.rept` and the `.endr.endr` directives the number of times
-specified after `.rept`. This is usually used the way we used it - to
-padpad values in the `.data.data` section. In our case, we are adding
-null charactersnull characters to the end of each field until they are
-their defined lengths.
-
-To build the application, run the commands:
-
-    as write-records.s -o write-records.o
-    as write-record.s -o write-record.o
-    ld write-record.o write-records.o -o write-records
-
-Here we are assembling two files separately, and then combining them
-together using the linkerlinker. To run the program, just type the
-following:
-
-    ./write-records
-
-This will cause a file called `test.dat` to be created containing the
-records. However, since they contain non-printable characters (the null
-character, specifically), they may not be viewable by a text editor.
-Therefore we need the next program to read them for us.
-
-Reading Records
----------------
-
-Now we will consider the process of reading records. In this program, we
-will read each record and display the first name listed with each
-record.
-
-Since each person's name is a different length, we will need a function
-to count the number of characters we want to write. Since we pad each
-field with null charactersnull characters, we can simply count
-characters until we reach a null character.[48] Note that this means our
-records must contain at least one null character each.
-
-Here is the code. Put it in a file called `count-chars.s`:
-
-    COUNT-CHARS
-
-As you can see, it's a fairly straightforward function. It simply loops
-through the bytes, counting as it goes, until it hits a null character.
-Then it returns the count.
-
-Our record-reading program will be fairly straightforward, too. It will
-do the following:
-
--   Open the file
-
--   Attempt to read a record
-
--   If we are at the end of the file, exit
-
--   Otherwise, count the characters of the first name
-
--   Write the first name to `STDOUT`
-
--   Write a newline to `STDOUT`
-
--   Go back to read another record
-
-To write this, we need one more simple function - a function to write
-out a newline to `STDOUT`. Put the following code into
-`write-newline.s`:
-
-    WRITE-NEWLINE-S
-
-Now we are ready to write the main program. Here is the code to
-`read-records.s`:
-
-    READ-RECORDS
-
-To build this program, we need to assemble all of the parts and link
-them together:
-
-    as read-record.s -o read-record.o
-    as count-chars.s -o count-chars.o
-    as write-newline.s -o write-newline.o
-    as read-records.s -o read-records.o
-    ld read-record.o count-chars.o write-newline.o \
-       read-records.o -o read-records
-
-The backslash in the first line simply means that the command continues
-on the next line. You can run your program by doing `./read-records`.
-
-As you can see, this program opens the file and then runs a loop of
-reading, checking for the end of file, and writing the firstname. The
-one construct that might be new is the line that says:
-
-        pushl  $RECORD_FIRSTNAME + record_buffer
-
-It looks like we are combining and add instruction with a push
-instruction, but we are not. You see, both `RECORD_FIRSTNAME` and
-`record_buffer` are constantsconstants. The first is a direct constant,
-created through the use of a `.equ.equ` directive, while the latter is
-defined automatically by the assemblerassembler through its use as a
-label (it's value being the addressaddress that the data that follows it
-will start at). Since they are both constants that the assembler knows,
-it is able to add them together while it is assembling your program, so
-the whole instruction is a single immediate-modeimmediate mode
-addressing push of a single constant.
-
-The `RECORD_FIRSTNAME` constantconstants is the number of bytes after
-the beginning of a record before we hit the first name. `record_buffer`
-is the name of our buffer for holding records. Adding them together gets
-us the address of the first name member of the record stored in
-`record_buffer`.
-
-Modifying the Records
----------------------
-
-In this section, we will write a program that:
-
--   Opens an input and output file
-
--   Reads records from the input
-
--   Increments the age
-
--   Writes the new record to the output file
-
-Like most programs we've encountered recently, this program is pretty
-straightforward.[49]
-
-    ADD-YEAR
-
-You can type it in as `add-year.s`. To build it, type the following[50]:
-
-    as add-year.s -o add-year.o
-    ld add-year.o read-record.o write-record.o -o add-year
-
-To run the program, just type in the following[51]:
-
-    ./add-year
-
-This will add a year to every record listed in `test.dat` and write the
-new records to the file `testout.dat`.
-
-As you can see, writing fixed-length records is pretty simple. You only
-have to read in blocks of data to a buffer, process them, and write them
-back out. Unfortunately, this program doesn't write the new ages out to
-the screen so you can verify your program's effectiveness. This is
-because we won't get to displaying numbers until [???](#linking) and
-[Counting Like a Computer](#counting-like-a-computer). After reading
-those you may want to come back and rewrite this program to display the
-numeric data that we are modifying.
-
-Review
-------
-
-### Know the Concepts
-
--   What is a record?
-
--   What is the advantage of fixed-length records over variable-length
-    records?
-
--   How do you include constants in multiple assembly source files?
-
--   Why might you want to split up a project into multiple source files?
-
--   What does the instruction `incl record_buffer + RECORD_AGE` do? What
-    addressing mode is it using? How many operands does the `incl`
-    instructions have in this case? Which parts are being handled by the
-    assembler and which parts are being handled when the program is run?
-
-### Use the Concepts
-
--   Add another data member to the person structure defined in this
-    chapter, and rewrite the reading and writing functions and programs
-    to take them into account. Remember to reassemble and relink your
-    files before running your programs.
-
--   Create a program that uses a loop to write 30 identical records to a
-    file.
-
--   Create a program to find the largest age in the file and return that
-    age as the status code of the program.
-
--   Create a program to find the smallest age in the file and return
-    that age as the status code of the program.
-
-### Going Further
-
--   Rewrite the programs in this chapter to use command-line arguments
-    to specify the filesnames.
-
--   Research the `lseek` system call. Rewrite the `add-year` program to
-    open the source file for both reading and writing (use $2 for the
-    read/write mode), and write the modified records back to the same
-    file they were read from.
-
--   Research the various error codes that can be returned by the system
-    calls made in these programs. Pick one to rewrite, and add code that
-    checks *%eax* for error conditions, and, if one is found, writes a
-    message about it to `STDERR` and exit.
-
--   Write a program that will add a single record to the file by reading
-    the data from the keyboard. Remember, you will have to make sure
-    that the data has at least one null character at the end, and you
-    need to have a way for the user to indicate they are done typing.
-    Because we have not gotten into characters to numbers conversion,
-    you will not be able to read the age in from the keyboard, so you'll
-    have to have a default age.
-
--   Write a function called `compare-strings` that will compare two
-    strings up to 5 characters. Then write a program that allows the
-    user to enter 5 characters, and have the program return all records
-    whose first name starts with those 5 characters.
 
 Table of ASCII Codes
 ====================
@@ -7773,34 +8029,34 @@ Logic Instructions
 
 These instructions operate on memory as bits instead of words.
 
-| Instruction                                                                                                                                                                                                                                                                                                               | Operands   | Affected Flags |
-|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------------|
-| andlandl                                                                                                                                                                                                                                                                                                                  | I/R/M, R/M | O/S/Z/P/C      |
-| Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                      |            |                |
-| notlnotl                                                                                                                                                                                                                                                                                                                  | R/M        |                |
-| Performs a logical not on each bit in the operand. Also known as a one's complementone's complement.                                                                                                                                                                                                                      |            |                |
-| orlorl                                                                                                                                                                                                                                                                                                                    | I/R/M, R/M | O/S/Z/A/P/C    |
-| Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                                  |            |                |
-| rcllrcll                                                                                                                                                                                                                                                                                                                  | I/CL, R/M  | O/C            |
-| Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register CL. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.                                                         |            |                |
-| rcrlrcrl                                                                                                                                                                                                                                                                                                                  | I/CL, R/M  | O/C            |
-| Same as above, but rotates right.                                                                                                                                                                                                                                                                                         |            |                |
-| rollroll                                                                                                                                                                                                                                                                                                                  | I/CL, R/M  | O/C            |
-| Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the CL register.                                                                                            |            |                |
-| rorlrorl                                                                                                                                                                                                                                                                                                                  | I/CL, R/M  | O/C            |
-| Same as above, but rotates right.                                                                                                                                                                                                                                                                                         |            |                |
-| sallsall                                                                                                                                                                                                                                                                                                                  | I/CL, R/M  | C              |
-| Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the CL register. |            |                |
-| sarlsarl                                                                                                                                                                                                                                                                                                                  | I/CL, R/M  | C              |
-| Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the CL register.                               |            |                |
-| shllshll                                                                                                                                                                                                                                                                                                                  | I/CL, R/M  | C              |
-| Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the CL register.                                                                             |            |                |
-| shrlshrl                                                                                                                                                                                                                                                                                                                  | I/CL, R/M  | C              |
-| Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the CL register.                                                          |            |                |
-| testltestl                                                                                                                                                                                                                                                                                                                | I/R/M, R/M | O/S/Z/A/P/C    |
-| Does a logical and of both operands and discards the results, but sets the flags accordingly.                                                                                                                                                                                                                             |            |                |
-| xorlxorl                                                                                                                                                                                                                                                                                                                  | I/R/M, R/M | O/S/Z/A/P/C    |
-| Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                                        |            |                |
+| Instruction                                                                                                                                                                                                                                                                                                                  | Operands   | Affected Flags |
+|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------------|
+| andlandl                                                                                                                                                                                                                                                                                                                     | I/R/M, R/M | O/S/Z/P/C      |
+| Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                         |            |                |
+| notlnotl                                                                                                                                                                                                                                                                                                                     | R/M        |                |
+| Performs a logical not on each bit in the operand. Also known as a one's complementone's complement.                                                                                                                                                                                                                         |            |                |
+| orlorl                                                                                                                                                                                                                                                                                                                       | I/R/M, R/M | O/S/Z/A/P/C    |
+| Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                                     |            |                |
+| rcllrcll                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | O/C            |
+| Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register *%cl*. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.                                                         |            |                |
+| rcrlrcrl                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | O/C            |
+| Same as above, but rotates right.                                                                                                                                                                                                                                                                                            |            |                |
+| rollroll                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | O/C            |
+| Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the *%cl* register.                                                                                            |            |                |
+| rorlrorl                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | O/C            |
+| Same as above, but rotates right.                                                                                                                                                                                                                                                                                            |            |                |
+| sallsall                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | C              |
+| Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the *%cl* register. |            |                |
+| sarlsarl                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | C              |
+| Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the *%cl* register.                               |            |                |
+| shllshll                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | C              |
+| Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the *%cl* register.                                                                             |            |                |
+| shrlshrl                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | C              |
+| Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the *%cl* register.                                                          |            |                |
+| testltestl                                                                                                                                                                                                                                                                                                                   | I/R/M, R/M | O/S/Z/A/P/C    |
+| Does a logical and of both operands and discards the results, but sets the flags accordingly.                                                                                                                                                                                                                                |            |                |
+| xorlxorl                                                                                                                                                                                                                                                                                                                     | I/R/M, R/M | O/S/Z/A/P/C    |
+| Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                                           |            |                |
 
 Logic Instructions
 
@@ -8824,27 +9080,29 @@ registers on the stack.
 will not have finished before a new one is activated. I am not implying
 that their instructions are running at the same time.
 
-[27] Note that different versions of GCC do this differently.
+[27] This will be explained in more detail in [Truth, Falsehood, and
+Binary Numbers](#truth-falsehood-and-binary-numbers).
 
-[28] If you have used C, this is what the `strlenstrlen` function does.
+[28] While this sounds complicated, most of the time in programming you
+will not need to deal directly with buffers and file descriptors. In
+[Sharing Functions with Code
+Libraries](#sharing-functions-with-code-libraries) you will learn how to
+use existing code present in Linux to handle most of the complications
+of file input/output for you.
 
-[29] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[29] As we mentioned earlier, in Linux, almost everything is a "file".
+Your keyboard input is considered a file, and so is your screen display.
 
-[30] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[30] Maureen Sprankle's *Problem Solving and Programming Concepts* is an
+excellent book on the problem-solving process applied to computer
+programming.
 
-[31] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[31] This is fairly standard practice among programmers in all
+languages.
 
-[32] This is why adding more memory to your computer makes it run
-faster. The more memory your computer has, the less it puts on disk, so
-it doesn't have to always be interrupting your programs to retreive
-pages off the disk.
+[32] If you aren't familiar with UNIX permissions, just put `$0666`
+here. Don't forget the leading zero, as it means that the number is an
+octal number.
 
 [33] Notice that we don't do any error checking on this. That is done
 just to keep the program simple. In normal programs, every system call
@@ -8855,60 +9113,69 @@ jumping if it is less than zero.
 
 [34] Note that different versions of GCC do this differently.
 
-[35] If you have used C, this is what the `strlenstrlen` function does.
+[35] Since these programs are usually short enough not to have
+noticeable performance problems, looping through the program thousands
+of times will exaggerate the time it takes to run enough to make
+calculations.
 
-[36] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[36] `stdin`, `stdout`, and `stderr` (all lower case) can be used in
+these programs to refer to the files of their corresponding file
+descriptors.
 
-[37] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[37] `FILE` is a struct. You don't need to know its contents to use it.
+You only have to store the pointer and pass it to the relevant other
+functions.
 
-[38] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[38] The function names usually aren't `allocate` and `deallocate`, but
+the functionality will be the same. In the C programming language, for
+example, they are named `malloc` and `free`.
 
-[39] This is why adding more memory to your computer makes it run
+[39] Note that different versions of GCC do this differently.
+
+[40] Since these programs are usually short enough not to have
+noticeable performance problems, looping through the program thousands
+of times will exaggerate the time it takes to run enough to make
+calculations.
+
+[41] `stdin`, `stdout`, and `stderr` (all lower case) can be used in
+these programs to refer to the files of their corresponding file
+descriptors.
+
+[42] `FILE` is a struct. You don't need to know its contents to use it.
+You only have to store the pointer and pass it to the relevant other
+functions.
+
+[43] The function names usually aren't `allocate` and `deallocate`, but
+the functionality will be the same. In the C programming language, for
+example, they are named `malloc` and `free`.
+
+[44] This is why adding more memory to your computer makes it run
 faster. The more memory your computer has, the less it puts on disk, so
 it doesn't have to always be interrupting your programs to retreive
 pages off the disk.
 
-[40] Note that different versions of GCC do this differently.
-
-[41] If you have used C, this is what the `strlenstrlen` function does.
-
-[42] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
-
-[43] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
-
-[44] Note that different versions of GCC do this differently.
-
 [45] Note that different versions of GCC do this differently.
 
-[46] If you have used C, this is what the `strlenstrlen` function does.
+[46] Since these programs are usually short enough not to have
+noticeable performance problems, looping through the program thousands
+of times will exaggerate the time it takes to run enough to make
+calculations.
 
-[47] Note that different versions of GCC do this differently.
+[47] `stdin`, `stdout`, and `stderr` (all lower case) can be used in
+these programs to refer to the files of their corresponding file
+descriptors.
 
-[48] If you have used C, this is what the `strlenstrlen` function does.
+[48] `FILE` is a struct. You don't need to know its contents to use it.
+You only have to store the pointer and pass it to the relevant other
+functions.
 
-[49] You will find that after learning the mechanics of programming,
-most programs are pretty straightforward once you know exactly what it
-is you want to do. Most of them initialize data, do some processing in a
-loop, and then clean everything up.
+[49] Note that different versions of GCC do this differently.
 
-[50] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+[50] Note that different versions of GCC do this differently.
 
-[51] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+[51] Since these programs are usually short enough not to have
+noticeable performance problems, looping through the program thousands
+of times will exaggerate the time it takes to run enough to make
+calculations.
 
 [52] Note that different versions of GCC do this differently.
