@@ -1,3 +1,5 @@
+    .code32                            # Generate 32-bit code.
+
     # PURPOSE:  Count the characters until a null byte is reached.
     #
     # INPUT:    The address of the character string.

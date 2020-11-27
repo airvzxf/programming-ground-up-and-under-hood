@@ -760,7 +760,7 @@ human-readable file into a machine-readable one. To assembly the program
 type in the command:
 
 ```{.bash}
-as exit.s -o exit.o
+as -o exit.o  exit.s
 ```
 
 `as` is the command which runs the assembler, `exit.s` is the source
@@ -776,7 +776,7 @@ linker is only adding the information to enable it to run. To *link*
 the file, enter the command:
 
 ```{.bash}
-ld exit.o -o exit
+ld -o exit  exit.o
 ```
 
 `ld` is the command to run the linker, `exit.o` is the object file we
@@ -1179,8 +1179,8 @@ Enter the following program as `maximum.s`:
 Now, assemble and link it with these commands:
 
 ```{.bash}
-as maximum.s -o maximum.o
-ld maximum.o -o maximum
+as -o maximum.o  maximum.s
+ld -o maximum    maximum.o
 ```
 
 Now run it, and check its status.
@@ -2379,8 +2379,8 @@ Let\'s look at the code to see how this works:
 Assemble, link, and run it with these commands:
 
 ```{.bash}
-as factorial.s -o factorial.o
-ld factorial.o -o factorial
+as -o factorial.o  factorial.s
+ld -o factorial    factorial.o
 ./factorial
 echo $?
 ```
@@ -2923,8 +2923,8 @@ Type in this program as `toupper.s`, and then enter in the
 following commands:
 
 ```{.bash}
-as toupper.s  -o toupper.o
-ld toupper.o  -o toupper
+as -o toupper.o  toupper.s
+ld -o toupper    toupper.o
 ```
 
 This builds a program called `toupper`, which converts all
@@ -3368,9 +3368,9 @@ their defined lengths.
 To build the application, run the commands:
 
 ```{.bash}
-as write-records.s  -o write-records.o
-as write-record.s   -o write-record.o
-ld write-record.o write-records.o  -o write-records
+as -o write-records.o  write-records.s
+as -o write-record.o   write-record.s
+ld -o write-records    write-record.o write-records.o
 ```
 
 Here we are assembling two files separately, and then combining them
@@ -3442,12 +3442,12 @@ To build this program, we need to assemble all of the parts and link
 them together:
 
 ```{.bash}
-as read-record.s    -o read-record.o
-as count-chars.s    -o count-chars.o
-as write-newline.s  -o write-newline.o
-as read-records.s   -o read-records.o
-ld read-record.o count-chars.o write-newline.o read-records.o \
-     -o read-records
+as -o read-record.o    read-record.s
+as -o count-chars.o    count-chars.s
+as -o write-newline.o  write-newline.s
+as -o read-records.o   read-records.s
+ld -o read-records     read-record.o count-chars.o \
+                       write-newline.o read-records.o
 ```
 
 The backslash in the first line simply means that the command continues
@@ -3500,8 +3500,8 @@ is pretty straightforward.[^6-3]
 You can type it in as `add-year.s`. To build it, type the following[^6-4]:
 
 ```{.bash}
-as add-year.s  -o add-year.o
-ld add-year.o read-record.o write-record.o  -o add-year
+as -o add-year.o  add-year.s
+ld -o add-year    add-year.o read-record.o write-record.o
 ```
 
 To run the program, just type in the following[^6-5]:
@@ -3927,11 +3927,10 @@ error checking and handling code.
 To assemble and link the files, do:
 
 ```{.bash}
-as add-year.s   -o add-year.o
-as error-exit.s -o error-exit.o
-ld add-year.o write-newline.o error-exit.o read-record.o \
-     write-record.o count-chars.o \
-     -o add-year
+as -o add-year.o    add-year.s
+as -o error-exit.o  error-exit.s
+ld -o add-year      add-year.o write-newline.o error-exit.o \
+                    read-record.o write-record.o count-chars.o
 ```
 
 Now try to run it without the necessary files. It now exits cleanly and
@@ -3985,7 +3984,7 @@ Review
 
 
 Chapter 8. Sharing Functions with Code Libraries {#sharing-functions-with-code-libraries}
-=====================================
+================================================
 
 By now you should realize that the computer has to do a lot of work even
 for simple tasks. Because of that, you have to do a lot of work to write
@@ -3994,16 +3993,17 @@ programming tasks are usually not very simple. Therefore, we neeed a way
 to make this process easier on ourselves. There are several ways to do
 this, including:
 
--   Write code in a high-level language instead of assembly language
+-   Write code in a high-level language instead of assembly language.
 
 -   Have lots of pre-written code that you can cut and paste into your
-    own programs
+    own programs.
 
--   Have a set of functionsfunctions on the system that are shared among
-    any program that wishes to use it
+-   Have a set of functions on the system that are shared among
+    any program that wishes to use it.
 
 All three of these are usually used to some degree in any given project.
-The first option will be explored further in [???](#highlevellanguages).
+The first option will be explored further in
+[High-Level Languages](#high-level-languages).
 The second option is useful but it suffers from some drawbacks,
 including:
 
@@ -4017,13 +4017,13 @@ including:
     every application program.
 
 Therefore, the second option is usually used sparingly. It is usually
-only used in cases where you copy and paste skeleton codeskeleton code
+only used in cases where you copy and paste skeleton code
 for a specific type of task, and add in your program-specific details.
 The third option is the one that is used the most often. The third
 option includes having a central repository of shared code. Then,
 instead of each program wasting space storing the same copies of
-functions, they can simply point to the *dynamic libraries* shared
-libraries dynamic libraries which contain the functions they need. If a
+functions, they can simply point to the *dynamic libraries*
+which contain the functions they need. If a
 bug is found in one of these functions, it only has to be fixed within
 the single function library file, and all applications which use it are
 automatically updated. The main drawback with this approach is that it
@@ -4045,9 +4045,8 @@ These problems are what lead to what is known as \"DLL hell\". However,
 it is generally assumed that the advantages outweigh the disadvantages.
 
 In programming, these shared code files are referred to as *shared
-libraries* shared libraries, *dynamic libraries* dynamic libraries,
-*shared objectsshared objects*, *dynamic-link librariesdynamic-link
-libraries*, *DLLsDLLs*, or *.so files*.[^1] We will refer to all of
+libraries*, *dynamic libraries*, *shared objects*, *dynamic-link
+libraries*, *DLLs*, or *.so files*.[^8-1] We will refer to all of
 these as *dynamic libraries*.
 
 Using a Dynamic Library
@@ -4057,52 +4056,58 @@ The program we will examine here is simple - it writes the characters
 `hello world` to the screen and exits. The regular program,
 `helloworld-nolib.s`, looks like this:
 
-    HELLOWORLD-NOLIB-S
+```{.gnuassembler include=resource/asm/helloworld-nolib.s}
+```
 
 That\'s not too long. However, take a look at how short `helloworld-lib`
 is which uses a library:
 
-    HELLOWORLD-LIB-S
+```{.gnuassembler include=resource/asm/helloworld-lib.s}
+```
 
 It\'s even shorter!
 
-Now, building programs which use dynamic librariesdynamic libraries is a
+Now, building programs which use dynamic libraries is a
 little different than normal. You can build the first program normally
 by doing this:
 
-    as helloworld-nolib.s -o helloworld-nolib.o
-    ld helloworld-nolib.o -o helloworld-nolib
+```{.bash}
+as -o helloworld-nolib.o  helloworld-nolib.s
+ld -o helloworld-nolib    helloworld-nolib.o
+```
 
 However, in order to build the second program, you have to do this:
 
-    as helloworld-lib.s -o helloworld-lib.o
-    ld -dynamic-linker /lib/ld-linux.so.2 \
-       -o helloworld-lib helloworld-lib.o -lc
+```{.bash}
+as -o helloworld-lib.o  helloworld-lib.s
+ld -o helloworld-lib    helloworld-lib.o \
+                        -lc -dynamic-linker /lib/ld-linux.so.2
+```
 
 Remember, the backslash in the first line simply means that the command
-continues on the next line. The option `-dynamic-linker-dynamic-linker
+continues on the next line. The option `-dynamic-linker
  /lib/ld-linux.so.2` allows our program to be linked to libraries. This
 builds the executable so that before executing, the operating system
 will load the program `/lib/ld-linux.so.2` to load in external libraries
 and link them with the program. This program is known as a *dynamic
-linkerdynamic linker*.
+linker*.
 
-The `-lc` option says to link to the `c` library, named `libc.so` on
+The `-lc` option says to link to the `C` library, named `libc.so` on
 GNU/Linux systems. Given a library name, `c` in this case (usually
 library names are longer than a single letter), the GNU/Linux linker
 prepends the string `lib` to the beginning of the library name and
 appends `.so` to the end of it to form the library\'s filename. This
 library contains many functions to automate all types of tasks. The two
-we are using are `printfprintf`, which prints strings, and `exitexit`,
+we are using are `printf`, which prints strings, and `exit`,
 which exits the program.
 
 Notice that the symbols `printf` and `exit` are simply referred to by
 name within the program. In previous chapters, the linker would resolve
 all of the names to physical memory addresses, and the names would be
-thrown away. When using dynamic linkingdynamic linking, the name itself
+thrown away. When using dynamic linking, the name itself
 resides within the executable, and is resolved by the dynamic linker
 when it is run. When the program is run by the user, the dynamic
-linkerdynamic linker loads the dynamic librariesdynamic libraries listed
+linker loads the dynamic libraries listed
 in our link statement, and then finds all of the function and variable
 names that were named by our program but not found at link time, and
 matches them up with corresponding entries in the shared libraries it
@@ -4114,10 +4119,9 @@ How Dynamic Libraries Work
 --------------------------
 
 In our first programs, all of the code was contained within the source
-file. Such programs are called *statically-linked
-executablesstatically-linked*, because they contained all of the
-necessary functionality for the program that wasn\'t handled by the
-kernel. In the programs we wrote in
+file. Such programs are called *statically-linked executables*, because
+they contained all of the necessary functionality for the program that
+wasn\'t handled by the kernel. In the programs we wrote in
 [Chapter 6. Reading and Writing Simple Records](#chapter-6-reading-and-writing-simple-records),
 we used both our
 main program file and files containing routines used by multiple
@@ -4125,21 +4129,21 @@ programs. In these cases, we combined all of the code together using the
 linker at link-time, so it was still statically-linked. However, in the
 `helloworld-lib` program, we started using dynamic libraries. When you
 use dynamic libraries, your program is then
-*dynamically-linkeddynamically-linked*, which means that not all of the
+*dynamically-linked*, which means that not all of the
 code needed to run the program is actually contained within the program
 file itself, but in external libraries.
 
 When we put the `-lc` on the command to link the `helloworld` program,
-it told the linker to use the `c` library (`libc.so`) to look up any
+it told the linker to use the `C` library (`libc.so`) to look up any
 symbolssymbols that weren\'t already defined in `helloworld.o`. However,
 it doesn\'t actually add any code to our program, it just notes in the
 program where to look. When the `helloworld` program begins, the file
-`/lib/ld-linux.so.2/lib/ld-linux.so.2` is loaded first. This is the
-dynamic linkerdynamic linker. This looks at our `helloworld` program and
-sees that it needs the `c` library to run. So, it searches for a file
+`/lib/ld-linux.so.2` is loaded first. This is the
+dynamic linker. This looks at our `helloworld` program and
+sees that it needs the `C` library to run. So, it searches for a file
 called `libc.so` in the standard places (listed in
-`/etc/ld.so.conf/etc/ld.so.conf` and in the contents of the
-`LD_LIBRARY_PATHLD_LIBRARY_PATH` environment variable), then looks in it
+`/etc/ld.so.conf` and in the contents of the
+`LD_LIBRARY_PATH` environment variable), then looks in it
 for all the needed symbols (`printf` and `exit` in this case), and then
 loads the library into the program\'s virtual memory. Finally, it
 replaces all instances of `printf` in the program with the actual
@@ -4147,18 +4151,22 @@ location of `printf` in the library.
 
 Run the following command:
 
-    lddldd ./helloworld-nolib
+```{.bash}
+ldd ./helloworld-nolib
+```
 
 It should report back `not a dynamic executable`. This is just like we
 said - `helloworld-nolib` is a statically-linked executable. However,
 try this:
 
-    ldd ./helloworld-lib
+```{.bash}
+ldd ./helloworld-lib
+```
 
-It will report back something like
+It will report back something like:
 
-          libc.so.6 => /lib/libc.so.6 (0x4001d000)
-          /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x400000000)
+    libc.so.6 => /lib/libc.so.6 (0x4001d000)
+    /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x400000000)
 
 The numbers in parenthesis may be different on your system. This means
 that the program `helloworld` is linked to `libc.so.6` (the `.6` is the
@@ -4176,40 +4184,43 @@ find out what libraries you have on your system and what they do? Well,
 let\'s skip that question for a minute and ask another question: How do
 programmers describe functions to each other in their documentation?
 Let\'s take a look at the function `printf`. Its calling
-interfacecalling interface (usually referred to as a
-*prototypeprototype*) looks like this:
+interface (usually referred to as a *prototype*) looks like this:
 
-    int printf(char *string, ...);
+```{.c}
+int printf(char *string, ...);
+```
 
-In Linux, functionsfunctions are described in the C programming
-languageC programming language. In fact, most Linux programs are written
+In Linux, functions are described in the C programming
+language. In fact, most Linux programs are written
 in C. That is why most documentation and binary compatibility is defined
 using the C language. The interface to the `printf` function above is
 described using the C programming language.
 
 This definition means that there is a function `printf`. The things
-inside the parenthesis are the function\'s parametersparameters or
+inside the parenthesis are the function\'s parameters or
 arguments. The first parameter here is `char *string`. This means there
 is a parameter named `string` (the name isn\'t important, except to use
-for talking about it), which has a type `char *`. `charchar` means that
-it wants a single-byte character. The `**` after it means that it
+for talking about it), which has a type `char *`. `char` means that
+it wants a single-byte character. The `*` after it means that it
 doesn\'t actually want a character as an argument, but instead it wants
 the address of a character or sequence of characters. If you look back
 at our `helloworld program`, you will notice that the function call
 looked like this:
 
-        pushl $hello
-        call  printf
+```{.gnuassembler}
+pushl $hello
+call  printf
+```
 
 So, we pushed the address of the `hello` string, rather than the actual
 characters. You might notice that we didn\'t push the length of the
-string. The way that `printfprintf` found the end of the string was
-because we ended it with a null characternull character (`\0`). Many
-functions work that way, especially C language functions. The `intint`
+string. The way that `printf` found the end of the string was
+because we ended it with a null character (`\0`). Many
+functions work that way, especially C language functions. The `int`
 before the function definition tell what type of value the function will
 return in _%eax_ when it returns. `printf` will return an `int`
 when it\'s through. Now, after the `char *string`, we have a series of
-periods, `......`. This means that it can take an indefinite number of
+periods, `...`. This means that it can take an indefinite number of
 additional arguments after the string. Most functions can only take a
 specified number of arguments. `printf`, however, can take many. It will
 look into the `string` parameter, and everywhere it sees the characters
@@ -4217,23 +4228,26 @@ look into the `string` parameter, and everywhere it sees the characters
 everywhere it sees `%d` it will look for a number from the stack to
 insert. This is best described using an example:
 
-    PRINTF-EXAMPLE-S
+```{.gnuassembler include=resource/asm/printf-example.s}
+```
 
 Type it in with the filename `printf-example.s`, and then do the
 following commands:
 
-    as printf-example.s -o printf-example.o
-    ld printf-example.o -o printf-example -lc \
-       -dynamic-linker /lib/ld-linux.so.2
+```{.bash}
+as -o printf-example.o  printf-example.s
+ld -o printf-example    printf-example.o \
+                        -lc -dynamic-linker /lib/ld-linux.so.2
+```
 
 Then run the program with `./printf-example`, and it should say this:
 
-    Hello! Jonathan is a person who loves the number 3
+    Hello! Jonathan is a person who loves the number 3.
 
 Now, if you look at the code, you\'ll see that we actually push the
 format string last, even though it\'s the first parameter listed. You
-always push a functions parameters in reverse order.[^2] You may be
-wondering how the `printfprintf` function knows how many parameters
+always push a functions parameters in reverse order.[^8-2] You may be
+wondering how the `printf` function knows how many parameters
 there are. Well, it searches through your string, and counts how many
 `%d`s and `%s`s it finds, and then grabs that number of parameters from
 the stack. If the parameter matches a `%d`, it treats it as a number,
@@ -4246,8 +4260,8 @@ control characters it needs to replace, pull them off the stack, convert
 them to a suitable representation (numbers have to be converted to
 strings, etc), and stick them all together appropriately.
 
-We\'ve seen how to use the C programming languageC programming language
-prototypesprototypes to call library functions. To use them effectively,
+We\'ve seen how to use the C programming language
+prototypes to call library functions. To use them effectively,
 however, you need to know several more of the possible data types for
 reading functions. Here are the main ones:
 
@@ -4279,7 +4293,7 @@ reading functions. Here are the main ones:
 
 :   A `float` is a floating-point number (4 bytes on an x86 processor).
     Floating-point numbers will be explained in more depth in
-    [???](#floatingpoint).
+    [Floating-point Numbers](#floating-point-numbers).
 
 `double`:
 
@@ -4293,38 +4307,40 @@ reading functions. Here are the main ones:
     signed and unsigned numbers will be discussed in
     [Counting Like a Computer](#counting-like-a-computer).
 
-`**`
+`*`:
 
 :   An asterisk (`*`) is used to denote that the data isn\'t an actual
     value, but instead is a pointer to a location holding the given
     value (4 bytes on an x86 processor). So, let\'s say in memory
     location `my_location` you have the number 20 stored. If the
     prototype said to pass an `int`, you would use direct addressing
-    modedirect addressing mode and do `pushl my_location`. However, if
+    mode and do `pushl my_location`. However, if
     the prototype said to pass an `int *`, you would do
-    `pushl $my_location` - an immediate modeimmediate mode addressing
+    `pushl $my_location` - an immediate mode addressing
     push of the address that the value resides in. In addition to
     indicating the address of a single value, pointers can also be used
     to pass a sequence of consecutive locations, starting with the one
-    pointed to by the given value. This is called an arrayarray.
+    pointed to by the given value. This is called an array.
 
 `struct`:
 
 :   A `struct` is a set of data items that have been put together under
     a name. For example you could declare:
 
-        struct teststruct {
-            int a;
-            char *b;
-        };
-
-    and any time you ran into `struct teststruct` you would know that it
+    And any time you ran into `struct teststruct` you would know that it
     is actually two words right next to each other, the first being an
     integer, and the second a pointer to a character or group of
     characters. You never see structs passed as arguments to functions.
     Instead, you usually see pointers to structs passed as arguments.
     This is because passing structs to functions is fairly complicated,
     since they can take up so many storage locations.
+
+```{.c}
+struct teststruct {
+    int a;
+    char *b;
+};
+```
 
 `typedef`:
 
@@ -4342,7 +4358,7 @@ reading functions. Here are the main ones:
 
 That\'s how to read function documentation. Now, let\'s get back to the
 question of how to find out about libraries. Most of your system
-libraries are in `/usr/lib/usr/lib` or `/lib/lib`. If you want to just
+libraries are in `/usr/lib` or `/lib`. If you want to just
 see what symbols they define, just run `objdump -R FILENAME`
 where `FILENAME` is the full path to the library. The output of that
 isn\'t too helpful, though, for finding an interface that you might
@@ -4355,57 +4371,61 @@ on them, which are a little more thorough than man pages.
 Useful Functions
 ----------------
 
-Several useful functions you will want to be aware of from the `c`
+Several useful functions you will want to be aware of from the `C`
 library include:
 
--   `size_t strlenstrlen (const char *s)` calculates the size of
+-   `size_t strlen (const char *s)` calculates the size of
     null-terminated strings.
 
--   `int strcmpstrcmp (const char *s1, const char *s2)` compares two
+-   `int strcmp (const char *s1, const char *s2)` compares two
     strings alphabetically.
 
--   `char * strdupstrdup (const char *s)` takes the pointer to a string,
+-   `char * strdup (const char *s)` takes the pointer to a string,
     and creates a new copy in a new location, and returns the new
     location.
 
--   `FILE * fopenfopen (const char *filename, const char *opentype)`
+-   `FILE * fopen (const char *filename, const char *opentype)`
     opens a managed, buffered file (allows easier reading and writing
-    than using file descriptors directly).[^3][^4]
+    than using file descriptors directly).[^8-3] [^8-4]
 
--   `int fclosefclose (FILE *stream)` closes a file opened with `fopen`.
+-   `int fclose (FILE *stream)` closes a file opened with `fopen`.
 
--   `char * fgetsfgets (char *s, int count, FILE *stream)` fetches a
+-   `char * fgets (char *s, int count, FILE *stream)` fetches a
     line of characters into string `s`.
 
--   `int fputsfputs (const char *s, FILE *stream)` writes a string to
+-   `int fputs (const char *s, FILE *stream)` writes a string to
     the given open file.
 
--   `int fprintffprintf (FILE *stream, const char *template, ...)` is
+-   `int fprintf (FILE *stream, const char *template, ...)` is
     just like `printf`, but it uses an open file rather than defaulting
     to using standard output.
 
 You can find the complete manual on this library by going to
-http://www.gnu.org/software/libc/manual/
+[The GNU C Library manual][8-GNU-Libc]
 
 Building a Dynamic Library
 --------------------------
 
 Let\'s say that we wanted to take all of our shared code from
 [Chapter 6. Reading and Writing Simple Records](#chapter-6-reading-and-writing-simple-records)
-and build it into a dynamic librarydynamic library to
+and build it into a dynamic library to
 use in our programs. The first thing we would do is assemble them like
 normal:
 
-    as write-record.s -o write-record.o
-    as read-record.s -o read-record.o
+```{.bash}
+as -o write-record.o  write-record.s
+as -o read-record.o   read-record.s
+```
 
 Now, instead of linking them into a program, we want to link them into a
 dynamic library. This changes our linker command to this:
 
-    ld -shared write-record.o read-record.o -o librecord.so
+```{.bash}
+ld -o librecord.so  -shared write-record.o read-record.o
+```
 
-This links both of these files together into a dynamic librarydynamic
-library called `librecord.so`. This file can now be used for multiple
+This links both of these files together into a dynamic library called
+`librecord.so`. This file can now be used for multiple
 programs. If we need to update the functions contained within it, we can
 just update this one file and not have to worry about which programs use
 it.
@@ -4413,13 +4433,17 @@ it.
 Let\'s look at how we would link against this library. To link the
 `write-records` program, we would do the following:
 
-    as write-records.s -o write-records
-    ld -L . -dynamic-linker /lib/ld-linux.so.2 \
-       -o write-records -lrecord write-records.o
+```{.bash}
+as -o write-records.o  write-records.s
+ld -o write-records    write-records.o \
+                       -lrecord \
+                       -L . \
+                       -dynamic-linker /lib/ld-linux.so.2
+```
 
 In this command, `-L .` told the linker to look for libraries in the
-current directory (it usually only searches `/lib/lib` directory,
-`/usr/lib/usr/lib` directory, and a few others). As we\'ve seen, the
+current directory (it usually only searches `/lib` directory,
+`/usr/lib` directory, and a few others). As we\'ve seen, the
 option `-dynamic-linker /lib/ld-linux.so.2` specified the dynamic
 linker. The option `-lrecord` tells the linker to search for functions
 in the file named `librecord.so`.
@@ -4428,46 +4452,76 @@ Now the `write-records` program is built, but it will not run. If we try
 it, we will get an error like the following:
 
     ./write-records: error while loading shared libraries: 
-    librecord.so: cannot open shared object file: No such 
-    file or directory
+    librecord.so: cannot open shared object file: No such file or directory
 
 This is because, by default, the dynamic linker only searches `/lib`,
 `/usr/lib`, and whatever directories are listed in
-`/etc/ld.so.conf/etc/ld.so.conf` for libraries. In order to run the
+`/etc/ld.so.conf` for libraries. In order to run the
 program, you either need to move the library to one of these
 directories, or execute the following command:
 
-    LD_LIBRARY_PATH=.
-    export LD_LIBRARY_PATH
-
-LD_LIBRARY_PATH
+```{.bash}
+LD_LIBRARY_PATH=.
+export LD_LIBRARY_PATH
+```
 
 Alternatively, if that gives you an error, do this instead:
 
-    setenv LD_LIBRARY_PATH .
+```{.bash}
+setenv LD_LIBRARY_PATH .
+```
 
 Now, you can run `write-records` normally by typing `./write-records`.
 Setting `LD_LIBRARY_PATH` tells the linker to add whatever paths you
 give it to the library search path for dynamic libraries.
 
+<!-- TODO: Personal -> Test this ldd section, what is the real result? --->
+
+**TODO:** Personal -> Test this ldd section. What is the real result?
+Maybe it is not working because itself is a library. Otherwise add a
+complete example where `read-records` use this dynamic library. Improve
+the text below when I know the real result.
+
+Let\'s print the shared object dependencies for `./write-recors`. It is a
+shared library. Try this:
+
+```{.bash}
+ldd ./write-records
+```
+
+It will report back something like:
+
+    libc.so.6 => /lib/libc.so.6 (0x4001d000)
+    /???/write-recors.so.? => /???/write-recors.so.? (0x??0000000)
+
 For further information about dynamic linking, see the following sources
 on the Internet:
 
 -   The man page for `ld.so` contains a lot of information about how the
-    Linux dynamic linker works.
+    Linux dynamic linker works, execute in the terminal: `man ld.so`.
 
--   http://www.benyossef.com/presentations/dlink/ is a great
-    presentation on dynamic linking in Linux.
+-   Introduction to the ELF Format:
+    [The ELF Header][8-Elf-Makan-01],
+    [Understanding Program Headers][8-Elf-Makan-02],
+    [The Section Headers][8-Elf-Makan-03],
+    [Exploring Section Types and Special Sections][8-Elf-Makan-04],
+    [Understanding C start up][8-Elf-Makan-05],
+    [The Symbol Table and Relocations: Part I][8-Elf-Makan-06-01],
+    [The Symbol Table and Relocations: Part II][8-Elf-Makan-06-02],
+    [More Relocation tricks: Part III][8-Elf-Makan-06-03]
+    and
+    [Dynamic Linking / Loading and the .dynamic section][8-Elf-Makan-07]
+    provide a good introduction to the ELF file format.
 
--   http://www.linuxjournal.com/article.php?sid=1059 and
-    http://www.linuxjournal.com/article.php?sid=1060 provide a good
-    introduction to the ELFELF file format, with more detail available
-    at http://www.cs.ucdavis.edu/\~haungs/paper/node10.html
-
--   http://www.iecc.com/linker/linker10.html contains a great
+-   Executable and Linkable Format 101:
+    [Part 1: Sections and Segments][8-Elf-101-01],
+    [Part 2: Symbols][8-Elf-101-02] and
+    [Part 3: Relocations][8-Elf-101-03] contains a great
     description of how dynamic linking works with ELF files.
+    [Part 4: Dynamic Linking][8-Elf-101-04]
+    is a great presentation on dynamic linking in Linux.
 
--   http://linux4u.jinr.ru/usoft/WWW/www_debian.org/Documentation/elf/node21.html
+-   [Program Library HOWTO Shared Libraries][8-shared-libraries]
     contains a good introduction to programming position-independent
     code for shared libraries under Linux.
 
@@ -4508,14 +4562,15 @@ Review
     status code be 0.
 
 -   Use the `factorial` function you developed in
-    [Recursive Functions](#recursive-functions) to make a shared library. Then re-write
-    the main program so that it links with the library dynamically.
+    [Recursive Functions](#recursive-functions) to make a shared library.
+    Then re-write the main program so that it links with the library
+    dynamically.
 
--   Rewrite the program above so that it also links with the \'c\'
-    library. Use the \'c\' library\'s `printf` function to display the
+-   Rewrite the program above so that it also links with the \'C\'
+    library. Use the \'C\' library\'s `printf` function to display the
     result of the `factorial` call.
 
--   Rewrite the `toupper` program so that it uses the `c` library
+-   Rewrite the `toupper` program so that it uses the `C` library
     functions for files rather than system calls.
 
 ### Going Further
@@ -4536,16 +4591,16 @@ Review
     write a message to STDERR before exitting. Use `LD_PRELOAD` and run
     various programs with it. What are the results?
 
-[^1]: Each of these terms have slightly different meanings, but most
+[^8-1]: Each of these terms have slightly different meanings, but most
     people use them interchangeably anyway. Specifically, this chapter
     will cover dynamic libraries, but not shared libraries. Shared
     libraries are dynamic libraries which are built using
-    *position-independent code*position-independent code (often
-    abbreviated PICPIC) which is outside the scope of this book.
+    *position-independent code* (often
+    abbreviated PIC) which is outside the scope of this book.
     However, shared libraries and dynamic libraries are used in the same
     way by users and programs; the linker just links them differently.
 
-[^2]: The reason that parameters are pushed in the reverse order is
+[^8-2]: The reason that parameters are pushed in the reverse order is
     because of functions which take a variable number of parameters like
     `printf`. The parameters pushed in last will be in a known position
     relative to the top of the stack. The program can then use these
@@ -4555,18 +4610,34 @@ Review
     pushed the known arguments first, you wouldn\'t be able to tell
     where they were on the stack.
 
-[^3]: `stdin`, `stdout`, and `stderr` (all lower case) can be used in
+[^8-3]: `stdin`, `stdout`, and `stderr` (all lower case) can be used in
     these programs to refer to the files of their corresponding file
     descriptors.
 
-[^4]: `FILE` is a struct. You don\'t need to know its contents to use
+[^8-4]: `FILE` is a struct. You don\'t need to know its contents to use
     it. You only have to store the pointer and pass it to the relevant
     other functions.
+
+[8-GNU-Libc]: http://www.gnu.org/software/libc/manual/
+[8-Elf-Makan-01]: https://blog.k3170makan.com/2018/09/introduction-to-elf-format-elf-header.html
+[8-Elf-Makan-02]: https://blog.k3170makan.com/2018/09/introduction-to-elf-format-part-ii.html
+[8-Elf-Makan-03]: https://blog.k3170makan.com/2018/09/introduction-to-elf-file-format-part.html
+[8-Elf-Makan-04]: https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi-more.html
+[8-Elf-Makan-05]: https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-v.html
+[8-Elf-Makan-06-01]: https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi.html
+[8-Elf-Makan-06-02]: https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi_18.html
+[8-Elf-Makan-06-03]: https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi-more.html
+[8-Elf-Makan-07]: https://blog.k3170makan.com/2018/11/introduction-to-elf-format-part-vii.html
+[8-Elf-101-01]: https://www.intezer.com/blog/research/executable-linkable-format-101-part1-sections-segments/
+[8-Elf-101-02]: https://www.intezer.com/blog/elf/executable-linkable-format-101-part-2-symbols/
+[8-Elf-101-03]: https://www.intezer.com/blog/elf/executable-and-linkable-format-101-part-3-relocations/
+[8-Elf-101-04]: https://www.intezer.com/blog/elf/executable-linkable-format-101-part-4-dynamic-linking/
+[8-shared-libraries]: https://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
 
 
 
 Chapter 9. Intermediate Memory Topics
-==========================
+=====================================
 
 How a Computer Views Memory
 ---------------------------
@@ -6026,7 +6097,7 @@ What we have studied so far only applies to positive integers. However,
 real-world numbers are not always positive integers. Negative numbers
 and numbers with decimals are also used.
 
-### Floating-point Numbers {#floatingpoint}
+### Floating-point Numbers {#floating-point-numbers}
 
 So far, the only numbers we\'ve dealt with are integers - numbers with
 no decimal point. Computers have a general problem with numbers with
@@ -6378,7 +6449,7 @@ Review
     significant because it represents the hundreds place, 9 is the next
     most significant, and 4 is the least significant.
 
-High-Level Languages {#highlevellanguages}
+High-Level Languages {#high-level-languages}
 ====================
 
 In this chapter we will begin to look at our first \"real-world\"
