@@ -683,35 +683,34 @@ with typing it in and running it. In [Outline of an Assembly Language
 Program](#outline-of-an-assembly-language-program) we will describe how
 it works.
 
-``` gnuassembler
-    # PURPOSE:    Simple program that exits and returns a
-    #             status code back to the Linux kernel.
-    #
-    # INPUT:      None.
-    #
-    # OUTPUT:     Returns a status code.  This can be viewed
-    #             by typing `echo $?` after running the program
-    #
-    # VARIABLES:
-    #             %eax holds the system call number.
-    #             %ebx holds the return status .
-    #
-    .code32            # Compile this code as 32-bits.
-    .section .data
-    .section .text
-    .globl _start
-_start:
-    movl $1, %eax      # This is the Linux kernel command
-                       # number (system call) for exiting
-                       # a program.
-    movl $0, %ebx      # This is the status number we will
-                       # return to the operating system.
-                       # Change this around and it will
-                       # return different things to
-                       # `echo $?`.
-    int $0x80          # This wakes up the kernel to run
-                       # the exit command.
-```
+        .code32            # Generate 32-bit code.
+
+        # PURPOSE:    Simple program that exits and returns a
+        #             status code back to the Linux kernel.
+        #
+        # INPUT:      None.
+        #
+        # OUTPUT:     Returns a status code.  This can be viewed
+        #             by typing `echo $?` after running the program
+        #
+        # VARIABLES:
+        #             %eax holds the system call number.
+        #             %ebx holds the return status .
+        #
+        .section .data
+        .section .text
+        .globl _start
+    _start:
+        movl $1, %eax      # This is the Linux kernel command
+                           # number (system call) for exiting
+                           # a program.
+        movl $0, %ebx      # This is the status number we will
+                           # return to the operating system.
+                           # Change this around and it will
+                           # return different things to
+                           # `echo $?`.
+        int $0x80          # This wakes up the kernel to run
+                           # the exit command.
 
 What you have typed in is called the *source code*. Source code is the
 human-readable form of a program. In order to transform it into a
@@ -724,9 +723,7 @@ language* is a more human-readable form of the instructions a computer
 understands. Assembling transforms the human-readable file into a
 machine-readable one. To assembly the program type in the command:
 
-``` bash
-as exit.s -o exit.o
-```
+    as exit.s -o exit.o
 
 `as` is the command which runs the assembler, `exit.s` is the source
 file, and `-o exit.o` tells the assemble to put its output in the file
@@ -739,9 +736,7 @@ information to it so that the kernel knows how to load and run it. In
 our case, we only have one object file, so the linker is only adding the
 information to enable it to run. To *link* the file, enter the command:
 
-``` bash
-ld exit.o -o exit
-```
+    ld exit.o -o exit
 
 `ld` is the command to run the linker, `exit.o` is the object file we
 want to link, and `-o exit` instructs the linker to output the new
@@ -752,9 +747,7 @@ always re-assemble and re-link programs after you modify the source file
 for the changes to occur in the program*. You can run `exit` by typing
 in the command:
 
-``` bash
-./exit
-```
+    ./exit
 
 The `./` is used to tell the computer that the program isn't in one of
 the normal program directories, but is the current directory instead[8].
@@ -763,9 +756,7 @@ that you'll go to the next line. That's because this program does
 nothing but exit. However, immediately after you run the program, if you
 type in:
 
-``` bash
-echo $?
-```
+    echo $?
 
 It will say `0`. What is happening is that every program when it exits
 gives Linux an *exit status code*, which tells it if everything went all
@@ -797,9 +788,7 @@ your comments:
 
 After the comments, the next line says:
 
-``` gnuassembler
-.section .data
-```
+    .section .data
 
 Anything starting with a period isn't directly translated into a machine
 instruction. Instead, it's an instruction to the assembler itself. These
@@ -813,18 +802,14 @@ in the future will have data.
 
 Right after this you have:
 
-``` gnuassembler
-.section .text
-```
+    .section .text
 
 `.text` which starts the text section. The text sectiontext section of a
 program is where the program instructions live.
 
 The next instruction is:
 
-``` gnuassembler
-.globl _start
-```
+    .globl _start
 
 This instructs the assembler that `_start` is important to remember.
 `_start` is a *symbol*, which means that it is going to be replaced by
@@ -848,9 +833,7 @@ begin running your program*.
 
 The next line:
 
-``` gnuassembler
-_start:
-```
+    _start:
 
 *defines* the value of the `_start` label. A *label* is a symbol
 followed by a colon. Labels define a symbol's value. When the assembler
@@ -864,9 +847,7 @@ automatically gets the new value.
 Now we get into actual computer instructions. The first such instruction
 is this:
 
-``` gnuassembler
-movl $1, %eax
-```
+    movl $1, %eax
 
 When the program runs, this instruction transfers the number `1` into
 the *%eax* register. In assembly language, many instructions have
@@ -953,9 +934,7 @@ operating system requires a status code be loaded in *%ebx*. This value
 is then returned to the system. This is the value you retrieved when you
 typed `echo $?`. So, we load *%ebx* with `0` by typing the following:
 
-``` gnuassembler
-movl $0, %ebx
-```
+    movl $0, %ebx
 
 Now, loading registers with these numbers doesn't do anything itself.
 Registers are used for all sorts of things besides system calls. They
@@ -971,9 +950,7 @@ register, see [Important System Calls](#important-system-calls).
 
 The next instruction is the "magic" one. It looks like this:
 
-``` gnuassembler
-int $0x80
-```
+    int $0x80
 
 The `int` stands for *interrupt*. The `0x80` is the interrupt number to
 use.[12] An *interrupt* interrupts the normal program flow, and
@@ -1130,62 +1107,57 @@ Finding a Maximum Value
 
 Enter the following program as `maximum.s`:
 
-``` gnuassembler
-    # PURPOSE:  This program finds the maximum number of a
-    #           set of data items.
-    #
-    # VARIABLES:
-    #     The registers have the following uses:
-    #     %edi - Holds the index of the data item being examined.
-    #     %ebx - Largest data item found.
-    #     %eax - Current data item.
-    #
-    # The following memory locations are used:
-    #     data_items - contains the item data.  A 0 is used
-    #                  to terminate the data.
-    #
-    .code32                          # Compile this code as 32-bits.
-    .section .data
-data_items:                          # These are the data items.
-    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
-    .section .text
-    .globl _start
-_start:
-    movl $0, %edi                    # Move 0 into the index register.
-    movl data_items(,%edi,4), %eax   # Load the first byte of data.
-    movl %eax, %ebx                  # Since this is the first item,
-                                     # %eax is the biggest.
-start_loop:                          # Start loop.
-    cmpl $0, %eax                    # Check to see if we've hit the end.
-    je loop_exit
-    incl %edi                        # Load next value.
-    movl data_items(,%edi,4), %eax
-    cmpl %ebx, %eax                  # Compare values.
-    jle start_loop                   # Jump to loop beginning if the new
-                                     # one isn't bigger.
-    movl %eax, %ebx                  # Move the value as the largest.
-    jmp start_loop                   # Jump to loop beginning.
-loop_exit:
-                                     # %ebx is the status code for the
-                                     # exit systemcall and it already has
-                                     # the maximum number 1 is the
-        movl $1, %eax                # exit() syscall.
-        int  $0x80
-```
+        .code32                          # Generate 32-bit code.
+
+        # PURPOSE:  This program finds the maximum number of a
+        #           set of data items.
+        #
+        # VARIABLES:
+        #     The registers have the following uses:
+        #     %edi - Holds the index of the data item being examined.
+        #     %ebx - Largest data item found.
+        #     %eax - Current data item.
+        #
+        # The following memory locations are used:
+        #     data_items - contains the item data.  A 0 is used
+        #                  to terminate the data.
+        #
+        .section .data
+    data_items:                          # These are the data items.
+        .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+        .section .text
+        .globl _start
+    _start:
+        movl $0, %edi                    # Move 0 into the index register.
+        movl data_items(,%edi,4), %eax   # Load the first byte of data.
+        movl %eax, %ebx                  # Since this is the first item,
+                                         # %eax is the biggest.
+    start_loop:                          # Start loop.
+        cmpl $0, %eax                    # Check to see if we've hit the end.
+        je loop_exit
+        incl %edi                        # Load next value.
+        movl data_items(,%edi,4), %eax
+        cmpl %ebx, %eax                  # Compare values.
+        jle start_loop                   # Jump to loop beginning if the new
+                                         # one isn't bigger.
+        movl %eax, %ebx                  # Move the value as the largest.
+        jmp start_loop                   # Jump to loop beginning.
+    loop_exit:
+                                         # %ebx is the status code for the
+                                         # exit systemcall and it already has
+                                         # the maximum number 1 is the
+            movl $1, %eax                # exit() syscall.
+            int  $0x80
 
 Now, assemble and link it with these commands:
 
-``` bash
-as maximum.s -o maximum.o
-ld maximum.o -o maximum
-```
+    as maximum.s -o maximum.o
+    ld maximum.o -o maximum
 
 Now run it, and check its status.
 
-``` bash
-./maximum
-echo $?
-```
+    ./maximum
+    echo $?
 
 You'll notice it returns the value `222`. Let's take a look at the
 program and what it does. If you look in the comments, you'll see that
@@ -1193,10 +1165,8 @@ the program finds the maximum of a set of numbers (aren't comments
 wonderful!). You may also notice that in this program we actually have
 something in the data section. These lines are the data section:
 
-``` gnuassembler
-data_items:                         # These are the data items.
-    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
-```
+    data_items:                         # These are the data items.
+        .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
 
 Lets look at this. `data_items` is a label that refers to the location
 that follows it. Then, there is a directive that starts with `.long`.
@@ -1303,17 +1273,13 @@ then the third (data item number 2), and so on. The data item number is
 the *index* of `data_items`. You'll notice that the first instruction we
 give to the computer is:
 
-``` gnuassembler
-movl $0, %edi
-```
+    movl $0, %edi
 
 Since we are using `%edi` as our index, and we want to start looking at
 the first item, we load `%edi` with 0. Now, the next instruction is
 tricky, but crucial to what we're doing. It says:
 
-``` gnuassembler
-movl data_items(,%edi,4), %eax
-```
+    movl data_items(,%edi,4), %eax
 
 Now to understand this line, you need to keep several things in mind:
 
@@ -1331,9 +1297,7 @@ stores that number in `%eax`. This is how you write indexed addressing
 mode instructions in assembly language. The instruction in a general
 form is this:
 
-``` gnuassembler
-movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
-```
+    movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
 
 In our case `data_items` was our beginning address, *%edi* was our index
 register, and 4 was our word size. This topic is discussed further in
@@ -1350,9 +1314,7 @@ Modes](#addressing-modes).
 
 Let's look at the next line:
 
-``` gnuassembler
-movl %eax, %ebx
-```
+    movl %eax, %ebx
 
 We have the first item to look at stored in `%eax`. Since it is the
 first item, we know it's the biggest one we've looked at. We store it in
@@ -1390,10 +1352,8 @@ Okay, so now lets go to the code. We have the beginning of the loop
 marked with `start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
-``` gnuassembler
-cmpl $0, %eax
-je loop_exit
-```
+    cmpl $0, %eax
+    je loop_exit
 
 The `cmpl` instruction compares the two values. Here, we are comparing
 the number 0 to the number stored in *%eax*. This compare instruction
@@ -1432,10 +1392,8 @@ Instructions](#common-x86-instructions). In this case, we are jumping if
 If the last loaded element was not zero, we go on to the next
 instructions:
 
-``` gnuassembler
-incl %edi
-movl data_items(,%edi,4), %eax
-```
+    incl %edi
+    movl data_items(,%edi,4), %eax
 
 If you remember from our previous discussion, *%edi* contains the index
 to our list of values in `data_items`. `incl` increments the value of
@@ -1444,10 +1402,8 @@ However, since we already incremented *%edi*, *%eax* is getting the next
 value from the list. Now *%eax* has the next value to be tested. So,
 let's test it!
 
-``` gnuassembler
-cmpl %ebx, %eax
-jle start_loop
-```
+    cmpl %ebx, %eax
+    jle start_loop
 
 Here we compare our current value, stored in *%eax* to our biggest value
 so far, stored in *%ebx*. If the current value is less or equal to our
@@ -1455,10 +1411,8 @@ biggest value so far, we don't care about it, so we just jump back to
 the beginning of the loop. Otherwise, we need to record that value as
 the largest one:
 
-``` gnuassembler
-movl %eax, %ebx
-jmp start_loop
-```
+    movl %eax, %ebx
+    jmp start_loop
 
 which moves the current value into *%ebx*, which we are using to store
 the current largest value, and starts the loop over again.
@@ -1473,10 +1427,8 @@ in *%ebx*. We already have the exit status there since we are using
 *%ebx* as our largest number, so all we have to do is load *%eax* with
 the number one and call the kernel to exit. Like this:
 
-``` gnuassembler
-movl $1, %eax
-int  $0x80
-```
+    movl $1, %eax
+    int  $0x80
 
 Okay, that was a lot of work and explanation, especially for such a
 small program. But hey, you're learning a lot! Now, read through the
@@ -1499,16 +1451,12 @@ represented in assembly language instructions.
 
 The general form of memory address references is this:
 
-``` gnuassembler
-ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
-```
+    ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
 
 All of the fields are optional. To calculate the address, simply perform
 the following calculation:
 
-``` gnuassembler
-FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
-```
+    FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
 
 `ADDRESS_OR_OFFSET` and `MULTIPLIER` must both be constants, while the
 other two must be registers. If any of the pieces is left out, it is
@@ -1523,9 +1471,9 @@ This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
 This loads *%eax* with the value at memory address `ADDRESS`.
 
-``` gnuassembler
-movl ADDRESS, %eax
-```
+<!-- -->
+
+    movl ADDRESS, %eax
 
 **Indexed addressing mode:**  
 This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX` portion.
@@ -1540,18 +1488,18 @@ you could do the following:
 This starts at `string_start`, and adds `1 * %ecx` to that address, and
 loads the value into *%eax*.
 
-``` gnuassembler
-movl string_start(,%ecx,1), %eax
-```
+<!-- -->
+
+    movl string_start(,%ecx,1), %eax
 
 **Indirect addressing mode:**  
 Indirect addressing mode loads a value from the address indicated by a
 register. For example, if *%eax* held an address, we could move the
 value at that address to *%ebx* by doing the following:
 
-``` gnuassembler
-movl (%eax), %ebx
-```
+<!-- -->
+
+    movl (%eax), %ebx
 
 **Base pointer addressing mode:**  
 Base-pointer addressing is similar to indirect addressing, except that
@@ -1560,9 +1508,9 @@ you have a record where the age value is 4 bytes into the record, and
 you have the address of the record in *%eax*, you can retrieve the age
 into *%ebx* by issuing the following instruction:
 
-``` gnuassembler
-movl 4(%eax), %ebx
-```
+<!-- -->
+
+    movl 4(%eax), %ebx
 
 **Immediate mode addressing:**  
 Immediate mode is very simple. It does not follow the general form we
@@ -1575,9 +1523,9 @@ of the number. If we did not, it would be direct addressing mode, in
 which case the value located at memory location 12 would be loaded into
 *%eax* rather than the number 12 itself.
 
-``` gnuassembler
-movl $12, %eax
-```
+<!-- -->
+
+    movl $12, %eax
 
 **Register addressing mode:**  
 Register mode simply moves data in or out of a register. In all of our
@@ -1877,15 +1825,11 @@ removing it, we can simply use the *%esp* register in indirect
 addressing mode. For example, the following code moves whatever is at
 the top of the stack into *%eax*:
 
-``` gnuassembler
-movl (%esp), %eax
-```
+    movl (%esp), %eax
 
 If we were to just do this:
 
-``` gnuassembler
-movl %esp, %eax
-```
+    movl %esp, %eax
 
 then *%eax* would just hold the pointer to the top of the stack rather
 than the value at the top. Putting *%esp* in parenthesis causes the
@@ -1893,9 +1837,7 @@ computer to go to indirect addressing mode, and therefore we get the
 value pointed to by *%esp*. If we want to access the value right below
 the top of the stack, we can simply issue this instruction:
 
-``` gnuassembler
-movl 4(%esp), %eax
-```
+    movl 4(%esp), %eax
 
 This instruction uses the base pointer addressing mode (see [Data
 Accessing Methods](#data-accessing-methods)) which simply adds 4 to
@@ -1963,9 +1905,7 @@ way. Let's say that we are going to need two words of memory to run a
 function. We can simply move the stack pointer down two words to reserve
 the space. This is done like this:
 
-``` gnuassembler
-subl $8, %esp
-```
+    subl $8, %esp
 
 This subtracts 8 from *%esp* (remember, a word is four bytes long).[24]
 This way, we can use the stack for variable storage without worring
@@ -2023,11 +1963,9 @@ return, we have to reset the stack pointer *%esp* and base pointer
 
 Therefore to return from the function you have to do the following:
 
-``` gnuassembler
-movl %ebp, %esp
-popl %ebp
-ret
-```
+    movl %ebp, %esp
+    popl %ebp
+    ret
 
 *At this point, you should consider all local variables to be disposed
 of.* The reason is that after you move the stack pointer back, future
@@ -2095,88 +2033,87 @@ program simple, we will only allow numbers 1 and greater.
 The following is the code for the complete program. As usual, an
 explanation follows. Name the file `power.s`.
 
-``` gnuassembler
-    # PURPOSE:  Program to illustrate how functions work.
-    #           This program will compute the value of
-    #           2^3 + 5^2
-    #
-    # Everything in the main program is stored in registers,
-    # so the data section doesn't have anything.
-    #
-    .code32                   # Compile this code as 32-bits.
-    .section .data
-    .section .text
-    .globl _start
-_start:
-    pushl $3                  # Push second argument.
-    pushl $2                  # Push first argument.
-    call  power               # Call the function.
-    addl  $8, %esp            # Move the stack pointer back.
+        .code32                   # Generate 32-bit code.
 
-    pushl %eax                # Save the first answer before
-                              # calling the next function.
+        # PURPOSE:  Program to illustrate how functions work.
+        #           This program will compute the value of
+        #           2^3 + 5^2
+        #
+        # Everything in the main program is stored in registers,
+        # so the data section doesn't have anything.
+        #
+        .section .data
+        .section .text
+        .globl _start
+    _start:
+        pushl $3                  # Push second argument.
+        pushl $2                  # Push first argument.
+        call  power               # Call the function.
+        addl  $8, %esp            # Move the stack pointer back.
 
-    pushl $2                  # Push second argument.
-    pushl $5                  # Push first argument.
-    call  power               # Call the function.
-    addl  $8, %esp            # Move the stack pointer back.
+        pushl %eax                # Save the first answer before
+                                  # calling the next function.
 
-    popl  %ebx                # The second answer is already
-                              # in %eax.  We saved the
-                              # first answer onto the stack,
-                              # so now we can just pop it
-                              # out into %ebx.
+        pushl $2                  # Push second argument.
+        pushl $5                  # Push first argument.
+        call  power               # Call the function.
+        addl  $8, %esp            # Move the stack pointer back.
 
-    addl  %eax, %ebx          # Add them together
-                              # the result is in %ebx.
+        popl  %ebx                # The second answer is already
+                                  # in %eax.  We saved the
+                                  # first answer onto the stack,
+                                  # so now we can just pop it
+                                  # out into %ebx.
 
-    movl  $1, %eax            # Exit (%ebx is returned).
-    int   $0x80
+        addl  %eax, %ebx          # Add them together
+                                  # the result is in %ebx.
 
-    # PURPOSE:  This function is used to compute the value of a
-    #           number raised to a power.
-    #
-    # INPUT:    First argument -  the base number.
-    #           Second argument - the power to raise it to.
-    #
-    # OUTPUT:   Will give the result as a return value.
-    #
-    # NOTES:    The power must be 1 or greater.
-    #
-    # VARIABLES:
-    #     %ebx - holds the base number.
-    #     %ecx - holds the power.
-    #     -4(%ebp) - holds the current result.
-    #     %eax is used for temporary storage.
-    #
-    .type power, @function
-power:
-    pushl %ebp                # Save old base pointer.
-    movl  %esp, %ebp          # Make stack pointer the base pointer.
-    subl  $4, %esp            # Get room for our local storage.
+        movl  $1, %eax            # Exit (%ebx is returned).
+        int   $0x80
 
-    movl  8(%ebp), %ebx       # Put first argument in %ebx.
-    movl  12(%ebp), %ecx      # Put second argument in %ecx.
+        # PURPOSE:  This function is used to compute the value of a
+        #           number raised to a power.
+        #
+        # INPUT:    First argument -  the base number.
+        #           Second argument - the power to raise it to.
+        #
+        # OUTPUT:   Will give the result as a return value.
+        #
+        # NOTES:    The power must be 1 or greater.
+        #
+        # VARIABLES:
+        #     %ebx - holds the base number.
+        #     %ecx - holds the power.
+        #     -4(%ebp) - holds the current result.
+        #     %eax is used for temporary storage.
+        #
+        .type  power,  @function
+    power:
+        pushl %ebp                # Save old base pointer.
+        movl  %esp, %ebp          # Make stack pointer the base pointer.
+        subl  $4, %esp            # Get room for our local storage.
 
-    movl  %ebx, -4(%ebp)      # Store current result.
+        movl  8(%ebp), %ebx       # Put first argument in %ebx.
+        movl  12(%ebp), %ecx      # Put second argument in %ecx.
 
-power_loop_start:
-    cmpl  $1, %ecx            # If the power is 1, we are done.
-    je    end_power
-    movl  -4(%ebp), %eax      # Move the current result into %eax.
-    imull %ebx, %eax          # Multiply the current result by
-                              # the base number.
-    movl  %eax, -4(%ebp)      # Store the current result.
+        movl  %ebx, -4(%ebp)      # Store current result.
 
-    decl  %ecx                # Decrease the power.
-    jmp   power_loop_start    # Run for the next power.
+    power_loop_start:
+        cmpl  $1, %ecx            # If the power is 1, we are done.
+        je    end_power
+        movl  -4(%ebp), %eax      # Move the current result into %eax.
+        imull %ebx, %eax          # Multiply the current result by
+                                  # the base number.
+        movl  %eax, -4(%ebp)      # Store the current result.
 
-end_power:
-    movl -4(%ebp), %eax       # Return value goes in %eax.
-    movl %ebp, %esp           # Restore the stack pointer.
-    popl %ebp                 # Restore the base pointer.
-    ret
-```
+        decl  %ecx                # Decrease the power.
+        jmp   power_loop_start    # Run for the next power.
+
+    end_power:
+        movl -4(%ebp), %eax       # Return value goes in %eax.
+        movl %ebp, %esp           # Restore the stack pointer.
+        popl %ebp                 # Restore the base pointer.
+        ret
 
 Type in the program, assemble it, and run it. Try calling power for
 different values, but remember that the result has to be less than 256
@@ -2201,9 +2138,7 @@ what will be in *%eax* at the end.
 
 We then have the following line:
 
-``` gnuassembler
-.type power,@function
-```
+    .type power,@function
 
 This tells the linker that the symbol `power` should be treated as a
 function. Since this program is only in one file, it would work just the
@@ -2211,9 +2146,7 @@ same with this left out. However, it is good practice.
 
 After that, we define the value of the `power` label:
 
-``` gnuassembler
-power:
-```
+    power:
 
 As mentioned previously, this defines the symbol `power` to be the
 address where the instructions following the label begin. This is how
@@ -2224,11 +2157,9 @@ return address onto the stack so that the function can return, while the
 
 Next, we have our instructions to set up our function:
 
-``` gnuassembler
-pushl %ebp
-movl  %esp, %ebp
-subl  $4, %esp
-```
+    pushl %ebp
+    movl  %esp, %ebp
+    subl  $4, %esp
 
 At this point, our stack looks like this:
 
@@ -2308,78 +2239,75 @@ its own stack frame, we are okay.
 
 Let's look at the code to see how this works:
 
-``` gnuassembler
-    # PURPOSE:  Given a number, this program computes the
-    #           factorial.  For example, the factorial of
-    #           3 is 3 * 2 * 1, or 6.  The factorial of
-    #           4 is 4 * 3 * 2 * 1, or 24, and so on.
-    #
-    # This program shows how to call a function recursively.
-    # This program has no global data.
-    #
-    .code32                   # Compile this code as 32-bits.
-    .section .data
-    .section .text
-    .globl _start
-    .globl factorial          # This is unneeded unless we want to share
-                              # this function among other programs.
-_start:
-    pushl $4                  # The factorial takes one argument - the
-                              # number we want a factorial of.  So, it
-                              # gets pushed.
-    call  factorial           # Run the factorial function.
-    addl  $4, %esp            # Scrubs the parameter that was pushed on
-                              # the stack.
-    movl  %eax, %ebx          # Factorial returns the answer in %eax, but
-                              # we want it in %ebx to send it as our exit
-                              # status.
-    movl  $1, %eax            # Call the kernel's exit function.
-    int   $0x80
+        .code32                   # Generate 32-bit code.
+
+        # PURPOSE:  Given a number, this program computes the
+        #           factorial.  For example, the factorial of
+        #           3 is 3 * 2 * 1, or 6.  The factorial of
+        #           4 is 4 * 3 * 2 * 1, or 24, and so on.
+        #
+        # This program shows how to call a function recursively.
+        # This program has no global data.
+        #
+        .section .data
+        .section .text
+        .globl _start
+        .globl factorial          # This is unneeded unless we want to share
+                                  # this function among other programs.
+    _start:
+        pushl $4                  # The factorial takes one argument - the
+                                  # number we want a factorial of.  So, it
+                                  # gets pushed.
+        call  factorial           # Run the factorial function.
+        addl  $4, %esp            # Scrubs the parameter that was pushed on
+                                  # the stack.
+        movl  %eax, %ebx          # Factorial returns the answer in %eax, but
+                                  # we want it in %ebx to send it as our exit
+                                  # status.
+        movl  $1, %eax            # Call the kernel's exit function.
+        int   $0x80
 
 
-    # This is the actual function definition.
-    #
-    .type factorial,@function
-factorial:
-    pushl %ebp                # Atandard function stuff - we have to
-                              # restore %ebp to its prior state before
-                              # returning, so we have to push it.
-    movl  %esp, %ebp          # This is because we don't want to modify
-                              # the stack pointer, so we use %ebp.
+        # This is the actual function definition.
+        #
+        .type  factorial,  @function
+    factorial:
+        pushl %ebp                # Atandard function stuff - we have to
+                                  # restore %ebp to its prior state before
+                                  # returning, so we have to push it.
+        movl  %esp, %ebp          # This is because we don't want to modify
+                                  # the stack pointer, so we use %ebp.
 
-    movl  8(%ebp), %eax       # This moves the first argument to %eax
-                              # 4(%ebp) holds the return address, and
-                              # 8(%ebp) holds the first parameter.
-    cmpl  $1, %eax            # If the number is 1, that is our base
-                              # case, and we simply return (1 is
-                              # already in %eax as the return value).
-    je end_factorial
-    decl  %eax                # Otherwise, decrease the value.
-    pushl %eax                # Push it for our call to factorial.
-    call  factorial           # Call factorial.
-    movl  8(%ebp), %ebx       # %eax has the return value, so we
-                              # reload our parameter into %ebx
-    imull %ebx, %eax          # Multiply that by the result of the
-                              # last call to factorial (in %eax)
-                              # the answer is stored in %eax, which
-                              # is good since that's where return
-                              # values go.
-end_factorial:
-    movl  %ebp, %esp          # Standard function return stuff - we
-    popl  %ebp                # have to restore %ebp and %esp to where
-                              # they were before the function started
-    ret                       # return from the function (this pops the
-                              # return value, too).
-```
+        movl  8(%ebp), %eax       # This moves the first argument to %eax
+                                  # 4(%ebp) holds the return address, and
+                                  # 8(%ebp) holds the first parameter.
+        cmpl  $1, %eax            # If the number is 1, that is our base
+                                  # case, and we simply return (1 is
+                                  # already in %eax as the return value).
+        je end_factorial
+        decl  %eax                # Otherwise, decrease the value.
+        pushl %eax                # Push it for our call to factorial.
+        call  factorial           # Call factorial.
+        movl  8(%ebp), %ebx       # %eax has the return value, so we
+                                  # reload our parameter into %ebx
+        imull %ebx, %eax          # Multiply that by the result of the
+                                  # last call to factorial (in %eax)
+                                  # the answer is stored in %eax, which
+                                  # is good since that's where return
+                                  # values go.
+    end_factorial:
+        movl  %ebp, %esp          # Standard function return stuff - we
+        popl  %ebp                # have to restore %ebp and %esp to where
+                                  # they were before the function started
+        ret                       # return from the function (this pops the
+                                  # return value, too).
 
 Assemble, link, and run it with these commands:
 
-``` bash
-as factorial.s -o factorial.o
-ld factorial.o -o factorial
-./factorial
-echo $?
-```
+    as factorial.s -o factorial.o
+    ld factorial.o -o factorial
+    ./factorial
+    echo $?
 
 This should give you the value 24. 24 is the factorial of 4, you can
 test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
@@ -2387,11 +2315,9 @@ test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
 I'm guessing you didn't understand the whole code listing. Let's go
 through it a line at a time to see what is happening.
 
-``` gnuassembler
-_start:
-    pushl $4
-    call factorial
-```
+    _start:
+        pushl $4
+        call factorial
 
 Okay, this program is intended to compute the factorial of the number 4.
 When programming functions, you are supposed to put the parameters of
@@ -2405,12 +2331,10 @@ The `call` instruction then makes the function call.
 
 Next we have these lines:
 
-``` gnuassembler
-addl  $4, %esp
-movl  %eax, %ebx
-movl  $1, %eax
-int   $0x80
-```
+    addl  $4, %esp
+    movl  %eax, %ebx
+    movl  $1, %eax
+    int   $0x80
 
 This takes place after `factorial` has finished and computed the
 factorial of 4 for us. Now we have to clean up the stack. The `addl`
@@ -2448,10 +2372,8 @@ implemented.
 
 Before the function starts, we have this directive:
 
-``` gnuassembler
-    .type factorial,@function
-factorial:
-```
+        .type factorial,@function
+    factorial:
 
 The `.type` directive tells the linker that `factorial` is a function.
 This isn't really needed unless we were using `factorial` in other
@@ -2462,10 +2384,8 @@ next instruction. That's how `call` knew where to go when we said
 
 The first real instructions of the function are:
 
-``` gnuassembler
-pushl %ebp
-movl  %esp, %ebp
-```
+    pushl %ebp
+    movl  %esp, %ebp
 
 As shown in the previous program, this creates the stack frame for this
 function. These two lines will be the way you should start every
@@ -2473,9 +2393,7 @@ function.
 
 The next instruction is this:
 
-``` gnuassembler
-movl  8(%ebp), %eax
-```
+    movl  8(%ebp), %eax
 
 This uses base pointer addressing mode to move the first parameter of
 the function into *%eax*. Remember, `(%ebp)` has the old *%ebp*,
@@ -2490,18 +2408,14 @@ so, we jump to the instruction at the label `end_factorial`, where it
 will be returned. It's already in *%eax* which we mentioned earlier is
 where you put return values. That is accomplished by these lines:
 
-``` gnuassembler
-cmpl $1, %eax
-je end_factorial
-```
+    cmpl $1, %eax
+    je end_factorial
 
 If it's not our base case, what did we say we would do? We would call
 the `factorial` function again with our parameter minus one. So, first
 we decrease *%eax* by one:
 
-``` gnuassembler
-decl %eax
-```
+    decl %eax
 
 `decl` stands for decrement. It subtracts 1 from the given register or
 memory location (*%eax* in our case). `incl` is the inverse - it adds 1.
@@ -2509,10 +2423,8 @@ After decrementing *%eax* we push it onto the stack since it's going to
 be the parameter of the next function call. And then we call `factorial`
 again!
 
-``` gnuassembler
-pushl %eax
-call factorial
-```
+    pushl %eax
+    call factorial
 
 Okay, now we've called `factorial`. One thing to remember is that after
 a function call, we can never know what the registers are (except `%esp`
@@ -2521,18 +2433,14 @@ and `%ebp`). So even though we had the value we were called with in
 stack from the same place we got it the first time (at `8(%ebp)`). So,
 we do this:
 
-``` gnuassembler
-movl 8(%ebp), %ebx
-```
+    movl 8(%ebp), %ebx
 
 Now, we want to multiply that number with the result of the factorial
 function. If you remember our previous discussion, the result of
 functions are left in *%eax*. So, we need to multiply *%ebx* with
 *%eax*. This is done with this instruction:
 
-``` gnuassembler
-imull %ebx, %eax
-```
+    imull %ebx, %eax
 
 This also stores the result in *%eax*, which is exactly where we want
 the return value for the function to be! Since the return value is in
@@ -2541,17 +2449,13 @@ of the function we pushed *%ebp*, and moved *%esp* into *%ebp* to create
 the current stack frame. Now we reverse the operation to destroy the
 current stack frame and reactivate the last one:
 
-``` gnuassembler
-end_factorial:
-    movl %ebp, %esp
-    popl %ebp
-```
+    end_factorial:
+        movl %ebp, %esp
+        popl %ebp
 
 Now we're already to return, so we issue the following command
 
-``` gnuassembler
-ret
-```
+    ret
 
 This pops the top value off of the stack, and then jumps to it. If you
 remember our discussion about `call`, we said that `call` first pushed
@@ -2740,22 +2644,18 @@ value. This is useful for buffers because we don't need to initialize
 them anyway, we just need to reserve storage. In order to do this, we do
 the following commands:
 
-``` gnuassembler
-.section .bss
-    .lcomm my_buffer, 500
-```
+    .section .bss
+        .lcomm my_buffer, 500
 
 This directive, `.lcomm`, will create a symbol, `my_buffer`, that refers
 to a 500-byte storage location that we can use as a buffer. We can then
 do the following, assuming we have opened a file for reading and have
 placed the file descriptor in *%ebx*:
 
-``` gnuassembler
-movl $my_buffer, %ecx
-movl 500, %edx
-movl 3, %eax
-int  $0x80
-```
+    movl $my_buffer, %ecx
+    movl 500, %edx
+    movl 3, %eax
+    int  $0x80
 
 This will read up to 500 bytes into our buffer. In this example, I
 placed a dollar sign in front of `my_buffer`. Remember that the reason
@@ -2842,9 +2742,7 @@ numbers. For example, if you did `.equ LINUX_SYSCALL, 0x80`, any time
 after that you wrote `LINUX_SYSCALL`, the assembler would substitue
 `0x80` for that. So now, you can write:
 
-``` gnuassembler
-int $LINUX_SYSCALL
-```
+    int $LINUX_SYSCALL
 
 Which is much easier to read, and much easier to remember. Coding is
 complex, but there are a lot of things we can do like this to make it
@@ -2855,251 +2753,246 @@ for jumps, because some of them are just there for clarity. Try to trace
 through the program and see what happens in various cases. An in-depth
 explanation of the program will follow.
 
-``` gnuassembler
-    # PURPOSE:     This program converts an input file to an output file
-    #              with all letters converted to uppercase.
-    #
-    # PROCESSING:  1) Open the input file.
-    #              2) Open the output file.
-    #              3) While we're not at the end of the input file.
-    #                 a) Read part of file into our memory buffer.
-    #                 b) Go through each byte of memory if the byte is a
-    #                      lower-case letter, convert it to uppercase.
-    #                 c) Write the memory buffer to output file.
-    #
-    .code32                            # Compile this code as 32-bits.
-    .section .data
+        .code32                            # Generate 32-bit code.
+
+        # PURPOSE:     This program converts an input file to an output file
+        #              with all letters converted to uppercase.
+        #
+        # PROCESSING:  1) Open the input file.
+        #              2) Open the output file.
+        #              3) While we're not at the end of the input file.
+        #                 a) Read part of file into our memory buffer.
+        #                 b) Go through each byte of memory if the byte is a
+        #                      lower-case letter, convert it to uppercase.
+        #                 c) Write the memory buffer to output file.
+        #
+        .section .data
+            # ----- CONSTANTS ----- #
+            #
+            # System call numbers.
+            #
+            .equ SYS_OPEN,   5
+            .equ SYS_WRITE,  4
+            .equ SYS_READ,   3
+            .equ SYS_CLOSE,  6
+            .equ SYS_EXIT,   1
+
+            # Options for open:
+            # Look at /usr/include/asm-generic/fcntl.h or
+            # /usr/include/asm/fcntl.h for various values.  You can combine
+            # them by adding them or ORing them).
+            # It is discussed at greater length in "Counting Like a Computer".
+            #
+            .equ O_RDONLY,              0
+            .equ O_CREAT_WRONLY_TRUNC,  03101
+
+            # Standard file descriptors.
+            #
+            .equ STDIN,   0
+            .equ STDOUT,  1
+            .equ STDERR,  2
+
+            # System call interrupt.
+            #
+            .equ LINUX_SYSCALL,     0x80
+            .equ END_OF_FILE,       0      # This is the return value of read
+                                           # which means we've hit the end of
+                                           # the file.
+            .equ NUMBER_ARGUMENTS,  2
+
+        .section .bss
+            # Buffer:  This is where the data is loaded into from the data file
+            #          and written from into the output file.  This should
+            #          never exceed 16,000 for various reasons.
+            #
+            .equ   BUFFER_SIZE,     500
+            .lcomm BUFFER_DATA,     BUFFER_SIZE
+
+        .section .text
+            # ----- STACK POSITIONS ----- #
+            #
+            .equ ST_SIZE_RESERVE,   8
+            .equ ST_FD_IN,         -4
+            .equ ST_FD_OUT,        -8
+            .equ ST_ARGC,           0      # Number of arguments.
+            .equ ST_ARGV_0,         4      # Name of program.
+            .equ ST_ARGV_1,         8      # Input file name.
+            .equ ST_ARGV_2,         12     # Output file name.
+
+        .globl _start
+    _start:
+        # ----- INITIALIZE PROGRAM ----- #
+        #
+        movl  %esp, %ebp                   # Save the stack pointer.
+        subl  $ST_SIZE_RESERVE, %esp       # Allocate space for our file
+                                           # descriptors on the stack
+    _open_files_:
+    _open_fd_in_:
+        # ----- OPEN INPUT FILE ----- #
+        #
+        movl  $SYS_OPEN, %eax              # Open syscall.
+        movl  ST_ARGV_1(%ebp), %ebx        # Input filename into %ebx.
+        movl  $O_RDONLY, %ecx              # Read-only flag.
+        movl  $0666, %edx                  # This doesn't matter for reading.
+        int   $LINUX_SYSCALL               # Call Linux.
+
+    _store_fd_in_:
+        # ----- STORE INPUT FILE DESCRIPTION ----- #
+        #
+        movl  %eax, ST_FD_IN(%ebp)         # Save the given file descriptor.
+
+    _open_fd_out_:
+        # ----- OPEN OUTPUT FILE ----- #
+        #
+        movl  $SYS_OPEN, %eax              # Open the file.
+        movl  ST_ARGV_2(%ebp), %ebx        # Output filename into %ebx.
+        movl  $O_CREAT_WRONLY_TRUNC, %ecx  # Flags for writing to the file.
+        movl  $0666, %edx                  # Permission set for new file
+                                           # (if it's created).
+        int   $LINUX_SYSCALL               # Call Linux
+
+    _store_fd_out_:
+        # ----- STORE OUTPUT FILE DESCRIPTION ----- #
+        #
+        movl  %eax, ST_FD_OUT(%ebp)        # Store the file descriptor here.
+
+        # ----- BEGIN MAIN LOOP ----- #
+        #
+    read_loop_begin:
+        # ----- READ IN A BLOCK FROM THE INPUT FILE ----- #
+        #
+        movl  $SYS_READ, %eax
+        movl  ST_FD_IN(%ebp), %ebx         # Get the input file descriptor.
+        movl  $BUFFER_DATA, %ecx           # The location to read into.
+        movl  $BUFFER_SIZE, %edx           # The size of the buffer.
+        int   $LINUX_SYSCALL               # Size of buffer read is returned
+                                           # in %eax.
+
+        # ----- EXIT IF WE'VE REACHED THE END ----- #
+        #
+        cmpl  $END_OF_FILE, %eax           # Check for end of file marker.
+        jle   end_loop                     # If found or on error, go to the
+                                           # end.
+
+    _continue_read_loop_:
+        # ----- CONVERT THE BLOCK TO UPPER CASE ----- #
+        #
+        pushl $BUFFER_DATA                 # Location of buffer.
+        pushl %eax                         # Size of the buffer.
+        call  convert_to_upper
+        popl  %eax                         # Get the size back.
+        addl  $4, %esp                     # Restore %esp.
+
+        # ----- WRITE THE BLOCK OUT TO THE OUTPUT FILE ----- #
+        #
+        movl  %eax, %edx                   # Size of the buffer.
+        movl  $SYS_WRITE, %eax
+        movl  ST_FD_OUT(%ebp), %ebx        # File to use.
+        movl  $BUFFER_DATA, %ecx           # Location of the buffer.
+        int   $LINUX_SYSCALL
+
+        # ----- CONTINUE THE LOOP ----- #
+        #
+        jmp   read_loop_begin
+
+    end_loop:
+        # ----- CLOSE THE FILES ----- #
+        # NOTE:  We don't need to do error checking on these, because error
+        #        conditions don't signify anything special here
+        #
+        movl  $SYS_CLOSE, %eax
+        movl  ST_FD_OUT(%ebp), %ebx
+        int   $LINUX_SYSCALL
+
+        movl  $SYS_CLOSE, %eax
+        movl  ST_FD_IN(%ebp), %ebx
+        int   $LINUX_SYSCALL
+
+        # ----- EXIT ----- #
+        #
+        movl  $SYS_EXIT, %eax
+        movl  $0, %ebx
+        int   $LINUX_SYSCALL
+
+
+        # PURPOSE:   This function actually does the
+        #            conversion to upper case for a block.
+        #
+        # INPUT:     The first parameter is the length of
+        #            the block of memory to convert.
+        #
+        #            The second parameter is the starting
+        #            address of that block of memory.
+        #
+        # OUTPUT:    This function overwrites the current
+        #            buffer with the upper-casified version.
+        #
+        # VARIABLES:
+        #            %eax - beginning of buffer.
+        #            %ebx - length of buffer.
+        #            %edi - current buffer offset.
+        #            %cl - current byte being examined (first part of %ecx).
+        #
         # ----- CONSTANTS ----- #
         #
-        # System call numbers.
+        .equ  LOWERCASE_A,       'a'       # The lower boundary of our search.
+        .equ  LOWERCASE_Z,       'z'       # The upper boundary of our search.
+        .equ  UPPER_CONVERSION,  'A' - 'a' # Conversion between upper and
+                                           # lower case.
+
+        # ----- STACK STUFF ----- #
         #
-        .equ SYS_OPEN,   5
-        .equ SYS_WRITE,  4
-        .equ SYS_READ,   3
-        .equ SYS_CLOSE,  6
-        .equ SYS_EXIT,   1
+        .equ  ST_BUFFER,      12           # Actual buffer.
+        .equ  ST_BUFFER_LEN,  8            # Length of buffer.
 
-        # Options for open:
-        # Look at /usr/include/asm-generic/fcntl.h or
-        # /usr/include/asm/fcntl.h for various values.  You can combine
-        # them by adding them or ORing them).
-        # It is discussed at greater length in "Counting Like a Computer".
-        # 
-        .equ O_RDONLY,              0
-        .equ O_CREAT_WRONLY_TRUNC,  03101
+    convert_to_upper:
+        pushl %ebp
+        movl  %esp, %ebp
 
-        # Standard file descriptors.
+        # ----- SET UP VARIABLES ----- #
         #
-        .equ STDIN,   0
-        .equ STDOUT,  1
-        .equ STDERR,  2
+        movl  ST_BUFFER(%ebp), %eax
+        movl  ST_BUFFER_LEN(%ebp), %ebx
+        movl  $0, %edi
 
-        # System call interrupt.
-        #
-        .equ LINUX_SYSCALL,     0x80
-        .equ END_OF_FILE,       0      # This is the return value of read
-                                       # which means we've hit the end of
-                                       # the file.
-        .equ NUMBER_ARGUMENTS,  2
+        cmpl  $0, %ebx                     # If a buffer with zero length was
+                                           # given to us, just leave.
+        je    end_convert_loop
 
-    .section .bss
-        # Buffer:  This is where the data is loaded into from the data file
-        #          and written from into the output file.  This should
-        #          never exceed 16,000 for various reasons.
-        #
-        .equ   BUFFER_SIZE,     500
-        .lcomm BUFFER_DATA,     BUFFER_SIZE
+    convert_loop:
+        movb  (%eax,%edi,1), %cl           # Get the current byte.
 
-    .section .text
-        # ----- STACK POSITIONS ----- #
-        #
-        .equ ST_SIZE_RESERVE,   8
-        .equ ST_FD_IN,         -4
-        .equ ST_FD_OUT,        -8
-        .equ ST_ARGC,           0      # Number of arguments.
-        .equ ST_ARGV_0,         4      # Name of program.
-        .equ ST_ARGV_1,         8      # Input file name.
-        .equ ST_ARGV_2,         12     # Output file name.
+        cmpb  $LOWERCASE_A, %cl            # Go to the next byte unless it is
+                                           # between 'a' and 'z'.
+        jl    next_byte
+        cmpb  $LOWERCASE_Z, %cl
+        jg    next_byte
 
-    .globl _start
-_start:
-    # ----- INITIALIZE PROGRAM ----- #
-    #
-    movl  %esp, %ebp                   # Save the stack pointer.
-    subl  $ST_SIZE_RESERVE, %esp       # Allocate space for our file
-                                       # descriptors on the stack
-_open_files_:
-_open_fd_in_:
-    # ----- OPEN INPUT FILE ----- #
-    #
-    movl  $SYS_OPEN, %eax              # Open syscall.
-    movl  ST_ARGV_1(%ebp), %ebx        # Input filename into %ebx.
-    movl  $O_RDONLY, %ecx              # Read-only flag.
-    movl  $0666, %edx                  # This doesn't matter for reading.
-    int   $LINUX_SYSCALL               # Call Linux.
+        addb  $UPPER_CONVERSION, %cl       # Otherwise convert the byte to
+                                           # uppercase and store it back.
+        movb  %cl, (%eax,%edi,1)
+    next_byte:
+        incl  %edi                         # Next byte.
+        cmpl  %edi, %ebx                   # Continue unless we've reached the
+                                           # end.
+        jne   convert_loop
 
-_store_fd_in_:
-    # ----- STORE INPUT FILE DESCRIPTION ----- #
-    #
-    movl  %eax, ST_FD_IN(%ebp)         # Save the given file descriptor.
+    end_convert_loop:
+        movl  %ebp, %esp                   # No return value, just leave.
+        popl  %ebp
+        ret
 
-_open_fd_out_:
-    # ----- OPEN OUTPUT FILE ----- #
-    #
-    movl  $SYS_OPEN, %eax              # Open the file.
-    movl  ST_ARGV_2(%ebp), %ebx        # Output filename into %ebx.
-    movl  $O_CREAT_WRONLY_TRUNC, %ecx  # Flags for writing to the file.
-    movl  $0666, %edx                  # Permission set for new file
-                                       # (if it's created).
-    int   $LINUX_SYSCALL               # Call Linux
+Type in this program as `toupper-nomm-simplified.s`, and then enter in
+the following commands:
 
-_store_fd_out_:
-    # ----- STORE OUTPUT FILE DESCRIPTION ----- #
-    #
-    movl  %eax, ST_FD_OUT(%ebp)        # Store the file descriptor here.
-
-    # ----- BEGIN MAIN LOOP ----- #
-    #
-read_loop_begin:
-    # ----- READ IN A BLOCK FROM THE INPUT FILE ----- #
-    #
-    movl  $SYS_READ, %eax
-    movl  ST_FD_IN(%ebp), %ebx         # Get the input file descriptor.
-    movl  $BUFFER_DATA, %ecx           # The location to read into.
-    movl  $BUFFER_SIZE, %edx           # The size of the buffer.
-    int   $LINUX_SYSCALL               # Size of buffer read is returned
-                                       # in %eax.
-
-    # ----- EXIT IF WE'VE REACHED THE END ----- #
-    #
-    cmpl  $END_OF_FILE, %eax           # Check for end of file marker.
-    jle   end_loop                     # If found or on error, go to the
-                                       # end.
-
-_continue_read_loop_:
-    # ----- CONVERT THE BLOCK TO UPPER CASE ----- #
-    #
-    pushl $BUFFER_DATA                 # Location of buffer.
-    pushl %eax                         # Size of the buffer.
-    call  convert_to_upper
-    popl  %eax                         # Get the size back.
-    addl  $4, %esp                     # Restore %esp.
-
-    # ----- WRITE THE BLOCK OUT TO THE OUTPUT FILE ----- #
-    #
-    movl  %eax, %edx                   # Size of the buffer.
-    movl  $SYS_WRITE, %eax
-    movl  ST_FD_OUT(%ebp), %ebx        # File to use.
-    movl  $BUFFER_DATA, %ecx           # Location of the buffer.
-    int   $LINUX_SYSCALL
-
-    # ----- CONTINUE THE LOOP ----- #
-    #
-    jmp   read_loop_begin
-
-end_loop:
-    # ----- CLOSE THE FILES ----- #
-    # NOTE:  We don't need to do error checking on these, because error
-    #        conditions don't signify anything special here
-    #
-    movl  $SYS_CLOSE, %eax
-    movl  ST_FD_OUT(%ebp), %ebx
-    int   $LINUX_SYSCALL
-
-    movl  $SYS_CLOSE, %eax
-    movl  ST_FD_IN(%ebp), %ebx
-    int   $LINUX_SYSCALL
-
-    # ----- EXIT ----- #
-    #
-    movl  $SYS_EXIT, %eax
-    movl  $0, %ebx
-    int   $LINUX_SYSCALL
-
-
-    # PURPOSE:   This function actually does the
-    #            conversion to upper case for a block.
-    #
-    # INPUT:     The first parameter is the length of
-    #            the block of memory to convert.
-    #
-    #            The second parameter is the starting
-    #            address of that block of memory.
-    #
-    # OUTPUT:    This function overwrites the current
-    #            buffer with the upper-casified version.
-    #
-    # VARIABLES:
-    #            %eax - beginning of buffer.
-    #            %ebx - length of buffer.
-    #            %edi - current buffer offset.
-    #            %cl - current byte being examined (first part of %ecx).
-    #
-    # ----- CONSTANTS ----- #
-    #
-    .equ  LOWERCASE_A,       'a'       # The lower boundary of our search.
-    .equ  LOWERCASE_Z,       'z'       # The upper boundary of our search.
-    .equ  UPPER_CONVERSION,  'A' - 'a' # Conversion between upper and
-                                       # lower case.
-
-    # ----- STACK STUFF ----- #
-    #
-    .equ  ST_BUFFER,      12           # Actual buffer.
-    .equ  ST_BUFFER_LEN,  8            # Length of buffer.
-
-convert_to_upper:
-    pushl %ebp
-    movl  %esp, %ebp
-
-    # ----- SET UP VARIABLES ----- #
-    #
-    movl  ST_BUFFER(%ebp), %eax
-    movl  ST_BUFFER_LEN(%ebp), %ebx
-    movl  $0, %edi
-
-    cmpl  $0, %ebx                     # If a buffer with zero length was
-                                       # given to us, just leave.
-    je    end_convert_loop
-
-convert_loop:
-    movb  (%eax,%edi,1), %cl           # Get the current byte.
-
-    cmpb  $LOWERCASE_A, %cl            # Go to the next byte unless it is
-                                       # between 'a' and 'z'.
-    jl    next_byte
-    cmpb  $LOWERCASE_Z, %cl
-    jg    next_byte
-
-    addb  $UPPER_CONVERSION, %cl       # Otherwise convert the byte to
-                                       # uppercase and store it back.
-    movb  %cl, (%eax,%edi,1)
-next_byte:
-    incl  %edi                         # Next byte.
-    cmpl  %edi, %ebx                   # Continue unless we've reached the
-                                       # end.
-    jne   convert_loop
-
-end_convert_loop:
-    movl  %ebp, %esp                   # No return value, just leave.
-    popl  %ebp
-    ret
-```
-
-Type in this program as `toupper.s`, and then enter in the following
-commands:
-
-``` bash
-as toupper.s -o toupper.o
-ld toupper.o -o toupper
-```
+    as toupper-nomm-simplified.s -o toupper.o
+    ld toupper.o -o toupper
 
 This builds a program called `toupper`, which converts all of the
 lowercase characters in a file to uppercase. For example, to convert the
 file `toupper.s` to uppercase, type in the following command:
 
-``` bash
-./toupper toupper.s toupper.uppercase
-```
+    ./toupper toupper-nomm-simplified.s toupper.uppercase
 
 You will now find in the file `toupper.uppercase` an uppercase version
 of your original file.
@@ -3134,11 +3027,9 @@ This section begins with a list of constants that we will use The reason
 these are put here rather than at the top is that they only deal with
 this one function. We have these definitions:
 
-``` gnuassembler
-.equ  LOWERCASE_A,       'a'
-.equ  LOWERCASE_Z,       'z'
-.equ  UPPER_CONVERSION,  'A' - 'a' 
-```
+    .equ  LOWERCASE_A,       'a'
+    .equ  LOWERCASE_Z,       'z'
+    .equ  UPPER_CONVERSION,  'A' - 'a' 
 
 The first two simply define the letters that are the boundaries of what
 we are searching for. Remember that in the computer, letters are
@@ -3167,10 +3058,8 @@ Next comes the label `convert_to_upper`. This is the entry point of the
 function. The first two lines are our standard function lines to save
 the stack pointer. The next two lines:
 
-``` gnuassembler
-movl  ST_BUFFER(%ebp), %eax
-movl  ST_BUFFER_LEN(%ebp), %ebx
-```
+    movl  ST_BUFFER(%ebp), %eax
+    movl  ST_BUFFER_LEN(%ebp), %ebx
 
 Move the function parameters into the appropriate registers for use.
 Then, we load zero into *%edi*. What we are going to do is iterate
@@ -3178,10 +3067,8 @@ through each byte of the buffer by loading from the location *%eax* +
 *%edi*, incrementing *%edi*, and repeating until *%edi* is equal to the
 buffer length stored in *%ebx*. The lines:
 
-``` gnuassembler
-cmpl  $0, %ebx
-je    end_convert_loop
-```
+    cmpl  $0, %ebx
+    je    end_convert_loop
 
 They are just a sanity check to make sure that noone gave us a buffer of
 zero size. If they did, we just clean up and leave. Guarding against
@@ -3193,9 +3080,7 @@ have a reliable exit plan if it happens.
 Now we start our loop. First, it moves a byte into *%cl*. The code for
 this is:
 
-``` gnuassembler
-movb  (%eax,%edi,1), %cl
-```
+    movb  (%eax,%edi,1), %cl
 
 It is using an indexed indirect addressing mode. It says to start at
 *%eax* and go *%edi* locations forward, with each location being 1 byte
@@ -3245,7 +3130,7 @@ system call is what handles this. It takes the following parameters:
 After making the system call, the file descriptor of the newly-opened
 file is stored in *%eax*.
 
-<!-- TODO: Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct -->
+<!-- TODO: Persoanl -> check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct -->
 
 So, what files are we opening? In this example, we will be opening the
 files specified on the command-line. Fortunately, command-line
@@ -3356,36 +3241,35 @@ Chapter 6. Reading and Writing Simple Records
 
 As mentioned in [Chapter 5. Dealing with
 Files](#chapter-5-dealing-with-files), many applications deal with data
-that is *persistentpersistent* - meaning that the data lives longer than
-the program by being stored on disk in files. You can shut down the
-program and open it back up, and you are back where you started. Now,
-there are two basic kinds of persistent data - structured and
-unstructured. Unstructured dataunstructured data is like what we dealt
-with in the `toupper` program. It just dealt with text files that were
-entered by a person. The contents of the files weren't usable by a
-program because a program can't interpret what the user is trying to say
-in random text.
+that is *persistent* - meaning that the data lives longer than the
+program by being stored on disk in files. You can shut down the program
+and open it back up, and you are back where you started. Now, there are
+two basic kinds of persistent data - structured and unstructured.
+Unstructured data is like what we dealt with in the `toupper` program.
+It just dealt with text files that were entered by a person. The
+contents of the files weren't usable by a program because a program
+can't interpret what the user is trying to say in random text.
 
-Structured datastructured data, on the other hand, is what computers
-excel at handling. Structured data is data that is divided up into
-fieldsfields and recordsrecords. For the most part, the fields and
-records are fixed-length. Because the data is divided into fixed-length
-records and fixed-format fields, the computer can interpret the data.
-Structured data can contain variable-length fields, but at that point
-you are usually better off with a databasedatabase. [34]
+Structured data, on the other hand, is what computers excel at handling.
+Structured data is data that is divided up into fields and records. For
+the most part, the fields and records are fixed-length. Because the data
+is divided into fixed-length records and fixed-format fields, the
+computer can interpret the data. Structured data can contain
+variable-length fields, but at that point you are usually better off
+with a database.[34]
 
-This chapter deals with reading and writing simple fixed-length
-recordsrecords. Let's say we wanted to store some basic information
-about people we know. We could imagine the following example
-fixed-length record about people:
+This chapter deals with reading and writing simple fixed-length records.
+Let's say we wanted to store some basic information about people we
+know. We could imagine the following example fixed-length record about
+people:
 
--   Firstname - 40 bytes
+-   Firstname - 40 bytes.
 
--   Lastname - 40 bytes
+-   Lastname - 40 bytes.
 
--   Address - 240 bytes
+-   Address - 240 bytes.
 
--   Age - 4 bytes
+-   Age - 4 bytes.
 
 In this, everything is character data except for the age, which is
 simply a numeric field, using a standard 4-byte word (we could just use
@@ -3397,20 +3281,46 @@ over and over again within the program, or perhaps within several
 programs. It is good to separate these out into files that are simply
 included into the assembly language files as needed. For example, in our
 next programs we will need to access the different parts of the record
-above. This means we need to know the offsetsoffsets of each field from
-the beginning of the record in order to access them using base pointer
-addressingbase pointer addressing mode. The following constants describe
-the offsets to the above structure. Put them in a file named
-`record-def.s`:
+above. This means we need to know the offsets of each field from the
+beginning of the record in order to access them using base pointer
+addressing mode. The following constants describe the offsets to the
+above structure. Put them in a file named `record-def.s`:
 
-    RECORD-DEF
+        .equ RECORD_FIRSTNAME,  0
+        .equ RECORD_LASTNAME,   40
+        .equ RECORD_ADDRESS,    80
+        .equ RECORD_AGE,        320
+        .equ RECORD_SIZE,       324
 
 In addition, there are several constants that we have been defining over
 and over in our programs, and it is useful to put them in a file, so
-that we don't have to keep entering them. Put the following
-constantsconstants in a file called `linux.s`:
+that we don't have to keep entering them. Put the following constants in
+a file called `linux.s`:
 
-    LINUX
+        # ----- Common Linux Definitions ----- #
+        #
+        # System Call Numbers.
+        #
+        .equ SYS_EXIT,       1
+        .equ SYS_READ,       3
+        .equ SYS_WRITE,      4
+        .equ SYS_OPEN,       5
+        .equ SYS_CLOSE,      6
+        .equ SYS_BRK,        45
+
+        # System Call Interrupt Number.
+        #
+        .equ LINUX_SYSCALL,  0x80
+
+        # Standard File Descriptors.
+        #
+        .equ STDIN,          0
+        .equ STDOUT,         1
+        .equ STDERR,         2
+
+        # Common Status Codes.
+        #
+        .equ END_OF_FILE,    0
 
 We will write three programs in this chapter using the structure defined
 in `record-def.s`. The first program will build a file containing
@@ -3426,19 +3336,92 @@ record.
 What parameters do these functions need in order to operate? We
 basically need:
 
--   The location of a buffer that we can read a record into
+-   The location of a buffer that we can read a record into.
 
--   The file descriptor that we want to read from or write to
+-   The file descriptor that we want to read from or write to.
 
 Let's look at our reading function first:
 
-    READ-RECORD
+        .code32                             # Generate 32-bit code.
+        .include "linux.s"                  # Common Linux Definitions.
+        .include "record-def.s"             # Record definitions.
+
+        # PURPOSE:  This function reads a record from the file descriptor.
+        #
+        # INPUT:    The file descriptor and a buffer.
+        #
+        # OUTPUT:   This function writes the data to the buffer and returns
+        #           a status code.
+        #
+        # ----- STACK LOCAL VARIABLES ----- #
+        #
+        .equ ST_READ_BUFFER,  8
+        .equ ST_FILEDES,      12
+
+        .section .text
+            .globl read_record
+            .type  read_record,  @function
+
+    read_record:
+        pushl %ebp
+        movl  %esp, %ebp
+
+        pushl %ebx
+        movl  ST_FILEDES(%ebp), %ebx
+        movl  ST_READ_BUFFER(%ebp), %ecx
+        movl  $RECORD_SIZE, %edx
+        movl  $SYS_READ, %eax
+        int   $LINUX_SYSCALL
+
+        popl  %ebx                          # NOTE - %eax has the return value,
+                                            # which we will give back to our
+                                            # calling program.
+
+        movl  %ebp, %esp
+        popl  %ebp
+        ret
 
 It's a pretty simple function. It just reads data the size of our
 structure into an appropriately sized buffer from the given file
 descriptor. The writing one is similar:
 
-    WRITE-RECORD
+        .code32                             # Generate 32-bit code.
+        .include "linux.s"                  # Common Linux Definitions.
+        .include "record-def.s"             # Record definitions.
+
+        # PURPOSE:  This function writes a record to the given file descriptor.
+        #
+        # INPUT:    The file descriptor and a buffer.
+        #
+        # OUTPUT:   This function produces a status code.
+        #
+        # ----- STACK LOCAL VARIABLES ----- #
+        #
+        .equ ST_WRITE_BUFFER,  8
+        .equ ST_FILEDES,       12
+
+        .section .text
+            .globl write_record
+            .type  write_record,  @function
+
+    write_record:
+        pushl %ebp
+        movl  %esp, %ebp
+
+        pushl %ebx
+        movl  $SYS_WRITE, %eax
+        movl  ST_FILEDES(%ebp), %ebx
+        movl  ST_WRITE_BUFFER(%ebp), %ecx
+        movl  $RECORD_SIZE, %edx
+        int   $LINUX_SYSCALL
+
+        popl  %ebx                          # NOTE - %eax has the return value,
+                                            # which we will give back to our
+                                            # calling program.
+
+        movl  %ebp, %esp
+        popl  %ebp
+        ret
 
 Now that we have our basic definitions down, we are ready to write our
 programs.
@@ -3448,51 +3431,162 @@ Writing Records
 
 This program will simply write some hardcoded records to disk. It will:
 
--   Open the file
+-   Open the file.
 
--   Write three records
+-   Write three records.
 
--   Close the file
+-   Close the file.
 
 Type the following code into a file called `write-records.s`: .rept
 .endr padding null
 
-    WRITE-RECORDS
+        .code32                             # Generate 32-bit code.
+        .include "linux.s"                  # Common Linux Definitions.
+        .include "record-def.s"             # Record definitions.
+
+        .section .data
+            # ----- CONSTANTS ----- #
+            #
+            # Constant data of the records we want to write. Each text data
+            # item is padded to the proper length with null (i.e. 0) bytes.
+            #
+            # `.rept` is used to pad each item.  it tells the assembler to
+            # repeat the section between `.rept` and `.endr` the number of
+            # times specified. This is used in this program to add extra null
+            # characters at the end of each field to fill it up.
+            #
+            record1:
+                .ascii "Fredrick\0"
+                .rept 31                    # Padding to 40 bytes.
+                .byte 0
+                .endr
+
+                .ascii "Bartlett\0"
+                .rept 31                    # Padding to 40 bytes.
+                .byte 0
+                .endr
+
+                .ascii "4242 S Prairie\nTulsa, OK 55555\0"
+                .rept 209                   # Padding to 240 bytes.
+                .byte 0
+                .endr
+
+                .long 45
+
+            record2:
+                .ascii "Marilyn\0"
+                .rept 32                    # Padding to 40 bytes.
+                .byte 0
+                .endr
+
+                .ascii "Taylor\0"
+                .rept 33                    # Padding to 40 bytes.
+                .byte 0
+                .endr
+
+                .ascii "2224 S Johannan St\nChicago, IL 12345\0"
+                .rept 203                   # Padding to 240 bytes.
+                .byte 0
+                .endr
+
+                .long 29
+
+            record3:
+                .ascii "Derrick\0"
+                .rept 32                    # Padding to 40 bytes.
+                .byte 0
+                .endr
+
+                .ascii "McIntire\0"
+                .rept 31                    # Padding to 40 bytes.
+                .byte 0
+                .endr
+
+                .ascii "500 W Oakland\nSan Diego, CA 54321\0"
+                .rept 206                   # Padding to 240 bytes.
+                .byte 0
+                .endr
+
+                .long 36
+
+            file_name:
+                .ascii "test.dat\0"         # This is the name of the file we
+                                            # will write to.
+
+            .equ ST_FILE_DESCRIPTOR,  -4
+
+        .globl _start
+    _start:
+        movl  %esp, %ebp                    # Copy the stack pointer to %ebp.
+        subl  $4, %esp                      # Allocate space to hold the file
+                                            # descriptor.
+
+        movl  $SYS_OPEN, %eax               # Open the file.
+        movl  $file_name, %ebx
+        movl  $0101, %ecx                   # This says to create if it doesn't
+                                            # exist, and open for writing.
+        movl  $0666, %edx
+        int   $LINUX_SYSCALL
+
+        movl  %eax, ST_FILE_DESCRIPTOR(%ebp)  # Store the file descriptor away.
+
+        pushl ST_FILE_DESCRIPTOR(%ebp)      # Write the first record.
+        pushl $record1
+        call  write_record
+        addl  $8, %esp
+
+        pushl ST_FILE_DESCRIPTOR(%ebp)      # Write the second record.
+        pushl $record2
+        call  write_record
+        addl  $8, %esp
+
+        pushl ST_FILE_DESCRIPTOR(%ebp)      # Write the third record.
+        pushl $record3
+        call  write_record
+        addl  $8, %esp
+
+        movl  $SYS_CLOSE, %eax              # Close the file descriptor.
+        movl  ST_FILE_DESCRIPTOR(%ebp), %ebx
+        int   $LINUX_SYSCALL
+
+        movl  $SYS_EXIT, %eax               # Exit the program.
+        movl  $0, %ebx
+        int   $LINUX_SYSCALL
+
+<!-- TODO: Need to add info on how to use a hexdump to read the values -->
 
 This is a fairly simple program. It merely consists of defining the data
-we want to write in the `.data.data` section, and then calling the right
+we want to write in the `.data` section, and then calling the right
 system calls and function calls to accomplish it. For a refresher of all
 of the system calls used, see [Important System
 Calls](#important-system-calls).
 
 You may have noticed the lines:
 
-        .include "linux.s"
-        .include "record-def.s"
+    .include "linux.s"                  # Common Linux Definitions.
+    .include "record-def.s"             # Record definitions.
 
-.include These statements cause the given files to basically be pasted
-right there in the code. You don't need to do this with functions,
-because the linkerlinker can take care of combining functions exported
-with `.globl.globl`. However, constantsconstants defined in another file
-do need to be imported in this way.
+These statements cause the given files to basically be pasted right
+there in the code. You don't need to do this with functions, because the
+linker can take care of combining functions exported with `.globl`.
+However, constants defined in another file do need to be imported in
+this way.
 
 Also, you may have noticed the use of a new assembler directive,
-`.rept.rept`. This directive repeats the contents of the file between
-the `.rept` and the `.endr.endr` directives the number of times
-specified after `.rept`. This is usually used the way we used it - to
-padpad values in the `.data.data` section. In our case, we are adding
-null charactersnull characters to the end of each field until they are
-their defined lengths.
+`.rept`. This directive repeats the contents of the file between the
+`.rept` and the `.endr` directives the number of times specified after
+`.rept`. This is usually used the way we used it - to pad values in the
+`.data` section. In our case, we are adding null characters to the end
+of each field until they are their defined lengths.
 
 To build the application, run the commands:
 
-    as write-records.s -o write-records.o
-    as write-record.s -o write-record.o
-    ld write-record.o write-records.o -o write-records
+    as write-records.s  -o write-records.o
+    as write-record.s   -o write-record.o
+    ld write-record.o write-records.o  -o write-records
 
 Here we are assembling two files separately, and then combining them
-together using the linkerlinker. To run the program, just type the
-following:
+together using the linker. To run the program, just type the following:
 
     ./write-records
 
@@ -3510,13 +3604,55 @@ record.
 
 Since each person's name is a different length, we will need a function
 to count the number of characters we want to write. Since we pad each
-field with null charactersnull characters, we can simply count
-characters until we reach a null character.[35] Note that this means our
-records must contain at least one null character each.
+field with null characters, we can simply count characters until we
+reach a null character.[35] Note that this means our records must
+contain at least one null character each.
 
 Here is the code. Put it in a file called `count-chars.s`:
 
-    COUNT-CHARS
+        # PURPOSE:  Count the characters until a null byte is reached.
+        #
+        # INPUT:    The address of the character string.
+        #
+        # OUTPUT:   Returns the count in %eax.
+        #
+        # PROCESS:
+        #           Registers used:
+        #               %ecx - character count.
+        #               %al  - current character.
+        #               %edx - current character address.
+        #
+        .globl count_chars
+        .type  count_chars,  @function
+
+        .equ ST_STRING_START_ADDRESS,  8    # The parameter is on the stack.
+
+    count_chars:
+        pushl %ebp
+        movl  %esp, %ebp
+
+        movl  $0, %ecx                      # Counter starts at zero.
+
+        movl  ST_STRING_START_ADDRESS(%ebp), %edx  # Starting address of data.
+
+    count_loop_begin:
+        movb  (%edx), %al                   # Grab the current character.
+
+        cmpb  $0, %al                       # Is it null?
+        je    count_loop_end                # If yes, we're done.
+
+        incl  %ecx                          # Otherwise, increment the counter
+                                            # and the pointer.
+        incl  %edx
+        jmp   count_loop_begin              # Go back to the beginning of the
+                                            # loop.
+
+    count_loop_end:
+        movl  %ecx, %eax                    # We're done.  Move the count into
+                                            # %eax and return.
+
+        popl  %ebp
+        ret
 
 As you can see, it's a fairly straightforward function. It simply loops
 through the bytes, counting as it goes, until it hits a null character.
@@ -3525,40 +3661,143 @@ Then it returns the count.
 Our record-reading program will be fairly straightforward, too. It will
 do the following:
 
--   Open the file
+-   Open the file.
 
--   Attempt to read a record
+-   Attempt to read a record.
 
--   If we are at the end of the file, exit
+-   If we are at the end of the file, exit.
 
--   Otherwise, count the characters of the first name
+-   Otherwise, count the characters of the first name.
 
--   Write the first name to `STDOUT`
+-   Write the first name to `STDOUT`.
 
--   Write a newline to `STDOUT`
+-   Write a newline to `STDOUT`.
 
--   Go back to read another record
+-   Go back to read another record.
 
 To write this, we need one more simple function - a function to write
 out a newline to `STDOUT`. Put the following code into
 `write-newline.s`:
 
-    WRITE-NEWLINE-S
+        .code32                             # Generate 32-bit code.
+        .include "linux.s"                  # Common Linux Definitions.
+
+        .globl write_newline
+        .type  write_newline,  @function
+
+        .section .data
+            newline:
+                .ascii "\n"
+
+        .section .text
+            .equ ST_FILEDES,  8
+
+    write_newline:
+        pushl %ebp
+        movl  %esp, %ebp
+
+        movl  $SYS_WRITE, %eax
+        movl  ST_FILEDES(%ebp), %ebx
+        movl  $newline, %ecx
+        movl  $1, %edx
+        int   $LINUX_SYSCALL
+
+        movl  %ebp, %esp
+        popl  %ebp
+        ret
 
 Now we are ready to write the main program. Here is the code to
 `read-records.s`:
 
-    READ-RECORDS
+        .code32                             # Generate 32-bit code.
+        .include "linux.s"                  # Common Linux Definitions.
+        .include "record-def.s"             # Record definitions.
+
+        .section .data
+            file_name:
+                .ascii "test.dat\0"
+
+        .section .bss
+            .lcomm record_buffer,  RECORD_SIZE
+
+        .section .text
+
+        .globl _start
+    _start:
+        # ----- Main Program ----- #
+        #
+        # These are the locations on the stack where we will store the input
+        # and output descriptors (FYI - we could have used memory addresses in
+        # a .data section instead).
+        #
+        .equ ST_INPUT_DESCRIPTOR,   -4
+        .equ ST_OUTPUT_DESCRIPTOR,  -8
+
+        movl  %esp, %ebp                    # Copy the stack pointer to %ebp.
+        subl  $8, %esp                      # Allocate space to hold the file
+                                            # descriptors.
+
+        movl  $SYS_OPEN, %eax               # Open the file.
+        movl  $file_name, %ebx
+        movl  $0, %ecx                      # This says to open read-only.
+        movl  $0666, %edx
+        int   $LINUX_SYSCALL
+
+        # ----- Save file descriptor ----- #
+        #
+        movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
+
+        # Even though it's a constant, we are saving the output file descriptor
+        # in a local variable so that if we later decide that it isn't always
+        # going to be STDOUT, we can change it easily.
+        # 
+        movl  $STDOUT, ST_OUTPUT_DESCRIPTOR(%ebp)
+
+    record_read_loop:
+        pushl ST_INPUT_DESCRIPTOR(%ebp)
+        pushl $record_buffer
+        call  read_record
+        addl  $8, %esp
+
+        # Returns the number of bytes read. If it isn't the same number we
+        # requested, then it's either an end-of-file, or an error, so we're
+        # quitting.
+        #
+        cmpl  $RECORD_SIZE, %eax
+        jne   finished_reading
+
+        # Otherwise, print out the first name but we must know the size.
+        # 
+        pushl  $RECORD_FIRSTNAME + record_buffer
+        call   count_chars
+        addl   $4, %esp
+
+        movl   %eax, %edx
+        movl   ST_OUTPUT_DESCRIPTOR(%ebp), %ebx
+        movl   $SYS_WRITE, %eax
+        movl   $RECORD_FIRSTNAME + record_buffer, %ecx
+        int    $LINUX_SYSCALL
+
+        pushl  ST_OUTPUT_DESCRIPTOR(%ebp)
+        call   write_newline
+        addl   $4, %esp
+
+        jmp    record_read_loop
+
+    finished_reading:
+        movl   $SYS_EXIT, %eax
+        movl   $0, %ebx
+        int    $LINUX_SYSCALL
 
 To build this program, we need to assemble all of the parts and link
 them together:
 
-    as read-record.s -o read-record.o
-    as count-chars.s -o count-chars.o
+    as read-record.s   -o read-record.o
+    as count-chars.s   -o count-chars.o
     as write-newline.s -o write-newline.o
-    as read-records.s -o read-records.o
-    ld read-record.o count-chars.o write-newline.o \
-       read-records.o -o read-records
+    as read-records.s  -o read-records.o
+    ld read-record.o count-chars.o write-newline.o read-records.o \
+         -o read-records
 
 The backslash in the first line simply means that the command continues
 on the next line. You can run your program by doing `./read-records`.
@@ -3567,23 +3806,22 @@ As you can see, this program opens the file and then runs a loop of
 reading, checking for the end of file, and writing the firstname. The
 one construct that might be new is the line that says:
 
-        pushl  $RECORD_FIRSTNAME + record_buffer
+    pushl  $RECORD_FIRSTNAME + record_buffer
 
 It looks like we are combining and add instruction with a push
 instruction, but we are not. You see, both `RECORD_FIRSTNAME` and
-`record_buffer` are constantsconstants. The first is a direct constant,
-created through the use of a `.equ.equ` directive, while the latter is
-defined automatically by the assemblerassembler through its use as a
-label (it's value being the addressaddress that the data that follows it
-will start at). Since they are both constants that the assembler knows,
-it is able to add them together while it is assembling your program, so
-the whole instruction is a single immediate-modeimmediate mode
-addressing push of a single constant.
+`record_buffer` are constants. The first is a direct constant, created
+through the use of a `.equ` directive, while the latter is defined
+automatically by the assembler through its use as a label (it's value
+being the address that the data that follows it will start at). Since
+they are both constants that the assembler knows, it is able to add them
+together while it is assembling your program, so the whole instruction
+is a single immediate mode addressing push of a single constant.
 
-The `RECORD_FIRSTNAME` constantconstants is the number of bytes after
-the beginning of a record before we hit the first name. `record_buffer`
-is the name of our buffer for holding records. Adding them together gets
-us the address of the first name member of the record stored in
+The `RECORD_FIRSTNAME` constant is the number of bytes after the
+beginning of a record before we hit the first name. `record_buffer` is
+the name of our buffer for holding records. Adding them together gets us
+the address of the first name member of the record stored in
 `record_buffer`.
 
 Modifying the Records
@@ -3591,23 +3829,89 @@ Modifying the Records
 
 In this section, we will write a program that:
 
--   Opens an input and output file
+-   Opens an input and output file.
 
--   Reads records from the input
+-   Reads records from the input.
 
--   Increments the age
+-   Increments the age.
 
--   Writes the new record to the output file
+-   Writes the new record to the output file.
 
 Like most programs we've encountered recently, this program is pretty
 straightforward.[36]
 
-    ADD-YEAR
+        .code32                             # Generate 32-bit code.
+        .include "linux.s"                  # Common Linux Definitions.
+        .include "record-def.s"             # Record definitions.
+
+        .section .data
+            input_file_name:
+                .ascii "test.dat\0"
+
+            output_file_name:
+                .ascii "testout.dat\0"
+
+        .section .bss
+            .lcomm record_buffer,  RECORD_SIZE
+
+        # ----- Stack offsets of local variables ----- #
+        #
+        .equ ST_INPUT_DESCRIPTOR,  -4
+        .equ ST_OUTPUT_DESCRIPTOR, -8
+
+        .section .text
+        .globl _start
+    _start:
+        movl  %esp, %ebp                    # Copy stack pointer and make room
+        subl  $8, %esp                      # for local variables.
+
+        movl  $SYS_OPEN, %eax               # Open file for reading.
+        movl  $input_file_name, %ebx
+        movl  $0, %ecx
+        movl  $0666, %edx
+        int   $LINUX_SYSCALL
+
+        movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
+
+        movl  $SYS_OPEN, %eax               # Open file for writing.
+        movl  $output_file_name, %ebx
+        movl  $0101, %ecx
+        movl  $0666, %edx
+        int   $LINUX_SYSCALL
+
+        movl  %eax, ST_OUTPUT_DESCRIPTOR(%ebp)
+
+    loop_begin:
+        pushl ST_INPUT_DESCRIPTOR(%ebp)
+        pushl $record_buffer
+        call  read_record
+        addl  $8, %esp
+
+        # Returns the number of bytes read. If it isn't the same number we
+        # requested, then it's either an end-of-file, or an error, so we're
+        # quitting.
+        #
+        cmpl  $RECORD_SIZE, %eax
+        jne   loop_end
+
+        incl  record_buffer + RECORD_AGE    # Increment the age.
+
+        pushl ST_OUTPUT_DESCRIPTOR(%ebp)    # Write the record out.
+        pushl $record_buffer
+        call  write_record
+        addl  $8, %esp
+
+        jmp   loop_begin
+
+    loop_end:
+        movl  $SYS_EXIT, %eax
+        movl  $0, %ebx
+        int   $LINUX_SYSCALL
 
 You can type it in as `add-year.s`. To build it, type the following[37]:
 
-    as add-year.s -o add-year.o
-    ld add-year.o read-record.o write-record.o -o add-year
+    as add-year.s  -o add-year.o
+    ld add-year.o read-record.o write-record.o  -o add-year
 
 To run the program, just type in the following[38]:
 
@@ -5360,7 +5664,7 @@ on the Internet:
 -   http://www.linuxjournal.com/article.php?sid=1059 and
     http://www.linuxjournal.com/article.php?sid=1060 provide a good
     introduction to the ELFELF file format, with more detail available
-    at http://www.cs.ucdavis.edu/\~haungs/paper/node10.html
+    at http://www.cs.ucdavis.edu/~haungs/paper/node10.html
 
 -   http://www.iecc.com/linker/linker10.html contains a great
     description of how dynamic linking works with ELF files.
@@ -6237,7 +6541,7 @@ order can cause problems in several instances:
 
 As long as you are aware of the issue, it usually isn't a big deal. For
 more in-depth look at byte order issues, you should read DAV's Endian
-FAQ at http://www.rdrop.com/\~cary/html/endian\_faq.html, especially the
+FAQ at http://www.rdrop.com/~cary/html/endian\_faq.html, especially the
 article "On Holy Wars and a Plea for Peace" by Daniel Cohen.
 
 Converting Numbers for Display
@@ -7129,7 +7433,7 @@ several outside of the areas you normally program in.
 -   Project Management - The Mythical Man-Month by Fred P. Brooks
 
 -   UNIX Programming - The Art of UNIX Programming by Eric S. Raymond,
-    available online at http://www.catb.org/\~esr/writings/taoup/
+    available online at http://www.catb.org/~esr/writings/taoup/
 
 -   UNIX Programming - Advanced Programming in the UNIX Environment
     by W. Richard Stevens
@@ -7199,25 +7503,198 @@ Table of ASCII Codes
 To use this table, simply find the character or escape that you want the
 code for, and add the number on the left and the top.
 
-|     |     |     |     |     |      |     |      |     |
-|-----|:----|:----|:----|:----|:-----|:----|:-----|:----|
-|     | +0  | +1  | +2  | +3  | +4   | +5  | +6   | +7  |
-| 0   | NUL | SOH | STX | ETX | EOT  | ENQ | ACK  | BEL |
-| 8   | BS  | HT  | LF  | VT  | FF   | CR  | SO   | SI  |
-| 16  | DLE | DC1 | DC2 | DC3 | DC4  | NAK | SYN  | ETB |
-| 24  | CAN | EM  | SUB | ESC | FS   | GS  | RS   | US  |
-| 32  |     | !   | "   | \#  | $    | %   | &    | '   |
-| 40  | (   | )   | \*  | \+  | ,    | \-  | .    | /   |
-| 48  | 0   | 1   | 2   | 3   | 4    | 5   | 6    | 7   |
-| 56  | 8   | 9   | :   | ;   | &lt; | =   | &gt; | ?   |
-| 64  | @   | A   | B   | C   | D    | E   | F    | G   |
-| 72  | H   | I   | J   | K   | L    | M   | N    | O   |
-| 80  | P   | Q   | R   | S   | T    | U   | V    | W   |
-| 88  | X   | Y   | Z   | \[  | \\   | \]  | ^    | \_  |
-| 96  | \`  | a   | b   | c   | d    | e   | f    | g   |
-| 104 | h   | i   | j   | k   | l    | m   | n    | o   |
-| 112 | p   | q   | r   | s   | t    | u   | v    | w   |
-| 120 | x   | y   | z   | {   | \|   | }   | \~   | DEL |
+<table>
+<caption>Table of ASCII codes in decimal</caption>
+<tbody>
+<tr class="odd">
+<td></td>
+<td style="text-align: left;">+0</td>
+<td style="text-align: left;">+1</td>
+<td style="text-align: left;">+2</td>
+<td style="text-align: left;">+3</td>
+<td style="text-align: left;">+4</td>
+<td style="text-align: left;">+5</td>
+<td style="text-align: left;">+6</td>
+<td style="text-align: left;">+7</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td style="text-align: left;">NUL</td>
+<td style="text-align: left;">SOH</td>
+<td style="text-align: left;">STX</td>
+<td style="text-align: left;">ETX</td>
+<td style="text-align: left;">EOT</td>
+<td style="text-align: left;">ENQ</td>
+<td style="text-align: left;">ACK</td>
+<td style="text-align: left;">BEL</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td style="text-align: left;">BS</td>
+<td style="text-align: left;">HT</td>
+<td style="text-align: left;">LF</td>
+<td style="text-align: left;">VT</td>
+<td style="text-align: left;">FF</td>
+<td style="text-align: left;">CR</td>
+<td style="text-align: left;">SO</td>
+<td style="text-align: left;">SI</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td style="text-align: left;">DLE</td>
+<td style="text-align: left;">DC1</td>
+<td style="text-align: left;">DC2</td>
+<td style="text-align: left;">DC3</td>
+<td style="text-align: left;">DC4</td>
+<td style="text-align: left;">NAK</td>
+<td style="text-align: left;">SYN</td>
+<td style="text-align: left;">ETB</td>
+</tr>
+<tr class="odd">
+<td>24</td>
+<td style="text-align: left;">CAN</td>
+<td style="text-align: left;">EM</td>
+<td style="text-align: left;">SUB</td>
+<td style="text-align: left;">ESC</td>
+<td style="text-align: left;">FS</td>
+<td style="text-align: left;">GS</td>
+<td style="text-align: left;">RS</td>
+<td style="text-align: left;">US</td>
+</tr>
+<tr class="even">
+<td>32</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">!</td>
+<td style="text-align: left;">"</td>
+<td style="text-align: left;">#</td>
+<td style="text-align: left;">$</td>
+<td style="text-align: left;">%</td>
+<td style="text-align: left;">&amp;</td>
+<td style="text-align: left;">'</td>
+</tr>
+<tr class="odd">
+<td>40</td>
+<td style="text-align: left;">(</td>
+<td style="text-align: left;">)</td>
+<td style="text-align: left;">*</td>
+<td style="text-align: left;">+</td>
+<td style="text-align: left;">,</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">/</td>
+</tr>
+<tr class="even">
+<td>48</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">7</td>
+</tr>
+<tr class="odd">
+<td>56</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">:</td>
+<td style="text-align: left;">;</td>
+<td style="text-align: left;">&lt;</td>
+<td style="text-align: left;">=</td>
+<td style="text-align: left;">&gt;</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr class="even">
+<td>64</td>
+<td style="text-align: left;">@</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">D</td>
+<td style="text-align: left;">E</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">G</td>
+</tr>
+<tr class="odd">
+<td>72</td>
+<td style="text-align: left;">H</td>
+<td style="text-align: left;">I</td>
+<td style="text-align: left;">J</td>
+<td style="text-align: left;">K</td>
+<td style="text-align: left;">L</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">O</td>
+</tr>
+<tr class="even">
+<td>80</td>
+<td style="text-align: left;">P</td>
+<td style="text-align: left;">Q</td>
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">S</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">V</td>
+<td style="text-align: left;">W</td>
+</tr>
+<tr class="odd">
+<td>88</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">Y</td>
+<td style="text-align: left;">Z</td>
+<td style="text-align: left;">[</td>
+<td style="text-align: left;">\</td>
+<td style="text-align: left;">]</td>
+<td style="text-align: left;">^</td>
+<td style="text-align: left;">_</td>
+</tr>
+<tr class="even">
+<td>96</td>
+<td style="text-align: left;">`</td>
+<td style="text-align: left;">a</td>
+<td style="text-align: left;">b</td>
+<td style="text-align: left;">c</td>
+<td style="text-align: left;">d</td>
+<td style="text-align: left;">e</td>
+<td style="text-align: left;">f</td>
+<td style="text-align: left;">g</td>
+</tr>
+<tr class="odd">
+<td>104</td>
+<td style="text-align: left;">h</td>
+<td style="text-align: left;">i</td>
+<td style="text-align: left;">j</td>
+<td style="text-align: left;">k</td>
+<td style="text-align: left;">l</td>
+<td style="text-align: left;">m</td>
+<td style="text-align: left;">n</td>
+<td style="text-align: left;">o</td>
+</tr>
+<tr class="even">
+<td>112</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: left;">q</td>
+<td style="text-align: left;">r</td>
+<td style="text-align: left;">s</td>
+<td style="text-align: left;">t</td>
+<td style="text-align: left;">u</td>
+<td style="text-align: left;">v</td>
+<td style="text-align: left;">w</td>
+</tr>
+<tr class="odd">
+<td>120</td>
+<td style="text-align: left;">x</td>
+<td style="text-align: left;">y</td>
+<td style="text-align: left;">z</td>
+<td style="text-align: left;">{</td>
+<td style="text-align: left;">|</td>
+<td style="text-align: left;">}</td>
+<td style="text-align: left;">~</td>
+<td style="text-align: left;">DEL</td>
+</tr>
+</tbody>
+</table>
 
 Table of ASCII codes in decimal
 
@@ -7432,22 +7909,61 @@ Remember that *%eax* holds the system call numbers, and that the return
 values and error codes are also stored in *%eax*. PERCENTeax PERCENTebx
 PERCENTecx PERCENTedx
 
-| *%eax* |
-|:-------|
-| 1      |
-| 3      |
-| 4      |
-| 5      |
-| 6      |
-| 12     |
-| 19     |
-| 20     |
-| 39     |
-| 40     |
-| 41     |
-| 42     |
-| 45     |
-| 54     |
+<table style="width:97%;">
+<caption>Important Linux System Calls</caption>
+<colgroup>
+<col style="width: 97%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><em>%eax</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">41</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">42</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">54</td>
+</tr>
+</tbody>
+</table>
 
 Important Linux System Calls
 
@@ -7970,20 +8486,78 @@ Data Transfer Instructions
 These instructions perform little, if any computation. Instead they are
 mostly used for moving data from one place to another.
 
-| Instruction                                                                                                                                                                                                                                                              | Operands     | Affected Flags |
-|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------|:---------------|
-| movlmovl                                                                                                                                                                                                                                                                 | I/R/M, I/R/M | O/S/Z/A/C      |
-| This copies a word of data from one location to another. `movl %eax, %ebx` copies the contents of *%eax* to *%ebx*                                                                                                                                                       |              |                |
-| movbmovb                                                                                                                                                                                                                                                                 | I/R/M, I/R/M | O/S/Z/A/C      |
-| Same as `movl`, but operates on individual bytes.                                                                                                                                                                                                                        |              |                |
-| lealleal                                                                                                                                                                                                                                                                 | M, I/R/M     | O/S/Z/A/C      |
-| This takes a memory location given in the standard format, and, instead of loading the contents of the memory location, loads the computed address. For example, `leal 5(%ebp,%ecx,1), %eax` loads the address computed by `5 + %ebp + 1*%ecx` and stores that in *%eax* |              |                |
-| poplpopl                                                                                                                                                                                                                                                                 | R/M          | O/S/Z/A/C      |
-| Pops the top of the stack into the given location. This is equivalent to performing `movl (%esp), R/M` followed by `addl $4, %esp`. `popfl` is a variant which pops the top of the stack into the *%eflags* register.                                                    |              |                |
-| pushlpushl                                                                                                                                                                                                                                                               | I/R/M        | O/S/Z/A/C      |
-| Pushes the given value onto the stack. This is the equivalent to performing `subl $4, %esp` followed by `movl I/R/M, (%esp)`. `pushfl` is a variant which pushes the current contents of the *%eflags* register onto the top of the stack.                               |              |                |
-| xchglxchgl                                                                                                                                                                                                                                                               | R/M, R/M     | O/S/Z/A/C      |
-| Exchange the values of the given operands.                                                                                                                                                                                                                               |              |                |
+<table>
+<caption>Data Transfer Instructions</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Instruction</th>
+<th style="text-align: left;">Operands</th>
+<th style="text-align: left;">Affected Flags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">movlmovl</td>
+<td style="text-align: left;">I/R/M, I/R/M</td>
+<td style="text-align: left;">O/S/Z/A/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">This copies a word of data from one location to another. <code>movl %eax, %ebx</code> copies the contents of <em>%eax</em> to <em>%ebx</em></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">movbmovb</td>
+<td style="text-align: left;">I/R/M, I/R/M</td>
+<td style="text-align: left;">O/S/Z/A/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Same as <code>movl</code>, but operates on individual bytes.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lealleal</td>
+<td style="text-align: left;">M, I/R/M</td>
+<td style="text-align: left;">O/S/Z/A/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">This takes a memory location given in the standard format, and, instead of loading the contents of the memory location, loads the computed address. For example, <code>leal 5(%ebp,%ecx,1), %eax</code> loads the address computed by <code>5 + %ebp + 1*%ecx</code> and stores that in <em>%eax</em></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">poplpopl</td>
+<td style="text-align: left;">R/M</td>
+<td style="text-align: left;">O/S/Z/A/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pops the top of the stack into the given location. This is equivalent to performing <code>movl (%esp), R/M</code> followed by <code>addl $4, %esp</code>. <code>popfl</code> is a variant which pops the top of the stack into the <em>%eflags</em> register.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pushlpushl</td>
+<td style="text-align: left;">I/R/M</td>
+<td style="text-align: left;">O/S/Z/A/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pushes the given value onto the stack. This is the equivalent to performing <code>subl $4, %esp</code> followed by <code>movl I/R/M, (%esp)</code>. <code>pushfl</code> is a variant which pushes the current contents of the <em>%eflags</em> register onto the top of the stack.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xchglxchgl</td>
+<td style="text-align: left;">R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Exchange the values of the given operands.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 
 Data Transfer Instructions
 
@@ -7993,34 +8567,148 @@ Integer Instructions
 These are basic calculating instructions that operate on signed or
 unsigned integers.
 
-| Instruction                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Operands   | Affected Flags |
-|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------------|
-| adcladcl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | I/R/M, R/M | O/S/Z/A/P/C    |
-| Add with carry. Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true. This is usually used for operations larger than a machine word. The addition on the least-significant word would take place using `addl`, while additions to the other words would used the `adcl` instruction to take the carry from the previous add into account. For the usual case, this is not used, and `addl` is used instead. |            |                |
-| addladdl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | I/R/M, R/M | O/S/Z/A/P/C    |
-| Addition. Adds the first operand to the second, storing the result in the second. If the result is larger than the destination register, the overflow and carry bits are set to true. This instruction operates on both signed and unsigned integers.                                                                                                                                                                                                                         |            |                |
-| cdqcdq                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |            | O/S/Z/A/P/C    |
-| Converts the *%eax**%edx**%eax* word into the double-word consisting of *%edx*:*%eax* with sign extension. The `q` signifies that it is a *quad-word*. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an `idivl` instruction.                                                                                                                                               |            |                |
-| cmplcmpl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | I/R/M, R/M | O/S/Z/A/P/C    |
-| Compares two integers. It does this by subtracting the first operand from the second. It discards the results, but sets the flags accordingly. Usually used before a conditional jump.                                                                                                                                                                                                                                                                                        |            |                |
-| decldecl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | R/M        | O/S/Z/A/P      |
-| Decrements the register or memory location. Use `decb` to decrement a byte instead of a word.                                                                                                                                                                                                                                                                                                                                                                                 |            |                |
-| divldivl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | R/M        | O/S/Z/A/P      |
-| Performs unsigned division. Divides the contents of the double-word contained in the combined *%edx*:*%eax* registers by the value in the register or memory location specified. The *%eax* register contains the resulting quotient, and the *%edx* register contains the resulting remainder. If the quotient is too large to fit in *%eax*, it triggers a type 0 interrupt.                                                                                                |            |                |
-| idivlidivl                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | R/M        | O/S/Z/A/P      |
-| Performs signed division. Operates just like `divl` above.                                                                                                                                                                                                                                                                                                                                                                                                                    |            |                |
-| imullimull                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | R/M/I, R   | O/S/Z/A/P/C    |
-| Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be *%eax*, and the full result is stored in the double-word *%edx*:*%eax*.                                                                                                                                                                                                                                                                    |            |                |
-| inclincl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | R/M        | O/S/Z/A/P      |
-| Increments the given register or memory location. Use `incb` to increment a byte instead of a word.                                                                                                                                                                                                                                                                                                                                                                           |            |                |
-| mullmull                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | R/M/I, R   | O/S/Z/A/P/C    |
-| Perform unsigned multiplication. Same rules as apply to `imull`.                                                                                                                                                                                                                                                                                                                                                                                                              |            |                |
-| neglnegl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | R/M        | O/S/Z/A/P/C    |
-| Negates (gives the two's complementtwo's complement inversion of) the given register or memory location.                                                                                                                                                                                                                                                                                                                                                                      |            |                |
-| sbblsbbl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | I/R/M, R/M | O/S/Z/A/P/C    |
-| Subtract with borrowing. This is used in the same way that `adc` is, except for subtraction. Normally only `subl` is used.                                                                                                                                                                                                                                                                                                                                                    |            |                |
-| sublsubl                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | I/R/M, R/M | O/S/Z/A/P/C    |
-| Subtract the two operands. This subtracts the first operand from the second, and stores the result in the second operand. This instruction can be used on both signed and unsigned numbers.                                                                                                                                                                                                                                                                                   |            |                |
+<table>
+<caption>Integer Instructions</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Instruction</th>
+<th style="text-align: left;">Operands</th>
+<th style="text-align: left;">Affected Flags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">adcladcl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Add with carry. Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true. This is usually used for operations larger than a machine word. The addition on the least-significant word would take place using <code>addl</code>, while additions to the other words would used the <code>adcl</code> instruction to take the carry from the previous add into account. For the usual case, this is not used, and <code>addl</code> is used instead.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addladdl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Addition. Adds the first operand to the second, storing the result in the second. If the result is larger than the destination register, the overflow and carry bits are set to true. This instruction operates on both signed and unsigned integers.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cdqcdq</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Converts the <em>%eax<strong>%edx</strong>%eax</em> word into the double-word consisting of <em>%edx</em>:<em>%eax</em> with sign extension. The <code>q</code> signifies that it is a <em>quad-word</em>. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an <code>idivl</code> instruction.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cmplcmpl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Compares two integers. It does this by subtracting the first operand from the second. It discards the results, but sets the flags accordingly. Usually used before a conditional jump.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">decldecl</td>
+<td style="text-align: left;">R/M</td>
+<td style="text-align: left;">O/S/Z/A/P</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Decrements the register or memory location. Use <code>decb</code> to decrement a byte instead of a word.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">divldivl</td>
+<td style="text-align: left;">R/M</td>
+<td style="text-align: left;">O/S/Z/A/P</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Performs unsigned division. Divides the contents of the double-word contained in the combined <em>%edx</em>:<em>%eax</em> registers by the value in the register or memory location specified. The <em>%eax</em> register contains the resulting quotient, and the <em>%edx</em> register contains the resulting remainder. If the quotient is too large to fit in <em>%eax</em>, it triggers a type 0 interrupt.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">idivlidivl</td>
+<td style="text-align: left;">R/M</td>
+<td style="text-align: left;">O/S/Z/A/P</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Performs signed division. Operates just like <code>divl</code> above.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">imullimull</td>
+<td style="text-align: left;">R/M/I, R</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be <em>%eax</em>, and the full result is stored in the double-word <em>%edx</em>:<em>%eax</em>.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">inclincl</td>
+<td style="text-align: left;">R/M</td>
+<td style="text-align: left;">O/S/Z/A/P</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Increments the given register or memory location. Use <code>incb</code> to increment a byte instead of a word.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mullmull</td>
+<td style="text-align: left;">R/M/I, R</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Perform unsigned multiplication. Same rules as apply to <code>imull</code>.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">neglnegl</td>
+<td style="text-align: left;">R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Negates (gives the two's complementtwo's complement inversion of) the given register or memory location.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sbblsbbl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Subtract with borrowing. This is used in the same way that <code>adc</code> is, except for subtraction. Normally only <code>subl</code> is used.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sublsubl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Subtract the two operands. This subtracts the first operand from the second, and stores the result in the second operand. This instruction can be used on both signed and unsigned numbers.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 
 Integer Instructions
 
@@ -8029,34 +8717,148 @@ Logic Instructions
 
 These instructions operate on memory as bits instead of words.
 
-| Instruction                                                                                                                                                                                                                                                                                                                  | Operands   | Affected Flags |
-|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|:---------------|
-| andlandl                                                                                                                                                                                                                                                                                                                     | I/R/M, R/M | O/S/Z/P/C      |
-| Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                         |            |                |
-| notlnotl                                                                                                                                                                                                                                                                                                                     | R/M        |                |
-| Performs a logical not on each bit in the operand. Also known as a one's complementone's complement.                                                                                                                                                                                                                         |            |                |
-| orlorl                                                                                                                                                                                                                                                                                                                       | I/R/M, R/M | O/S/Z/A/P/C    |
-| Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                                     |            |                |
-| rcllrcll                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | O/C            |
-| Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register *%cl*. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.                                                         |            |                |
-| rcrlrcrl                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | O/C            |
-| Same as above, but rotates right.                                                                                                                                                                                                                                                                                            |            |                |
-| rollroll                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | O/C            |
-| Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the *%cl* register.                                                                                            |            |                |
-| rorlrorl                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | O/C            |
-| Same as above, but rotates right.                                                                                                                                                                                                                                                                                            |            |                |
-| sallsall                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | C              |
-| Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the *%cl* register. |            |                |
-| sarlsarl                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | C              |
-| Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the *%cl* register.                               |            |                |
-| shllshll                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | C              |
-| Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the *%cl* register.                                                                             |            |                |
-| shrlshrl                                                                                                                                                                                                                                                                                                                     | I/CL, R/M  | C              |
-| Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the *%cl* register.                                                          |            |                |
-| testltestl                                                                                                                                                                                                                                                                                                                   | I/R/M, R/M | O/S/Z/A/P/C    |
-| Does a logical and of both operands and discards the results, but sets the flags accordingly.                                                                                                                                                                                                                                |            |                |
-| xorlxorl                                                                                                                                                                                                                                                                                                                     | I/R/M, R/M | O/S/Z/A/P/C    |
-| Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.                                                                                                                                                                                           |            |                |
+<table>
+<caption>Logic Instructions</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Instruction</th>
+<th style="text-align: left;">Operands</th>
+<th style="text-align: left;">Affected Flags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">andlandl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">notlnotl</td>
+<td style="text-align: left;">R/M</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Performs a logical not on each bit in the operand. Also known as a one's complementone's complement.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">orlorl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rcllrcll</td>
+<td style="text-align: left;">I/CL, R/M</td>
+<td style="text-align: left;">O/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register <em>%cl</em>. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rcrlrcrl</td>
+<td style="text-align: left;">I/CL, R/M</td>
+<td style="text-align: left;">O/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Same as above, but rotates right.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rollroll</td>
+<td style="text-align: left;">I/CL, R/M</td>
+<td style="text-align: left;">O/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rorlrorl</td>
+<td style="text-align: left;">I/CL, R/M</td>
+<td style="text-align: left;">O/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Same as above, but rotates right.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sallsall</td>
+<td style="text-align: left;">I/CL, R/M</td>
+<td style="text-align: left;">C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sarlsarl</td>
+<td style="text-align: left;">I/CL, R/M</td>
+<td style="text-align: left;">C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">shllshll</td>
+<td style="text-align: left;">I/CL, R/M</td>
+<td style="text-align: left;">C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">shrlshrl</td>
+<td style="text-align: left;">I/CL, R/M</td>
+<td style="text-align: left;">C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">testltestl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Does a logical and of both operands and discards the results, but sets the flags accordingly.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xorlxorl</td>
+<td style="text-align: left;">I/R/M, R/M</td>
+<td style="text-align: left;">O/S/Z/A/P/C</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 
 Logic Instructions
 
@@ -8159,30 +8961,105 @@ These are instructions to the assembler and linker, instead of
 instructions to the processor. These are used to help the assembler put
 your code together properly, and make it easier to use.
 
-| Directive                                                                                                                                                                                                                                      | Operands          |
-|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------|
-| .ascii.ascii                                                                                                                                                                                                                                   | QUOTED STRING     |
-| Takes the given quoted string and converts it into byte data.                                                                                                                                                                                  |                   |
-| .byte.byte                                                                                                                                                                                                                                     | VALUES            |
-| Takes a comma-separated list of values and inserts them right there in the program as data.                                                                                                                                                    |                   |
-| .endr.endr                                                                                                                                                                                                                                     |                   |
-| Ends a repeating section defined with `.rept`.                                                                                                                                                                                                 |                   |
-| .equ.equ                                                                                                                                                                                                                                       | LABEL, VALUE      |
-| Sets the given label equivalent to the given value. The value can be a number, a character, or an constant expression that evaluates to a a number or character. From that point on, use of the label will be substituted for the given value. |                   |
-| .globl.globl                                                                                                                                                                                                                                   | LABEL             |
-| Sets the given label as global, meaning that it can be used from separately-compiled object files.                                                                                                                                             |                   |
-| .include.include                                                                                                                                                                                                                               | FILE              |
-| Includes the given file just as if it were typed in right there.                                                                                                                                                                               |                   |
-| .lcomm.lcomm                                                                                                                                                                                                                                   | SYMBOL, SIZE      |
-| This is used in the `.bss` section to specify storage that should be allocated when the program is executed. Defines the symbol with the address where the storage will be located, and makes sure that it is the given number of bytes long.  |                   |
-| .long.long                                                                                                                                                                                                                                     | VALUES            |
-| Takes a sequence of numbers separated by commas, and inserts those numbers as 4-byte words right where they are in the program.                                                                                                                |                   |
-| .rept.rept                                                                                                                                                                                                                                     | COUNT             |
-| Repeats everything between this directive and the `.endr` directives the number of times specified.                                                                                                                                            |                   |
-| .section.section                                                                                                                                                                                                                               | SECTION NAME      |
-| Switches the section that is being worked on. Common sections include `.text` (for code), `.data` (for data embedded in the program itself), and `.bss` (for uninitialized global data).                                                       |                   |
-| .type.type                                                                                                                                                                                                                                     | SYMBOL, @function |
-| Tells the linker that the given symbol is a function.                                                                                                                                                                                          |                   |
+<table>
+<caption>Assembler Directives</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Directive</th>
+<th style="text-align: left;">Operands</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">.ascii.ascii</td>
+<td style="text-align: left;">QUOTED STRING</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Takes the given quoted string and converts it into byte data.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.byte.byte</td>
+<td style="text-align: left;">VALUES</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Takes a comma-separated list of values and inserts them right there in the program as data.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.endr.endr</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ends a repeating section defined with <code>.rept</code>.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.equ.equ</td>
+<td style="text-align: left;">LABEL, VALUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sets the given label equivalent to the given value. The value can be a number, a character, or an constant expression that evaluates to a a number or character. From that point on, use of the label will be substituted for the given value.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.globl.globl</td>
+<td style="text-align: left;">LABEL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sets the given label as global, meaning that it can be used from separately-compiled object files.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.include.include</td>
+<td style="text-align: left;">FILE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Includes the given file just as if it were typed in right there.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.lcomm.lcomm</td>
+<td style="text-align: left;">SYMBOL, SIZE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">This is used in the <code>.bss</code> section to specify storage that should be allocated when the program is executed. Defines the symbol with the address where the storage will be located, and makes sure that it is the given number of bytes long.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.long.long</td>
+<td style="text-align: left;">VALUES</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Takes a sequence of numbers separated by commas, and inserts those numbers as 4-byte words right where they are in the program.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.rept.rept</td>
+<td style="text-align: left;">COUNT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Repeats everything between this directive and the <code>.endr</code> directives the number of times specified.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.section.section</td>
+<td style="text-align: left;">SECTION NAME</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Switches the section that is being worked on. Common sections include <code>.text</code> (for code), <code>.data</code> (for data embedded in the program itself), and <code>.bss</code> (for uninitialized global data).</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">.type.type</td>
+<td style="text-align: left;">SYMBOL, @function</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tells the linker that the given symbol is a function.</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 
 Assembler Directives
 
@@ -8496,11 +9373,29 @@ This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and
 is used by permission in this book. Parameters listed in brackets are
 optional.
 
-| Miscellaneous                            |                                                                                            |
-|:-----------------------------------------|--------------------------------------------------------------------------------------------|
-| quitquit                                 | Exit GDB                                                                                   |
-| helphelp \[cmd\]                         | Print description of debugger command `cmd`. Without `cmd`, prints a list of topics.       |
-| directorydirectory \[dir1\] \[dir2\] ... | Add directories `dir1`, `dir2`, etc. to the list of directories searched for source files. |
+<table>
+<caption>Common GDB Debugging Commands</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Miscellaneous</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">quitquit</td>
+<td>Exit GDB</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">helphelp [cmd]</td>
+<td>Print description of debugger command <code>cmd</code>. Without <code>cmd</code>, prints a list of topics.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">directorydirectory [dir1] [dir2] ...</td>
+<td>Add directories <code>dir1</code>, <code>dir2</code>, etc. to the list of directories searched for source files.</td>
+</tr>
+</tbody>
+</table>
 
 Common GDB Debugging Commands
 
@@ -9111,24 +10006,28 @@ should normally be checked for success or failure. In failure cases,
 are negative, so they can be detected by comparing *%eax* to zero and
 jumping if it is less than zero.
 
-[34] Note that different versions of GCC do this differently.
+[34] A database is a program which handles persistent structured data
+for you. You don't have to write the programs to read and write the data
+to disk, to do lookups, or even to do basic processing. It is a very
+high-level interface to structured data which, although it adds some
+overhead and additional complexity, is very useful for complex data
+processing tasks. References for learning how databases work are listed
+in [Moving On from Here](#moving-on-from-here).
 
-[35] Since these programs are usually short enough not to have
-noticeable performance problems, looping through the program thousands
-of times will exaggerate the time it takes to run enough to make
-calculations.
+[35] If you have used C, this is what the `strlen` function does.
 
-[36] `stdin`, `stdout`, and `stderr` (all lower case) can be used in
-these programs to refer to the files of their corresponding file
-descriptors.
+[36] You will find that after learning the mechanics of programming,
+most programs are pretty straightforward once you know exactly what it
+is you want to do. Most of them initialize data, do some processing in a
+loop, and then clean everything up.
 
-[37] `FILE` is a struct. You don't need to know its contents to use it.
-You only have to store the pointer and pass it to the relevant other
-functions.
+[37] This assumes that you have already built the object files
+`read-record.o` and `write-record.o` in the previous examples. If not,
+you will have to do so.
 
-[38] The function names usually aren't `allocate` and `deallocate`, but
-the functionality will be the same. In the C programming language, for
-example, they are named `malloc` and `free`.
+[38] This is assuming you created the file in a previous run of
+`write-records`. If not, you need to run `write-records` first before
+running this program.
 
 [39] Note that different versions of GCC do this differently.
 

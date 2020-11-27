@@ -1,3 +1,5 @@
+    .code32                   # Generate 32-bit code.
+
     # PURPOSE:  Given a number, this program computes the
     #           factorial.  For example, the factorial of
     #           3 is 3 * 2 * 1, or 6.  The factorial of
@@ -6,7 +8,6 @@
     # This program shows how to call a function recursively.
     # This program has no global data.
     #
-    .code32                   # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start
@@ -28,7 +29,7 @@ _start:
 
     # This is the actual function definition.
     #
-    .type factorial,@function
+    .type  factorial,  @function
 factorial:
     pushl %ebp                # Atandard function stuff - we have to
                               # restore %ebp to its prior state before

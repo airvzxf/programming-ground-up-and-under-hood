@@ -1,3 +1,5 @@
+    .code32                          # Generate 32-bit code.
+
     # PURPOSE:  This program finds the maximum number of a
     #           set of data items.
     #
@@ -11,7 +13,6 @@
     #     data_items - contains the item data.  A 0 is used
     #                  to terminate the data.
     #
-    .code32                          # Compile this code as 32-bits.
     .section .data
 data_items:                          # These are the data items.
     .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0

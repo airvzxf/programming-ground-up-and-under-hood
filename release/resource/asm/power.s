@@ -1,3 +1,5 @@
+    .code32                   # Generate 32-bit code.
+
     # PURPOSE:  Program to illustrate how functions work.
     #           This program will compute the value of
     #           2^3 + 5^2
@@ -5,7 +7,6 @@
     # Everything in the main program is stored in registers,
     # so the data section doesn't have anything.
     #
-    .code32                   # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start
@@ -51,7 +52,7 @@ _start:
     #     -4(%ebp) - holds the current result.
     #     %eax is used for temporary storage.
     #
-    .type power, @function
+    .type  power,  @function
 power:
     pushl %ebp                # Save old base pointer.
     movl  %esp, %ebp          # Make stack pointer the base pointer.

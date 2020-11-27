@@ -1,3 +1,5 @@
+    .code32            # Generate 32-bit code.
+
     # PURPOSE:    Simple program that exits and returns a
     #             status code back to the Linux kernel.
     #
@@ -10,7 +12,6 @@
     #             %eax holds the system call number.
     #             %ebx holds the return status .
     #
-    .code32            # Compile this code as 32-bits.
     .section .data
     .section .text
     .globl _start
