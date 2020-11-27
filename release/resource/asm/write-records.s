@@ -8,7 +8,7 @@
         # Constant data of the records we want to write. Each text data
         # item is padded to the proper length with null (i.e. 0) bytes.
         #
-        # `.rept` is used to pad each item.  it tells the assembler to
+        # `.rept` is used to pad each item.  It tells the assembler to
         # repeat the section between `.rept` and `.endr` the number of
         # times specified. This is used in this program to add extra null
         # characters at the end of each field to fill it up.

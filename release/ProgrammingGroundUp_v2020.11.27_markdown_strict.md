@@ -2985,8 +2985,8 @@ explanation of the program will follow.
 Type in this program as `toupper-nomm-simplified.s`, and then enter in
 the following commands:
 
-    as toupper-nomm-simplified.s -o toupper.o
-    ld toupper.o -o toupper
+    as toupper-nomm-simplified.s  -o toupper.o
+    ld toupper.o  -o toupper
 
 This builds a program called `toupper`, which converts all of the
 lowercase characters in a file to uppercase. For example, to convert the
@@ -3340,7 +3340,7 @@ basically need:
 
 -   The file descriptor that we want to read from or write to.
 
-Let's look at our reading function first:
+Let's look at our reading function first in `read-records.s`:
 
         .code32                             # Generate 32-bit code.
         .include "linux.s"                  # Common Linux Definitions.
@@ -3383,7 +3383,7 @@ Let's look at our reading function first:
 
 It's a pretty simple function. It just reads data the size of our
 structure into an appropriately sized buffer from the given file
-descriptor. The writing one is similar:
+descriptor. The writing one is similar in `write-record.s`:
 
         .code32                             # Generate 32-bit code.
         .include "linux.s"                  # Common Linux Definitions.
@@ -3450,7 +3450,7 @@ Type the following code into a file called `write-records.s`: .rept
             # Constant data of the records we want to write. Each text data
             # item is padded to the proper length with null (i.e. 0) bytes.
             #
-            # `.rept` is used to pad each item.  it tells the assembler to
+            # `.rept` is used to pad each item.  It tells the assembler to
             # repeat the section between `.rept` and `.endr` the number of
             # times specified. This is used in this program to add extra null
             # characters at the end of each field to fill it up.
@@ -3792,10 +3792,10 @@ Now we are ready to write the main program. Here is the code to
 To build this program, we need to assemble all of the parts and link
 them together:
 
-    as read-record.s   -o read-record.o
-    as count-chars.s   -o count-chars.o
-    as write-newline.s -o write-newline.o
-    as read-records.s  -o read-records.o
+    as read-record.s    -o read-record.o
+    as count-chars.s    -o count-chars.o
+    as write-newline.s  -o write-newline.o
+    as read-records.s   -o read-records.o
     ld read-record.o count-chars.o write-newline.o read-records.o \
          -o read-records
 
@@ -3837,8 +3837,8 @@ In this section, we will write a program that:
 
 -   Writes the new record to the output file.
 
-Like most programs we've encountered recently, this program is pretty
-straightforward.[36]
+Like most programs we've encountered recently, this program `add-year.s`
+is pretty straightforward.[36]
 
         .code32                             # Generate 32-bit code.
         .include "linux.s"                  # Common Linux Definitions.

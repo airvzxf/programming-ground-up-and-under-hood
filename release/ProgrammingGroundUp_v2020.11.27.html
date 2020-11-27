@@ -1381,8 +1381,8 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb67-227"><a href="#cb67-227" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
 <span id="cb67-228"><a href="#cb67-228" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
 <p>Type in this program as <code>toupper-nomm-simplified.s</code>, and then enter in the following commands:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> toupper-nomm-simplified.s -o toupper.o</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> toupper.o -o toupper</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> toupper-nomm-simplified.s  -o toupper.o</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> toupper.o  -o toupper</span></code></pre></div>
 <p>This builds a program called <code>toupper</code>, which converts all of the lowercase characters in a file to uppercase. For example, to convert the file <code>toupper.s</code> to uppercase, type in the following command:</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./toupper</span> toupper-nomm-simplified.s toupper.uppercase</span></code></pre></div>
 <p>You will now find in the file <code>toupper.uppercase</code> an uppercase version of your original file.</p>
@@ -1502,7 +1502,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>The location of a buffer that we can read a record into.</p></li>
 <li><p>The file descriptor that we want to read from or write to.</p></li>
 </ul>
-<p>Let's look at our reading function first:</p>
+<p>Let's look at our reading function first in <code>read-records.s</code>:</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;linux.s&quot;</span>                  <span class="co"># Common Linux Definitions.</span></span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;record-def.s&quot;</span>             <span class="co"># Record definitions.</span></span>
@@ -1541,7 +1541,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb76-36"><a href="#cb76-36" aria-hidden="true" tabindex="-1"></a>    movl  %ebp, %esp</span>
 <span id="cb76-37"><a href="#cb76-37" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
 <span id="cb76-38"><a href="#cb76-38" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
-<p>It's a pretty simple function. It just reads data the size of our structure into an appropriately sized buffer from the given file descriptor. The writing one is similar:</p>
+<p>It's a pretty simple function. It just reads data the size of our structure into an appropriately sized buffer from the given file descriptor. The writing one is similar in <code>write-record.s</code>:</p>
 <div class="sourceCode" id="cb77"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;linux.s&quot;</span>                  <span class="co"># Common Linux Definitions.</span></span>
 <span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;record-def.s&quot;</span>             <span class="co"># Record definitions.</span></span>
@@ -1598,7 +1598,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Constant data of the records we want to write. Each text data</span></span>
 <span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># item is padded to the proper length with null (i.e. 0) bytes.</span></span>
 <span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
-<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># `.rept` is used to pad each item.  it tells the assembler to</span></span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># `.rept` is used to pad each item.  It tells the assembler to</span></span>
 <span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># repeat the section between `.rept` and `.endr` the number of</span></span>
 <span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># times specified. This is used in this program to add extra null</span></span>
 <span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># characters at the end of each field to fill it up.</span></span>
@@ -1880,10 +1880,10 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-78"><a href="#cb84-78" aria-hidden="true" tabindex="-1"></a>    movl   $0, %ebx</span>
 <span id="cb84-79"><a href="#cb84-79" aria-hidden="true" tabindex="-1"></a>    int    $LINUX_SYSCALL</span></code></pre></div>
 <p>To build this program, we need to assemble all of the parts and link them together:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> read-record.s   -o read-record.o</span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> count-chars.s   -o count-chars.o</span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> write-newline.s -o write-newline.o</span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> read-records.s  -o read-records.o</span>
+<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> read-record.s    -o read-record.o</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> count-chars.s    -o count-chars.o</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> write-newline.s  -o write-newline.o</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> read-records.s   -o read-records.o</span>
 <span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> read-record.o count-chars.o write-newline.o read-records.o <span class="kw">\</span></span>
 <span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>     <span class="ex">-o</span> read-records</span></code></pre></div>
 <p>The backslash in the first line simply means that the command continues on the next line. You can run your program by doing <code>./read-records</code>.</p>
@@ -1899,7 +1899,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>Increments the age.</p></li>
 <li><p>Writes the new record to the output file.</p></li>
 </ul>
-<p>Like most programs we've encountered recently, this program is pretty straightforward.<a href="#fn36" class="footnote-ref" id="fnref36" role="doc-noteref"><sup>36</sup></a></p>
+<p>Like most programs we've encountered recently, this program <code>add-year.s</code> is pretty straightforward.<a href="#fn36" class="footnote-ref" id="fnref36" role="doc-noteref"><sup>36</sup></a></p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;linux.s&quot;</span>                  <span class="co"># Common Linux Definitions.</span></span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;record-def.s&quot;</span>             <span class="co"># Record definitions.</span></span>
