@@ -397,9 +397,9 @@
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># the exit command.</span></span></code></pre></div>
 <p>What you have typed in is called the <em>source code</em>. Source code is the human-readable form of a program. In order to transform it into a program that a computer can run, we need to <em>assemble</em> and <em>link</em> it.</p>
 <p>The first step is to <em>assemble</em> it. Assembling is the process that transforms what you typed into instructions for the machine. The machine itself only reads sets of numbers, but humans prefer words. An <em>assembly language</em> is a more human-readable form of the instructions a computer understands. Assembling transforms the human-readable file into a machine-readable one. To assembly the program type in the command:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> exit.s -o exit.o</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o exit.o  exit.s</span></code></pre></div>
 <p><code>as</code> is the command which runs the assembler, <code>exit.s</code> is the source file, and <code>-o exit.o</code> tells the assemble to put its output in the file <code>exit.o</code>. <code>exit.o</code> is an <em>object file</em>. An object file is code that is in the machine's language, but has not been completely put together. In most large programs, you will have several source files, and you will convert each one into an object file. The <em>linker</em> is the program that is responsible for putting the object files together and adding information to it so that the kernel knows how to load and run it. In our case, we only have one object file, so the linker is only adding the information to enable it to run. To <em>link</em> the file, enter the command:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> exit.o -o exit</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o exit  exit.o</span></code></pre></div>
 <p><code>ld</code> is the command to run the linker, <code>exit.o</code> is the object file we want to link, and <code>-o exit</code> instructs the linker to output the new program into a file called <code>exit</code>.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> If any of these commands reported errors, you have either mistyped your program or the command. After correcting the program, you have to re-run all the commands. <em>You must always re-assemble and re-link programs after you modify the source file for the changes to occur in the program</em>. You can run <code>exit</code> by typing in the command:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./exit</span></span></code></pre></div>
 <p>The <code>./</code> is used to tell the computer that the program isn't in one of the normal program directories, but is the current directory instead<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. You'll notice when you type this command, the only thing that happens is that you'll go to the next line. That's because this program does nothing but exit. However, immediately after you run the program, if you type in:</p>
@@ -535,8 +535,8 @@
 <span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>        movl $1, %eax                <span class="co"># exit() syscall.</span></span>
 <span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>        int  $0x80</span></code></pre></div>
 <p>Now, assemble and link it with these commands:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> maximum.s -o maximum.o</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> maximum.o -o maximum</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o maximum.o  maximum.s</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o maximum    maximum.o</span></code></pre></div>
 <p>Now run it, and check its status.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./maximum</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$?</span></span></code></pre></div>
@@ -1016,8 +1016,8 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb50-61"><a href="#cb50-61" aria-hidden="true" tabindex="-1"></a>    ret                       <span class="co"># return from the function (this pops the</span></span>
 <span id="cb50-62"><a href="#cb50-62" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># return value, too).</span></span></code></pre></div>
 <p>Assemble, link, and run it with these commands:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> factorial.s -o factorial.o</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> factorial.o -o factorial</span>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o factorial.o  factorial.s</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o factorial    factorial.o</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./factorial</span></span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$?</span></span></code></pre></div>
 <p>This should give you the value 24. 24 is the factorial of 4, you can test it out yourself with a calculator: 4 * 3 * 2 * 1 = 24.</p>
@@ -1381,8 +1381,8 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb67-227"><a href="#cb67-227" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
 <span id="cb67-228"><a href="#cb67-228" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
 <p>Type in this program as <code>toupper.s</code>, and then enter in the following commands:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> toupper.s  -o toupper.o</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> toupper.o  -o toupper</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o toupper.o  toupper.s</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o toupper    toupper.o</span></code></pre></div>
 <p>This builds a program called <code>toupper</code>, which converts all of the lowercase characters in a file to uppercase. For example, to convert the file <code>toupper.s</code> to uppercase, type in the following command:</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./toupper</span> toupper.s toupper.uppercase</span></code></pre></div>
 <p>You will now find in the file <code>toupper.uppercase</code> an uppercase version of your original file.</p>
@@ -1708,9 +1708,9 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>These statements cause the given files to basically be pasted right there in the code. You don't need to do this with functions, because the linker can take care of combining functions exported with <code>.globl</code>. However, constants defined in another file do need to be imported in this way.</p>
 <p>Also, you may have noticed the use of a new assembler directive, <code>.rept</code>. This directive repeats the contents of the file between the <code>.rept</code> and the <code>.endr</code> directives the number of times specified after <code>.rept</code>. This is usually used the way we used it - to pad values in the <code>.data</code> section. In our case, we are adding null characters to the end of each field until they are their defined lengths.</p>
 <p>To build the application, run the commands:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> write-records.s  -o write-records.o</span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> write-record.s   -o write-record.o</span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> write-record.o write-records.o  -o write-records</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o write-records.o  write-records.s</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o write-record.o   write-record.s</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o write-records    write-record.o write-records.o</span></code></pre></div>
 <p>Here we are assembling two files separately, and then combining them together using the linker. To run the program, just type the following:</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./write-records</span></span></code></pre></div>
 <p>This will cause a file called <code>test.dat</code> to be created containing the records. However, since they contain non-printable characters (the null character, specifically), they may not be viewable by a text editor. Therefore we need the next program to read them for us.</p>
@@ -1718,49 +1718,51 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>Now we will consider the process of reading records. In this program, we will read each record and display the first name listed with each record.</p>
 <p>Since each person's name is a different length, we will need a function to count the number of characters we want to write. Since we pad each field with null characters, we can simply count characters until we reach a null character.<a href="#fn35" class="footnote-ref" id="fnref35" role="doc-noteref"><sup>35</sup></a> Note that this means our records must contain at least one null character each.</p>
 <p>Here is the code. Put it in a file called <code>count-chars.s</code>:</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  Count the characters until a null byte is reached.</span></span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># INPUT:    The address of the character string.</span></span>
+<div class="sourceCode" id="cb82"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                            <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  Count the characters until a null byte is reached.</span></span>
 <span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OUTPUT:   Returns the count in %eax.</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># INPUT:    The address of the character string.</span></span>
 <span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PROCESS:</span></span>
-<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           Registers used:</span></span>
-<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#               %ecx - character count.</span></span>
-<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#               %al  - current character.</span></span>
-<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#               %edx - current character address.</span></span>
-<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> count_chars</span>
-<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.type</span>  count_chars,  <span class="co">@function</span></span>
-<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> ST_STRING_START_ADDRESS,  <span class="dv">8</span>    <span class="co"># The parameter is on the stack.</span></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OUTPUT:   Returns the count in %eax.</span></span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PROCESS:</span></span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           Registers used:</span></span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#               %ecx - character count.</span></span>
+<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#               %al  - current character.</span></span>
+<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#               %edx - current character address.</span></span>
+<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> count_chars</span>
+<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.type</span>  count_chars,  <span class="co">@function</span></span>
 <span id="cb82-17"><a href="#cb82-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-18"><a href="#cb82-18" aria-hidden="true" tabindex="-1"></a><span class="kw">count_chars:</span></span>
-<span id="cb82-19"><a href="#cb82-19" aria-hidden="true" tabindex="-1"></a>    pushl %ebp</span>
-<span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
-<span id="cb82-21"><a href="#cb82-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-22"><a href="#cb82-22" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ecx                      <span class="co"># Counter starts at zero.</span></span>
+<span id="cb82-18"><a href="#cb82-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> ST_STRING_START_ADDRESS,  <span class="dv">8</span>    <span class="co"># The parameter is on the stack.</span></span>
+<span id="cb82-19"><a href="#cb82-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a><span class="kw">count_chars:</span></span>
+<span id="cb82-21"><a href="#cb82-21" aria-hidden="true" tabindex="-1"></a>    pushl %ebp</span>
+<span id="cb82-22"><a href="#cb82-22" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
 <span id="cb82-23"><a href="#cb82-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-24"><a href="#cb82-24" aria-hidden="true" tabindex="-1"></a>    movl  ST_STRING_START_ADDRESS(%ebp), %edx  <span class="co"># Starting address of data.</span></span>
+<span id="cb82-24"><a href="#cb82-24" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ecx                      <span class="co"># Counter starts at zero.</span></span>
 <span id="cb82-25"><a href="#cb82-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-26"><a href="#cb82-26" aria-hidden="true" tabindex="-1"></a><span class="kw">count_loop_begin:</span></span>
-<span id="cb82-27"><a href="#cb82-27" aria-hidden="true" tabindex="-1"></a>    movb  (%edx), %al                   <span class="co"># Grab the current character.</span></span>
-<span id="cb82-28"><a href="#cb82-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-29"><a href="#cb82-29" aria-hidden="true" tabindex="-1"></a>    cmpb  $0, %al                       <span class="co"># Is it null?</span></span>
-<span id="cb82-30"><a href="#cb82-30" aria-hidden="true" tabindex="-1"></a>    je    count_loop_end                <span class="co"># If yes, we&#39;re done.</span></span>
-<span id="cb82-31"><a href="#cb82-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-32"><a href="#cb82-32" aria-hidden="true" tabindex="-1"></a>    incl  %ecx                          <span class="co"># Otherwise, increment the counter</span></span>
-<span id="cb82-33"><a href="#cb82-33" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># and the pointer.</span></span>
-<span id="cb82-34"><a href="#cb82-34" aria-hidden="true" tabindex="-1"></a>    incl  %edx</span>
-<span id="cb82-35"><a href="#cb82-35" aria-hidden="true" tabindex="-1"></a>    jmp   count_loop_begin              <span class="co"># Go back to the beginning of the</span></span>
-<span id="cb82-36"><a href="#cb82-36" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># loop.</span></span>
-<span id="cb82-37"><a href="#cb82-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-38"><a href="#cb82-38" aria-hidden="true" tabindex="-1"></a><span class="kw">count_loop_end:</span></span>
-<span id="cb82-39"><a href="#cb82-39" aria-hidden="true" tabindex="-1"></a>    movl  %ecx, %eax                    <span class="co"># We&#39;re done.  Move the count into</span></span>
-<span id="cb82-40"><a href="#cb82-40" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># %eax and return.</span></span>
-<span id="cb82-41"><a href="#cb82-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-42"><a href="#cb82-42" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
-<span id="cb82-43"><a href="#cb82-43" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
+<span id="cb82-26"><a href="#cb82-26" aria-hidden="true" tabindex="-1"></a>    movl  ST_STRING_START_ADDRESS(%ebp), %edx  <span class="co"># Starting address of data.</span></span>
+<span id="cb82-27"><a href="#cb82-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-28"><a href="#cb82-28" aria-hidden="true" tabindex="-1"></a><span class="kw">count_loop_begin:</span></span>
+<span id="cb82-29"><a href="#cb82-29" aria-hidden="true" tabindex="-1"></a>    movb  (%edx), %al                   <span class="co"># Grab the current character.</span></span>
+<span id="cb82-30"><a href="#cb82-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-31"><a href="#cb82-31" aria-hidden="true" tabindex="-1"></a>    cmpb  $0, %al                       <span class="co"># Is it null?</span></span>
+<span id="cb82-32"><a href="#cb82-32" aria-hidden="true" tabindex="-1"></a>    je    count_loop_end                <span class="co"># If yes, we&#39;re done.</span></span>
+<span id="cb82-33"><a href="#cb82-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-34"><a href="#cb82-34" aria-hidden="true" tabindex="-1"></a>    incl  %ecx                          <span class="co"># Otherwise, increment the counter</span></span>
+<span id="cb82-35"><a href="#cb82-35" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># and the pointer.</span></span>
+<span id="cb82-36"><a href="#cb82-36" aria-hidden="true" tabindex="-1"></a>    incl  %edx</span>
+<span id="cb82-37"><a href="#cb82-37" aria-hidden="true" tabindex="-1"></a>    jmp   count_loop_begin              <span class="co"># Go back to the beginning of the</span></span>
+<span id="cb82-38"><a href="#cb82-38" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># loop.</span></span>
+<span id="cb82-39"><a href="#cb82-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-40"><a href="#cb82-40" aria-hidden="true" tabindex="-1"></a><span class="kw">count_loop_end:</span></span>
+<span id="cb82-41"><a href="#cb82-41" aria-hidden="true" tabindex="-1"></a>    movl  %ecx, %eax                    <span class="co"># We&#39;re done.  Move the count into</span></span>
+<span id="cb82-42"><a href="#cb82-42" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># %eax and return.</span></span>
+<span id="cb82-43"><a href="#cb82-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-44"><a href="#cb82-44" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
+<span id="cb82-45"><a href="#cb82-45" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
 <p>As you can see, it's a fairly straightforward function. It simply loops through the bytes, counting as it goes, until it hits a null character. Then it returns the count.</p>
 <p>Our record-reading program will be fairly straightforward, too. It will do the following:</p>
 <ul>
@@ -1880,12 +1882,12 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-78"><a href="#cb84-78" aria-hidden="true" tabindex="-1"></a>    movl   $0, %ebx</span>
 <span id="cb84-79"><a href="#cb84-79" aria-hidden="true" tabindex="-1"></a>    int    $LINUX_SYSCALL</span></code></pre></div>
 <p>To build this program, we need to assemble all of the parts and link them together:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> read-record.s    -o read-record.o</span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> count-chars.s    -o count-chars.o</span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> write-newline.s  -o write-newline.o</span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> read-records.s   -o read-records.o</span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> read-record.o count-chars.o write-newline.o read-records.o <span class="kw">\</span></span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>     <span class="ex">-o</span> read-records</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o read-record.o    read-record.s</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o count-chars.o    count-chars.s</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o write-newline.o  write-newline.s</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o read-records.o   read-records.s</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o read-records     read-record.o count-chars.o <span class="kw">\</span></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>                       <span class="ex">write-newline.o</span> read-records.o</span></code></pre></div>
 <p>The backslash in the first line simply means that the command continues on the next line. You can run your program by doing <code>./read-records</code>.</p>
 <p>As you can see, this program opens the file and then runs a loop of reading, checking for the end of file, and writing the firstname. The one construct that might be new is the line that says:</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>pushl  $RECORD_FIRSTNAME + record_buffer</span></code></pre></div>
@@ -1968,8 +1970,8 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb87-66"><a href="#cb87-66" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ebx</span>
 <span id="cb87-67"><a href="#cb87-67" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span></code></pre></div>
 <p>You can type it in as <code>add-year.s</code>. To build it, type the following<a href="#fn37" class="footnote-ref" id="fnref37" role="doc-noteref"><sup>37</sup></a>:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> add-year.s  -o add-year.o</span>
-<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> add-year.o read-record.o write-record.o  -o add-year</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o add-year.o  add-year.s</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o add-year    add-year.o read-record.o write-record.o</span></code></pre></div>
 <p>To run the program, just type in the following<a href="#fn38" class="footnote-ref" id="fnref38" role="doc-noteref"><sup>38</sup></a>:</p>
 <div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./add-year</span></span></code></pre></div>
 <p>This will add a year to every record listed in <code>test.dat</code> and write the new records to the file <code>testout.dat</code>.</p>
@@ -1999,7 +2001,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>Write a function called <code>compare-strings</code> that will compare two strings up to 5 characters. Then write a program that allows the user to enter 5 characters, and have the program return all records whose first name starts with those 5 characters.</p></li>
 </ul>
 <h1 id="chapter-7.-developing-robust-programs">Chapter 7. Developing Robust Programs</h1>
-<p>This chapter deals with developing programs that are <em>robustrobust</em>. Robust programs are able to handle error conditionserror conditions gracefully. They are programs that do not crash no matter what the user does. Building robust programs is essential to the practice of programming. Writing robust programs takes discipline and work - it usually entails finding every possible problem that can occur, and coming up with an action plan for your program to take.</p>
+<p>This chapter deals with developing programs that are <em>robust</em>. Robust programs are able to handle error conditions gracefully. They are programs that do not crash no matter what the user does. Building robust programs is essential to the practice of programming. Writing robust programs takes discipline and work - it usually entails finding every possible problem that can occur, and coming up with an action plan for your program to take.</p>
 <h2 id="where-does-the-time-go">Where Does the Time Go?</h2>
 <p>Programmers schedule poorly. In almost every programming project, programmers will take two, four, or even eight times as long to develop a program or function than they originally estimated. There are many reasons for this problem, including:</p>
 <ul>
@@ -2009,89 +2011,124 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>Programmers often have to estimate a schedule on a totally different kind of project than they are used to, and thus are unable to schedule accurately.</p></li>
 <li><p>Programmers often underestimate the amount of time it takes to get a program fully robust.</p></li>
 </ul>
-<p>The last item is the one we are interested in here. <em>It takes a lot of time and effort to develop robustrobust programs.</em> More so than people usually guess, including experienced programmers. Programmers get so focused on simply solving the problem at hand that they fail to look at the possible side issues.</p>
-<p>In the <code>toupper</code> program, we do not have any course of action if the file the user selects does not exist. The program will go ahead and try to work anyway. It doesn't report any error message so the user won't even know that they typed in the name wrong. Let's say that the destination file is on a network drive, and the network temporarily fails. The operating system is returning a status codestatus code to us in <em>%eax</em>, but we aren't checking it. Therefore, if a failure occurs, the user is totally unaware. This program is definitely not robust. As you can see, even in a simple program there are a lot of things that can go wrong that a programmer must contend with.</p>
-<p>In a large program, it gets much more problematic. There are usually many more possible error conditionserror conditions than possible successful conditions. Therefore, you should always expect to spend the majority of your time checking status codes, writing error handlers, and performing similar tasks to make your program robust. If it takes two weeks to develop a program, it will likely take at least two more to make it robustrobust. Remember that every error message that pops up on your screen had to be programmed in by someone.</p>
+<p>The last item is the one we are interested in here. <em>It takes a lot of time and effort to develop robust programs.</em> More so than people usually guess, including experienced programmers. Programmers get so focused on simply solving the problem at hand that they fail to look at the possible side issues.</p>
+<p>In the <code>toupper</code> program, we do not have any course of action if the file the user selects does not exist. The program will go ahead and try to work anyway. It doesn't report any error message so the user won't even know that they typed in the name wrong. Let's say that the destination file is on a network drive, and the network temporarily fails. The operating system is returning a status code to us in <em>%eax</em>, but we aren't checking it. Therefore, if a failure occurs, the user is totally unaware. This program is definitely not robust. As you can see, even in a simple program there are a lot of things that can go wrong that a programmer must contend with.</p>
+<p>In a large program, it gets much more problematic. There are usually many more possible error conditions than possible successful conditions. Therefore, you should always expect to spend the majority of your time checking status codes, writing error handlers, and performing similar tasks to make your program robust. If it takes two weeks to develop a program, it will likely take at least two more to make it robust. Remember that every error message that pops up on your screen had to be programmed in by someone.</p>
 <h2 id="some-tips-for-developing-robust-programs">Some Tips for Developing Robust Programs</h2>
 <h3 id="user-testing">User Testing</h3>
-<p>Testingtesting is one of the most essential things a programmer does. If you haven't tested something, you should assume it doesn't work. However, testing isn't just about making sure your program works, it's about making sure your program doesn't break. For example, if I have a program that is only supposed to deal with positive numbers, you need to test what happens if the user enters a negative number. Or a letter. Or the number zero. You must test what happens if they put spaces before their numbers, spaces after their numbers, and other little possibilities. You need to make sure that you handle the user's data in a way that makes sense to the user, and that you pass on that data in a way that makes sense to the rest of your program. When your program finds input that doesn't make sense, it needs to perform appropriate actions. Depending on your program, this may include ending the program, prompting the user to re-enter values, notifying a central error log, rolling back an operation, or ignoring it and continuing.</p>
+<p>Testing is one of the most essential things a programmer does. If you haven't tested something, you should assume it doesn't work. However, testing isn't just about making sure your program works, it's about making sure your program doesn't break. For example, if I have a program that is only supposed to deal with positive numbers, you need to test what happens if the user enters a negative number. Or a letter. Or the number zero. You must test what happens if they put spaces before their numbers, spaces after their numbers, and other little possibilities. You need to make sure that you handle the user's data in a way that makes sense to the user, and that you pass on that data in a way that makes sense to the rest of your program. When your program finds input that doesn't make sense, it needs to perform appropriate actions. Depending on your program, this may include ending the program, prompting the user to re-enter values, notifying a central error log, rolling back an operation, or ignoring it and continuing.</p>
 <p>Not only should you test your programs, you need to have others test it as well. You should enlist other programmers and users of your program to help you test your program. If something is a problem for your users, even if it seems okay to you, it needs to be fixed. If the user doesn't know how to use your program correctly, that should be treated as a bug that needs to be fixed.</p>
-<p>You will find that users find a lot more bugs in your program than you ever could. The reason is that users don't know what the computer expects. You know what kinds of data the computer expects, and therefore are much more likely to enter data that makes sense to the computer. Users enter data that makes sense to them. Allowing non-programmers to use your program for testingtesting purposes usually gives you much more accurate results as to how robustrobust your program truly is.</p>
+<p>You will find that users find a lot more bugs in your program than you ever could. The reason is that users don't know what the computer expects. You know what kinds of data the computer expects, and therefore are much more likely to enter data that makes sense to the computer. Users enter data that makes sense to them. Allowing non-programmers to use your program for testing purposes usually gives you much more accurate results as to how robust your program truly is.</p>
 <h3 id="data-testing">Data Testing</h3>
-<p>When designing programs, each of your functions needs to be very specific about the type and range of data that it will or won't accept. You then need to test these functions to make sure that they perform to specification when handed the appropriate data. Most important is testing <em>corner casescorner cases</em> or <em>edge casesedge cases</em>. Corner cases are the inputs that are most likely to cause problems or behave unexpectedly.</p>
+<p>When designing programs, each of your functions needs to be very specific about the type and range of data that it will or won't accept. You then need to test these functions to make sure that they perform to specification when handed the appropriate data. Most important is testing <em>corner cases</em> or <em>edge cases</em>. Corner cases are the inputs that are most likely to cause problems or behave unexpectedly.</p>
 <p>When testing numeric data, there are several corner cases you always need to test:</p>
 <ul>
-<li><p>The number 0</p></li>
-<li><p>The number 1</p></li>
-<li><p>A number within the expected range</p></li>
-<li><p>A number outside the expected range</p></li>
-<li><p>The first number in the expected range</p></li>
-<li><p>The last number in the expected range</p></li>
-<li><p>The first number below the expected range</p></li>
-<li><p>The first number above the expected range</p></li>
+<li><p>The number 0.</p></li>
+<li><p>The number 1.</p></li>
+<li><p>A number within the expected range.</p></li>
+<li><p>A number outside the expected range.</p></li>
+<li><p>The first number in the expected range.</p></li>
+<li><p>The last number in the expected range.</p></li>
+<li><p>The first number below the expected range.</p></li>
+<li><p>The first number above the expected range.</p></li>
 </ul>
 <p>For example, if I have a program that is supposed to accept values between 5 and 200, I should test 0, 1, 4, 5, 153, 200, 201, and 255 at a minimum (153 and 255 were randomly chosen inside and outside the range, respectively). The same goes for any lists of data you have. You need to test that your program behaves as expected for lists of 0 items, 1 item, massive numbers of items, and so on. In addition, you should also test any turning points you have. For example, if you have different code to handle people under and over age 30, for example, you would need to test it on people of ages 29, 30, and 31 at least.</p>
-<p>There will be some internal functions that you assume get good data because you have checked for errors before this point. However, while in development you often need to check for errors anyway, as your other code may have errors in it. To verify the consistency and validity of data during development, most languages have a facility to easily check assumptions about data correctness. In the C language there is the <code>assertassert</code> macro. You can simply put in your code <code>assert(a &gt; b);</code>, and it will give an error if it reaches that code when the condition is not true. In addition, since such a check is a waste of time after your code is stable, the <code>assert</code> macro allows you to turn off asserts at compile-time. This makes sure that your functions are receiving good data without causing unnecessary slowdowns for code released to the public.</p>
+<p>There will be some internal functions that you assume get good data because you have checked for errors before this point. However, while in development you often need to check for errors anyway, as your other code may have errors in it. To verify the consistency and validity of data during development, most languages have a facility to easily check assumptions about data correctness. In the C language there is the <code>assert</code> macro. You can simply put in your code <code>assert(a &gt; b);</code>, and it will give an error if it reaches that code when the condition is not true. In addition, since such a check is a waste of time after your code is stable, the <code>assert</code> macro allows you to turn off asserts at compile-time. This makes sure that your functions are receiving good data without causing unnecessary slowdowns for code released to the public.</p>
 <h3 id="module-testing">Module Testing</h3>
 <p>Not only should you test your program as a whole, you need to test the individual pieces of your program. As you develop your program, you should test individual functions by providing it with data you create to make sure it responds appropriately.</p>
-<p>In order to do this effectively, you have to develop functions whose sole purpose is to call functions for testing. These are called <em>driversdrivers</em> (not to be confused with hardware drivers) . They simply load your function, supply it with data, and check the results. This is especially useful if you are working on pieces of an unfinished program. Since you can't test all of the pieces together, you can create a driver program that will test each function individually.</p>
-<p>Also, the code you are testing may make calls to functions not developed yet. In order to overcome this problem, you can write a small function called a <em>stubstub</em> which simply returns the values that function needs to proceed. For example, in an e-commerce application, I had a function called <code>is_ready_to_checkout</code>. Before I had time to actually write the function I just set it to return true on every call so that the functions which relied on it would have an answer. This allowed me to test functions which relied on <code>is_ready_to_checkout</code> without the function being fully implemented.</p>
-<h2 id="handlingerrors">Handling Errors Effectively</h2>
+<p>In order to do this effectively, you have to develop functions whose sole purpose is to call functions for testing. These are called <em>drivers</em> (not to be confused with hardware drivers) . They simply load your function, supply it with data, and check the results. This is especially useful if you are working on pieces of an unfinished program. Since you can't test all of the pieces together, you can create a driver program that will test each function individually.</p>
+<p>Also, the code you are testing may make calls to functions not developed yet. In order to overcome this problem, you can write a small function called a <em>stub</em> which simply returns the values that function needs to proceed. For example, in an e-commerce application, I had a function called <code>is_ready_to_checkout</code>. Before I had time to actually write the function I just set it to return true on every call so that the functions which relied on it would have an answer. This allowed me to test functions which relied on <code>is_ready_to_checkout</code> without the function being fully implemented.</p>
+<h2 id="handling-errors-effectively">Handling Errors Effectively</h2>
 <p>Not only is it important to know how to test, but it is also important to know what to do when an error is detected.</p>
 <h3 id="have-an-error-code-for-everything">Have an Error Code for Everything</h3>
-<p>Truly robust software has a unique error code for every possible contingency. By simply knowing the error codeerror code, you should be able to find the location in your code where that error was signalled.</p>
+<p>Truly robust software has a unique error code for every possible contingency. By simply knowing the error code, you should be able to find the location in your code where that error was signalled.</p>
 <p>This is important because the error code is usually all the user has to go on when reporting errors. Therefore, it needs to be as useful as possible.</p>
-<p>Error codes should also be accompanied by descriptive error messages. error messages However, only in rare circumstances should the error message try to predict <em>why</em> the error occurred. It should simply relate what happened. Back in 1995 I worked for an Internet Service Provider. One of the web browsers we supported tried to guess the cause for every network error, rather than just reporting the error. If the computer wasn't connected to the Internet and the user tried to connect to a website, it would say that there was a problem with the Internet Service Provider, that the server was down, and that the user should contact their Internet Service Provider to correct the problem. Nearly a quarter of our calls were from people who had received this message, but merely needed to connect to the Internet before trying to use their browser. As you can see, trying to diagnose what the problem is can lead to a lot more problems than it fixes. It is better to just report error codes and messages, and have separate resources for the user to troubleshooting the application. A troubleshooting guide, not the program itself, is an appropriate place to list possible reasons and courses for action for each error message.</p>
+<p>Error codes should also be accompanied by descriptive error messages. However, only in rare circumstances should the error message try to predict <em>why</em> the error occurred. It should simply relate what happened. Back in 1995 I worked for an Internet Service Provider. One of the web browsers we supported tried to guess the cause for every network error, rather than just reporting the error. If the computer wasn't connected to the Internet and the user tried to connect to a website, it would say that there was a problem with the Internet Service Provider, that the server was down, and that the user should contact their Internet Service Provider to correct the problem. Nearly a quarter of our calls were from people who had received this message, but merely needed to connect to the Internet before trying to use their browser. As you can see, trying to diagnose what the problem is can lead to a lot more problems than it fixes. It is better to just report error codes and messages, and have separate resources for the user to troubleshooting the application. A troubleshooting guide, not the program itself, is an appropriate place to list possible reasons and courses for action for each error message.</p>
 <h3 id="recovery-points">Recovery Points</h3>
-<p>In order to simplify error handling, it is often useful to break your program apart into distinct units, where each unit fails and is recovered as a whole. For example, you could break your program up so that reading the configuration file was a unit. If reading the configuration file failed at any point (opening the file, reading the file, trying to decode the file, etc.) then the program would simply treat it as a configuration file problem and skip to the <em>recovery pointrecovery points</em> for that problem. This way you greatly reduce the number of error-handling mechanism you need for your program, because error recovery is done on a much more general level.</p>
-<p>Note that even with recovery points, your error messageserror messages need to be specific as to what the problem was. Recovery points are basic units for error recovery, not for error detection. Error detection still needs to be extremely exact, and the error reports need exact error codes and messages.</p>
-<p>When using recovery pointsrecovery points, you often need to include cleanup code to handle different contingencies. For example, in our configuration file example, the recovery function would need to include code to check and see if the configuration file was still open. Depending on where the error occurred, the file may have been left open. The recovery function needs to check for this condition, and any other condition that might lead to system instability, and return the program to a consistent state.</p>
-<p>The simplest way to handle recovery pointsrecovery points is to wrap the whole program into a single recovery point. You would just have a simple error-reporting function that you can call with an error code and a message. The function would print them and and simply exit the program. This is not usually the best solution for real-world situations, but it is a good fall-back, last resort mechanism.</p>
+<p>In order to simplify error handling, it is often useful to break your program apart into distinct units, where each unit fails and is recovered as a whole. For example, you could break your program up so that reading the configuration file was a unit. If reading the configuration file failed at any point (opening the file, reading the file, trying to decode the file, etc.) then the program would simply treat it as a configuration file problem and skip to the <em>recovery point</em> for that problem. This way you greatly reduce the number of error-handling mechanism you need for your program, because error recovery is done on a much more general level.</p>
+<p>Note that even with recovery points, your error messages need to be specific as to what the problem was. Recovery points are basic units for error recovery, not for error detection. Error detection still needs to be extremely exact, and the error reports need exact error codes and messages.</p>
+<p>When using recovery points, you often need to include cleanup code to handle different contingencies. For example, in our configuration file example, the recovery function would need to include code to check and see if the configuration file was still open. Depending on where the error occurred, the file may have been left open. The recovery function needs to check for this condition, and any other condition that might lead to system instability, and return the program to a consistent state.</p>
+<p>The simplest way to handle recovery points is to wrap the whole program into a single recovery point. You would just have a simple error-reporting function that you can call with an error code and a message. The function would print them and and simply exit the program. This is not usually the best solution for real-world situations, but it is a good fall-back, last resort mechanism.</p>
 <h2 id="making-our-program-more-robust">Making Our Program More Robust</h2>
 <p>This section will go through making the <code>add-year.s</code> program from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a> a little more robust.</p>
 <p>Since this is a pretty simple program, we will limit ourselves to a single recovery point that covers the whole program. The only thing we will do to recover is to print the error and exit. The code to do that is pretty simple:</p>
-<pre><code>ERROR-EXIT-S</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;linux.s&quot;</span>                  <span class="co"># Common Linux Definitions.</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> ST_ERROR_CODE,  <span class="dv">8</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> ST_ERROR_MSG,   <span class="dv">12</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> error_exit</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.type</span>  error_exit,   <span class="co">@function</span></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a><span class="kw">error_exit:</span></span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>    pushl %ebp</span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>    movl  ST_ERROR_CODE(%ebp), %ecx     <span class="co"># Write out error code.</span></span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a>    pushl %ecx</span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>    call  count_chars</span>
+<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a>    popl  %ecx</span>
+<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a>    movl  %eax, %edx</span>
+<span id="cb90-19"><a href="#cb90-19" aria-hidden="true" tabindex="-1"></a>    movl  $STDERR, %ebx</span>
+<span id="cb90-20"><a href="#cb90-20" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_WRITE, %eax</span>
+<span id="cb90-21"><a href="#cb90-21" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span>
+<span id="cb90-22"><a href="#cb90-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-23"><a href="#cb90-23" aria-hidden="true" tabindex="-1"></a>    movl  ST_ERROR_MSG(%ebp), %ecx      <span class="co"># Write out error message.</span></span>
+<span id="cb90-24"><a href="#cb90-24" aria-hidden="true" tabindex="-1"></a>    pushl %ecx</span>
+<span id="cb90-25"><a href="#cb90-25" aria-hidden="true" tabindex="-1"></a>    call  count_chars</span>
+<span id="cb90-26"><a href="#cb90-26" aria-hidden="true" tabindex="-1"></a>    popl  %ecx</span>
+<span id="cb90-27"><a href="#cb90-27" aria-hidden="true" tabindex="-1"></a>    movl  %eax, %edx</span>
+<span id="cb90-28"><a href="#cb90-28" aria-hidden="true" tabindex="-1"></a>    movl  $STDERR, %ebx</span>
+<span id="cb90-29"><a href="#cb90-29" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_WRITE, %eax</span>
+<span id="cb90-30"><a href="#cb90-30" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span>
+<span id="cb90-31"><a href="#cb90-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-32"><a href="#cb90-32" aria-hidden="true" tabindex="-1"></a>    pushl $STDERR</span>
+<span id="cb90-33"><a href="#cb90-33" aria-hidden="true" tabindex="-1"></a>    call  write_newline</span>
+<span id="cb90-34"><a href="#cb90-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-35"><a href="#cb90-35" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_EXIT, %eax               <span class="co"># Exit with status 1.</span></span>
+<span id="cb90-36"><a href="#cb90-36" aria-hidden="true" tabindex="-1"></a>    movl  $1, %ebx</span>
+<span id="cb90-37"><a href="#cb90-37" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span></code></pre></div>
 <p>Enter it in a file called <code>error-exit.s</code>. To call it, you just need to push the address of an error message, and then an error code onto the stack, and call the function.</p>
 <p>Now let's look for potential error spots in our <code>add-year</code> program. First of all, we don't check to see if either of our <code>open</code> system calls actually complete properly. Linux returns its status code in <em>%eax</em>, so we need to check and see if there is an error.</p>
-<pre><code>    #Open file for reading
-    movl  $SYS_OPEN, %eax
-    movl  $input_file_name, %ebx
-    movl  $0, %ecx
-    movl  $0666, %edx
-    int   $LINUX_SYSCALL
-
-    movl  %eax, INPUT_DESCRIPTOR(%ebp)
-
-    #This will test and see if %eax is
-    #negative.  If it is not negative, it
-    #will jump to continue_processing.
-    #Otherwise it will handle the error
-    #condition that the negative number
-    #represents.
-    cmpl  $0, %eax
-    jl    continue_processing
-
-
-    #Send the error
-    .section .data
-no_open_file_code:
-    .ascii &quot;0001: \0&quot;
-no_open_file_msg:
-    .ascii &quot;Can&#39;t Open Input File\0&quot;
-
-    .section .text
-    pushl $no_open_file_msg
-    pushl $no_open_file_code
-    call  error_exit
-
-continue_processing:
-    #Rest of program</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_OPEN, %eax               <span class="co"># Open file for reading.</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>    movl  $input_file_name, %ebx</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ecx</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>    movl  $0666, %edx</span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>    movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This will test and see if %eax is negative.  If it is not negative,</span></span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># it will jump to continue_processing. Otherwise it will handle the</span></span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>    <span class="pp"># error condition that the negative number represents.</span></span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a>    cmpl  $0, %eax</span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a>    jl    continue_processing</span>
+<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-17"><a href="#cb91-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- SEND THE ERROR ----- #</span></span>
+<span id="cb91-18"><a href="#cb91-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb91-19"><a href="#cb91-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb91-20"><a href="#cb91-20" aria-hidden="true" tabindex="-1"></a>        <span class="kw">no_open_file_code:</span></span>
+<span id="cb91-21"><a href="#cb91-21" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;0001: </span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb91-22"><a href="#cb91-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">no_open_file_msg:</span></span>
+<span id="cb91-23"><a href="#cb91-23" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;Can&#39;t Open Input File.</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb91-24"><a href="#cb91-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-25"><a href="#cb91-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb91-26"><a href="#cb91-26" aria-hidden="true" tabindex="-1"></a>    pushl $no_open_file_msg</span>
+<span id="cb91-27"><a href="#cb91-27" aria-hidden="true" tabindex="-1"></a>    pushl $no_open_file_code</span>
+<span id="cb91-28"><a href="#cb91-28" aria-hidden="true" tabindex="-1"></a>    call  error_exit</span>
+<span id="cb91-29"><a href="#cb91-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-30"><a href="#cb91-30" aria-hidden="true" tabindex="-1"></a><span class="kw">continue_processing:</span></span>
+<span id="cb91-31"><a href="#cb91-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">### Rest of program.</span></span></code></pre></div>
 <p>So, after calling the system call, we check and see if we have an error by checking to see if the result of the system call is less than zero. If so, we call our error reporting and exit routine.</p>
-<p>After every system callsystem call, function callfunction call, or instructioninstruction which can have erroneous results you should add error checkingerror checking and handling code.</p>
+<p>After every system call, function call, or instruction which can have erroneous results you should add error checking and handling code.</p>
 <p>To assemble and link the files, do:</p>
-<pre><code>as add-year.s -o add-year.o
-as error-exit.s -o error-exit.o
-ld add-year.o write-newline.o error-exit.o read-record.o write-record.o count-chars.o -o add-year</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o add-year.o    add-year.s</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o error-exit.o  error-exit.s</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o add-year      add-year.o write-newline.o error-exit.o <span class="kw">\</span></span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>                    <span class="ex">read-record.o</span> write-record.o count-chars.o</span></code></pre></div>
 <p>Now try to run it without the necessary files. It now exits cleanly and gracefully!</p>
 <h2 id="review-5">Review</h2>
 <h3 id="know-the-concepts-5">Know the Concepts</h3>
@@ -2116,7 +2153,273 @@ ld add-year.o write-newline.o error-exit.o read-record.o write-record.o count-ch
 <li><p>Try to find bugs in at least one open-source program. File a bug report for it.</p></li>
 <li><p>Try to fix the bug you found in the previous exercise.</p></li>
 </ul>
-<h1 id="memoryintermediate">Intermediate Memory Topics</h1>
+<h1 id="sharing-functions-with-code-libraries">Chapter 8. Sharing Functions with Code Libraries</h1>
+<p>By now you should realize that the computer has to do a lot of work even for simple tasks. Because of that, you have to do a lot of work to write the code for a computer to even do simple tasks. In addition, programming tasks are usually not very simple. Therefore, we neeed a way to make this process easier on ourselves. There are several ways to do this, including:</p>
+<ul>
+<li><p>Write code in a high-level language instead of assembly language.</p></li>
+<li><p>Have lots of pre-written code that you can cut and paste into your own programs.</p></li>
+<li><p>Have a set of functions on the system that are shared among any program that wishes to use it.</p></li>
+</ul>
+<p>All three of these are usually used to some degree in any given project. The first option will be explored further in <a href="#high-level-languages">High-Level Languages</a>. The second option is useful but it suffers from some drawbacks, including:</p>
+<ul>
+<li><p>Code that is copied often has to be majorly modified to fit the surrounding code.</p></li>
+<li><p>Every program containing the copied code has the same code in it, thus wasting a lot of space.</p></li>
+<li><p>If a bug is found in any of the copied code it has to be fixed in every application program.</p></li>
+</ul>
+<p>Therefore, the second option is usually used sparingly. It is usually only used in cases where you copy and paste skeleton code for a specific type of task, and add in your program-specific details. The third option is the one that is used the most often. The third option includes having a central repository of shared code. Then, instead of each program wasting space storing the same copies of functions, they can simply point to the <em>dynamic libraries</em> which contain the functions they need. If a bug is found in one of these functions, it only has to be fixed within the single function library file, and all applications which use it are automatically updated. The main drawback with this approach is that it creates some dependency problems, including:</p>
+<ul>
+<li><p>If multiple applications are all using the same file, how do we know when it is safe to delete the file? For example, if three applications are sharing a file of functions and 2 of the programs are deleted, how does the system know that there still exists an application that uses that code, and therefore it shouldn't be deleted?</p></li>
+<li><p>Some programs inadvertantly rely on bugs within shared functions. Therefore, if upgrading the shared functions fixes a bug that a program depended on, it could cause that application to cease functioning.</p></li>
+</ul>
+<p>These problems are what lead to what is known as "DLL hell". However, it is generally assumed that the advantages outweigh the disadvantages.</p>
+<p>In programming, these shared code files are referred to as <em>shared libraries</em>, <em>dynamic libraries</em>, <em>shared objects</em>, <em>dynamic-link libraries</em>, <em>DLLs</em>, or <em>.so files</em>.<a href="#fn39" class="footnote-ref" id="fnref39" role="doc-noteref"><sup>39</sup></a> We will refer to all of these as <em>dynamic libraries</em>.</p>
+<h2 id="using-a-dynamic-library">Using a Dynamic Library</h2>
+<p>The program we will examine here is simple - it writes the characters <code>hello world</code> to the screen and exits. The regular program, <code>helloworld-nolib.s</code>, looks like this:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;linux.s&quot;</span>                  <span class="co"># Common Linux Definitions.</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  This program writes the message &quot;hello world&quot; and exits.</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">helloworld:</span></span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;hello world</span><span class="sc">\n</span><span class="st">&quot;</span></span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-10"><a href="#cb93-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">helloworld_end:</span></span>
+<span id="cb93-11"><a href="#cb93-11" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.equ</span> helloworld_len, helloworld_end - helloworld</span>
+<span id="cb93-12"><a href="#cb93-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-13"><a href="#cb93-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb93-14"><a href="#cb93-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-15"><a href="#cb93-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
+<span id="cb93-16"><a href="#cb93-16" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb93-17"><a href="#cb93-17" aria-hidden="true" tabindex="-1"></a>    movl  $STDOUT, %ebx</span>
+<span id="cb93-18"><a href="#cb93-18" aria-hidden="true" tabindex="-1"></a>    movl  $helloworld, %ecx</span>
+<span id="cb93-19"><a href="#cb93-19" aria-hidden="true" tabindex="-1"></a>    movl  $helloworld_len, %edx</span>
+<span id="cb93-20"><a href="#cb93-20" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_WRITE, %eax</span>
+<span id="cb93-21"><a href="#cb93-21" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span>
+<span id="cb93-22"><a href="#cb93-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-23"><a href="#cb93-23" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ebx</span>
+<span id="cb93-24"><a href="#cb93-24" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_EXIT, %eax</span>
+<span id="cb93-25"><a href="#cb93-25" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span></code></pre></div>
+<p>That's not too long. However, take a look at how short <code>helloworld-lib</code> is which uses a library:</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  This program writes the message &quot;hello world&quot; and exits.</span></span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">helloworld:</span></span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;hello world</span><span class="sc">\n\0</span><span class="st">&quot;</span></span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
+<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a>    pushl $helloworld</span>
+<span id="cb94-14"><a href="#cb94-14" aria-hidden="true" tabindex="-1"></a>    call  printf</span>
+<span id="cb94-15"><a href="#cb94-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-16"><a href="#cb94-16" aria-hidden="true" tabindex="-1"></a>    pushl $0</span>
+<span id="cb94-17"><a href="#cb94-17" aria-hidden="true" tabindex="-1"></a>    call  exit</span></code></pre></div>
+<p>It's even shorter!</p>
+<p>Now, building programs which use dynamic libraries is a little different than normal. You can build the first program normally by doing this:</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o helloworld-nolib.o  helloworld-nolib.s</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o helloworld-nolib    helloworld-nolib.o</span></code></pre></div>
+<p>However, in order to build the second program, you have to do this:</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o helloworld-lib.o  helloworld-lib.s</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o helloworld-lib    helloworld-lib.o <span class="kw">\</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>                        <span class="ex">-lc</span> -dynamic-linker /lib/ld-linux.so.2</span></code></pre></div>
+<p>Remember, the backslash in the first line simply means that the command continues on the next line. The option <code>-dynamic-linker  /lib/ld-linux.so.2</code> allows our program to be linked to libraries. This builds the executable so that before executing, the operating system will load the program <code>/lib/ld-linux.so.2</code> to load in external libraries and link them with the program. This program is known as a <em>dynamic linker</em>.</p>
+<p>The <code>-lc</code> option says to link to the <code>C</code> library, named <code>libc.so</code> on GNU/Linux systems. Given a library name, <code>c</code> in this case (usually library names are longer than a single letter), the GNU/Linux linker prepends the string <code>lib</code> to the beginning of the library name and appends <code>.so</code> to the end of it to form the library's filename. This library contains many functions to automate all types of tasks. The two we are using are <code>printf</code>, which prints strings, and <code>exit</code>, which exits the program.</p>
+<p>Notice that the symbols <code>printf</code> and <code>exit</code> are simply referred to by name within the program. In previous chapters, the linker would resolve all of the names to physical memory addresses, and the names would be thrown away. When using dynamic linking, the name itself resides within the executable, and is resolved by the dynamic linker when it is run. When the program is run by the user, the dynamic linker loads the dynamic libraries listed in our link statement, and then finds all of the function and variable names that were named by our program but not found at link time, and matches them up with corresponding entries in the shared libraries it loads. It then replaces all of the names with the addresses which they are loaded at. This sounds time-consuming. It is to a small degree, but it only happens once - at program startup time.</p>
+<h2 id="how-dynamic-libraries-work">How Dynamic Libraries Work</h2>
+<p>In our first programs, all of the code was contained within the source file. Such programs are called <em>statically-linked executables</em>, because they contained all of the necessary functionality for the program that wasn't handled by the kernel. In the programs we wrote in <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a>, we used both our main program file and files containing routines used by multiple programs. In these cases, we combined all of the code together using the linker at link-time, so it was still statically-linked. However, in the <code>helloworld-lib</code> program, we started using dynamic libraries. When you use dynamic libraries, your program is then <em>dynamically-linked</em>, which means that not all of the code needed to run the program is actually contained within the program file itself, but in external libraries.</p>
+<p>When we put the <code>-lc</code> on the command to link the <code>helloworld</code> program, it told the linker to use the <code>C</code> library (<code>libc.so</code>) to look up any symbolssymbols that weren't already defined in <code>helloworld.o</code>. However, it doesn't actually add any code to our program, it just notes in the program where to look. When the <code>helloworld</code> program begins, the file <code>/lib/ld-linux.so.2</code> is loaded first. This is the dynamic linker. This looks at our <code>helloworld</code> program and sees that it needs the <code>C</code> library to run. So, it searches for a file called <code>libc.so</code> in the standard places (listed in <code>/etc/ld.so.conf</code> and in the contents of the <code>LD_LIBRARY_PATH</code> environment variable), then looks in it for all the needed symbols (<code>printf</code> and <code>exit</code> in this case), and then loads the library into the program's virtual memory. Finally, it replaces all instances of <code>printf</code> in the program with the actual location of <code>printf</code> in the library.</p>
+<p>Run the following command:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ldd</span> ./helloworld-nolib</span></code></pre></div>
+<p>It should report back <code>not a dynamic executable</code>. This is just like we said - <code>helloworld-nolib</code> is a statically-linked executable. However, try this:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ldd</span> ./helloworld-lib</span></code></pre></div>
+<p>It will report back something like:</p>
+<pre><code>libc.so.6 =&gt; /lib/libc.so.6 (0x4001d000)
+/lib/ld-linux.so.2 =&gt; /lib/ld-linux.so.2 (0x400000000)</code></pre>
+<p>The numbers in parenthesis may be different on your system. This means that the program <code>helloworld</code> is linked to <code>libc.so.6</code> (the <code>.6</code> is the version number), which is found at <code>/lib/libc.so.6</code>, and <code>/lib/ld-linux.so.2</code> is found at <code>/lib/ld-linux.so.2</code>. These libraries have to be loaded before the program can be run. If you are interested, run the <code>ldd</code> program on various programs that are on your Linux distribution, and see what libraries they rely on.</p>
+<h2 id="finding-information-about-libraries">Finding Information about Libraries</h2>
+<p>Okay, so now that you know about libraries, the question is, how do you find out what libraries you have on your system and what they do? Well, let's skip that question for a minute and ask another question: How do programmers describe functions to each other in their documentation? Let's take a look at the function <code>printf</code>. Its calling interface (usually referred to as a <em>prototype</em>) looks like this:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> printf(<span class="dt">char</span> *string, ...);</span></code></pre></div>
+<p>In Linux, functions are described in the C programming language. In fact, most Linux programs are written in C. That is why most documentation and binary compatibility is defined using the C language. The interface to the <code>printf</code> function above is described using the C programming language.</p>
+<p>This definition means that there is a function <code>printf</code>. The things inside the parenthesis are the function's parameters or arguments. The first parameter here is <code>char *string</code>. This means there is a parameter named <code>string</code> (the name isn't important, except to use for talking about it), which has a type <code>char *</code>. <code>char</code> means that it wants a single-byte character. The <code>*</code> after it means that it doesn't actually want a character as an argument, but instead it wants the address of a character or sequence of characters. If you look back at our <code>helloworld program</code>, you will notice that the function call looked like this:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>pushl $hello</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>call  printf</span></code></pre></div>
+<p>So, we pushed the address of the <code>hello</code> string, rather than the actual characters. You might notice that we didn't push the length of the string. The way that <code>printf</code> found the end of the string was because we ended it with a null character (<code>\0</code>). Many functions work that way, especially C language functions. The <code>int</code> before the function definition tell what type of value the function will return in <em>%eax</em> when it returns. <code>printf</code> will return an <code>int</code> when it's through. Now, after the <code>char *string</code>, we have a series of periods, <code>...</code>. This means that it can take an indefinite number of additional arguments after the string. Most functions can only take a specified number of arguments. <code>printf</code>, however, can take many. It will look into the <code>string</code> parameter, and everywhere it sees the characters <code>%s</code>, it will look for another string from the stack to insert, and everywhere it sees <code>%d</code> it will look for a number from the stack to insert. This is best described using an example:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  This program is to demonstrate how to call printf.</span></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># This string is called the format string.  It&#39;s the first</span></span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># parameter, and printf uses it to find out how many parameters</span></span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># it was given, and what kind they are.</span></span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
+<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">firststring:</span></span>
+<span id="cb102-11"><a href="#cb102-11" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;Hello! %s is a %s who loves the number %d.</span><span class="sc">\n\0</span><span class="st">&quot;</span></span>
+<span id="cb102-12"><a href="#cb102-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-13"><a href="#cb102-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">namestring:</span></span>
+<span id="cb102-14"><a href="#cb102-14" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;Jonathan</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb102-15"><a href="#cb102-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-16"><a href="#cb102-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">personstring:</span></span>
+<span id="cb102-17"><a href="#cb102-17" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;person</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb102-18"><a href="#cb102-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-19"><a href="#cb102-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># This could also have been an .equ, but we decided to give it</span></span>
+<span id="cb102-20"><a href="#cb102-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># a real memory location just for kicks.</span></span>
+<span id="cb102-21"><a href="#cb102-21" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
+<span id="cb102-22"><a href="#cb102-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">numberloved:</span></span>
+<span id="cb102-23"><a href="#cb102-23" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.long</span> <span class="dv">3</span></span>
+<span id="cb102-24"><a href="#cb102-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-25"><a href="#cb102-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb102-26"><a href="#cb102-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-27"><a href="#cb102-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
+<span id="cb102-28"><a href="#cb102-28" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb102-29"><a href="#cb102-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Note that the parameters are passed in the reverse order that they</span></span>
+<span id="cb102-30"><a href="#cb102-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># are listed in the function&#39;s prototype.</span></span>
+<span id="cb102-31"><a href="#cb102-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb102-32"><a href="#cb102-32" aria-hidden="true" tabindex="-1"></a>    pushl numberloved                   <span class="co"># This is the %d.</span></span>
+<span id="cb102-33"><a href="#cb102-33" aria-hidden="true" tabindex="-1"></a>    pushl $personstring                 <span class="co"># This is the second %s.</span></span>
+<span id="cb102-34"><a href="#cb102-34" aria-hidden="true" tabindex="-1"></a>    pushl $namestring                   <span class="co"># This is the first %s.</span></span>
+<span id="cb102-35"><a href="#cb102-35" aria-hidden="true" tabindex="-1"></a>    pushl $firststring                  <span class="co"># This is the format string</span></span>
+<span id="cb102-36"><a href="#cb102-36" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># in the prototype.</span></span>
+<span id="cb102-37"><a href="#cb102-37" aria-hidden="true" tabindex="-1"></a>    call  printf</span>
+<span id="cb102-38"><a href="#cb102-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-39"><a href="#cb102-39" aria-hidden="true" tabindex="-1"></a>    pushl $0</span>
+<span id="cb102-40"><a href="#cb102-40" aria-hidden="true" tabindex="-1"></a>    call  exit</span></code></pre></div>
+<p>Type it in with the filename <code>printf-example.s</code>, and then do the following commands:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o printf-example.o  printf-example.s</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o printf-example    printf-example.o <span class="kw">\</span></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>                        <span class="ex">-lc</span> -dynamic-linker /lib/ld-linux.so.2</span></code></pre></div>
+<p>Then run the program with <code>./printf-example</code>, and it should say this:</p>
+<pre><code>Hello! Jonathan is a person who loves the number 3.</code></pre>
+<p>Now, if you look at the code, you'll see that we actually push the format string last, even though it's the first parameter listed. You always push a functions parameters in reverse order.<a href="#fn40" class="footnote-ref" id="fnref40" role="doc-noteref"><sup>40</sup></a> You may be wondering how the <code>printf</code> function knows how many parameters there are. Well, it searches through your string, and counts how many <code>%d</code>s and <code>%s</code>s it finds, and then grabs that number of parameters from the stack. If the parameter matches a <code>%d</code>, it treats it as a number, and if it matches a <code>%s</code>, it treats it as a pointer to a null-terminated string. <code>printf</code> has many more features than this, but these are the most-used ones. So, as you can see, <code>printf</code> can make output a lot easier, but it also has a lot of overhead, because it has to count the number of characters in the string, look through it for all of the control characters it needs to replace, pull them off the stack, convert them to a suitable representation (numbers have to be converted to strings, etc), and stick them all together appropriately.</p>
+<p>We've seen how to use the C programming language prototypes to call library functions. To use them effectively, however, you need to know several more of the possible data types for reading functions. Here are the main ones:</p>
+<dl>
+<dt><code>int</code>:</dt>
+<dd><p>An <code>int</code> is an integer number (4 bytes on x86 processor).</p>
+</dd>
+<dt><code>long</code>:</dt>
+<dd><p>A <code>long</code> is also an integer number (4 bytes on an x86 processor).</p>
+</dd>
+<dt><code>long long</code>:</dt>
+<dd><p>A <code>long long</code> is an integer number that's larger than a <code>long</code> (8 bytes on an x86 processor).</p>
+</dd>
+<dt><code>short</code>:</dt>
+<dd><p>A short is an integer number that's shorter than an <code>int</code> (2 bytes on an x86 processor).</p>
+</dd>
+<dt><code>char</code>:</dt>
+<dd><p>A <code>char</code> is a single-byte integer number. This is mostly used for storing character data, since ASCII strings usually are represented with one byte per character.</p>
+</dd>
+<dt><code>float</code>:</dt>
+<dd><p>A <code>float</code> is a floating-point number (4 bytes on an x86 processor). Floating-point numbers will be explained in more depth in <a href="#floating-point-numbers">Floating-point Numbers</a>.</p>
+</dd>
+<dt><code>double</code>:</dt>
+<dd><p>A <code>double</code> is a floating-point number that is larger than a float (8 bytes on an x86 processor).</p>
+</dd>
+<dt><code>unsigned</code>:</dt>
+<dd><p><code>unsigned</code> is a modifier used for any of the above types which keeps them from being used as signed quantities. The difference between signed and unsigned numbers will be discussed in <a href="#counting-like-a-computer">Counting Like a Computer</a>.</p>
+</dd>
+<dt><code>*</code>:</dt>
+<dd><p>An asterisk (<code>*</code>) is used to denote that the data isn't an actual value, but instead is a pointer to a location holding the given value (4 bytes on an x86 processor). So, let's say in memory location <code>my_location</code> you have the number 20 stored. If the prototype said to pass an <code>int</code>, you would use direct addressing mode and do <code>pushl my_location</code>. However, if the prototype said to pass an <code>int *</code>, you would do <code>pushl $my_location</code> - an immediate mode addressing push of the address that the value resides in. In addition to indicating the address of a single value, pointers can also be used to pass a sequence of consecutive locations, starting with the one pointed to by the given value. This is called an array.</p>
+</dd>
+<dt><code>struct</code>:</dt>
+<dd><p>A <code>struct</code> is a set of data items that have been put together under a name. For example you could declare:</p>
+<p>And any time you ran into <code>struct teststruct</code> you would know that it is actually two words right next to each other, the first being an integer, and the second a pointer to a character or group of characters. You never see structs passed as arguments to functions. Instead, you usually see pointers to structs passed as arguments. This is because passing structs to functions is fairly complicated, since they can take up so many storage locations.</p>
+</dd>
+</dl>
+<div class="sourceCode" id="cb105"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> teststruct {</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a;</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> *b;</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
+<dl>
+<dt><code>typedef</code>:</dt>
+<dd><p>A <code>typedef</code> basically allows you to rename a type. For example, I can do <code>typedef int myowntype;</code> in a C program, and any time I typed <code>myowntype</code>, it would be just as if I typed <code>int</code>. This can get kind of annoying, because you have to look up what all of the typedefs and structs in a function prototype really mean. However, <code>typedef</code>s are useful for giving types more meaningful and descriptive names.</p>
+</dd>
+</dl>
+<blockquote>
+<p><strong>Compatibility Note:</strong> The listed sizes are for intel-compatible (x86) machines. Other machines will have different sizes. Also, even when parameters shorter than a word are passed to functions, they are passed as longs on the stack.</p>
+</blockquote>
+<p>That's how to read function documentation. Now, let's get back to the question of how to find out about libraries. Most of your system libraries are in <code>/usr/lib</code> or <code>/lib</code>. If you want to just see what symbols they define, just run <code>objdump -R FILENAME</code> where <code>FILENAME</code> is the full path to the library. The output of that isn't too helpful, though, for finding an interface that you might need. Usually, you have to know what library you want at the beginning, and then just read the documentation. Most libraries have manuals or man pages for their functions. The web is the best source of documentation for libraries. Most libraries from the GNU project also have info pages on them, which are a little more thorough than man pages.</p>
+<h2 id="useful-functions">Useful Functions</h2>
+<p>Several useful functions you will want to be aware of from the <code>C</code> library include:</p>
+<ul>
+<li><p><code>size_t strlen (const char *s)</code> calculates the size of null-terminated strings.</p></li>
+<li><p><code>int strcmp (const char *s1, const char *s2)</code> compares two strings alphabetically.</p></li>
+<li><p><code>char * strdup (const char *s)</code> takes the pointer to a string, and creates a new copy in a new location, and returns the new location.</p></li>
+<li><p><code>FILE * fopen (const char *filename, const char *opentype)</code> opens a managed, buffered file (allows easier reading and writing than using file descriptors directly).<a href="#fn41" class="footnote-ref" id="fnref41" role="doc-noteref"><sup>41</sup></a> <a href="#fn42" class="footnote-ref" id="fnref42" role="doc-noteref"><sup>42</sup></a></p></li>
+<li><p><code>int fclose (FILE *stream)</code> closes a file opened with <code>fopen</code>.</p></li>
+<li><p><code>char * fgets (char *s, int count, FILE *stream)</code> fetches a line of characters into string <code>s</code>.</p></li>
+<li><p><code>int fputs (const char *s, FILE *stream)</code> writes a string to the given open file.</p></li>
+<li><p><code>int fprintf (FILE *stream, const char *template, ...)</code> is just like <code>printf</code>, but it uses an open file rather than defaulting to using standard output.</p></li>
+</ul>
+<p>You can find the complete manual on this library by going to <a href="http://www.gnu.org/software/libc/manual/">The GNU C Library manual</a></p>
+<h2 id="building-a-dynamic-library">Building a Dynamic Library</h2>
+<p>Let's say that we wanted to take all of our shared code from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a> and build it into a dynamic library to use in our programs. The first thing we would do is assemble them like normal:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o write-record.o  write-record.s</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o read-record.o   read-record.s</span></code></pre></div>
+<p>Now, instead of linking them into a program, we want to link them into a dynamic library. This changes our linker command to this:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o librecord.so  -shared write-record.o read-record.o</span></code></pre></div>
+<p>This links both of these files together into a dynamic library called <code>librecord.so</code>. This file can now be used for multiple programs. If we need to update the functions contained within it, we can just update this one file and not have to worry about which programs use it.</p>
+<p>Let's look at how we would link against this library. To link the <code>write-records</code> program, we would do the following:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o write-records.o  write-records.s</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o write-records    write-records.o <span class="kw">\</span></span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>                       <span class="ex">-lrecord</span> <span class="kw">\</span></span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>                       <span class="ex">-L</span> . <span class="kw">\</span></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>                       <span class="ex">-dynamic-linker</span> /lib/ld-linux.so.2</span></code></pre></div>
+<p>In this command, <code>-L .</code> told the linker to look for libraries in the current directory (it usually only searches <code>/lib</code> directory, <code>/usr/lib</code> directory, and a few others). As we've seen, the option <code>-dynamic-linker /lib/ld-linux.so.2</code> specified the dynamic linker. The option <code>-lrecord</code> tells the linker to search for functions in the file named <code>librecord.so</code>.</p>
+<p>Now the <code>write-records</code> program is built, but it will not run. If we try it, we will get an error like the following:</p>
+<pre><code>./write-records: error while loading shared libraries: 
+librecord.so: cannot open shared object file: No such file or directory</code></pre>
+<p>This is because, by default, the dynamic linker only searches <code>/lib</code>, <code>/usr/lib</code>, and whatever directories are listed in <code>/etc/ld.so.conf</code> for libraries. In order to run the program, you either need to move the library to one of these directories, or execute the following command:</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="va">LD_LIBRARY_PATH=</span>.</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LD_LIBRARY_PATH</span></span></code></pre></div>
+<p>Alternatively, if that gives you an error, do this instead:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="ex">setenv</span> LD_LIBRARY_PATH .</span></code></pre></div>
+<p>Now, you can run <code>write-records</code> normally by typing <code>./write-records</code>. Setting <code>LD_LIBRARY_PATH</code> tells the linker to add whatever paths you give it to the library search path for dynamic libraries.</p>
+<!-- TODO: Personal -> Test this ldd section, what is the real result? --->
+<p><strong>TODO:</strong> Personal -&gt; Test this ldd section. What is the real result? Maybe it is not working because itself is a library. Otherwise add a complete example where <code>read-records</code> use this dynamic library. Improve the text below when I know the real result.</p>
+<p>Let's print the shared object dependencies for <code>./write-recors</code>. It is a shared library. Try this:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ldd</span> ./write-records</span></code></pre></div>
+<p>It will report back something like:</p>
+<pre><code>libc.so.6 =&gt; /lib/libc.so.6 (0x4001d000)
+/???/write-recors.so.? =&gt; /???/write-recors.so.? (0x??0000000)</code></pre>
+<p>For further information about dynamic linking, see the following sources on the Internet:</p>
+<ul>
+<li><p>The man page for <code>ld.so</code> contains a lot of information about how the Linux dynamic linker works, execute in the terminal: <code>man ld.so</code>.</p></li>
+<li><p>Introduction to the ELF Format: <a href="https://blog.k3170makan.com/2018/09/introduction-to-elf-format-elf-header.html">The ELF Header</a>, <a href="https://blog.k3170makan.com/2018/09/introduction-to-elf-format-part-ii.html">Understanding Program Headers</a>, <a href="https://blog.k3170makan.com/2018/09/introduction-to-elf-file-format-part.html">The Section Headers</a>, <a href="https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi-more.html">Exploring Section Types and Special Sections</a>, <a href="https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-v.html">Understanding C start up</a>, <a href="https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi.html">The Symbol Table and Relocations: Part I</a>, <a href="https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi_18.html">The Symbol Table and Relocations: Part II</a>, <a href="https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi-more.html">More Relocation tricks: Part III</a> and <a href="https://blog.k3170makan.com/2018/11/introduction-to-elf-format-part-vii.html">Dynamic Linking / Loading and the .dynamic section</a> provide a good introduction to the ELF file format.</p></li>
+<li><p>Executable and Linkable Format 101: <a href="https://www.intezer.com/blog/research/executable-linkable-format-101-part1-sections-segments/">Part 1: Sections and Segments</a>, <a href="https://www.intezer.com/blog/elf/executable-linkable-format-101-part-2-symbols/">Part 2: Symbols</a> and <a href="https://www.intezer.com/blog/elf/executable-and-linkable-format-101-part-3-relocations/">Part 3: Relocations</a> contains a great description of how dynamic linking works with ELF files. <a href="https://www.intezer.com/blog/elf/executable-linkable-format-101-part-4-dynamic-linking/">Part 4: Dynamic Linking</a> is a great presentation on dynamic linking in Linux.</p></li>
+<li><p><a href="https://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html">Program Library HOWTO Shared Libraries</a> contains a good introduction to programming position-independent code for shared libraries under Linux.</p></li>
+</ul>
+<h2 id="review-6">Review</h2>
+<h3 id="know-the-concepts-6">Know the Concepts</h3>
+<ul>
+<li><p>What are the advantages and disadvantages of shared libraries?</p></li>
+<li><p>Given a library named 'foo', what would the library's filename be?</p></li>
+<li><p>What does the <code>ldd</code> command do?</p></li>
+<li><p>Let's say we had the files <code>foo.o</code> and <code>bar.o</code>, and you wanted to link them together, and dynamically link them to the library 'kramer'. What would the linking command be to generate the final executable?</p></li>
+<li><p>What is <em>typedef</em> for?</p></li>
+<li><p>What are <em>struct</em>s for?</p></li>
+<li><p>What is the difference between a data element of type <em>int</em> and <em>int *</em>? How would you access them differently in your program?</p></li>
+<li><p>If you had a object file called <code>foo.o</code>, what would be the command to create a shared library called 'bar'?</p></li>
+<li><p>What is the purpose of LD_LIBRARY_PATH?</p></li>
+</ul>
+<h3 id="use-the-concepts-6">Use the Concepts</h3>
+<ul>
+<li><p>Rewrite one or more of the programs from the previous chapters to print their results to the screen using <code>printf</code> rather than returning the result as the exit status code. Also, make the exit status code be 0.</p></li>
+<li><p>Use the <code>factorial</code> function you developed in <a href="#recursive-functions">Recursive Functions</a> to make a shared library. Then re-write the main program so that it links with the library dynamically.</p></li>
+<li><p>Rewrite the program above so that it also links with the 'C' library. Use the 'C' library's <code>printf</code> function to display the result of the <code>factorial</code> call.</p></li>
+<li><p>Rewrite the <code>toupper</code> program so that it uses the <code>C</code> library functions for files rather than system calls.</p></li>
+</ul>
+<h3 id="going-further-6">Going Further</h3>
+<ul>
+<li><p>Make a list of all the environment variables used by the GNU/Linux dynamic linker.</p></li>
+<li><p>Research the different types of executable file formats in use today and in the history of computing. Tell the strengths and weaknesses of each.</p></li>
+<li><p>What kinds of programming are you interested in (graphics, databbases, science, etc.)? Find a library for working in that area, and write a program that makes some basic use of that library.</p></li>
+<li><p>Research the use of <code>LD_PRELOAD</code>. What is it used for? Try building a shared library that contained the <code>exit</code> function, and have it write a message to STDERR before exitting. Use <code>LD_PRELOAD</code> and run various programs with it. What are the results?</p></li>
+</ul>
+<h1 id="chapter-9.-intermediate-memory-topics">Chapter 9. Intermediate Memory Topics</h1>
 <h2 id="how-a-computer-views-memory">How a Computer Views Memory</h2>
 <p>Let's review how memory within a computer works. You may also want to re-read <a href="#chapter-2-computer-architecture">Chapter 2. Computer Architecture</a>.</p>
 <p>A computer looks at memory as a long sequence of numbered storage locations. A sequence of <em>millions</em> of numbered storage locations. Everything is stored in these locations. Your programs are stored there, your data is stored there, everything. Each storage location looks like every other one. The locations holding your program are just like the ones holding your data. In fact, the computer has no idea which are which, except that the executable file tells it where to start executing.</p>
@@ -2132,7 +2435,7 @@ ld add-year.o write-newline.o error-exit.o read-record.o write-record.o count-ch
 <dd><p>This is the size of a normal register. On x86 processors, a word is four bytes long. Most computer operations handle a word at a time.</p>
 </dd>
 <dt>Address:</dt>
-<dd><p>An address is a number that refers to a byte in memory. For example, the first byte on a computer has an address of 0, the second has an address of 1, and so on.<a href="#fn39" class="footnote-ref" id="fnref39" role="doc-noteref"><sup>39</sup></a> Every piece of data on the computer not in a register has an address. The address of data which spans several bytes is the same as the address of its first byte.</p>
+<dd><p>An address is a number that refers to a byte in memory. For example, the first byte on a computer has an address of 0, the second has an address of 1, and so on.<a href="#fn43" class="footnote-ref" id="fnref43" role="doc-noteref"><sup>43</sup></a> Every piece of data on the computer not in a register has an address. The address of data which spans several bytes is the same as the address of its first byte.</p>
 <p>Normally, we don't ever type the numeric address of anything, but we let the assembler do it for us. When we use labels in code, the symbol used in the label will be equivalent to the address it is labelling. The assembler will then replace that symbol with its address wherever you use it in your program. For example, say you have the following code:</p>
 <pre><code>    .section .data
 my_data:
@@ -2145,7 +2448,7 @@ my_data:
 </dl>
 <h2 id="the-memory-layout-of-a-linux-program">The Memory Layout of a Linux Program</h2>
 <p>When you program is loaded into memory, each <code>.section.section</code> is loaded into its own region of memory. All of the code and data declared in each section is brought together, even if they were separated in your source code.</p>
-<p>The actual instructions (the <code>.text.text</code> section) are loaded at the address 0x08048000 (numbers starting with <code>0x</code> are in hexadecimal, which will be discussed in <a href="#counting-like-a-computer">Counting Like a Computer</a>).<a href="#fn40" class="footnote-ref" id="fnref40" role="doc-noteref"><sup>40</sup></a> The <code>.data.data</code> section is loaded immediately after that, followed by the <code>.bss.bss</code> section.</p>
+<p>The actual instructions (the <code>.text.text</code> section) are loaded at the address 0x08048000 (numbers starting with <code>0x</code> are in hexadecimal, which will be discussed in <a href="#counting-like-a-computer">Counting Like a Computer</a>).<a href="#fn44" class="footnote-ref" id="fnref44" role="doc-noteref"><sup>44</sup></a> The <code>.data.data</code> section is loaded immediately after that, followed by the <code>.bss.bss</code> section.</p>
 <p>The last byte that can be addressed on Linux is location 0xbfffffff. Linux starts the stack here and grows it downward toward the other sections. Between them is a huge gap. The initial layout of the stack is as follows: At the bottom of the stack (the bottom of the stack is the top address of memory - see <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>), there is a word of memory that is zero. After that comes the null-terminated name of the program using ASCII characters. After the program name comes the program's environment variables (these are not important to us in this book). Then come the program's command-line arguments. These are the values that the user typed in on the command line to run this program. When we run <code>as</code>, for example, we give it several arguments - <code>as</code>, <code>sourcefile.s</code>, <code>-o</code>, and <code>objectfile.o</code>. After these, we have the number of arguments that were used. When the program begins, this is where the stack pointer, <em>%esp</em>, is pointing. Further pushes on the stack move <em>%esp</em> down in memory. For example, the instruction</p>
 <pre><code>    pushl %eax</code></pre>
 <p>is equivalent to</p>
@@ -2156,7 +2459,7 @@ my_data:
 <p>is the same as</p>
 <pre><code>    movl (%esp), %eax
     addl $4, %esp</code></pre>
-<p>Your program's data region starts at the bottom of memory and goes up. The stack starts at the top of memory, and moves downward with each push. This middle part between the stack and your program's data sections is inaccessible memory - you are not allowed to access it until you tell the kernel that you need it.<a href="#fn41" class="footnote-ref" id="fnref41" role="doc-noteref"><sup>41</sup></a> If you try, you will get an error (the error message is usually "segmentation fault"). The same will happen if you try to access data before the beginning of your program, 0x08048000. The last accessible memory address to your program is called the <em>system breaksystem break</em> (also called the <em>current breakcurrent break</em> or just the <em>break</em>).</p>
+<p>Your program's data region starts at the bottom of memory and goes up. The stack starts at the top of memory, and moves downward with each push. This middle part between the stack and your program's data sections is inaccessible memory - you are not allowed to access it until you tell the kernel that you need it.<a href="#fn45" class="footnote-ref" id="fnref45" role="doc-noteref"><sup>45</sup></a> If you try, you will get an error (the error message is usually "segmentation fault"). The same will happen if you try to access data before the beginning of your program, 0x08048000. The last accessible memory address to your program is called the <em>system breaksystem break</em> (also called the <em>current breakcurrent break</em> or just the <em>break</em>).</p>
 <figure>
 <img src="resource/image/memorylayout.png" alt="Memory Layout of a Linux Program at Startup" /><figcaption aria-hidden="true"><em>Memory Layout of a Linux Program at Startup</em></figcaption>
 </figure>
@@ -2167,7 +2470,7 @@ my_data:
 <p>Each program gets its own sandbox to play in. Every program running on your computer thinks that it was loaded at memory address 0x0804800, and that its stack starts at 0xbffffff. When Linux loads a program, it finds a section of unused memory, and then tells the processor to use that section of memory as the address 0x0804800 for this program. The address that a program believes it uses is called the virtual addressvirtual address, while the actual address on the chips that it refers to is called the physical addressphysical address. The process of assigning virtual addresses to physical addresses is called <em>mappingmapping</em>.</p>
 <p>Earlier we talked about the inaccessible memory between the <code>.bss</code> and the stack, but we didn't talk about why it was there. The reason is that this region of virtual memory addresses hasn't been mapped onto physical memory addresses. The mapping process takes up considerable time and space, so if every possible virtual address of every possible program were mapped, you would not have enough physical memory to even run one program. So, the break is the beginning of the area that contains unmapped memory. With the stack, however, Linux will automatically map in memory that is accessed from stack pushes.</p>
 <p>Of course, this is a very simplified view of virtual memory. The full concept is much more advanced. For example, Virtual memory can be mapped to more than just physical memory; it can be mapped to disk as well. Swap partitions on Linux allow Linux's virtual memory system to map memory not only to physical RAM, but also to disk blocks as well. For example, let's say you only have 16 Megabytes of physical memory. Let's also say that 8 Megabytes are being used by Linux and some basic applications, and you want to run a program that requires 20 Megabytes of memory. Can you? The answer is yes, but only if you have set up a swap partition. What happens is that after all of your remaining 8 Megabytes of physical memory have been mapped into virtual memory, Linux starts mapping parts of your application's virtual memory to disk blocks. So, if you access a "memory" location in your program, that location may not actually be in memory at all, but on disk. As the programmer you won't know the difference, though, because it is all handled behind the scenes by Linux.</p>
-<p>Now, x86 processors cannot run instructions directly from disk, nor can they access data directly from disk. This requires the help of the operating system. When you try to access memory that is mapped to disk, the processor notices that it can't service your memory request directly. It then asks Linux to step in. Linux notices that the memory is actually on disk. Therefore, it moves some data that is currently in memory onto disk to make room, and then moves the memory being accessed from the disk back into physical memory. It then adjusts the processor's virtual-to-physical memory lookup tables so that it can find the memory in the new location. Finally, Linux returns control to the program and restarts it at the instruction which was trying to access the data in the first place. This instruction can now be completed successfully, because the memory is now in physical RAM.<a href="#fn42" class="footnote-ref" id="fnref42" role="doc-noteref"><sup>42</sup></a></p>
+<p>Now, x86 processors cannot run instructions directly from disk, nor can they access data directly from disk. This requires the help of the operating system. When you try to access memory that is mapped to disk, the processor notices that it can't service your memory request directly. It then asks Linux to step in. Linux notices that the memory is actually on disk. Therefore, it moves some data that is currently in memory onto disk to make room, and then moves the memory being accessed from the disk back into physical memory. It then adjusts the processor's virtual-to-physical memory lookup tables so that it can find the memory in the new location. Finally, Linux returns control to the program and restarts it at the instruction which was trying to access the data in the first place. This instruction can now be completed successfully, because the memory is now in physical RAM.<a href="#fn46" class="footnote-ref" id="fnref46" role="doc-noteref"><sup>46</sup></a></p>
 <p>Here is an overview of the way memory accesses are handled under Linux:</p>
 <ul>
 <li><p>The program tries to load memory from a virtual address.</p></li>
@@ -2190,7 +2493,7 @@ my_data:
 <p>We now know that Linux maps all of our virtual memory into physical memory or swap. If you try to access a piece of virtual memoryvirtual memory that hasn't been mapped yet, it triggers an error known as a segmentation fault, which will terminate your program. The program break point, if you remember, is the last valid address you can use. Now, this is all great if you know beforehand how much storage you will need. You can just add all the memory you need to your <code>.data</code> or <code>.bss</code> sections, and it will all be there. However, let's say you don't know how much memory you will need. For example, with a text editor, you don't know how long the person's file will be. You could try to find a maximum file size, and just tell the user that they can't go beyond that, but that's a waste if the file is small. Therefore Linux has a facility to move the break point to accomodate an application's memory needs.</p>
 <p>If you need more memory, you can just tell Linux where you want the new break point to be, and Linux will map all the memory you need between the current and new break point, and then move the break point to the spot you specify. That memory is now available for your program to use. The way we tell Linux to move the break point is through the <code>brkbrk</code> system call. The <code>brk</code> system call is call number 45 (which will be in <em>%eax</em>). <em>%ebx</em> should be loaded with the requested breakpoint. Then you call <code>int $0x80</code> to signal Linux to do its work. After mapping in your memory, Linux will return the new break point in <em>%eax</em>. The new break point might actually be larger than what you asked for, because Linux rounds up to the nearest page. If there is not enough physical memory or swap to fulfill your request, Linux will return a zero in <em>%eax</em>. Also, if you call <code>brk</code> with a zero in <em>%ebx</em>, it will simply return the last usable memory address.</p>
 <p>The problem with this method is keeping track of the memory we request. Let's say I need to move the break to have room to load a file, and then need to move a break again to load another file. Let's say I then get rid of the first file. You now have a giant gap in memory that's mapped, but that you aren't using. If you continue to move the break in this way for each file you load, you can easily run out of memory. So, what is needed is a <em>memory managermemory manager</em>.</p>
-<p>A memory manager is a set of routines that takes care of the dirty work of getting your program memory for you. Most memory managers have two basic functions - <code>allocate</code> and <code>deallocate</code>.<a href="#fn43" class="footnote-ref" id="fnref43" role="doc-noteref"><sup>43</sup></a> Whenever you need a certain amount of memory, you can simply tell <code>allocate</code> how much you need, and it will give you back an address to the memory. When you're done with it, you tell <code>deallocate</code> that you are through with it. <code>allocate</code> will then be able to reuse the memory. This pattern of memory management is called <em>dynamic memory allocationdynamic memory allocation</em>. This minimizes the number of "holes" in your memory, making sure that you are making the best use of it you can. The pool of memory used by memory managers is commonly referred to as <em>the heapheap</em>.</p>
+<p>A memory manager is a set of routines that takes care of the dirty work of getting your program memory for you. Most memory managers have two basic functions - <code>allocate</code> and <code>deallocate</code>.<a href="#fn47" class="footnote-ref" id="fnref47" role="doc-noteref"><sup>47</sup></a> Whenever you need a certain amount of memory, you can simply tell <code>allocate</code> how much you need, and it will give you back an address to the memory. When you're done with it, you tell <code>deallocate</code> that you are through with it. <code>allocate</code> will then be able to reuse the memory. This pattern of memory management is called <em>dynamic memory allocationdynamic memory allocation</em>. This minimizes the number of "holes" in your memory, making sure that you are making the best use of it you can. The pool of memory used by memory managers is commonly referred to as <em>the heapheap</em>.</p>
 <p>The way memory managers work is that they keep track of where the system break is, and where the memory that you have allocated is. They mark each block of memory in the heap as being used or unused. When you request memory, the memory manager checks to see if there are any unused blocks of the appropriate size. If not, it calls the <code>brk</code> system call to request more memory. When you free memory it marks the block as unused so that future requests can retrieve it. In the next section we will look at building our own memory manager.</p>
 <h2 id="a-simple-memory-manager">A Simple Memory Manager</h2>
 <p>Here I will show you a simple memory manager. It is very primitive but it shows the principles quite well. As usual, I will give you the program first for you to look through. Afterwards will follow an in-depth explanation. It looks long, but it is mostly comments.</p>
@@ -2316,7 +2619,7 @@ current_break:
 <p>In this function, we don't have to save <em>%ebp</em> or <em>%esp</em> since we're not changing them, nor do we have to restore them at the end. All we're doing is reading the address of the memory region from the stack, backing up to the beginning of the header, and marking the region as available. This function has no return value, so we don't care what we leave in <em>%eax</em>.</p>
 <h3 id="performance-issues-and-other-problems">Performance Issues and Other Problems</h3>
 <p>Our simplistic memory manager is not really useful for anything more than an academic exercise. This section looks at the problems with such a simplistic allocator.</p>
-<p>The biggest problem here is speed. Now, if there are only a few allocations made, then speed won't be a big issue. But think about what happens if you make a thousand allocations. On allocation number 1000, you have to search through 999 memory regions to find that you have to request more memory. As you can see, that's getting pretty slow. In addition, remember that Linux can keep pages of memory on disk instead of in memory. So, since you have to go through every piece of memory your program's memory, that means that Linux has to load every part of memory that's currently on disk to check to see if it is available. You can see how this could get really, really slow.<a href="#fn44" class="footnote-ref" id="fnref44" role="doc-noteref"><sup>44</sup></a> This method is said to run in <em>linear</em> time, which means that every element you have to manage makes your program take longer. A program that runs in <em>constant</em> time takes the same amount of time no matter how many elements you are managing. Take the <code>deallocate</code> function, for instance. It only runs 4 instructions, no matter how many elements we are managing, or where they are in memory. In fact, although our <code>allocate</code> function is one of the slowest of all memory managers, the <code>deallocate</code> function is one of the fastest.</p>
+<p>The biggest problem here is speed. Now, if there are only a few allocations made, then speed won't be a big issue. But think about what happens if you make a thousand allocations. On allocation number 1000, you have to search through 999 memory regions to find that you have to request more memory. As you can see, that's getting pretty slow. In addition, remember that Linux can keep pages of memory on disk instead of in memory. So, since you have to go through every piece of memory your program's memory, that means that Linux has to load every part of memory that's currently on disk to check to see if it is available. You can see how this could get really, really slow.<a href="#fn48" class="footnote-ref" id="fnref48" role="doc-noteref"><sup>48</sup></a> This method is said to run in <em>linear</em> time, which means that every element you have to manage makes your program take longer. A program that runs in <em>constant</em> time takes the same amount of time no matter how many elements you are managing. Take the <code>deallocate</code> function, for instance. It only runs 4 instructions, no matter how many elements we are managing, or where they are in memory. In fact, although our <code>allocate</code> function is one of the slowest of all memory managers, the <code>deallocate</code> function is one of the fastest.</p>
 <p>Another performance problem is the number of times we're calling the <code>brk</code> system call. System calls take a long time. They aren't like functions, because the processor has to switch modes. Your program isn't allowed to map itself memory, but the Linux kernel is. So, the processor has to switch into <em>kernel modekernel mode</em>, then Linux maps the memory, and then switches back to <em>user modeuser mode</em> for your application to continue running. This is also called a <em>context switchcontext switch</em>. Context switches are relatively slow on x86 processors. Generally, you should avoid calling the kernel unless you really need to.</p>
 <p>Another problem that we have is that we aren't recording where Linux actually sets the break. Previously we mentioned that Linux might actually set the break past where we requested it. In this program, we don't even look at where Linux actually sets the break - we just assume it sets it where we requested. That's not really a bug, but it will lead to unnecessary <code>brk</code> system calls when we already have the memory mapped in.</p>
 <p>Another problem we have is that if we are looking for a 5-byte region of memory, and the first open one we come to is 1000 bytes, we will simply mark the whole thing as allocated and return it. This leaves 995 bytes of unused, but allocated, memory. It would be nice in such situations to break it apart so the other 995 bytes can be used later. It would also be nice to combine consecutive free spaces when looking for large allocations.</p>
@@ -2367,8 +2670,8 @@ ld alloc.o read-record.o read-records.o write-newline.o count-chars.o -o read-re
 <li><p>Doug Lea has written up a description of his popular memory allocator at http://gee.cs.oswego.edu/dl/html/malloc.html</p></li>
 <li><p>A paper on the 4.4 BSD memory allocator is available at http://docs.freebsd.org/44doc/papers/malloc.html</p></li>
 </ul>
-<h2 id="review-6">Review</h2>
-<h3 id="know-the-concepts-6">Know the Concepts</h3>
+<h2 id="review-7">Review</h2>
+<h3 id="know-the-concepts-7">Know the Concepts</h3>
 <ul>
 <li><p>Describe the layout of memory when a Linux program starts.</p></li>
 <li><p>What is the heap?</p></li>
@@ -2380,196 +2683,17 @@ ld alloc.o read-record.o read-records.o write-newline.o count-chars.o -o read-re
 <li><p>Describe the process that occurs if a piece of memory you are using is currently residing on disk?</p></li>
 <li><p>Why do you need an allocator?</p></li>
 </ul>
-<h3 id="use-the-concepts-6">Use the Concepts</h3>
+<h3 id="use-the-concepts-7">Use the Concepts</h3>
 <ul>
 <li><p>Modify the memory manager so that it calls <code>allocate_init</code> automatically if it hasn't been initialized.</p></li>
 <li><p>Modify the memory manager so that if the requested size of memory is smaller than the region chosen, it will break up the region into multiple parts. Be sure to take into account the size of the new header record when you do this.</p></li>
 <li><p>Modify one of your programs that uses buffers to use the memory manager to get buffer memory rather than using the <code>.bss</code>.</p></li>
 </ul>
-<h3 id="going-further-6">Going Further</h3>
+<h3 id="going-further-7">Going Further</h3>
 <ul>
 <li><p>Research <em>garbage collection</em>. What advantages and disadvantages does this have over the style of memory management used here?</p></li>
 <li><p>Research <em>reference counting</em>. What advantages and disadvantages does this have over the style of memory management used here?</p></li>
 <li><p>Change the name of the functions to <code>malloc</code> and <code>free</code>, and build them into a shared library. Use <code>LD_PRELOAD</code> to force them to be used as your memory manager instead of the default one. Add some <code>write</code> system calls to STDOUT to verify that your memory manager is being used instead of the default one.</p></li>
-</ul>
-<h1 id="sharing-functions-with-code-libraries">Sharing Functions with Code Libraries</h1>
-<p>By now you should realize that the computer has to do a lot of work even for simple tasks. Because of that, you have to do a lot of work to write the code for a computer to even do simple tasks. In addition, programming tasks are usually not very simple. Therefore, we neeed a way to make this process easier on ourselves. There are several ways to do this, including:</p>
-<ul>
-<li><p>Write code in a high-level language instead of assembly language</p></li>
-<li><p>Have lots of pre-written code that you can cut and paste into your own programs</p></li>
-<li><p>Have a set of functionsfunctions on the system that are shared among any program that wishes to use it</p></li>
-</ul>
-<p>All three of these are usually used to some degree in any given project. The first option will be explored further in <a href="#highlevellanguages">???</a>. The second option is useful but it suffers from some drawbacks, including:</p>
-<ul>
-<li><p>Code that is copied often has to be majorly modified to fit the surrounding code.</p></li>
-<li><p>Every program containing the copied code has the same code in it, thus wasting a lot of space.</p></li>
-<li><p>If a bug is found in any of the copied code it has to be fixed in every application program.</p></li>
-</ul>
-<p>Therefore, the second option is usually used sparingly. It is usually only used in cases where you copy and paste skeleton codeskeleton code for a specific type of task, and add in your program-specific details. The third option is the one that is used the most often. The third option includes having a central repository of shared code. Then, instead of each program wasting space storing the same copies of functions, they can simply point to the <em>dynamic libraries</em> shared libraries dynamic libraries which contain the functions they need. If a bug is found in one of these functions, it only has to be fixed within the single function library file, and all applications which use it are automatically updated. The main drawback with this approach is that it creates some dependency problems, including:</p>
-<ul>
-<li><p>If multiple applications are all using the same file, how do we know when it is safe to delete the file? For example, if three applications are sharing a file of functions and 2 of the programs are deleted, how does the system know that there still exists an application that uses that code, and therefore it shouldn't be deleted?</p></li>
-<li><p>Some programs inadvertantly rely on bugs within shared functions. Therefore, if upgrading the shared functions fixes a bug that a program depended on, it could cause that application to cease functioning.</p></li>
-</ul>
-<p>These problems are what lead to what is known as "DLL hell". However, it is generally assumed that the advantages outweigh the disadvantages.</p>
-<p>In programming, these shared code files are referred to as <em>shared libraries</em> shared libraries, <em>dynamic libraries</em> dynamic libraries, <em>shared objectsshared objects</em>, <em>dynamic-link librariesdynamic-link libraries</em>, <em>DLLsDLLs</em>, or <em>.so files</em>.<a href="#fn45" class="footnote-ref" id="fnref45" role="doc-noteref"><sup>45</sup></a> We will refer to all of these as <em>dynamic libraries</em>.</p>
-<h2 id="using-a-dynamic-library">Using a Dynamic Library</h2>
-<p>The program we will examine here is simple - it writes the characters <code>hello world</code> to the screen and exits. The regular program, <code>helloworld-nolib.s</code>, looks like this:</p>
-<pre><code>HELLOWORLD-NOLIB-S</code></pre>
-<p>That's not too long. However, take a look at how short <code>helloworld-lib</code> is which uses a library:</p>
-<pre><code>HELLOWORLD-LIB-S</code></pre>
-<p>It's even shorter!</p>
-<p>Now, building programs which use dynamic librariesdynamic libraries is a little different than normal. You can build the first program normally by doing this:</p>
-<pre><code>as helloworld-nolib.s -o helloworld-nolib.o
-ld helloworld-nolib.o -o helloworld-nolib</code></pre>
-<p>However, in order to build the second program, you have to do this:</p>
-<pre><code>as helloworld-lib.s -o helloworld-lib.o
-ld -dynamic-linker /lib/ld-linux.so.2 \
-   -o helloworld-lib helloworld-lib.o -lc</code></pre>
-<p>Remember, the backslash in the first line simply means that the command continues on the next line. The option <code>-dynamic-linker-dynamic-linker  /lib/ld-linux.so.2</code> allows our program to be linked to libraries. This builds the executable so that before executing, the operating system will load the program <code>/lib/ld-linux.so.2</code> to load in external libraries and link them with the program. This program is known as a <em>dynamic linkerdynamic linker</em>.</p>
-<p>The <code>-lc</code> option says to link to the <code>c</code> library, named <code>libc.so</code> on GNU/Linux systems. Given a library name, <code>c</code> in this case (usually library names are longer than a single letter), the GNU/Linux linker prepends the string <code>lib</code> to the beginning of the library name and appends <code>.so</code> to the end of it to form the library's filename. This library contains many functions to automate all types of tasks. The two we are using are <code>printfprintf</code>, which prints strings, and <code>exitexit</code>, which exits the program.</p>
-<p>Notice that the symbols <code>printf</code> and <code>exit</code> are simply referred to by name within the program. In previous chapters, the linker would resolve all of the names to physical memory addresses, and the names would be thrown away. When using dynamic linkingdynamic linking, the name itself resides within the executable, and is resolved by the dynamic linker when it is run. When the program is run by the user, the dynamic linkerdynamic linker loads the dynamic librariesdynamic libraries listed in our link statement, and then finds all of the function and variable names that were named by our program but not found at link time, and matches them up with corresponding entries in the shared libraries it loads. It then replaces all of the names with the addresses which they are loaded at. This sounds time-consuming. It is to a small degree, but it only happens once - at program startup time.</p>
-<h2 id="how-dynamic-libraries-work">How Dynamic Libraries Work</h2>
-<p>In our first programs, all of the code was contained within the source file. Such programs are called <em>statically-linked executablesstatically-linked</em>, because they contained all of the necessary functionality for the program that wasn't handled by the kernel. In the programs we wrote in <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a>, we used both our main program file and files containing routines used by multiple programs. In these cases, we combined all of the code together using the linker at link-time, so it was still statically-linked. However, in the <code>helloworld-lib</code> program, we started using dynamic libraries. When you use dynamic libraries, your program is then <em>dynamically-linkeddynamically-linked</em>, which means that not all of the code needed to run the program is actually contained within the program file itself, but in external libraries.</p>
-<p>When we put the <code>-lc</code> on the command to link the <code>helloworld</code> program, it told the linker to use the <code>c</code> library (<code>libc.so</code>) to look up any symbolssymbols that weren't already defined in <code>helloworld.o</code>. However, it doesn't actually add any code to our program, it just notes in the program where to look. When the <code>helloworld</code> program begins, the file <code>/lib/ld-linux.so.2/lib/ld-linux.so.2</code> is loaded first. This is the dynamic linkerdynamic linker. This looks at our <code>helloworld</code> program and sees that it needs the <code>c</code> library to run. So, it searches for a file called <code>libc.so</code> in the standard places (listed in <code>/etc/ld.so.conf/etc/ld.so.conf</code> and in the contents of the <code>LD_LIBRARY_PATHLD_LIBRARY_PATH</code> environment variable), then looks in it for all the needed symbols (<code>printf</code> and <code>exit</code> in this case), and then loads the library into the program's virtual memory. Finally, it replaces all instances of <code>printf</code> in the program with the actual location of <code>printf</code> in the library.</p>
-<p>Run the following command:</p>
-<pre><code>lddldd ./helloworld-nolib</code></pre>
-<p>It should report back <code>not a dynamic executable</code>. This is just like we said - <code>helloworld-nolib</code> is a statically-linked executable. However, try this:</p>
-<pre><code>ldd ./helloworld-lib</code></pre>
-<p>It will report back something like</p>
-<pre><code>      libc.so.6 =&gt; /lib/libc.so.6 (0x4001d000)
-      /lib/ld-linux.so.2 =&gt; /lib/ld-linux.so.2 (0x400000000)</code></pre>
-<p>The numbers in parenthesis may be different on your system. This means that the program <code>helloworld</code> is linked to <code>libc.so.6</code> (the <code>.6</code> is the version number), which is found at <code>/lib/libc.so.6</code>, and <code>/lib/ld-linux.so.2</code> is found at <code>/lib/ld-linux.so.2</code>. These libraries have to be loaded before the program can be run. If you are interested, run the <code>ldd</code> program on various programs that are on your Linux distribution, and see what libraries they rely on.</p>
-<h2 id="finding-information-about-libraries">Finding Information about Libraries</h2>
-<p>Okay, so now that you know about libraries, the question is, how do you find out what libraries you have on your system and what they do? Well, let's skip that question for a minute and ask another question: How do programmers describe functions to each other in their documentation? Let's take a look at the function <code>printf</code>. Its calling interfacecalling interface (usually referred to as a <em>prototypeprototype</em>) looks like this:</p>
-<pre><code>int printf(char *string, ...);</code></pre>
-<p>In Linux, functionsfunctions are described in the C programming languageC programming language. In fact, most Linux programs are written in C. That is why most documentation and binary compatibility is defined using the C language. The interface to the <code>printf</code> function above is described using the C programming language.</p>
-<p>This definition means that there is a function <code>printf</code>. The things inside the parenthesis are the function's parametersparameters or arguments. The first parameter here is <code>char *string</code>. This means there is a parameter named <code>string</code> (the name isn't important, except to use for talking about it), which has a type <code>char *</code>. <code>charchar</code> means that it wants a single-byte character. The <code>**</code> after it means that it doesn't actually want a character as an argument, but instead it wants the address of a character or sequence of characters. If you look back at our <code>helloworld program</code>, you will notice that the function call looked like this:</p>
-<pre><code>    pushl $hello
-    call  printf</code></pre>
-<p>So, we pushed the address of the <code>hello</code> string, rather than the actual characters. You might notice that we didn't push the length of the string. The way that <code>printfprintf</code> found the end of the string was because we ended it with a null characternull character (<code>\0</code>). Many functions work that way, especially C language functions. The <code>intint</code> before the function definition tell what type of value the function will return in <em>%eax</em> when it returns. <code>printf</code> will return an <code>int</code> when it's through. Now, after the <code>char *string</code>, we have a series of periods, <code>......</code>. This means that it can take an indefinite number of additional arguments after the string. Most functions can only take a specified number of arguments. <code>printf</code>, however, can take many. It will look into the <code>string</code> parameter, and everywhere it sees the characters <code>%s</code>, it will look for another string from the stack to insert, and everywhere it sees <code>%d</code> it will look for a number from the stack to insert. This is best described using an example:</p>
-<pre><code>PRINTF-EXAMPLE-S</code></pre>
-<p>Type it in with the filename <code>printf-example.s</code>, and then do the following commands:</p>
-<pre><code>as printf-example.s -o printf-example.o
-ld printf-example.o -o printf-example -lc \
-   -dynamic-linker /lib/ld-linux.so.2</code></pre>
-<p>Then run the program with <code>./printf-example</code>, and it should say this:</p>
-<pre><code>Hello! Jonathan is a person who loves the number 3</code></pre>
-<p>Now, if you look at the code, you'll see that we actually push the format string last, even though it's the first parameter listed. You always push a functions parameters in reverse order.<a href="#fn46" class="footnote-ref" id="fnref46" role="doc-noteref"><sup>46</sup></a> You may be wondering how the <code>printfprintf</code> function knows how many parameters there are. Well, it searches through your string, and counts how many <code>%d</code>s and <code>%s</code>s it finds, and then grabs that number of parameters from the stack. If the parameter matches a <code>%d</code>, it treats it as a number, and if it matches a <code>%s</code>, it treats it as a pointer to a null-terminated string. <code>printf</code> has many more features than this, but these are the most-used ones. So, as you can see, <code>printf</code> can make output a lot easier, but it also has a lot of overhead, because it has to count the number of characters in the string, look through it for all of the control characters it needs to replace, pull them off the stack, convert them to a suitable representation (numbers have to be converted to strings, etc), and stick them all together appropriately.</p>
-<p>We've seen how to use the C programming languageC programming language prototypesprototypes to call library functions. To use them effectively, however, you need to know several more of the possible data types for reading functions. Here are the main ones:</p>
-<dl>
-<dt><code>int</code>:</dt>
-<dd><p>An <code>int</code> is an integer number (4 bytes on x86 processor).</p>
-</dd>
-<dt><code>long</code>:</dt>
-<dd><p>A <code>long</code> is also an integer number (4 bytes on an x86 processor).</p>
-</dd>
-<dt><code>long long</code>:</dt>
-<dd><p>A <code>long long</code> is an integer number that's larger than a <code>long</code> (8 bytes on an x86 processor).</p>
-</dd>
-<dt><code>short</code>:</dt>
-<dd><p>A short is an integer number that's shorter than an <code>int</code> (2 bytes on an x86 processor).</p>
-</dd>
-<dt><code>char</code>:</dt>
-<dd><p>A <code>char</code> is a single-byte integer number. This is mostly used for storing character data, since ASCII strings usually are represented with one byte per character.</p>
-</dd>
-<dt><code>float</code>:</dt>
-<dd><p>A <code>float</code> is a floating-point number (4 bytes on an x86 processor). Floating-point numbers will be explained in more depth in <a href="#floatingpoint">???</a>.</p>
-</dd>
-<dt><code>double</code>:</dt>
-<dd><p>A <code>double</code> is a floating-point number that is larger than a float (8 bytes on an x86 processor).</p>
-</dd>
-<dt><code>unsigned</code>:</dt>
-<dd><p><code>unsigned</code> is a modifier used for any of the above types which keeps them from being used as signed quantities. The difference between signed and unsigned numbers will be discussed in <a href="#counting-like-a-computer">Counting Like a Computer</a>.</p>
-</dd>
-<dt><code>**</code></dt>
-<dd><p>An asterisk (<code>*</code>) is used to denote that the data isn't an actual value, but instead is a pointer to a location holding the given value (4 bytes on an x86 processor). So, let's say in memory location <code>my_location</code> you have the number 20 stored. If the prototype said to pass an <code>int</code>, you would use direct addressing modedirect addressing mode and do <code>pushl my_location</code>. However, if the prototype said to pass an <code>int *</code>, you would do <code>pushl $my_location</code> - an immediate modeimmediate mode addressing push of the address that the value resides in. In addition to indicating the address of a single value, pointers can also be used to pass a sequence of consecutive locations, starting with the one pointed to by the given value. This is called an arrayarray.</p>
-</dd>
-<dt><code>struct</code>:</dt>
-<dd><p>A <code>struct</code> is a set of data items that have been put together under a name. For example you could declare:</p>
-<pre><code>struct teststruct {
-    int a;
-    char *b;
-};</code></pre>
-<p>and any time you ran into <code>struct teststruct</code> you would know that it is actually two words right next to each other, the first being an integer, and the second a pointer to a character or group of characters. You never see structs passed as arguments to functions. Instead, you usually see pointers to structs passed as arguments. This is because passing structs to functions is fairly complicated, since they can take up so many storage locations.</p>
-</dd>
-<dt><code>typedef</code>:</dt>
-<dd><p>A <code>typedef</code> basically allows you to rename a type. For example, I can do <code>typedef int myowntype;</code> in a C program, and any time I typed <code>myowntype</code>, it would be just as if I typed <code>int</code>. This can get kind of annoying, because you have to look up what all of the typedefs and structs in a function prototype really mean. However, <code>typedef</code>s are useful for giving types more meaningful and descriptive names.</p>
-</dd>
-</dl>
-<blockquote>
-<p><strong>Compatibility Note:</strong> The listed sizes are for intel-compatible (x86) machines. Other machines will have different sizes. Also, even when parameters shorter than a word are passed to functions, they are passed as longs on the stack.</p>
-</blockquote>
-<p>That's how to read function documentation. Now, let's get back to the question of how to find out about libraries. Most of your system libraries are in <code>/usr/lib/usr/lib</code> or <code>/lib/lib</code>. If you want to just see what symbols they define, just run <code>objdump -R FILENAME</code> where <code>FILENAME</code> is the full path to the library. The output of that isn't too helpful, though, for finding an interface that you might need. Usually, you have to know what library you want at the beginning, and then just read the documentation. Most libraries have manuals or man pages for their functions. The web is the best source of documentation for libraries. Most libraries from the GNU project also have info pages on them, which are a little more thorough than man pages.</p>
-<h2 id="useful-functions">Useful Functions</h2>
-<p>Several useful functions you will want to be aware of from the <code>c</code> library include:</p>
-<ul>
-<li><p><code>size_t strlenstrlen (const char *s)</code> calculates the size of null-terminated strings.</p></li>
-<li><p><code>int strcmpstrcmp (const char *s1, const char *s2)</code> compares two strings alphabetically.</p></li>
-<li><p><code>char * strdupstrdup (const char *s)</code> takes the pointer to a string, and creates a new copy in a new location, and returns the new location.</p></li>
-<li><p><code>FILE * fopenfopen (const char *filename, const char *opentype)</code> opens a managed, buffered file (allows easier reading and writing than using file descriptors directly).<a href="#fn47" class="footnote-ref" id="fnref47" role="doc-noteref"><sup>47</sup></a><a href="#fn48" class="footnote-ref" id="fnref48" role="doc-noteref"><sup>48</sup></a></p></li>
-<li><p><code>int fclosefclose (FILE *stream)</code> closes a file opened with <code>fopen</code>.</p></li>
-<li><p><code>char * fgetsfgets (char *s, int count, FILE *stream)</code> fetches a line of characters into string <code>s</code>.</p></li>
-<li><p><code>int fputsfputs (const char *s, FILE *stream)</code> writes a string to the given open file.</p></li>
-<li><p><code>int fprintffprintf (FILE *stream, const char *template, ...)</code> is just like <code>printf</code>, but it uses an open file rather than defaulting to using standard output.</p></li>
-</ul>
-<p>You can find the complete manual on this library by going to http://www.gnu.org/software/libc/manual/</p>
-<h2 id="building-a-dynamic-library">Building a Dynamic Library</h2>
-<p>Let's say that we wanted to take all of our shared code from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a> and build it into a dynamic librarydynamic library to use in our programs. The first thing we would do is assemble them like normal:</p>
-<pre><code>as write-record.s -o write-record.o
-as read-record.s -o read-record.o</code></pre>
-<p>Now, instead of linking them into a program, we want to link them into a dynamic library. This changes our linker command to this:</p>
-<pre><code>ld -shared write-record.o read-record.o -o librecord.so</code></pre>
-<p>This links both of these files together into a dynamic librarydynamic library called <code>librecord.so</code>. This file can now be used for multiple programs. If we need to update the functions contained within it, we can just update this one file and not have to worry about which programs use it.</p>
-<p>Let's look at how we would link against this library. To link the <code>write-records</code> program, we would do the following:</p>
-<pre><code>as write-records.s -o write-records
-ld -L . -dynamic-linker /lib/ld-linux.so.2 \
-   -o write-records -lrecord write-records.o</code></pre>
-<p>In this command, <code>-L .</code> told the linker to look for libraries in the current directory (it usually only searches <code>/lib/lib</code> directory, <code>/usr/lib/usr/lib</code> directory, and a few others). As we've seen, the option <code>-dynamic-linker /lib/ld-linux.so.2</code> specified the dynamic linker. The option <code>-lrecord</code> tells the linker to search for functions in the file named <code>librecord.so</code>.</p>
-<p>Now the <code>write-records</code> program is built, but it will not run. If we try it, we will get an error like the following:</p>
-<pre><code>./write-records: error while loading shared libraries: 
-librecord.so: cannot open shared object file: No such 
-file or directory</code></pre>
-<p>This is because, by default, the dynamic linker only searches <code>/lib</code>, <code>/usr/lib</code>, and whatever directories are listed in <code>/etc/ld.so.conf/etc/ld.so.conf</code> for libraries. In order to run the program, you either need to move the library to one of these directories, or execute the following command:</p>
-<pre><code>LD_LIBRARY_PATH=.
-export LD_LIBRARY_PATH</code></pre>
-<p>LD_LIBRARY_PATH</p>
-<p>Alternatively, if that gives you an error, do this instead:</p>
-<pre><code>setenv LD_LIBRARY_PATH .</code></pre>
-<p>Now, you can run <code>write-records</code> normally by typing <code>./write-records</code>. Setting <code>LD_LIBRARY_PATH</code> tells the linker to add whatever paths you give it to the library search path for dynamic libraries.</p>
-<p>For further information about dynamic linking, see the following sources on the Internet:</p>
-<ul>
-<li><p>The man page for <code>ld.so</code> contains a lot of information about how the Linux dynamic linker works.</p></li>
-<li><p>http://www.benyossef.com/presentations/dlink/ is a great presentation on dynamic linking in Linux.</p></li>
-<li><p>http://www.linuxjournal.com/article.php?sid=1059 and http://www.linuxjournal.com/article.php?sid=1060 provide a good introduction to the ELFELF file format, with more detail available at http://www.cs.ucdavis.edu/~haungs/paper/node10.html</p></li>
-<li><p>http://www.iecc.com/linker/linker10.html contains a great description of how dynamic linking works with ELF files.</p></li>
-<li><p>http://linux4u.jinr.ru/usoft/WWW/www_debian.org/Documentation/elf/node21.html contains a good introduction to programming position-independent code for shared libraries under Linux.</p></li>
-</ul>
-<h2 id="review-7">Review</h2>
-<h3 id="know-the-concepts-7">Know the Concepts</h3>
-<ul>
-<li><p>What are the advantages and disadvantages of shared libraries?</p></li>
-<li><p>Given a library named 'foo', what would the library's filename be?</p></li>
-<li><p>What does the <code>ldd</code> command do?</p></li>
-<li><p>Let's say we had the files <code>foo.o</code> and <code>bar.o</code>, and you wanted to link them together, and dynamically link them to the library 'kramer'. What would the linking command be to generate the final executable?</p></li>
-<li><p>What is <em>typedef</em> for?</p></li>
-<li><p>What are <em>struct</em>s for?</p></li>
-<li><p>What is the difference between a data element of type <em>int</em> and <em>int *</em>? How would you access them differently in your program?</p></li>
-<li><p>If you had a object file called <code>foo.o</code>, what would be the command to create a shared library called 'bar'?</p></li>
-<li><p>What is the purpose of LD_LIBRARY_PATH?</p></li>
-</ul>
-<h3 id="use-the-concepts-7">Use the Concepts</h3>
-<ul>
-<li><p>Rewrite one or more of the programs from the previous chapters to print their results to the screen using <code>printf</code> rather than returning the result as the exit status code. Also, make the exit status code be 0.</p></li>
-<li><p>Use the <code>factorial</code> function you developed in <a href="#recursive-functions">Recursive Functions</a> to make a shared library. Then re-write the main program so that it links with the library dynamically.</p></li>
-<li><p>Rewrite the program above so that it also links with the 'c' library. Use the 'c' library's <code>printf</code> function to display the result of the <code>factorial</code> call.</p></li>
-<li><p>Rewrite the <code>toupper</code> program so that it uses the <code>c</code> library functions for files rather than system calls.</p></li>
-</ul>
-<h3 id="going-further-7">Going Further</h3>
-<ul>
-<li><p>Make a list of all the environment variables used by the GNU/Linux dynamic linker.</p></li>
-<li><p>Research the different types of executable file formats in use today and in the history of computing. Tell the strengths and weaknesses of each.</p></li>
-<li><p>What kinds of programming are you interested in (graphics, databbases, science, etc.)? Find a library for working in that area, and write a program that makes some basic use of that library.</p></li>
-<li><p>Research the use of <code>LD_PRELOAD</code>. What is it used for? Try building a shared library that contained the <code>exit</code> function, and have it write a message to STDERR before exitting. Use <code>LD_PRELOAD</code> and run various programs with it. What are the results?</p></li>
 </ul>
 <h1 id="counting-like-a-computer">Counting Like a Computer</h1>
 <h2 id="counting">Counting</h2>
@@ -2832,7 +2956,7 @@ Rotate left 10010111 = 00101111</code></pre>
 <p>Additional program status register flags are examined in <a href="#common-x86-instructions">Common x86 Instructions</a>.</p>
 <h2 id="other-numbering-systems">Other Numbering Systems</h2>
 <p>What we have studied so far only applies to positive integers. However, real-world numbers are not always positive integers. Negative numbers and numbers with decimals are also used.</p>
-<h3 id="floatingpoint">Floating-point Numbers</h3>
+<h3 id="floating-point-numbers">Floating-point Numbers</h3>
 <p>So far, the only numbers we've dealt with are integers - numbers with no decimal point. Computers have a general problem with numbers with decimal points, because computers can only store fixed-size, finite values. Decimal numbers can be any length, including infinite length (think of a repeating decimal, like the result of 1 / 3).</p>
 <p>The way a computer handles decimals is by storing them at a fixed precisionprecision (number of significant bits). A computer stores decimal numbers in two parts - the <em>exponentexponent</em> and the <em>mantissamantissa</em>. The mantissa contains the actual digits that will be used, and the exponent is what magnitude the number is. For example, 12345.2 can be represented as 1.23452 * 10^4. The mantissa is 1.23452 and the exponent is 4 with a base of 10. Computers, however, use a base of 2. All numbers are stored as X.XXXXX * 2^XXXX. The number 1, for example, is stored as 1.00000 * 2^0. Separating the mantissa and the exponent into two different values is called a <em>floating point</em>floating point representation, because the position of the significant digits with respect to the decimal point can vary based on the exponent.</p>
 <p>Now, the mantissa and the exponent are only so long, which leads to some interesting problems. For example, when a computer stores an integer, if you add 1 to it, the resulting number is one larger. This does not necessarily happen with floating point numbers. If the number is sufficiently big, adding 1 to it might not even register in the mantissa (remember, both parts are only so long). This affects several things, especially order of operations. If you add 1.0 to a given floating point number, it might not even affect the number if it is large enough. For example, on x86 platforms, a four-byte floating-point number, although it can represent very large numbers, cannot have 1.0 added to it past 16777216.0, because it is no longer significant. The number no longer changes when 1.0 is added to it. So, if there is a multiplication followed by an addition it may give a different result than if the addition is performed first.</p>
@@ -2927,7 +3051,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>Write a program that stores likes and dislikes into a single machine word, and then compares two sets of likes and dislikes for commonalities.</p></li>
 <li><p>Write a program that reads a string of characters from STDIN and converts them to a number.</p></li>
 </ul>
-<h1 id="highlevellanguages">High-Level Languages</h1>
+<h1 id="high-level-languages">High-Level Languages</h1>
 <p>In this chapter we will begin to look at our first "real-world" programming language. Assembly language is the language used at the machine's level, but most people find coding in assembly language too cumbersome for everyday use. Many computer languages have been invented to make the programming task easier. Knowing a wide variety of languages is useful for many reasons, including</p>
 <ul>
 <li><p>Different languages are based on different concepts, which will help you to learn different and better programming methods and ideas.</p></li>
@@ -4577,16 +4701,16 @@ $2 = 0
 <li id="fn36" role="doc-endnote"><p>You will find that after learning the mechanics of programming, most programs are pretty straightforward once you know exactly what it is you want to do. Most of them initialize data, do some processing in a loop, and then clean everything up.<a href="#fnref36" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn37" role="doc-endnote"><p>This assumes that you have already built the object files <code>read-record.o</code> and <code>write-record.o</code> in the previous examples. If not, you will have to do so.<a href="#fnref37" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn38" role="doc-endnote"><p>This is assuming you created the file in a previous run of <code>write-records</code>. If not, you need to run <code>write-records</code> first before running this program.<a href="#fnref38" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn39" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref39" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn40" role="doc-endnote"><p>Since these programs are usually short enough not to have noticeable performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.<a href="#fnref40" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn39" role="doc-endnote"><p>Each of these terms have slightly different meanings, but most people use them interchangeably anyway. Specifically, this chapter will cover dynamic libraries, but not shared libraries. Shared libraries are dynamic libraries which are built using <em>position-independent code</em> (often abbreviated PIC) which is outside the scope of this book. However, shared libraries and dynamic libraries are used in the same way by users and programs; the linker just links them differently.<a href="#fnref39" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn40" role="doc-endnote"><p>The reason that parameters are pushed in the reverse order is because of functions which take a variable number of parameters like <code>printf</code>. The parameters pushed in last will be in a known position relative to the top of the stack. The program can then use these parameters to determine where on the stack the additional arguments are, and what type they are. For example, <code>printf</code> uses the format string to determine how many other parameters are being sent. If we pushed the known arguments first, you wouldn't be able to tell where they were on the stack.<a href="#fnref40" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn41" role="doc-endnote"><p><code>stdin</code>, <code>stdout</code>, and <code>stderr</code> (all lower case) can be used in these programs to refer to the files of their corresponding file descriptors.<a href="#fnref41" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn42" role="doc-endnote"><p><code>FILE</code> is a struct. You don't need to know its contents to use it. You only have to store the pointer and pass it to the relevant other functions.<a href="#fnref42" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn43" role="doc-endnote"><p>The function names usually aren't <code>allocate</code> and <code>deallocate</code>, but the functionality will be the same. In the C programming language, for example, they are named <code>malloc</code> and <code>free</code>.<a href="#fnref43" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn44" role="doc-endnote"><p>This is why adding more memory to your computer makes it run faster. The more memory your computer has, the less it puts on disk, so it doesn't have to always be interrupting your programs to retreive pages off the disk.<a href="#fnref44" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn45" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref45" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn46" role="doc-endnote"><p>Since these programs are usually short enough not to have noticeable performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.<a href="#fnref46" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn47" role="doc-endnote"><p><code>stdin</code>, <code>stdout</code>, and <code>stderr</code> (all lower case) can be used in these programs to refer to the files of their corresponding file descriptors.<a href="#fnref47" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn48" role="doc-endnote"><p><code>FILE</code> is a struct. You don't need to know its contents to use it. You only have to store the pointer and pass it to the relevant other functions.<a href="#fnref48" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn43" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref43" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn44" role="doc-endnote"><p>Since these programs are usually short enough not to have noticeable performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.<a href="#fnref44" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn45" role="doc-endnote"><p>The stack can access it as it grows downward, and you can access the stack regions through <em>%esp</em>. However, your program's data section doesn't grow that way. The way to grow that will be explained shortly.<a href="#fnref45" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn46" role="doc-endnote"><p>Note that not only can Linux have a virtual address map to a different physical address, it can also move those mappings around as needed.<a href="#fnref46" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn47" role="doc-endnote"><p>The function names usually aren't <code>allocate</code> and <code>deallocate</code>, but the functionality will be the same. In the C programming language, for example, they are named <code>malloc</code> and <code>free</code>.<a href="#fnref47" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn48" role="doc-endnote"><p>This is why adding more memory to your computer makes it run faster. The more memory your computer has, the less it puts on disk, so it doesn't have to always be interrupting your programs to retreive pages off the disk.<a href="#fnref48" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn49" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref49" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn50" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref50" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn51" role="doc-endnote"><p>Since these programs are usually short enough not to have noticeable performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.<a href="#fnref51" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

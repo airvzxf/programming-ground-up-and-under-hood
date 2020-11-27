@@ -723,7 +723,7 @@ language* is a more human-readable form of the instructions a computer
 understands. Assembling transforms the human-readable file into a
 machine-readable one. To assembly the program type in the command:
 
-    as exit.s -o exit.o
+    as -o exit.o  exit.s
 
 `as` is the command which runs the assembler, `exit.s` is the source
 file, and `-o exit.o` tells the assemble to put its output in the file
@@ -736,7 +736,7 @@ information to it so that the kernel knows how to load and run it. In
 our case, we only have one object file, so the linker is only adding the
 information to enable it to run. To *link* the file, enter the command:
 
-    ld exit.o -o exit
+    ld -o exit  exit.o
 
 `ld` is the command to run the linker, `exit.o` is the object file we
 want to link, and `-o exit` instructs the linker to output the new
@@ -1151,8 +1151,8 @@ Enter the following program as `maximum.s`:
 
 Now, assemble and link it with these commands:
 
-    as maximum.s -o maximum.o
-    ld maximum.o -o maximum
+    as -o maximum.o  maximum.s
+    ld -o maximum    maximum.o
 
 Now run it, and check its status.
 
@@ -2304,8 +2304,8 @@ Let's look at the code to see how this works:
 
 Assemble, link, and run it with these commands:
 
-    as factorial.s -o factorial.o
-    ld factorial.o -o factorial
+    as -o factorial.o  factorial.s
+    ld -o factorial    factorial.o
     ./factorial
     echo $?
 
@@ -2985,8 +2985,8 @@ explanation of the program will follow.
 Type in this program as `toupper.s`, and then enter in the following
 commands:
 
-    as toupper.s  -o toupper.o
-    ld toupper.o  -o toupper
+    as -o toupper.o  toupper.s
+    ld -o toupper    toupper.o
 
 This builds a program called `toupper`, which converts all of the
 lowercase characters in a file to uppercase. For example, to convert the
@@ -3581,9 +3581,9 @@ of each field until they are their defined lengths.
 
 To build the application, run the commands:
 
-    as write-records.s  -o write-records.o
-    as write-record.s   -o write-record.o
-    ld write-record.o write-records.o  -o write-records
+    as -o write-records.o  write-records.s
+    as -o write-record.o   write-record.s
+    ld -o write-records    write-record.o write-records.o
 
 Here we are assembling two files separately, and then combining them
 together using the linker. To run the program, just type the following:
@@ -3609,6 +3609,8 @@ reach a null character.[35] Note that this means our records must
 contain at least one null character each.
 
 Here is the code. Put it in a file called `count-chars.s`:
+
+        .code32                            # Generate 32-bit code.
 
         # PURPOSE:  Count the characters until a null byte is reached.
         #
@@ -3792,12 +3794,12 @@ Now we are ready to write the main program. Here is the code to
 To build this program, we need to assemble all of the parts and link
 them together:
 
-    as read-record.s    -o read-record.o
-    as count-chars.s    -o count-chars.o
-    as write-newline.s  -o write-newline.o
-    as read-records.s   -o read-records.o
-    ld read-record.o count-chars.o write-newline.o read-records.o \
-         -o read-records
+    as -o read-record.o    read-record.s
+    as -o count-chars.o    count-chars.s
+    as -o write-newline.o  write-newline.s
+    as -o read-records.o   read-records.s
+    ld -o read-records     read-record.o count-chars.o \
+                           write-newline.o read-records.o
 
 The backslash in the first line simply means that the command continues
 on the next line. You can run your program by doing `./read-records`.
@@ -3910,8 +3912,8 @@ is pretty straightforward.[36]
 
 You can type it in as `add-year.s`. To build it, type the following[37]:
 
-    as add-year.s  -o add-year.o
-    ld add-year.o read-record.o write-record.o  -o add-year
+    as -o add-year.o  add-year.s
+    ld -o add-year    add-year.o read-record.o write-record.o
 
 To run the program, just type in the following[38]:
 
@@ -3996,13 +3998,13 @@ Review
 Chapter 7. Developing Robust Programs
 =====================================
 
-This chapter deals with developing programs that are *robustrobust*.
-Robust programs are able to handle error conditionserror conditions
-gracefully. They are programs that do not crash no matter what the user
-does. Building robust programs is essential to the practice of
-programming. Writing robust programs takes discipline and work - it
-usually entails finding every possible problem that can occur, and
-coming up with an action plan for your program to take.
+This chapter deals with developing programs that are *robust*. Robust
+programs are able to handle error conditions gracefully. They are
+programs that do not crash no matter what the user does. Building robust
+programs is essential to the practice of programming. Writing robust
+programs takes discipline and work - it usually entails finding every
+possible problem that can occur, and coming up with an action plan for
+your program to take.
 
 Where Does the Time Go?
 -----------------------
@@ -4029,51 +4031,51 @@ reasons for this problem, including:
     program fully robust.
 
 The last item is the one we are interested in here. *It takes a lot of
-time and effort to develop robustrobust programs.* More so than people
-usually guess, including experienced programmers. Programmers get so
-focused on simply solving the problem at hand that they fail to look at
-the possible side issues.
+time and effort to develop robust programs.* More so than people usually
+guess, including experienced programmers. Programmers get so focused on
+simply solving the problem at hand that they fail to look at the
+possible side issues.
 
 In the `toupper` program, we do not have any course of action if the
 file the user selects does not exist. The program will go ahead and try
 to work anyway. It doesn't report any error message so the user won't
 even know that they typed in the name wrong. Let's say that the
 destination file is on a network drive, and the network temporarily
-fails. The operating system is returning a status codestatus code to us
-in *%eax*, but we aren't checking it. Therefore, if a failure occurs,
-the user is totally unaware. This program is definitely not robust. As
-you can see, even in a simple program there are a lot of things that can
-go wrong that a programmer must contend with.
+fails. The operating system is returning a status code to us in *%eax*,
+but we aren't checking it. Therefore, if a failure occurs, the user is
+totally unaware. This program is definitely not robust. As you can see,
+even in a simple program there are a lot of things that can go wrong
+that a programmer must contend with.
 
 In a large program, it gets much more problematic. There are usually
-many more possible error conditionserror conditions than possible
-successful conditions. Therefore, you should always expect to spend the
-majority of your time checking status codes, writing error handlers, and
-performing similar tasks to make your program robust. If it takes two
-weeks to develop a program, it will likely take at least two more to
-make it robustrobust. Remember that every error message that pops up on
-your screen had to be programmed in by someone.
+many more possible error conditions than possible successful conditions.
+Therefore, you should always expect to spend the majority of your time
+checking status codes, writing error handlers, and performing similar
+tasks to make your program robust. If it takes two weeks to develop a
+program, it will likely take at least two more to make it robust.
+Remember that every error message that pops up on your screen had to be
+programmed in by someone.
 
 Some Tips for Developing Robust Programs
 ----------------------------------------
 
 ### User Testing
 
-Testingtesting is one of the most essential things a programmer does. If
-you haven't tested something, you should assume it doesn't work.
-However, testing isn't just about making sure your program works, it's
-about making sure your program doesn't break. For example, if I have a
-program that is only supposed to deal with positive numbers, you need to
-test what happens if the user enters a negative number. Or a letter. Or
-the number zero. You must test what happens if they put spaces before
-their numbers, spaces after their numbers, and other little
-possibilities. You need to make sure that you handle the user's data in
-a way that makes sense to the user, and that you pass on that data in a
-way that makes sense to the rest of your program. When your program
-finds input that doesn't make sense, it needs to perform appropriate
-actions. Depending on your program, this may include ending the program,
-prompting the user to re-enter values, notifying a central error log,
-rolling back an operation, or ignoring it and continuing.
+Testing is one of the most essential things a programmer does. If you
+haven't tested something, you should assume it doesn't work. However,
+testing isn't just about making sure your program works, it's about
+making sure your program doesn't break. For example, if I have a program
+that is only supposed to deal with positive numbers, you need to test
+what happens if the user enters a negative number. Or a letter. Or the
+number zero. You must test what happens if they put spaces before their
+numbers, spaces after their numbers, and other little possibilities. You
+need to make sure that you handle the user's data in a way that makes
+sense to the user, and that you pass on that data in a way that makes
+sense to the rest of your program. When your program finds input that
+doesn't make sense, it needs to perform appropriate actions. Depending
+on your program, this may include ending the program, prompting the user
+to re-enter values, notifying a central error log, rolling back an
+operation, or ignoring it and continuing.
 
 Not only should you test your programs, you need to have others test it
 as well. You should enlist other programmers and users of your program
@@ -4087,8 +4089,8 @@ ever could. The reason is that users don't know what the computer
 expects. You know what kinds of data the computer expects, and therefore
 are much more likely to enter data that makes sense to the computer.
 Users enter data that makes sense to them. Allowing non-programmers to
-use your program for testingtesting purposes usually gives you much more
-accurate results as to how robustrobust your program truly is.
+use your program for testing purposes usually gives you much more
+accurate results as to how robust your program truly is.
 
 ### Data Testing
 
@@ -4096,28 +4098,27 @@ When designing programs, each of your functions needs to be very
 specific about the type and range of data that it will or won't accept.
 You then need to test these functions to make sure that they perform to
 specification when handed the appropriate data. Most important is
-testing *corner casescorner cases* or *edge casesedge cases*. Corner
-cases are the inputs that are most likely to cause problems or behave
-unexpectedly.
+testing *corner cases* or *edge cases*. Corner cases are the inputs that
+are most likely to cause problems or behave unexpectedly.
 
 When testing numeric data, there are several corner cases you always
 need to test:
 
--   The number 0
+-   The number 0.
 
--   The number 1
+-   The number 1.
 
--   A number within the expected range
+-   A number within the expected range.
 
--   A number outside the expected range
+-   A number outside the expected range.
 
--   The first number in the expected range
+-   The first number in the expected range.
 
--   The last number in the expected range
+-   The last number in the expected range.
 
--   The first number below the expected range
+-   The first number below the expected range.
 
--   The first number above the expected range
+-   The first number above the expected range.
 
 For example, if I have a program that is supposed to accept values
 between 5 and 200, I should test 0, 1, 4, 5, 153, 200, 201, and 255 at a
@@ -4135,10 +4136,10 @@ development you often need to check for errors anyway, as your other
 code may have errors in it. To verify the consistency and validity of
 data during development, most languages have a facility to easily check
 assumptions about data correctness. In the C language there is the
-`assertassert` macro. You can simply put in your code `assert(a > b);`,
-and it will give an error if it reaches that code when the condition is
-not true. In addition, since such a check is a waste of time after your
-code is stable, the `assert` macro allows you to turn off asserts at
+`assert` macro. You can simply put in your code `assert(a > b);`, and it
+will give an error if it reaches that code when the condition is not
+true. In addition, since such a check is a waste of time after your code
+is stable, the `assert` macro allows you to turn off asserts at
 compile-time. This makes sure that your functions are receiving good
 data without causing unnecessary slowdowns for code released to the
 public.
@@ -4152,16 +4153,16 @@ make sure it responds appropriately.
 
 In order to do this effectively, you have to develop functions whose
 sole purpose is to call functions for testing. These are called
-*driversdrivers* (not to be confused with hardware drivers) . They
-simply load your function, supply it with data, and check the results.
-This is especially useful if you are working on pieces of an unfinished
-program. Since you can't test all of the pieces together, you can create
-a driver program that will test each function individually.
+*drivers* (not to be confused with hardware drivers) . They simply load
+your function, supply it with data, and check the results. This is
+especially useful if you are working on pieces of an unfinished program.
+Since you can't test all of the pieces together, you can create a driver
+program that will test each function individually.
 
 Also, the code you are testing may make calls to functions not developed
 yet. In order to overcome this problem, you can write a small function
-called a *stubstub* which simply returns the values that function needs
-to proceed. For example, in an e-commerce application, I had a function
+called a *stub* which simply returns the values that function needs to
+proceed. For example, in an e-commerce application, I had a function
 called `is_ready_to_checkout`. Before I had time to actually write the
 function I just set it to return true on every call so that the
 functions which relied on it would have an answer. This allowed me to
@@ -4177,31 +4178,30 @@ to know what to do when an error is detected.
 ### Have an Error Code for Everything
 
 Truly robust software has a unique error code for every possible
-contingency. By simply knowing the error codeerror code, you should be
-able to find the location in your code where that error was signalled.
+contingency. By simply knowing the error code, you should be able to
+find the location in your code where that error was signalled.
 
 This is important because the error code is usually all the user has to
 go on when reporting errors. Therefore, it needs to be as useful as
 possible.
 
 Error codes should also be accompanied by descriptive error messages.
-error messages However, only in rare circumstances should the error
-message try to predict *why* the error occurred. It should simply relate
-what happened. Back in 1995 I worked for an Internet Service Provider.
-One of the web browsers we supported tried to guess the cause for every
-network error, rather than just reporting the error. If the computer
-wasn't connected to the Internet and the user tried to connect to a
-website, it would say that there was a problem with the Internet Service
-Provider, that the server was down, and that the user should contact
-their Internet Service Provider to correct the problem. Nearly a quarter
-of our calls were from people who had received this message, but merely
-needed to connect to the Internet before trying to use their browser. As
-you can see, trying to diagnose what the problem is can lead to a lot
-more problems than it fixes. It is better to just report error codes and
-messages, and have separate resources for the user to troubleshooting
-the application. A troubleshooting guide, not the program itself, is an
-appropriate place to list possible reasons and courses for action for
-each error message.
+However, only in rare circumstances should the error message try to
+predict *why* the error occurred. It should simply relate what happened.
+Back in 1995 I worked for an Internet Service Provider. One of the web
+browsers we supported tried to guess the cause for every network error,
+rather than just reporting the error. If the computer wasn't connected
+to the Internet and the user tried to connect to a website, it would say
+that there was a problem with the Internet Service Provider, that the
+server was down, and that the user should contact their Internet Service
+Provider to correct the problem. Nearly a quarter of our calls were from
+people who had received this message, but merely needed to connect to
+the Internet before trying to use their browser. As you can see, trying
+to diagnose what the problem is can lead to a lot more problems than it
+fixes. It is better to just report error codes and messages, and have
+separate resources for the user to troubleshooting the application. A
+troubleshooting guide, not the program itself, is an appropriate place
+to list possible reasons and courses for action for each error message.
 
 ### Recovery Points
 
@@ -4212,27 +4212,27 @@ that reading the configuration file was a unit. If reading the
 configuration file failed at any point (opening the file, reading the
 file, trying to decode the file, etc.) then the program would simply
 treat it as a configuration file problem and skip to the *recovery
-pointrecovery points* for that problem. This way you greatly reduce the
-number of error-handling mechanism you need for your program, because
-error recovery is done on a much more general level.
+point* for that problem. This way you greatly reduce the number of
+error-handling mechanism you need for your program, because error
+recovery is done on a much more general level.
 
-Note that even with recovery points, your error messageserror messages
-need to be specific as to what the problem was. Recovery points are
-basic units for error recovery, not for error detection. Error detection
-still needs to be extremely exact, and the error reports need exact
-error codes and messages.
+Note that even with recovery points, your error messages need to be
+specific as to what the problem was. Recovery points are basic units for
+error recovery, not for error detection. Error detection still needs to
+be extremely exact, and the error reports need exact error codes and
+messages.
 
-When using recovery pointsrecovery points, you often need to include
-cleanup code to handle different contingencies. For example, in our
-configuration file example, the recovery function would need to include
-code to check and see if the configuration file was still open.
-Depending on where the error occurred, the file may have been left open.
-The recovery function needs to check for this condition, and any other
-condition that might lead to system instability, and return the program
-to a consistent state.
+When using recovery points, you often need to include cleanup code to
+handle different contingencies. For example, in our configuration file
+example, the recovery function would need to include code to check and
+see if the configuration file was still open. Depending on where the
+error occurred, the file may have been left open. The recovery function
+needs to check for this condition, and any other condition that might
+lead to system instability, and return the program to a consistent
+state.
 
-The simplest way to handle recovery pointsrecovery points is to wrap the
-whole program into a single recovery point. You would just have a simple
+The simplest way to handle recovery points is to wrap the whole program
+into a single recovery point. You would just have a simple
 error-reporting function that you can call with an error code and a
 message. The function would print them and and simply exit the program.
 This is not usually the best solution for real-world situations, but it
@@ -4251,7 +4251,43 @@ single recovery point that covers the whole program. The only thing we
 will do to recover is to print the error and exit. The code to do that
 is pretty simple:
 
-    ERROR-EXIT-S
+        .code32                             # Generate 32-bit code.
+        .include "linux.s"                  # Common Linux Definitions.
+
+        .equ ST_ERROR_CODE,  8
+        .equ ST_ERROR_MSG,   12
+
+        .globl error_exit
+        .type  error_exit,   @function
+
+    error_exit:
+        pushl %ebp
+        movl  %esp, %ebp
+
+        movl  ST_ERROR_CODE(%ebp), %ecx     # Write out error code.
+        pushl %ecx
+        call  count_chars
+        popl  %ecx
+        movl  %eax, %edx
+        movl  $STDERR, %ebx
+        movl  $SYS_WRITE, %eax
+        int   $LINUX_SYSCALL
+
+        movl  ST_ERROR_MSG(%ebp), %ecx      # Write out error message.
+        pushl %ecx
+        call  count_chars
+        popl  %ecx
+        movl  %eax, %edx
+        movl  $STDERR, %ebx
+        movl  $SYS_WRITE, %eax
+        int   $LINUX_SYSCALL
+
+        pushl $STDERR
+        call  write_newline
+
+        movl  $SYS_EXIT, %eax               # Exit with status 1.
+        movl  $1, %ebx
+        int   $LINUX_SYSCALL
 
 Enter it in a file called `error-exit.s`. To call it, you just need to
 push the address of an error message, and then an error code onto the
@@ -4262,31 +4298,29 @@ First of all, we don't check to see if either of our `open` system calls
 actually complete properly. Linux returns its status code in *%eax*, so
 we need to check and see if there is an error.
 
-        #Open file for reading
-        movl  $SYS_OPEN, %eax
+        movl  $SYS_OPEN, %eax               # Open file for reading.
         movl  $input_file_name, %ebx
         movl  $0, %ecx
         movl  $0666, %edx
         int   $LINUX_SYSCALL
 
-        movl  %eax, INPUT_DESCRIPTOR(%ebp)
+        movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
-        #This will test and see if %eax is
-        #negative.  If it is not negative, it
-        #will jump to continue_processing.
-        #Otherwise it will handle the error
-        #condition that the negative number
-        #represents.
+        # This will test and see if %eax is negative.  If it is not negative,
+        # it will jump to continue_processing. Otherwise it will handle the
+        # error condition that the negative number represents.
+        #
         cmpl  $0, %eax
         jl    continue_processing
 
 
-        #Send the error
+        # ----- SEND THE ERROR ----- #
+        #
         .section .data
-    no_open_file_code:
-        .ascii "0001: \0"
-    no_open_file_msg:
-        .ascii "Can't Open Input File\0"
+            no_open_file_code:
+                .ascii "0001: \0"
+            no_open_file_msg:
+                .ascii "Can't Open Input File.\0"
 
         .section .text
         pushl $no_open_file_msg
@@ -4294,21 +4328,21 @@ we need to check and see if there is an error.
         call  error_exit
 
     continue_processing:
-        #Rest of program
+        ### Rest of program.
 
 So, after calling the system call, we check and see if we have an error
 by checking to see if the result of the system call is less than zero.
 If so, we call our error reporting and exit routine.
 
-After every system callsystem call, function callfunction call, or
-instructioninstruction which can have erroneous results you should add
-error checkingerror checking and handling code.
+After every system call, function call, or instruction which can have
+erroneous results you should add error checking and handling code.
 
 To assemble and link the files, do:
 
-    as add-year.s -o add-year.o
-    as error-exit.s -o error-exit.o
-    ld add-year.o write-newline.o error-exit.o read-record.o write-record.o count-chars.o -o add-year
+    as -o add-year.o    add-year.s
+    as -o error-exit.o  error-exit.s
+    ld -o add-year      add-year.o write-newline.o error-exit.o \
+                        read-record.o write-record.o count-chars.o
 
 Now try to run it without the necessary files. It now exits cleanly and
 gracefully!
@@ -4358,8 +4392,656 @@ Review
 
 -   Try to fix the bug you found in the previous exercise.
 
-Intermediate Memory Topics
-==========================
+Chapter 8. Sharing Functions with Code Libraries
+================================================
+
+By now you should realize that the computer has to do a lot of work even
+for simple tasks. Because of that, you have to do a lot of work to write
+the code for a computer to even do simple tasks. In addition,
+programming tasks are usually not very simple. Therefore, we neeed a way
+to make this process easier on ourselves. There are several ways to do
+this, including:
+
+-   Write code in a high-level language instead of assembly language.
+
+-   Have lots of pre-written code that you can cut and paste into your
+    own programs.
+
+-   Have a set of functions on the system that are shared among any
+    program that wishes to use it.
+
+All three of these are usually used to some degree in any given project.
+The first option will be explored further in [High-Level
+Languages](#high-level-languages). The second option is useful but it
+suffers from some drawbacks, including:
+
+-   Code that is copied often has to be majorly modified to fit the
+    surrounding code.
+
+-   Every program containing the copied code has the same code in it,
+    thus wasting a lot of space.
+
+-   If a bug is found in any of the copied code it has to be fixed in
+    every application program.
+
+Therefore, the second option is usually used sparingly. It is usually
+only used in cases where you copy and paste skeleton code for a specific
+type of task, and add in your program-specific details. The third option
+is the one that is used the most often. The third option includes having
+a central repository of shared code. Then, instead of each program
+wasting space storing the same copies of functions, they can simply
+point to the *dynamic libraries* which contain the functions they need.
+If a bug is found in one of these functions, it only has to be fixed
+within the single function library file, and all applications which use
+it are automatically updated. The main drawback with this approach is
+that it creates some dependency problems, including:
+
+-   If multiple applications are all using the same file, how do we know
+    when it is safe to delete the file? For example, if three
+    applications are sharing a file of functions and 2 of the programs
+    are deleted, how does the system know that there still exists an
+    application that uses that code, and therefore it shouldn't be
+    deleted?
+
+-   Some programs inadvertantly rely on bugs within shared functions.
+    Therefore, if upgrading the shared functions fixes a bug that a
+    program depended on, it could cause that application to cease
+    functioning.
+
+These problems are what lead to what is known as "DLL hell". However, it
+is generally assumed that the advantages outweigh the disadvantages.
+
+In programming, these shared code files are referred to as *shared
+libraries*, *dynamic libraries*, *shared objects*, *dynamic-link
+libraries*, *DLLs*, or *.so files*.[39] We will refer to all of these as
+*dynamic libraries*.
+
+Using a Dynamic Library
+-----------------------
+
+The program we will examine here is simple - it writes the characters
+`hello world` to the screen and exits. The regular program,
+`helloworld-nolib.s`, looks like this:
+
+        .code32                             # Generate 32-bit code.
+        .include "linux.s"                  # Common Linux Definitions.
+
+        # PURPOSE:  This program writes the message "hello world" and exits.
+        #
+        .section .data
+            helloworld:
+                .ascii "hello world\n"
+
+            helloworld_end:
+                .equ helloworld_len, helloworld_end - helloworld
+
+        .section .text
+
+        .globl _start
+    _start:
+        movl  $STDOUT, %ebx
+        movl  $helloworld, %ecx
+        movl  $helloworld_len, %edx
+        movl  $SYS_WRITE, %eax
+        int   $LINUX_SYSCALL
+
+        movl  $0, %ebx
+        movl  $SYS_EXIT, %eax
+        int   $LINUX_SYSCALL
+
+That's not too long. However, take a look at how short `helloworld-lib`
+is which uses a library:
+
+        .code32                             # Generate 32-bit code.
+
+        # PURPOSE:  This program writes the message "hello world" and exits.
+        #
+        .section .data
+            helloworld:
+                .ascii "hello world\n\0"
+
+        .section .text
+
+        .globl _start
+    _start:
+        pushl $helloworld
+        call  printf
+
+        pushl $0
+        call  exit
+
+It's even shorter!
+
+Now, building programs which use dynamic libraries is a little different
+than normal. You can build the first program normally by doing this:
+
+    as -o helloworld-nolib.o  helloworld-nolib.s
+    ld -o helloworld-nolib    helloworld-nolib.o
+
+However, in order to build the second program, you have to do this:
+
+    as -o helloworld-lib.o  helloworld-lib.s
+    ld -o helloworld-lib    helloworld-lib.o \
+                            -lc -dynamic-linker /lib/ld-linux.so.2
+
+Remember, the backslash in the first line simply means that the command
+continues on the next line. The option
+`-dynamic-linker  /lib/ld-linux.so.2` allows our program to be linked to
+libraries. This builds the executable so that before executing, the
+operating system will load the program `/lib/ld-linux.so.2` to load in
+external libraries and link them with the program. This program is known
+as a *dynamic linker*.
+
+The `-lc` option says to link to the `C` library, named `libc.so` on
+GNU/Linux systems. Given a library name, `c` in this case (usually
+library names are longer than a single letter), the GNU/Linux linker
+prepends the string `lib` to the beginning of the library name and
+appends `.so` to the end of it to form the library's filename. This
+library contains many functions to automate all types of tasks. The two
+we are using are `printf`, which prints strings, and `exit`, which exits
+the program.
+
+Notice that the symbols `printf` and `exit` are simply referred to by
+name within the program. In previous chapters, the linker would resolve
+all of the names to physical memory addresses, and the names would be
+thrown away. When using dynamic linking, the name itself resides within
+the executable, and is resolved by the dynamic linker when it is run.
+When the program is run by the user, the dynamic linker loads the
+dynamic libraries listed in our link statement, and then finds all of
+the function and variable names that were named by our program but not
+found at link time, and matches them up with corresponding entries in
+the shared libraries it loads. It then replaces all of the names with
+the addresses which they are loaded at. This sounds time-consuming. It
+is to a small degree, but it only happens once - at program startup
+time.
+
+How Dynamic Libraries Work
+--------------------------
+
+In our first programs, all of the code was contained within the source
+file. Such programs are called *statically-linked executables*, because
+they contained all of the necessary functionality for the program that
+wasn't handled by the kernel. In the programs we wrote in [Chapter 6.
+Reading and Writing Simple
+Records](#chapter-6-reading-and-writing-simple-records), we used both
+our main program file and files containing routines used by multiple
+programs. In these cases, we combined all of the code together using the
+linker at link-time, so it was still statically-linked. However, in the
+`helloworld-lib` program, we started using dynamic libraries. When you
+use dynamic libraries, your program is then *dynamically-linked*, which
+means that not all of the code needed to run the program is actually
+contained within the program file itself, but in external libraries.
+
+When we put the `-lc` on the command to link the `helloworld` program,
+it told the linker to use the `C` library (`libc.so`) to look up any
+symbolssymbols that weren't already defined in `helloworld.o`. However,
+it doesn't actually add any code to our program, it just notes in the
+program where to look. When the `helloworld` program begins, the file
+`/lib/ld-linux.so.2` is loaded first. This is the dynamic linker. This
+looks at our `helloworld` program and sees that it needs the `C` library
+to run. So, it searches for a file called `libc.so` in the standard
+places (listed in `/etc/ld.so.conf` and in the contents of the
+`LD_LIBRARY_PATH` environment variable), then looks in it for all the
+needed symbols (`printf` and `exit` in this case), and then loads the
+library into the program's virtual memory. Finally, it replaces all
+instances of `printf` in the program with the actual location of
+`printf` in the library.
+
+Run the following command:
+
+    ldd ./helloworld-nolib
+
+It should report back `not a dynamic executable`. This is just like we
+said - `helloworld-nolib` is a statically-linked executable. However,
+try this:
+
+    ldd ./helloworld-lib
+
+It will report back something like:
+
+    libc.so.6 => /lib/libc.so.6 (0x4001d000)
+    /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x400000000)
+
+The numbers in parenthesis may be different on your system. This means
+that the program `helloworld` is linked to `libc.so.6` (the `.6` is the
+version number), which is found at `/lib/libc.so.6`, and
+`/lib/ld-linux.so.2` is found at `/lib/ld-linux.so.2`. These libraries
+have to be loaded before the program can be run. If you are interested,
+run the `ldd` program on various programs that are on your Linux
+distribution, and see what libraries they rely on.
+
+Finding Information about Libraries
+-----------------------------------
+
+Okay, so now that you know about libraries, the question is, how do you
+find out what libraries you have on your system and what they do? Well,
+let's skip that question for a minute and ask another question: How do
+programmers describe functions to each other in their documentation?
+Let's take a look at the function `printf`. Its calling interface
+(usually referred to as a *prototype*) looks like this:
+
+    int printf(char *string, ...);
+
+In Linux, functions are described in the C programming language. In
+fact, most Linux programs are written in C. That is why most
+documentation and binary compatibility is defined using the C language.
+The interface to the `printf` function above is described using the C
+programming language.
+
+This definition means that there is a function `printf`. The things
+inside the parenthesis are the function's parameters or arguments. The
+first parameter here is `char *string`. This means there is a parameter
+named `string` (the name isn't important, except to use for talking
+about it), which has a type `char *`. `char` means that it wants a
+single-byte character. The `*` after it means that it doesn't actually
+want a character as an argument, but instead it wants the address of a
+character or sequence of characters. If you look back at our
+`helloworld program`, you will notice that the function call looked like
+this:
+
+    pushl $hello
+    call  printf
+
+So, we pushed the address of the `hello` string, rather than the actual
+characters. You might notice that we didn't push the length of the
+string. The way that `printf` found the end of the string was because we
+ended it with a null character (`\0`). Many functions work that way,
+especially C language functions. The `int` before the function
+definition tell what type of value the function will return in *%eax*
+when it returns. `printf` will return an `int` when it's through. Now,
+after the `char *string`, we have a series of periods, `...`. This means
+that it can take an indefinite number of additional arguments after the
+string. Most functions can only take a specified number of arguments.
+`printf`, however, can take many. It will look into the `string`
+parameter, and everywhere it sees the characters `%s`, it will look for
+another string from the stack to insert, and everywhere it sees `%d` it
+will look for a number from the stack to insert. This is best described
+using an example:
+
+        .code32                             # Generate 32-bit code.
+
+        # PURPOSE:  This program is to demonstrate how to call printf.
+        #
+        .section .data
+            # This string is called the format string.  It's the first
+            # parameter, and printf uses it to find out how many parameters
+            # it was given, and what kind they are.
+            #
+            firststring:
+                .ascii "Hello! %s is a %s who loves the number %d.\n\0"
+
+            namestring:
+                .ascii "Jonathan\0"
+
+            personstring:
+                .ascii "person\0"
+
+            # This could also have been an .equ, but we decided to give it
+            # a real memory location just for kicks.
+            #
+            numberloved:
+                .long 3
+
+        .section .text
+
+        .globl _start
+    _start:
+        # Note that the parameters are passed in the reverse order that they
+        # are listed in the function's prototype.
+        #
+        pushl numberloved                   # This is the %d.
+        pushl $personstring                 # This is the second %s.
+        pushl $namestring                   # This is the first %s.
+        pushl $firststring                  # This is the format string
+                                            # in the prototype.
+        call  printf
+
+        pushl $0
+        call  exit
+
+Type it in with the filename `printf-example.s`, and then do the
+following commands:
+
+    as -o printf-example.o  printf-example.s
+    ld -o printf-example    printf-example.o \
+                            -lc -dynamic-linker /lib/ld-linux.so.2
+
+Then run the program with `./printf-example`, and it should say this:
+
+    Hello! Jonathan is a person who loves the number 3.
+
+Now, if you look at the code, you'll see that we actually push the
+format string last, even though it's the first parameter listed. You
+always push a functions parameters in reverse order.[40] You may be
+wondering how the `printf` function knows how many parameters there are.
+Well, it searches through your string, and counts how many `%d`s and
+`%s`s it finds, and then grabs that number of parameters from the stack.
+If the parameter matches a `%d`, it treats it as a number, and if it
+matches a `%s`, it treats it as a pointer to a null-terminated string.
+`printf` has many more features than this, but these are the most-used
+ones. So, as you can see, `printf` can make output a lot easier, but it
+also has a lot of overhead, because it has to count the number of
+characters in the string, look through it for all of the control
+characters it needs to replace, pull them off the stack, convert them to
+a suitable representation (numbers have to be converted to strings,
+etc), and stick them all together appropriately.
+
+We've seen how to use the C programming language prototypes to call
+library functions. To use them effectively, however, you need to know
+several more of the possible data types for reading functions. Here are
+the main ones:
+
+`int`:  
+An `int` is an integer number (4 bytes on x86 processor).
+
+`long`:  
+A `long` is also an integer number (4 bytes on an x86 processor).
+
+`long long`:  
+A `long long` is an integer number that's larger than a `long` (8 bytes
+on an x86 processor).
+
+`short`:  
+A short is an integer number that's shorter than an `int` (2 bytes on an
+x86 processor).
+
+`char`:  
+A `char` is a single-byte integer number. This is mostly used for
+storing character data, since ASCII strings usually are represented with
+one byte per character.
+
+`float`:  
+A `float` is a floating-point number (4 bytes on an x86 processor).
+Floating-point numbers will be explained in more depth in
+[Floating-point Numbers](#floating-point-numbers).
+
+`double`:  
+A `double` is a floating-point number that is larger than a float (8
+bytes on an x86 processor).
+
+`unsigned`:  
+`unsigned` is a modifier used for any of the above types which keeps
+them from being used as signed quantities. The difference between signed
+and unsigned numbers will be discussed in [Counting Like a
+Computer](#counting-like-a-computer).
+
+`*`:  
+An asterisk (`*`) is used to denote that the data isn't an actual value,
+but instead is a pointer to a location holding the given value (4 bytes
+on an x86 processor). So, let's say in memory location `my_location` you
+have the number 20 stored. If the prototype said to pass an `int`, you
+would use direct addressing mode and do `pushl my_location`. However, if
+the prototype said to pass an `int *`, you would do
+`pushl $my_location` - an immediate mode addressing push of the address
+that the value resides in. In addition to indicating the address of a
+single value, pointers can also be used to pass a sequence of
+consecutive locations, starting with the one pointed to by the given
+value. This is called an array.
+
+`struct`:  
+A `struct` is a set of data items that have been put together under a
+name. For example you could declare:
+
+And any time you ran into `struct teststruct` you would know that it is
+actually two words right next to each other, the first being an integer,
+and the second a pointer to a character or group of characters. You
+never see structs passed as arguments to functions. Instead, you usually
+see pointers to structs passed as arguments. This is because passing
+structs to functions is fairly complicated, since they can take up so
+many storage locations.
+
+<!-- -->
+
+    struct teststruct {
+        int a;
+        char *b;
+    };
+
+`typedef`:  
+A `typedef` basically allows you to rename a type. For example, I can do
+`typedef int myowntype;` in a C program, and any time I typed
+`myowntype`, it would be just as if I typed `int`. This can get kind of
+annoying, because you have to look up what all of the typedefs and
+structs in a function prototype really mean. However, `typedef`s are
+useful for giving types more meaningful and descriptive names.
+
+> **Compatibility Note:** The listed sizes are for intel-compatible
+> (x86) machines. Other machines will have different sizes. Also, even
+> when parameters shorter than a word are passed to functions, they are
+> passed as longs on the stack.
+
+That's how to read function documentation. Now, let's get back to the
+question of how to find out about libraries. Most of your system
+libraries are in `/usr/lib` or `/lib`. If you want to just see what
+symbols they define, just run `objdump -R FILENAME` where `FILENAME` is
+the full path to the library. The output of that isn't too helpful,
+though, for finding an interface that you might need. Usually, you have
+to know what library you want at the beginning, and then just read the
+documentation. Most libraries have manuals or man pages for their
+functions. The web is the best source of documentation for libraries.
+Most libraries from the GNU project also have info pages on them, which
+are a little more thorough than man pages.
+
+Useful Functions
+----------------
+
+Several useful functions you will want to be aware of from the `C`
+library include:
+
+-   `size_t strlen (const char *s)` calculates the size of
+    null-terminated strings.
+
+-   `int strcmp (const char *s1, const char *s2)` compares two strings
+    alphabetically.
+
+-   `char * strdup (const char *s)` takes the pointer to a string, and
+    creates a new copy in a new location, and returns the new location.
+
+-   `FILE * fopen (const char *filename, const char *opentype)` opens a
+    managed, buffered file (allows easier reading and writing than using
+    file descriptors directly).[41] [42]
+
+-   `int fclose (FILE *stream)` closes a file opened with `fopen`.
+
+-   `char * fgets (char *s, int count, FILE *stream)` fetches a line of
+    characters into string `s`.
+
+-   `int fputs (const char *s, FILE *stream)` writes a string to the
+    given open file.
+
+-   `int fprintf (FILE *stream, const char *template, ...)` is just like
+    `printf`, but it uses an open file rather than defaulting to using
+    standard output.
+
+You can find the complete manual on this library by going to [The GNU C
+Library manual](http://www.gnu.org/software/libc/manual/)
+
+Building a Dynamic Library
+--------------------------
+
+Let's say that we wanted to take all of our shared code from [Chapter 6.
+Reading and Writing Simple
+Records](#chapter-6-reading-and-writing-simple-records) and build it
+into a dynamic library to use in our programs. The first thing we would
+do is assemble them like normal:
+
+    as -o write-record.o  write-record.s
+    as -o read-record.o   read-record.s
+
+Now, instead of linking them into a program, we want to link them into a
+dynamic library. This changes our linker command to this:
+
+    ld -o librecord.so  -shared write-record.o read-record.o
+
+This links both of these files together into a dynamic library called
+`librecord.so`. This file can now be used for multiple programs. If we
+need to update the functions contained within it, we can just update
+this one file and not have to worry about which programs use it.
+
+Let's look at how we would link against this library. To link the
+`write-records` program, we would do the following:
+
+    as -o write-records.o  write-records.s
+    ld -o write-records    write-records.o \
+                           -lrecord \
+                           -L . \
+                           -dynamic-linker /lib/ld-linux.so.2
+
+In this command, `-L .` told the linker to look for libraries in the
+current directory (it usually only searches `/lib` directory, `/usr/lib`
+directory, and a few others). As we've seen, the option
+`-dynamic-linker /lib/ld-linux.so.2` specified the dynamic linker. The
+option `-lrecord` tells the linker to search for functions in the file
+named `librecord.so`.
+
+Now the `write-records` program is built, but it will not run. If we try
+it, we will get an error like the following:
+
+    ./write-records: error while loading shared libraries: 
+    librecord.so: cannot open shared object file: No such file or directory
+
+This is because, by default, the dynamic linker only searches `/lib`,
+`/usr/lib`, and whatever directories are listed in `/etc/ld.so.conf` for
+libraries. In order to run the program, you either need to move the
+library to one of these directories, or execute the following command:
+
+    LD_LIBRARY_PATH=.
+    export LD_LIBRARY_PATH
+
+Alternatively, if that gives you an error, do this instead:
+
+    setenv LD_LIBRARY_PATH .
+
+Now, you can run `write-records` normally by typing `./write-records`.
+Setting `LD_LIBRARY_PATH` tells the linker to add whatever paths you
+give it to the library search path for dynamic libraries.
+
+<!-- TODO: Personal -> Test this ldd section, what is the real result? --->
+
+**TODO:** Personal -&gt; Test this ldd section. What is the real result?
+Maybe it is not working because itself is a library. Otherwise add a
+complete example where `read-records` use this dynamic library. Improve
+the text below when I know the real result.
+
+Let's print the shared object dependencies for `./write-recors`. It is a
+shared library. Try this:
+
+    ldd ./write-records
+
+It will report back something like:
+
+    libc.so.6 => /lib/libc.so.6 (0x4001d000)
+    /???/write-recors.so.? => /???/write-recors.so.? (0x??0000000)
+
+For further information about dynamic linking, see the following sources
+on the Internet:
+
+-   The man page for `ld.so` contains a lot of information about how the
+    Linux dynamic linker works, execute in the terminal: `man ld.so`.
+
+-   Introduction to the ELF Format: [The ELF
+    Header](https://blog.k3170makan.com/2018/09/introduction-to-elf-format-elf-header.html),
+    [Understanding Program
+    Headers](https://blog.k3170makan.com/2018/09/introduction-to-elf-format-part-ii.html),
+    [The Section
+    Headers](https://blog.k3170makan.com/2018/09/introduction-to-elf-file-format-part.html),
+    [Exploring Section Types and Special
+    Sections](https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi-more.html),
+    [Understanding C start
+    up](https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-v.html),
+    [The Symbol Table and Relocations: Part
+    I](https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi.html),
+    [The Symbol Table and Relocations: Part
+    II](https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi_18.html),
+    [More Relocation tricks: Part
+    III](https://blog.k3170makan.com/2018/10/introduction-to-elf-format-part-vi-more.html)
+    and [Dynamic Linking / Loading and the .dynamic
+    section](https://blog.k3170makan.com/2018/11/introduction-to-elf-format-part-vii.html)
+    provide a good introduction to the ELF file format.
+
+-   Executable and Linkable Format 101: [Part 1: Sections and
+    Segments](https://www.intezer.com/blog/research/executable-linkable-format-101-part1-sections-segments/),
+    [Part 2:
+    Symbols](https://www.intezer.com/blog/elf/executable-linkable-format-101-part-2-symbols/)
+    and [Part 3:
+    Relocations](https://www.intezer.com/blog/elf/executable-and-linkable-format-101-part-3-relocations/)
+    contains a great description of how dynamic linking works with ELF
+    files. [Part 4: Dynamic
+    Linking](https://www.intezer.com/blog/elf/executable-linkable-format-101-part-4-dynamic-linking/)
+    is a great presentation on dynamic linking in Linux.
+
+-   [Program Library HOWTO Shared
+    Libraries](https://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html)
+    contains a good introduction to programming position-independent
+    code for shared libraries under Linux.
+
+Review
+------
+
+### Know the Concepts
+
+-   What are the advantages and disadvantages of shared libraries?
+
+-   Given a library named 'foo', what would the library's filename be?
+
+-   What does the `ldd` command do?
+
+-   Let's say we had the files `foo.o` and `bar.o`, and you wanted to
+    link them together, and dynamically link them to the library
+    'kramer'. What would the linking command be to generate the final
+    executable?
+
+-   What is *typedef* for?
+
+-   What are *struct*s for?
+
+-   What is the difference between a data element of type *int* and
+    *int \**? How would you access them differently in your program?
+
+-   If you had a object file called `foo.o`, what would be the command
+    to create a shared library called 'bar'?
+
+-   What is the purpose of LD\_LIBRARY\_PATH?
+
+### Use the Concepts
+
+-   Rewrite one or more of the programs from the previous chapters to
+    print their results to the screen using `printf` rather than
+    returning the result as the exit status code. Also, make the exit
+    status code be 0.
+
+-   Use the `factorial` function you developed in [Recursive
+    Functions](#recursive-functions) to make a shared library. Then
+    re-write the main program so that it links with the library
+    dynamically.
+
+-   Rewrite the program above so that it also links with the 'C'
+    library. Use the 'C' library's `printf` function to display the
+    result of the `factorial` call.
+
+-   Rewrite the `toupper` program so that it uses the `C` library
+    functions for files rather than system calls.
+
+### Going Further
+
+-   Make a list of all the environment variables used by the GNU/Linux
+    dynamic linker.
+
+-   Research the different types of executable file formats in use today
+    and in the history of computing. Tell the strengths and weaknesses
+    of each.
+
+-   What kinds of programming are you interested in (graphics,
+    databbases, science, etc.)? Find a library for working in that area,
+    and write a program that makes some basic use of that library.
+
+-   Research the use of `LD_PRELOAD`. What is it used for? Try building
+    a shared library that contained the `exit` function, and have it
+    write a message to STDERR before exitting. Use `LD_PRELOAD` and run
+    various programs with it. What are the results?
+
+Chapter 9. Intermediate Memory Topics
+=====================================
 
 How a Computer Views Memory
 ---------------------------
@@ -4408,7 +5090,7 @@ bytes long. Most computer operations handle a word at a time.
 Address:  
 An address is a number that refers to a byte in memory. For example, the
 first byte on a computer has an address of 0, the second has an address
-of 1, and so on.[39] Every piece of data on the computer not in a
+of 1, and so on.[43] Every piece of data on the computer not in a
 register has an address. The address of data which spans several bytes
 is the same as the address of its first byte.
 
@@ -4442,7 +5124,7 @@ source code.
 The actual instructions (the `.text.text` section) are loaded at the
 address 0x08048000 (numbers starting with `0x` are in hexadecimal, which
 will be discussed in [Counting Like a
-Computer](#counting-like-a-computer)).[40] The `.data.data` section is
+Computer](#counting-like-a-computer)).[44] The `.data.data` section is
 loaded immediately after that, followed by the `.bss.bss` section.
 
 The last byte that can be addressed on Linux is location 0xbfffffff.
@@ -4482,7 +5164,7 @@ Your program's data region starts at the bottom of memory and goes up.
 The stack starts at the top of memory, and moves downward with each
 push. This middle part between the stack and your program's data
 sections is inaccessible memory - you are not allowed to access it until
-you tell the kernel that you need it.[41] If you try, you will get an
+you tell the kernel that you need it.[45] If you try, you will get an
 error (the error message is usually "segmentation fault"). The same will
 happen if you try to access data before the beginning of your program,
 0x08048000. The last accessible memory address to your program is called
@@ -4564,7 +5246,7 @@ virtual-to-physical memory lookup tables so that it can find the memory
 in the new location. Finally, Linux returns control to the program and
 restarts it at the instruction which was trying to access the data in
 the first place. This instruction can now be completed successfully,
-because the memory is now in physical RAM.[42]
+because the memory is now in physical RAM.[46]
 
 Here is an overview of the way memory accesses are handled under Linux:
 
@@ -4665,7 +5347,7 @@ needed is a *memory managermemory manager*.
 
 A memory manager is a set of routines that takes care of the dirty work
 of getting your program memory for you. Most memory managers have two
-basic functions - `allocate` and `deallocate`.[43] Whenever you need a
+basic functions - `allocate` and `deallocate`.[47] Whenever you need a
 certain amount of memory, you can simply tell `allocate` how much you
 need, and it will give you back an address to the memory. When you're
 done with it, you tell `deallocate` that you are through with it.
@@ -4984,7 +5666,7 @@ addition, remember that Linux can keep pages of memory on disk instead
 of in memory. So, since you have to go through every piece of memory
 your program's memory, that means that Linux has to load every part of
 memory that's currently on disk to check to see if it is available. You
-can see how this could get really, really slow.[44] This method is said
+can see how this could get really, really slow.[48] This method is said
 to run in *linear* time, which means that every element you have to
 manage makes your program take longer. A program that runs in *constant*
 time takes the same amount of time no matter how many elements you are
@@ -5198,545 +5880,6 @@ Review
     used as your memory manager instead of the default one. Add some
     `write` system calls to STDOUT to verify that your memory manager is
     being used instead of the default one.
-
-Sharing Functions with Code Libraries
-=====================================
-
-By now you should realize that the computer has to do a lot of work even
-for simple tasks. Because of that, you have to do a lot of work to write
-the code for a computer to even do simple tasks. In addition,
-programming tasks are usually not very simple. Therefore, we neeed a way
-to make this process easier on ourselves. There are several ways to do
-this, including:
-
--   Write code in a high-level language instead of assembly language
-
--   Have lots of pre-written code that you can cut and paste into your
-    own programs
-
--   Have a set of functionsfunctions on the system that are shared among
-    any program that wishes to use it
-
-All three of these are usually used to some degree in any given project.
-The first option will be explored further in [???](#highlevellanguages).
-The second option is useful but it suffers from some drawbacks,
-including:
-
--   Code that is copied often has to be majorly modified to fit the
-    surrounding code.
-
--   Every program containing the copied code has the same code in it,
-    thus wasting a lot of space.
-
--   If a bug is found in any of the copied code it has to be fixed in
-    every application program.
-
-Therefore, the second option is usually used sparingly. It is usually
-only used in cases where you copy and paste skeleton codeskeleton code
-for a specific type of task, and add in your program-specific details.
-The third option is the one that is used the most often. The third
-option includes having a central repository of shared code. Then,
-instead of each program wasting space storing the same copies of
-functions, they can simply point to the *dynamic libraries* shared
-libraries dynamic libraries which contain the functions they need. If a
-bug is found in one of these functions, it only has to be fixed within
-the single function library file, and all applications which use it are
-automatically updated. The main drawback with this approach is that it
-creates some dependency problems, including:
-
--   If multiple applications are all using the same file, how do we know
-    when it is safe to delete the file? For example, if three
-    applications are sharing a file of functions and 2 of the programs
-    are deleted, how does the system know that there still exists an
-    application that uses that code, and therefore it shouldn't be
-    deleted?
-
--   Some programs inadvertantly rely on bugs within shared functions.
-    Therefore, if upgrading the shared functions fixes a bug that a
-    program depended on, it could cause that application to cease
-    functioning.
-
-These problems are what lead to what is known as "DLL hell". However, it
-is generally assumed that the advantages outweigh the disadvantages.
-
-In programming, these shared code files are referred to as *shared
-libraries* shared libraries, *dynamic libraries* dynamic libraries,
-*shared objectsshared objects*, *dynamic-link librariesdynamic-link
-libraries*, *DLLsDLLs*, or *.so files*.[45] We will refer to all of
-these as *dynamic libraries*.
-
-Using a Dynamic Library
------------------------
-
-The program we will examine here is simple - it writes the characters
-`hello world` to the screen and exits. The regular program,
-`helloworld-nolib.s`, looks like this:
-
-    HELLOWORLD-NOLIB-S
-
-That's not too long. However, take a look at how short `helloworld-lib`
-is which uses a library:
-
-    HELLOWORLD-LIB-S
-
-It's even shorter!
-
-Now, building programs which use dynamic librariesdynamic libraries is a
-little different than normal. You can build the first program normally
-by doing this:
-
-    as helloworld-nolib.s -o helloworld-nolib.o
-    ld helloworld-nolib.o -o helloworld-nolib
-
-However, in order to build the second program, you have to do this:
-
-    as helloworld-lib.s -o helloworld-lib.o
-    ld -dynamic-linker /lib/ld-linux.so.2 \
-       -o helloworld-lib helloworld-lib.o -lc
-
-Remember, the backslash in the first line simply means that the command
-continues on the next line. The option
-`-dynamic-linker-dynamic-linker  /lib/ld-linux.so.2` allows our program
-to be linked to libraries. This builds the executable so that before
-executing, the operating system will load the program
-`/lib/ld-linux.so.2` to load in external libraries and link them with
-the program. This program is known as a *dynamic linkerdynamic linker*.
-
-The `-lc` option says to link to the `c` library, named `libc.so` on
-GNU/Linux systems. Given a library name, `c` in this case (usually
-library names are longer than a single letter), the GNU/Linux linker
-prepends the string `lib` to the beginning of the library name and
-appends `.so` to the end of it to form the library's filename. This
-library contains many functions to automate all types of tasks. The two
-we are using are `printfprintf`, which prints strings, and `exitexit`,
-which exits the program.
-
-Notice that the symbols `printf` and `exit` are simply referred to by
-name within the program. In previous chapters, the linker would resolve
-all of the names to physical memory addresses, and the names would be
-thrown away. When using dynamic linkingdynamic linking, the name itself
-resides within the executable, and is resolved by the dynamic linker
-when it is run. When the program is run by the user, the dynamic
-linkerdynamic linker loads the dynamic librariesdynamic libraries listed
-in our link statement, and then finds all of the function and variable
-names that were named by our program but not found at link time, and
-matches them up with corresponding entries in the shared libraries it
-loads. It then replaces all of the names with the addresses which they
-are loaded at. This sounds time-consuming. It is to a small degree, but
-it only happens once - at program startup time.
-
-How Dynamic Libraries Work
---------------------------
-
-In our first programs, all of the code was contained within the source
-file. Such programs are called *statically-linked
-executablesstatically-linked*, because they contained all of the
-necessary functionality for the program that wasn't handled by the
-kernel. In the programs we wrote in [Chapter 6. Reading and Writing
-Simple Records](#chapter-6-reading-and-writing-simple-records), we used
-both our main program file and files containing routines used by
-multiple programs. In these cases, we combined all of the code together
-using the linker at link-time, so it was still statically-linked.
-However, in the `helloworld-lib` program, we started using dynamic
-libraries. When you use dynamic libraries, your program is then
-*dynamically-linkeddynamically-linked*, which means that not all of the
-code needed to run the program is actually contained within the program
-file itself, but in external libraries.
-
-When we put the `-lc` on the command to link the `helloworld` program,
-it told the linker to use the `c` library (`libc.so`) to look up any
-symbolssymbols that weren't already defined in `helloworld.o`. However,
-it doesn't actually add any code to our program, it just notes in the
-program where to look. When the `helloworld` program begins, the file
-`/lib/ld-linux.so.2/lib/ld-linux.so.2` is loaded first. This is the
-dynamic linkerdynamic linker. This looks at our `helloworld` program and
-sees that it needs the `c` library to run. So, it searches for a file
-called `libc.so` in the standard places (listed in
-`/etc/ld.so.conf/etc/ld.so.conf` and in the contents of the
-`LD_LIBRARY_PATHLD_LIBRARY_PATH` environment variable), then looks in it
-for all the needed symbols (`printf` and `exit` in this case), and then
-loads the library into the program's virtual memory. Finally, it
-replaces all instances of `printf` in the program with the actual
-location of `printf` in the library.
-
-Run the following command:
-
-    lddldd ./helloworld-nolib
-
-It should report back `not a dynamic executable`. This is just like we
-said - `helloworld-nolib` is a statically-linked executable. However,
-try this:
-
-    ldd ./helloworld-lib
-
-It will report back something like
-
-          libc.so.6 => /lib/libc.so.6 (0x4001d000)
-          /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x400000000)
-
-The numbers in parenthesis may be different on your system. This means
-that the program `helloworld` is linked to `libc.so.6` (the `.6` is the
-version number), which is found at `/lib/libc.so.6`, and
-`/lib/ld-linux.so.2` is found at `/lib/ld-linux.so.2`. These libraries
-have to be loaded before the program can be run. If you are interested,
-run the `ldd` program on various programs that are on your Linux
-distribution, and see what libraries they rely on.
-
-Finding Information about Libraries
------------------------------------
-
-Okay, so now that you know about libraries, the question is, how do you
-find out what libraries you have on your system and what they do? Well,
-let's skip that question for a minute and ask another question: How do
-programmers describe functions to each other in their documentation?
-Let's take a look at the function `printf`. Its calling interfacecalling
-interface (usually referred to as a *prototypeprototype*) looks like
-this:
-
-    int printf(char *string, ...);
-
-In Linux, functionsfunctions are described in the C programming
-languageC programming language. In fact, most Linux programs are written
-in C. That is why most documentation and binary compatibility is defined
-using the C language. The interface to the `printf` function above is
-described using the C programming language.
-
-This definition means that there is a function `printf`. The things
-inside the parenthesis are the function's parametersparameters or
-arguments. The first parameter here is `char *string`. This means there
-is a parameter named `string` (the name isn't important, except to use
-for talking about it), which has a type `char *`. `charchar` means that
-it wants a single-byte character. The `**` after it means that it
-doesn't actually want a character as an argument, but instead it wants
-the address of a character or sequence of characters. If you look back
-at our `helloworld program`, you will notice that the function call
-looked like this:
-
-        pushl $hello
-        call  printf
-
-So, we pushed the address of the `hello` string, rather than the actual
-characters. You might notice that we didn't push the length of the
-string. The way that `printfprintf` found the end of the string was
-because we ended it with a null characternull character (`\0`). Many
-functions work that way, especially C language functions. The `intint`
-before the function definition tell what type of value the function will
-return in *%eax* when it returns. `printf` will return an `int` when
-it's through. Now, after the `char *string`, we have a series of
-periods, `......`. This means that it can take an indefinite number of
-additional arguments after the string. Most functions can only take a
-specified number of arguments. `printf`, however, can take many. It will
-look into the `string` parameter, and everywhere it sees the characters
-`%s`, it will look for another string from the stack to insert, and
-everywhere it sees `%d` it will look for a number from the stack to
-insert. This is best described using an example:
-
-    PRINTF-EXAMPLE-S
-
-Type it in with the filename `printf-example.s`, and then do the
-following commands:
-
-    as printf-example.s -o printf-example.o
-    ld printf-example.o -o printf-example -lc \
-       -dynamic-linker /lib/ld-linux.so.2
-
-Then run the program with `./printf-example`, and it should say this:
-
-    Hello! Jonathan is a person who loves the number 3
-
-Now, if you look at the code, you'll see that we actually push the
-format string last, even though it's the first parameter listed. You
-always push a functions parameters in reverse order.[46] You may be
-wondering how the `printfprintf` function knows how many parameters
-there are. Well, it searches through your string, and counts how many
-`%d`s and `%s`s it finds, and then grabs that number of parameters from
-the stack. If the parameter matches a `%d`, it treats it as a number,
-and if it matches a `%s`, it treats it as a pointer to a null-terminated
-string. `printf` has many more features than this, but these are the
-most-used ones. So, as you can see, `printf` can make output a lot
-easier, but it also has a lot of overhead, because it has to count the
-number of characters in the string, look through it for all of the
-control characters it needs to replace, pull them off the stack, convert
-them to a suitable representation (numbers have to be converted to
-strings, etc), and stick them all together appropriately.
-
-We've seen how to use the C programming languageC programming language
-prototypesprototypes to call library functions. To use them effectively,
-however, you need to know several more of the possible data types for
-reading functions. Here are the main ones:
-
-`int`:  
-An `int` is an integer number (4 bytes on x86 processor).
-
-`long`:  
-A `long` is also an integer number (4 bytes on an x86 processor).
-
-`long long`:  
-A `long long` is an integer number that's larger than a `long` (8 bytes
-on an x86 processor).
-
-`short`:  
-A short is an integer number that's shorter than an `int` (2 bytes on an
-x86 processor).
-
-`char`:  
-A `char` is a single-byte integer number. This is mostly used for
-storing character data, since ASCII strings usually are represented with
-one byte per character.
-
-`float`:  
-A `float` is a floating-point number (4 bytes on an x86 processor).
-Floating-point numbers will be explained in more depth in
-[???](#floatingpoint).
-
-`double`:  
-A `double` is a floating-point number that is larger than a float (8
-bytes on an x86 processor).
-
-`unsigned`:  
-`unsigned` is a modifier used for any of the above types which keeps
-them from being used as signed quantities. The difference between signed
-and unsigned numbers will be discussed in [Counting Like a
-Computer](#counting-like-a-computer).
-
-`**`  
-An asterisk (`*`) is used to denote that the data isn't an actual value,
-but instead is a pointer to a location holding the given value (4 bytes
-on an x86 processor). So, let's say in memory location `my_location` you
-have the number 20 stored. If the prototype said to pass an `int`, you
-would use direct addressing modedirect addressing mode and do
-`pushl my_location`. However, if the prototype said to pass an `int *`,
-you would do `pushl $my_location` - an immediate modeimmediate mode
-addressing push of the address that the value resides in. In addition to
-indicating the address of a single value, pointers can also be used to
-pass a sequence of consecutive locations, starting with the one pointed
-to by the given value. This is called an arrayarray.
-
-`struct`:  
-A `struct` is a set of data items that have been put together under a
-name. For example you could declare:
-
-    struct teststruct {
-        int a;
-        char *b;
-    };
-
-and any time you ran into `struct teststruct` you would know that it is
-actually two words right next to each other, the first being an integer,
-and the second a pointer to a character or group of characters. You
-never see structs passed as arguments to functions. Instead, you usually
-see pointers to structs passed as arguments. This is because passing
-structs to functions is fairly complicated, since they can take up so
-many storage locations.
-
-`typedef`:  
-A `typedef` basically allows you to rename a type. For example, I can do
-`typedef int myowntype;` in a C program, and any time I typed
-`myowntype`, it would be just as if I typed `int`. This can get kind of
-annoying, because you have to look up what all of the typedefs and
-structs in a function prototype really mean. However, `typedef`s are
-useful for giving types more meaningful and descriptive names.
-
-> **Compatibility Note:** The listed sizes are for intel-compatible
-> (x86) machines. Other machines will have different sizes. Also, even
-> when parameters shorter than a word are passed to functions, they are
-> passed as longs on the stack.
-
-That's how to read function documentation. Now, let's get back to the
-question of how to find out about libraries. Most of your system
-libraries are in `/usr/lib/usr/lib` or `/lib/lib`. If you want to just
-see what symbols they define, just run `objdump -R FILENAME` where
-`FILENAME` is the full path to the library. The output of that isn't too
-helpful, though, for finding an interface that you might need. Usually,
-you have to know what library you want at the beginning, and then just
-read the documentation. Most libraries have manuals or man pages for
-their functions. The web is the best source of documentation for
-libraries. Most libraries from the GNU project also have info pages on
-them, which are a little more thorough than man pages.
-
-Useful Functions
-----------------
-
-Several useful functions you will want to be aware of from the `c`
-library include:
-
--   `size_t strlenstrlen (const char *s)` calculates the size of
-    null-terminated strings.
-
--   `int strcmpstrcmp (const char *s1, const char *s2)` compares two
-    strings alphabetically.
-
--   `char * strdupstrdup (const char *s)` takes the pointer to a string,
-    and creates a new copy in a new location, and returns the new
-    location.
-
--   `FILE * fopenfopen (const char *filename, const char *opentype)`
-    opens a managed, buffered file (allows easier reading and writing
-    than using file descriptors directly).[47][48]
-
--   `int fclosefclose (FILE *stream)` closes a file opened with `fopen`.
-
--   `char * fgetsfgets (char *s, int count, FILE *stream)` fetches a
-    line of characters into string `s`.
-
--   `int fputsfputs (const char *s, FILE *stream)` writes a string to
-    the given open file.
-
--   `int fprintffprintf (FILE *stream, const char *template, ...)` is
-    just like `printf`, but it uses an open file rather than defaulting
-    to using standard output.
-
-You can find the complete manual on this library by going to
-http://www.gnu.org/software/libc/manual/
-
-Building a Dynamic Library
---------------------------
-
-Let's say that we wanted to take all of our shared code from [Chapter 6.
-Reading and Writing Simple
-Records](#chapter-6-reading-and-writing-simple-records) and build it
-into a dynamic librarydynamic library to use in our programs. The first
-thing we would do is assemble them like normal:
-
-    as write-record.s -o write-record.o
-    as read-record.s -o read-record.o
-
-Now, instead of linking them into a program, we want to link them into a
-dynamic library. This changes our linker command to this:
-
-    ld -shared write-record.o read-record.o -o librecord.so
-
-This links both of these files together into a dynamic librarydynamic
-library called `librecord.so`. This file can now be used for multiple
-programs. If we need to update the functions contained within it, we can
-just update this one file and not have to worry about which programs use
-it.
-
-Let's look at how we would link against this library. To link the
-`write-records` program, we would do the following:
-
-    as write-records.s -o write-records
-    ld -L . -dynamic-linker /lib/ld-linux.so.2 \
-       -o write-records -lrecord write-records.o
-
-In this command, `-L .` told the linker to look for libraries in the
-current directory (it usually only searches `/lib/lib` directory,
-`/usr/lib/usr/lib` directory, and a few others). As we've seen, the
-option `-dynamic-linker /lib/ld-linux.so.2` specified the dynamic
-linker. The option `-lrecord` tells the linker to search for functions
-in the file named `librecord.so`.
-
-Now the `write-records` program is built, but it will not run. If we try
-it, we will get an error like the following:
-
-    ./write-records: error while loading shared libraries: 
-    librecord.so: cannot open shared object file: No such 
-    file or directory
-
-This is because, by default, the dynamic linker only searches `/lib`,
-`/usr/lib`, and whatever directories are listed in
-`/etc/ld.so.conf/etc/ld.so.conf` for libraries. In order to run the
-program, you either need to move the library to one of these
-directories, or execute the following command:
-
-    LD_LIBRARY_PATH=.
-    export LD_LIBRARY_PATH
-
-LD\_LIBRARY\_PATH
-
-Alternatively, if that gives you an error, do this instead:
-
-    setenv LD_LIBRARY_PATH .
-
-Now, you can run `write-records` normally by typing `./write-records`.
-Setting `LD_LIBRARY_PATH` tells the linker to add whatever paths you
-give it to the library search path for dynamic libraries.
-
-For further information about dynamic linking, see the following sources
-on the Internet:
-
--   The man page for `ld.so` contains a lot of information about how the
-    Linux dynamic linker works.
-
--   http://www.benyossef.com/presentations/dlink/ is a great
-    presentation on dynamic linking in Linux.
-
--   http://www.linuxjournal.com/article.php?sid=1059 and
-    http://www.linuxjournal.com/article.php?sid=1060 provide a good
-    introduction to the ELFELF file format, with more detail available
-    at http://www.cs.ucdavis.edu/~haungs/paper/node10.html
-
--   http://www.iecc.com/linker/linker10.html contains a great
-    description of how dynamic linking works with ELF files.
-
--   http://linux4u.jinr.ru/usoft/WWW/www\_debian.org/Documentation/elf/node21.html
-    contains a good introduction to programming position-independent
-    code for shared libraries under Linux.
-
-Review
-------
-
-### Know the Concepts
-
--   What are the advantages and disadvantages of shared libraries?
-
--   Given a library named 'foo', what would the library's filename be?
-
--   What does the `ldd` command do?
-
--   Let's say we had the files `foo.o` and `bar.o`, and you wanted to
-    link them together, and dynamically link them to the library
-    'kramer'. What would the linking command be to generate the final
-    executable?
-
--   What is *typedef* for?
-
--   What are *struct*s for?
-
--   What is the difference between a data element of type *int* and
-    *int \**? How would you access them differently in your program?
-
--   If you had a object file called `foo.o`, what would be the command
-    to create a shared library called 'bar'?
-
--   What is the purpose of LD\_LIBRARY\_PATH?
-
-### Use the Concepts
-
--   Rewrite one or more of the programs from the previous chapters to
-    print their results to the screen using `printf` rather than
-    returning the result as the exit status code. Also, make the exit
-    status code be 0.
-
--   Use the `factorial` function you developed in [Recursive
-    Functions](#recursive-functions) to make a shared library. Then
-    re-write the main program so that it links with the library
-    dynamically.
-
--   Rewrite the program above so that it also links with the 'c'
-    library. Use the 'c' library's `printf` function to display the
-    result of the `factorial` call.
-
--   Rewrite the `toupper` program so that it uses the `c` library
-    functions for files rather than system calls.
-
-### Going Further
-
--   Make a list of all the environment variables used by the GNU/Linux
-    dynamic linker.
-
--   Research the different types of executable file formats in use today
-    and in the history of computing. Tell the strengths and weaknesses
-    of each.
-
--   What kinds of programming are you interested in (graphics,
-    databbases, science, etc.)? Find a library for working in that area,
-    and write a program that makes some basic use of that library.
-
--   Research the use of `LD_PRELOAD`. What is it used for? Try building
-    a shared library that contained the `exit` function, and have it
-    write a message to STDERR before exitting. Use `LD_PRELOAD` and run
-    various programs with it. What are the results?
 
 Counting Like a Computer
 ========================
@@ -10029,12 +10172,23 @@ you will have to do so.
 `write-records`. If not, you need to run `write-records` first before
 running this program.
 
-[39] Note that different versions of GCC do this differently.
+[39] Each of these terms have slightly different meanings, but most
+people use them interchangeably anyway. Specifically, this chapter will
+cover dynamic libraries, but not shared libraries. Shared libraries are
+dynamic libraries which are built using *position-independent code*
+(often abbreviated PIC) which is outside the scope of this book.
+However, shared libraries and dynamic libraries are used in the same way
+by users and programs; the linker just links them differently.
 
-[40] Since these programs are usually short enough not to have
-noticeable performance problems, looping through the program thousands
-of times will exaggerate the time it takes to run enough to make
-calculations.
+[40] The reason that parameters are pushed in the reverse order is
+because of functions which take a variable number of parameters like
+`printf`. The parameters pushed in last will be in a known position
+relative to the top of the stack. The program can then use these
+parameters to determine where on the stack the additional arguments are,
+and what type they are. For example, `printf` uses the format string to
+determine how many other parameters are being sent. If we pushed the
+known arguments first, you wouldn't be able to tell where they were on
+the stack.
 
 [41] `stdin`, `stdout`, and `stderr` (all lower case) can be used in
 these programs to refer to the files of their corresponding file
@@ -10044,29 +10198,29 @@ descriptors.
 You only have to store the pointer and pass it to the relevant other
 functions.
 
-[43] The function names usually aren't `allocate` and `deallocate`, but
-the functionality will be the same. In the C programming language, for
-example, they are named `malloc` and `free`.
+[43] Note that different versions of GCC do this differently.
 
-[44] This is why adding more memory to your computer makes it run
-faster. The more memory your computer has, the less it puts on disk, so
-it doesn't have to always be interrupting your programs to retreive
-pages off the disk.
-
-[45] Note that different versions of GCC do this differently.
-
-[46] Since these programs are usually short enough not to have
+[44] Since these programs are usually short enough not to have
 noticeable performance problems, looping through the program thousands
 of times will exaggerate the time it takes to run enough to make
 calculations.
 
-[47] `stdin`, `stdout`, and `stderr` (all lower case) can be used in
-these programs to refer to the files of their corresponding file
-descriptors.
+[45] The stack can access it as it grows downward, and you can access
+the stack regions through *%esp*. However, your program's data section
+doesn't grow that way. The way to grow that will be explained shortly.
 
-[48] `FILE` is a struct. You don't need to know its contents to use it.
-You only have to store the pointer and pass it to the relevant other
-functions.
+[46] Note that not only can Linux have a virtual address map to a
+different physical address, it can also move those mappings around as
+needed.
+
+[47] The function names usually aren't `allocate` and `deallocate`, but
+the functionality will be the same. In the C programming language, for
+example, they are named `malloc` and `free`.
+
+[48] This is why adding more memory to your computer makes it run
+faster. The more memory your computer has, the less it puts on disk, so
+it doesn't have to always be interrupting your programs to retreive
+pages off the disk.
 
 [49] Note that different versions of GCC do this differently.
 
