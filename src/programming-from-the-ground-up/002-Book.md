@@ -2916,14 +2916,14 @@ actually use for jumps, because some of them are just there for clarity.
 Try to trace through the program and see what happens in various cases.
 An in-depth explanation of the program will follow.
 
-```{.gnuassembler include=resource/asm/toupper-nomm-simplified.s}
+```{.gnuassembler include=resource/asm/toupper.s}
 ```
 
-Type in this program as `toupper-nomm-simplified.s`, and then enter in the
+Type in this program as `toupper.s`, and then enter in the
 following commands:
 
 ```{.bash}
-as toupper-nomm-simplified.s  -o toupper.o
+as toupper.s  -o toupper.o
 ld toupper.o  -o toupper
 ```
 
@@ -2932,7 +2932,7 @@ of the lowercase characters in a file to uppercase. For example, to convert
 the file `toupper.s` to uppercase, type in the following command:
 
 ```{.bash}
-./toupper toupper-nomm-simplified.s toupper.uppercase
+./toupper toupper.s toupper.uppercase
 ```
 
 You will now find in the file `toupper.uppercase` an uppercase version
