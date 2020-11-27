@@ -2923,8 +2923,8 @@ Type in this program as `toupper-nomm-simplified.s`, and then enter in the
 following commands:
 
 ```{.bash}
-as toupper-nomm-simplified.s -o toupper.o
-ld toupper.o -o toupper
+as toupper-nomm-simplified.s  -o toupper.o
+ld toupper.o  -o toupper
 ```
 
 This builds a program called `toupper`, which converts all
@@ -3304,14 +3304,14 @@ basically need:
 
 -   The file descriptor that we want to read from or write to.
 
-Let\'s look at our reading function first:
+Let\'s look at our reading function first in `read-records.s`:
 
 ```{.gnuassembler include=resource/asm/read-record.s}
 ```
 
 It\'s a pretty simple function. It just reads data the size of our
 structure into an appropriately sized buffer from the given file
-descriptor. The writing one is similar:
+descriptor. The writing one is similar in `write-record.s`:
 
 ```{.gnuassembler include=resource/asm/write-record.s}
 ```
@@ -3442,10 +3442,10 @@ To build this program, we need to assemble all of the parts and link
 them together:
 
 ```{.bash}
-as read-record.s   -o read-record.o
-as count-chars.s   -o count-chars.o
-as write-newline.s -o write-newline.o
-as read-records.s  -o read-records.o
+as read-record.s    -o read-record.o
+as count-chars.s    -o count-chars.o
+as write-newline.s  -o write-newline.o
+as read-records.s   -o read-records.o
 ld read-record.o count-chars.o write-newline.o read-records.o \
      -o read-records
 ```
@@ -3491,8 +3491,8 @@ In this section, we will write a program that:
 
 -   Writes the new record to the output file.
 
-Like most programs we\'ve encountered recently, this program is pretty
-straightforward.[^6-3]
+Like most programs we\'ve encountered recently, this program `add-year.s`
+is pretty straightforward.[^6-3]
 
 ```{.gnuassembler include=resource/asm/add-year.s}
 ```
