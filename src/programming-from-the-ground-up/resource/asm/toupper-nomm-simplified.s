@@ -1,3 +1,5 @@
+    .code32                            # Generate 32-bit code.
+
     # PURPOSE:     This program converts an input file to an output file
     #              with all letters converted to uppercase.
     #
@@ -9,7 +11,6 @@
     #                      lower-case letter, convert it to uppercase.
     #                 c) Write the memory buffer to output file.
     #
-    .code32                            # Compile this code as 32-bits.
     .section .data
         # ----- CONSTANTS ----- #
         #
@@ -26,7 +27,7 @@
         # /usr/include/asm/fcntl.h for various values.  You can combine
         # them by adding them or ORing them).
         # It is discussed at greater length in "Counting Like a Computer".
-        # 
+        #
         .equ O_RDONLY,              0
         .equ O_CREAT_WRONLY_TRUNC,  03101
 
