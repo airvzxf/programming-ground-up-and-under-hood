@@ -1775,7 +1775,7 @@ Review
     starting with `0x` are in hexadecimal. Tacking on an `H` at the end
     is also sometimes used instead, but we won\'t do that in this book.
     For more information about this, see
-    [Counting Like a Computer](#counting-like-a-computer)
+    [Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer)
 
 [^3-7]: Actually, the interrupt transfers control to whoever set up an
     *interrupt handler* for the interrupt number. In the case of Linux,
@@ -1822,7 +1822,7 @@ Review
     significant half. You can\'t quite divide it like that for
     registers, since they operate on base 2 rather than base 10 numbers,
     but that\'s the basic idea. For more information on this topic, see
-    [Counting Like a Computer](#counting-like-a-computer).
+    [Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer).
 
 
 
@@ -2732,7 +2732,7 @@ In our programs we will deal with files in the following ways:
     number of characters read from the file, or an error code. Error
     codes can be distinguished because they are always negative numbers
     (more information on negative numbers can be found in
-    [Counting Like a Computer](#counting-like-a-computer)).
+    [Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer)).
     `write` is system call 4, and it
     requires the same parameters as the `read` system call, except that
     the buffer should already be filled with the data to write out. The
@@ -3520,7 +3520,7 @@ the screen so you can verify your program\'s effectiveness. This is
 because we won\'t get to displaying numbers until
 [Sharing Functions with Code Libraries](#sharing-functions-with-code-libraries)
 and
-[Counting Like a Computer](#counting-like-a-computer).
+[Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer).
 After reading those you may want to come back
 and rewrite this program to display the numeric data that we are
 modifying.
@@ -4307,7 +4307,7 @@ reading functions. Here are the main ones:
 :   `unsigned` is a modifier used for any of the above types which keeps
     them from being used as signed quantities. The difference between
     signed and unsigned numbers will be discussed in
-    [Counting Like a Computer](#counting-like-a-computer).
+    [Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer).
 
 `*`:
 
@@ -4645,7 +4645,8 @@ How a Computer Views Memory
 ---------------------------
 
 Let\'s review how memory within a computer works. You may also want to
-re-read [Chapter 2. Computer Architecture](#chapter-2-computer-architecture).
+re-read
+[Chapter 2. Computer Architecture](#chapter-2-computer-architecture).
 
 A computer looks at memory as a long sequence of numbered storage
 locations. A sequence of *millions* of numbered storage locations.
@@ -4662,11 +4663,13 @@ operated on a word at a time. As we mentioned, instructions are also
 stored in this same memory. Each instruction is a different length. Most
 instructions take up one or two storage locations for the instruction
 itself, and then storage locations for the instruction\'s arguments. For
-example, the instruction
+example, the instruction:
 
-        movl data_items(,%edi,4), %ebx
+```{.gnuassembler}
+movl data_items(,%edi,4), %ebx
+```
 
-takes up 7 storage locations. The first two hold the instruction, the
+Takes up 7 storage locations. The first two hold the instruction, the
 third one tells which registers to use, and the next four hold the
 storage location of `data_items`. In memory, instructions look just like
 all the other numbers, and the instructions themselves can be moved into
@@ -4690,7 +4693,7 @@ Address:
 
 :   An address is a number that refers to a byte in memory. For example,
     the first byte on a computer has an address of 0, the second has an
-    address of 1, and so on.[^1] Every piece of data on the computer not
+    address of 1, and so on.[^9-1] Every piece of data on the computer not
     in a register has an address. The address of data which spans
     several bytes is the same as the address of its first byte.
 
@@ -4701,12 +4704,14 @@ Address:
     address wherever you use it in your program. For example, say you
     have the following code:
 
-            .section .data
-        my_data:
-            .long 2, 3, 4
-
     Now, any time in the program that `my_data` is used, it will be
     replaced by the address of the first value of the `.long` directive.
+
+```{.gnuassembler}
+.section .data
+    my_data:
+        .long 2, 3, 4
+```
 
 Pointer:
 
@@ -4718,15 +4723,16 @@ Pointer:
 The Memory Layout of a Linux Program
 ------------------------------------
 
-When you program is loaded into memory, each `.section.section` is
+When you program is loaded into memory, each `.section` is
 loaded into its own region of memory. All of the code and data declared
 in each section is brought together, even if they were separated in your
 source code.
 
-The actual instructions (the `.text.text` section) are loaded at the
+The actual instructions (the `.text` section) are loaded at the
 address 0x08048000 (numbers starting with `0x` are in hexadecimal, which
-will be discussed in [Counting Like a Computer](#counting-like-a-computer)).[^2] The `.data.data`
-section is loaded immediately after that, followed by the `.bss.bss`
+will be discussed in
+[Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer)).[^9-2] The `.data`
+section is loaded immediately after that, followed by the `.bss`
 section.
 
 The last byte that can be addressed on Linux is location 0xbfffffff.
@@ -4745,34 +4751,42 @@ When we run `as`, for example, we give it several arguments - `as`,
 `sourcefile.s`, `-o`, and `objectfile.o`. After these, we have the
 number of arguments that were used. When the program begins, this is
 where the stack pointer, _%esp_, is pointing. Further pushes on the
-stack move _%esp_ down in memory. For example, the instruction
+stack move _%esp_ down in memory. For example, the instruction:
 
-        pushl %eax
+```{.gnuassembler}
+pushl %eax
+```
 
 is equivalent to
 
-        movl %eax, (%esp)
-        subl $4, %esp
+```{.gnuassembler}
+movl %eax, (%esp)
+subl $4, %esp
+```
 
-Likewise, the instruction
+Likewise, the instruction:
 
-        popl %eax
+```{.gnuassembler}
+popl %eax
+```
 
 is the same as
 
-        movl (%esp), %eax
-        addl $4, %esp
+```{.gnuassembler}
+movl (%esp), %eax
+addl $4, %esp
+```
 
 Your program\'s data region starts at the bottom of memory and goes up.
 The stack starts at the top of memory, and moves downward with each
 push. This middle part between the stack and your program\'s data
 sections is inaccessible memory - you are not allowed to access it until
-you tell the kernel that you need it.[^3] If you try, you will get an
+you tell the kernel that you need it.[^9-3] If you try, you will get an
 error (the error message is usually \"segmentation fault\"). The same
 will happen if you try to access data before the beginning of your
 program, 0x08048000. The last accessible memory address to your program
-is called the *system breaksystem break* (also called the *current
-breakcurrent break* or just the *break*).
+is called the *system break* (also called the *current
+break* or just the *break*).
 
 ![*Memory Layout of a Linux Program at Startup*](resource/image/memorylayout.png)
 
@@ -4786,9 +4800,9 @@ how your computer really handles memory.
 You may have wondered, since every program gets loaded into the same
 place in memory, don\'t they step on each other, or overwrite each
 other? It would seem so. However, as a program writer, you only access
-*virtual memoryvirtual memory*.
+*virtual memory*.
 
-*Physical memoryphysical memory* refers to the actual RAM chips inside
+*Physical memory* refers to the actual RAM chips inside
 your computer and what they contain. It\'s usually between 16 and 512
 Megabytes on modern computers. If we talk about a *physical memory
 address*, we are talking about where exactly on these chips a piece of
@@ -4804,10 +4818,10 @@ your computer thinks that it was loaded at memory address 0x0804800, and
 that its stack starts at 0xbffffff. When Linux loads a program, it finds
 a section of unused memory, and then tells the processor to use that
 section of memory as the address 0x0804800 for this program. The address
-that a program believes it uses is called the virtual addressvirtual
-address, while the actual address on the chips that it refers to is
-called the physical addressphysical address. The process of assigning
-virtual addresses to physical addresses is called *mappingmapping*.
+that a program believes it uses is called the virtual address,
+while the actual address on the chips that it refers to is
+called the physical address. The process of assigning
+virtual addresses to physical addresses is called *mapping*.
 
 Earlier we talked about the inaccessible memory between the `.bss` and
 the stack, but we didn\'t talk about why it was there. The reason is
@@ -4848,7 +4862,7 @@ processor\'s virtual-to-physical memory lookup tables so that it can
 find the memory in the new location. Finally, Linux returns control to
 the program and restarts it at the instruction which was trying to
 access the data in the first place. This instruction can now be
-completed successfully, because the memory is now in physical RAM.[^4]
+completed successfully, because the memory is now in physical RAM.[^9-4]
 
 Here is an overview of the way memory accesses are handled under Linux:
 
@@ -4883,10 +4897,10 @@ It\'s a lot of work for the operating system, but it gives the user and
 the programmer great flexibility when it comes to memory management.
 
 Now, in order to make the process more efficient, memory is separated
-out into groups called *pagespages*. When running Linux on x86
+out into groups called *pages*. When running Linux on x86
 processors, a page is 4096 bytes of memory. All of the memory mappings
-are done a page at a time. Physical memory assignment, swappingswapping,
-mapping, etc. are all done to memory pagesmemory pages instead of
+are done a page at a time. Physical memory assignment, swapping,
+mapping, etc. are all done to memory pages instead of
 individual memory addresses. What this means to you as a programmer is
 that whenever you are programming, you should try to keep most memory
 accesses within the same basic range of memory, so you will only need a
@@ -4897,14 +4911,14 @@ access is slow, so this can really slow down your program.
 Sometimes so many programs can be loaded that there is hardly enough
 physical memory for them. They wind up spending more time just swapping
 memory on and off of disk than they do actually processing it. This
-leads to a condition called *swap deathswap death* which leads to your
+leads to a condition called *swap death* which leads to your
 system being unresponsive and unproductive. It\'s usually usually
 recoverable if you start terminating your memory-hungry programs, but
 it\'s a pain.
 
 > **Resident Set Size:**
 > The amount of memory that your program currently has in physical memory
-> is called its resident set sizeresident set size, and can be viewed by
+> is called its resident set size, and can be viewed by
 > using the program `top`. The resident set size is listed under the
 > column labelled \"RSS\".
 
@@ -4912,8 +4926,8 @@ Getting More Memory {#getting-more-memory}
 -------------------
 
 We now know that Linux maps all of our virtual memory into physical
-memory or swap. If you try to access a piece of virtual memoryvirtual
-memory that hasn\'t been mapped yet, it triggers an error known as a
+memory or swap. If you try to access a piece of virtual memory
+that hasn\'t been mapped yet, it triggers an error known as a
 segmentation fault, which will terminate your program. The program break
 point, if you remember, is the last valid address you can use. Now, this
 is all great if you know beforehand how much storage you will need. You
@@ -4929,7 +4943,7 @@ If you need more memory, you can just tell Linux where you want the new
 break point to be, and Linux will map all the memory you need between
 the current and new break point, and then move the break point to the
 spot you specify. That memory is now available for your program to use.
-The way we tell Linux to move the break point is through the `brkbrk`
+The way we tell Linux to move the break point is through the `brk`
 system call. The `brk` system call is call number 45 (which will be in
 _%eax_). _%ebx_ should be loaded with the requested breakpoint. Then you call
 `int $0x80` to signal Linux to do its work. After mapping in your
@@ -4946,20 +4960,20 @@ then need to move a break again to load another file. Let\'s say I then
 get rid of the first file. You now have a giant gap in memory that\'s
 mapped, but that you aren\'t using. If you continue to move the break in
 this way for each file you load, you can easily run out of memory. So,
-what is needed is a *memory managermemory manager*.
+what is needed is a *memory manager*.
 
 A memory manager is a set of routines that takes care of the dirty work
 of getting your program memory for you. Most memory managers have two
-basic functions - `allocate` and `deallocate`.[^5] Whenever you need a
+basic functions - `allocate` and `deallocate`.[^9-5] Whenever you need a
 certain amount of memory, you can simply tell `allocate` how much you
 need, and it will give you back an address to the memory. When you\'re
 done with it, you tell `deallocate` that you are through with it.
 `allocate` will then be able to reuse the memory. This pattern of memory
-management is called *dynamic memory allocationdynamic memory
-allocation*. This minimizes the number of \"holes\" in your memory,
+management is called *dynamic memory allocation*.
+This minimizes the number of \"holes\" in your memory,
 making sure that you are making the best use of it you can. The pool of
 memory used by memory managers is commonly referred to as *the
-heapheap*.
+heap*.
 
 The way memory managers work is that they keep track of where the system
 break is, and where the memory that you have allocated is. They mark
@@ -4978,7 +4992,8 @@ it shows the principles quite well. As usual, I will give you the
 program first for you to look through. Afterwards will follow an
 in-depth explanation. It looks long, but it is mostly comments.
 
-    ALLOC-S
+```{.gnuassembler include=resource/asm/alloc.s}
+```
 
 The first thing to notice is that there is no `_start` symbol. The
 reason is that this is just a set of functions. A memory manager by
@@ -4987,7 +5002,9 @@ utility to be used by other programs.
 
 To assemble the program, do the following:
 
-    as alloc.s -o alloc.o
+```{.bash}
+as -o alloc.o  alloc.s
+```
 
 Okay, now let\'s look at the code.
 
@@ -4995,15 +5012,17 @@ Okay, now let\'s look at the code.
 
 At the beginning of the program, we have two locations set up:
 
-    heap_begin:
-        .long 0
+```{.gnuassembler}
+heap_begin:
+    .long 0
 
-    current_break:
-        .long 0
+current_break:
+    .long 0
+```
 
 Remember, the section of memory being managed is commonly referred to as
-the *heapheap*. When we assemble the program, we have no idea where the
-beginning of the heap is, nor where the current breakcurrent break is.
+the *heap*. When we assemble the program, we have no idea where the
+beginning of the heap is, nor where the current break is.
 Therefore, we reserve space for their addresses, but just fill them with
 a 0 for the time being.
 
@@ -5018,9 +5037,11 @@ lets us know both whether or not this region is big enough for an
 allocation request, as well as the location of the next memory region.
 The following constants describe this record:
 
-        .equ HEADER_SIZE, 8
-        .equ HDR_AVAIL_OFFSET, 0
-        .equ HDR_SIZE_OFFSET, 4
+```{.gnuassembler}
+.equ HEADER_SIZE,       8
+.equ HDR_AVAIL_OFFSET,  0
+.equ HDR_SIZE_OFFSET,   4
+```
 
 This says that the header is 8 bytes total, the available flag is offset
 0 bytes from the beginning, and the size field is offset 4 bytes from
@@ -5032,27 +5053,33 @@ The values that we will use for our `available` field are either 0 for
 unavailable, or 1 for available. To make this easier to read, we have
 the following definitions:
 
-        .equ UNAVAILABLE, 0
-        .equ AVAILABLE, 1
+```{.gnuassembler}
+.equ UNAVAILABLE,  0
+.equ AVAILABLE,    1
+```
 
 Finally, we have our Linux system call definitions:
 
-        .equ BRK, 45
-        .equ LINUX_SYSCALL, 0x80
+```{.gnuassembler}
+.equ BRK,            45
+.equ LINUX_SYSCALL,  0x80
+```
 
 ### The `allocate_init` function
 
 Okay, this is a simple function. All it does is set up the `heap_begin`
 and `current_break` variables we discussed earlier. So, if you remember
 the discussion earlier, the current break can be found using the
-`brkbrk` system call. So, the function starts like this:
+`brk` system call. So, the function starts like this:
 
-        pushl %ebp
-        movl  %esp, %ebp
+```{.gnuassembler}
+pushl %ebp
+movl  %esp, %ebp
 
-        movl  $SYS_BRK, %eax
-        movl  $0,  %ebx
-        int   $LINUX_SYSCALL
+movl  $SYS_BRK, %eax
+movl  $0,  %ebx
+int   $LINUX_SYSCALL
+```
 
 Anyway, after `int $LINUX_SYSCALL`, `%eax` holds the last valid address.
 We actually want the first invalid address instead of the last valid
@@ -5060,12 +5087,14 @@ address, so we just increment `%eax`. Then we move that value to the
 `heap_begin` and `current_break` locations. Then we leave the function.
 The code looks like this:
 
-        incl  %eax
-        movl  %eax, current_break
-        movl  %eax, heap_begin
-        movl  %ebp, %esp
-        popl  %ebp
-        ret
+```{.gnuassembler}
+incl  %eax
+movl  %eax, current_break
+movl  %eax, heap_begin
+movl  %ebp, %esp
+popl  %ebp
+ret
+```
 
 The heap consists of the memory between `heap_begin` and
 `current_break`, so this says that we start off with a heap of zero
@@ -5100,11 +5129,13 @@ comments so you\'ll know which register holds which value.
 Now that you\'ve looked back through the code, let\'s examine it one
 line at a time. We start off like this:
 
-        pushl %ebp
-        movl  %esp, %ebp
-        movl  ST_MEM_SIZE(%ebp), %ecx
-        movl  heap_begin, %eax
-        movl  current_break, %ebx
+```{.gnuassembler}
+pushl %ebp
+movl  %esp, %ebp
+movl  ST_MEM_SIZE(%ebp), %ecx
+movl  heap_begin, %eax
+movl  current_break, %ebx
+```
 
 This part initializes all of our registers. The first two lines are
 standard function stuff. The next move pulls the size of the memory to
@@ -5117,8 +5148,10 @@ to examine memory regions until we either find an open memory region or
 determine that we need more memory. Our first instructions check to see
 if we need more memory:
 
-        cmpl %ebx, %eax
-        je   move_break
+```{.gnuassembler}
+cmpl %ebx, %eax
+je   move_break
+```
 
 _%eax_ holds the current memory region being examined and _%ebx_ holds the
 location past the end of the heap. Therefore if the next region to be
@@ -5126,14 +5159,16 @@ examined is past the end of the heap, it means we need more memory to
 allocate a region of this size. Let\'s skip down to `move_break` and see
 what happens there:
 
-    move_break:
-        addl  $HEADER_SIZE, %ebx
-        addl  %ecx, %ebx
-        pushl %eax
-        pushl %ecx
-        pushl %ebx
-        movl  $SYS_BRK, %eax
-        int   $LINUX_SYSCALL
+```{.gnuassembler}
+move_break:
+    addl  $HEADER_SIZE, %ebx
+    addl  %ecx, %ebx
+    pushl %eax
+    pushl %ecx
+    pushl %ebx
+    movl  $SYS_BRK, %eax
+    int   $LINUX_SYSCALL
+```
 
 When we reach this point in the code, _%ebx_ holds where we want the next
 region of memory to be. So, we add our header size and region size to
@@ -5141,27 +5176,33 @@ _%ebx_, and that\'s where we want the system break to be. We then push all
 the registers we want to save on the stack, and call the `brk` system
 call. After that we check for errors:
 
-        cmpl  $0, %eax
-        je    error
+```{.gnuassembler}
+cmpl  $0, %eax
+je    error
+```
 
 If there were no errors we pop the registers back off the stack, mark
 the memory as unavailable, record the size of the memory, and make sure
 _%eax_ points to the start of usable memory (which is *after* the header).
 
-        popl  %ebx
-        popl  %ecx
-        popl  %eax
-        movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-        movl  %ecx, HDR_SIZE_OFFSET(%eax)
-        addl  $HEADER_SIZE, %eax
+```{.gnuassembler}
+popl  %ebx
+popl  %ecx
+popl  %eax
+movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+movl  %ecx, HDR_SIZE_OFFSET(%eax)
+addl  $HEADER_SIZE, %eax
+```
 
 Then we store the new program break and return the pointer to the
 allocated memory.
 
-        movl  %ebx, current_break
-        movl  %ebp, %esp
-        popl  %ebp
-        ret
+```{.gnuassembler}
+movl  %ebx, current_break
+movl  %ebp, %esp
+popl  %ebp
+ret
+```
 
 The `error` code just returns 0 in _%eax_, so we won\'t discuss it.
 
@@ -5169,9 +5210,11 @@ Let\'s go back look at the rest of the loop. What happens if the current
 memory being looked at isn\'t past the end of the heap? Well, let\'s
 look.
 
-        movl HDR_SIZE_OFFSET(%eax), %edx
-        cmpl $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-        je   next_location
+```{.gnuassembler}
+movl HDR_SIZE_OFFSET(%eax), %edx
+cmpl $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+je   next_location
+```
 
 This first grabs the size of the memory region and puts it in _%edx_. Then
 it looks at the available flag to see if it is set to `UNAVAILABLE`. If
@@ -5184,19 +5227,23 @@ Let\'s say that the space was available, and so we keep going. Then we
 check to see if this space is big enough to hold the requested amount of
 memory. The size of this region is being held in _%edx_, so we do this:
 
-        cmpl  %edx, %ecx
-        jle   allocate_here
+```{.gnuassembler}
+cmpl  %edx, %ecx
+jle   allocate_here
+```
 
 If the requested size is less than or equal to the current region\'s
 size, we can use this block. It doesn\'t matter if the current region is
 larger than requested, because the extra space will just be unused. So,
 let\'s jump down to `allocate_here` and see what happens:
 
-        movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-        addl  $HEADER_SIZE, %eax
-        movl  %ebp, %esp
-        popl  %ebp
-        ret
+```{.gnuassembler}
+movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+addl  $HEADER_SIZE, %eax
+movl  %ebp, %esp
+popl  %ebp
+ret
+```
 
 It marks the memory as being unavailable. Then it moves the pointer _%eax_
 past the header, and uses it as the return value for the function.
@@ -5213,9 +5260,11 @@ Remember that _%edx_ is holding the size of the current memory region, and
 `HEADER_SIZE` is the symbol for the size of the memory region\'s header.
 So this code will move us to the next memory region:
 
-        addl  $HEADER_SIZE, %eax
-        addl  %edx, %eax
-        jmp   alloc_loop_begin
+```{.gnuassembler}
+addl  $HEADER_SIZE, %eax
+addl  %edx, %eax
+jmp   alloc_loop_begin
+```
 
 And now the function runs another loop.
 
@@ -5224,11 +5273,11 @@ The best way to do that is to examine all of the possibilities, and make
 sure that all of them eventually lead to the loop ending. In our case,
 we have the following possibilities:
 
--   We will reach the end of the heap
+-   We will reach the end of the heap.
 
--   We will find a memory region that\'s available and large enough
+-   We will find a memory region that\'s available and large enough.
 
--   We will go to the next location
+-   We will go to the next location.
 
 The first two items are conditions that will cause the loop to end. The
 third one will keep it going. However, even if we never find an open
@@ -5243,10 +5292,12 @@ That\'s because it doesn\'t have to do any searching at all. It can just
 mark the current memory region as `AVAILABLE`, and `allocate` will find
 it next time it is called. So we have:
 
-        movl  ST_MEMORY_SEG(%esp), %eax
-        subl  $HEADER_SIZE, %eax
-        movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
-        ret
+```{.gnuassembler}
+movl  ST_MEMORY_SEG(%esp), %eax
+subl  $HEADER_SIZE, %eax
+movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
+ret
+```
 
 In this function, we don\'t have to save _%ebp_ or _%esp_
 since we\'re not changing them, nor do we have to restore them at the
@@ -5270,7 +5321,7 @@ addition, remember that Linux can keep pages of memory on disk instead
 of in memory. So, since you have to go through every piece of memory
 your program\'s memory, that means that Linux has to load every part of
 memory that\'s currently on disk to check to see if it is available. You
-can see how this could get really, really slow.[^6] This method is said
+can see how this could get really, really slow.[^9-6] This method is said
 to run in *linear* time, which means that every element you have to
 manage makes your program take longer. A program that runs in *constant*
 time takes the same amount of time no matter how many elements you are
@@ -5284,10 +5335,10 @@ Another performance problem is the number of times we\'re calling the
 `brk` system call. System calls take a long time. They aren\'t like
 functions, because the processor has to switch modes. Your program
 isn\'t allowed to map itself memory, but the Linux kernel is. So, the
-processor has to switch into *kernel modekernel mode*, then Linux maps
-the memory, and then switches back to *user modeuser mode* for your
+processor has to switch into *kernel mode*, then Linux maps
+the memory, and then switches back to *user mode* for your
 application to continue running. This is also called a *context
-switchcontext switch*. Context switches are relatively slow on x86
+switch*. Context switches are relatively slow on x86
 processors. Generally, you should avoid calling the kernel unless you
 really need to.
 
@@ -5327,22 +5378,28 @@ section.
 The first change we need to make is in the declaration. Currently it
 looks like this:
 
-        .section .bss
-        .lcomm, record_buffer, RECORD_SIZE
+```{.gnuassembler}
+.section .bss
+.lcomm, record_buffer, RECORD_SIZE
+```
 
 It would be a misnomer to keep the same name, since we are switching it
 from being an actual buffer to being a pointer to a buffer. In addition,
 it now only needs to be one word big (enough to hold a pointer). The new
 declaration will stay in the `.data` section and look like this:
 
-    record_buffer_ptr:
-        .long 0
+```{.gnuassembler}
+record_buffer_ptr:
+    .long 0
+```
 
 Our next change is we need to initialize our memory manager immediately
 after we start our program. Therefore, right after the stack is set up,
 the following call needs to be added:
 
-        call allocate_init
+```{.gnuassembler}
+call allocate_init
+```
 
 After that, the memory manager is ready to start servicing memory
 allocation requests. We need to allocate enough memory to hold these
@@ -5350,9 +5407,11 @@ records that we are reading. Therefore, we will call `allocate` to
 allocate this memory, and then save the pointer it returns into
 `record_buffer_ptr`. Like this:
 
-        pushl $RECORD_SIZE
-        call  allocate
-        movl  %eax, record_buffer_ptr
+```{.gnuassembler}
+pushl $RECORD_SIZE
+call  allocate
+movl  %eax, record_buffer_ptr
+```
 
 Now, when we make the call to `read_record`, it is expecting a pointer.
 In the old code, the pointer was the immediate-mode reference to
@@ -5360,11 +5419,15 @@ In the old code, the pointer was the immediate-mode reference to
 than the buffer itself. Therefore, we must do a direct mode load to get
 the value in `record_buffer_ptr`. We need to remove this line:
 
-    pushl $record_buffer
+```{.gnuassembler}
+pushl $record_buffer
+```
 
 And put this line in its place:
 
-    pushl record_buffer_ptr
+```{.gnuassembler}
+pushl record_buffer_ptr
+```
 
 The next change comes when we are trying to find the address of the
 firstname field of our record. In the old code, it was
@@ -5375,35 +5438,48 @@ we will need to move the pointer into a register, and then add
 `$RECORD_FIRSTNAME` to it to get the pointer. So where we have the
 following code:
 
-        pushl $RECORD_FIRSTNAME + record_buffer
+```{.gnuassembler}
+pushl $RECORD_FIRSTNAME + record_buffer
+```
 
 We need to replace it with this:
 
-        movl  record_buffer_ptr, %eax
-        addl  $RECORD_FIRSTNAME, %eax
-        pushl %eax
+```{.gnuassembler}
+movl  record_buffer_ptr, %eax
+addl  $RECORD_FIRSTNAME, %eax
+pushl %eax
+```
 
 Similarly, we need to change the line that says
 
-        movl  $RECORD_FIRSTNAME + record_buffer, %ecx
+```{.gnuassembler}
+movl  $RECORD_FIRSTNAME + record_buffer, %ecx
+```
 
 so that it reads like this:
 
-        movl  record_buffer_ptr, %ecx
-        addl  $RECORD_FIRSTNAME, %ecx
+```{.gnuassembler}
+movl  record_buffer_ptr, %ecx
+addl  $RECORD_FIRSTNAME, %ecx
+```
 
 Finally, one change that we need to make is to deallocate the memory
 once we are done with it (in this program it\'s not necessary, but it\'s
 a good practice anyway). To do that, we just send `record_buffer_ptr` to
 the `deallocate` function right before exitting:
 
-        pushl record_buffer_ptr
-        call  deallocate
+```{.gnuassembler}
+pushl record_buffer_ptr
+call  deallocate
+```
 
 Now you can build your program with the following commands:
 
-    as read-records.s -o read-records.o
-    ld alloc.o read-record.o read-records.o write-newline.o count-chars.o -o read-records
+```{.bash}
+as -o read-records.o  read-records.s
+ld -o read-records    alloc.o read-record.o read-records.o \
+                      write-newline.o count-chars.o
+```
 
 You can then run your program by doing `./read-records`.
 
@@ -5418,21 +5494,20 @@ More information on memory handling in Linux and other operating systems
 can be found at the following locations:
 
 -   More information about the memory layout of Linux programs can be
-    found in Konstantin Boldyshev\'s document, \"Startup state of a
-    Linux/i386 ELF binary\", available at
-    http://linuxassembly.org/startup.html
+    found in Konstantin Boldyshev\'s document,
+    [Startup state of a Linux/i386 ELF binary][9-State-ELF].
 
 -   A good overview of virtual memory in many different systems is
-    available at http://cne.gmu.edu/modules/vm/
+    available at [Virtual Memory - Operating System Concepts][9-VM-OS].
 
 -   Several in-depth articles on Linux\'s virtual memory subsystem is
-    available at http://www.nongnu.org/lkdp/files.html
+    available at [Linux Kernel Documentation Project][9-LKDP].
 
 -   Doug Lea has written up a description of his popular memory
-    allocator at http://gee.cs.oswego.edu/dl/html/malloc.html
+    allocator at [A Memory Allocator by Doug Lea][9-MAlloc].
 
 -   A paper on the 4.4 BSD memory allocator is available at
-    http://docs.freebsd.org/44doc/papers/malloc.html
+    [Malloc(3) in modern Virtual Memory environments][9-Modern-VME].
 
 Review
 ------
@@ -5486,34 +5561,40 @@ Review
     `write` system calls to STDOUT to verify that your memory manager is
     being used instead of the default one.
 
-[^1]: You actually never use addresses this low, but it works for
+[^9-1]: You actually never use addresses this low, but it works for
     discussion.
 
-[^2]: Addresses mentioned in this chapter are not set in stone and may
+[^9-2]: Addresses mentioned in this chapter are not set in stone and may
     vary based on kernel version.
 
-[^3]: The stack can access it as it grows downward, and you can access
+[^9-3]: The stack can access it as it grows downward, and you can access
     the stack regions through _%esp_. However, your program\'s data
     section doesn\'t grow that way. The way to grow that will be
     explained shortly.
 
-[^4]: Note that not only can Linux have a virtual address map to a
+[^9-4]: Note that not only can Linux have a virtual address map to a
     different physical address, it can also move those mappings around
     as needed.
 
-[^5]: The function names usually aren\'t `allocate` and `deallocate`,
+[^9-5]: The function names usually aren\'t `allocate` and `deallocate`,
     but the functionality will be the same. In the C programming
     language, for example, they are named `malloc` and `free`.
 
-[^6]: This is why adding more memory to your computer makes it run
+[^9-6]: This is why adding more memory to your computer makes it run
     faster. The more memory your computer has, the less it puts on disk,
     so it doesn\'t have to always be interrupting your programs to
     retreive pages off the disk.
 
+[9-State-ELF]: http://asm.sourceforge.net/articles/startup.html
+[9-VM-OS]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/9_VirtualMemory.html
+[9-LKDP]: http://www.nongnu.org/lkdp/files.html
+[9-MAlloc]: http://gee.cs.oswego.edu/dl/html/malloc.html
+[9-Modern-VME]: http://docs.freebsd.org/44doc/papers/malloc.html
 
 
-Counting Like a Computer {#counting-like-a-computer}
-========================
+
+Chapter 10. Counting Like a Computer {#chapter-10-counting-like-a-computer}
+====================================
 
 Counting
 --------
