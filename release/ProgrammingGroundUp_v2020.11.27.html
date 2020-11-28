@@ -1109,7 +1109,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <ol type="1">
 <li><p>Tell Linux the name of the file to open, and in what mode you want it opened (read, write, both read and write, create it if it doesn't exist, etc.). This is handled with the <code>open</code> system call, which takes a filename, a number representing the mode, and a permission set as its parameters. <em>%eax</em> will hold the system call number, which is 5. The address of the first character of the filename should be stored in <em>%ebx</em>. The read/write intentions, represented as a number, should be stored in <em>%ecx</em>. For now, use 0 for files you want to read from, and 03101 for files you want to write to (you must include the leading zero).<a href="#fn27" class="footnote-ref" id="fnref27" role="doc-noteref"><sup>27</sup></a> Finally, the permission set should be stored as a number in <em>%edx</em>. If you are unfamiliar with UNIX permissions, just use 0666 for the permissions (again, you must include the leading zero).</p></li>
 <li><p>Linux will then return to you a file descriptor in <em>%eax</em>. Remember, this is a number that you use to refer to this file throughout your program.</p></li>
-<li><p>Next you will operate on the file doing reads and/or writes, each time giving Linux the file descriptor you want to use. <code>read</code> is system call 3, and to call it you need to have the file descriptor in <em>%ebx</em>, the address of a buffer for storing the data that is read in <em>%ecx</em>, and the size of the buffer in <em>%edx</em>. Buffers will be explained in <a href="#buffers-and-bss">Buffers and <code>.bss</code></a>. <code>read</code> will return with either the number of characters read from the file, or an error code. Error codes can be distinguished because they are always negative numbers (more information on negative numbers can be found in <a href="#counting-like-a-computer">Counting Like a Computer</a>). <code>write</code> is system call 4, and it requires the same parameters as the <code>read</code> system call, except that the buffer should already be filled with the data to write out. The <code>write</code> system call will give back the number of bytes written in <em>%eax</em> or an error code.</p></li>
+<li><p>Next you will operate on the file doing reads and/or writes, each time giving Linux the file descriptor you want to use. <code>read</code> is system call 3, and to call it you need to have the file descriptor in <em>%ebx</em>, the address of a buffer for storing the data that is read in <em>%ecx</em>, and the size of the buffer in <em>%edx</em>. Buffers will be explained in <a href="#buffers-and-bss">Buffers and <code>.bss</code></a>. <code>read</code> will return with either the number of characters read from the file, or an error code. Error codes can be distinguished because they are always negative numbers (more information on negative numbers can be found in <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>). <code>write</code> is system call 4, and it requires the same parameters as the <code>read</code> system call, except that the buffer should already be filled with the data to write out. The <code>write</code> system call will give back the number of bytes written in <em>%eax</em> or an error code.</p></li>
 <li><p>When you are through with your files, you can then tell Linux to close them. Afterwards, your file descriptor is no longer valid. This is done using <code>close</code>, system call 6. The only parameter to <code>close</code> is the file descriptor, which is placed in <em>%ebx</em>.</p></li>
 </ol>
 <h2 id="buffers-and-bss">Buffers and <code>.bss</code></h2>
@@ -1916,10 +1916,10 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb87-12"><a href="#cb87-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.bss</span></span>
 <span id="cb87-13"><a href="#cb87-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.lcomm</span> record_buffer,  RECORD_SIZE</span>
 <span id="cb87-14"><a href="#cb87-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-15"><a href="#cb87-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- Stack offsets of local variables ----- #</span></span>
-<span id="cb87-16"><a href="#cb87-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
-<span id="cb87-17"><a href="#cb87-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> ST_INPUT_DESCRIPTOR,  -<span class="dv">4</span></span>
-<span id="cb87-18"><a href="#cb87-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> ST_OUTPUT_DESCRIPTOR, -<span class="dv">8</span></span>
+<span id="cb87-15"><a href="#cb87-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ----- Stack offsets of local variables ----- #</span></span>
+<span id="cb87-16"><a href="#cb87-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
+<span id="cb87-17"><a href="#cb87-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> ST_INPUT_DESCRIPTOR,  -<span class="dv">4</span></span>
+<span id="cb87-18"><a href="#cb87-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> ST_OUTPUT_DESCRIPTOR, -<span class="dv">8</span></span>
 <span id="cb87-19"><a href="#cb87-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-20"><a href="#cb87-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
 <span id="cb87-21"><a href="#cb87-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
@@ -1975,7 +1975,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>To run the program, just type in the following<a href="#fn38" class="footnote-ref" id="fnref38" role="doc-noteref"><sup>38</sup></a>:</p>
 <div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./add-year</span></span></code></pre></div>
 <p>This will add a year to every record listed in <code>test.dat</code> and write the new records to the file <code>testout.dat</code>.</p>
-<p>As you can see, writing fixed-length records is pretty simple. You only have to read in blocks of data to a buffer, process them, and write them back out. Unfortunately, this program doesn't write the new ages out to the screen so you can verify your program's effectiveness. This is because we won't get to displaying numbers until <a href="#sharing-functions-with-code-libraries">Sharing Functions with Code Libraries</a> and <a href="#counting-like-a-computer">Counting Like a Computer</a>. After reading those you may want to come back and rewrite this program to display the numeric data that we are modifying.</p>
+<p>As you can see, writing fixed-length records is pretty simple. You only have to read in blocks of data to a buffer, process them, and write them back out. Unfortunately, this program doesn't write the new ages out to the screen so you can verify your program's effectiveness. This is because we won't get to displaying numbers until <a href="#sharing-functions-with-code-libraries">Sharing Functions with Code Libraries</a> and <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>. After reading those you may want to come back and rewrite this program to display the numeric data that we are modifying.</p>
 <h2 id="review-4">Review</h2>
 <h3 id="know-the-concepts-4">Know the Concepts</h3>
 <ul>
@@ -2320,7 +2320,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <dd><p>A <code>double</code> is a floating-point number that is larger than a float (8 bytes on an x86 processor).</p>
 </dd>
 <dt><code>unsigned</code>:</dt>
-<dd><p><code>unsigned</code> is a modifier used for any of the above types which keeps them from being used as signed quantities. The difference between signed and unsigned numbers will be discussed in <a href="#counting-like-a-computer">Counting Like a Computer</a>.</p>
+<dd><p><code>unsigned</code> is a modifier used for any of the above types which keeps them from being used as signed quantities. The difference between signed and unsigned numbers will be discussed in <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>.</p>
 </dd>
 <dt><code>*</code>:</dt>
 <dd><p>An asterisk (<code>*</code>) is used to denote that the data isn't an actual value, but instead is a pointer to a location holding the given value (4 bytes on an x86 processor). So, let's say in memory location <code>my_location</code> you have the number 20 stored. If the prototype said to pass an <code>int</code>, you would use direct addressing mode and do <code>pushl my_location</code>. However, if the prototype said to pass an <code>int *</code>, you would do <code>pushl $my_location</code> - an immediate mode addressing push of the address that the value resides in. In addition to indicating the address of a single value, pointers can also be used to pass a sequence of consecutive locations, starting with the one pointed to by the given value. This is called an array.</p>
@@ -2424,9 +2424,9 @@ librecord.so: cannot open shared object file: No such file or directory</code></
 <h2 id="how-a-computer-views-memory">How a Computer Views Memory</h2>
 <p>Let's review how memory within a computer works. You may also want to re-read <a href="#chapter-2-computer-architecture">Chapter 2. Computer Architecture</a>.</p>
 <p>A computer looks at memory as a long sequence of numbered storage locations. A sequence of <em>millions</em> of numbered storage locations. Everything is stored in these locations. Your programs are stored there, your data is stored there, everything. Each storage location looks like every other one. The locations holding your program are just like the ones holding your data. In fact, the computer has no idea which are which, except that the executable file tells it where to start executing.</p>
-<p>These storage locations are called bytes. The computer can combine up to four of them together into a single word. Normally numeric data is operated on a word at a time. As we mentioned, instructions are also stored in this same memory. Each instruction is a different length. Most instructions take up one or two storage locations for the instruction itself, and then storage locations for the instruction's arguments. For example, the instruction</p>
-<pre><code>    movl data_items(,%edi,4), %ebx</code></pre>
-<p>takes up 7 storage locations. The first two hold the instruction, the third one tells which registers to use, and the next four hold the storage location of <code>data_items</code>. In memory, instructions look just like all the other numbers, and the instructions themselves can be moved into and out of registers just like numbers, because that's what they are.</p>
+<p>These storage locations are called bytes. The computer can combine up to four of them together into a single word. Normally numeric data is operated on a word at a time. As we mentioned, instructions are also stored in this same memory. Each instruction is a different length. Most instructions take up one or two storage locations for the instruction itself, and then storage locations for the instruction's arguments. For example, the instruction:</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>movl data_items(,%edi,<span class="dv">4</span>), %ebx</span></code></pre></div>
+<p>Takes up 7 storage locations. The first two hold the instruction, the third one tells which registers to use, and the next four hold the storage location of <code>data_items</code>. In memory, instructions look just like all the other numbers, and the instructions themselves can be moved into and out of registers just like numbers, because that's what they are.</p>
 <p>This chapter is focused on the details of computer memory. To get started let's review some basic terms that we will be using in this chapter:</p>
 <dl>
 <dt>Byte:</dt>
@@ -2438,37 +2438,39 @@ librecord.so: cannot open shared object file: No such file or directory</code></
 <dt>Address:</dt>
 <dd><p>An address is a number that refers to a byte in memory. For example, the first byte on a computer has an address of 0, the second has an address of 1, and so on.<a href="#fn43" class="footnote-ref" id="fnref43" role="doc-noteref"><sup>43</sup></a> Every piece of data on the computer not in a register has an address. The address of data which spans several bytes is the same as the address of its first byte.</p>
 <p>Normally, we don't ever type the numeric address of anything, but we let the assembler do it for us. When we use labels in code, the symbol used in the label will be equivalent to the address it is labelling. The assembler will then replace that symbol with its address wherever you use it in your program. For example, say you have the following code:</p>
-<pre><code>    .section .data
-my_data:
-    .long 2, 3, 4</code></pre>
 <p>Now, any time in the program that <code>my_data</code> is used, it will be replaced by the address of the first value of the <code>.long</code> directive.</p>
 </dd>
+</dl>
+<div class="sourceCode" id="cb115"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">my_data:</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.long</span> <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span></span></code></pre></div>
+<dl>
 <dt>Pointer:</dt>
 <dd><p>A pointer is a register or memory word whose value is an address. In our programs we use <code>%ebp</code> as a pointer to the current stack frame. All base pointer addressing involves pointers. Programming uses a lot of pointers, so it's an important concept to grasp.</p>
 </dd>
 </dl>
 <h2 id="the-memory-layout-of-a-linux-program">The Memory Layout of a Linux Program</h2>
-<p>When you program is loaded into memory, each <code>.section.section</code> is loaded into its own region of memory. All of the code and data declared in each section is brought together, even if they were separated in your source code.</p>
-<p>The actual instructions (the <code>.text.text</code> section) are loaded at the address 0x08048000 (numbers starting with <code>0x</code> are in hexadecimal, which will be discussed in <a href="#counting-like-a-computer">Counting Like a Computer</a>).<a href="#fn44" class="footnote-ref" id="fnref44" role="doc-noteref"><sup>44</sup></a> The <code>.data.data</code> section is loaded immediately after that, followed by the <code>.bss.bss</code> section.</p>
-<p>The last byte that can be addressed on Linux is location 0xbfffffff. Linux starts the stack here and grows it downward toward the other sections. Between them is a huge gap. The initial layout of the stack is as follows: At the bottom of the stack (the bottom of the stack is the top address of memory - see <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>), there is a word of memory that is zero. After that comes the null-terminated name of the program using ASCII characters. After the program name comes the program's environment variables (these are not important to us in this book). Then come the program's command-line arguments. These are the values that the user typed in on the command line to run this program. When we run <code>as</code>, for example, we give it several arguments - <code>as</code>, <code>sourcefile.s</code>, <code>-o</code>, and <code>objectfile.o</code>. After these, we have the number of arguments that were used. When the program begins, this is where the stack pointer, <em>%esp</em>, is pointing. Further pushes on the stack move <em>%esp</em> down in memory. For example, the instruction</p>
-<pre><code>    pushl %eax</code></pre>
+<p>When you program is loaded into memory, each <code>.section</code> is loaded into its own region of memory. All of the code and data declared in each section is brought together, even if they were separated in your source code.</p>
+<p>The actual instructions (the <code>.text</code> section) are loaded at the address 0x08048000 (numbers starting with <code>0x</code> are in hexadecimal, which will be discussed in <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>).<a href="#fn44" class="footnote-ref" id="fnref44" role="doc-noteref"><sup>44</sup></a> The <code>.data</code> section is loaded immediately after that, followed by the <code>.bss</code> section.</p>
+<p>The last byte that can be addressed on Linux is location 0xbfffffff. Linux starts the stack here and grows it downward toward the other sections. Between them is a huge gap. The initial layout of the stack is as follows: At the bottom of the stack (the bottom of the stack is the top address of memory - see <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>), there is a word of memory that is zero. After that comes the null-terminated name of the program using ASCII characters. After the program name comes the program's environment variables (these are not important to us in this book). Then come the program's command-line arguments. These are the values that the user typed in on the command line to run this program. When we run <code>as</code>, for example, we give it several arguments - <code>as</code>, <code>sourcefile.s</code>, <code>-o</code>, and <code>objectfile.o</code>. After these, we have the number of arguments that were used. When the program begins, this is where the stack pointer, <em>%esp</em>, is pointing. Further pushes on the stack move <em>%esp</em> down in memory. For example, the instruction:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>pushl %eax</span></code></pre></div>
 <p>is equivalent to</p>
-<pre><code>    movl %eax, (%esp)
-    subl $4, %esp</code></pre>
-<p>Likewise, the instruction</p>
-<pre><code>    popl %eax</code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>movl %eax, (%esp)</span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>subl $4, %esp</span></code></pre></div>
+<p>Likewise, the instruction:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>popl %eax</span></code></pre></div>
 <p>is the same as</p>
-<pre><code>    movl (%esp), %eax
-    addl $4, %esp</code></pre>
-<p>Your program's data region starts at the bottom of memory and goes up. The stack starts at the top of memory, and moves downward with each push. This middle part between the stack and your program's data sections is inaccessible memory - you are not allowed to access it until you tell the kernel that you need it.<a href="#fn45" class="footnote-ref" id="fnref45" role="doc-noteref"><sup>45</sup></a> If you try, you will get an error (the error message is usually "segmentation fault"). The same will happen if you try to access data before the beginning of your program, 0x08048000. The last accessible memory address to your program is called the <em>system breaksystem break</em> (also called the <em>current breakcurrent break</em> or just the <em>break</em>).</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>movl (%esp), %eax</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>addl $4, %esp</span></code></pre></div>
+<p>Your program's data region starts at the bottom of memory and goes up. The stack starts at the top of memory, and moves downward with each push. This middle part between the stack and your program's data sections is inaccessible memory - you are not allowed to access it until you tell the kernel that you need it.<a href="#fn45" class="footnote-ref" id="fnref45" role="doc-noteref"><sup>45</sup></a> If you try, you will get an error (the error message is usually "segmentation fault"). The same will happen if you try to access data before the beginning of your program, 0x08048000. The last accessible memory address to your program is called the <em>system break</em> (also called the <em>current break</em> or just the <em>break</em>).</p>
 <figure>
 <img src="resource/image/memorylayout.png" alt="Memory Layout of a Linux Program at Startup" /><figcaption aria-hidden="true"><em>Memory Layout of a Linux Program at Startup</em></figcaption>
 </figure>
 <h2 id="every-memory-address-is-a-lie">Every Memory Address is a Lie</h2>
 <p>So, why does the computer not allow you to access memory in the break area? To answer this question, we will have to delve into the depths of how your computer really handles memory.</p>
-<p>You may have wondered, since every program gets loaded into the same place in memory, don't they step on each other, or overwrite each other? It would seem so. However, as a program writer, you only access <em>virtual memoryvirtual memory</em>.</p>
-<p><em>Physical memoryphysical memory</em> refers to the actual RAM chips inside your computer and what they contain. It's usually between 16 and 512 Megabytes on modern computers. If we talk about a <em>physical memory address</em>, we are talking about where exactly on these chips a piece of memory is located. Virtual memory is the way <em>your program</em> thinks about memory. Before loading your program, Linux finds an empty physical memory space large enough to fit your program, and then tells the processor to pretend that this memory is actually at the address 0x0804800 to load your program into. Confused yet? Let me explain further.</p>
-<p>Each program gets its own sandbox to play in. Every program running on your computer thinks that it was loaded at memory address 0x0804800, and that its stack starts at 0xbffffff. When Linux loads a program, it finds a section of unused memory, and then tells the processor to use that section of memory as the address 0x0804800 for this program. The address that a program believes it uses is called the virtual addressvirtual address, while the actual address on the chips that it refers to is called the physical addressphysical address. The process of assigning virtual addresses to physical addresses is called <em>mappingmapping</em>.</p>
+<p>You may have wondered, since every program gets loaded into the same place in memory, don't they step on each other, or overwrite each other? It would seem so. However, as a program writer, you only access <em>virtual memory</em>.</p>
+<p><em>Physical memory</em> refers to the actual RAM chips inside your computer and what they contain. It's usually between 16 and 512 Megabytes on modern computers. If we talk about a <em>physical memory address</em>, we are talking about where exactly on these chips a piece of memory is located. Virtual memory is the way <em>your program</em> thinks about memory. Before loading your program, Linux finds an empty physical memory space large enough to fit your program, and then tells the processor to pretend that this memory is actually at the address 0x0804800 to load your program into. Confused yet? Let me explain further.</p>
+<p>Each program gets its own sandbox to play in. Every program running on your computer thinks that it was loaded at memory address 0x0804800, and that its stack starts at 0xbffffff. When Linux loads a program, it finds a section of unused memory, and then tells the processor to use that section of memory as the address 0x0804800 for this program. The address that a program believes it uses is called the virtual address, while the actual address on the chips that it refers to is called the physical address. The process of assigning virtual addresses to physical addresses is called <em>mapping</em>.</p>
 <p>Earlier we talked about the inaccessible memory between the <code>.bss</code> and the stack, but we didn't talk about why it was there. The reason is that this region of virtual memory addresses hasn't been mapped onto physical memory addresses. The mapping process takes up considerable time and space, so if every possible virtual address of every possible program were mapped, you would not have enough physical memory to even run one program. So, the break is the beginning of the area that contains unmapped memory. With the stack, however, Linux will automatically map in memory that is accessed from stack pushes.</p>
 <p>Of course, this is a very simplified view of virtual memory. The full concept is much more advanced. For example, Virtual memory can be mapped to more than just physical memory; it can be mapped to disk as well. Swap partitions on Linux allow Linux's virtual memory system to map memory not only to physical RAM, but also to disk blocks as well. For example, let's say you only have 16 Megabytes of physical memory. Let's also say that 8 Megabytes are being used by Linux and some basic applications, and you want to run a program that requires 20 Megabytes of memory. Can you? The answer is yes, but only if you have set up a swap partition. What happens is that after all of your remaining 8 Megabytes of physical memory have been mapped into virtual memory, Linux starts mapping parts of your application's virtual memory to disk blocks. So, if you access a "memory" location in your program, that location may not actually be in memory at all, but on disk. As the programmer you won't know the difference, though, because it is all handled behind the scenes by Linux.</p>
 <p>Now, x86 processors cannot run instructions directly from disk, nor can they access data directly from disk. This requires the help of the operating system. When you try to access memory that is mapped to disk, the processor notices that it can't service your memory request directly. It then asks Linux to step in. Linux notices that the memory is actually on disk. Therefore, it moves some data that is currently in memory onto disk to make room, and then moves the memory being accessed from the disk back into physical memory. It then adjusts the processor's virtual-to-physical memory lookup tables so that it can find the memory in the new location. Finally, Linux returns control to the program and restarts it at the instruction which was trying to access the data in the first place. This instruction can now be completed successfully, because the memory is now in physical RAM.<a href="#fn46" class="footnote-ref" id="fnref46" role="doc-noteref"><sup>46</sup></a></p>
@@ -2485,58 +2487,364 @@ my_data:
 <li><p>The processor can now handle the instruction using the newly-loaded memory and translation tables.</p></li>
 </ul>
 <p>It's a lot of work for the operating system, but it gives the user and the programmer great flexibility when it comes to memory management.</p>
-<p>Now, in order to make the process more efficient, memory is separated out into groups called <em>pagespages</em>. When running Linux on x86 processors, a page is 4096 bytes of memory. All of the memory mappings are done a page at a time. Physical memory assignment, swappingswapping, mapping, etc. are all done to memory pagesmemory pages instead of individual memory addresses. What this means to you as a programmer is that whenever you are programming, you should try to keep most memory accesses within the same basic range of memory, so you will only need a page or two of memory at a time. Otherwise, Linux may have to keep moving pages on and off of disk to satisfy your memory needs. Disk access is slow, so this can really slow down your program.</p>
-<p>Sometimes so many programs can be loaded that there is hardly enough physical memory for them. They wind up spending more time just swapping memory on and off of disk than they do actually processing it. This leads to a condition called <em>swap deathswap death</em> which leads to your system being unresponsive and unproductive. It's usually usually recoverable if you start terminating your memory-hungry programs, but it's a pain.</p>
+<p>Now, in order to make the process more efficient, memory is separated out into groups called <em>pages</em>. When running Linux on x86 processors, a page is 4096 bytes of memory. All of the memory mappings are done a page at a time. Physical memory assignment, swapping, mapping, etc. are all done to memory pages instead of individual memory addresses. What this means to you as a programmer is that whenever you are programming, you should try to keep most memory accesses within the same basic range of memory, so you will only need a page or two of memory at a time. Otherwise, Linux may have to keep moving pages on and off of disk to satisfy your memory needs. Disk access is slow, so this can really slow down your program.</p>
+<p>Sometimes so many programs can be loaded that there is hardly enough physical memory for them. They wind up spending more time just swapping memory on and off of disk than they do actually processing it. This leads to a condition called <em>swap death</em> which leads to your system being unresponsive and unproductive. It's usually usually recoverable if you start terminating your memory-hungry programs, but it's a pain.</p>
 <blockquote>
-<p><strong>Resident Set Size:</strong> The amount of memory that your program currently has in physical memory is called its resident set sizeresident set size, and can be viewed by using the program <code>top</code>. The resident set size is listed under the column labelled "RSS".</p>
+<p><strong>Resident Set Size:</strong> The amount of memory that your program currently has in physical memory is called its resident set size, and can be viewed by using the program <code>top</code>. The resident set size is listed under the column labelled "RSS".</p>
 </blockquote>
 <h2 id="getting-more-memory">Getting More Memory</h2>
-<p>We now know that Linux maps all of our virtual memory into physical memory or swap. If you try to access a piece of virtual memoryvirtual memory that hasn't been mapped yet, it triggers an error known as a segmentation fault, which will terminate your program. The program break point, if you remember, is the last valid address you can use. Now, this is all great if you know beforehand how much storage you will need. You can just add all the memory you need to your <code>.data</code> or <code>.bss</code> sections, and it will all be there. However, let's say you don't know how much memory you will need. For example, with a text editor, you don't know how long the person's file will be. You could try to find a maximum file size, and just tell the user that they can't go beyond that, but that's a waste if the file is small. Therefore Linux has a facility to move the break point to accomodate an application's memory needs.</p>
-<p>If you need more memory, you can just tell Linux where you want the new break point to be, and Linux will map all the memory you need between the current and new break point, and then move the break point to the spot you specify. That memory is now available for your program to use. The way we tell Linux to move the break point is through the <code>brkbrk</code> system call. The <code>brk</code> system call is call number 45 (which will be in <em>%eax</em>). <em>%ebx</em> should be loaded with the requested breakpoint. Then you call <code>int $0x80</code> to signal Linux to do its work. After mapping in your memory, Linux will return the new break point in <em>%eax</em>. The new break point might actually be larger than what you asked for, because Linux rounds up to the nearest page. If there is not enough physical memory or swap to fulfill your request, Linux will return a zero in <em>%eax</em>. Also, if you call <code>brk</code> with a zero in <em>%ebx</em>, it will simply return the last usable memory address.</p>
-<p>The problem with this method is keeping track of the memory we request. Let's say I need to move the break to have room to load a file, and then need to move a break again to load another file. Let's say I then get rid of the first file. You now have a giant gap in memory that's mapped, but that you aren't using. If you continue to move the break in this way for each file you load, you can easily run out of memory. So, what is needed is a <em>memory managermemory manager</em>.</p>
-<p>A memory manager is a set of routines that takes care of the dirty work of getting your program memory for you. Most memory managers have two basic functions - <code>allocate</code> and <code>deallocate</code>.<a href="#fn47" class="footnote-ref" id="fnref47" role="doc-noteref"><sup>47</sup></a> Whenever you need a certain amount of memory, you can simply tell <code>allocate</code> how much you need, and it will give you back an address to the memory. When you're done with it, you tell <code>deallocate</code> that you are through with it. <code>allocate</code> will then be able to reuse the memory. This pattern of memory management is called <em>dynamic memory allocationdynamic memory allocation</em>. This minimizes the number of "holes" in your memory, making sure that you are making the best use of it you can. The pool of memory used by memory managers is commonly referred to as <em>the heapheap</em>.</p>
+<p>We now know that Linux maps all of our virtual memory into physical memory or swap. If you try to access a piece of virtual memory that hasn't been mapped yet, it triggers an error known as a segmentation fault, which will terminate your program. The program break point, if you remember, is the last valid address you can use. Now, this is all great if you know beforehand how much storage you will need. You can just add all the memory you need to your <code>.data</code> or <code>.bss</code> sections, and it will all be there. However, let's say you don't know how much memory you will need. For example, with a text editor, you don't know how long the person's file will be. You could try to find a maximum file size, and just tell the user that they can't go beyond that, but that's a waste if the file is small. Therefore Linux has a facility to move the break point to accomodate an application's memory needs.</p>
+<p>If you need more memory, you can just tell Linux where you want the new break point to be, and Linux will map all the memory you need between the current and new break point, and then move the break point to the spot you specify. That memory is now available for your program to use. The way we tell Linux to move the break point is through the <code>brk</code> system call. The <code>brk</code> system call is call number 45 (which will be in <em>%eax</em>). <em>%ebx</em> should be loaded with the requested breakpoint. Then you call <code>int $0x80</code> to signal Linux to do its work. After mapping in your memory, Linux will return the new break point in <em>%eax</em>. The new break point might actually be larger than what you asked for, because Linux rounds up to the nearest page. If there is not enough physical memory or swap to fulfill your request, Linux will return a zero in <em>%eax</em>. Also, if you call <code>brk</code> with a zero in <em>%ebx</em>, it will simply return the last usable memory address.</p>
+<p>The problem with this method is keeping track of the memory we request. Let's say I need to move the break to have room to load a file, and then need to move a break again to load another file. Let's say I then get rid of the first file. You now have a giant gap in memory that's mapped, but that you aren't using. If you continue to move the break in this way for each file you load, you can easily run out of memory. So, what is needed is a <em>memory manager</em>.</p>
+<p>A memory manager is a set of routines that takes care of the dirty work of getting your program memory for you. Most memory managers have two basic functions - <code>allocate</code> and <code>deallocate</code>.<a href="#fn47" class="footnote-ref" id="fnref47" role="doc-noteref"><sup>47</sup></a> Whenever you need a certain amount of memory, you can simply tell <code>allocate</code> how much you need, and it will give you back an address to the memory. When you're done with it, you tell <code>deallocate</code> that you are through with it. <code>allocate</code> will then be able to reuse the memory. This pattern of memory management is called <em>dynamic memory allocation</em>. This minimizes the number of "holes" in your memory, making sure that you are making the best use of it you can. The pool of memory used by memory managers is commonly referred to as <em>the heap</em>.</p>
 <p>The way memory managers work is that they keep track of where the system break is, and where the memory that you have allocated is. They mark each block of memory in the heap as being used or unused. When you request memory, the memory manager checks to see if there are any unused blocks of the appropriate size. If not, it calls the <code>brk</code> system call to request more memory. When you free memory it marks the block as unused so that future requests can retrieve it. In the next section we will look at building our own memory manager.</p>
 <h2 id="a-simple-memory-manager">A Simple Memory Manager</h2>
 <p>Here I will show you a simple memory manager. It is very primitive but it shows the principles quite well. As usual, I will give you the program first for you to look through. Afterwards will follow an in-depth explanation. It looks long, but it is mostly comments.</p>
-<pre><code>ALLOC-S</code></pre>
+<div class="sourceCode" id="cb120"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:</span></span>
+<span id="cb120-4"><a href="#cb120-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       Program to manage memory usage - allocates and deallocates</span></span>
+<span id="cb120-5"><a href="#cb120-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       memory as requested.</span></span>
+<span id="cb120-6"><a href="#cb120-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-7"><a href="#cb120-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># NOTES:</span></span>
+<span id="cb120-8"><a href="#cb120-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       The programs using these routines will ask for a certain</span></span>
+<span id="cb120-9"><a href="#cb120-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       size of memory.  We actually use more than that size, but</span></span>
+<span id="cb120-10"><a href="#cb120-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       we put it at the beginning, before the pointer we hand</span></span>
+<span id="cb120-11"><a href="#cb120-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       back.  We add a size field and an AVAILABLE/UNAVAILABLE</span></span>
+<span id="cb120-12"><a href="#cb120-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       marker.  So, the memory looks like this.</span></span>
+<span id="cb120-13"><a href="#cb120-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-14"><a href="#cb120-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># #####################################################################</span></span>
+<span id="cb120-15"><a href="#cb120-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># #- Available Marker -#- Size of memory -#- Actual memory locations -#</span></span>
+<span id="cb120-16"><a href="#cb120-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># #####################################################################</span></span>
+<span id="cb120-17"><a href="#cb120-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                                         ^--Returned pointer</span></span>
+<span id="cb120-18"><a href="#cb120-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                                            points here.</span></span>
+<span id="cb120-19"><a href="#cb120-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-20"><a href="#cb120-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The pointer we return only points to the actual locations requested</span></span>
+<span id="cb120-21"><a href="#cb120-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># to make it easier for the calling program.  It also allows us to</span></span>
+<span id="cb120-22"><a href="#cb120-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># change our structure without the calling program having to change</span></span>
+<span id="cb120-23"><a href="#cb120-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># at all.</span></span>
+<span id="cb120-24"><a href="#cb120-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-25"><a href="#cb120-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb120-26"><a href="#cb120-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ----- GLOBAL VARIABLES ----- #</span></span>
+<span id="cb120-27"><a href="#cb120-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
+<span id="cb120-28"><a href="#cb120-28" aria-hidden="true" tabindex="-1"></a>        <span class="kw">heap_begin:</span>                     <span class="co"># This points to the beginning of</span></span>
+<span id="cb120-29"><a href="#cb120-29" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.long</span>  <span class="dv">0</span>                    <span class="co"># the memory we are managing.</span></span>
+<span id="cb120-30"><a href="#cb120-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-31"><a href="#cb120-31" aria-hidden="true" tabindex="-1"></a>        <span class="kw">current_break:</span>                  <span class="co"># This points to one location past</span></span>
+<span id="cb120-32"><a href="#cb120-32" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.long</span>  <span class="dv">0</span>                    <span class="co"># the memory we are managing.</span></span>
+<span id="cb120-33"><a href="#cb120-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-34"><a href="#cb120-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ----- STRUCTURE INFORMATION ----- #</span></span>
+<span id="cb120-35"><a href="#cb120-35" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
+<span id="cb120-36"><a href="#cb120-36" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> HEADER_SIZE,      <span class="dv">8</span>        <span class="co"># Size of space for memory region</span></span>
+<span id="cb120-37"><a href="#cb120-37" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># header.</span></span>
+<span id="cb120-38"><a href="#cb120-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-39"><a href="#cb120-39" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> HDR_AVAIL_OFFSET, <span class="dv">0</span>        <span class="co"># Location of the &quot;available&quot; flag</span></span>
+<span id="cb120-40"><a href="#cb120-40" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># in the header.</span></span>
+<span id="cb120-41"><a href="#cb120-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-42"><a href="#cb120-42" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> HDR_SIZE_OFFSET,  <span class="dv">4</span>        <span class="co"># Location of the size field in</span></span>
+<span id="cb120-43"><a href="#cb120-43" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># the header.</span></span>
+<span id="cb120-44"><a href="#cb120-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-45"><a href="#cb120-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ----- CONSTANTS ----- #</span></span>
+<span id="cb120-46"><a href="#cb120-46" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
+<span id="cb120-47"><a href="#cb120-47" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> UNAVAILABLE,    <span class="dv">0</span>          <span class="co"># This is the number we will use</span></span>
+<span id="cb120-48"><a href="#cb120-48" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># to mark space that has been</span></span>
+<span id="cb120-49"><a href="#cb120-49" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># given out.</span></span>
+<span id="cb120-50"><a href="#cb120-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-51"><a href="#cb120-51" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> AVAILABLE,      <span class="dv">1</span>          <span class="co"># This is the number we will use</span></span>
+<span id="cb120-52"><a href="#cb120-52" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># to mark space that has been</span></span>
+<span id="cb120-53"><a href="#cb120-53" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># returned, and is available for</span></span>
+<span id="cb120-54"><a href="#cb120-54" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># giving.</span></span>
+<span id="cb120-55"><a href="#cb120-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-56"><a href="#cb120-56" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> SYS_BRK,        <span class="dv">45</span>         <span class="co"># System call number for the break</span></span>
+<span id="cb120-57"><a href="#cb120-57" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># system call.</span></span>
+<span id="cb120-58"><a href="#cb120-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-59"><a href="#cb120-59" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> LINUX_SYSCALL,  <span class="bn">0x80</span>       <span class="co"># Make system calls easier to read.</span></span>
+<span id="cb120-60"><a href="#cb120-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-61"><a href="#cb120-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb120-62"><a href="#cb120-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- FUNCTIONS ----- #</span></span>
+<span id="cb120-63"><a href="#cb120-63" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-64"><a href="#cb120-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- FUNCTION: allocate_init ----- #</span></span>
+<span id="cb120-65"><a href="#cb120-65" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-66"><a href="#cb120-66" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:</span></span>
+<span id="cb120-67"><a href="#cb120-67" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       Call this function to initialize the functions</span></span>
+<span id="cb120-68"><a href="#cb120-68" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       (specifically, this sets heap_begin and current_break).</span></span>
+<span id="cb120-69"><a href="#cb120-69" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       This has no parameters and no return value.</span></span>
+<span id="cb120-70"><a href="#cb120-70" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-71"><a href="#cb120-71" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.globl</span> allocate_init</span>
+<span id="cb120-72"><a href="#cb120-72" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.type</span>  allocate_init,  <span class="co">@function</span></span>
+<span id="cb120-73"><a href="#cb120-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-74"><a href="#cb120-74" aria-hidden="true" tabindex="-1"></a><span class="kw">allocate_init:</span></span>
+<span id="cb120-75"><a href="#cb120-75" aria-hidden="true" tabindex="-1"></a>    pushl %ebp                          <span class="co"># Standard function stuff.</span></span>
+<span id="cb120-76"><a href="#cb120-76" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb120-77"><a href="#cb120-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-78"><a href="#cb120-78" aria-hidden="true" tabindex="-1"></a>    <span class="pp"># If the brk system call is called with 0 in %ebx, it returns the</span></span>
+<span id="cb120-79"><a href="#cb120-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># last valid usable address.</span></span>
+<span id="cb120-80"><a href="#cb120-80" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-81"><a href="#cb120-81" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_BRK, %eax                <span class="co"># Find out where the break is.</span></span>
+<span id="cb120-82"><a href="#cb120-82" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ebx</span>
+<span id="cb120-83"><a href="#cb120-83" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span>
+<span id="cb120-84"><a href="#cb120-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-85"><a href="#cb120-85" aria-hidden="true" tabindex="-1"></a>    incl  %eax                          <span class="co"># %eax now has the last valid</span></span>
+<span id="cb120-86"><a href="#cb120-86" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># address, and we want the</span></span>
+<span id="cb120-87"><a href="#cb120-87" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># memory location after that.</span></span>
+<span id="cb120-88"><a href="#cb120-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-89"><a href="#cb120-89" aria-hidden="true" tabindex="-1"></a>    movl  %eax, current_break           <span class="co"># Store the current break.</span></span>
+<span id="cb120-90"><a href="#cb120-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-91"><a href="#cb120-91" aria-hidden="true" tabindex="-1"></a>    movl  %eax, heap_begin              <span class="co"># Store the current break as our</span></span>
+<span id="cb120-92"><a href="#cb120-92" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># first address. This will cause</span></span>
+<span id="cb120-93"><a href="#cb120-93" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># the allocate function to get</span></span>
+<span id="cb120-94"><a href="#cb120-94" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># more memory from Linux the</span></span>
+<span id="cb120-95"><a href="#cb120-95" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># first time it is run.</span></span>
+<span id="cb120-96"><a href="#cb120-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-97"><a href="#cb120-97" aria-hidden="true" tabindex="-1"></a>    movl  %ebp, %esp                    <span class="co"># Exit the function.</span></span>
+<span id="cb120-98"><a href="#cb120-98" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
+<span id="cb120-99"><a href="#cb120-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-100"><a href="#cb120-100" aria-hidden="true" tabindex="-1"></a>    ret</span>
+<span id="cb120-101"><a href="#cb120-101" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- </span><span class="re">END</span><span class="co"> OF FUNCTION: allocate_init ----- #</span></span>
+<span id="cb120-102"><a href="#cb120-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-103"><a href="#cb120-103" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- FUNCTION: allocate ----- #</span></span>
+<span id="cb120-104"><a href="#cb120-104" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-105"><a href="#cb120-105" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:</span></span>
+<span id="cb120-106"><a href="#cb120-106" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       This function is used to grab a section of memory. It</span></span>
+<span id="cb120-107"><a href="#cb120-107" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       checks to  see if there are any free blocks, and, if</span></span>
+<span id="cb120-108"><a href="#cb120-108" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       not, it asks Linux for a new one.</span></span>
+<span id="cb120-109"><a href="#cb120-109" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-110"><a href="#cb120-110" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PARAMETERS:</span></span>
+<span id="cb120-111"><a href="#cb120-111" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       This function has one parameter - the size of the</span></span>
+<span id="cb120-112"><a href="#cb120-112" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       memory block we want to allocate.</span></span>
+<span id="cb120-113"><a href="#cb120-113" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-114"><a href="#cb120-114" aria-hidden="true" tabindex="-1"></a>    <span class="co"># RETURN VALUE:</span></span>
+<span id="cb120-115"><a href="#cb120-115" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       This function returns the address of the allocated</span></span>
+<span id="cb120-116"><a href="#cb120-116" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       memory in %eax.  If there is no memory available, it</span></span>
+<span id="cb120-117"><a href="#cb120-117" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       will return 0 in %eax.</span></span>
+<span id="cb120-118"><a href="#cb120-118" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-119"><a href="#cb120-119" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PROCESSING:</span></span>
+<span id="cb120-120"><a href="#cb120-120" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       Variables used:</span></span>
+<span id="cb120-121"><a href="#cb120-121" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           %ecx - hold the size of the requested memory (first/only</span></span>
+<span id="cb120-122"><a href="#cb120-122" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           parameter).</span></span>
+<span id="cb120-123"><a href="#cb120-123" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           %eax - current memory region being examined.</span></span>
+<span id="cb120-124"><a href="#cb120-124" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           %ebx - current break position.</span></span>
+<span id="cb120-125"><a href="#cb120-125" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           %edx - size of current memory region.</span></span>
+<span id="cb120-126"><a href="#cb120-126" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-127"><a href="#cb120-127" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We scan through each memory region starting with heap_begin. We look</span></span>
+<span id="cb120-128"><a href="#cb120-128" aria-hidden="true" tabindex="-1"></a>    <span class="co"># at the size of each one, and if it has been allocated.  If it&#39;s big</span></span>
+<span id="cb120-129"><a href="#cb120-129" aria-hidden="true" tabindex="-1"></a>    <span class="co"># enough for the requested size, and its available, it grabs that one.</span></span>
+<span id="cb120-130"><a href="#cb120-130" aria-hidden="true" tabindex="-1"></a>    <span class="pp"># If it does not find a region large enough, it asks Linux for more</span></span>
+<span id="cb120-131"><a href="#cb120-131" aria-hidden="true" tabindex="-1"></a>    <span class="co"># memory.  In that case, it moves current_break up.</span></span>
+<span id="cb120-132"><a href="#cb120-132" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-133"><a href="#cb120-133" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.globl</span> allocate</span>
+<span id="cb120-134"><a href="#cb120-134" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.type</span>  allocate,   <span class="co">@function</span></span>
+<span id="cb120-135"><a href="#cb120-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-136"><a href="#cb120-136" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> ST_MEM_SIZE,  <span class="dv">8</span>            <span class="co"># Stack position of the memory</span></span>
+<span id="cb120-137"><a href="#cb120-137" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># size to allocate.</span></span>
+<span id="cb120-138"><a href="#cb120-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-139"><a href="#cb120-139" aria-hidden="true" tabindex="-1"></a><span class="kw">allocate:</span></span>
+<span id="cb120-140"><a href="#cb120-140" aria-hidden="true" tabindex="-1"></a>    pushl %ebp                          <span class="co"># Standard function stuff.</span></span>
+<span id="cb120-141"><a href="#cb120-141" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb120-142"><a href="#cb120-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-143"><a href="#cb120-143" aria-hidden="true" tabindex="-1"></a>    movl  ST_MEM_SIZE(%ebp), %ecx       <span class="co"># %ecx will hold the size we are</span></span>
+<span id="cb120-144"><a href="#cb120-144" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># looking for (which is the first</span></span>
+<span id="cb120-145"><a href="#cb120-145" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># and only parameter).</span></span>
+<span id="cb120-146"><a href="#cb120-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-147"><a href="#cb120-147" aria-hidden="true" tabindex="-1"></a>    movl  heap_begin, %eax              <span class="co"># %eax will hold the current</span></span>
+<span id="cb120-148"><a href="#cb120-148" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># search location.</span></span>
+<span id="cb120-149"><a href="#cb120-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-150"><a href="#cb120-150" aria-hidden="true" tabindex="-1"></a>    movl  current_break, %ebx           <span class="co"># %ebx will hold the current break.</span></span>
+<span id="cb120-151"><a href="#cb120-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-152"><a href="#cb120-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-153"><a href="#cb120-153" aria-hidden="true" tabindex="-1"></a><span class="kw">alloc_loop_begin:</span>                       <span class="co"># Here we iterate through each</span></span>
+<span id="cb120-154"><a href="#cb120-154" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># memory region.</span></span>
+<span id="cb120-155"><a href="#cb120-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-156"><a href="#cb120-156" aria-hidden="true" tabindex="-1"></a>    cmpl  %ebx, %eax                    <span class="co"># Need more memory if these</span></span>
+<span id="cb120-157"><a href="#cb120-157" aria-hidden="true" tabindex="-1"></a>    je    move_break                    <span class="co"># are equal.</span></span>
+<span id="cb120-158"><a href="#cb120-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-159"><a href="#cb120-159" aria-hidden="true" tabindex="-1"></a>    movl  HDR_SIZE_OFFSET(%eax), %edx   <span class="co"># Grab the size of this memory.</span></span>
+<span id="cb120-160"><a href="#cb120-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-161"><a href="#cb120-161" aria-hidden="true" tabindex="-1"></a>    cmpl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)  <span class="co"># If the space is</span></span>
+<span id="cb120-162"><a href="#cb120-162" aria-hidden="true" tabindex="-1"></a>    je    next_location                         <span class="co"># unavailable, go to the</span></span>
+<span id="cb120-163"><a href="#cb120-163" aria-hidden="true" tabindex="-1"></a>                                                <span class="co"># next one.</span></span>
+<span id="cb120-164"><a href="#cb120-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-165"><a href="#cb120-165" aria-hidden="true" tabindex="-1"></a>    cmpl  %edx, %ecx                    <span class="co"># If the space is available,</span></span>
+<span id="cb120-166"><a href="#cb120-166" aria-hidden="true" tabindex="-1"></a>    jle   allocate_here                 <span class="co"># compare the size to the needed</span></span>
+<span id="cb120-167"><a href="#cb120-167" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># size.  If its big enough, go to</span></span>
+<span id="cb120-168"><a href="#cb120-168" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># allocate_here.</span></span>
+<span id="cb120-169"><a href="#cb120-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-170"><a href="#cb120-170" aria-hidden="true" tabindex="-1"></a><span class="kw">next_location:</span></span>
+<span id="cb120-171"><a href="#cb120-171" aria-hidden="true" tabindex="-1"></a>    addl  $HEADER_SIZE, %eax            <span class="co"># The total size of the memory</span></span>
+<span id="cb120-172"><a href="#cb120-172" aria-hidden="true" tabindex="-1"></a>    addl  %edx, %eax                    <span class="co"># region is the sum of the size</span></span>
+<span id="cb120-173"><a href="#cb120-173" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># requested (currently stored</span></span>
+<span id="cb120-174"><a href="#cb120-174" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># in %edx), plus another 8 bytes</span></span>
+<span id="cb120-175"><a href="#cb120-175" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># for the header (4 for the</span></span>
+<span id="cb120-176"><a href="#cb120-176" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># AVAILABLE/UNAVAILABLE flag,</span></span>
+<span id="cb120-177"><a href="#cb120-177" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># and 4 for the size of the</span></span>
+<span id="cb120-178"><a href="#cb120-178" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># region). So, adding %edx and $8</span></span>
+<span id="cb120-179"><a href="#cb120-179" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># to %eax will get the address</span></span>
+<span id="cb120-180"><a href="#cb120-180" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># of the next memory region.</span></span>
+<span id="cb120-181"><a href="#cb120-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-182"><a href="#cb120-182" aria-hidden="true" tabindex="-1"></a>    jmp   alloc_loop_begin              <span class="co"># Go look at the next location.</span></span>
+<span id="cb120-183"><a href="#cb120-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-184"><a href="#cb120-184" aria-hidden="true" tabindex="-1"></a><span class="kw">allocate_here:</span>                          <span class="co"># If we&#39;ve made it here, that means</span></span>
+<span id="cb120-185"><a href="#cb120-185" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># that the region header of the</span></span>
+<span id="cb120-186"><a href="#cb120-186" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># region to allocate is in %eax.</span></span>
+<span id="cb120-187"><a href="#cb120-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-188"><a href="#cb120-188" aria-hidden="true" tabindex="-1"></a>    movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax) <span class="co"># Mark space as unavailable.</span></span>
+<span id="cb120-189"><a href="#cb120-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-190"><a href="#cb120-190" aria-hidden="true" tabindex="-1"></a>    addl  $HEADER_SIZE, %eax            <span class="co"># Move %eax past the header to the</span></span>
+<span id="cb120-191"><a href="#cb120-191" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># usable memory (since that&#39;s what</span></span>
+<span id="cb120-192"><a href="#cb120-192" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># we return).</span></span>
+<span id="cb120-193"><a href="#cb120-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-194"><a href="#cb120-194" aria-hidden="true" tabindex="-1"></a>    movl  %ebp, %esp                    <span class="co"># Return from the function.</span></span>
+<span id="cb120-195"><a href="#cb120-195" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
+<span id="cb120-196"><a href="#cb120-196" aria-hidden="true" tabindex="-1"></a>    ret</span>
+<span id="cb120-197"><a href="#cb120-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-198"><a href="#cb120-198" aria-hidden="true" tabindex="-1"></a><span class="kw">move_break:</span>                             <span class="co"># If we&#39;ve made it here, that</span></span>
+<span id="cb120-199"><a href="#cb120-199" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># means that we have exhausted all</span></span>
+<span id="cb120-200"><a href="#cb120-200" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># addressable memory, and we need</span></span>
+<span id="cb120-201"><a href="#cb120-201" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># to ask for more. %ebx holds the</span></span>
+<span id="cb120-202"><a href="#cb120-202" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># current endpoint of the data,</span></span>
+<span id="cb120-203"><a href="#cb120-203" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># and %ecx holds its size.</span></span>
+<span id="cb120-204"><a href="#cb120-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-205"><a href="#cb120-205" aria-hidden="true" tabindex="-1"></a>    addl  $HEADER_SIZE, %ebx            <span class="co"># We need to increase %ebx to</span></span>
+<span id="cb120-206"><a href="#cb120-206" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># where we _want_ memory to end,</span></span>
+<span id="cb120-207"><a href="#cb120-207" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># so we add space for the headers</span></span>
+<span id="cb120-208"><a href="#cb120-208" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># structure.</span></span>
+<span id="cb120-209"><a href="#cb120-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-210"><a href="#cb120-210" aria-hidden="true" tabindex="-1"></a>    addl  %ecx, %ebx                    <span class="co"># Add space to the break for</span></span>
+<span id="cb120-211"><a href="#cb120-211" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># the data requested.</span></span>
+<span id="cb120-212"><a href="#cb120-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-213"><a href="#cb120-213" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># Now its time to ask Linux</span></span>
+<span id="cb120-214"><a href="#cb120-214" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># for more memory.</span></span>
+<span id="cb120-215"><a href="#cb120-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-216"><a href="#cb120-216" aria-hidden="true" tabindex="-1"></a>    pushl %eax                          <span class="co"># Save needed registers.</span></span>
+<span id="cb120-217"><a href="#cb120-217" aria-hidden="true" tabindex="-1"></a>    pushl %ecx</span>
+<span id="cb120-218"><a href="#cb120-218" aria-hidden="true" tabindex="-1"></a>    pushl %ebx</span>
+<span id="cb120-219"><a href="#cb120-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-220"><a href="#cb120-220" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_BRK, %eax                <span class="co"># Reset the break (%ebx has</span></span>
+<span id="cb120-221"><a href="#cb120-221" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># the requested break point).</span></span>
+<span id="cb120-222"><a href="#cb120-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-223"><a href="#cb120-223" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL                <span class="co"># Under normal conditions, this</span></span>
+<span id="cb120-224"><a href="#cb120-224" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># should return the new break in</span></span>
+<span id="cb120-225"><a href="#cb120-225" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># %eax, which will be either 0 if</span></span>
+<span id="cb120-226"><a href="#cb120-226" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># it fails, or it will be equal to</span></span>
+<span id="cb120-227"><a href="#cb120-227" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># or larger than we asked for.</span></span>
+<span id="cb120-228"><a href="#cb120-228" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># We don&#39;t care in this program</span></span>
+<span id="cb120-229"><a href="#cb120-229" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># where it actually sets the break,</span></span>
+<span id="cb120-230"><a href="#cb120-230" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># so as long as %eax isn&#39;t 0, we</span></span>
+<span id="cb120-231"><a href="#cb120-231" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># don&#39;t care what it is.</span></span>
+<span id="cb120-232"><a href="#cb120-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-233"><a href="#cb120-233" aria-hidden="true" tabindex="-1"></a>    cmpl  $0, %eax                      <span class="co"># Check for error conditions.</span></span>
+<span id="cb120-234"><a href="#cb120-234" aria-hidden="true" tabindex="-1"></a>    je    error</span>
+<span id="cb120-235"><a href="#cb120-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-236"><a href="#cb120-236" aria-hidden="true" tabindex="-1"></a>    popl  %ebx                          <span class="co"># Restore saved registers.</span></span>
+<span id="cb120-237"><a href="#cb120-237" aria-hidden="true" tabindex="-1"></a>    popl  %ecx</span>
+<span id="cb120-238"><a href="#cb120-238" aria-hidden="true" tabindex="-1"></a>    popl  %eax</span>
+<span id="cb120-239"><a href="#cb120-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-240"><a href="#cb120-240" aria-hidden="true" tabindex="-1"></a>    movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)  <span class="co"># Set this memory as</span></span>
+<span id="cb120-241"><a href="#cb120-241" aria-hidden="true" tabindex="-1"></a>                                                <span class="co"># unavailable, since we&#39;re</span></span>
+<span id="cb120-242"><a href="#cb120-242" aria-hidden="true" tabindex="-1"></a>                                                <span class="co"># about to give it away.</span></span>
+<span id="cb120-243"><a href="#cb120-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-244"><a href="#cb120-244" aria-hidden="true" tabindex="-1"></a>    movl  %ecx, HDR_SIZE_OFFSET(%eax)   <span class="co"># Set the size of the memory.</span></span>
+<span id="cb120-245"><a href="#cb120-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-246"><a href="#cb120-246" aria-hidden="true" tabindex="-1"></a>    addl  $HEADER_SIZE, %eax            <span class="co"># Move %eax to the actual start of</span></span>
+<span id="cb120-247"><a href="#cb120-247" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># usable memory. %eax now holds</span></span>
+<span id="cb120-248"><a href="#cb120-248" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># the return value.</span></span>
+<span id="cb120-249"><a href="#cb120-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-250"><a href="#cb120-250" aria-hidden="true" tabindex="-1"></a>    movl  %ebx, current_break           <span class="co"># Save the new break.</span></span>
+<span id="cb120-251"><a href="#cb120-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-252"><a href="#cb120-252" aria-hidden="true" tabindex="-1"></a>    movl  %ebp, %esp                    <span class="co"># Return the function.</span></span>
+<span id="cb120-253"><a href="#cb120-253" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
+<span id="cb120-254"><a href="#cb120-254" aria-hidden="true" tabindex="-1"></a>    ret</span>
+<span id="cb120-255"><a href="#cb120-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-256"><a href="#cb120-256" aria-hidden="true" tabindex="-1"></a><span class="kw">error:</span></span>
+<span id="cb120-257"><a href="#cb120-257" aria-hidden="true" tabindex="-1"></a>    movl  $0, %eax                      <span class="co"># On error, we return zero.</span></span>
+<span id="cb120-258"><a href="#cb120-258" aria-hidden="true" tabindex="-1"></a>    movl  %ebp, %esp</span>
+<span id="cb120-259"><a href="#cb120-259" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
+<span id="cb120-260"><a href="#cb120-260" aria-hidden="true" tabindex="-1"></a>    ret</span>
+<span id="cb120-261"><a href="#cb120-261" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- </span><span class="re">END</span><span class="co"> OF FUNCTION: allocate ----- #</span></span>
+<span id="cb120-262"><a href="#cb120-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-263"><a href="#cb120-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-264"><a href="#cb120-264" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- FUNCTION: deallocate ----- #</span></span>
+<span id="cb120-265"><a href="#cb120-265" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-266"><a href="#cb120-266" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:</span></span>
+<span id="cb120-267"><a href="#cb120-267" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       The purpose of this function is to give back</span></span>
+<span id="cb120-268"><a href="#cb120-268" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       a region of memory to the pool after we&#39;re done</span></span>
+<span id="cb120-269"><a href="#cb120-269" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       using it.</span></span>
+<span id="cb120-270"><a href="#cb120-270" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-271"><a href="#cb120-271" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PARAMETERS:</span></span>
+<span id="cb120-272"><a href="#cb120-272" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       The only parameter is the address of the memory</span></span>
+<span id="cb120-273"><a href="#cb120-273" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       we want to return to the memory pool.</span></span>
+<span id="cb120-274"><a href="#cb120-274" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-275"><a href="#cb120-275" aria-hidden="true" tabindex="-1"></a>    <span class="co"># RETURN VALUE:</span></span>
+<span id="cb120-276"><a href="#cb120-276" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       There is no return value</span></span>
+<span id="cb120-277"><a href="#cb120-277" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-278"><a href="#cb120-278" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PROCESSING:</span></span>
+<span id="cb120-279"><a href="#cb120-279" aria-hidden="true" tabindex="-1"></a>    <span class="pp">#       If you remember, we actually hand the program the start of the</span></span>
+<span id="cb120-280"><a href="#cb120-280" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       memory that they can use, which is 8 storage locations after</span></span>
+<span id="cb120-281"><a href="#cb120-281" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       the actual start of the memory region.  All we have to do is</span></span>
+<span id="cb120-282"><a href="#cb120-282" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       go back 8 locations and mark that memory as available,</span></span>
+<span id="cb120-283"><a href="#cb120-283" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       so that the allocate function knows it can use it.</span></span>
+<span id="cb120-284"><a href="#cb120-284" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb120-285"><a href="#cb120-285" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.globl</span> deallocate</span>
+<span id="cb120-286"><a href="#cb120-286" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.type</span>  deallocate,   <span class="co">@function</span></span>
+<span id="cb120-287"><a href="#cb120-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-288"><a href="#cb120-288" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> ST_MEMORY_SEG,  <span class="dv">4</span>          <span class="co"># Stack position of the memory</span></span>
+<span id="cb120-289"><a href="#cb120-289" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># region to free.</span></span>
+<span id="cb120-290"><a href="#cb120-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-291"><a href="#cb120-291" aria-hidden="true" tabindex="-1"></a><span class="kw">deallocate:</span>                             <span class="co"># Since the function is so simple,</span></span>
+<span id="cb120-292"><a href="#cb120-292" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># we don&#39;t need any of the fancy</span></span>
+<span id="cb120-293"><a href="#cb120-293" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># function stuff.</span></span>
+<span id="cb120-294"><a href="#cb120-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-295"><a href="#cb120-295" aria-hidden="true" tabindex="-1"></a>    movl  ST_MEMORY_SEG(%esp), %eax     <span class="co"># Get the address of the memory to</span></span>
+<span id="cb120-296"><a href="#cb120-296" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># free (normally this is 8(%ebp),</span></span>
+<span id="cb120-297"><a href="#cb120-297" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># but since we didn&#39;t push %ebp or</span></span>
+<span id="cb120-298"><a href="#cb120-298" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># move %esp to %ebp, we can just</span></span>
+<span id="cb120-299"><a href="#cb120-299" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># do 4(%esp).</span></span>
+<span id="cb120-300"><a href="#cb120-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-301"><a href="#cb120-301" aria-hidden="true" tabindex="-1"></a>    subl  $HEADER_SIZE, %eax            <span class="co"># Get the pointer to the real</span></span>
+<span id="cb120-302"><a href="#cb120-302" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># beginning of the memory.</span></span>
+<span id="cb120-303"><a href="#cb120-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-304"><a href="#cb120-304" aria-hidden="true" tabindex="-1"></a>    movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)    <span class="co"># Mark it as available.</span></span>
+<span id="cb120-305"><a href="#cb120-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-306"><a href="#cb120-306" aria-hidden="true" tabindex="-1"></a>    ret</span>
+<span id="cb120-307"><a href="#cb120-307" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----- </span><span class="re">END</span><span class="co"> OF FUNCTION: deallocate ----- #</span></span></code></pre></div>
 <p>The first thing to notice is that there is no <code>_start</code> symbol. The reason is that this is just a set of functions. A memory manager by itself is not a full program - it doesn't do anything. It is simply a utility to be used by other programs.</p>
 <p>To assemble the program, do the following:</p>
-<pre><code>as alloc.s -o alloc.o</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o alloc.o  alloc.s</span></code></pre></div>
 <p>Okay, now let's look at the code.</p>
 <h3 id="variables-and-constants">Variables and Constants</h3>
 <p>At the beginning of the program, we have two locations set up:</p>
-<pre><code>heap_begin:
-    .long 0
-
-current_break:
-    .long 0</code></pre>
-<p>Remember, the section of memory being managed is commonly referred to as the <em>heapheap</em>. When we assemble the program, we have no idea where the beginning of the heap is, nor where the current breakcurrent break is. Therefore, we reserve space for their addresses, but just fill them with a 0 for the time being.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="kw">heap_begin:</span></span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.long</span> <span class="dv">0</span></span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a><span class="kw">current_break:</span></span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.long</span> <span class="dv">0</span></span></code></pre></div>
+<p>Remember, the section of memory being managed is commonly referred to as the <em>heap</em>. When we assemble the program, we have no idea where the beginning of the heap is, nor where the current break is. Therefore, we reserve space for their addresses, but just fill them with a 0 for the time being.</p>
 <p>Next we have a set of constants to define the structure of the heap. The way this memory manager works is that before each region of memory allocated, we will have a short record describing the memory. This record has a word reserved for the available flag and a word for the region's size. The actual memory allocated immediately follows this record. The available flag is used to mark whether this region is available for allocations, or if it is currently in use. The size field lets us know both whether or not this region is big enough for an allocation request, as well as the location of the next memory region. The following constants describe this record:</p>
-<pre><code>    .equ HEADER_SIZE, 8
-    .equ HDR_AVAIL_OFFSET, 0
-    .equ HDR_SIZE_OFFSET, 4</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> HEADER_SIZE,       <span class="dv">8</span></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> HDR_AVAIL_OFFSET,  <span class="dv">0</span></span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> HDR_SIZE_OFFSET,   <span class="dv">4</span></span></code></pre></div>
 <p>This says that the header is 8 bytes total, the available flag is offset 0 bytes from the beginning, and the size field is offset 4 bytes from the beginning. If we are careful to always use these constants, then we protect ourselves from having to do too much work if we later decide to add more information to the header.</p>
 <p>The values that we will use for our <code>available</code> field are either 0 for unavailable, or 1 for available. To make this easier to read, we have the following definitions:</p>
-<pre><code>    .equ UNAVAILABLE, 0
-    .equ AVAILABLE, 1</code></pre>
+<div class="sourceCode" id="cb124"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> UNAVAILABLE,  <span class="dv">0</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> AVAILABLE,    <span class="dv">1</span></span></code></pre></div>
 <p>Finally, we have our Linux system call definitions:</p>
-<pre><code>    .equ BRK, 45
-    .equ LINUX_SYSCALL, 0x80</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> BRK,            <span class="dv">45</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> LINUX_SYSCALL,  <span class="bn">0x80</span></span></code></pre></div>
 <h3 id="the-allocate_init-function">The <code>allocate_init</code> function</h3>
-<p>Okay, this is a simple function. All it does is set up the <code>heap_begin</code> and <code>current_break</code> variables we discussed earlier. So, if you remember the discussion earlier, the current break can be found using the <code>brkbrk</code> system call. So, the function starts like this:</p>
-<pre><code>    pushl %ebp
-    movl  %esp, %ebp
-
-    movl  $SYS_BRK, %eax
-    movl  $0,  %ebx
-    int   $LINUX_SYSCALL</code></pre>
+<p>Okay, this is a simple function. All it does is set up the <code>heap_begin</code> and <code>current_break</code> variables we discussed earlier. So, if you remember the discussion earlier, the current break can be found using the <code>brk</code> system call. So, the function starts like this:</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>pushl %ebp</span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>movl  %esp, %ebp</span>
+<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-4"><a href="#cb126-4" aria-hidden="true" tabindex="-1"></a>movl  $SYS_BRK, %eax</span>
+<span id="cb126-5"><a href="#cb126-5" aria-hidden="true" tabindex="-1"></a>movl  $0,  %ebx</span>
+<span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a>int   $LINUX_SYSCALL</span></code></pre></div>
 <p>Anyway, after <code>int $LINUX_SYSCALL</code>, <code>%eax</code> holds the last valid address. We actually want the first invalid address instead of the last valid address, so we just increment <code>%eax</code>. Then we move that value to the <code>heap_begin</code> and <code>current_break</code> locations. Then we leave the function. The code looks like this:</p>
-<pre><code>    incl  %eax
-    movl  %eax, current_break
-    movl  %eax, heap_begin
-    movl  %ebp, %esp
-    popl  %ebp
-    ret</code></pre>
+<div class="sourceCode" id="cb127"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>incl  %eax</span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>movl  %eax, current_break</span>
+<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>movl  %eax, heap_begin</span>
+<span id="cb127-4"><a href="#cb127-4" aria-hidden="true" tabindex="-1"></a>movl  %ebp, %esp</span>
+<span id="cb127-5"><a href="#cb127-5" aria-hidden="true" tabindex="-1"></a>popl  %ebp</span>
+<span id="cb127-6"><a href="#cb127-6" aria-hidden="true" tabindex="-1"></a>ret</span></code></pre></div>
 <p>The heap consists of the memory between <code>heap_begin</code> and <code>current_break</code>, so this says that we start off with a heap of zero bytes. Our <code>allocate</code> function will then extend the heap as much as it needs to when it is called.</p>
 <h3 id="the-allocate-function">The <code>allocate</code> function</h3>
 <p>This is the doozy function. Let's start by looking at an outline of the function:</p>
@@ -2550,126 +2858,127 @@ current_break:
 </ol>
 <p>Now, look back through the code with this in mind. Be sure to read the comments so you'll know which register holds which value.</p>
 <p>Now that you've looked back through the code, let's examine it one line at a time. We start off like this:</p>
-<pre><code>    pushl %ebp
-    movl  %esp, %ebp
-    movl  ST_MEM_SIZE(%ebp), %ecx
-    movl  heap_begin, %eax
-    movl  current_break, %ebx</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>pushl %ebp</span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>movl  %esp, %ebp</span>
+<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>movl  ST_MEM_SIZE(%ebp), %ecx</span>
+<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>movl  heap_begin, %eax</span>
+<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>movl  current_break, %ebx</span></code></pre></div>
 <p>This part initializes all of our registers. The first two lines are standard function stuff. The next move pulls the size of the memory to allocate off of the stack. This is our only function parameter. After that, it moves the beginning heap address and the end of the heap into registers. I am now ready to do processing.</p>
 <p>The next section is marked <code>alloc_loop_begin</code>. In this loop we are going to examine memory regions until we either find an open memory region or determine that we need more memory. Our first instructions check to see if we need more memory:</p>
-<pre><code>    cmpl %ebx, %eax
-    je   move_break</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>cmpl %ebx, %eax</span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>je   move_break</span></code></pre></div>
 <p><em>%eax</em> holds the current memory region being examined and <em>%ebx</em> holds the location past the end of the heap. Therefore if the next region to be examined is past the end of the heap, it means we need more memory to allocate a region of this size. Let's skip down to <code>move_break</code> and see what happens there:</p>
-<pre><code>move_break:
-    addl  $HEADER_SIZE, %ebx
-    addl  %ecx, %ebx
-    pushl %eax
-    pushl %ecx
-    pushl %ebx
-    movl  $SYS_BRK, %eax
-    int   $LINUX_SYSCALL</code></pre>
+<div class="sourceCode" id="cb130"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="kw">move_break:</span></span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>    addl  $HEADER_SIZE, %ebx</span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>    addl  %ecx, %ebx</span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>    pushl %eax</span>
+<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>    pushl %ecx</span>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>    pushl %ebx</span>
+<span id="cb130-7"><a href="#cb130-7" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_BRK, %eax</span>
+<span id="cb130-8"><a href="#cb130-8" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span></code></pre></div>
 <p>When we reach this point in the code, <em>%ebx</em> holds where we want the next region of memory to be. So, we add our header size and region size to <em>%ebx</em>, and that's where we want the system break to be. We then push all the registers we want to save on the stack, and call the <code>brk</code> system call. After that we check for errors:</p>
-<pre><code>    cmpl  $0, %eax
-    je    error</code></pre>
+<div class="sourceCode" id="cb131"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>cmpl  $0, %eax</span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>je    error</span></code></pre></div>
 <p>If there were no errors we pop the registers back off the stack, mark the memory as unavailable, record the size of the memory, and make sure <em>%eax</em> points to the start of usable memory (which is <em>after</em> the header).</p>
-<pre><code>    popl  %ebx
-    popl  %ecx
-    popl  %eax
-    movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-    movl  %ecx, HDR_SIZE_OFFSET(%eax)
-    addl  $HEADER_SIZE, %eax</code></pre>
+<div class="sourceCode" id="cb132"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>popl  %ebx</span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>popl  %ecx</span>
+<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>popl  %eax</span>
+<span id="cb132-4"><a href="#cb132-4" aria-hidden="true" tabindex="-1"></a>movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)</span>
+<span id="cb132-5"><a href="#cb132-5" aria-hidden="true" tabindex="-1"></a>movl  %ecx, HDR_SIZE_OFFSET(%eax)</span>
+<span id="cb132-6"><a href="#cb132-6" aria-hidden="true" tabindex="-1"></a>addl  $HEADER_SIZE, %eax</span></code></pre></div>
 <p>Then we store the new program break and return the pointer to the allocated memory.</p>
-<pre><code>    movl  %ebx, current_break
-    movl  %ebp, %esp
-    popl  %ebp
-    ret</code></pre>
+<div class="sourceCode" id="cb133"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>movl  %ebx, current_break</span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>movl  %ebp, %esp</span>
+<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>popl  %ebp</span>
+<span id="cb133-4"><a href="#cb133-4" aria-hidden="true" tabindex="-1"></a>ret</span></code></pre></div>
 <p>The <code>error</code> code just returns 0 in <em>%eax</em>, so we won't discuss it.</p>
 <p>Let's go back look at the rest of the loop. What happens if the current memory being looked at isn't past the end of the heap? Well, let's look.</p>
-<pre><code>    movl HDR_SIZE_OFFSET(%eax), %edx
-    cmpl $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-    je   next_location</code></pre>
+<div class="sourceCode" id="cb134"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>movl HDR_SIZE_OFFSET(%eax), %edx</span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>cmpl $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)</span>
+<span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>je   next_location</span></code></pre></div>
 <p>This first grabs the size of the memory region and puts it in <em>%edx</em>. Then it looks at the available flag to see if it is set to <code>UNAVAILABLE</code>. If so, that means that memory region is in use, so we'll have to skip over it. So, if the available flag is set to <code>UNAVAILABLE</code>, you go to the code labeled <code>next_location</code>. If the available flag is set to <code>AVAILABLE</code>, then we keep on going.</p>
 <p>Let's say that the space was available, and so we keep going. Then we check to see if this space is big enough to hold the requested amount of memory. The size of this region is being held in <em>%edx</em>, so we do this:</p>
-<pre><code>    cmpl  %edx, %ecx
-    jle   allocate_here</code></pre>
+<div class="sourceCode" id="cb135"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>cmpl  %edx, %ecx</span>
+<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>jle   allocate_here</span></code></pre></div>
 <p>If the requested size is less than or equal to the current region's size, we can use this block. It doesn't matter if the current region is larger than requested, because the extra space will just be unused. So, let's jump down to <code>allocate_here</code> and see what happens:</p>
-<pre><code>    movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-    addl  $HEADER_SIZE, %eax
-    movl  %ebp, %esp
-    popl  %ebp
-    ret</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)</span>
+<span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a>addl  $HEADER_SIZE, %eax</span>
+<span id="cb136-3"><a href="#cb136-3" aria-hidden="true" tabindex="-1"></a>movl  %ebp, %esp</span>
+<span id="cb136-4"><a href="#cb136-4" aria-hidden="true" tabindex="-1"></a>popl  %ebp</span>
+<span id="cb136-5"><a href="#cb136-5" aria-hidden="true" tabindex="-1"></a>ret</span></code></pre></div>
 <p>It marks the memory as being unavailable. Then it moves the pointer <em>%eax</em> past the header, and uses it as the return value for the function. Remember, the person using this function doesn't need to even know about our memory header record. They just need a pointer to usable memory.</p>
 <p>Okay, so let's say the region wasn't big enough. What then? Well, we would then be at the code labeled <code>next_location</code>. This section of code is used any time that we figure out that the current memory region won't work for allocating memory. All it does is advance <em>%eax</em> to the next possible memory region, and goes back to the beginning of the loop. Remember that <em>%edx</em> is holding the size of the current memory region, and <code>HEADER_SIZE</code> is the symbol for the size of the memory region's header. So this code will move us to the next memory region:</p>
-<pre><code>    addl  $HEADER_SIZE, %eax
-    addl  %edx, %eax
-    jmp   alloc_loop_begin</code></pre>
+<div class="sourceCode" id="cb137"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>addl  $HEADER_SIZE, %eax</span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>addl  %edx, %eax</span>
+<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>jmp   alloc_loop_begin</span></code></pre></div>
 <p>And now the function runs another loop.</p>
 <p>Whenever you have a loop, you must make sure that it will <em>always</em> end. The best way to do that is to examine all of the possibilities, and make sure that all of them eventually lead to the loop ending. In our case, we have the following possibilities:</p>
 <ul>
-<li><p>We will reach the end of the heap</p></li>
-<li><p>We will find a memory region that's available and large enough</p></li>
-<li><p>We will go to the next location</p></li>
+<li><p>We will reach the end of the heap.</p></li>
+<li><p>We will find a memory region that's available and large enough.</p></li>
+<li><p>We will go to the next location.</p></li>
 </ul>
 <p>The first two items are conditions that will cause the loop to end. The third one will keep it going. However, even if we never find an open region, we will eventually reach the end of the heap, because it is a finite size. Therefore, we know that no matter which condition is true, the loop has to eventually hit a terminating condition.</p>
 <h3 id="the-deallocate-function">The <code>deallocate</code> function</h3>
 <p>The <code>deallocate</code> function is much easier than the <code>allocate</code> one. That's because it doesn't have to do any searching at all. It can just mark the current memory region as <code>AVAILABLE</code>, and <code>allocate</code> will find it next time it is called. So we have:</p>
-<pre><code>    movl  ST_MEMORY_SEG(%esp), %eax
-    subl  $HEADER_SIZE, %eax
-    movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
-    ret</code></pre>
+<div class="sourceCode" id="cb138"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>movl  ST_MEMORY_SEG(%esp), %eax</span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>subl  $HEADER_SIZE, %eax</span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)</span>
+<span id="cb138-4"><a href="#cb138-4" aria-hidden="true" tabindex="-1"></a>ret</span></code></pre></div>
 <p>In this function, we don't have to save <em>%ebp</em> or <em>%esp</em> since we're not changing them, nor do we have to restore them at the end. All we're doing is reading the address of the memory region from the stack, backing up to the beginning of the header, and marking the region as available. This function has no return value, so we don't care what we leave in <em>%eax</em>.</p>
 <h3 id="performance-issues-and-other-problems">Performance Issues and Other Problems</h3>
 <p>Our simplistic memory manager is not really useful for anything more than an academic exercise. This section looks at the problems with such a simplistic allocator.</p>
 <p>The biggest problem here is speed. Now, if there are only a few allocations made, then speed won't be a big issue. But think about what happens if you make a thousand allocations. On allocation number 1000, you have to search through 999 memory regions to find that you have to request more memory. As you can see, that's getting pretty slow. In addition, remember that Linux can keep pages of memory on disk instead of in memory. So, since you have to go through every piece of memory your program's memory, that means that Linux has to load every part of memory that's currently on disk to check to see if it is available. You can see how this could get really, really slow.<a href="#fn48" class="footnote-ref" id="fnref48" role="doc-noteref"><sup>48</sup></a> This method is said to run in <em>linear</em> time, which means that every element you have to manage makes your program take longer. A program that runs in <em>constant</em> time takes the same amount of time no matter how many elements you are managing. Take the <code>deallocate</code> function, for instance. It only runs 4 instructions, no matter how many elements we are managing, or where they are in memory. In fact, although our <code>allocate</code> function is one of the slowest of all memory managers, the <code>deallocate</code> function is one of the fastest.</p>
-<p>Another performance problem is the number of times we're calling the <code>brk</code> system call. System calls take a long time. They aren't like functions, because the processor has to switch modes. Your program isn't allowed to map itself memory, but the Linux kernel is. So, the processor has to switch into <em>kernel modekernel mode</em>, then Linux maps the memory, and then switches back to <em>user modeuser mode</em> for your application to continue running. This is also called a <em>context switchcontext switch</em>. Context switches are relatively slow on x86 processors. Generally, you should avoid calling the kernel unless you really need to.</p>
+<p>Another performance problem is the number of times we're calling the <code>brk</code> system call. System calls take a long time. They aren't like functions, because the processor has to switch modes. Your program isn't allowed to map itself memory, but the Linux kernel is. So, the processor has to switch into <em>kernel mode</em>, then Linux maps the memory, and then switches back to <em>user mode</em> for your application to continue running. This is also called a <em>context switch</em>. Context switches are relatively slow on x86 processors. Generally, you should avoid calling the kernel unless you really need to.</p>
 <p>Another problem that we have is that we aren't recording where Linux actually sets the break. Previously we mentioned that Linux might actually set the break past where we requested it. In this program, we don't even look at where Linux actually sets the break - we just assume it sets it where we requested. That's not really a bug, but it will lead to unnecessary <code>brk</code> system calls when we already have the memory mapped in.</p>
 <p>Another problem we have is that if we are looking for a 5-byte region of memory, and the first open one we come to is 1000 bytes, we will simply mark the whole thing as allocated and return it. This leaves 995 bytes of unused, but allocated, memory. It would be nice in such situations to break it apart so the other 995 bytes can be used later. It would also be nice to combine consecutive free spaces when looking for large allocations.</p>
 <h2 id="using-our-allocator">Using our Allocator</h2>
 <p>The programs we do in this book aren't complicated enough to necessitate a memory manager. Therefore, we will just use our memory manager to allocate a buffer for one of our file reading/writing programs instead of assigning it in the <code>.bss</code>.</p>
 <p>The program we will demonstrate this on is <code>read-records.s</code> from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a>. This program uses a buffer named <code>record_buffer</code> to handle its input/output needs. We will simply change this from being a buffer defined in <code>.bss</code> to being a pointer to a dynamically-allocated buffer using our memory manager. You will need to have the code from that program handy as we will only be discussing the changes in this section.</p>
 <p>The first change we need to make is in the declaration. Currently it looks like this:</p>
-<pre><code>    .section .bss
-    .lcomm, record_buffer, RECORD_SIZE</code></pre>
+<div class="sourceCode" id="cb139"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.section</span> <span class="kw">.bss</span></span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a><span class="kw">.lcomm</span>, record_buffer, RECORD_SIZE</span></code></pre></div>
 <p>It would be a misnomer to keep the same name, since we are switching it from being an actual buffer to being a pointer to a buffer. In addition, it now only needs to be one word big (enough to hold a pointer). The new declaration will stay in the <code>.data</code> section and look like this:</p>
-<pre><code>record_buffer_ptr:
-    .long 0</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="kw">record_buffer_ptr:</span></span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.long</span> <span class="dv">0</span></span></code></pre></div>
 <p>Our next change is we need to initialize our memory manager immediately after we start our program. Therefore, right after the stack is set up, the following call needs to be added:</p>
-<pre><code>    call allocate_init</code></pre>
+<div class="sourceCode" id="cb141"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>call allocate_init</span></code></pre></div>
 <p>After that, the memory manager is ready to start servicing memory allocation requests. We need to allocate enough memory to hold these records that we are reading. Therefore, we will call <code>allocate</code> to allocate this memory, and then save the pointer it returns into <code>record_buffer_ptr</code>. Like this:</p>
-<pre><code>    pushl $RECORD_SIZE
-    call  allocate
-    movl  %eax, record_buffer_ptr</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>pushl $RECORD_SIZE</span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>call  allocate</span>
+<span id="cb142-3"><a href="#cb142-3" aria-hidden="true" tabindex="-1"></a>movl  %eax, record_buffer_ptr</span></code></pre></div>
 <p>Now, when we make the call to <code>read_record</code>, it is expecting a pointer. In the old code, the pointer was the immediate-mode reference to <code>record_buffer</code>. Now, <code>record_buffer_ptr</code> just holds the pointer rather than the buffer itself. Therefore, we must do a direct mode load to get the value in <code>record_buffer_ptr</code>. We need to remove this line:</p>
-<pre><code>pushl $record_buffer</code></pre>
+<div class="sourceCode" id="cb143"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>pushl $record_buffer</span></code></pre></div>
 <p>And put this line in its place:</p>
-<pre><code>pushl record_buffer_ptr</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>pushl record_buffer_ptr</span></code></pre></div>
 <p>The next change comes when we are trying to find the address of the firstname field of our record. In the old code, it was <code>$RECORD_FIRSTNAME + record_buffer</code>. However, that only works because it is a constant offset from a constant address. In the new code, it is the offset of an address stored in <code>record_buffer_ptr</code>. To get that value, we will need to move the pointer into a register, and then add <code>$RECORD_FIRSTNAME</code> to it to get the pointer. So where we have the following code:</p>
-<pre><code>    pushl $RECORD_FIRSTNAME + record_buffer</code></pre>
+<div class="sourceCode" id="cb145"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>pushl $RECORD_FIRSTNAME + record_buffer</span></code></pre></div>
 <p>We need to replace it with this:</p>
-<pre><code>    movl  record_buffer_ptr, %eax
-    addl  $RECORD_FIRSTNAME, %eax
-    pushl %eax</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a>movl  record_buffer_ptr, %eax</span>
+<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a>addl  $RECORD_FIRSTNAME, %eax</span>
+<span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a>pushl %eax</span></code></pre></div>
 <p>Similarly, we need to change the line that says</p>
-<pre><code>    movl  $RECORD_FIRSTNAME + record_buffer, %ecx</code></pre>
+<div class="sourceCode" id="cb147"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>movl  $RECORD_FIRSTNAME + record_buffer, %ecx</span></code></pre></div>
 <p>so that it reads like this:</p>
-<pre><code>    movl  record_buffer_ptr, %ecx
-    addl  $RECORD_FIRSTNAME, %ecx</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>movl  record_buffer_ptr, %ecx</span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>addl  $RECORD_FIRSTNAME, %ecx</span></code></pre></div>
 <p>Finally, one change that we need to make is to deallocate the memory once we are done with it (in this program it's not necessary, but it's a good practice anyway). To do that, we just send <code>record_buffer_ptr</code> to the <code>deallocate</code> function right before exitting:</p>
-<pre><code>    pushl record_buffer_ptr
-    call  deallocate</code></pre>
+<div class="sourceCode" id="cb149"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>pushl record_buffer_ptr</span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>call  deallocate</span></code></pre></div>
 <p>Now you can build your program with the following commands:</p>
-<pre><code>as read-records.s -o read-records.o
-ld alloc.o read-record.o read-records.o write-newline.o count-chars.o -o read-records</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o read-records.o  read-records.s</span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o read-records    alloc.o read-record.o read-records.o <span class="kw">\</span></span>
+<span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a>                      <span class="ex">write-newline.o</span> count-chars.o</span></code></pre></div>
 <p>You can then run your program by doing <code>./read-records</code>.</p>
 <p>The uses of dynamic memory allocation may not be apparent to you at this point, but as you go from academic exercises to real-life programs you will use it continually.</p>
 <h2 id="more-information">More Information</h2>
 <p>More information on memory handling in Linux and other operating systems can be found at the following locations:</p>
 <ul>
-<li><p>More information about the memory layout of Linux programs can be found in Konstantin Boldyshev's document, "Startup state of a Linux/i386 ELF binary", available at http://linuxassembly.org/startup.html</p></li>
-<li><p>A good overview of virtual memory in many different systems is available at http://cne.gmu.edu/modules/vm/</p></li>
-<li><p>Several in-depth articles on Linux's virtual memory subsystem is available at http://www.nongnu.org/lkdp/files.html</p></li>
-<li><p>Doug Lea has written up a description of his popular memory allocator at http://gee.cs.oswego.edu/dl/html/malloc.html</p></li>
-<li><p>A paper on the 4.4 BSD memory allocator is available at http://docs.freebsd.org/44doc/papers/malloc.html</p></li>
+<li><p>More information about the memory layout of Linux programs can be found in Konstantin Boldyshev's document, <a href="http://asm.sourceforge.net/articles/startup.html">Startup state of a Linux/i386 ELF binary</a>.</p></li>
+<li><p>A good overview of virtual memory in many different systems is available at <a href="https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/9_VirtualMemory.html">Virtual Memory - Operating System Concepts</a>.</p></li>
+<li><p>Several in-depth articles on Linux's virtual memory subsystem is available at <a href="http://www.nongnu.org/lkdp/files.html">Linux Kernel Documentation Project</a>.</p></li>
+<li><p>Doug Lea has written up a description of his popular memory allocator at <a href="http://gee.cs.oswego.edu/dl/html/malloc.html">A Memory Allocator by Doug Lea</a>.</p></li>
+<li><p>A paper on the 4.4 BSD memory allocator is available at <a href="http://docs.freebsd.org/44doc/papers/malloc.html">Malloc(3) in modern Virtual Memory environments</a>.</p></li>
 </ul>
 <h2 id="review-7">Review</h2>
 <h3 id="know-the-concepts-7">Know the Concepts</h3>
@@ -2696,13 +3005,13 @@ ld alloc.o read-record.o read-records.o write-newline.o count-chars.o -o read-re
 <li><p>Research <em>reference counting</em>. What advantages and disadvantages does this have over the style of memory management used here?</p></li>
 <li><p>Change the name of the functions to <code>malloc</code> and <code>free</code>, and build them into a shared library. Use <code>LD_PRELOAD</code> to force them to be used as your memory manager instead of the default one. Add some <code>write</code> system calls to STDOUT to verify that your memory manager is being used instead of the default one.</p></li>
 </ul>
-<h1 id="counting-like-a-computer">Counting Like a Computer</h1>
+<h1 id="chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</h1>
 <h2 id="counting">Counting</h2>
 <h3 id="counting-like-a-human">Counting Like a Human</h3>
 <p>In many ways, computers count just like humans. So, before we start learning how computers count, let's take a deeper look at how we count.</p>
 <p>How many fingers do you have? No, it's not a trick question. Humans (normally) have ten fingers. Why is that significant? Look at our numbering system. At what point does a one-digit number become a two-digit number? That's right, at ten. Humans count and do math using a base ten numbering system. Base ten means that we group everything in tens. Let's say we're counting sheep. 1, 2, 3, 4, 5, 6, 7, 8, 9, 10. Why did we all of a sudden now have two digits, and re-use the 1? That's because we're grouping our numbers by ten, and we have 1 group of ten sheep. Okay, let's go to the next number 11. That means we have 1 group of ten sheep, and 1 sheep left ungrouped. So we continue - 12, 13, 14, 15, 16, 17, 18, 19, 20. Now we have 2 groups of ten. 21 - 2 groups of ten, and 1 sheep ungrouped. 22 - 2 groups of ten, and 2 sheep ungrouped. So, let's say we keep counting, and get to 97, 98, 99, and 100. Look, it happened again! What happens at 100? We now have ten groups of ten. At 101 we have ten groups of ten, and 1 ungrouped sheep. So we can look at any number like this. If we counted 60879 sheep, that would mean that we had 6 groups of ten groups of ten groups of ten groups of ten, 0 groups of ten groups of ten groups of ten, 8 groups of ten groups of ten, 7 groups of ten, and 9 sheep left ungrouped.</p>
 <p>So, is there anything significant about grouping things by ten? No! It's just that grouping by ten is how we've always done it, because we have ten fingers. We could have grouped at nine or at eleven (in which case we would have had to make up a new symbol). The only difference between the different groupings of numbers is that we have to re-learn our multiplication, addition, subtraction, and division tables for each grouping. The rules haven't changed, just the way we represent them. Also, some of our tricks that we learned don't always apply, either. For example, let's say we grouped by nine instead of ten. Moving the decimal point one digit to the right no longer multiplies by ten, it now multiplies by nine. In base nine, 500 is only nine times as large as 50.</p>
-<h3 id="counting-like-a-computer-1">Counting Like a Computer</h3>
+<h3 id="counting-like-a-computer">Counting Like a Computer</h3>
 <p>The question is, how many fingers does the computer have to count with? The computer only has two fingers. So that means all of the groups are groups of two. So, let's count in binary - 0 (zero), 1 (one), 10 (two - one group of two), 11 (three - one group of two and one left over), 100 (four - two groups of two), 101 (five - two groups of two and one left over), 110 (six - two groups of two and one group of two), and so on. In base two, moving the decimal one digit to the right multiplies by two, and moving it to the left divides by two. Base twobase two is also referred to as binary.</p>
 <p>The nice thing about base two is that the basic math tables are very short. In base ten, the multiplication tables are ten columns wide, and ten columns tall. In base two, it is very simple:</p>
 <pre><code>Table of binary addition
@@ -4675,7 +4984,7 @@ $2 = 0
 <li id="fn9" role="doc-endnote"><p>You'll find that many programs end up doing things strange ways. Usually there is a reason for that, but, unfortunately, programmers never document such things in their comments. So, future programmers either have to learn the reason the hard way by modifying the code and watching it break, or just leaving it alone whether it is still needed or not. You should <em>always</em> document any strange behavior your program performs. Unfortunately, figuring out what is strange and what is straightforward comes mostly with experience.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn10" role="doc-endnote"><p>Note that on x86 processors, even the general-purpose registers have some special purposes, or used to before it went 32-bit. However, these are general-purpose registers for most instructions. Each of them has at least one instruction where it is used in a special way. However, for most of them, those instructions aren't covered in this book.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn11" role="doc-endnote"><p>You may be wondering, <em>why do all of these registers begin with the letter <code>e</code>?</em> The reason is that early generations of x86 processors were 16 bits rather than 32 bits. Therefore, the registers were only half the length they are now. In later generations of x86 processors, the size of the registers doubled. They kept the old names to refer to the first half of the register, and added an <code>e</code> to refer to the extended versions of the register. Usually you will only use the extended versions. Newer models also offer a 64-bit mode, which doubles the size of these registers yet again and uses an <code>r</code> prefix to indicate the larger registers (i.e. <em>%ax</em> is the 64-bit version of <em>%eax</em>). However, these processors are not widely used, and are not covered in this book.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12" role="doc-endnote"><p>You may be wondering why it's <code>0x80</code> instead of just <code>80</code>. The reason is that the number is written in hexadecimalhexadecimal. In hexadecimal, a single digit can hold 16 values instead of the normal 10. This is done by utilizing the letters <code>a</code> through <code>f</code> in addition to the regular digits. <code>a</code> represents 10, <code>b</code> represents 11, and so on. 0x10 represents the number 16, and so on. This will be discussed more in depth later, but just be aware that numbers starting with <code>0x</code> are in hexadecimal. Tacking on an <code>H</code> at the end is also sometimes used instead, but we won't do that in this book. For more information about this, see <a href="#counting-like-a-computer">Counting Like a Computer</a><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>You may be wondering why it's <code>0x80</code> instead of just <code>80</code>. The reason is that the number is written in hexadecimalhexadecimal. In hexadecimal, a single digit can hold 16 values instead of the normal 10. This is done by utilizing the letters <code>a</code> through <code>f</code> in addition to the regular digits. <code>a</code> represents 10, <code>b</code> represents 11, and so on. 0x10 represents the number 16, and so on. This will be discussed more in depth later, but just be aware that numbers starting with <code>0x</code> are in hexadecimal. Tacking on an <code>H</code> at the end is also sometimes used instead, but we won't do that in this book. For more information about this, see <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn13" role="doc-endnote"><p>Actually, the interrupt transfers control to whoever set up an <em>interrupt handler</em> for the interrupt number. In the case of Linux, all of them are set to be handled by the Linux kernel.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn14" role="doc-endnote"><p>If you don't watch Veggie Tales, you should. Start with Dave and the Giant Pickle.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn15" role="doc-endnote"><p>Note that no numbers in assembly language (or any other computer language I've seen) have commas embedded in them. So, always write numbers like <code>65535</code>, and never like <code>65,535</code>.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -4683,7 +4992,7 @@ $2 = 0
 <li id="fn17" role="doc-endnote"><p>Also, the <code>l</code> in <code>movl</code> stands for <em>move long</em> since we are moving a value that takes up four storage locations.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn18" role="doc-endnote"><p>Notice that the comparison is to see if the <em>second</em> value is greater than the first. I would have thought it the other way around. You will find a lot of things like this when learning programming. It occurs because different things make sense to different people. Anyway, you'll just have to memorize such things and go on.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn19" role="doc-endnote"><p>The names of these symbols can be anything you want them to be, as long as they only contain letters and the underscore character(<code>_</code>). The only one that is forced is <code>_start</code>, and possibly others that you declare with <code>.globl</code>. However, if it is a symbol you define and only you use, feel free to call it anything you want that is adequately descriptive (remember that others will have to modify your code later, and will have to figure out what your symbols mean).<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20" role="doc-endnote"><p>When we talk about the most or least <em>significant</em> byte, it may be a little confusing. Let's take the number 5432. In that number, 54 is the most significant half of that number and 32 is the least significant half. You can't quite divide it like that for registers, since they operate on base 2 rather than base 10 numbers, but that's the basic idea. For more information on this topic, see <a href="#counting-like-a-computer">Counting Like a Computer</a>.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20" role="doc-endnote"><p>When we talk about the most or least <em>significant</em> byte, it may be a little confusing. Let's take the number 5432. In that number, 54 is the most significant half of that number and 32 is the least significant half. You can't quite divide it like that for registers, since they operate on base 2 rather than base 10 numbers, but that's the basic idea. For more information on this topic, see <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn21" role="doc-endnote"><p>Function parameters can also be used to hold pointers to data that the function wants to send back to the program.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn22" role="doc-endnote"><p>This is generally considered bad practice. Imagine if a program is written this way, and in the next version they decided to allow a single instance of the program edit multiple files. Each function would then have to be modified so that the file that was being manipulated would be passed as a parameter. If you had simply passed it as a parameter to begin with, most of your functions could have survived your upgrade unchanged.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn23" role="doc-endnote"><p>A <em>convention</em> is a way of doing things that is standardized, but not forcibly so. For example, it is a convention for people to shake hands when they meet. If I refuse to shake hands with you, you may think I don't like you. Following conventions is important because it makes it easier for others to understand what you are doing, and makes it easier for programs written by multiple independent authors to work together.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -4706,8 +5015,8 @@ $2 = 0
 <li id="fn40" role="doc-endnote"><p>The reason that parameters are pushed in the reverse order is because of functions which take a variable number of parameters like <code>printf</code>. The parameters pushed in last will be in a known position relative to the top of the stack. The program can then use these parameters to determine where on the stack the additional arguments are, and what type they are. For example, <code>printf</code> uses the format string to determine how many other parameters are being sent. If we pushed the known arguments first, you wouldn't be able to tell where they were on the stack.<a href="#fnref40" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn41" role="doc-endnote"><p><code>stdin</code>, <code>stdout</code>, and <code>stderr</code> (all lower case) can be used in these programs to refer to the files of their corresponding file descriptors.<a href="#fnref41" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn42" role="doc-endnote"><p><code>FILE</code> is a struct. You don't need to know its contents to use it. You only have to store the pointer and pass it to the relevant other functions.<a href="#fnref42" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn43" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref43" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn44" role="doc-endnote"><p>Since these programs are usually short enough not to have noticeable performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.<a href="#fnref44" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn43" role="doc-endnote"><p>You actually never use addresses this low, but it works for discussion.<a href="#fnref43" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn44" role="doc-endnote"><p>Addresses mentioned in this chapter are not set in stone and may vary based on kernel version.<a href="#fnref44" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn45" role="doc-endnote"><p>The stack can access it as it grows downward, and you can access the stack regions through <em>%esp</em>. However, your program's data section doesn't grow that way. The way to grow that will be explained shortly.<a href="#fnref45" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn46" role="doc-endnote"><p>Note that not only can Linux have a virtual address map to a different physical address, it can also move those mappings around as needed.<a href="#fnref46" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn47" role="doc-endnote"><p>The function names usually aren't <code>allocate</code> and <code>deallocate</code>, but the functionality will be the same. In the C programming language, for example, they are named <code>malloc</code> and <code>free</code>.<a href="#fnref47" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

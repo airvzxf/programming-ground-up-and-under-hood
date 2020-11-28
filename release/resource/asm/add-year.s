@@ -12,10 +12,10 @@
     .section .bss
         .lcomm record_buffer,  RECORD_SIZE
 
-    # ----- Stack offsets of local variables ----- #
-    #
-    .equ ST_INPUT_DESCRIPTOR,  -4
-    .equ ST_OUTPUT_DESCRIPTOR, -8
+        # ----- Stack offsets of local variables ----- #
+        #
+        .equ ST_INPUT_DESCRIPTOR,  -4
+        .equ ST_OUTPUT_DESCRIPTOR, -8
 
     .section .text
     .globl _start
