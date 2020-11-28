@@ -2234,6 +2234,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>When we put the <code>-lc</code> on the command to link the <code>helloworld</code> program, it told the linker to use the <code>C</code> library (<code>libc.so</code>) to look up any symbolssymbols that weren't already defined in <code>helloworld.o</code>. However, it doesn't actually add any code to our program, it just notes in the program where to look. When the <code>helloworld</code> program begins, the file <code>/lib/ld-linux.so.2</code> is loaded first. This is the dynamic linker. This looks at our <code>helloworld</code> program and sees that it needs the <code>C</code> library to run. So, it searches for a file called <code>libc.so</code> in the standard places (listed in <code>/etc/ld.so.conf</code> and in the contents of the <code>LD_LIBRARY_PATH</code> environment variable), then looks in it for all the needed symbols (<code>printf</code> and <code>exit</code> in this case), and then loads the library into the program's virtual memory. Finally, it replaces all instances of <code>printf</code> in the program with the actual location of <code>printf</code> in the library.</p>
 <p>Run the following command:</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ldd</span> ./helloworld-nolib</span></code></pre></div>
+<!-- TODO: Personal -> Added output from the above command. -->
 <p>It should report back <code>not a dynamic executable</code>. This is just like we said - <code>helloworld-nolib</code> is a statically-linked executable. However, try this:</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ldd</span> ./helloworld-lib</span></code></pre></div>
 <p>It will report back something like:</p>
@@ -2345,14 +2346,14 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <h2 id="useful-functions">Useful Functions</h2>
 <p>Several useful functions you will want to be aware of from the <code>C</code> library include:</p>
 <ul>
-<li><p><code>size_t strlen (const char *s)</code> calculates the size of null-terminated strings.</p></li>
-<li><p><code>int strcmp (const char *s1, const char *s2)</code> compares two strings alphabetically.</p></li>
-<li><p><code>char * strdup (const char *s)</code> takes the pointer to a string, and creates a new copy in a new location, and returns the new location.</p></li>
-<li><p><code>FILE * fopen (const char *filename, const char *opentype)</code> opens a managed, buffered file (allows easier reading and writing than using file descriptors directly).<a href="#fn41" class="footnote-ref" id="fnref41" role="doc-noteref"><sup>41</sup></a> <a href="#fn42" class="footnote-ref" id="fnref42" role="doc-noteref"><sup>42</sup></a></p></li>
-<li><p><code>int fclose (FILE *stream)</code> closes a file opened with <code>fopen</code>.</p></li>
-<li><p><code>char * fgets (char *s, int count, FILE *stream)</code> fetches a line of characters into string <code>s</code>.</p></li>
-<li><p><code>int fputs (const char *s, FILE *stream)</code> writes a string to the given open file.</p></li>
-<li><p><code>int fprintf (FILE *stream, const char *template, ...)</code> is just like <code>printf</code>, but it uses an open file rather than defaulting to using standard output.</p></li>
+<li><p><code class="sourceCode c"><span class="dt">size_t</span> strlen (<span class="dt">const</span> <span class="dt">char</span> *s)</code> calculates the size of null-terminated strings.</p></li>
+<li><p><code class="sourceCode c"><span class="dt">int</span> strcmp (<span class="dt">const</span> <span class="dt">char</span> *s1, <span class="dt">const</span> <span class="dt">char</span> *s2)</code> compares two strings alphabetically.</p></li>
+<li><p><code class="sourceCode c"><span class="dt">char</span> * strdup (<span class="dt">const</span> <span class="dt">char</span> *s)</code> takes the pointer to a string, and creates a new copy in a new location, and returns the new location.</p></li>
+<li><p><code class="sourceCode c"><span class="dt">FILE</span> * fopen (<span class="dt">const</span> <span class="dt">char</span> *filename, <span class="dt">const</span> <span class="dt">char</span> *opentype)</code> opens a managed, buffered file (allows easier reading and writing than using file descriptors directly).<a href="#fn41" class="footnote-ref" id="fnref41" role="doc-noteref"><sup>41</sup></a> <a href="#fn42" class="footnote-ref" id="fnref42" role="doc-noteref"><sup>42</sup></a></p></li>
+<li><p><code class="sourceCode c"><span class="dt">int</span> fclose (<span class="dt">FILE</span> *stream)</code> closes a file opened with <code>fopen</code>.</p></li>
+<li><p><code class="sourceCode c"><span class="dt">char</span> * fgets (<span class="dt">char</span> *s, <span class="dt">int</span> count, <span class="dt">FILE</span> *stream)</code> fetches a line of characters into string <code>s</code>.</p></li>
+<li><p><code class="sourceCode c"><span class="dt">int</span> fputs (<span class="dt">const</span> <span class="dt">char</span> *s, <span class="dt">FILE</span> *stream)</code> writes a string to the given open file.</p></li>
+<li><p><code class="sourceCode c"><span class="dt">int</span> fprintf (<span class="dt">FILE</span> *stream, <span class="dt">const</span> <span class="dt">char</span> *template, ...)</code> is just like <code>printf</code>, but it uses an open file rather than defaulting to using standard output.</p></li>
 </ul>
 <p>You can find the complete manual on this library by going to <a href="http://www.gnu.org/software/libc/manual/">The GNU C Library manual</a></p>
 <h2 id="building-a-dynamic-library">Building a Dynamic Library</h2>

@@ -4759,6 +4759,8 @@ Run the following command:
 ldd ./helloworld-nolib
 ```
 
+<!-- TODO: Personal -> Added output from the above command. -->
+
 It should report back `not a dynamic executable`. This is just like we
 said - `helloworld-nolib` is a statically-linked executable. However,
 try this:
