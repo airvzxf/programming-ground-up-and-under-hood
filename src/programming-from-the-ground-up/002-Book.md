@@ -4155,6 +4155,8 @@ Run the following command:
 ldd ./helloworld-nolib
 ```
 
+<!-- TODO: Personal -> Added output from the above command. -->
+
 It should report back `not a dynamic executable`. This is just like we
 said - `helloworld-nolib` is a statically-linked executable. However,
 try this:
@@ -4374,29 +4376,29 @@ Useful Functions
 Several useful functions you will want to be aware of from the `C`
 library include:
 
--   `size_t strlen (const char *s)` calculates the size of
+-   `size_t strlen (const char *s)`{.c} calculates the size of
     null-terminated strings.
 
--   `int strcmp (const char *s1, const char *s2)` compares two
+-   `int strcmp (const char *s1, const char *s2)`{.c} compares two
     strings alphabetically.
 
--   `char * strdup (const char *s)` takes the pointer to a string,
+-   `char * strdup (const char *s)`{.c} takes the pointer to a string,
     and creates a new copy in a new location, and returns the new
     location.
 
--   `FILE * fopen (const char *filename, const char *opentype)`
+-   `FILE * fopen (const char *filename, const char *opentype)`{.c}
     opens a managed, buffered file (allows easier reading and writing
     than using file descriptors directly).[^8-3] [^8-4]
 
--   `int fclose (FILE *stream)` closes a file opened with `fopen`.
+-   `int fclose (FILE *stream)`{.c} closes a file opened with `fopen`.
 
--   `char * fgets (char *s, int count, FILE *stream)` fetches a
+-   `char * fgets (char *s, int count, FILE *stream)`{.c} fetches a
     line of characters into string `s`.
 
--   `int fputs (const char *s, FILE *stream)` writes a string to
+-   `int fputs (const char *s, FILE *stream)`{.c} writes a string to
     the given open file.
 
--   `int fprintf (FILE *stream, const char *template, ...)` is
+-   `int fprintf (FILE *stream, const char *template, ...)`{.c} is
     just like `printf`, but it uses an open file rather than defaulting
     to using standard output.
 
