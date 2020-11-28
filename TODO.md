@@ -2,6 +2,7 @@
 
 ## Me.
 - [ ] Generate my theme of GNU Assembler and apply to the fenced code blocks. [Pandoc: Syntax highlighting](https://pandoc.org/MANUAL.html#syntax-highlighting).
+- [ ] Add line numeration to the included source files and the small pieces of code.
 - [ ] Create releases as `./releases/v2020.11.01/ProgrammingGroundUp.epub`. Create commands in the `./make` script to replace the version (`text: x86 v2020.11`) inside of the `001-ProgrammingGroundUp.txt` file.
 - [ ] Update the GDB debug appendix.
   - [ ] Example: `as --gstabs` vs `as --gstabs+`
