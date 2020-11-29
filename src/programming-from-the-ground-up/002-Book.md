@@ -6895,7 +6895,9 @@ Review
 Chapter 12. Optimization {#chapter-12-optimization}
 ========================
 
-Optimizationoptimization is the process of making your application run
+<!-- TODO: Dominique suggestion - have an appendix with multiple versions of optimized code -->
+
+Optimization is the process of making your application run
 more effectively. You can optimize for many things - speed, memory space
 usage, disk space usage, etc. This chapter, however, focuses on speed
 optimization.
@@ -6925,13 +6927,13 @@ program that need optimization.
 While you develop your program, you need to have the following
 priorities:
 
--   Everything is documented
+-   Everything is documented.
 
--   Everything works as documented
+-   Everything works as documented.
 
--   The code is written in an modular, easily modifiable form
+-   The code is written in an modular, easily modifiable form.
 
-Documentationdocumentation is essential, especially when working in
+Documentation is essential, especially when working in
 groups. The proper functioning of the program is essential. You\'ll
 notice application speed was not anywhere on that list. Optimization is
 not necessary during early development for the following reasons:
@@ -6940,7 +6942,7 @@ not necessary during early development for the following reasons:
     is often much cheaper than a programmer\'s time.
 
 -   Your application will change dramatically as you revise it,
-    therefore wasting most of your efforts to optimize it.[^1]
+    therefore wasting most of your efforts to optimize it.[^12-1]
 
 -   Speed problems are usually localized in a few places in your code -
     finding these is difficult before you have most of the program
@@ -6966,9 +6968,9 @@ Where to Optimize {#where-to-optimize}
 
 Once you have determined that you have a performance issue you need to
 determine where in the code the problems occur. You can do this by
-running a *profiler*profiler. A profiler is a program that will let you
+running a *profiler*. A profiler is a program that will let you
 run your program, and it will tell you how much time is spent in each
-function, and how many times they are run. `gprofgprof` is the standard
+function, and how many times they are run. `gprof` is the standard
 GNU/Linux profiling tool, but a discussion of using profilers is outside
 the scope of this text. After running a profiler, you can determine
 which functions are called the most or have the most time spent in them.
@@ -6987,8 +6989,8 @@ are being called and used. The more you know about how and when a
 function is called, the better position you will be in to optimize it
 appropriately.
 
-There are two main categories of optimization - local optimizationslocal
-optimizations and global optimizationsglobal optimizations. Local
+There are two main categories of optimization - local optimizations
+and global optimization. Local
 optimizations consist of optimizations that are either hardware specific
 - such as the fastest way to perform a given computation - or
 program-specific - such as making a specific piece of code perform the
@@ -7027,11 +7029,11 @@ Remembering Calculation Results:
     it will do the full computation and store the result for later
     lookup. This has the advantage of requiring less storage space
     because you aren\'t precomputing all results. This is sometimes
-    termed *cachingcaching* or *memoizingmemoizing*.
+    termed *caching* or *memoizing*.
 
 Locality of Reference:
 
-:   *Locality of referencelocality of reference* is a term for where in
+:   *Locality of reference* is a term for where in
     memory the data items you are accessing are. With virtual memory,
     you may access pages of memory which are stored on disk. In such a
     case, the operating system has to load that memory page from disk,
@@ -7047,8 +7049,8 @@ Locality of Reference:
     once. When you bundle as many operations on data that is physically
     close to each other in memory, then you are taking advantage of
     locality of reference. In addition, processors usually store some
-    data on-chip in a cachecache. If you keep all of your operations
-    within a small area of physical memoryphysical memory, your program
+    data on-chip in a cache. If you keep all of your operations
+    within a small area of physical memory, your program
     may bypass even main memory and only use the chip\'s ultra-fast
     cache memory. This is all done for you - all you have to do is to
     try to operate on small sections of memory at a time, rather than
@@ -7056,7 +7058,7 @@ Locality of Reference:
 
 Register Usage:
 
-:   Registersregisters are the fastest memory locations on the computer.
+:   Registers are the fastest memory locations on the computer.
     When you access memory, the processor has to wait while it is loaded
     from the memory bus. However, registers are located on the processor
     itself, so access is extremely fast. Therefore making wise usage of
@@ -7075,7 +7077,7 @@ Inline Functions:
     out on disk instead of in memory). For high level languages, it\'s
     often impossible for compilers to do optimizations across
     function-call boundaries. However, some languages support inline
-    functionsinline functions or function macrosmacros. These functions
+    functions or function macros. These functions
     look, smell, taste, and act like real functions, except the compiler
     has the option to simply plug the code in exactly where it was
     called. This makes the program faster, but it also increases the
@@ -7101,11 +7103,11 @@ Optimized Instructions:
 
 Addressing Modes:
 
-:   Different addressing modesaddressing modes work at different speeds.
-    The fastest are the immediateimmediate mode addressing and register
-    addressing modes. Directdirect addressing mode is the next fastest,
-    indirect is next, and base pointerbase pointer addressing mode and
-    indexed indirectindexed indirect addressing mode are the slowest.
+:   Different addressing modes work at different speeds.
+    The fastest are the immediate mode addressing and register
+    addressing modes. Direct addressing mode is the next fastest,
+    indirect is next, and base pointer addressing mode and
+    indexed indirect addressing mode are the slowest.
     Try to use the faster addressing modes, when possible. One
     interesting consequence of this is that when you have a structured
     piece of memory that you are accessing using base pointer
@@ -7115,7 +7117,7 @@ Addressing Modes:
 
 Data Alignment:
 
-:   Some processors can access data on word-aligned memoryaligned memory
+:   Some processors can access data on word-aligned memory
     boundaries (i.e. - addresses divisible by the word size) faster than
     non-aligned data. So, when setting up structures in memory, it is
     best to keep it word-aligned. Some non-x86 processors, in fact,
@@ -7129,14 +7131,14 @@ circumstances.
 Global Optimization
 -------------------
 
-Global optimizationglobal optimizations has two goals. The first one is
+Global optimization has two goals. The first one is
 to put your code in a form where it is easy to do local optimiztions.
 For example, if you have a large procedure that performs several slow,
 complex calculations, you might see if you can break parts of that
 procedure into their own functions where the values can be precomputed
 or memoized.
 
-Stateless functionsstateless functions (functions that only operate on
+Stateless functions (functions that only operate on
 the parameters that were passed to them - i.e. no globals or system
 calls) are the easiest type of functions to optimize in a computer. The
 more stateless parts of your program you have, the more opportunities
@@ -7160,7 +7162,7 @@ properties in your functions:
 
 Parallelization:
 
-:   Parallelizationparallelization means that your algorithm can
+:   Parallelization means that your algorithm can
     effectively be split among multiple processes. For example,
     pregnancy is not very parallelizable because no matter how many
     women you have, it still takes nine months. However, building a car
@@ -7172,7 +7174,7 @@ Parallelization:
 
 Statelessness:
 
-:   As we\'ve discussed, statelessstateless functions functions and
+:   As we\'ve discussed, stateless functions and
     programs are those that rely entirely on the data explicitly passed
     to them for functioning. Most processes are not entirely stateless,
     but they can be within limits. In my e-commerce example, the
@@ -7208,10 +7210,10 @@ Review
 ### Use the Concepts
 
 -   Go back through each program in this book and try to make
-    optimizations according to the procedures outlined in this chapter
+    optimizations according to the procedures outlined in this chapter.
 
 -   Pick a program from the previous exercise and try to calculate the
-    performance impact on your code under specific inputs.[^2]
+    performance impact on your code under specific inputs.[^12-2]
 
 ### Going Further
 
@@ -7231,15 +7233,17 @@ Review
 -   What kind of problems might a compiler run in to if it tried to
     optimize code across function call boundaries?
 
-[^1]: Many new projects often have a first code base which is completely
+[^12-1]: Many new projects often have a first code base which is completely
     rewritten as developers learn more about the problem they are trying
     to solve. Any optimization done on the first codebase is completely
     wasted.
 
-[^2]: Since these programs are usually short enough not to have
+[^12-2]: Since these programs are usually short enough not to have
     noticeable performance problems, looping through the program
     thousands of times will exaggerate the time it takes to run enough
     to make calculations.
+
+
 
 Basic Guidelines for Software Development
 =========================================
