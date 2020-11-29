@@ -39,7 +39,7 @@ _start:
     # Even though it's a constant, we are saving the output file descriptor
     # in a local variable so that if we later decide that it isn't always
     # going to be STDOUT, we can change it easily.
-    # 
+    #
     movl  $STDOUT, ST_OUTPUT_DESCRIPTOR(%ebp)
 
 record_read_loop:
@@ -56,7 +56,7 @@ record_read_loop:
     jne   finished_reading
 
     # Otherwise, print out the first name but we must know the size.
-    # 
+    #
     pushl  $RECORD_FIRSTNAME + record_buffer
     call   count_chars
     addl   $4, %esp

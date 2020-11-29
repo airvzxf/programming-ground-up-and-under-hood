@@ -32,7 +32,8 @@ under the terms of the GNU Free Documentation License, Version 1.1 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts. A copy of the license is included in
-[GNU Free Documentation License](#gnu-free-documentation-license). In addition,
+[Appendix H. GNU Free Documentation License](#appendix-h-gnu-free-documentation-license).
+In addition,
 you are granted full rights to use the code examples for any purpose
 without even having to credit the authors.
 
@@ -446,7 +447,8 @@ represented by the number 49. So, to print out \"HELLO\", you would
 actually give the computer the sequence of numbers 72, 69, 76, 76, 79.
 To print out the number 100, you would give the computer the sequence of
 numbers 49, 48, 48. A list of ASCII characters and their numeric codes
-is found in the [Table of ASCII Codes](#table-of-ascii-codes).
+is found in the
+[Appendix D. Table of ASCII Codes](#appendix-d-table-of-ascii-codes).
 
 In addition to using numbers to represent ASCII characters, you as the
 programmer get to make the numbers mean anything you want them to, as
@@ -699,7 +701,8 @@ Review
     is not entirely true anymore. However, for the purposes of keeping
     this simple for beginners, we will use the assumption that one
     number translates directly to one character. For more information,
-    see the [Table of ASCII Codes](#table-of-ascii-codes).
+    see the
+    [Appendix D. Table of ASCII Codes](#appendix-d-table-of-ascii-codes).
 
 [^2-2]: Previous incarnations of x86 processors only had two-byte words.
     Therefore, most other literature dealing with x86 processors refers
@@ -707,7 +710,7 @@ Review
     refer to four-byte entities as double-words. We are using the term
     *word* to mean the normal register size of a computer, which in this
     case is four bytes. More information is available in
-    [Common x86 Instructions](#common-x86-instructions).
+    [Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
 
 [^2-3]: Note that here we are talking about general computer theory. Some
     processors and operating systems actually mark the regions of memory
@@ -722,8 +725,9 @@ In this chapter you will learn the process for writing and building
 Linux assembly-language programs. In addition, you will learn the
 structure of assembly-language programs, and a few assembly-language
 commands. As you go through this chapter, you may want to refer also to
-[Common x86 Instructions](#common-x86-instructions) and
-[Using the GDB Debugger](#using-the-gdb-debugger).
+[Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions)
+and
+[Appendix F. Using the GDB Debugger](#appendix-f-using-the-gdb-debugger).
 
 These programs may overwhelm you at first. However, go through them with
 diligence, read them and their explanations as many times as necessary,
@@ -739,8 +743,8 @@ anything but exit! It\'s short, but it shows some basics about assembly
 language and Linux programming. You need to enter the program in an
 editor exactly as written, with the filename `exit.s`. The program
 follows. Don\'t worry about not understanding it. This section only
-deals with typing it in and running it. In [Outline of an Assembly
-Language Program](#outline-of-an-assembly-language-program)
+deals with typing it in and running it. In
+[Outline of an Assembly Language Program](#outline-of-an-assembly-language-program)
 we will describe how it works.
 
 ```{.gnuassembler include=resource/asm/exit.s}
@@ -911,7 +915,8 @@ the _%eax_ register. In assembly language, many instructions have
 destination is the _%eax_ register. Operands can be numbers, memory
 location references, or registers. Different instructions allow
 different types of operands. See
-[Common x86 Instructions](#common-x86-instructions) for more
+[Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions)
+for more
 information on which instructions take which kinds of operands.
 
 On most instructions which have two operands, the first one is the
@@ -960,7 +965,8 @@ specific way.
 
 So, the `movl` instruction moves the number `1` into `%eax`. The
 dollar-sign in front of the one indicates that we want to use immediate
-mode addressing (refer back to [Data Accessing Methods](#data-accessing-methods)).
+mode addressing (refer back to
+[Data Accessing Methods](#data-accessing-methods)).
 Without the dollar-sign it would do
 direct addressing mode, loading whatever number is at
 address `1`. We want the actual number `1` loaded in, so we have to use
@@ -976,7 +982,8 @@ be handled by the operating system through system calls.
 When you make a system call, which we will do shortly, the system call
 number has to be loaded into _%eax_ (for a complete listing of
 system calls and their numbers, see
-[Important System Calls](#important-system-calls)). Depending on the
+[Appendix C. Important System Calls](#appendix-c-important-system-calls)).
+Depending on the
 system call, other registers may have to have values in them as well.
 Note that system calls is not the only use or even the main use of
 registers. It is just the one we are dealing with in this first program.
@@ -1007,7 +1014,7 @@ requirements. In the `exit` system call, _%ebx_ is required to
 be loaded with the exit status code. We will discuss
 different system calls as they are needed. For a list of common system
 calls and what is required to be in each register, see
-[Important System Calls](#important-system-calls).
+[Appendix C. Important System Calls](#appendix-c-important-system-calls).
 
 The next instruction is the \"magic\" one. It looks like this:
 
@@ -1445,7 +1452,8 @@ many jump statements that you can use:
     comparison.
 
 The complete list is documented in
-[Common x86 Instructions](#common-x86-instructions). In this
+[Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
+In this
 case, we are jumping if _%eax_ holds the value of zero. If so, we are done
 and we go to `loop_exit`.[^3-13]
 
@@ -1656,7 +1664,7 @@ register for either a byte or a word, but never both at the same time.
     |=======================================|
 
 For a more comprehensive list of instructions, see
-[Common x86 Instructions](#common-x86-instructions).
+[Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
 
 Review
 ------
@@ -2322,7 +2330,7 @@ only things you should need to know is that `imull` does integer
 multiplication and stores the result in the second operand, and
 `decl` decreases the given register by 1. For more information on
 these and other instructions, see
-[Common x86 Instructions](#common-x86-instructions)
+[Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions)
 
 A good project to try now is to extend the program so it will return the
 value of a number if the power is 0 (hint, anything raised to the zero
@@ -2983,7 +2991,8 @@ Since letters are represented as numbers, we can subtract them.
 Subtracting an upper-case letter from the same lower-case letter gives
 us how much we need to add to a lower-case letter to make it upper case.
 If that doesn\'t make sense, look at the ASCII code tables
-themselves (see the [Table of ASCII Codes](#table-of-ascii-codes)).
+themselves (see the
+[Appendix D. Table of ASCII Codes](#appendix-d-table-of-ascii-codes)).
 You\'ll notice that the number
 for the character `A` is 65 and the character `a` is 97. The conversion
 factor is then -32. For any lowercase letter if you add -32, you will
@@ -3194,7 +3203,7 @@ Review
 
 [^5-2]: While this sounds complicated, most of the time in programming you
     will not need to deal directly with buffers and file descriptors. In
-    [Sharing Functions with Code Libraries](#sharing-functions-with-code-libraries)
+    [Sharing Functions with Code Libraries](#chapter-8-sharing-functions-with-code-libraries)
     you will learn how to use existing code present in
     Linux to handle most of the complications of file input/output for
     you.
@@ -3342,7 +3351,7 @@ This is a fairly simple program. It merely consists of defining the data
 we want to write in the `.data` section, and then calling the right
 system calls and function calls to accomplish it. For a refresher of all
 of the system calls used, see
-[Important System Calls](#important-system-calls).
+[Appendix C. Important System Calls](#appendix-c-important-system-calls).
 
 You may have noticed the lines:
 
@@ -3518,7 +3527,7 @@ have to read in blocks of data to a buffer, process them, and write them
 back out. Unfortunately, this program doesn\'t write the new ages out to
 the screen so you can verify your program\'s effectiveness. This is
 because we won\'t get to displaying numbers until
-[Sharing Functions with Code Libraries](#sharing-functions-with-code-libraries)
+[Sharing Functions with Code Libraries](#chapter-8-sharing-functions-with-code-libraries)
 and
 [Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer).
 After reading those you may want to come back
@@ -3594,7 +3603,8 @@ Review
     very high-level interface to structured data which, although it adds
     some overhead and additional complexity, is very useful for complex
     data processing tasks. References for learning how databases work
-    are listed in [Moving On from Here](#moving-on-from-here).
+    are listed in
+    [Chapter 13. Moving On from Here](#chapter-13-moving-on-from-here).
 
 [^6-2]: If you have used C, this is what the `strlen` function does.
 
@@ -3983,7 +3993,7 @@ Review
 
 
 
-Chapter 8. Sharing Functions with Code Libraries {#sharing-functions-with-code-libraries}
+Chapter 8. Sharing Functions with Code Libraries {#chapter-8-sharing-functions-with-code-libraries}
 ================================================
 
 By now you should realize that the computer has to do a lot of work even
@@ -4731,7 +4741,8 @@ source code.
 The actual instructions (the `.text` section) are loaded at the
 address 0x08048000 (numbers starting with `0x` are in hexadecimal, which
 will be discussed in
-[Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer)).[^9-2] The `.data`
+[Chapter 10. Counting Like a Computer](#chapter-10-counting-like-a-computer)
+).[^9-2] The `.data`
 section is loaded immediately after that, followed by the `.bss`
 section.
 
@@ -6187,7 +6198,7 @@ Luckily, 32 bits is usually big enough to hold the numbers we use
 regularly.
 
 Additional program status register flags are examined in
-[Common x86 Instructions](#common-x86-instructions).
+[Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
 
 Other Numbering Systems
 -----------------------
@@ -6301,7 +6312,7 @@ the extension of -3 from four to eight bits will yield `11111101`.
 The x86 processor has different forms of several instructions depending
 on whether they expect the quantities they operate on to be signed
 or unsignedunsigned. These are listed in
-[Common x86 Instructions](#common-x86-instructions).
+[Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
 For example, the x86 processor has both a sign-preserving shift-right,
 `sarl`, and a shift-right which does not preserve the sign bit,
 `shrl`.
@@ -6761,7 +6772,7 @@ most other operating systems. In addition, it can also run on Macintosh
 hardware running a number of operating systems.
 
 Additional information on the C programming language can be found in
-[???](#ctranslationap).
+[Appendix E. C Idioms in Assembly Language](#appendix-e-c-idioms-in-assembly-language).
 
 Perl
 ----
@@ -6890,8 +6901,9 @@ Compounding this problem is that you don\'t even know beforehand where
 the speed issues in your program will be. Even experienced programmers
 have trouble predicting which parts of the program will be the
 bottlenecks which need optimization, so you will probably end up wasting
-your time optimizing the wrong parts. [Where to
-Optimize](#wheretooptimize) will discuss how to find the parts of your
+your time optimizing the wrong parts.
+[Where to Optimize](#where-to-optimize)
+will discuss how to find the parts of your
 program that need optimization.
 
 While you develop your program, you need to have the following
@@ -6933,7 +6945,7 @@ the bottlenecks, bringing the average processing time under a quarter of
 a second. By focusing on the correct order, I was able to finish a
 project that was both correct and efficient.
 
-Where to Optimize {#wheretooptimize}
+Where to Optimize {#where-to-optimize}
 -----------------
 
 Once you have determined that you have a performance issue you need to
@@ -7216,8 +7228,8 @@ Review
 Basic Guidelines for Software Development
 =========================================
 
-Moving On from Here {#moving-on-from-here}
-===================
+Chapter 13. Moving On from Here {#chapter-13-moving-on-from-here}
+===============================
 
 Congratulations on getting this far. You should now have a basis for
 understanding the issues involved in many areas of programming. Even if
@@ -7429,8 +7441,8 @@ In assembly language, your best resources are on the web.
 
 
 
-Table of ASCII Codes {#table-of-ascii-codes}
-====================
+Appendix D. Table of ASCII Codes {#appendix-d-table-of-ascii-codes}
+================================
 
 To use this table, simply find the character or escape that you want the
 code for, and add the number on the left and the top.
@@ -7477,10 +7489,12 @@ Minimum Every Software Developer Absolutely, Positively Must Know About
 Unicode and Character Sets (No Excuses!)\", available online at
 http://www.joelonsoftware.com/articles/Unicode.html
 
-GUI Programming
-===============
 
-Introduction to GUI Programming {.unnumbered}
+
+Appendix A. GUI Programming
+===========================
+
+Introduction to GUI Programming
 ===============================
 
 The purpose of this appendix is not to teach you how to do Graphical
@@ -7490,7 +7504,7 @@ additional library to handle the graphical parts. As a programmer you
 need to get used to learning new libraries. Most of your time will be
 spent passing data from one library to another.
 
-The GNOME Libraries {.unnumbered}
+The GNOME Libraries
 ===================
 
 The GNOMEGNOME projects is one of several projects to provide a complete
@@ -7522,7 +7536,7 @@ http://developer.gnome.org/. This site contains tutorials, mailing
 lists, API documentation, and everything else you need to start
 programming in the GNOME environment.
 
-A Simple GNOME Program in Several Languages {.unnumbered}
+A Simple GNOME Program in Several Languages
 ===========================================
 
 This program will simply show a Window that has a button to quit the
@@ -7645,7 +7659,7 @@ Finally, we have a version in Python. Type it in as gnome-example.py:
 
 To run it type `python gnome-example.py`.
 
-GUI Builders {.unnumbered}
+GUI Builders
 ============
 
 In the previous example, you have created the user-interface for the
@@ -7667,8 +7681,10 @@ There is a broad range of choices for developing graphical applications,
 but hopefully this appendix gave you a taste of what GUI programming is
 like.
 
-Important System Calls {#important-system-calls}
-======================
+
+
+Appendix C. Important System Calls {#appendix-c-important-system-calls}
+==================================
 
 These are some of the more important system calls to use when dealing
 with Linux. For most cases, however, it is best to use library functions
@@ -7728,14 +7744,16 @@ Linux, see the Linux Kernel 2.4 Internals section on how system calls
 are implemented at
 http://www.faqs.org/docs/kernel_2\_4/lki-2.html\#ss2.11
 
-C Idioms in Assembly Language {#ctranslationap}
-=============================
+
+
+Appendix E. C Idioms in Assembly Language {#appendix-e-c-idioms-in-assembly-language}
+=========================================
 
 C programming language This appendix is for C programmers learning
 assembly language. It is meant to give a general idea about how C
 constructs can be implemented in assembly language.
 
-If Statement {.unnumbered}
+If Statement
 ============
 
 In C, an if statementif statement consists of three parts - the
@@ -7790,7 +7808,7 @@ the system.
 A case statementcase statement is written just like a sequence of if
 statements.
 
-Function Call {.unnumbered}
+Function Call
 =============
 
 A function callfunction call in assembly language simply requires
@@ -7817,7 +7835,7 @@ In assembly language, this would be rendered as:
                         #directly re-adjust %esp to the
                         #proper location.
 
-Variables and Assignment {.unnumbered}
+Variables and Assignment
 ========================
 
 global variables static variables local variables Global and static
@@ -7883,7 +7901,7 @@ to the variable are done to the memory location itself, rather than a
 register copy of it, in case other processes, threads, or hardware may
 be modifying the value while your function is running.
 
-Loops {.unnumbered}
+Loops
 =====
 
 Loopsloops work a lot like if statements in assembly language - the
@@ -7953,7 +7971,7 @@ For really tight loops of character string operations, there is also the
 `reprep` instruction, but we will leave learning about that as an
 exercise to the reader.
 
-Structs {.unnumbered}
+Structs
 =======
 
 Structsstructs are simply descriptions of memory blocks. For example, in
@@ -8013,7 +8031,7 @@ In assembly language it would look like this:
 
         movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
 
-Pointers {.unnumbered}
+Pointers
 ========
 
 Pointerspointers are very easy. Remember, pointers are simply the
@@ -8100,7 +8118,7 @@ value, you simply have to move it to a general-purpose register and use
 indirect addressingindirect addressing mode, as shown in the example
 above.
 
-Getting GCC to Help {.unnumbered}
+Getting GCC to Help
 ===================
 
 One of the nice things about GCCGCC is its ability to spit out assembly
@@ -8175,10 +8193,10 @@ Document History
 
 
 
-Common x86 Instructions {#common-x86-instructions}
-=======================
+Appendix B. Common x86 Instructions {#appendix-b-common-x86-instructions}
+===================================
 
-Reading the Tables {.unnumbered}
+Reading the Tables
 ==================
 
 The tables of instructions presented in this appendix include:
@@ -8240,7 +8258,7 @@ C:
 
 Other flags exist, but they are much less important.
 
-Data Transfer Instructions {#dtins .unnumbered}
+Data Transfer Instructions
 ==========================
 
 These instructions perform little, if any computation. Instead they are
@@ -8263,7 +8281,7 @@ mostly used for moving data from one place to another.
 
   : Data Transfer Instructions
 
-Integer Instructions {#intins .unnumbered}
+Integer Instructions
 ====================
 
 These are basic calculating instructions that operate on signed or
@@ -8300,7 +8318,7 @@ unsigned integers.
 
   : Integer Instructions
 
-Logic Instructions {#logicins .unnumbered}
+Logic Instructions
 ==================
 
 These instructions operate on memory as bits instead of words.
@@ -8336,7 +8354,7 @@ These instructions operate on memory as bits instead of words.
 
   : Logic Instructions
 
-Flow Control Instructions {#flowins .unnumbered}
+Flow Control Instructions
 =========================
 
 These instructions may alter the flow of the program.
@@ -8438,7 +8456,7 @@ These instructions may alter the flow of the program.
 
 : Flow Control Instructions
 
-Assembler Directives {#dirins .unnumbered}
+Assembler Directives
 ====================
 
 These are instructions to the assembler and linker, instead of
@@ -8472,7 +8490,7 @@ your code together properly, and make it easier to use.
 
   : Assembler Directives
 
-Differences in Other Syntaxes and Terminology {.unnumbered}
+Differences in Other Syntaxes and Terminology
 =============================================
 
 The syntax for assembly language used in this book is known at the
@@ -8526,7 +8544,7 @@ The memory reference is a bit easier to read than its AT&T counterpart
 because it spells out exactly how the address will be computed. However,
 but the order of operands in Intel syntax can be confusing.
 
-Where to Go for More Information {.unnumbered}
+Where to Go for More Information
 ================================
 
 Intel has a set of comprehensive guides to their processors. These are
@@ -8550,8 +8568,10 @@ http://www.gnu.org/software/binutils/manual/gas-2.9.1/as.html.
 Similarly, the manual for the GNU linker is available online at
 http://www.gnu.org/software/binutils/manual/ld-2.9.1/ld.html.
 
-Using the GDB Debugger {#using-the-gdb-debugger}
-======================
+
+
+Appendix F. Using the GDB Debugger {#appendix-f-using-the-gdb-debugger}
+==================================
 
 By the time you read this appendix, you will likely have written at
 least one program with an error in it. In assembly language, even minor
@@ -8574,7 +8594,7 @@ application is present on almost all GNU/Linux distributions. It can
 debug programs in multiple programming languages, including assembly
 language.
 
-An Example Debugging Session {.unnumbered}
+An Example Debugging Session
 ============================
 
 The best way to explain how a debugger works is by using it. The program
@@ -8729,7 +8749,7 @@ that it now works correctly.
 Hopefully this exercise provided some insight into using GDB to help you
 find errors in your programs.
 
-Breakpoints and Other GDB Features {.unnumbered}
+Breakpoints and Other GDB Features
 ==================================
 
 The program we entered in the last section had an infinite loop, and
@@ -8776,7 +8796,7 @@ happen.
 
 ---
 
-GDB Quick-Reference {#gdbquickref .unnumbered}
+GDB Quick-Reference
 ===================
 
 This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and
@@ -8791,8 +8811,10 @@ optional.
 
   : Common GDB Debugging Commands
 
-GNU Free Documentation License {#gnu-free-documentation-license}
-==============================
+
+
+Appendix H. GNU Free Documentation License {#appendix-h-gnu-free-documentation-license}
+==========================================
 
 `0. PREAMBLE`
 
@@ -9168,8 +9190,10 @@ recommend releasing these examples in parallel under your choice of free
 software license, such as the GNU General Public License, to permit
 their use in free software.
 
-Personal Dedication {#dedicationap}
-===================
+
+
+Appendix I. Personal Dedication
+===============================
 
 There are so many people I could thank. I will name here but a few of
 the people who have brought me to where I am today. The many family
