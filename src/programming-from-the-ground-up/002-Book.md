@@ -6615,8 +6615,8 @@ Compiled and Interpreted Languages
 ----------------------------------
 
 Many languages are *compiled* languages. When you write assembly
-languageassembly language, each instruction you write is translated into
-exactly one machine instruction for processing. With compilerscompilers,
+language, each instruction you write is translated into
+exactly one machine instruction for processing. With compilers,
 a statement can translate into one or hundreds of machine instructions.
 In fact, depending on how advanced your compiler is, it might even
 restructure parts of your code to make it faster. In assembly language
@@ -6624,7 +6624,7 @@ what you write is what you get.
 
 There are also languages that are *interpreted* languages. These
 languages require that the user run a program called an
-*interpreterinterpreter* that in turn runs the given program. These are
+*interpreter* that in turn runs the given program. These are
 usually slower than compiled programs, since the interpreter has to read
 and interpret the code as it goes along. However, in well-made
 interpreters, this time can be fairly negligible. There is also a class
@@ -6649,14 +6649,14 @@ High-level languages, whether compiled or interpreted, are oriented
 around you, the programmer, instead of around the machine. This opens
 them up to a wide variety of features, which can include the following:
 
--   Being able to group multiple operations into a single expression
+-   Being able to group multiple operations into a single expression.
 
 -   Being able to use \"big values\" - values that are much more
     conceptual than the 4-byte words that computers normally deal with
     (for example, being able to view text strings as a single value
     rather than as a string of bytes).
 
--   Having access to better flow controlflow control constructs than
+-   Having access to better flow control constructs than
     just jumps.
 
 -   Having a compiler to check types of value assignments and other
@@ -6689,20 +6689,25 @@ the possibilities you have to choose from.
 Your First C Program
 --------------------
 
-C Programming Language Here is your first C program, which prints
+Here is your first C program, which prints
 \"Hello world\" to the screen and exits. Type it in, and give it the
-name Hello-World.c
+name `hello-world.c`:
 
-    HELLO-WORLD-C
+```{.c include=resource/asm/hello-world.c}
+```
 
 As you can see, it\'s a pretty simple program. To compile it, run the
-command
+command:
 
-    gcc -o HelloWorld Hello-World.c
+```{.bash}
+gcc -o hello-world-c  hello-world.c
+```
 
-To run the program, do
+To run the program, do:
 
-    ./HelloWorld
+```{.bash}
+./hello-world-c
+```
 
 Let\'s look at how this program was put together.
 
@@ -6710,9 +6715,9 @@ Comments in C are started with `/*` and ended with `*/`. Comments can
 span multiple lines, but many people prefer to start and end comments on
 the same line so they don\'t get confused.
 
-`#include <stdio.h>` stdio.h is the first part of the program. This is a
+`#include <stdio.h>` is the first part of the program. This is a
 *preprocessor directive*. C compiling is split into two stages - the
-preprocessorpreprocessor and the main compiler. This directive tells the
+preprocessor and the main compiler. This directive tells the
 preprocessor to look for the file `stdio.h` and paste it into your
 program. The preprocessor is responsible for putting together the text
 of the program. This includes sticking different files together, running
@@ -6722,7 +6727,7 @@ preprocessor is done and the main compiler goes to work.
 Now, everything in `stdio.h` is now in your program just as if you typed
 it there yourself. The angle brackets around the filename tell the
 compiler to look in its standard paths for the file
-(`/usr/include/usr/include` and `/usr/local/include/usr/local/include`,
+(`/usr/include` and `/usr/local/include`,
 usually). If it was in quotes, like `#include "stdio.h"` it would look
 in the current directory for the file. Anyway, `stdio.h` contains the
 declarations for the standard input and output functions and variables.
@@ -6761,13 +6766,13 @@ stored our return value in _%eax_, but in C we just use the `return`
 command and it takes care of that for us. The return value of the `main`
 function is what is used as the exit code for the program.
 
-As you can see, using high-level languageshigh-level languages makes
+As you can see, using high-level languages makes
 life much easier. It also allows our programs to run on multiple
 platforms more easily. In assembly language, your program is tied to
 both the operating system and the hardware platform, while in compiled
 and interpreted languages the same code can usually run on multiple
 operating systems and hardware platforms. For example, this program can
-be built and executed on x86 hardware running Linux, Windows, UNIX, or
+be built and executed on x86 hardware running Linux®, Windows®, UNIX®, or
 most other operating systems. In addition, it can also run on Macintosh
 hardware running a number of operating systems.
 
@@ -6781,16 +6786,19 @@ Perl is an interpreted language, existing mostly on Linux and UNIX-based
 platforms. It actually runs on almost all platforms, but you find it
 most often on Linux and UNIX-based ones. Anyway, here is the Perl
 version of the program, which should be typed into a file named
-`Hello-World.pl`:
+`hello-world.pl`:
 
-    HELLO-WORLD-PERL
+```{.perl include=resource/asm/hello-world.pl}
+```
 
 Since Perl is interpreted, you don\'t need to compile or link it. Just
 run in with the following command:
 
-    perl Hello-World.pl
+```{.bash}
+perl hello-world.pl
+```
 
-As you can see, the PerlPerl version is even shorter than the C version.
+As you can see, the Perl version is even shorter than the C version.
 With Perl you don\'t have to declare any functions or program entry
 points. You can just start typing commands and the interpreter will run
 them as it comes to them. In fact this program only has two lines of
@@ -6800,7 +6808,7 @@ The first, optional line is used for UNIX machines to tell which
 interpreter to use to run the program. The `#!` tells the computer that
 this is an interpreted program, and the `/usr/bin/perl` tells the
 computer to use the program `/usr/bin/perl` to interpret the program.
-However, since we ran the program by typing in `perl Hello-World.pl`, we
+However, since we ran the program by typing in `perl hello-world.pl`, we
 had already specified that we were using the perl interpreter.
 
 The next line calls a Perl builtin function, print. This has one
@@ -6823,12 +6831,20 @@ at manipulating text.
 Python
 ------
 
-The PythonPython version of the program looks almost exactly like the
+The Python version of the program looks almost exactly like the
 Perl one. However, Python is really a very different language than Perl,
 even if it doesn\'t seem so from this trivial example. Type the program
-into a file named `Hello-World.py`. The program follows:
+into a file named `hello-world.py`. The program follows:
 
-    HELLO-WORLD-PYTHON
+```{.python include=resource/asm/hello-world.py}
+```
+
+Since Python is interpreted, you don\'t need to compile or link it. Just
+run in with the following command:
+
+```{.bash}
+python hello-world.py
+```
 
 You should be able to tell what the different lines of the program do.
 
