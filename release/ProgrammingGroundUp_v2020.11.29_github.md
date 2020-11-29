@@ -25,10 +25,10 @@ Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.1 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
-Texts. A copy of the license is included in [GNU Free Documentation
-License](#gnu-free-documentation-license). In addition, you are granted
-full rights to use the code examples for any purpose without even having
-to credit the authors.
+Texts. A copy of the license is included in [Appendix H. GNU Free
+Documentation License](#appendix-h-gnu-free-documentation-license). In
+addition, you are granted full rights to use the code examples for any
+purpose without even having to credit the authors.
 
 To receive a copy of this book in electronic form, please visit the
 website http://savannah.nongnu.org/projects/pgubook/ This site contains
@@ -407,7 +407,8 @@ represented by the number 49. So, to print out "HELLO", you would
 actually give the computer the sequence of numbers 72, 69, 76, 76, 79.
 To print out the number 100, you would give the computer the sequence of
 numbers 49, 48, 48. A list of ASCII characters and their numeric codes
-is found in the [Table of ASCII Codes](#table-of-ascii-codes).
+is found in the [Appendix D. Table of ASCII
+Codes](#appendix-d-table-of-ascii-codes).
 
 In addition to using numbers to represent ASCII characters, you as the
 programmer get to make the numbers mean anything you want them to, as
@@ -662,8 +663,9 @@ In this chapter you will learn the process for writing and building
 Linux assembly-language programs. In addition, you will learn the
 structure of assembly-language programs, and a few assembly-language
 commands. As you go through this chapter, you may want to refer also to
-[Common x86 Instructions](#common-x86-instructions) and [Using the GDB
-Debugger](#using-the-gdb-debugger).
+[Appendix B. Common x86
+Instructions](#appendix-b-common-x86-instructions) and [Appendix F.
+Using the GDB Debugger](#appendix-f-using-the-gdb-debugger).
 
 These programs may overwhelm you at first. However, go through them with
 diligence, read them and their explanations as many times as necessary,
@@ -875,9 +877,9 @@ the *%eax* register. In assembly language, many instructions have
 *destination*. In this case, the source is the literal number 1, and the
 destination is the *%eax* register. Operands can be numbers, memory
 location references, or registers. Different instructions allow
-different types of operands. See [Common x86
-Instructions](#common-x86-instructions) for more information on which
-instructions take which kinds of operands.
+different types of operands. See [Appendix B. Common x86
+Instructions](#appendix-b-common-x86-instructions) for more information
+on which instructions take which kinds of operands.
 
 On most instructions which have two operands, the first one is the
 source operand and the second one is the destination. Note that in these
@@ -939,11 +941,12 @@ programs, dealing with files, and exiting have to be handled by the
 operating system through system calls. When you make a system call,
 which we will do shortly, the system call number has to be loaded into
 *%eax* (for a complete listing of system calls and their numbers, see
-[Important System Calls](#important-system-calls)). Depending on the
-system call, other registers may have to have values in them as well.
-Note that system calls is not the only use or even the main use of
-registers. It is just the one we are dealing with in this first program.
-Later programs will use registers for regular computation.
+[Appendix C. Important System
+Calls](#appendix-c-important-system-calls)). Depending on the system
+call, other registers may have to have values in them as well. Note that
+system calls is not the only use or even the main use of registers. It
+is just the one we are dealing with in this first program. Later
+programs will use registers for regular computation.
 
 The operating system, however, usually needs more information than just
 which call to make. For example, when dealing with files, the operating
@@ -968,7 +971,8 @@ other registers, however, each system call has different requirements.
 In the `exit` system call, *%ebx* is required to be loaded with the exit
 status code. We will discuss different system calls as they are needed.
 For a list of common system calls and what is required to be in each
-register, see [Important System Calls](#important-system-calls).
+register, see [Appendix C. Important System
+Calls](#appendix-c-important-system-calls).
 
 The next instruction is the "magic" one. It looks like this:
 
@@ -1426,10 +1430,10 @@ Jump if the second value was less than or equal to the first value.
 `jmp`:  
 Jump no matter what. This does not need to be preceeded by a comparison.
 
-The complete list is documented in [Common x86
-Instructions](#common-x86-instructions). In this case, we are jumping if
-*%eax* holds the value of zero. If so, we are done and we go to
-`loop_exit`.[19]
+The complete list is documented in [Appendix B. Common x86
+Instructions](#appendix-b-common-x86-instructions). In this case, we are
+jumping if *%eax* holds the value of zero. If so, we are done and we go
+to `loop_exit`.[19]
 
 If the last loaded element was not zero, we go on to the next
 instructions:
@@ -1629,8 +1633,8 @@ both at the same time.
     |-------------------|---%dh---|---%dl---| ===>  8-bit = 1-byte each one.
     |=======================================|
 
-For a more comprehensive list of instructions, see [Common x86
-Instructions](#common-x86-instructions).
+For a more comprehensive list of instructions, see [Appendix B. Common
+x86 Instructions](#appendix-b-common-x86-instructions).
 
 Review
 ------
@@ -2259,8 +2263,8 @@ By now, you should be able to go through the program without help. The
 only things you should need to know is that `imull` does integer
 multiplication and stores the result in the second operand, and `decl`
 decreases the given register by 1. For more information on these and
-other instructions, see [Common x86
-Instructions](#common-x86-instructions)
+other instructions, see [Appendix B. Common x86
+Instructions](#appendix-b-common-x86-instructions)
 
 A good project to try now is to extend the program so it will return the
 value of a number if the power is 0 (hint, anything raised to the zero
@@ -3155,10 +3159,11 @@ Since letters are represented as numbers, we can subtract them.
 Subtracting an upper-case letter from the same lower-case letter gives
 us how much we need to add to a lower-case letter to make it upper case.
 If that doesn't make sense, look at the ASCII code tables themselves
-(see the [Table of ASCII Codes](#table-of-ascii-codes)). You'll notice
-that the number for the character `A` is 65 and the character `a` is 97.
-The conversion factor is then -32. For any lowercase letter if you add
--32, you will get its capital equivalent.
+(see the [Appendix D. Table of ASCII
+Codes](#appendix-d-table-of-ascii-codes)). You'll notice that the number
+for the character `A` is 65 and the character `a` is 97. The conversion
+factor is then -32. For any lowercase letter if you add -32, you will
+get its capital equivalent.
 
 After this, we have some constants labelled `STACK POSITIONS`. Remember
 that function parameters are pushed onto the stack before function
@@ -3689,8 +3694,8 @@ _start:
 This is a fairly simple program. It merely consists of defining the data
 we want to write in the `.data` section, and then calling the right
 system calls and function calls to accomplish it. For a refresher of all
-of the system calls used, see [Important System
-Calls](#important-system-calls).
+of the system calls used, see [Appendix C. Important System
+Calls](#appendix-c-important-system-calls).
 
 You may have noticed the lines:
 
@@ -3894,7 +3899,7 @@ _start:
     # Even though it's a constant, we are saving the output file descriptor
     # in a local variable so that if we later decide that it isn't always
     # going to be STDOUT, we can change it easily.
-    # 
+    #
     movl  $STDOUT, ST_OUTPUT_DESCRIPTOR(%ebp)
 
 record_read_loop:
@@ -3911,7 +3916,7 @@ record_read_loop:
     jne   finished_reading
 
     # Otherwise, print out the first name but we must know the size.
-    # 
+    #
     pushl  $RECORD_FIRSTNAME + record_buffer
     call   count_chars
     addl   $4, %esp
@@ -4080,10 +4085,11 @@ have to read in blocks of data to a buffer, process them, and write them
 back out. Unfortunately, this program doesn't write the new ages out to
 the screen so you can verify your program's effectiveness. This is
 because we won't get to displaying numbers until [Sharing Functions with
-Code Libraries](#sharing-functions-with-code-libraries) and [Chapter 10.
-Counting Like a Computer](#chapter-10-counting-like-a-computer). After
-reading those you may want to come back and rewrite this program to
-display the numeric data that we are modifying.
+Code Libraries](#chapter-8-sharing-functions-with-code-libraries) and
+[Chapter 10. Counting Like a
+Computer](#chapter-10-counting-like-a-computer). After reading those you
+may want to come back and rewrite this program to display the numeric
+data that we are modifying.
 
 Review
 ------
@@ -4570,9 +4576,9 @@ this, including:
     program that wishes to use it.
 
 All three of these are usually used to some degree in any given project.
-The first option will be explored further in [High-Level
-Languages](#high-level-languages). The second option is useful but it
-suffers from some drawbacks, including:
+The first option will be explored further in [Chapter 11. High-Level
+Languages](#chapter-11-high-level-languages). The second option is
+useful but it suffers from some drawbacks, including:
 
 -   Code that is copied often has to be majorly modified to fit the
     surrounding code.
@@ -5321,7 +5327,7 @@ code.
 The actual instructions (the `.text` section) are loaded at the address
 0x08048000 (numbers starting with `0x` are in hexadecimal, which will be
 discussed in [Chapter 10. Counting Like a
-Computer](#chapter-10-counting-like-a-computer)).[44] The `.data`
+Computer](#chapter-10-counting-like-a-computer) ).[44] The `.data`
 section is loaded immediately after that, followed by the `.bss`
 section.
 
@@ -6510,28 +6516,34 @@ one group of two), 11 (three - one group of two and one left over), 100
 (four - two groups of two), 101 (five - two groups of two and one left
 over), 110 (six - two groups of two and one group of two), and so on. In
 base two, moving the decimal one digit to the right multiplies by two,
-and moving it to the left divides by two. Base twobase two is also
-referred to as binary.
+and moving it to the left divides by two. Base two is also referred to
+as binary.
 
 The nice thing about base two is that the basic math tables are very
 short. In base ten, the multiplication tables are ten columns wide, and
 ten columns tall. In base two, it is very simple:
 
+<!-- TODO: These need to be converted to tables -->
+
     Table of binary addition
 
-    + |  0  |  1  
-    --+-----+-----
-    0 |  0  |  0  
-    --+-----+-----
-    1 |  1  | 10  
+    |----------------|
+    | + ||  0  |  1  |
+    |================|
+    | 0 ||  0  |  0  |
+    |----+-----+-----|
+    | 1 ||  1  | 10  |
+    |----------------|
 
     Table of binary multiplication
 
-    * |  0  |  1
-    --+-----+-----
-    0 |  0  |  0
-    --+-----+-----
-    1 |  0  |  1
+    |----------------|
+    | * ||  0  |  1  |
+    |================|
+    | 0 ||  0  |  0  |
+    |----+-----+-----|
+    | 1 ||  0  |  1  |
+    |----------------|
 
 So, let's add the numbers 10010101 with 1100101:
 
@@ -6542,54 +6554,54 @@ So, let's add the numbers 10010101 with 1100101:
 
 Now, let's multiply them:
 
-            10010101
-         *   1100101
-         -----------
-            10010101
-           00000000
-          10010101
-         00000000
+           10010101
+        *   1100101
+        -----------
+           10010101
+          00000000
+         10010101
         00000000
-       10010101
+       00000000
       10010101
-     ---------------
-      11101011001001
+     10010101
+    ---------------
+     11101011001001
 
 ### Conversions Between Binary and Decimal
 
-Let's learn how to convert numbers from binarybinary (base twobase two)
-to decimaldecimal (base tenbase ten). This is actually a rather simple
-process. If you remember, each digitdigit stands for some grouping of
-two. So, we just need to add up what each digit represents, and we will
-have a decimal number. Take the binary number 10010101. To find out what
-it is in decimal, we take it apart like this:
+Let's learn how to convert numbers from binary (base two) to decimal
+(base ten). This is actually a rather simple process. If you remember,
+each digit stands for some grouping of two. So, we just need to add up
+what each digit represents, and we will have a decimal number. Take the
+binary number 10010101. To find out what it is in decimal, we take it
+apart like this:
 
-         1    0    0    1    0    1    0    1
-         |    |    |    |    |    |    |    |
-         |    |    |    |    |    |    |    Individual units (2^0)
-         |    |    |    |    |    |    0 groups of 2 (2^1)
-         |    |    |    |    |    1 group of 4 (2^2)
-         |    |    |    |    0 groups of 8 (2^3)
-         |    |    |    1 group of 16 (2^4)
-         |    |    0 groups of 32 (2^5)
-         |    0 groups of 64 (2^6)
-         1 group of 128 (2^7)
+     1    0    0    1    0    1    0    1
+     |    |    |    |    |    |    |    |
+     |    |    |    |    |    |    |    Individual units (2^0)
+     |    |    |    |    |    |    0 groups of 2 (2^1)
+     |    |    |    |    |    1 group of 4 (2^2)
+     |    |    |    |    0 groups of 8 (2^3)
+     |    |    |    1 group of 16 (2^4)
+     |    |    0 groups of 32 (2^5)
+     |    0 groups of 64 (2^6)
+     1 group of 128 (2^7)
 
-and then we add all of the pieces together, like this:
+And then we add all of the pieces together, like this:
 
     1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 =
     128 + 16 + 4 + 1 = 
     149
 
 So 10010101 in binary is 149 in decimal. Let's look at 1100101. It can
-be written as
+be written as:
 
     1*64 + 1*32 + 0 * 16 + 0*8 + 1*4 + 0*2 + 1*1 =
     64 + 32 + 4 + 1 =
     101
 
 So we see that 1100101 in binary is 101 in decimal. Let's look at one
-more number, 11101011001001. You can convert it to decimal by doing
+more number, 11101011001001. You can convert it to decimal by doing:
 
     1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256 
            + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4 
@@ -6603,21 +6615,20 @@ Now, if you've been paying attention, you have noticed that the numbers
 we just converted are the same ones we used to multiply with earlier.
 So, let's check our results: 101 \* 149 = 15049. It worked!
 
-Now let's look at going from decimaldecimal back to binarybinary. In
-order to do the conversion, you have to *divide* the number into groups
-of two. So, let's say you had the number 17. If you divide it by two,
-you get 8 with 1 left over. So that means there are 8 groups of two, and
-1 ungrouped. That means that the rightmost digit will be 1. Now, we have
-the rigtmost digit figured out, and 8 groups of 2 left over. Now, let's
-see how many groups of two groups of two we have, by dividing 8 by 2. We
-get 4, with nothing left over. That means that all groups two can be
-further divided into more groups of two. So, we have 0 groups of only
-two. So the next digit to the left is 0. So, we divide 4 by 2 and get
-two, with 0 left over, so the next digit is 0. Then, we divide 2 by 2
-and get 1, with 0 left over. So the next digit is 0. Finally, we divide
-1 by 2 and get 0 with 1 left over, so the next digit to the left is 1.
-Now, there's nothing left, so we're done. So, the number we wound up
-with is 10001.
+Now let's look at going from decimal back to binary. In order to do the
+conversion, you have to *divide* the number into groups of two. So,
+let's say you had the number 17. If you divide it by two, you get 8 with
+1 left over. So that means there are 8 groups of two, and 1 ungrouped.
+That means that the rightmost digit will be 1. Now, we have the rigtmost
+digit figured out, and 8 groups of 2 left over. Now, let's see how many
+groups of two groups of two we have, by dividing 8 by 2. We get 4, with
+nothing left over. That means that all groups two can be further divided
+into more groups of two. So, we have 0 groups of only two. So the next
+digit to the left is 0. So, we divide 4 by 2 and get two, with 0 left
+over, so the next digit is 0. Then, we divide 2 by 2 and get 1, with 0
+left over. So the next digit is 0. Finally, we divide 1 by 2 and get 0
+with 1 left over, so the next digit to the left is 1. Now, there's
+nothing left, so we're done. So, the number we wound up with is 10001.
 
 Previously, we converted to binary 11101011001001 to decimal 15049.
 Let's do the reverse to make sure that we did it right:
@@ -6641,13 +6652,13 @@ Then, we put the remaining numbers back together, and we have the
 original number! Remember the first division remainder goes to the far
 right, so from the bottom up you have 11101011001001.
 
-Each digit in a binary number is called a *bitbits*, which stands for
-*binary digitbinary digit*. Remember, computers divide up their memory
-into storage locations called bytesbytes. Each storage location on an
-x86 processor (and most others) is 8 bits long. Earlier we said that a
-byte can hold any number between 0 and 255. The reason for this is that
-the largest number you can fit into 8 bits is 255. You can see this for
-yourself if you convert binary 11111111 into decimal:
+Each digit in a binary number is called a *bit*, which stands for
+*binary digit*. Remember, computers divide up their memory into storage
+locations called bytes. Each storage location on an x86 processor (and
+most others) is 8 bits long. Earlier we said that a byte can hold any
+number between 0 and 255. The reason for this is that the largest number
+you can fit into 8 bits is 255. You can see this for yourself if you
+convert binary 11111111 into decimal:
 
     11111111 =
 
@@ -6664,19 +6675,19 @@ number you can hold in 64 bits is 18,446,744,073,709,551,615. The
 largest number you can hold in 128 bits is
 340,282,366,920,938,463,463,374,607,431,768,211,456. Anyway, you see the
 picture. For x86 processors, most of the time you will deal with 4-byte
-numbers (32 bits), because that's the size of the registersregisters.
+numbers (32 bits), because that's the size of the registers.
 
 Truth, Falsehood, and Binary Numbers
 ------------------------------------
 
 Now we've seen that the computer stores everything as sequences of 1's
 and 0's. Let's look at some other uses of this. What if, instead of
-looking at a sequence of bitsbits as a number, we instead looked at it
-as a set of switchesswitches. For example, let's say there are four
-switches that control lighting in the house. We have a switch for
-outside lights, a switch for the hallway lights, a switch for the living
-room lights, and a switch for the bedroom lights. We could make a little
-table showing which of these were on and off, like so:
+looking at a sequence of bits as a number, we instead looked at it as a
+set of switches. For example, let's say there are four switches that
+control lighting in the house. We have a switch for outside lights, a
+switch for the hallway lights, a switch for the living room lights, and
+a switch for the bedroom lights. We could make a little table showing
+which of these were on and off, like so:
 
     Outside  Hallway  Living Room  Bedroom
       On       Off        On         On
@@ -6684,18 +6695,18 @@ table showing which of these were on and off, like so:
 It's obvious from looking at this that all of the lights are on except
 the hallway ones. Now, instead of using the words "On" and "Off", let's
 use the numbers 1 and 0. 1 will represent on, and 0 will represent off.
-So, we could represent the same information as
+So, we could represent the same information as:
 
     Outside  Hallway  Living Room  Bedroom
        1        0           1         1
 
 Now, instead of having labels on the light switches, let's say we just
 memorized which position went with which switch. Then, the same
-information could be represented as
+information could be represented as:
 
-    1           0           1         1
+       1        0           1         1
 
-or as
+Or as:
 
     1011
 
@@ -6706,17 +6717,16 @@ anything their imaginations can come up with. They just sometimes have
 to be creative when figuring out the best representation.
 
 Not only can you do regular arithmetic with binary numbers, they also
-have a few operations of their own, called binary binary operations or
-logical operations logical operations. The standard binary operations
-are
+have a few operations of their own, called binary operations or logical
+operations. The standard binary operations are:
 
--   ANDAND
+-   AND.
 
--   OROR
+-   OR.
 
--   NOTNOT
+-   NOT.
 
--   XORXOR
+-   XOR.
 
 Before we look at examples, I'll describe them for you. AND takes two
 bits and returns one bit. AND will return a 1 only if both bits are 1,
@@ -6736,7 +6746,7 @@ Computers can do these operations on whole registers at a time. For
 example, if a register has 10100010101010010101101100101010 and another
 one has 10001000010101010101010101111010, you can run any of these
 operations on the whole registers. For example, if we were to AND them,
-the computer will run from the first bit to the 32nd and run the ANDAND
+the computer will run from the first bit to the 32nd and run the AND
 operation on that bit in both registers. In this case:
 
     10100010101010010101101100101010 AND
@@ -6746,7 +6756,7 @@ operation on that bit in both registers. In this case:
 
 You'll see that the resulting set of bits only has a one where *both*
 numbers had a one, and in every other position it has a zero. Let's look
-at what an OROR looks like:
+at what an OR looks like:
 
     10100010101010010101101100101010 OR 
     10001000010101010101010101111010
@@ -6754,13 +6764,13 @@ at what an OROR looks like:
     10101010111111010101111101111010
 
 In this case, the resulting number has a 1 where either number has a 1
-in the given position. Let's look at the NOTNOT operation:
+in the given position. Let's look at the NOT operation:
 
-    NOT 10100010101010010101101100101010
+    10100010101010010101101100101010 NOT
     ------------------------------------
-        01011101010101101010010011010101
+    01011101010101101010010011010101
 
-This just reverses each digit. Finally, we have XORXOR, which is like an
+This just reverses each digit. Finally, we have XOR, which is like an
 OR, except if *both* digits are 1, it returns 0.
 
     10100010101010010101101100101010 XOR 
@@ -6779,42 +6789,47 @@ always get 0, like this:
 
 These operations are useful for two reasons:
 
--   The computer can do them extremely fast
+-   The computer can do them extremely fast.
 
--   You can use them to compare many truth values at the same time
+-   You can use them to compare many truth values at the same time.
 
 You may not have known that different instructions execute at different
 speeds. It's true, they do. And these operations are the fastest on most
 processors. For example, you saw that XORing a number with itself
-produces 0. Well, the XORXOR operation is faster than the loading
-operation, so many programmers use it to load a registerregister with
-zero. For example, the code
+produces 0. Well, the XOR operation is faster than the loading
+operation, so many programmers use it to load a register with zero. For
+example, the code:
 
-        movl  $0, %eax
+``` gnuassembler
+movl  $0, %eax
+```
 
-is often replaced by
+Is often replaced by:
 
-        xorl  %eax, %eax
+``` gnuassembler
+xorl  %eax, %eax
+```
 
-We'll discuss speed more in [???](#optimizationch), but I want you to
-see how programmers often do tricky things, especially with these binary
+We'll discuss speed more in [Chapter 12.
+Optimization](#chapter-12-optimization), but I want you to see how
+programmers often do tricky things, especially with these binary
 operators, to make things fast. Now let's look at how we can use these
-operators to manipulate truetrue/falsefalse values. Earlier we discussed
-how binary numbers can be used to represent any number of things. Let's
-use binary numbers to represent what things my Dad and I like. First,
-let's look at the things I like:
+operators to manipulate true/false values. Earlier we discussed how
+binary numbers can be used to represent any number of things. Let's use
+binary numbers to represent what things my Dad and I like. First, let's
+look at the things I like:
 
-    Food: yes
-    Heavy Metal Music: yes
-    Wearing Dressy Clothes: no
-    Football: yes
+    Food: Yes
+    Heavy Metal Music: Yes
+    Wearing Dressy Clothes: No
+    Football: Yes
 
 Now, let's look at what my Dad likes:
 
-    Food: yes
-    Heavy Metal Music: no
-    Wearing Dressy Clothes: yes
-    Football: yes
+    Food: Yes
+    Heavy Metal Music: No
+    Wearing Dressy Clothes: Yes
+    Football: Yes
 
 Now, let's use a 1 to say yes we like something, and a 0 to say no we
 don't. Now we have:
@@ -6831,7 +6846,7 @@ don't. Now we have:
     Wearing Dressy Clothes: 1
     Football: 1
 
-Now, if we just memorize which position each of these are in, we have
+Now, if we just memorize which position each of these are in, we have:
 
     Me
     1101
@@ -6840,20 +6855,20 @@ Now, if we just memorize which position each of these are in, we have
     1011
 
 Now, let's see we want to get a list of things both my Dad and I like.
-You would use the ANDAND operation. So
+You would use the AND operation. So:
 
     1101 AND
     1011
     --------
     1001
 
-Which translates to
+Which translates to:
 
     Things we both like
-    Food: yes
-    Heavy Metal Music: no
-    Wearing Dressy Clothes: no
-    Football: yes
+    Food: Yes
+    Heavy Metal Music: No
+    Wearing Dressy Clothes: No
+    Football: Yes
 
 Remember, the computer has no idea what the ones and zeroes represent.
 That's your job and your program's job. If you wrote a program around
@@ -6861,8 +6876,8 @@ this representation your program would at some point examine each bit
 and have code to tell the user what it's for (if you asked a computer
 what two people agreed on and it answered 1001, it wouldn't be very
 useful). Anyway, let's say we want to know the things that we disagree
-on. For that we would use XORXOR, because it will return 1 only if one
-or the other is 1, but not both. So
+on. For that we would use XOR, because it will return 1 only if one or
+the other is 1, but not both. So:
 
     1101 XOR
     1011
@@ -6872,19 +6887,17 @@ or the other is 1, but not both. So
 And I'll let you translate that back out.
 
 The previous operations: AND, OR, NOT, and XOR are called *boolean
-operatorsboolean operators* because they were first studied by George
-Boole. So, if someone mentiones boolean operatorsboolean operators or
-boolean algebraboolean algebra, you now know what they are talking
-about.
+operators* because they were first studied by George Boole. So, if
+someone mentiones boolean operators or boolean algebra, you now know
+what they are talking about.
 
 In addition to the boolean operations, there are also two binary
-operatorsbinary operators that aren't boolean, shiftshift and
-rotaterotate. Shifts and rotates each do what their name implies, and
-can do so to the right or the left. A left shift moves each digit of a
-binary number one space to the left, puts a zero in the ones spot, and
-chops off the furthest digit to the left. A left rotate does the same
-thing, but takes the furthest digit to the left and puts it in the ones
-spot. For example,
+operators that aren't boolean, shift and rotate. Shifts and rotates each
+do what their name implies, and can do so to the right or the left. A
+left shift moves each digit of a binary number one space to the left,
+puts a zero in the ones spot, and chops off the furthest digit to the
+left. A left rotate does the same thing, but takes the furthest digit to
+the left and puts it in the ones spot. For example:
 
     Shift left  10010111 = 00101110
     Rotate left 10010111 = 00101111
@@ -6900,19 +6913,19 @@ stored in a register (32 bits). It would look like this:
     00000000000000000000000000001011
 
 Now, as we said previously, this doesn't work as program output. So, in
-order to do output, we would need to do shiftingshifting and
-*maskingmasking*. Masking is the process of eliminating everything you
-don't want. In this case, for every value we are looking for, we will
-shift the number so that value is in the ones place, and then mask that
-digit so that it is all we see. Masking is accomplished by doing an
-ANDAND with a number that has the bits we are interested in set to 1.
-For example, let's say we wanted to print out whether my Dad likes
-dressy clothes or not. That data is the second value from the right. So,
-we have to shift the number right 1 digit so it looks like this:
+order to do output, we would need to do shifting and *masking*. Masking
+is the process of eliminating everything you don't want. In this case,
+for every value we are looking for, we will shift the number so that
+value is in the ones place, and then mask that digit so that it is all
+we see. Masking is accomplished by doing an AND with a number that has
+the bits we are interested in set to 1. For example, let's say we wanted
+to print out whether my Dad likes dressy clothes or not. That data is
+the second value from the right. So, we have to shift the number right 1
+digit so it looks like this:
 
     00000000000000000000000000000101
 
-and then, we just want to look at that digit, so we mask it by ANDing it
+And then, we just want to look at that digit, so we mask it by ANDing it
 with 00000000000000000000000000000001.
 
     00000000000000000000000000000101 AND
@@ -6924,41 +6937,45 @@ This will make the value of the register 1 if my Dad likes dressy
 clothes, and 0 if he doesn't. Then we can do a comparison to 1 and print
 the results. The code would look like this:
 
-        #NOTE - assume that the register %ebx holds 
-        #       my Dad's preferences
+``` gnuassembler
+# NOTE: Assume that the register %ebx holds.
+#
+# My Dad's preferences
+#
+movl  %ebx, %eax                        # This copies the information into
+                                        # %eax so we don't lose the
+                                        # original data.
 
-        movl  %ebx, %eax #This copies the information into %eax so
-                         #we don't lose the original data
+shrl  $1, %eax                          # This is the shift operator.
+                                        # It stands for Shift Right Long.
+                                        # This first number is the number
+                                        # of positions to shift,
+                                        # and the second is the register
+                                        # to shift.
 
-        shrl  $1, %eax   #This is the shift operator.  It stands
-                         #for Shift Right Long.  This first number
-                         #is the number of positions to shift,
-                         #and the second is the register to shift
-        
-        #This does the masking
-        andl  $0b00000000000000000000000000000001, %eax 
+andl  $0b00000000000000000000000000000001, %eax   # This does the masking.
 
-        #Check to see if the result is 1 or 0
-        cmpl  $0b00000000000000000000000000000001, %eax 
+cmpl  $0b00000000000000000000000000000001, %eax   # Check to see if the
+                                                  # result is 1 or 0.
 
-        je    yes_he_likes_dressy_clothes
+je    yes_he_likes_dressy_clothes
 
-        jmp   no_he_doesnt_like_dressy_clothes
+jmp   no_he_doesnt_like_dressy_clothes
+```
 
 And then we would have two labels which printed something about whether
 or not he likes dressy clothes and then exits. The `0b` notation means
-that what follows is a binary numberbinary number. In this case it
-wasn't needed, because 1 is the same in any numbering system, but I put
-it there for clarity. We also didn't need the 31 zeroes, but I put them
-in to make a point that the number you are using is 32 bits.
+that what follows is a binary number. In this case it wasn't needed,
+because 1 is the same in any numbering system, but I put it there for
+clarity. We also didn't need the 31 zeroes, but I put them in to make a
+point that the number you are using is 32 bits.
 
-When a number represents a set of options for a functionfunctions or
-system callsystem call, the individual true/false elements are called
-*flagsflags*. Many system calls have numerous options that are all set
-in the same register using a mechanism like we've described. The
-`openopen` system call, for example, has as its second parameter a list
-of flags to tell the operating system how to open the file. Some of the
-flags include:
+When a number represents a set of options for a function or system call,
+the individual true/false elements are called *flags*. Many system calls
+have numerous options that are all set in the same register using a
+mechanism like we've described. The `open` system call, for example, has
+as its second parameter a list of flags to tell the operating system how
+to open the file. Some of the flags include:
 
 `O_WRONLY`:  
 This flag is `0b00000000000000000000000000000001` in binary, or `01` in
@@ -6983,9 +7000,9 @@ This flag is `0b00000000000000000000010000000000` in binary, or `02000`
 in octal. It means to start writing at the end of the file rather than
 at the beginning.
 
-To use these flags, you simply OROR them together in the combination
-that you want. For example, to open a file in write-only mode, and have
-it create the file if it doesn't exist, I would use `O_WRONLY` (01) and
+To use these flags, you simply OR them together in the combination that
+you want. For example, to open a file in write-only mode, and have it
+create the file if it doesn't exist, I would use `O_WRONLY` (01) and
 `O_CREAT` (0100). OR'd together, I would have 0101.
 
 Note that if you don't set either `O_WRONLY` or `O_RDWR`, then the file
@@ -7001,18 +7018,17 @@ The Program Status Register
 
 We've seen how bits on a register can be used to give the answers of
 yes/no and true/false statements. On your computer, there is a register
-called the *program status registerprogram status register*. This
-register holds a lot of information about what happens in a computation.
-For example, have you ever wondered what would happen if you added two
-numbers and the result was larger than would fit in a register? The
-program status register has a flag called the carry flagcarry flag. You
-can test it to see if the last computation overflowed the register.
-There are flags for a number of different statuses. In fact, when you do
-a compare (`cmplcmpl`) instruction, the result is stored in this
-register. The conditional jumpconditional jump instructions (`jge`,
-`jne`, etc) use these results to tell whether or not they should jump.
-`jmpjmp`, the unconditional jumpunconditional jump, doesn't care what is
-in the status register, since it is unconditional.
+called the *program status register*. This register holds a lot of
+information about what happens in a computation. For example, have you
+ever wondered what would happen if you added two numbers and the result
+was larger than would fit in a register? The program status register has
+a flag called the carry flag. You can test it to see if the last
+computation overflowed the register. There are flags for a number of
+different statuses. In fact, when you do a compare (`cmpl`) instruction,
+the result is stored in this register. The conditional jump instructions
+(`jge`, `jne`, etc) use these results to tell whether or not they should
+jump. `jmp`, the unconditional jump, doesn't care what is in the status
+register, since it is unconditional.
 
 Let's say you needed to store a number larger than 32 bits. So, let's
 say the number is 2 registers wide, or 64 bits. How could you handle
@@ -7029,8 +7045,8 @@ significant column, which is empty, so you just put the one there.
 Luckily, 32 bits is usually big enough to hold the numbers we use
 regularly.
 
-Additional program status register flags are examined in [Common x86
-Instructions](#common-x86-instructions).
+Additional program status register flags are examined in [Appendix B.
+Common x86 Instructions](#appendix-b-common-x86-instructions).
 
 Other Numbering Systems
 -----------------------
@@ -7048,17 +7064,17 @@ values. Decimal numbers can be any length, including infinite length
 (think of a repeating decimal, like the result of 1 / 3).
 
 The way a computer handles decimals is by storing them at a fixed
-precisionprecision (number of significant bits). A computer stores
-decimal numbers in two parts - the *exponentexponent* and the
-*mantissamantissa*. The mantissa contains the actual digits that will be
-used, and the exponent is what magnitude the number is. For example,
-12345.2 can be represented as 1.23452 \* 10^4. The mantissa is 1.23452
-and the exponent is 4 with a base of 10. Computers, however, use a base
-of 2. All numbers are stored as X.XXXXX \* 2^XXXX. The number 1, for
-example, is stored as 1.00000 \* 2^0. Separating the mantissa and the
-exponent into two different values is called a *floating point*floating
-point representation, because the position of the significant digits
-with respect to the decimal point can vary based on the exponent.
+precision (number of significant bits). A computer stores decimal
+numbers in two parts - the *exponent* and the *mantissa*. The mantissa
+contains the actual digits that will be used, and the exponent is what
+magnitude the number is. For example, 12345.2 can be represented as
+1.23452 \* 10^4. The mantissa is 1.23452 and the exponent is 4 with a
+base of 10. Computers, however, use a base of 2. All numbers are stored
+as X.XXXXX \* 2^XXXX. The number 1, for example, is stored as 1.00000 \*
+2^0. Separating the mantissa and the exponent into two different values
+is called a *floating point* representation, because the position of the
+significant digits with respect to the decimal point can vary based on
+the exponent.
 
 Now, the mantissa and the exponent are only so long, which leads to some
 interesting problems. For example, when a computer stores an integer, if
@@ -7079,29 +7095,34 @@ You should note that it takes most computers a lot longer to do
 floating-point arithmetic than it does integer arithmetic. So, for
 programs that really need speed, integers are mostly used.
 
+<!-- TODO: Need floating point reference.
+        For more information on using floating point numbers in assembly
+        language, see:
+-->
+
 ### Negative Numbers
 
-How would you think that negative numbersnegative numbers on a computer
-might be represented? One thought might be to use the first digit of a
-number as the signsign, so `00000000000000000000000000000001` would
-represent the number 1, and `10000000000000000000000000000001` would
-represent -1. This makes a lot of sense, and in fact some old processors
-work this way. However, it has some problems. First of all, it takes a
-lot more circuitry to add and subtract signed numbers represented this
-way. Even more problematic, this representation has a problem with the
-number 0. In this system, you could have both a negative and a positive
-0. This leads to a lot of questions, like "should negative zero be equal
-to positive zero?", and "What should the sign of zero be in various
+How would you think that negative numbers on a computer might be
+represented? One thought might be to use the first digit of a number as
+the sign, so `00000000000000000000000000000001` would represent the
+number 1, and `10000000000000000000000000000001` would represent -1.
+This makes a lot of sense, and in fact some old processors work this
+way. However, it has some problems. First of all, it takes a lot more
+circuitry to add and subtract signed numbers represented this way. Even
+more problematic, this representation has a problem with the number 0.
+In this system, you could have both a negative and a positive 0. This
+leads to a lot of questions, like "should negative zero be equal to
+positive zero?", and "What should the sign of zero be in various
 circumstances?".
 
 These problems were overcome by using a representation of negative
-numbers called *two's complementtwo's complement* representation. To get
-the negative representation of a number in two's complement form, you
-must perform the following steps:
+numbers called *two's complement* representation. To get the negative
+representation of a number in two's complement form, you must perform
+the following steps:
 
-1.  Perform a NOTNOT operation on the number
+1.  Perform a NOT operation on the number.
 
-2.  Add one to the resulting number
+2.  Add one to the resulting number.
 
 So, to get the negative of `00000000000000000000000000000001`, you would
 first do a NOT operation, which gives
@@ -7113,53 +7134,53 @@ first do a NOT operation, which gives
 add numbers just as if they were positive, and come out with the right
 answers. For example, if you add one plus negative one in binary, you
 will notice that all of the numbers flip to zero. Also, the first digit
-still carries the signsign bit, making it simple to determine whether or
-not the number is positive or negative. Negative numbers will always
-have a `1` in the leftmost bit. This also changes which numbers are
-valid for a given number of bits. With signed numbers, the possible
-magnitude of the values is split to allow for both positive and negative
-numbers. For example, a bytebytes can normally have values up to 255. A
-signed byte, however, can store values from -128 to 127.
+still carries the sign bit, making it simple to determine whether or not
+the number is positive or negative. Negative numbers will always have a
+`1` in the leftmost bit. This also changes which numbers are valid for a
+given number of bits. With signed numbers, the possible magnitude of the
+values is split to allow for both positive and negative numbers. For
+example, a byte can normally have values up to 255. A signed byte,
+however, can store values from -128 to 127.
 
-One thing to note about the two's complementtwo's complement
-representation of signed numberssigned numbers is that, unlike unsigned
-quantities, if you increase the number of bits, you can't just add
-zeroes to the left of the number. For example, let's say we are dealing
-with four-bit quantities and we had the number -3, `1101`. If we were to
-extend this into an eight-bit register, we could not represent it as
-`00001101` as this would represent 13, not -3. When you increase the
-size of a signed quantity in two's complement representation, you have
-to perform *sign extensionsign extension*. Sign extension means that you
-have to pad the left-hand side of the quantity with whatever digit is in
-the sign digit when you add bits. So, if we extend a negative number by
-4 digits, we should fill the new digits with a 1. If we extend a
-positive number by 4 digits, we should fill the new digits with a 0. So,
-the extension of -3 from four to eight bits will yield `11111101`.
+One thing to note about the two's complement representation of signed
+numbers is that, unlike unsigned quantities, if you increase the number
+of bits, you can't just add zeroes to the left of the number. For
+example, let's say we are dealing with four-bit quantities and we had
+the number -3, `1101`. If we were to extend this into an eight-bit
+register, we could not represent it as `00001101` as this would
+represent 13, not -3. When you increase the size of a signed quantity in
+two's complement representation, you have to perform *sign extension*.
+Sign extension means that you have to pad the left-hand side of the
+quantity with whatever digit is in the sign digit when you add bits. So,
+if we extend a negative number by 4 digits, we should fill the new
+digits with a 1. If we extend a positive number by 4 digits, we should
+fill the new digits with a 0. So, the extension of -3 from four to eight
+bits will yield `11111101`.
 
 The x86 processor has different forms of several instructions depending
-on whether they expect the quantities they operate on to be signedsigned
-or unsignedunsigned. These are listed in [Common x86
-Instructions](#common-x86-instructions). For example, the x86 processor
-has both a sign-preserving shift-right, `sarlsarl`, and a shift-right
-which does not preserve the sign bit, `shrlshrl`.
+on whether they expect the quantities they operate on to be signed or
+unsignedunsigned. These are listed in [Appendix B. Common x86
+Instructions](#appendix-b-common-x86-instructions). For example, the x86
+processor has both a sign-preserving shift-right, `sarl`, and a
+shift-right which does not preserve the sign bit, `shrl`.
 
 Octal and Hexadecimal Numbers
 -----------------------------
 
-The numbering systems discussed so far have been decimaldecimal and
-binarybinary. However, two others are used common in computing -
-octaloctal and hexadecimalhexadecimal. In fact, they are probably
-written more often than binary. Octal is a representation that only uses
-the numbers 0 through 7. So the octal number 10 is actually 8 in decimal
-because it is one group of eight. Octal 121 is decimal 81 (one group of
-64 (8^2), two groups of 8, and one left over). What makes octal nice is
-that every 3 binary digits make one octal digit (there is no such
-grouping of binary digits into decimal). So 0 is 000, 1 is 001, 2 is
-010, 3 is 011, 4 is 100, 5 is 101, 6 is 110, and 7 is 111.
+The numbering systems discussed so far have been decimal and binary.
+However, two others are used common in computing - octal and
+hexadecimal. In fact, they are probably written more often than binary.
+Octal is a representation that only uses the numbers 0 through 7. So the
+octal number 10 is actually 8 in decimal because it is one group of
+eight. Octal 121 is decimal 81 (one group of 64 (8^2), two groups of 8,
+and one left over). What makes octal nice is that every 3 binary digits
+make one octal digit (there is no such grouping of binary digits into
+decimal). So 0 is 000, 1 is 001, 2 is 010, 3 is 011, 4 is 100, 5 is 101,
+6 is 110, and 7 is 111.
 
-permissions Permissions in Linux are done using octal. This is because
-Linux permissions are based on the ability to read, write and execute.
-The first bit is the read permission, the second bit is the write
+Permissions in Linux are done using octal. This is because Linux
+permissions are based on the ability to read, write and execute. The
+first bit is the read permission, the second bit is the write
 permission, and the third bit is the execute permission. So, 0 (000)
 gives no permissions, 6 (110) gives read and write permission, and 5
 (101) gives read and execute permissions. These numbers are then used
@@ -7174,7 +7195,7 @@ everyone else can only execute the file.
 
 Anyway, as you can see, octal is used to group bits (binary digits) into
 threes. The way the assembler knows that a number is octal is because
-octaloctal numbers are prefixed with a zero. For example 010 means 10 in
+octal numbers are prefixed with a zero. For example 010 means 10 in
 octal, which is 8 in decimal. If you just write 10 that means 10 in
 decimal. The beginning zero is what differentiates the two. So, *be
 careful not to put any leading zeroes in front of decimal numbers, or
@@ -7185,24 +7206,30 @@ each digit. however, since 10-15 don't have their own numbers,
 hexadecimal uses the letters `a` through `f` to represent them. For
 example, the letter `a` represents 10, the letter `b` represents 11, and
 so on. 10 in hexadecimal is 16 in decimal. In octal, each digit
-represented three bits. In hexadecimalhexadecimal, each digit represents
-four bits. Every two digits is a full bytebytes, and eight digits is a
-32-bit wordword. So you see, it is considerably easier to write a
-hexadecimal number than it is to write a binary number, because it's
-only a quarter as many digits. The most important number to remember in
-hexadecimal is `f`, which means that all bits are set. So, if I want to
-set all of the bits of a register to 1, I can just do
+represented three bits. In hexadecimal, each digit represents four bits.
+Every two digits is a full byte, and eight digits is a 32-bit word. So
+you see, it is considerably easier to write a hexadecimal number than it
+is to write a binary number, because it's only a quarter as many digits.
+The most important number to remember in hexadecimal is `f`, which means
+that all bits are set. So, if I want to set all of the bits of a
+register to 1, I can just do:
 
-        movl  $0xFFFFFFFF, %eax
+``` gnuassembler
+movl  $0xFFFFFFFF, %eax
+```
 
-Which is considerably easier and less error-prone than writing
+Which is considerably easier and less error-prone than writing:
 
-        movl  $0b11111111111111111111111111111111, %eax
+``` gnuassembler
+movl  $0b11111111111111111111111111111111, %eax
+```
 
-Note also that hexadecimalhexadecimal numbers are prefixed with `0x`.
-So, when we do
+Note also that hexadecimal numbers are prefixed with `0x`. So, when we
+do
 
-        intint   $0x80
+``` gnuassembler
+int   $0x80
+```
 
 We are calling interrupt number 128 (8 groups of 16), or interrupt
 number `0b00000000000000000000000010000000`.
@@ -7215,27 +7242,27 @@ decimal, and octal.
 Order of Bytes in a Word
 ------------------------
 
-One thing that confuses many people when dealing with bitsbits and
-bytesbytes on a low level is that, when bytes are written from
-registersregisters to memory, their bytes are written out
-least-significant-portion-first.[49] What most people expect is that if
-they have a word in a register, say `0x5d 23 ef ee` (the spacing is so
-you can see where the bytes are), the bytes will be written to memory in
-that order. However, on x86 processors, the bytes are actually written
-in reverse order. In memory the bytes would be `0xee ef 23 5d` on x86
-processors. The bytes are written in reverse order from what they would
-appear conceptually, but the bits within the bytes are ordered normally.
+One thing that confuses many people when dealing with bits and bytes on
+a low level is that, when bytes are written from registers to memory,
+their bytes are written out least-significant-portion-first.[49] What
+most people expect is that if they have a word in a register, say
+`0x5d 23 ef ee` (the spacing is so you can see where the bytes are), the
+bytes will be written to memory in that order. However, on x86
+processors, the bytes are actually written in reverse order. In memory
+the bytes would be `0xee ef 23 5d` on x86 processors. The bytes are
+written in reverse order from what they would appear conceptually, but
+the bits within the bytes are ordered normally.
 
 Not all processors behave this way. The x86 processor is a
-*little-endianlittle-endian* processor, which means that it stores the
-"little end", or least-significant byte of its words first.
+*little-endian* processor, which means that it stores the "little end",
+or least-significant byte of its words first.
 
 ![*Register-to-memory transfers on little-endian
 systems*](resource/image/littleendian.png)
 
-Other processors are *big-endianbig-endian* processors, which means that
-they store the "big end", or most significant byte, of their words
-first, the way we would naturally read a number.
+Other processors are *big-endian* processors, which means that they
+store the "big end", or most significant byte, of their words first, the
+way we would naturally read a number.
 
 ![*Register-to-memory transfers on big-endian
 systems*](resource/image/bigendian.png)
@@ -7243,15 +7270,15 @@ systems*](resource/image/bigendian.png)
 This difference is not normally a problem (although it has sparked many
 technical controversies throughout the years). Because the bytes are
 reversed again (or not, if it is a big-endian processor) when being read
-back into a registerregister, the programmer usually never notices what
-order the bytes are in. The byte-switching magic happens automatically
-behind the scenes during register-to-memory transfers. However, the byte
-order can cause problems in several instances:
+back into a register, the programmer usually never notices what order
+the bytes are in. The byte-switching magic happens automatically behind
+the scenes during register-to-memory transfers. However, the byte order
+can cause problems in several instances:
 
 -   If you try to read in several bytes at a time using `movl` but deal
     with them on a byte-by-byte basis using the least significant byte
-    (i.e. - by using AL and/or shifting of the register), this will be
-    in a different order than they appear in memory.
+    (i.e. - by using *%al* and/or shifting of the register), this will
+    be in a different order than they appear in memory.
 
 -   If you read or write files written for different architectures, you
     may have to account for whatever order they write their bytes in.
@@ -7260,9 +7287,10 @@ order can cause problems in several instances:
     a different byte order in the protocol.
 
 As long as you are aware of the issue, it usually isn't a big deal. For
-more in-depth look at byte order issues, you should read DAV's Endian
-FAQ at http://www.rdrop.com/\~cary/html/endian\_faq.html, especially the
-article "On Holy Wars and a Plea for Peace" by Daniel Cohen.
+more in-depth look at byte order issues, you should read [DAV's Endian
+FAQ](http://david.carybros.com/html/endian_faq.html), especially the
+article ["On Holy Wars and a Plea for Peace" by Daniel
+Cohen](https://dcc.ufrj.br/~gabriel/progpar/danny_co.pdf).
 
 Converting Numbers for Display
 ------------------------------
@@ -7283,7 +7311,7 @@ access the individual decimal digits of a number, we need to be dividing
 by 10 and displaying the remainder for each digit. Therefore, the
 process will look like this:
 
--   Divide the number by ten
+-   Divide the number by ten.
 
 -   The remainder is the current digit. Convert it to a character and
     store it.
@@ -7303,22 +7331,167 @@ pushed them on.
 The code for the function should be put in a file called
 `integer-to-string.s` and should be entered as follows:
 
-    INTEGER-TO-STRING
+``` gnuassembler
+    .code32                             # Generate 32-bit code.
+
+    # PURPOSE:  Convert an integer number to a decimal string for display.
+    #
+    # INPUT:    A buffer large enough to hold the largest possible number
+    #           an integer to convert.
+    #
+    # OUTPUT:   The buffer will be overwritten with the decimal string.
+    #
+    # Variables:
+    #       %ecx will hold the count of characters processed.
+    #       %eax will hold the current value.
+    #       %edi will hold the base (10).
+    #
+        .equ ST_VALUE,   8
+        .equ ST_BUFFER,  12
+
+    .globl integer2string
+    .type  integer2string,  @function
+
+integer2string:
+    pushl %ebp                          # Normal function beginning.
+    movl  %esp, %ebp
+
+    movl  $0, %ecx                      # Current character count.
+
+    movl  ST_VALUE(%ebp), %eax          # Move the value into position.
+
+    movl  $10, %edi                     # When we divide by 10, the 10
+                                        # must be in a register or memory
+                                        # location.
+
+conversion_loop:
+    # Division is actually performed on the combined %edx:%eax register,
+    # so first clear out %edx.
+    #
+    movl  $0, %edx
+
+    # Divide %edx:%eax (which are implied) by 10. Store the quotient in
+    # %eax and the remainder in %edx (both of which are implied).
+    #
+    divl  %edi
+
+    # Quotient is in the right place.  %edx has the remainder, which now
+    # needs to be converted into a number.  So, %edx has a number that is
+    # 0 through 9.  You could also interpret this as an index on the ASCII
+    # table starting from the character '0'.  The ascii code for '0' plus
+    # zero is still the ascii code for '0'.  The ascii code for '0' plus 1
+    # is the ascii code for the character '1'.  Therefore, the following
+    # instruction will give us the character for the number stored in %edx.
+    #
+    addl  $'0', %edx
+
+    # Now we will take this value and push it on the stack.  This way,
+    # when we are done, we can just pop off the characters one-by-one and
+    # they will be in the right order.  Note that we are pushing the whole
+    # register, but we only need the byte in %dl (the last byte of the
+    # %edx register) for the character.
+    #
+    pushl %edx
+
+    incl  %ecx                          # Increment the digit count.
+
+    cmpl  $0, %eax                      # Check to see if %eax is zero yet,
+    je    end_conversion_loop           # go to next step if so.
+                                        # %eax already has its new value.
+
+    jmp conversion_loop
+
+end_conversion_loop:
+    # The string is now on the stack, if we pop it off a character at a
+    # time we can copy it into the buffer and be done.
+    #
+    movl  ST_BUFFER(%ebp), %edx         # Get the pointer to the buffer
+                                        # in %edx.
+
+copy_reversing_loop:
+    # We pushed a whole register, but we only need the last byte.  So we
+    # are going to pop off to the entire %eax register, but then only move
+    # the small part (%al) into the character string.
+    #
+    popl  %eax
+    movb  %al, (%edx)
+
+    decl  %ecx                          # Decreasing %ecx so we know when
+                                        # we are finished.
+
+    incl  %edx                          # Increasing %edx so that it will
+                                        # be pointing to the next byte.
+
+    cmpl  $0, %ecx                      # Check to see if we are finished.
+    je    end_copy_reversing_loop       # If so, jump to the end of the
+                                        # function.
+    jmp   copy_reversing_loop           # Otherwise, repeat the loop.
+
+end_copy_reversing_loop:
+    movb  $0, (%edx)                    # Done copying.  Now write a null
+                                        # byte and return.
+
+    movl  %ebp, %esp
+    popl  %ebp
+    ret
+```
 
 To show this used in a full program, use the following code, along with
 the `count_chars` and `write_newline` functions written about in
 previous chapters. The code should be in a file called
 `conversion-program.s`.
 
-    CONVERSION-PROGRAM
+``` gnuassembler
+    .code32                             # Generate 32-bit code.
+    .include "linux.s"                  # Common Linux Definitions.
+
+    .section .data
+        tmp_buffer:                     # This is where it will be stored.
+            .ascii "\0\0\0\0\0\0\0\0\0\0\0"
+
+    .section .text
+
+    .globl _start
+_start:
+    movl  %esp, %ebp
+
+    pushl $tmp_buffer                   # Storage for the result.
+    pushl $824                          # Number to convert.
+    call  integer2string
+    addl  $8, %esp
+
+    pushl $tmp_buffer                   # Get the character count for our
+                                        # system call.
+    call  count_chars
+    addl  $4, %esp
+
+    movl  %eax, %edx                    # The count goes in %edx for
+                                        # SYS_WRITE.
+
+    movl  $SYS_WRITE, %eax              # Make the system call.
+    movl  $STDOUT, %ebx
+    movl  $tmp_buffer, %ecx
+
+    int   $LINUX_SYSCALL
+
+    pushl $STDOUT                       # Write a carriage return.
+    call  write_newline
+
+    movl  $SYS_EXIT, %eax               # Exit.
+    movl  $0, %ebx
+    int   $LINUX_SYSCALL
+```
 
 To build the program, issue the following commands:
 
-    as integer-to-string.s -o integer-to-number.o
-    as count-chars.s -o count-chars.o
-    as write-newline.s -o write-newline.o
-    as conversion-program.s -o conversion-program.o
-    ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o conversion-program
+``` bash
+as -o integer-to-number.o   integer-to-string.s
+as -o count-chars.o         count-chars.s
+as -o write-newline.o       write-newline.s
+as -o conversion-program.o  conversion-program.s
+ld -o conversion-program    integer-to-number.o count-chars.o \
+                            write-newline.o conversion-program.o
+```
 
 To run just type `./conversion-program` and the output should say `824`.
 
@@ -7387,15 +7560,15 @@ Review
 -   Write a program that reads a string of characters from STDIN and
     converts them to a number.
 
-High-Level Languages
-====================
+Chapter 11. High-Level Languages
+================================
 
 In this chapter we will begin to look at our first "real-world"
 programming language. Assembly language is the language used at the
 machine's level, but most people find coding in assembly language too
 cumbersome for everyday use. Many computer languages have been invented
 to make the programming task easier. Knowing a wide variety of languages
-is useful for many reasons, including
+is useful for many reasons, including:
 
 -   Different languages are based on different concepts, which will help
     you to learn different and better programming methods and ideas.
@@ -7579,7 +7752,8 @@ most other operating systems. In addition, it can also run on Macintosh
 hardware running a number of operating systems.
 
 Additional information on the C programming language can be found in
-[???](#ctranslationap).
+[Appendix E. C Idioms in Assembly
+Language](#appendix-e-c-idioms-in-assembly-language).
 
 Perl
 ----
@@ -7681,8 +7855,8 @@ Review
     other? How are they similar? What approach to problem-solving does
     each take?
 
-Optimization
-============
+Chapter 12. Optimization
+========================
 
 Optimizationoptimization is the process of making your application run
 more effectively. You can optimize for many things - speed, memory space
@@ -7707,7 +7881,7 @@ the speed issues in your program will be. Even experienced programmers
 have trouble predicting which parts of the program will be the
 bottlenecks which need optimization, so you will probably end up wasting
 your time optimizing the wrong parts. [Where to
-Optimize](#wheretooptimize) will discuss how to find the parts of your
+Optimize](#where-to-optimize) will discuss how to find the parts of your
 program that need optimization.
 
 While you develop your program, you need to have the following
@@ -8006,8 +8180,8 @@ Review
 Basic Guidelines for Software Development
 =========================================
 
-Moving On from Here
-===================
+Chapter 13. Moving On from Here
+===============================
 
 Congratulations on getting this far. You should now have a basis for
 understanding the issues involved in many areas of programming. Even if
@@ -8217,8 +8391,8 @@ In assembly language, your best resources are on the web.
 -   http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh's x86
     Assembly Page
 
-Table of ASCII Codes
-====================
+Appendix D. Table of ASCII Codes
+================================
 
 To use this table, simply find the character or escape that you want the
 code for, and add the number on the left and the top.
@@ -8265,8 +8439,8 @@ Minimum Every Software Developer Absolutely, Positively Must Know About
 Unicode and Character Sets (No Excuses!)", available online at
 http://www.joelonsoftware.com/articles/Unicode.html
 
-GUI Programming
-===============
+Appendix A. GUI Programming
+===========================
 
 Introduction to GUI Programming
 ===============================
@@ -8442,8 +8616,8 @@ There is a broad range of choices for developing graphical applications,
 but hopefully this appendix gave you a taste of what GUI programming is
 like.
 
-Important System Calls
-======================
+Appendix C. Important System Calls
+==================================
 
 These are some of the more important system calls to use when dealing
 with Linux. For most cases, however, it is best to use library functions
@@ -8488,8 +8662,8 @@ Linux, see the Linux Kernel 2.4 Internals section on how system calls
 are implemented at
 http://www.faqs.org/docs/kernel\_2\_4/lki-2.html\#ss2.11
 
-C Idioms in Assembly Language
-=============================
+Appendix E. C Idioms in Assembly Language
+=========================================
 
 C programming language This appendix is for C programmers learning
 assembly language. It is meant to give a general idea about how C
@@ -8930,8 +9104,8 @@ Document History
     comments. Made cleared distinction between dynamic and shared
     libraries.
 
-Common x86 Instructions
-=======================
+Appendix B. Common x86 Instructions
+===================================
 
 Reading the Tables
 ==================
@@ -9288,8 +9462,8 @@ http://www.gnu.org/software/binutils/manual/gas-2.9.1/as.html.
 Similarly, the manual for the GNU linker is available online at
 http://www.gnu.org/software/binutils/manual/ld-2.9.1/ld.html.
 
-Using the GDB Debugger
-======================
+Appendix F. Using the GDB Debugger
+==================================
 
 By the time you read this appendix, you will likely have written at
 least one program with an error in it. In assembly language, even minor
@@ -9528,8 +9702,8 @@ optional.
 
 Common GDB Debugging Commands
 
-GNU Free Documentation License
-==============================
+Appendix H. GNU Free Documentation License
+==========================================
 
 `0. PREAMBLE`
 
@@ -9905,8 +10079,8 @@ recommend releasing these examples in parallel under your choice of free
 software license, such as the GNU General Public License, to permit
 their use in free software.
 
-Personal Dedication
-===================
+Appendix I. Personal Dedication
+===============================
 
 There are so many people I could thank. I will name here but a few of
 the people who have brought me to where I am today. The many family
@@ -9969,15 +10143,15 @@ produce a complete, free operating system.
 not entirely true anymore. However, for the purposes of keeping this
 simple for beginners, we will use the assumption that one number
 translates directly to one character. For more information, see the
-[Table of ASCII Codes](#table-of-ascii-codes).
+[Appendix D. Table of ASCII Codes](#appendix-d-table-of-ascii-codes).
 
 [5] Previous incarnations of x86 processors only had two-byte words.
 Therefore, most other literature dealing with x86 processors refers to
 two-byte entities as words for historical reasons, and therefore refer
 to four-byte entities as double-words. We are using the term *word* to
 mean the normal register size of a computer, which in this case is four
-bytes. More information is available in [Common x86
-Instructions](#common-x86-instructions).
+bytes. More information is available in [Appendix B. Common x86
+Instructions](#appendix-b-common-x86-instructions).
 
 [6] Note that here we are talking about general computer theory. Some
 processors and operating systems actually mark the regions of memory
@@ -10111,9 +10285,9 @@ Binary Numbers](#truth-falsehood-and-binary-numbers).
 [28] While this sounds complicated, most of the time in programming you
 will not need to deal directly with buffers and file descriptors. In
 [Sharing Functions with Code
-Libraries](#sharing-functions-with-code-libraries) you will learn how to
-use existing code present in Linux to handle most of the complications
-of file input/output for you.
+Libraries](#chapter-8-sharing-functions-with-code-libraries) you will
+learn how to use existing code present in Linux to handle most of the
+complications of file input/output for you.
 
 [29] As we mentioned earlier, in Linux, almost everything is a "file".
 Your keyboard input is considered a file, and so is your screen display.
@@ -10142,7 +10316,7 @@ to disk, to do lookups, or even to do basic processing. It is a very
 high-level interface to structured data which, although it adds some
 overhead and additional complexity, is very useful for complex data
 processing tasks. References for learning how databases work are listed
-in [Moving On from Here](#moving-on-from-here).
+in [Chapter 13. Moving On from Here](#chapter-13-moving-on-from-here).
 
 [35] If you have used C, this is what the `strlen` function does.
 
@@ -10208,7 +10382,10 @@ faster. The more memory your computer has, the less it puts on disk, so
 it doesn't have to always be interrupting your programs to retreive
 pages off the disk.
 
-[49] Note that different versions of GCC do this differently.
+[49] *Significance* in this context is referring to which digit they
+represent. For example, in the number 294, the digit 2 is the most
+significant because it represents the hundreds place, 9 is the next most
+significant, and 4 is the least significant.
 
 [50] Note that different versions of GCC do this differently.
 

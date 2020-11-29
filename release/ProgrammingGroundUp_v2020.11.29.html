@@ -211,7 +211,7 @@
 <p>by Jonathan Bartlett</p>
 <p>Edited by Dominick Bruno, Jr.</p>
 <p>Copyright © 2003 by Jonathan Bartlett</p>
-<p>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation; with no Invariant Sections, with no Front-Cover Texts, and with no Back-Cover Texts. A copy of the license is included in <a href="#gnu-free-documentation-license">GNU Free Documentation License</a>. In addition, you are granted full rights to use the code examples for any purpose without even having to credit the authors.</p>
+<p>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation; with no Invariant Sections, with no Front-Cover Texts, and with no Back-Cover Texts. A copy of the license is included in <a href="#appendix-h-gnu-free-documentation-license">Appendix H. GNU Free Documentation License</a>. In addition, you are granted full rights to use the code examples for any purpose without even having to credit the authors.</p>
 <p>To receive a copy of this book in electronic form, please visit the website http://savannah.nongnu.org/projects/pgubook/ This site contains the instructions for downloading a transparent copy of this book as defined by the GNU Free Documentation License.</p>
 <p>All trademarks are property of their respective owners.</p>
 <p>ISBN 0-9752838-4-7</p>
@@ -299,7 +299,7 @@
 <p>This is a very simplified explanation. Processors have advanced quite a bit in recent years, and are now much more complex. Although the basic operation is still the same, it is complicated by the use of cache hierarchies, superscalar processors, pipelining, branch prediction, out-of-order execution, microcode translation, coprocessors, and other optimizations. Don't worry if you don't know what those words mean, you can just use them as Internet search terms if you want to learn more about the CPU.</p>
 <h2 id="some-terms">Some Terms</h2>
 <p>Computer memory is a numbered sequence of fixed-size storage locations. The number attached to each storage location is called its <em>address</em>. The size of a single storage location is called a <em>byte</em>. On x86 processors, a byte is a number between 0 and 255.</p>
-<p>You may be wondering how computers can display and use text, graphics, and even large numbers when all they can do is store numbers between 0 and 255. First of all, specialized hardware like graphics cards have special interpretations of each number. When displaying to the screen, the computer uses ASCII code tables to translate the numbers you are sending it into letters to display on the screen, with each number translating to exactly one letter or numeral.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> For example, the capital letter A is represented by the number 65. The numeral 1 is represented by the number 49. So, to print out "HELLO", you would actually give the computer the sequence of numbers 72, 69, 76, 76, 79. To print out the number 100, you would give the computer the sequence of numbers 49, 48, 48. A list of ASCII characters and their numeric codes is found in the <a href="#table-of-ascii-codes">Table of ASCII Codes</a>.</p>
+<p>You may be wondering how computers can display and use text, graphics, and even large numbers when all they can do is store numbers between 0 and 255. First of all, specialized hardware like graphics cards have special interpretations of each number. When displaying to the screen, the computer uses ASCII code tables to translate the numbers you are sending it into letters to display on the screen, with each number translating to exactly one letter or numeral.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> For example, the capital letter A is represented by the number 65. The numeral 1 is represented by the number 49. So, to print out "HELLO", you would actually give the computer the sequence of numbers 72, 69, 76, 76, 79. To print out the number 100, you would give the computer the sequence of numbers 49, 48, 48. A list of ASCII characters and their numeric codes is found in the <a href="#appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</a>.</p>
 <p>In addition to using numbers to represent ASCII characters, you as the programmer get to make the numbers mean anything you want them to, as well. For example, if I am running a store, I would use a number to represent each item I was selling. Each number would be linked to a series of other numbers which would be the ASCII codes for what I wanted to display when the items were scanned in. I would have more numbers for the price, how many I have in inventory, and so on.</p>
 <p>So what about if we need numbers larger than 255? We can simply use a combination of bytes to represent larger numbers. Two bytes can be used to represent any number between 0 and 65535. Four bytes can be used to represent any number between 0 and 4294967295. Now, it is quite difficult to write programs to stick bytes together to increase the size of your numbers, and requires a bit of math. Luckily, the computer will do it for us for numbers up to 4 bytes long. In fact, four-byte numbers are what we will work with by default.</p>
 <p>We mentioned earlier that in addition to the regular memory that the computer has, it also has special-purpose storage locations called <em>registers</em>. Registers are what the computer uses for computation. Think of a register as a place on your desk - it holds things you are currently working on. You may have lots of information tucked away in folders and drawers, but the stuff you are working on right now is on the desk. Registers keep the contents of numbers that you are currently manipulating.</p>
@@ -363,7 +363,7 @@
 <li><p>Research and then describe the tradeoffs between fixed-length instructions and variable-length instructions.</p></li>
 </ul>
 <h1 id="chapter-3-your-first-programs">Chapter 3. Your First Programs</h1>
-<p>In this chapter you will learn the process for writing and building Linux assembly-language programs. In addition, you will learn the structure of assembly-language programs, and a few assembly-language commands. As you go through this chapter, you may want to refer also to <a href="#common-x86-instructions">Common x86 Instructions</a> and <a href="#using-the-gdb-debugger">Using the GDB Debugger</a>.</p>
+<p>In this chapter you will learn the process for writing and building Linux assembly-language programs. In addition, you will learn the structure of assembly-language programs, and a few assembly-language commands. As you go through this chapter, you may want to refer also to <a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a> and <a href="#appendix-f-using-the-gdb-debugger">Appendix F. Using the GDB Debugger</a>.</p>
 <p>These programs may overwhelm you at first. However, go through them with diligence, read them and their explanations as many times as necessary, and you will have a solid foundation of knowledge to build on. Please tinker around with the programs as much as you can. Even if your tinkering does not work, every failure will help you learn.</p>
 <h2 id="entering-in-the-program">Entering in the Program</h2>
 <p>Okay, this first program is simple. In fact, it's not going to do anything but exit! It's short, but it shows some basics about assembly language and Linux programming. You need to enter the program in an editor exactly as written, with the filename <code>exit.s</code>. The program follows. Don't worry about not understanding it. This section only deals with typing it in and running it. In <a href="#outline-of-an-assembly-language-program">Outline of an Assembly Language Program</a> we will describe how it works.</p>
@@ -430,7 +430,7 @@
 <p><em>defines</em> the value of the <code>_start</code> label. A <em>label</em> is a symbol followed by a colon. Labels define a symbol's value. When the assembler is assembling the program, it has to assign each data value and instruction an address. Labels tell the assembler to make the symbol's value be wherever the next instruction or data element will be. This way, if the actual physical location of the data or instruction changes, you don't have to rewrite any references to it - the symbol automatically gets the new value.</p>
 <p>Now we get into actual computer instructions. The first such instruction is this:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>movl $1, %eax</span></code></pre></div>
-<p>When the program runs, this instruction transfers the number <code>1</code> into the <em>%eax</em> register. In assembly language, many instructions have <em>operands</em>. <code>movl</code> has two operands - the <em>source</em> and the <em>destination</em>. In this case, the source is the literal number 1, and the destination is the <em>%eax</em> register. Operands can be numbers, memory location references, or registers. Different instructions allow different types of operands. See <a href="#common-x86-instructions">Common x86 Instructions</a> for more information on which instructions take which kinds of operands.</p>
+<p>When the program runs, this instruction transfers the number <code>1</code> into the <em>%eax</em> register. In assembly language, many instructions have <em>operands</em>. <code>movl</code> has two operands - the <em>source</em> and the <em>destination</em>. In this case, the source is the literal number 1, and the destination is the <em>%eax</em> register. Operands can be numbers, memory location references, or registers. Different instructions allow different types of operands. See <a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a> for more information on which instructions take which kinds of operands.</p>
 <p>On most instructions which have two operands, the first one is the source operand and the second one is the destination. Note that in these cases, the source operand is not modified at all. Other instructions of this type are, for example, <code>addl</code>, <code>subl</code>, and <code>imull</code>. These add/subtract/multiply the source operand from/to/by the destination operand and and save the result in the destination operand. Other instructions may have an operand hardcoded in. <code>idivl</code>, for example, requires that the dividend be in <em>%eax</em>, and <em>%edx</em> be zero, and the quotient is then transferred to <em>%eax</em> and the remainder to <em>%edx</em>. However, the divisor can be any register or memory location.</p>
 <p>On x86 processors, there are several general-purpose registers<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> (all of which can be used with <code>movl</code>):</p>
 <ul>
@@ -450,10 +450,10 @@
 </ul>
 <p>We'll discuss these later, just be aware that they exist.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> Some of these registers, like <em>%eip</em> and <em>%eflags</em> can only be accessed through special instructions. The others can be accessed using the same instructions as general-purpose registers, but they have special meanings, special uses, or are simply faster when used in a specific way.</p>
 <p>So, the <code>movl</code> instruction moves the number <code>1</code> into <code>%eax</code>. The dollar-sign in front of the one indicates that we want to use immediate mode addressing (refer back to <a href="#data-accessing-methods">Data Accessing Methods</a>). Without the dollar-sign it would do direct addressing mode, loading whatever number is at address <code>1</code>. We want the actual number <code>1</code> loaded in, so we have to use immediate mode.</p>
-<p>The reason we are moving the number 1 into <em>%eax</em> is because we are preparing to call the Linux Kernel. The number <code>1</code> is the number of the <code>exit</code> <em>system call</em>. We will discuss system calls in more depth soon, but basically they are requests for the operating system's help. Normal programs can't do everything. Many operations such as calling other programs, dealing with files, and exiting have to be handled by the operating system through system calls. When you make a system call, which we will do shortly, the system call number has to be loaded into <em>%eax</em> (for a complete listing of system calls and their numbers, see <a href="#important-system-calls">Important System Calls</a>). Depending on the system call, other registers may have to have values in them as well. Note that system calls is not the only use or even the main use of registers. It is just the one we are dealing with in this first program. Later programs will use registers for regular computation.</p>
+<p>The reason we are moving the number 1 into <em>%eax</em> is because we are preparing to call the Linux Kernel. The number <code>1</code> is the number of the <code>exit</code> <em>system call</em>. We will discuss system calls in more depth soon, but basically they are requests for the operating system's help. Normal programs can't do everything. Many operations such as calling other programs, dealing with files, and exiting have to be handled by the operating system through system calls. When you make a system call, which we will do shortly, the system call number has to be loaded into <em>%eax</em> (for a complete listing of system calls and their numbers, see <a href="#appendix-c-important-system-calls">Appendix C. Important System Calls</a>). Depending on the system call, other registers may have to have values in them as well. Note that system calls is not the only use or even the main use of registers. It is just the one we are dealing with in this first program. Later programs will use registers for regular computation.</p>
 <p>The operating system, however, usually needs more information than just which call to make. For example, when dealing with files, the operating system needs to know which file you are dealing with, what data you want to write, and other details. The extra details, called <em>parameters</em> are stored in other registers. In the case of the <code>exit</code> system call, the operating system requires a status code be loaded in <em>%ebx</em>. This value is then returned to the system. This is the value you retrieved when you typed <code>echo $?</code>. So, we load <em>%ebx</em> with <code>0</code> by typing the following:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>movl $0, %ebx</span></code></pre></div>
-<p>Now, loading registers with these numbers doesn't do anything itself. Registers are used for all sorts of things besides system calls. They are where all program logic such as addition, subtraction, and comparisons take place. Linux simply requires that certain registers be loaded with certain parameter values before making a system call. <em>%eax</em> is always required to be loaded with the system call number. For the other registers, however, each system call has different requirements. In the <code>exit</code> system call, <em>%ebx</em> is required to be loaded with the exit status code. We will discuss different system calls as they are needed. For a list of common system calls and what is required to be in each register, see <a href="#important-system-calls">Important System Calls</a>.</p>
+<p>Now, loading registers with these numbers doesn't do anything itself. Registers are used for all sorts of things besides system calls. They are where all program logic such as addition, subtraction, and comparisons take place. Linux simply requires that certain registers be loaded with certain parameter values before making a system call. <em>%eax</em> is always required to be loaded with the system call number. For the other registers, however, each system call has different requirements. In the <code>exit</code> system call, <em>%ebx</em> is required to be loaded with the exit status code. We will discuss different system calls as they are needed. For a list of common system calls and what is required to be in each register, see <a href="#appendix-c-important-system-calls">Appendix C. Important System Calls</a>.</p>
 <p>The next instruction is the "magic" one. It looks like this:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>int $0x80</span></code></pre></div>
 <p>The <code>int</code> stands for <em>interrupt</em>. The <code>0x80</code> is the interrupt number to use.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> An <em>interrupt</em> interrupts the normal program flow, and transfers control from our program to Linux so that it will do a system call.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>. You can think of it as like signaling Batman (or Larry-Boy<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>, if you prefer). You need something done, you send the signal, and then he comes to the rescue. You don't care how he does his work - it's more or less magic - and when he's done you're back in control. In this case, all we're doing is asking Linux to terminate the program, in which case we won't be back in control. If we didn't signal the interrupt, then no system call would have been performed.</p>
@@ -618,7 +618,7 @@
 <dd><p>Jump no matter what. This does not need to be preceeded by a comparison.</p>
 </dd>
 </dl>
-<p>The complete list is documented in <a href="#common-x86-instructions">Common x86 Instructions</a>. In this case, we are jumping if <em>%eax</em> holds the value of zero. If so, we are done and we go to <code>loop_exit</code>.<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></p>
+<p>The complete list is documented in <a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a>. In this case, we are jumping if <em>%eax</em> holds the value of zero. If so, we are done and we go to <code>loop_exit</code>.<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></p>
 <p>If the last loaded element was not zero, we go on to the next instructions:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>incl %edi</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>movl data_items(,%edi,<span class="dv">4</span>), %eax</span></code></pre></div>
@@ -701,7 +701,7 @@
 |-------------------|--------%dx--------| ===&gt; 16-bit = 2-byte.
 |-------------------|---%dh---|---%dl---| ===&gt;  8-bit = 1-byte each one.
 |=======================================|</code></pre>
-<p>For a more comprehensive list of instructions, see <a href="#common-x86-instructions">Common x86 Instructions</a>.</p>
+<p>For a more comprehensive list of instructions, see <a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a>.</p>
 <h2 id="review-1">Review</h2>
 <h3 id="know-the-concepts-1">Know the Concepts</h3>
 <ul>
@@ -941,7 +941,7 @@ Old %ebp       &lt;--- (%ebp)
 Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>Although we could use a register for temporary storage, this program uses a local variable in order to show how to set it up. Often times there just aren't enough registers to store everything, so you have to offload them into local variables. Other times, your function will need to call another function and send it a pointer to some of your data. You can't have a pointer to a register, so you have to store it in a local variable in order to send a pointer to it.</p>
 <p>Basically, what the program does is start with the base number, and store it both as the multiplier (stored in <em>%ebx</em>) and the current value (stored in -4(%ebp)). It also has the power stored in <em>%ecx</em> It then continually multiplies the current value by the multiplier, decreases the power, and leaves the loop if the power (in <em>%ecx</em>) gets down to 1.</p>
-<p>By now, you should be able to go through the program without help. The only things you should need to know is that <code>imull</code> does integer multiplication and stores the result in the second operand, and <code>decl</code> decreases the given register by 1. For more information on these and other instructions, see <a href="#common-x86-instructions">Common x86 Instructions</a></p>
+<p>By now, you should be able to go through the program without help. The only things you should need to know is that <code>imull</code> does integer multiplication and stores the result in the second operand, and <code>decl</code> decreases the given register by 1. For more information on these and other instructions, see <a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a></p>
 <p>A good project to try now is to extend the program so it will return the value of a number if the power is 0 (hint, anything raised to the zero power is 1). Keep trying. If it doesn't work at first, try going through your program by hand with a scrap of paper, keeping track of where <em>%ebp</em> and <em>%esp</em> are pointing, what is on the stack, and what the values are in each register.</p>
 <h2 id="recursive-functions">Recursive Functions</h2>
 <p>The next program will stretch your brains even more. The program will compute the <em>factorial</em> of a number. A factorial is the product of a number and all the numbers between it and one. For example, the factorial of 7 is 7*6*5*4*3*2*1, and the factorial of 4 is 4*3*2*1. Now, one thing you might notice is that the factorial of a number is the same as the product of a number and the factorial just below it. For example, the factorial of 4 is 4 times the factorial of 3. The factorial of 3 is 3 times the factorial of 2. 2 is 2 times the factorial of 1. The factorial of 1 is 1. This type of definition is called a recursive definition. That means, the definition of the factorial function includes the factorial function itself. However, since all functions need to end, a recursive definition must include a <em>base case</em>. The base case is the point where recursion will stop. Without a base case, the function would go on forever calling itself until it eventually ran out of stack space. In the case of the factorial, the base case is the number 1. When we hit the number 1, we don't run the factorial again, we just say that the factorial of 1 is 1. So, let's run through what we want the code to look like for our factorial function:</p>
@@ -1394,7 +1394,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <div class="sourceCode" id="cb70"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span>  LOWERCASE_A,       <span class="ch">&#39;a&#39;</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span>  LOWERCASE_Z,       <span class="ch">&#39;z&#39;</span></span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span>  UPPER_CONVERSION,  <span class="ch">&#39;A&#39;</span> - <span class="ch">&#39;a&#39;</span> </span></code></pre></div>
-<p>The first two simply define the letters that are the boundaries of what we are searching for. Remember that in the computer, letters are represented as numbers. Therefore, we can use <code>LOWERCASE_A</code> in comparisons, additions, subtractions, or anything else we can use numbers in. Also, notice we define the constant <code>UPPER_CONVERSION</code>. Since letters are represented as numbers, we can subtract them. Subtracting an upper-case letter from the same lower-case letter gives us how much we need to add to a lower-case letter to make it upper case. If that doesn't make sense, look at the ASCII code tables themselves (see the <a href="#table-of-ascii-codes">Table of ASCII Codes</a>). You'll notice that the number for the character <code>A</code> is 65 and the character <code>a</code> is 97. The conversion factor is then -32. For any lowercase letter if you add -32, you will get its capital equivalent.</p>
+<p>The first two simply define the letters that are the boundaries of what we are searching for. Remember that in the computer, letters are represented as numbers. Therefore, we can use <code>LOWERCASE_A</code> in comparisons, additions, subtractions, or anything else we can use numbers in. Also, notice we define the constant <code>UPPER_CONVERSION</code>. Since letters are represented as numbers, we can subtract them. Subtracting an upper-case letter from the same lower-case letter gives us how much we need to add to a lower-case letter to make it upper case. If that doesn't make sense, look at the ASCII code tables themselves (see the <a href="#appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</a>). You'll notice that the number for the character <code>A</code> is 65 and the character <code>a</code> is 97. The conversion factor is then -32. For any lowercase letter if you add -32, you will get its capital equivalent.</p>
 <p>After this, we have some constants labelled <code>STACK POSITIONS</code>. Remember that function parameters are pushed onto the stack before function calls. These constants (prefixed with <code>ST</code> for clarity) define where in the stack we should expect to find each piece of data. The return address is at position 4 + <em>%esp</em>, the length of the buffer is at position 8 + <em>%esp</em>, and the address of the buffer is at position 12 + <em>%esp</em>. Using symbols for these numbers instead of the numbers themselves makes it easier to see what data is being used and moved.</p>
 <p>Next comes the label <code>convert_to_upper</code>. This is the entry point of the function. The first two lines are our standard function lines to save the stack pointer. The next two lines:</p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>movl  ST_BUFFER(%ebp), %eax</span>
@@ -1701,7 +1701,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb78-111"><a href="#cb78-111" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ebx</span>
 <span id="cb78-112"><a href="#cb78-112" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span></code></pre></div>
 <!-- TODO: Need to add info on how to use a hexdump to read the values -->
-<p>This is a fairly simple program. It merely consists of defining the data we want to write in the <code>.data</code> section, and then calling the right system calls and function calls to accomplish it. For a refresher of all of the system calls used, see <a href="#important-system-calls">Important System Calls</a>.</p>
+<p>This is a fairly simple program. It merely consists of defining the data we want to write in the <code>.data</code> section, and then calling the right system calls and function calls to accomplish it. For a refresher of all of the system calls used, see <a href="#appendix-c-important-system-calls">Appendix C. Important System Calls</a>.</p>
 <p>You may have noticed the lines:</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.include</span> <span class="st">&quot;linux.s&quot;</span>                  <span class="co"># Common Linux Definitions.</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="kw">.include</span> <span class="st">&quot;record-def.s&quot;</span>             <span class="co"># Record definitions.</span></span></code></pre></div>
@@ -1843,7 +1843,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-39"><a href="#cb84-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Even though it&#39;s a constant, we are saving the output file descriptor</span></span>
 <span id="cb84-40"><a href="#cb84-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># in a local variable so that if we later decide that it isn&#39;t always</span></span>
 <span id="cb84-41"><a href="#cb84-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># going to be STDOUT, we can change it easily.</span></span>
-<span id="cb84-42"><a href="#cb84-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span></span>
+<span id="cb84-42"><a href="#cb84-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
 <span id="cb84-43"><a href="#cb84-43" aria-hidden="true" tabindex="-1"></a>    movl  $STDOUT, ST_OUTPUT_DESCRIPTOR(%ebp)</span>
 <span id="cb84-44"><a href="#cb84-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb84-45"><a href="#cb84-45" aria-hidden="true" tabindex="-1"></a><span class="kw">record_read_loop:</span></span>
@@ -1860,7 +1860,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-56"><a href="#cb84-56" aria-hidden="true" tabindex="-1"></a>    jne   finished_reading</span>
 <span id="cb84-57"><a href="#cb84-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb84-58"><a href="#cb84-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Otherwise, print out the first name but we must know the size.</span></span>
-<span id="cb84-59"><a href="#cb84-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span></span>
+<span id="cb84-59"><a href="#cb84-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
 <span id="cb84-60"><a href="#cb84-60" aria-hidden="true" tabindex="-1"></a>    pushl  $RECORD_FIRSTNAME + record_buffer</span>
 <span id="cb84-61"><a href="#cb84-61" aria-hidden="true" tabindex="-1"></a>    call   count_chars</span>
 <span id="cb84-62"><a href="#cb84-62" aria-hidden="true" tabindex="-1"></a>    addl   $4, %esp</span>
@@ -1975,7 +1975,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>To run the program, just type in the following<a href="#fn38" class="footnote-ref" id="fnref38" role="doc-noteref"><sup>38</sup></a>:</p>
 <div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./add-year</span></span></code></pre></div>
 <p>This will add a year to every record listed in <code>test.dat</code> and write the new records to the file <code>testout.dat</code>.</p>
-<p>As you can see, writing fixed-length records is pretty simple. You only have to read in blocks of data to a buffer, process them, and write them back out. Unfortunately, this program doesn't write the new ages out to the screen so you can verify your program's effectiveness. This is because we won't get to displaying numbers until <a href="#sharing-functions-with-code-libraries">Sharing Functions with Code Libraries</a> and <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>. After reading those you may want to come back and rewrite this program to display the numeric data that we are modifying.</p>
+<p>As you can see, writing fixed-length records is pretty simple. You only have to read in blocks of data to a buffer, process them, and write them back out. Unfortunately, this program doesn't write the new ages out to the screen so you can verify your program's effectiveness. This is because we won't get to displaying numbers until <a href="#chapter-8-sharing-functions-with-code-libraries">Sharing Functions with Code Libraries</a> and <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>. After reading those you may want to come back and rewrite this program to display the numeric data that we are modifying.</p>
 <h2 id="review-4">Review</h2>
 <h3 id="know-the-concepts-4">Know the Concepts</h3>
 <ul>
@@ -2153,14 +2153,14 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>Try to find bugs in at least one open-source program. File a bug report for it.</p></li>
 <li><p>Try to fix the bug you found in the previous exercise.</p></li>
 </ul>
-<h1 id="sharing-functions-with-code-libraries">Chapter 8. Sharing Functions with Code Libraries</h1>
+<h1 id="chapter-8-sharing-functions-with-code-libraries">Chapter 8. Sharing Functions with Code Libraries</h1>
 <p>By now you should realize that the computer has to do a lot of work even for simple tasks. Because of that, you have to do a lot of work to write the code for a computer to even do simple tasks. In addition, programming tasks are usually not very simple. Therefore, we neeed a way to make this process easier on ourselves. There are several ways to do this, including:</p>
 <ul>
 <li><p>Write code in a high-level language instead of assembly language.</p></li>
 <li><p>Have lots of pre-written code that you can cut and paste into your own programs.</p></li>
 <li><p>Have a set of functions on the system that are shared among any program that wishes to use it.</p></li>
 </ul>
-<p>All three of these are usually used to some degree in any given project. The first option will be explored further in <a href="#high-level-languages">High-Level Languages</a>. The second option is useful but it suffers from some drawbacks, including:</p>
+<p>All three of these are usually used to some degree in any given project. The first option will be explored further in <a href="#chapter-11-high-level-languages">Chapter 11. High-Level Languages</a>. The second option is useful but it suffers from some drawbacks, including:</p>
 <ul>
 <li><p>Code that is copied often has to be majorly modified to fit the surrounding code.</p></li>
 <li><p>Every program containing the copied code has the same code in it, thus wasting a lot of space.</p></li>
@@ -2451,7 +2451,7 @@ librecord.so: cannot open shared object file: No such file or directory</code></
 </dl>
 <h2 id="the-memory-layout-of-a-linux-program">The Memory Layout of a Linux Program</h2>
 <p>When you program is loaded into memory, each <code>.section</code> is loaded into its own region of memory. All of the code and data declared in each section is brought together, even if they were separated in your source code.</p>
-<p>The actual instructions (the <code>.text</code> section) are loaded at the address 0x08048000 (numbers starting with <code>0x</code> are in hexadecimal, which will be discussed in <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>).<a href="#fn44" class="footnote-ref" id="fnref44" role="doc-noteref"><sup>44</sup></a> The <code>.data</code> section is loaded immediately after that, followed by the <code>.bss</code> section.</p>
+<p>The actual instructions (the <code>.text</code> section) are loaded at the address 0x08048000 (numbers starting with <code>0x</code> are in hexadecimal, which will be discussed in <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a> ).<a href="#fn44" class="footnote-ref" id="fnref44" role="doc-noteref"><sup>44</sup></a> The <code>.data</code> section is loaded immediately after that, followed by the <code>.bss</code> section.</p>
 <p>The last byte that can be addressed on Linux is location 0xbfffffff. Linux starts the stack here and grows it downward toward the other sections. Between them is a huge gap. The initial layout of the stack is as follows: At the bottom of the stack (the bottom of the stack is the top address of memory - see <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>), there is a word of memory that is zero. After that comes the null-terminated name of the program using ASCII characters. After the program name comes the program's environment variables (these are not important to us in this book). Then come the program's command-line arguments. These are the values that the user typed in on the command line to run this program. When we run <code>as</code>, for example, we give it several arguments - <code>as</code>, <code>sourcefile.s</code>, <code>-o</code>, and <code>objectfile.o</code>. After these, we have the number of arguments that were used. When the program begins, this is where the stack pointer, <em>%esp</em>, is pointing. Further pushes on the stack move <em>%esp</em> down in memory. For example, the instruction:</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>pushl %eax</span></code></pre></div>
 <p>is equivalent to</p>
@@ -3012,62 +3012,67 @@ librecord.so: cannot open shared object file: No such file or directory</code></
 <p>How many fingers do you have? No, it's not a trick question. Humans (normally) have ten fingers. Why is that significant? Look at our numbering system. At what point does a one-digit number become a two-digit number? That's right, at ten. Humans count and do math using a base ten numbering system. Base ten means that we group everything in tens. Let's say we're counting sheep. 1, 2, 3, 4, 5, 6, 7, 8, 9, 10. Why did we all of a sudden now have two digits, and re-use the 1? That's because we're grouping our numbers by ten, and we have 1 group of ten sheep. Okay, let's go to the next number 11. That means we have 1 group of ten sheep, and 1 sheep left ungrouped. So we continue - 12, 13, 14, 15, 16, 17, 18, 19, 20. Now we have 2 groups of ten. 21 - 2 groups of ten, and 1 sheep ungrouped. 22 - 2 groups of ten, and 2 sheep ungrouped. So, let's say we keep counting, and get to 97, 98, 99, and 100. Look, it happened again! What happens at 100? We now have ten groups of ten. At 101 we have ten groups of ten, and 1 ungrouped sheep. So we can look at any number like this. If we counted 60879 sheep, that would mean that we had 6 groups of ten groups of ten groups of ten groups of ten, 0 groups of ten groups of ten groups of ten, 8 groups of ten groups of ten, 7 groups of ten, and 9 sheep left ungrouped.</p>
 <p>So, is there anything significant about grouping things by ten? No! It's just that grouping by ten is how we've always done it, because we have ten fingers. We could have grouped at nine or at eleven (in which case we would have had to make up a new symbol). The only difference between the different groupings of numbers is that we have to re-learn our multiplication, addition, subtraction, and division tables for each grouping. The rules haven't changed, just the way we represent them. Also, some of our tricks that we learned don't always apply, either. For example, let's say we grouped by nine instead of ten. Moving the decimal point one digit to the right no longer multiplies by ten, it now multiplies by nine. In base nine, 500 is only nine times as large as 50.</p>
 <h3 id="counting-like-a-computer">Counting Like a Computer</h3>
-<p>The question is, how many fingers does the computer have to count with? The computer only has two fingers. So that means all of the groups are groups of two. So, let's count in binary - 0 (zero), 1 (one), 10 (two - one group of two), 11 (three - one group of two and one left over), 100 (four - two groups of two), 101 (five - two groups of two and one left over), 110 (six - two groups of two and one group of two), and so on. In base two, moving the decimal one digit to the right multiplies by two, and moving it to the left divides by two. Base twobase two is also referred to as binary.</p>
+<p>The question is, how many fingers does the computer have to count with? The computer only has two fingers. So that means all of the groups are groups of two. So, let's count in binary - 0 (zero), 1 (one), 10 (two - one group of two), 11 (three - one group of two and one left over), 100 (four - two groups of two), 101 (five - two groups of two and one left over), 110 (six - two groups of two and one group of two), and so on. In base two, moving the decimal one digit to the right multiplies by two, and moving it to the left divides by two. Base two is also referred to as binary.</p>
 <p>The nice thing about base two is that the basic math tables are very short. In base ten, the multiplication tables are ten columns wide, and ten columns tall. In base two, it is very simple:</p>
+<!-- TODO: These need to be converted to tables -->
 <pre><code>Table of binary addition
 
-+ |  0  |  1  
---+-----+-----
-0 |  0  |  0  
---+-----+-----
-1 |  1  | 10  
+|----------------|
+| + ||  0  |  1  |
+|================|
+| 0 ||  0  |  0  |
+|----+-----+-----|
+| 1 ||  1  | 10  |
+|----------------|
 
 Table of binary multiplication
 
-* |  0  |  1
---+-----+-----
-0 |  0  |  0
---+-----+-----
-1 |  0  |  1</code></pre>
+|----------------|
+| * ||  0  |  1  |
+|================|
+| 0 ||  0  |  0  |
+|----+-----+-----|
+| 1 ||  0  |  1  |
+|----------------|</code></pre>
 <p>So, let's add the numbers 10010101 with 1100101:</p>
 <pre><code>   10010101
 +   1100101
 -----------
    11111010</code></pre>
 <p>Now, let's multiply them:</p>
-<pre><code>        10010101
-     *   1100101
-     -----------
-        10010101
-       00000000
-      10010101
-     00000000
+<pre><code>       10010101
+    *   1100101
+    -----------
+       10010101
+      00000000
+     10010101
     00000000
-   10010101
+   00000000
   10010101
- ---------------
-  11101011001001</code></pre>
+ 10010101
+---------------
+ 11101011001001</code></pre>
 <h3 id="conversions-between-binary-and-decimal">Conversions Between Binary and Decimal</h3>
-<p>Let's learn how to convert numbers from binarybinary (base twobase two) to decimaldecimal (base tenbase ten). This is actually a rather simple process. If you remember, each digitdigit stands for some grouping of two. So, we just need to add up what each digit represents, and we will have a decimal number. Take the binary number 10010101. To find out what it is in decimal, we take it apart like this:</p>
-<pre><code>     1    0    0    1    0    1    0    1
-     |    |    |    |    |    |    |    |
-     |    |    |    |    |    |    |    Individual units (2^0)
-     |    |    |    |    |    |    0 groups of 2 (2^1)
-     |    |    |    |    |    1 group of 4 (2^2)
-     |    |    |    |    0 groups of 8 (2^3)
-     |    |    |    1 group of 16 (2^4)
-     |    |    0 groups of 32 (2^5)
-     |    0 groups of 64 (2^6)
-     1 group of 128 (2^7)</code></pre>
-<p>and then we add all of the pieces together, like this:</p>
+<p>Let's learn how to convert numbers from binary (base two) to decimal (base ten). This is actually a rather simple process. If you remember, each digit stands for some grouping of two. So, we just need to add up what each digit represents, and we will have a decimal number. Take the binary number 10010101. To find out what it is in decimal, we take it apart like this:</p>
+<pre><code> 1    0    0    1    0    1    0    1
+ |    |    |    |    |    |    |    |
+ |    |    |    |    |    |    |    Individual units (2^0)
+ |    |    |    |    |    |    0 groups of 2 (2^1)
+ |    |    |    |    |    1 group of 4 (2^2)
+ |    |    |    |    0 groups of 8 (2^3)
+ |    |    |    1 group of 16 (2^4)
+ |    |    0 groups of 32 (2^5)
+ |    0 groups of 64 (2^6)
+ 1 group of 128 (2^7)</code></pre>
+<p>And then we add all of the pieces together, like this:</p>
 <pre><code>1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 =
 128 + 16 + 4 + 1 = 
 149</code></pre>
-<p>So 10010101 in binary is 149 in decimal. Let's look at 1100101. It can be written as</p>
+<p>So 10010101 in binary is 149 in decimal. Let's look at 1100101. It can be written as:</p>
 <pre><code>1*64 + 1*32 + 0 * 16 + 0*8 + 1*4 + 0*2 + 1*1 =
 64 + 32 + 4 + 1 =
 101</code></pre>
-<p>So we see that 1100101 in binary is 101 in decimal. Let's look at one more number, 11101011001001. You can convert it to decimal by doing</p>
+<p>So we see that 1100101 in binary is 101 in decimal. Let's look at one more number, 11101011001001. You can convert it to decimal by doing:</p>
 <pre><code>1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256 
        + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4 
        + 0*2 + 1*1 =
@@ -3076,7 +3081,7 @@ Table of binary multiplication
 
 15049</code></pre>
 <p>Now, if you've been paying attention, you have noticed that the numbers we just converted are the same ones we used to multiply with earlier. So, let's check our results: 101 * 149 = 15049. It worked!</p>
-<p>Now let's look at going from decimaldecimal back to binarybinary. In order to do the conversion, you have to <em>divide</em> the number into groups of two. So, let's say you had the number 17. If you divide it by two, you get 8 with 1 left over. So that means there are 8 groups of two, and 1 ungrouped. That means that the rightmost digit will be 1. Now, we have the rigtmost digit figured out, and 8 groups of 2 left over. Now, let's see how many groups of two groups of two we have, by dividing 8 by 2. We get 4, with nothing left over. That means that all groups two can be further divided into more groups of two. So, we have 0 groups of only two. So the next digit to the left is 0. So, we divide 4 by 2 and get two, with 0 left over, so the next digit is 0. Then, we divide 2 by 2 and get 1, with 0 left over. So the next digit is 0. Finally, we divide 1 by 2 and get 0 with 1 left over, so the next digit to the left is 1. Now, there's nothing left, so we're done. So, the number we wound up with is 10001.</p>
+<p>Now let's look at going from decimal back to binary. In order to do the conversion, you have to <em>divide</em> the number into groups of two. So, let's say you had the number 17. If you divide it by two, you get 8 with 1 left over. So that means there are 8 groups of two, and 1 ungrouped. That means that the rightmost digit will be 1. Now, we have the rigtmost digit figured out, and 8 groups of 2 left over. Now, let's see how many groups of two groups of two we have, by dividing 8 by 2. We get 4, with nothing left over. That means that all groups two can be further divided into more groups of two. So, we have 0 groups of only two. So the next digit to the left is 0. So, we divide 4 by 2 and get two, with 0 left over, so the next digit is 0. Then, we divide 2 by 2 and get 1, with 0 left over. So the next digit is 0. Finally, we divide 1 by 2 and get 0 with 1 left over, so the next digit to the left is 1. Now, there's nothing left, so we're done. So, the number we wound up with is 10001.</p>
 <p>Previously, we converted to binary 11101011001001 to decimal 15049. Let's do the reverse to make sure that we did it right:</p>
 <pre><code>15049 / 2 = 7524    Remaining 1
 7524 / 2 = 3762     Remaining 0
@@ -3093,7 +3098,7 @@ Table of binary multiplication
 3 / 2 = 1           Remaining 1
 1 / 2 = 0           Remaining 1</code></pre>
 <p>Then, we put the remaining numbers back together, and we have the original number! Remember the first division remainder goes to the far right, so from the bottom up you have 11101011001001.</p>
-<p>Each digit in a binary number is called a <em>bitbits</em>, which stands for <em>binary digitbinary digit</em>. Remember, computers divide up their memory into storage locations called bytesbytes. Each storage location on an x86 processor (and most others) is 8 bits long. Earlier we said that a byte can hold any number between 0 and 255. The reason for this is that the largest number you can fit into 8 bits is 255. You can see this for yourself if you convert binary 11111111 into decimal:</p>
+<p>Each digit in a binary number is called a <em>bit</em>, which stands for <em>binary digit</em>. Remember, computers divide up their memory into storage locations called bytes. Each storage location on an x86 processor (and most others) is 8 bits long. Earlier we said that a byte can hold any number between 0 and 255. The reason for this is that the largest number you can fit into 8 bits is 255. You can see this for yourself if you convert binary 11111111 into decimal:</p>
 <pre><code>11111111 =
 
 (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3) 
@@ -3102,45 +3107,45 @@ Table of binary multiplication
 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 =
 
 255</code></pre>
-<p>The largest number that you can hold in 16 bits is 65535. The largest number you can hold in 32 bits is 4294967295 (4 billion). The largest number you can hold in 64 bits is 18,446,744,073,709,551,615. The largest number you can hold in 128 bits is 340,282,366,920,938,463,463,374,607,431,768,211,456. Anyway, you see the picture. For x86 processors, most of the time you will deal with 4-byte numbers (32 bits), because that's the size of the registersregisters.</p>
+<p>The largest number that you can hold in 16 bits is 65535. The largest number you can hold in 32 bits is 4294967295 (4 billion). The largest number you can hold in 64 bits is 18,446,744,073,709,551,615. The largest number you can hold in 128 bits is 340,282,366,920,938,463,463,374,607,431,768,211,456. Anyway, you see the picture. For x86 processors, most of the time you will deal with 4-byte numbers (32 bits), because that's the size of the registers.</p>
 <h2 id="truth-falsehood-and-binary-numbers">Truth, Falsehood, and Binary Numbers</h2>
-<p>Now we've seen that the computer stores everything as sequences of 1's and 0's. Let's look at some other uses of this. What if, instead of looking at a sequence of bitsbits as a number, we instead looked at it as a set of switchesswitches. For example, let's say there are four switches that control lighting in the house. We have a switch for outside lights, a switch for the hallway lights, a switch for the living room lights, and a switch for the bedroom lights. We could make a little table showing which of these were on and off, like so:</p>
+<p>Now we've seen that the computer stores everything as sequences of 1's and 0's. Let's look at some other uses of this. What if, instead of looking at a sequence of bits as a number, we instead looked at it as a set of switches. For example, let's say there are four switches that control lighting in the house. We have a switch for outside lights, a switch for the hallway lights, a switch for the living room lights, and a switch for the bedroom lights. We could make a little table showing which of these were on and off, like so:</p>
 <pre><code>Outside  Hallway  Living Room  Bedroom
   On       Off        On         On</code></pre>
-<p>It's obvious from looking at this that all of the lights are on except the hallway ones. Now, instead of using the words "On" and "Off", let's use the numbers 1 and 0. 1 will represent on, and 0 will represent off. So, we could represent the same information as</p>
+<p>It's obvious from looking at this that all of the lights are on except the hallway ones. Now, instead of using the words "On" and "Off", let's use the numbers 1 and 0. 1 will represent on, and 0 will represent off. So, we could represent the same information as:</p>
 <pre><code>Outside  Hallway  Living Room  Bedroom
    1        0           1         1</code></pre>
-<p>Now, instead of having labels on the light switches, let's say we just memorized which position went with which switch. Then, the same information could be represented as</p>
-<pre><code>1           0           1         1</code></pre>
-<p>or as</p>
+<p>Now, instead of having labels on the light switches, let's say we just memorized which position went with which switch. Then, the same information could be represented as:</p>
+<pre><code>   1        0           1         1</code></pre>
+<p>Or as:</p>
 <pre><code>1011</code></pre>
 <p>This is just one of many ways you can use the computers storage locations to represent more than just numbers. The computers memory just sees numbers, but programmers can use these numbers to represent anything their imaginations can come up with. They just sometimes have to be creative when figuring out the best representation.</p>
-<p>Not only can you do regular arithmetic with binary numbers, they also have a few operations of their own, called binary binary operations or logical operations logical operations. The standard binary operations are</p>
+<p>Not only can you do regular arithmetic with binary numbers, they also have a few operations of their own, called binary operations or logical operations. The standard binary operations are:</p>
 <ul>
-<li><p>ANDAND</p></li>
-<li><p>OROR</p></li>
-<li><p>NOTNOT</p></li>
-<li><p>XORXOR</p></li>
+<li><p>AND.</p></li>
+<li><p>OR.</p></li>
+<li><p>NOT.</p></li>
+<li><p>XOR.</p></li>
 </ul>
 <p>Before we look at examples, I'll describe them for you. AND takes two bits and returns one bit. AND will return a 1 only if both bits are 1, and a 0 otherwise. For example, 1 AND 1 is 1, but 1 AND 0 is 0, 0 AND 1 is 0, and 0 AND 0 is 0.</p>
 <p>OR takes two bits and returns one bit. It will return 1 if either of the original bits is 1. For example, 1 OR 1 is 1, 1 OR 0 is one, 0 OR 1 is 1, but 0 OR 0 is 0.</p>
 <p>NOT only takes one bit and returns its opposite. NOT 1 is 0 and NOT 0 is 1.</p>
 <p>Finally, XOR is like OR, except it returns 0 if both bits are 1.</p>
-<p>Computers can do these operations on whole registers at a time. For example, if a register has 10100010101010010101101100101010 and another one has 10001000010101010101010101111010, you can run any of these operations on the whole registers. For example, if we were to AND them, the computer will run from the first bit to the 32nd and run the ANDAND operation on that bit in both registers. In this case:</p>
+<p>Computers can do these operations on whole registers at a time. For example, if a register has 10100010101010010101101100101010 and another one has 10001000010101010101010101111010, you can run any of these operations on the whole registers. For example, if we were to AND them, the computer will run from the first bit to the 32nd and run the AND operation on that bit in both registers. In this case:</p>
 <pre><code>10100010101010010101101100101010 AND
 10001000010101010101010101111010
 --------------------------------
 10000000000000010101000100101010</code></pre>
-<p>You'll see that the resulting set of bits only has a one where <em>both</em> numbers had a one, and in every other position it has a zero. Let's look at what an OROR looks like:</p>
+<p>You'll see that the resulting set of bits only has a one where <em>both</em> numbers had a one, and in every other position it has a zero. Let's look at what an OR looks like:</p>
 <pre><code>10100010101010010101101100101010 OR 
 10001000010101010101010101111010
 --------------------------------
 10101010111111010101111101111010</code></pre>
-<p>In this case, the resulting number has a 1 where either number has a 1 in the given position. Let's look at the NOTNOT operation:</p>
-<pre><code>NOT 10100010101010010101101100101010
+<p>In this case, the resulting number has a 1 where either number has a 1 in the given position. Let's look at the NOT operation:</p>
+<pre><code>10100010101010010101101100101010 NOT
 ------------------------------------
-    01011101010101101010010011010101</code></pre>
-<p>This just reverses each digit. Finally, we have XORXOR, which is like an OR, except if <em>both</em> digits are 1, it returns 0.</p>
+01011101010101101010010011010101</code></pre>
+<p>This just reverses each digit. Finally, we have XOR, which is like an OR, except if <em>both</em> digits are 1, it returns 0.</p>
 <pre><code>10100010101010010101101100101010 XOR 
 10001000010101010101010101111010
 --------------------------------
@@ -3152,23 +3157,23 @@ Table of binary multiplication
 00000000000000000000000000000000</code></pre>
 <p>These operations are useful for two reasons:</p>
 <ul>
-<li><p>The computer can do them extremely fast</p></li>
-<li><p>You can use them to compare many truth values at the same time</p></li>
+<li><p>The computer can do them extremely fast.</p></li>
+<li><p>You can use them to compare many truth values at the same time.</p></li>
 </ul>
-<p>You may not have known that different instructions execute at different speeds. It's true, they do. And these operations are the fastest on most processors. For example, you saw that XORing a number with itself produces 0. Well, the XORXOR operation is faster than the loading operation, so many programmers use it to load a registerregister with zero. For example, the code</p>
-<pre><code>    movl  $0, %eax</code></pre>
-<p>is often replaced by</p>
-<pre><code>    xorl  %eax, %eax</code></pre>
-<p>We'll discuss speed more in <a href="#optimizationch">???</a>, but I want you to see how programmers often do tricky things, especially with these binary operators, to make things fast. Now let's look at how we can use these operators to manipulate truetrue/falsefalse values. Earlier we discussed how binary numbers can be used to represent any number of things. Let's use binary numbers to represent what things my Dad and I like. First, let's look at the things I like:</p>
-<pre><code>Food: yes
-Heavy Metal Music: yes
-Wearing Dressy Clothes: no
-Football: yes</code></pre>
+<p>You may not have known that different instructions execute at different speeds. It's true, they do. And these operations are the fastest on most processors. For example, you saw that XORing a number with itself produces 0. Well, the XOR operation is faster than the loading operation, so many programmers use it to load a register with zero. For example, the code:</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>movl  $0, %eax</span></code></pre></div>
+<p>Is often replaced by:</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a>xorl  %eax, %eax</span></code></pre></div>
+<p>We'll discuss speed more in <a href="#chapter-12-optimization">Chapter 12. Optimization</a>, but I want you to see how programmers often do tricky things, especially with these binary operators, to make things fast. Now let's look at how we can use these operators to manipulate true/false values. Earlier we discussed how binary numbers can be used to represent any number of things. Let's use binary numbers to represent what things my Dad and I like. First, let's look at the things I like:</p>
+<pre><code>Food: Yes
+Heavy Metal Music: Yes
+Wearing Dressy Clothes: No
+Football: Yes</code></pre>
 <p>Now, let's look at what my Dad likes:</p>
-<pre><code>Food: yes
-Heavy Metal Music: no
-Wearing Dressy Clothes: yes
-Football: yes</code></pre>
+<pre><code>Food: Yes
+Heavy Metal Music: No
+Wearing Dressy Clothes: Yes
+Football: Yes</code></pre>
 <p>Now, let's use a 1 to say yes we like something, and a 0 to say no we don't. Now we have:</p>
 <pre><code>Me
 Food: 1
@@ -3181,65 +3186,68 @@ Food: 1
 Heavy Metal Music: 0
 Wearing Dressy Clothes: 1
 Football: 1</code></pre>
-<p>Now, if we just memorize which position each of these are in, we have</p>
+<p>Now, if we just memorize which position each of these are in, we have:</p>
 <pre><code>Me
 1101
 
 Dad
 1011</code></pre>
-<p>Now, let's see we want to get a list of things both my Dad and I like. You would use the ANDAND operation. So</p>
+<p>Now, let's see we want to get a list of things both my Dad and I like. You would use the AND operation. So:</p>
 <pre><code>1101 AND
 1011
 --------
 1001</code></pre>
-<p>Which translates to</p>
+<p>Which translates to:</p>
 <pre><code>Things we both like
-Food: yes
-Heavy Metal Music: no
-Wearing Dressy Clothes: no
-Football: yes</code></pre>
-<p>Remember, the computer has no idea what the ones and zeroes represent. That's your job and your program's job. If you wrote a program around this representation your program would at some point examine each bit and have code to tell the user what it's for (if you asked a computer what two people agreed on and it answered 1001, it wouldn't be very useful). Anyway, let's say we want to know the things that we disagree on. For that we would use XORXOR, because it will return 1 only if one or the other is 1, but not both. So</p>
+Food: Yes
+Heavy Metal Music: No
+Wearing Dressy Clothes: No
+Football: Yes</code></pre>
+<p>Remember, the computer has no idea what the ones and zeroes represent. That's your job and your program's job. If you wrote a program around this representation your program would at some point examine each bit and have code to tell the user what it's for (if you asked a computer what two people agreed on and it answered 1001, it wouldn't be very useful). Anyway, let's say we want to know the things that we disagree on. For that we would use XOR, because it will return 1 only if one or the other is 1, but not both. So:</p>
 <pre><code>1101 XOR
 1011
 --------
 0110</code></pre>
 <p>And I'll let you translate that back out.</p>
-<p>The previous operations: AND, OR, NOT, and XOR are called <em>boolean operatorsboolean operators</em> because they were first studied by George Boole. So, if someone mentiones boolean operatorsboolean operators or boolean algebraboolean algebra, you now know what they are talking about.</p>
-<p>In addition to the boolean operations, there are also two binary operatorsbinary operators that aren't boolean, shiftshift and rotaterotate. Shifts and rotates each do what their name implies, and can do so to the right or the left. A left shift moves each digit of a binary number one space to the left, puts a zero in the ones spot, and chops off the furthest digit to the left. A left rotate does the same thing, but takes the furthest digit to the left and puts it in the ones spot. For example,</p>
+<p>The previous operations: AND, OR, NOT, and XOR are called <em>boolean operators</em> because they were first studied by George Boole. So, if someone mentiones boolean operators or boolean algebra, you now know what they are talking about.</p>
+<p>In addition to the boolean operations, there are also two binary operators that aren't boolean, shift and rotate. Shifts and rotates each do what their name implies, and can do so to the right or the left. A left shift moves each digit of a binary number one space to the left, puts a zero in the ones spot, and chops off the furthest digit to the left. A left rotate does the same thing, but takes the furthest digit to the left and puts it in the ones spot. For example:</p>
 <pre><code>Shift left  10010111 = 00101110
 Rotate left 10010111 = 00101111</code></pre>
 <p>Notice that if you rotate a number for every digit it has (i.e. - rotating a 32-bit number 32 times), you wind up with the same number you started with. However, if you <em>shift</em> a number for every digit you have, you wind up with 0. So, what are these shifts useful for? Well, if you have binary numbers representing things, you use shifts to peek at each individual value. Let's say, for instance, that we had my Dad's likes stored in a register (32 bits). It would look like this:</p>
 <pre><code>00000000000000000000000000001011</code></pre>
-<p>Now, as we said previously, this doesn't work as program output. So, in order to do output, we would need to do shiftingshifting and <em>maskingmasking</em>. Masking is the process of eliminating everything you don't want. In this case, for every value we are looking for, we will shift the number so that value is in the ones place, and then mask that digit so that it is all we see. Masking is accomplished by doing an ANDAND with a number that has the bits we are interested in set to 1. For example, let's say we wanted to print out whether my Dad likes dressy clothes or not. That data is the second value from the right. So, we have to shift the number right 1 digit so it looks like this:</p>
+<p>Now, as we said previously, this doesn't work as program output. So, in order to do output, we would need to do shifting and <em>masking</em>. Masking is the process of eliminating everything you don't want. In this case, for every value we are looking for, we will shift the number so that value is in the ones place, and then mask that digit so that it is all we see. Masking is accomplished by doing an AND with a number that has the bits we are interested in set to 1. For example, let's say we wanted to print out whether my Dad likes dressy clothes or not. That data is the second value from the right. So, we have to shift the number right 1 digit so it looks like this:</p>
 <pre><code>00000000000000000000000000000101</code></pre>
-<p>and then, we just want to look at that digit, so we mask it by ANDing it with 00000000000000000000000000000001.</p>
+<p>And then, we just want to look at that digit, so we mask it by ANDing it with 00000000000000000000000000000001.</p>
 <pre><code>00000000000000000000000000000101 AND
 00000000000000000000000000000001
 -----------------------------------
 00000000000000000000000000000001</code></pre>
 <p>This will make the value of the register 1 if my Dad likes dressy clothes, and 0 if he doesn't. Then we can do a comparison to 1 and print the results. The code would look like this:</p>
-<pre><code>    #NOTE - assume that the register %ebx holds 
-    #       my Dad&#39;s preferences
-
-    movl  %ebx, %eax #This copies the information into %eax so
-                     #we don&#39;t lose the original data
-
-    shrl  $1, %eax   #This is the shift operator.  It stands
-                     #for Shift Right Long.  This first number
-                     #is the number of positions to shift,
-                     #and the second is the register to shift
-    
-    #This does the masking
-    andl  $0b00000000000000000000000000000001, %eax 
-
-    #Check to see if the result is 1 or 0
-    cmpl  $0b00000000000000000000000000000001, %eax 
-
-    je    yes_he_likes_dressy_clothes
-
-    jmp   no_he_doesnt_like_dressy_clothes</code></pre>
-<p>And then we would have two labels which printed something about whether or not he likes dressy clothes and then exits. The <code>0b</code> notation means that what follows is a binary numberbinary number. In this case it wasn't needed, because 1 is the same in any numbering system, but I put it there for clarity. We also didn't need the 31 zeroes, but I put them in to make a point that the number you are using is 32 bits.</p>
-<p>When a number represents a set of options for a functionfunctions or system callsystem call, the individual true/false elements are called <em>flagsflags</em>. Many system calls have numerous options that are all set in the same register using a mechanism like we've described. The <code>openopen</code> system call, for example, has as its second parameter a list of flags to tell the operating system how to open the file. Some of the flags include:</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: Assume that the register %ebx holds.</span></span>
+<span id="cb182-2"><a href="#cb182-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb182-3"><a href="#cb182-3" aria-hidden="true" tabindex="-1"></a><span class="co"># My Dad&#39;s preferences</span></span>
+<span id="cb182-4"><a href="#cb182-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb182-5"><a href="#cb182-5" aria-hidden="true" tabindex="-1"></a>movl  %ebx, %eax                        <span class="co"># This copies the information into</span></span>
+<span id="cb182-6"><a href="#cb182-6" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># %eax so we don&#39;t lose the</span></span>
+<span id="cb182-7"><a href="#cb182-7" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># original data.</span></span>
+<span id="cb182-8"><a href="#cb182-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb182-9"><a href="#cb182-9" aria-hidden="true" tabindex="-1"></a>shrl  $1, %eax                          <span class="co"># This is the shift operator.</span></span>
+<span id="cb182-10"><a href="#cb182-10" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># It stands for Shift Right Long.</span></span>
+<span id="cb182-11"><a href="#cb182-11" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># This first number is the number</span></span>
+<span id="cb182-12"><a href="#cb182-12" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># of positions to shift,</span></span>
+<span id="cb182-13"><a href="#cb182-13" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># and the second is the register</span></span>
+<span id="cb182-14"><a href="#cb182-14" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># to shift.</span></span>
+<span id="cb182-15"><a href="#cb182-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb182-16"><a href="#cb182-16" aria-hidden="true" tabindex="-1"></a>andl  $0b00000000000000000000000000000001, %eax   <span class="co"># This does the masking.</span></span>
+<span id="cb182-17"><a href="#cb182-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb182-18"><a href="#cb182-18" aria-hidden="true" tabindex="-1"></a>cmpl  $0b00000000000000000000000000000001, %eax   <span class="co"># Check to see if the</span></span>
+<span id="cb182-19"><a href="#cb182-19" aria-hidden="true" tabindex="-1"></a>                                                  <span class="co"># result is 1 or 0.</span></span>
+<span id="cb182-20"><a href="#cb182-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb182-21"><a href="#cb182-21" aria-hidden="true" tabindex="-1"></a>je    yes_he_likes_dressy_clothes</span>
+<span id="cb182-22"><a href="#cb182-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb182-23"><a href="#cb182-23" aria-hidden="true" tabindex="-1"></a>jmp   no_he_doesnt_like_dressy_clothes</span></code></pre></div>
+<p>And then we would have two labels which printed something about whether or not he likes dressy clothes and then exits. The <code>0b</code> notation means that what follows is a binary number. In this case it wasn't needed, because 1 is the same in any numbering system, but I put it there for clarity. We also didn't need the 31 zeroes, but I put them in to make a point that the number you are using is 32 bits.</p>
+<p>When a number represents a set of options for a function or system call, the individual true/false elements are called <em>flags</em>. Many system calls have numerous options that are all set in the same register using a mechanism like we've described. The <code>open</code> system call, for example, has as its second parameter a list of flags to tell the operating system how to open the file. Some of the flags include:</p>
 <dl>
 <dt><code>O_WRONLY</code>:</dt>
 <dd><p>This flag is <code>0b00000000000000000000000000000001</code> in binary, or <code>01</code> in octal (or any number system for that matter). This says to open the file in write-only mode.</p>
@@ -3257,80 +3265,223 @@ Rotate left 10010111 = 00101111</code></pre>
 <dd><p>This flag is <code>0b00000000000000000000010000000000</code> in binary, or <code>02000</code> in octal. It means to start writing at the end of the file rather than at the beginning.</p>
 </dd>
 </dl>
-<p>To use these flags, you simply OROR them together in the combination that you want. For example, to open a file in write-only mode, and have it create the file if it doesn't exist, I would use <code>O_WRONLY</code> (01) and <code>O_CREAT</code> (0100). OR'd together, I would have 0101.</p>
+<p>To use these flags, you simply OR them together in the combination that you want. For example, to open a file in write-only mode, and have it create the file if it doesn't exist, I would use <code>O_WRONLY</code> (01) and <code>O_CREAT</code> (0100). OR'd together, I would have 0101.</p>
 <p>Note that if you don't set either <code>O_WRONLY</code> or <code>O_RDWR</code>, then the file is automatically opened in read-only mode (<code>O_RDONLY</code>, except that it isn't really a flag since it's zero).</p>
 <p>Many functions and system calls use flags for options, as it allows a single word to hold up to 32 possible options if each option is represented by a single bit.</p>
 <h2 id="the-program-status-register">The Program Status Register</h2>
-<p>We've seen how bits on a register can be used to give the answers of yes/no and true/false statements. On your computer, there is a register called the <em>program status registerprogram status register</em>. This register holds a lot of information about what happens in a computation. For example, have you ever wondered what would happen if you added two numbers and the result was larger than would fit in a register? The program status register has a flag called the carry flagcarry flag. You can test it to see if the last computation overflowed the register. There are flags for a number of different statuses. In fact, when you do a compare (<code>cmplcmpl</code>) instruction, the result is stored in this register. The conditional jumpconditional jump instructions (<code>jge</code>, <code>jne</code>, etc) use these results to tell whether or not they should jump. <code>jmpjmp</code>, the unconditional jumpunconditional jump, doesn't care what is in the status register, since it is unconditional.</p>
+<p>We've seen how bits on a register can be used to give the answers of yes/no and true/false statements. On your computer, there is a register called the <em>program status register</em>. This register holds a lot of information about what happens in a computation. For example, have you ever wondered what would happen if you added two numbers and the result was larger than would fit in a register? The program status register has a flag called the carry flag. You can test it to see if the last computation overflowed the register. There are flags for a number of different statuses. In fact, when you do a compare (<code>cmpl</code>) instruction, the result is stored in this register. The conditional jump instructions (<code>jge</code>, <code>jne</code>, etc) use these results to tell whether or not they should jump. <code>jmp</code>, the unconditional jump, doesn't care what is in the status register, since it is unconditional.</p>
 <p>Let's say you needed to store a number larger than 32 bits. So, let's say the number is 2 registers wide, or 64 bits. How could you handle this? If you wanted to add two 64 bit numbers, you would add the least significant registers first. Then, if you detected an carry, you could add 1 to the most significant register. In fact, this is probably the way you learned to do decimal addition. If the result in one column is more than 9, you simply carried the number to the next most significant column. If you added 65 and 37, first you add 7 and 4 to get 12. You keep the 2 in the right column, and carry the one to the next column. There you add 6, 3, and the 1 you carried. This results in 10. So, you keep the zero in that column and carry the one to the next most significant column, which is empty, so you just put the one there. Luckily, 32 bits is usually big enough to hold the numbers we use regularly.</p>
-<p>Additional program status register flags are examined in <a href="#common-x86-instructions">Common x86 Instructions</a>.</p>
+<p>Additional program status register flags are examined in <a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a>.</p>
 <h2 id="other-numbering-systems">Other Numbering Systems</h2>
 <p>What we have studied so far only applies to positive integers. However, real-world numbers are not always positive integers. Negative numbers and numbers with decimals are also used.</p>
 <h3 id="floating-point-numbers">Floating-point Numbers</h3>
 <p>So far, the only numbers we've dealt with are integers - numbers with no decimal point. Computers have a general problem with numbers with decimal points, because computers can only store fixed-size, finite values. Decimal numbers can be any length, including infinite length (think of a repeating decimal, like the result of 1 / 3).</p>
-<p>The way a computer handles decimals is by storing them at a fixed precisionprecision (number of significant bits). A computer stores decimal numbers in two parts - the <em>exponentexponent</em> and the <em>mantissamantissa</em>. The mantissa contains the actual digits that will be used, and the exponent is what magnitude the number is. For example, 12345.2 can be represented as 1.23452 * 10^4. The mantissa is 1.23452 and the exponent is 4 with a base of 10. Computers, however, use a base of 2. All numbers are stored as X.XXXXX * 2^XXXX. The number 1, for example, is stored as 1.00000 * 2^0. Separating the mantissa and the exponent into two different values is called a <em>floating point</em>floating point representation, because the position of the significant digits with respect to the decimal point can vary based on the exponent.</p>
+<p>The way a computer handles decimals is by storing them at a fixed precision (number of significant bits). A computer stores decimal numbers in two parts - the <em>exponent</em> and the <em>mantissa</em>. The mantissa contains the actual digits that will be used, and the exponent is what magnitude the number is. For example, 12345.2 can be represented as 1.23452 * 10^4. The mantissa is 1.23452 and the exponent is 4 with a base of 10. Computers, however, use a base of 2. All numbers are stored as X.XXXXX * 2^XXXX. The number 1, for example, is stored as 1.00000 * 2^0. Separating the mantissa and the exponent into two different values is called a <em>floating point</em> representation, because the position of the significant digits with respect to the decimal point can vary based on the exponent.</p>
 <p>Now, the mantissa and the exponent are only so long, which leads to some interesting problems. For example, when a computer stores an integer, if you add 1 to it, the resulting number is one larger. This does not necessarily happen with floating point numbers. If the number is sufficiently big, adding 1 to it might not even register in the mantissa (remember, both parts are only so long). This affects several things, especially order of operations. If you add 1.0 to a given floating point number, it might not even affect the number if it is large enough. For example, on x86 platforms, a four-byte floating-point number, although it can represent very large numbers, cannot have 1.0 added to it past 16777216.0, because it is no longer significant. The number no longer changes when 1.0 is added to it. So, if there is a multiplication followed by an addition it may give a different result than if the addition is performed first.</p>
 <p>You should note that it takes most computers a lot longer to do floating-point arithmetic than it does integer arithmetic. So, for programs that really need speed, integers are mostly used.</p>
+<!-- TODO: Need floating point reference.
+        For more information on using floating point numbers in assembly
+        language, see:
+-->
 <h3 id="negative-numbers">Negative Numbers</h3>
-<p>How would you think that negative numbersnegative numbers on a computer might be represented? One thought might be to use the first digit of a number as the signsign, so <code>00000000000000000000000000000001</code> would represent the number 1, and <code>10000000000000000000000000000001</code> would represent -1. This makes a lot of sense, and in fact some old processors work this way. However, it has some problems. First of all, it takes a lot more circuitry to add and subtract signed numbers represented this way. Even more problematic, this representation has a problem with the number 0. In this system, you could have both a negative and a positive 0. This leads to a lot of questions, like "should negative zero be equal to positive zero?", and "What should the sign of zero be in various circumstances?".</p>
-<p>These problems were overcome by using a representation of negative numbers called <em>two's complementtwo's complement</em> representation. To get the negative representation of a number in two's complement form, you must perform the following steps:</p>
+<p>How would you think that negative numbers on a computer might be represented? One thought might be to use the first digit of a number as the sign, so <code>00000000000000000000000000000001</code> would represent the number 1, and <code>10000000000000000000000000000001</code> would represent -1. This makes a lot of sense, and in fact some old processors work this way. However, it has some problems. First of all, it takes a lot more circuitry to add and subtract signed numbers represented this way. Even more problematic, this representation has a problem with the number 0. In this system, you could have both a negative and a positive 0. This leads to a lot of questions, like "should negative zero be equal to positive zero?", and "What should the sign of zero be in various circumstances?".</p>
+<p>These problems were overcome by using a representation of negative numbers called <em>two's complement</em> representation. To get the negative representation of a number in two's complement form, you must perform the following steps:</p>
 <ol type="1">
-<li><p>Perform a NOTNOT operation on the number</p></li>
-<li><p>Add one to the resulting number</p></li>
+<li><p>Perform a NOT operation on the number.</p></li>
+<li><p>Add one to the resulting number.</p></li>
 </ol>
-<p>So, to get the negative of <code>00000000000000000000000000000001</code>, you would first do a NOT operation, which gives <code>11111111111111111111111111111110</code>, and then add one, giving <code>11111111111111111111111111111111</code>. To get negative two, first take <code>00000000000000000000000000000010</code>. The NOT of that number is <code>11111111111111111111111111111101</code>. Adding one gives <code>11111111111111111111111111111110</code>. With this representation, you can add numbers just as if they were positive, and come out with the right answers. For example, if you add one plus negative one in binary, you will notice that all of the numbers flip to zero. Also, the first digit still carries the signsign bit, making it simple to determine whether or not the number is positive or negative. Negative numbers will always have a <code>1</code> in the leftmost bit. This also changes which numbers are valid for a given number of bits. With signed numbers, the possible magnitude of the values is split to allow for both positive and negative numbers. For example, a bytebytes can normally have values up to 255. A signed byte, however, can store values from -128 to 127.</p>
-<p>One thing to note about the two's complementtwo's complement representation of signed numberssigned numbers is that, unlike unsigned quantities, if you increase the number of bits, you can't just add zeroes to the left of the number. For example, let's say we are dealing with four-bit quantities and we had the number -3, <code>1101</code>. If we were to extend this into an eight-bit register, we could not represent it as <code>00001101</code> as this would represent 13, not -3. When you increase the size of a signed quantity in two's complement representation, you have to perform <em>sign extensionsign extension</em>. Sign extension means that you have to pad the left-hand side of the quantity with whatever digit is in the sign digit when you add bits. So, if we extend a negative number by 4 digits, we should fill the new digits with a 1. If we extend a positive number by 4 digits, we should fill the new digits with a 0. So, the extension of -3 from four to eight bits will yield <code>11111101</code>.</p>
-<p>The x86 processor has different forms of several instructions depending on whether they expect the quantities they operate on to be signedsigned or unsignedunsigned. These are listed in <a href="#common-x86-instructions">Common x86 Instructions</a>. For example, the x86 processor has both a sign-preserving shift-right, <code>sarlsarl</code>, and a shift-right which does not preserve the sign bit, <code>shrlshrl</code>.</p>
-<h2 id="octalhexadecimal">Octal and Hexadecimal Numbers</h2>
-<p>The numbering systems discussed so far have been decimaldecimal and binarybinary. However, two others are used common in computing - octaloctal and hexadecimalhexadecimal. In fact, they are probably written more often than binary. Octal is a representation that only uses the numbers 0 through 7. So the octal number 10 is actually 8 in decimal because it is one group of eight. Octal 121 is decimal 81 (one group of 64 (8^2), two groups of 8, and one left over). What makes octal nice is that every 3 binary digits make one octal digit (there is no such grouping of binary digits into decimal). So 0 is 000, 1 is 001, 2 is 010, 3 is 011, 4 is 100, 5 is 101, 6 is 110, and 7 is 111.</p>
-<p>permissions Permissions in Linux are done using octal. This is because Linux permissions are based on the ability to read, write and execute. The first bit is the read permission, the second bit is the write permission, and the third bit is the execute permission. So, 0 (000) gives no permissions, 6 (110) gives read and write permission, and 5 (101) gives read and execute permissions. These numbers are then used for the three different sets of permissions - the owner, the group, and everyone else. The number 0644 means read and write for the first permission set, and read-only for the second and third set. The first permission set is for the owner of the file. The third permission set is for the group owner of the file. The last permission set is for everyone else. So, <code>0751</code> means that the owner of the file can read, write, and execute the file, the group members can read and execute the file, and everyone else can only execute the file.</p>
-<p>Anyway, as you can see, octal is used to group bits (binary digits) into threes. The way the assembler knows that a number is octal is because octaloctal numbers are prefixed with a zero. For example 010 means 10 in octal, which is 8 in decimal. If you just write 10 that means 10 in decimal. The beginning zero is what differentiates the two. So, <em>be careful not to put any leading zeroes in front of decimal numbers, or they will be interepreted as octal numbers</em>!</p>
-<p>Hexadecimal numbers (also called just "hex") use the numbers 1-15 for each digit. however, since 10-15 don't have their own numbers, hexadecimal uses the letters <code>a</code> through <code>f</code> to represent them. For example, the letter <code>a</code> represents 10, the letter <code>b</code> represents 11, and so on. 10 in hexadecimal is 16 in decimal. In octal, each digit represented three bits. In hexadecimalhexadecimal, each digit represents four bits. Every two digits is a full bytebytes, and eight digits is a 32-bit wordword. So you see, it is considerably easier to write a hexadecimal number than it is to write a binary number, because it's only a quarter as many digits. The most important number to remember in hexadecimal is <code>f</code>, which means that all bits are set. So, if I want to set all of the bits of a register to 1, I can just do</p>
-<pre><code>    movl  $0xFFFFFFFF, %eax</code></pre>
-<p>Which is considerably easier and less error-prone than writing</p>
-<pre><code>    movl  $0b11111111111111111111111111111111, %eax</code></pre>
-<p>Note also that hexadecimalhexadecimal numbers are prefixed with <code>0x</code>. So, when we do</p>
-<pre><code>    intint   $0x80</code></pre>
+<p>So, to get the negative of <code>00000000000000000000000000000001</code>, you would first do a NOT operation, which gives <code>11111111111111111111111111111110</code>, and then add one, giving <code>11111111111111111111111111111111</code>. To get negative two, first take <code>00000000000000000000000000000010</code>. The NOT of that number is <code>11111111111111111111111111111101</code>. Adding one gives <code>11111111111111111111111111111110</code>. With this representation, you can add numbers just as if they were positive, and come out with the right answers. For example, if you add one plus negative one in binary, you will notice that all of the numbers flip to zero. Also, the first digit still carries the sign bit, making it simple to determine whether or not the number is positive or negative. Negative numbers will always have a <code>1</code> in the leftmost bit. This also changes which numbers are valid for a given number of bits. With signed numbers, the possible magnitude of the values is split to allow for both positive and negative numbers. For example, a byte can normally have values up to 255. A signed byte, however, can store values from -128 to 127.</p>
+<p>One thing to note about the two's complement representation of signed numbers is that, unlike unsigned quantities, if you increase the number of bits, you can't just add zeroes to the left of the number. For example, let's say we are dealing with four-bit quantities and we had the number -3, <code>1101</code>. If we were to extend this into an eight-bit register, we could not represent it as <code>00001101</code> as this would represent 13, not -3. When you increase the size of a signed quantity in two's complement representation, you have to perform <em>sign extension</em>. Sign extension means that you have to pad the left-hand side of the quantity with whatever digit is in the sign digit when you add bits. So, if we extend a negative number by 4 digits, we should fill the new digits with a 1. If we extend a positive number by 4 digits, we should fill the new digits with a 0. So, the extension of -3 from four to eight bits will yield <code>11111101</code>.</p>
+<p>The x86 processor has different forms of several instructions depending on whether they expect the quantities they operate on to be signed or unsignedunsigned. These are listed in <a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a>. For example, the x86 processor has both a sign-preserving shift-right, <code>sarl</code>, and a shift-right which does not preserve the sign bit, <code>shrl</code>.</p>
+<h2 id="octal-and-hexadecimal-numbers">Octal and Hexadecimal Numbers</h2>
+<p>The numbering systems discussed so far have been decimal and binary. However, two others are used common in computing - octal and hexadecimal. In fact, they are probably written more often than binary. Octal is a representation that only uses the numbers 0 through 7. So the octal number 10 is actually 8 in decimal because it is one group of eight. Octal 121 is decimal 81 (one group of 64 (8^2), two groups of 8, and one left over). What makes octal nice is that every 3 binary digits make one octal digit (there is no such grouping of binary digits into decimal). So 0 is 000, 1 is 001, 2 is 010, 3 is 011, 4 is 100, 5 is 101, 6 is 110, and 7 is 111.</p>
+<p>Permissions in Linux are done using octal. This is because Linux permissions are based on the ability to read, write and execute. The first bit is the read permission, the second bit is the write permission, and the third bit is the execute permission. So, 0 (000) gives no permissions, 6 (110) gives read and write permission, and 5 (101) gives read and execute permissions. These numbers are then used for the three different sets of permissions - the owner, the group, and everyone else. The number 0644 means read and write for the first permission set, and read-only for the second and third set. The first permission set is for the owner of the file. The third permission set is for the group owner of the file. The last permission set is for everyone else. So, <code>0751</code> means that the owner of the file can read, write, and execute the file, the group members can read and execute the file, and everyone else can only execute the file.</p>
+<p>Anyway, as you can see, octal is used to group bits (binary digits) into threes. The way the assembler knows that a number is octal is because octal numbers are prefixed with a zero. For example 010 means 10 in octal, which is 8 in decimal. If you just write 10 that means 10 in decimal. The beginning zero is what differentiates the two. So, <em>be careful not to put any leading zeroes in front of decimal numbers, or they will be interepreted as octal numbers</em>!</p>
+<p>Hexadecimal numbers (also called just "hex") use the numbers 1-15 for each digit. however, since 10-15 don't have their own numbers, hexadecimal uses the letters <code>a</code> through <code>f</code> to represent them. For example, the letter <code>a</code> represents 10, the letter <code>b</code> represents 11, and so on. 10 in hexadecimal is 16 in decimal. In octal, each digit represented three bits. In hexadecimal, each digit represents four bits. Every two digits is a full byte, and eight digits is a 32-bit word. So you see, it is considerably easier to write a hexadecimal number than it is to write a binary number, because it's only a quarter as many digits. The most important number to remember in hexadecimal is <code>f</code>, which means that all bits are set. So, if I want to set all of the bits of a register to 1, I can just do:</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a>movl  $0xFFFFFFFF, %eax</span></code></pre></div>
+<p>Which is considerably easier and less error-prone than writing:</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a>movl  $0b11111111111111111111111111111111, %eax</span></code></pre></div>
+<p>Note also that hexadecimal numbers are prefixed with <code>0x</code>. So, when we do</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a>int   $0x80</span></code></pre></div>
 <p>We are calling interrupt number 128 (8 groups of 16), or interrupt number <code>0b00000000000000000000000010000000</code>.</p>
 <p>Hexadecimal and octal numbers take some getting used to, but they are heavily used in computer programming. It might be worthwhile to make up some numbers in hex and try to convert them back and forth to binary, decimal, and octal.</p>
 <h2 id="order-of-bytes-in-a-word">Order of Bytes in a Word</h2>
-<p>One thing that confuses many people when dealing with bitsbits and bytesbytes on a low level is that, when bytes are written from registersregisters to memory, their bytes are written out least-significant-portion-first.<a href="#fn49" class="footnote-ref" id="fnref49" role="doc-noteref"><sup>49</sup></a> What most people expect is that if they have a word in a register, say <code>0x5d 23 ef ee</code> (the spacing is so you can see where the bytes are), the bytes will be written to memory in that order. However, on x86 processors, the bytes are actually written in reverse order. In memory the bytes would be <code>0xee ef 23 5d</code> on x86 processors. The bytes are written in reverse order from what they would appear conceptually, but the bits within the bytes are ordered normally.</p>
-<p>Not all processors behave this way. The x86 processor is a <em>little-endianlittle-endian</em> processor, which means that it stores the "little end", or least-significant byte of its words first.</p>
+<p>One thing that confuses many people when dealing with bits and bytes on a low level is that, when bytes are written from registers to memory, their bytes are written out least-significant-portion-first.<a href="#fn49" class="footnote-ref" id="fnref49" role="doc-noteref"><sup>49</sup></a> What most people expect is that if they have a word in a register, say <code>0x5d 23 ef ee</code> (the spacing is so you can see where the bytes are), the bytes will be written to memory in that order. However, on x86 processors, the bytes are actually written in reverse order. In memory the bytes would be <code>0xee ef 23 5d</code> on x86 processors. The bytes are written in reverse order from what they would appear conceptually, but the bits within the bytes are ordered normally.</p>
+<p>Not all processors behave this way. The x86 processor is a <em>little-endian</em> processor, which means that it stores the "little end", or least-significant byte of its words first.</p>
 <figure>
 <img src="resource/image/littleendian.png" alt="Register-to-memory transfers on little-endian systems" /><figcaption aria-hidden="true"><em>Register-to-memory transfers on little-endian systems</em></figcaption>
 </figure>
-<p>Other processors are <em>big-endianbig-endian</em> processors, which means that they store the "big end", or most significant byte, of their words first, the way we would naturally read a number.</p>
+<p>Other processors are <em>big-endian</em> processors, which means that they store the "big end", or most significant byte, of their words first, the way we would naturally read a number.</p>
 <figure>
 <img src="resource/image/bigendian.png" alt="Register-to-memory transfers on big-endian systems" /><figcaption aria-hidden="true"><em>Register-to-memory transfers on big-endian systems</em></figcaption>
 </figure>
-<p>This difference is not normally a problem (although it has sparked many technical controversies throughout the years). Because the bytes are reversed again (or not, if it is a big-endian processor) when being read back into a registerregister, the programmer usually never notices what order the bytes are in. The byte-switching magic happens automatically behind the scenes during register-to-memory transfers. However, the byte order can cause problems in several instances:</p>
+<p>This difference is not normally a problem (although it has sparked many technical controversies throughout the years). Because the bytes are reversed again (or not, if it is a big-endian processor) when being read back into a register, the programmer usually never notices what order the bytes are in. The byte-switching magic happens automatically behind the scenes during register-to-memory transfers. However, the byte order can cause problems in several instances:</p>
 <ul>
-<li><p>If you try to read in several bytes at a time using <code>movl</code> but deal with them on a byte-by-byte basis using the least significant byte (i.e. - by using AL and/or shifting of the register), this will be in a different order than they appear in memory.</p></li>
+<li><p>If you try to read in several bytes at a time using <code>movl</code> but deal with them on a byte-by-byte basis using the least significant byte (i.e. - by using <em>%al</em> and/or shifting of the register), this will be in a different order than they appear in memory.</p></li>
 <li><p>If you read or write files written for different architectures, you may have to account for whatever order they write their bytes in.</p></li>
 <li><p>If you read or write to network sockets, you may have to account for a different byte order in the protocol.</p></li>
 </ul>
-<p>As long as you are aware of the issue, it usually isn't a big deal. For more in-depth look at byte order issues, you should read DAV's Endian FAQ at http://www.rdrop.com/~cary/html/endian_faq.html, especially the article "On Holy Wars and a Plea for Peace" by Daniel Cohen.</p>
+<p>As long as you are aware of the issue, it usually isn't a big deal. For more in-depth look at byte order issues, you should read <a href="http://david.carybros.com/html/endian_faq.html">DAV's Endian FAQ</a>, especially the article <a href="https://dcc.ufrj.br/~gabriel/progpar/danny_co.pdf">"On Holy Wars and a Plea for Peace" by Daniel Cohen</a>.</p>
 <h2 id="converting-numbers-for-display">Converting Numbers for Display</h2>
 <p>So far, we have been unable to display any number stored to the user, except by the extremely limitted means of passing it through exit codes. In this section, we will discuss converting positive numbers into strings for display.</p>
 <p>The function will be called <code>integer2string</code>, and it will take two parameters - an integer to convert and a string buffer filled with null characters (zeroes). The buffer will be assumed to be big enough to store the entire number as a string.(at least 11 characters long, to include a trailing null character).</p>
 <p>Remember that the way that we see numbers is in base 10. Therefore, to access the individual decimal digits of a number, we need to be dividing by 10 and displaying the remainder for each digit. Therefore, the process will look like this:</p>
 <ul>
-<li><p>Divide the number by ten</p></li>
+<li><p>Divide the number by ten.</p></li>
 <li><p>The remainder is the current digit. Convert it to a character and store it.</p></li>
 <li><p>We are finished if the quotient is zero.</p></li>
 <li><p>Otherwise, take the quotient and the next location in the buffer and repeat the process.</p></li>
 </ul>
 <p>The only problem is that since this process deals with the one's place first, it will leave the number backwards. Therefore, we will have to finish by reversing the characters. We will do this by storing the characters on the stack as we compute them. This way, as we pop them back off to fill in the buffer, it will be in the reverse order that we pushed them on.</p>
 <p>The code for the function should be put in a file called <code>integer-to-string.s</code> and should be entered as follows:</p>
-<pre><code>INTEGER-TO-STRING</code></pre>
+<div class="sourceCode" id="cb186"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-3"><a href="#cb186-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  Convert an integer number to a decimal string for display.</span></span>
+<span id="cb186-4"><a href="#cb186-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-5"><a href="#cb186-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># INPUT:    A buffer large enough to hold the largest possible number</span></span>
+<span id="cb186-6"><a href="#cb186-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           an integer to convert.</span></span>
+<span id="cb186-7"><a href="#cb186-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-8"><a href="#cb186-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OUTPUT:   The buffer will be overwritten with the decimal string.</span></span>
+<span id="cb186-9"><a href="#cb186-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-10"><a href="#cb186-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Variables:</span></span>
+<span id="cb186-11"><a href="#cb186-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       %ecx will hold the count of characters processed.</span></span>
+<span id="cb186-12"><a href="#cb186-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       %eax will hold the current value.</span></span>
+<span id="cb186-13"><a href="#cb186-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       %edi will hold the base (10).</span></span>
+<span id="cb186-14"><a href="#cb186-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-15"><a href="#cb186-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> ST_VALUE,   <span class="dv">8</span></span>
+<span id="cb186-16"><a href="#cb186-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> ST_BUFFER,  <span class="dv">12</span></span>
+<span id="cb186-17"><a href="#cb186-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-18"><a href="#cb186-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> integer2string</span>
+<span id="cb186-19"><a href="#cb186-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.type</span>  integer2string,  <span class="co">@function</span></span>
+<span id="cb186-20"><a href="#cb186-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-21"><a href="#cb186-21" aria-hidden="true" tabindex="-1"></a><span class="kw">integer2string:</span></span>
+<span id="cb186-22"><a href="#cb186-22" aria-hidden="true" tabindex="-1"></a>    pushl %ebp                          <span class="co"># Normal function beginning.</span></span>
+<span id="cb186-23"><a href="#cb186-23" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb186-24"><a href="#cb186-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-25"><a href="#cb186-25" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ecx                      <span class="co"># Current character count.</span></span>
+<span id="cb186-26"><a href="#cb186-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-27"><a href="#cb186-27" aria-hidden="true" tabindex="-1"></a>    movl  ST_VALUE(%ebp), %eax          <span class="co"># Move the value into position.</span></span>
+<span id="cb186-28"><a href="#cb186-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-29"><a href="#cb186-29" aria-hidden="true" tabindex="-1"></a>    movl  $10, %edi                     <span class="co"># When we divide by 10, the 10</span></span>
+<span id="cb186-30"><a href="#cb186-30" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># must be in a register or memory</span></span>
+<span id="cb186-31"><a href="#cb186-31" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># location.</span></span>
+<span id="cb186-32"><a href="#cb186-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-33"><a href="#cb186-33" aria-hidden="true" tabindex="-1"></a><span class="kw">conversion_loop:</span></span>
+<span id="cb186-34"><a href="#cb186-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Division is actually performed on the combined %edx:%eax register,</span></span>
+<span id="cb186-35"><a href="#cb186-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># so first clear out %edx.</span></span>
+<span id="cb186-36"><a href="#cb186-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-37"><a href="#cb186-37" aria-hidden="true" tabindex="-1"></a>    movl  $0, %edx</span>
+<span id="cb186-38"><a href="#cb186-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-39"><a href="#cb186-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Divide %edx:%eax (which are implied) by 10. Store the quotient in</span></span>
+<span id="cb186-40"><a href="#cb186-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># %eax and the remainder in %edx (both of which are implied).</span></span>
+<span id="cb186-41"><a href="#cb186-41" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-42"><a href="#cb186-42" aria-hidden="true" tabindex="-1"></a>    divl  %edi</span>
+<span id="cb186-43"><a href="#cb186-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-44"><a href="#cb186-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Quotient is in the right place.  %edx has the remainder, which now</span></span>
+<span id="cb186-45"><a href="#cb186-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># needs to be converted into a number.  So, %edx has a number that is</span></span>
+<span id="cb186-46"><a href="#cb186-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 0 through 9.  You could also interpret this as an index on the ASCII</span></span>
+<span id="cb186-47"><a href="#cb186-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># table starting from the character &#39;0&#39;.  The ascii code for &#39;0&#39; plus</span></span>
+<span id="cb186-48"><a href="#cb186-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># zero is still the ascii code for &#39;0&#39;.  The ascii code for &#39;0&#39; plus 1</span></span>
+<span id="cb186-49"><a href="#cb186-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># is the ascii code for the character &#39;1&#39;.  Therefore, the following</span></span>
+<span id="cb186-50"><a href="#cb186-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># instruction will give us the character for the number stored in %edx.</span></span>
+<span id="cb186-51"><a href="#cb186-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-52"><a href="#cb186-52" aria-hidden="true" tabindex="-1"></a>    addl  $<span class="ch">&#39;0&#39;</span>, %edx</span>
+<span id="cb186-53"><a href="#cb186-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-54"><a href="#cb186-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Now we will take this value and push it on the stack.  This way,</span></span>
+<span id="cb186-55"><a href="#cb186-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># when we are done, we can just pop off the characters one-by-one and</span></span>
+<span id="cb186-56"><a href="#cb186-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># they will be in the right order.  Note that we are pushing the whole</span></span>
+<span id="cb186-57"><a href="#cb186-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># register, but we only need the byte in %dl (the last byte of the</span></span>
+<span id="cb186-58"><a href="#cb186-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># %edx register) for the character.</span></span>
+<span id="cb186-59"><a href="#cb186-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-60"><a href="#cb186-60" aria-hidden="true" tabindex="-1"></a>    pushl %edx</span>
+<span id="cb186-61"><a href="#cb186-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-62"><a href="#cb186-62" aria-hidden="true" tabindex="-1"></a>    incl  %ecx                          <span class="co"># Increment the digit count.</span></span>
+<span id="cb186-63"><a href="#cb186-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-64"><a href="#cb186-64" aria-hidden="true" tabindex="-1"></a>    cmpl  $0, %eax                      <span class="co"># Check to see if %eax is zero yet,</span></span>
+<span id="cb186-65"><a href="#cb186-65" aria-hidden="true" tabindex="-1"></a>    je    end_conversion_loop           <span class="co"># go to next step if so.</span></span>
+<span id="cb186-66"><a href="#cb186-66" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># %eax already has its new value.</span></span>
+<span id="cb186-67"><a href="#cb186-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-68"><a href="#cb186-68" aria-hidden="true" tabindex="-1"></a>    jmp conversion_loop</span>
+<span id="cb186-69"><a href="#cb186-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-70"><a href="#cb186-70" aria-hidden="true" tabindex="-1"></a><span class="kw">end_conversion_loop:</span></span>
+<span id="cb186-71"><a href="#cb186-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The string is now on the stack, if we pop it off a character at a</span></span>
+<span id="cb186-72"><a href="#cb186-72" aria-hidden="true" tabindex="-1"></a>    <span class="co"># time we can copy it into the buffer and be done.</span></span>
+<span id="cb186-73"><a href="#cb186-73" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-74"><a href="#cb186-74" aria-hidden="true" tabindex="-1"></a>    movl  ST_BUFFER(%ebp), %edx         <span class="co"># Get the pointer to the buffer</span></span>
+<span id="cb186-75"><a href="#cb186-75" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># in %edx.</span></span>
+<span id="cb186-76"><a href="#cb186-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-77"><a href="#cb186-77" aria-hidden="true" tabindex="-1"></a><span class="kw">copy_reversing_loop:</span></span>
+<span id="cb186-78"><a href="#cb186-78" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We pushed a whole register, but we only need the last byte.  So we</span></span>
+<span id="cb186-79"><a href="#cb186-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># are going to pop off to the entire %eax register, but then only move</span></span>
+<span id="cb186-80"><a href="#cb186-80" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the small part (%al) into the character string.</span></span>
+<span id="cb186-81"><a href="#cb186-81" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb186-82"><a href="#cb186-82" aria-hidden="true" tabindex="-1"></a>    popl  %eax</span>
+<span id="cb186-83"><a href="#cb186-83" aria-hidden="true" tabindex="-1"></a>    movb  %al, (%edx)</span>
+<span id="cb186-84"><a href="#cb186-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-85"><a href="#cb186-85" aria-hidden="true" tabindex="-1"></a>    decl  %ecx                          <span class="co"># Decreasing %ecx so we know when</span></span>
+<span id="cb186-86"><a href="#cb186-86" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># we are finished.</span></span>
+<span id="cb186-87"><a href="#cb186-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-88"><a href="#cb186-88" aria-hidden="true" tabindex="-1"></a>    incl  %edx                          <span class="co"># Increasing %edx so that it will</span></span>
+<span id="cb186-89"><a href="#cb186-89" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># be pointing to the next byte.</span></span>
+<span id="cb186-90"><a href="#cb186-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-91"><a href="#cb186-91" aria-hidden="true" tabindex="-1"></a>    cmpl  $0, %ecx                      <span class="co"># Check to see if we are finished.</span></span>
+<span id="cb186-92"><a href="#cb186-92" aria-hidden="true" tabindex="-1"></a>    je    end_copy_reversing_loop       <span class="co"># If so, jump to the end of the</span></span>
+<span id="cb186-93"><a href="#cb186-93" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># function.</span></span>
+<span id="cb186-94"><a href="#cb186-94" aria-hidden="true" tabindex="-1"></a>    jmp   copy_reversing_loop           <span class="co"># Otherwise, repeat the loop.</span></span>
+<span id="cb186-95"><a href="#cb186-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-96"><a href="#cb186-96" aria-hidden="true" tabindex="-1"></a><span class="kw">end_copy_reversing_loop:</span></span>
+<span id="cb186-97"><a href="#cb186-97" aria-hidden="true" tabindex="-1"></a>    movb  $0, (%edx)                    <span class="co"># Done copying.  Now write a null</span></span>
+<span id="cb186-98"><a href="#cb186-98" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># byte and return.</span></span>
+<span id="cb186-99"><a href="#cb186-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-100"><a href="#cb186-100" aria-hidden="true" tabindex="-1"></a>    movl  %ebp, %esp</span>
+<span id="cb186-101"><a href="#cb186-101" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
+<span id="cb186-102"><a href="#cb186-102" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
 <p>To show this used in a full program, use the following code, along with the <code>count_chars</code> and <code>write_newline</code> functions written about in previous chapters. The code should be in a file called <code>conversion-program.s</code>.</p>
-<pre><code>CONVERSION-PROGRAM</code></pre>
+<div class="sourceCode" id="cb187"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb187-2"><a href="#cb187-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.include</span> <span class="st">&quot;linux.s&quot;</span>                  <span class="co"># Common Linux Definitions.</span></span>
+<span id="cb187-3"><a href="#cb187-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-4"><a href="#cb187-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb187-5"><a href="#cb187-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">tmp_buffer:</span>                     <span class="co"># This is where it will be stored.</span></span>
+<span id="cb187-6"><a href="#cb187-6" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;</span><span class="sc">\0\0\0\0\0\0\0\0\0\0\0</span><span class="st">&quot;</span></span>
+<span id="cb187-7"><a href="#cb187-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-8"><a href="#cb187-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb187-9"><a href="#cb187-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-10"><a href="#cb187-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
+<span id="cb187-11"><a href="#cb187-11" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb187-12"><a href="#cb187-12" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb187-13"><a href="#cb187-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-14"><a href="#cb187-14" aria-hidden="true" tabindex="-1"></a>    pushl $tmp_buffer                   <span class="co"># Storage for the result.</span></span>
+<span id="cb187-15"><a href="#cb187-15" aria-hidden="true" tabindex="-1"></a>    pushl $824                          <span class="co"># Number to convert.</span></span>
+<span id="cb187-16"><a href="#cb187-16" aria-hidden="true" tabindex="-1"></a>    call  integer2string</span>
+<span id="cb187-17"><a href="#cb187-17" aria-hidden="true" tabindex="-1"></a>    addl  $8, %esp</span>
+<span id="cb187-18"><a href="#cb187-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-19"><a href="#cb187-19" aria-hidden="true" tabindex="-1"></a>    pushl $tmp_buffer                   <span class="co"># Get the character count for our</span></span>
+<span id="cb187-20"><a href="#cb187-20" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># system call.</span></span>
+<span id="cb187-21"><a href="#cb187-21" aria-hidden="true" tabindex="-1"></a>    call  count_chars</span>
+<span id="cb187-22"><a href="#cb187-22" aria-hidden="true" tabindex="-1"></a>    addl  $4, %esp</span>
+<span id="cb187-23"><a href="#cb187-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-24"><a href="#cb187-24" aria-hidden="true" tabindex="-1"></a>    movl  %eax, %edx                    <span class="co"># The count goes in %edx for</span></span>
+<span id="cb187-25"><a href="#cb187-25" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># SYS_WRITE.</span></span>
+<span id="cb187-26"><a href="#cb187-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-27"><a href="#cb187-27" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_WRITE, %eax              <span class="co"># Make the system call.</span></span>
+<span id="cb187-28"><a href="#cb187-28" aria-hidden="true" tabindex="-1"></a>    movl  $STDOUT, %ebx</span>
+<span id="cb187-29"><a href="#cb187-29" aria-hidden="true" tabindex="-1"></a>    movl  $tmp_buffer, %ecx</span>
+<span id="cb187-30"><a href="#cb187-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-31"><a href="#cb187-31" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span>
+<span id="cb187-32"><a href="#cb187-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-33"><a href="#cb187-33" aria-hidden="true" tabindex="-1"></a>    pushl $STDOUT                       <span class="co"># Write a carriage return.</span></span>
+<span id="cb187-34"><a href="#cb187-34" aria-hidden="true" tabindex="-1"></a>    call  write_newline</span>
+<span id="cb187-35"><a href="#cb187-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-36"><a href="#cb187-36" aria-hidden="true" tabindex="-1"></a>    movl  $SYS_EXIT, %eax               <span class="co"># Exit.</span></span>
+<span id="cb187-37"><a href="#cb187-37" aria-hidden="true" tabindex="-1"></a>    movl  $0, %ebx</span>
+<span id="cb187-38"><a href="#cb187-38" aria-hidden="true" tabindex="-1"></a>    int   $LINUX_SYSCALL</span></code></pre></div>
 <p>To build the program, issue the following commands:</p>
-<pre><code>as integer-to-string.s -o integer-to-number.o
-as count-chars.s -o count-chars.o
-as write-newline.s -o write-newline.o
-as conversion-program.s -o conversion-program.o
-ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o conversion-program</code></pre>
+<div class="sourceCode" id="cb188"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o integer-to-number.o   integer-to-string.s</span>
+<span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o count-chars.o         count-chars.s</span>
+<span id="cb188-3"><a href="#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o write-newline.o       write-newline.s</span>
+<span id="cb188-4"><a href="#cb188-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o conversion-program.o  conversion-program.s</span>
+<span id="cb188-5"><a href="#cb188-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o conversion-program    integer-to-number.o count-chars.o <span class="kw">\</span></span>
+<span id="cb188-6"><a href="#cb188-6" aria-hidden="true" tabindex="-1"></a>                            <span class="ex">write-newline.o</span> conversion-program.o</span></code></pre></div>
 <p>To run just type <code>./conversion-program</code> and the output should say <code>824</code>.</p>
 <h2 id="review-8">Review</h2>
 <h3 id="know-the-concepts-8">Know the Concepts</h3>
@@ -3361,8 +3512,8 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>Write a program that stores likes and dislikes into a single machine word, and then compares two sets of likes and dislikes for commonalities.</p></li>
 <li><p>Write a program that reads a string of characters from STDIN and converts them to a number.</p></li>
 </ul>
-<h1 id="high-level-languages">High-Level Languages</h1>
-<p>In this chapter we will begin to look at our first "real-world" programming language. Assembly language is the language used at the machine's level, but most people find coding in assembly language too cumbersome for everyday use. Many computer languages have been invented to make the programming task easier. Knowing a wide variety of languages is useful for many reasons, including</p>
+<h1 id="chapter-11-high-level-languages">Chapter 11. High-Level Languages</h1>
+<p>In this chapter we will begin to look at our first "real-world" programming language. Assembly language is the language used at the machine's level, but most people find coding in assembly language too cumbersome for everyday use. Many computer languages have been invented to make the programming task easier. Knowing a wide variety of languages is useful for many reasons, including:</p>
 <ul>
 <li><p>Different languages are based on different concepts, which will help you to learn different and better programming methods and ideas.</p></li>
 <li><p>Different languages are good for different types of projects.</p></li>
@@ -3402,7 +3553,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <p>The next line is a function call. In assembly language, you had to push the arguments of a function onto the stack, and then call the function. C takes care of this complexity for you. You simply have to call the function with the parameters in parenthesis. In this case, we call the function <code>puts</code>, with a single parameter. This parameter is the character string we want to print. We just have to type in the string in quotations, and the compiler takes care of defining storage and moving the pointers to that storage onto the stack before calling the function. As you can see, it's a lot less work.</p>
 <p>Finally our function returns the number <code>0</code>. In assembly language, we stored our return value in <em>%eax</em>, but in C we just use the <code>return</code> command and it takes care of that for us. The return value of the <code>main</code> function is what is used as the exit code for the program.</p>
 <p>As you can see, using high-level languageshigh-level languages makes life much easier. It also allows our programs to run on multiple platforms more easily. In assembly language, your program is tied to both the operating system and the hardware platform, while in compiled and interpreted languages the same code can usually run on multiple operating systems and hardware platforms. For example, this program can be built and executed on x86 hardware running Linux, Windows, UNIX, or most other operating systems. In addition, it can also run on Macintosh hardware running a number of operating systems.</p>
-<p>Additional information on the C programming language can be found in <a href="#ctranslationap">???</a>.</p>
+<p>Additional information on the C programming language can be found in <a href="#appendix-e-c-idioms-in-assembly-language">Appendix E. C Idioms in Assembly Language</a>.</p>
 <h2 id="perl">Perl</h2>
 <p>Perl is an interpreted language, existing mostly on Linux and UNIX-based platforms. It actually runs on almost all platforms, but you find it most often on Linux and UNIX-based ones. Anyway, here is the Perl version of the program, which should be typed into a file named <code>Hello-World.pl</code>:</p>
 <pre><code>HELLO-WORLD-PERL</code></pre>
@@ -3436,11 +3587,11 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>Why do you think so many languages exist?</p></li>
 <li><p>Learn two new high level languages. How do they differ from each other? How are they similar? What approach to problem-solving does each take?</p></li>
 </ul>
-<h1 id="optimizationch">Optimization</h1>
+<h1 id="chapter-12-optimization">Chapter 12. Optimization</h1>
 <p>Optimizationoptimization is the process of making your application run more effectively. You can optimize for many things - speed, memory space usage, disk space usage, etc. This chapter, however, focuses on speed optimization.</p>
 <h2 id="when-to-optimize">When to Optimize</h2>
 <p>It is better to not optimize at all than to optimize too soon. When you optimize, your code generally becomes less clear, because it becomes more complex. Readers of your code will have more trouble discovering why you did what you did which will increase the cost of maintenance of your project. Even when you know how and why your program runs the way it does, optimized code is harder to debug and extend. It slows the development process down considerably, both because of the time it takes to optimize the code, and the time it takes to modify your optimized code.</p>
-<p>Compounding this problem is that you don't even know beforehand where the speed issues in your program will be. Even experienced programmers have trouble predicting which parts of the program will be the bottlenecks which need optimization, so you will probably end up wasting your time optimizing the wrong parts. <a href="#wheretooptimize">Where to Optimize</a> will discuss how to find the parts of your program that need optimization.</p>
+<p>Compounding this problem is that you don't even know beforehand where the speed issues in your program will be. Even experienced programmers have trouble predicting which parts of the program will be the bottlenecks which need optimization, so you will probably end up wasting your time optimizing the wrong parts. <a href="#where-to-optimize">Where to Optimize</a> will discuss how to find the parts of your program that need optimization.</p>
 <p>While you develop your program, you need to have the following priorities:</p>
 <ul>
 <li><p>Everything is documented</p></li>
@@ -3455,7 +3606,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 </ul>
 <p>Therefore, the time to optimize is toward the end of development, when you have determined that your correct code actually has performance problems.</p>
 <p>In a web-based e-commerce project I was involved in, I focused entirely on correctness. This was much to the dismay of my colleagues, who were worried about the fact that each page took twelve seconds to process before it ever started loading (most web pages process in under a second). However, I was determined to make it the right way first, and put optimization as a last priority. When the code was finally correct after 3 months of work, it took only three days to find and eliminate the bottlenecks, bringing the average processing time under a quarter of a second. By focusing on the correct order, I was able to finish a project that was both correct and efficient.</p>
-<h2 id="wheretooptimize">Where to Optimize</h2>
+<h2 id="where-to-optimize">Where to Optimize</h2>
 <p>Once you have determined that you have a performance issue you need to determine where in the code the problems occur. You can do this by running a <em>profiler</em>profiler. A profiler is a program that will let you run your program, and it will tell you how much time is spent in each function, and how many times they are run. <code>gprofgprof</code> is the standard GNU/Linux profiling tool, but a discussion of using profilers is outside the scope of this text. After running a profiler, you can determine which functions are called the most or have the most time spent in them. These are the ones you should focus your optimization efforts on.</p>
 <p>If a program only spends 1% of its time in a given function, then no matter how much you speed it up you will only achieve a <em>maximum</em> of a 1% overall speed improvement. However, if a program spends 20% of its time in a given function, then even minor improvements to that functions speed will be noticeable. Therefore, profiling gives you the information you need to make good choices about where to spend your programming time.</p>
 <p>In order to optimize functions, you need to understand in what ways they are being called and used. The more you know about how and when a function is called, the better position you will be in to optimize it appropriately.</p>
@@ -3524,7 +3675,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>What kind of problems might a compiler run in to if it tried to optimize code across function call boundaries?</p></li>
 </ul>
 <h1 id="basic-guidelines-for-software-development">Basic Guidelines for Software Development</h1>
-<h1 id="moving-on-from-here">Moving On from Here</h1>
+<h1 id="chapter-13-moving-on-from-here">Chapter 13. Moving On from Here</h1>
 <p>Congratulations on getting this far. You should now have a basis for understanding the issues involved in many areas of programming. Even if you never use assembly language again, you have gained a valuable perspective and mental framework for understanding the rest of computer science.</p>
 <p>There are essentially three methods to learn to program:</p>
 <ul>
@@ -3604,7 +3755,7 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 <li><p>http://www.janw.easynet.be/ - Jan Wagemaker's Linux assembly language examples</p></li>
 <li><p>http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh's x86 Assembly Page</p></li>
 </ul>
-<h1 id="table-of-ascii-codes">Table of ASCII Codes</h1>
+<h1 id="appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</h1>
 <p>To use this table, simply find the character or escape that you want the code for, and add the number on the left and the top.</p>
 <table>
 <caption>Table of ASCII codes in decimal</caption>
@@ -3800,14 +3951,14 @@ ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o con
 </table>
 <p>ASCII is actually being phased out in favor of an international standard known as Unicode, which allows you to display any character from any known writing system in the world. As you may have noticed, ASCII only has support for English characters. Unicode is much more complicated, however, because it requires more than one byte to encode a single character. There are several different methods for encoding Unicode characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat backwards-compatible with ASCII (it is stored the same for English characters, but expands into multiple byte for international characters). UTF-32 simply requires four bytes for each character rather than one. Windows uses UTF-16, which is a variable-length encoding which requires at least 2 bytes per character, so it is not backwards-compatible with ASCII.</p>
 <p>A good tutorial on internationalization issues, fonts, and Unicode is available in a great Article by Joe Spolsky, called "The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)", available online at http://www.joelonsoftware.com/articles/Unicode.html</p>
-<h1 id="gui-programming">GUI Programming</h1>
-<h1 class="unnumbered" id="introduction-to-gui-programming">Introduction to GUI Programming</h1>
+<h1 id="appendix-a.-gui-programming">Appendix A. GUI Programming</h1>
+<h1 id="introduction-to-gui-programming">Introduction to GUI Programming</h1>
 <p>The purpose of this appendix is not to teach you how to do Graphical User Interfaces. It is simply meant to show how writing graphical applications is the same as writing other applications, just using an additional library to handle the graphical parts. As a programmer you need to get used to learning new libraries. Most of your time will be spent passing data from one library to another.</p>
-<h1 class="unnumbered" id="the-gnome-libraries">The GNOME Libraries</h1>
+<h1 id="the-gnome-libraries">The GNOME Libraries</h1>
 <p>The GNOMEGNOME projects is one of several projects to provide a complete desktop to Linux users. The GNOME project includes a panel to hold application launchers and mini-applications called applets, several standard applications to do things such as file management, session management, and configuration, and an API for creating applications which fit in with the way the rest of the system works.</p>
 <p>One thing to notice about the GNOME libraries is that they constantly create and give you pointers to large data structures, but you never need to know how they are laid out in memory. All manipulation of the GUI data structures are done entirely through function calls. This is a characteristic of good library design. Libraries change from version to version, and so does the data that each data structure holds. If you had to access and manipulate that data yourself, then when the library is updated you would have to modify your programs to work with the new library, or at least recompile them. When you access the data through functions, the functions take care of knowing where in the structure each piece of data is. The pointers you receive from the library are <em>opaque</em> - you don't need to know specifically what the structure they are pointing to looks like, you only need to know the functions that will properly manipulate it. When designing libraries, even for use within only one program, this is a good practice to keep in mind.</p>
 <p>This chapter will not go into details about how GNOME works. If you would like to know more, visit the GNOME developer web site at http://developer.gnome.org/. This site contains tutorials, mailing lists, API documentation, and everything else you need to start programming in the GNOME environment.</p>
-<h1 class="unnumbered" id="a-simple-gnome-program-in-several-languages">A Simple GNOME Program in Several Languages</h1>
+<h1 id="a-simple-gnome-program-in-several-languages">A Simple GNOME Program in Several Languages</h1>
 <p>This program will simply show a Window that has a button to quit the application. When that button is clicked it will ask you if you are sure, and if you click yes it will close the application. To run this program, type in the following as <code>gnome-example.s</code>:</p>
 <pre><code>GNOME-EXAMPLE-S</code></pre>
 <p>To build this application, execute the following commands:</p>
@@ -3861,11 +4012,11 @@ gcc gnome-example.o `gnome-config --libs gnomeui` \
 <p>Finally, we have a version in Python. Type it in as gnome-example.py:</p>
 <pre><code>GNOME-EXAMPLE-PY</code></pre>
 <p>To run it type <code>python gnome-example.py</code>.</p>
-<h1 class="unnumbered" id="gui-builders">GUI Builders</h1>
+<h1 id="gui-builders">GUI Builders</h1>
 <p>In the previous example, you have created the user-interface for the application by calling the create functions for each widget and placing it where you wanted it. However, this can be quite burdensome for more complex applications. Many programming environments, including GNOME, have programs called GUI builders that can be used to automatically create your GUI for you. You just have to write the code for the signal handlers and for initializing your program. The main GUI builderGUI builder for GNOME applications is called GLADE. GLADE ships with most Linux distributions.</p>
 <p>There are GUI builders for most programming environments. Borland has a range of tools that will build GUIs quickly and easily on Linux and Win32Win32 systems. The KDE environment has a tool called QT DesignerQT Designer which helps you automatically develop the GUI for their system.</p>
 <p>There is a broad range of choices for developing graphical applications, but hopefully this appendix gave you a taste of what GUI programming is like.</p>
-<h1 id="important-system-calls">Important System Calls</h1>
+<h1 id="appendix-c-important-system-calls">Appendix C. Important System Calls</h1>
 <p>These are some of the more important system calls to use when dealing with Linux. For most cases, however, it is best to use library functions rather than direct system calls, because the system calls were designed to be minimalistic while the library functions were designed to be easy to program with. For information about the Linux C library, see the manual at http://www.gnu.org/software/libc/manual/</p>
 <p>Remember that <em>%eax</em> holds the system call numbers, and that the return values and error codes are also stored in <em>%eax</em>. PERCENTeax PERCENTebx PERCENTecx PERCENTedx</p>
 <table style="width:97%;">
@@ -3925,9 +4076,9 @@ gcc gnome-example.o `gnome-config --libs gnomeui` \
 </table>
 <p>A more complete listing of system calls, along with additional information is available at http://www.lxhp.in-berlin.de/lhpsyscal.html You can also get more information about a system call by typing in <code>man 2 SYSCALLNAME</code> which will return you the information about the system call from section 2 of the UNIX manualUNIX manual. However, this refers to the usage of the system call from the C programming languageC programming language, and may or may not be directly helpful.</p>
 <p>For information on how system callssystem calls are implemented on Linux, see the Linux Kernel 2.4 Internals section on how system calls are implemented at http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11</p>
-<h1 id="ctranslationap">C Idioms in Assembly Language</h1>
+<h1 id="appendix-e-c-idioms-in-assembly-language">Appendix E. C Idioms in Assembly Language</h1>
 <p>C programming language This appendix is for C programmers learning assembly language. It is meant to give a general idea about how C constructs can be implemented in assembly language.</p>
-<h1 class="unnumbered" id="if-statement">If Statement</h1>
+<h1 id="if-statement">If Statement</h1>
 <p>In C, an if statementif statement consists of three parts - the conditioncondition, the true branchtrue branch, and the false branchfalse branch. However, since assembly language is not a block structured languageblock structured language, you have to work a little to implement the block-like nature of C. For example, look at the following C code:</p>
 <pre><code>if(a == b)
 {
@@ -3966,7 +4117,7 @@ reconverge:
     #Both branches recoverge to this point</code></pre>
 <p>As you can see, since assembly language is linear, the blocks have to jump around each other. Recovergence is handled by the programmer, not the system.</p>
 <p>A case statementcase statement is written just like a sequence of if statements.</p>
-<h1 class="unnumbered" id="function-call">Function Call</h1>
+<h1 id="function-call">Function Call</h1>
 <p>A function callfunction call in assembly language simply requires pushing the arguments to the function onto the stack in <em>reverse</em> order, and issuing a <code>callcall</code> instruction. After calling, the arguments are then popped back off of the stack. For example, consider the C code:</p>
 <pre><code>    printf(&quot;The number is %d&quot;, 88);</code></pre>
 <p>In assembly language, this would be rendered as:</p>
@@ -3984,7 +4135,7 @@ reconverge:
                     #with the value.  You can also 
                     #directly re-adjust %esp to the
                     #proper location.</code></pre>
-<h1 class="unnumbered" id="variables-and-assignment">Variables and Assignment</h1>
+<h1 id="variables-and-assignment">Variables and Assignment</h1>
 <p>global variables static variables local variables Global and static variables are declared using <code>.data</code> or <code>.bss</code> entries. Local variables are declared by reserving space on the stack at the beginning of the function. This space is given back at the end of the function.</p>
 <p>Interestingly, global variables are accessed differently than local variables in assembly language. Global variables are accessed using direct addressingdirect addressing mode, while local variables are accessed using base pointer addressingbase pointer addressing mode. For example, consider the following C code:</p>
 <pre><code>int my_global_var;
@@ -4019,7 +4170,7 @@ foo:
     ret</code></pre>
 <p>What may not be obvious is that accessing the global variable takes fewer machine cycles than accessing the local variable. However, that may not matter because the stack is more likely to be in physical memoryphysical memory (instead of swap) than the global variable is.</p>
 <p>Also note that in the C programming language, after the compiler loads a value into a register, that value will likely stay in that register until that register is needed for something else. It may also move registers. For example, if you have a variable <code>foo</code>, it may start on the stack, but the compiler will eventually move it into registers for processing. If there aren't many variables in use, the value may simply stay in the register until it is needed again. Otherwise, when that register is needed for something else, the value, if it's changed, is copied back to its corresponding memory location. In C, you can use the keyword <code>volatilevolatile</code> to make sure all modifications and references to the variable are done to the memory location itself, rather than a register copy of it, in case other processes, threads, or hardware may be modifying the value while your function is running.</p>
-<h1 class="unnumbered" id="loops">Loops</h1>
+<h1 id="loops">Loops</h1>
 <p>Loopsloops work a lot like if statements in assembly language - the blocks are formed by jumping around. In C, a while loop consists of a loop body, and a test to determine whether or not it is time to exit the loop. A for loop is exactly the same, with optional initialization and counter-increment sections. These can simply be moved around to make a while loopwhile loop.</p>
 <p>In C, a while loop looks like this:</p>
 <pre><code>    while(a &lt; b)
@@ -4062,7 +4213,7 @@ rest_of_program:
     #Continues on to here</code></pre>
 <p>One thing to notice is that the <code>loop</code> instruction <em>requires you to be counting backwards to zero</em>. If you need to count forwards or use another ending number, you should use the loop form which does not include the <code>loop</code> instruction.</p>
 <p>For really tight loops of character string operations, there is also the <code>reprep</code> instruction, but we will leave learning about that as an exercise to the reader.</p>
-<h1 class="unnumbered" id="structs">Structs</h1>
+<h1 id="structs">Structs</h1>
 <p>Structsstructs are simply descriptions of memory blocks. For example, in C you can say:</p>
 <pre><code>struct person {
     char firstname[40];
@@ -4102,7 +4253,7 @@ rest_of_program:
 <pre><code>    p.age = 30;</code></pre>
 <p>In assembly language it would look like this:</p>
 <pre><code>    movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)</code></pre>
-<h1 class="unnumbered" id="pointers">Pointers</h1>
+<h1 id="pointers">Pointers</h1>
 <p>Pointerspointers are very easy. Remember, pointers are simply the addressaddress that a value resides at. Let's start by taking a look at global variables. For example:</p>
 <pre><code>int global_data = 30;</code></pre>
 <p>In assembly language, this would be:</p>
@@ -4157,7 +4308,7 @@ global_data:
     leal A_VAR(%ebp), %eax
     movl %eax, B_VAR(%ebp)</code></pre>
 <p>It's the same number of lines, but a little cleaner. Then, to use this value, you simply have to move it to a general-purpose register and use indirect addressingindirect addressing mode, as shown in the example above.</p>
-<h1 class="unnumbered" id="getting-gcc-to-help">Getting GCC to Help</h1>
+<h1 id="getting-gcc-to-help">Getting GCC to Help</h1>
 <p>One of the nice things about GCCGCC is its ability to spit out assembly language code. To convert a C language file to assembly, you can simply do:</p>
 <pre><code>gcc -S file.c</code></pre>
 <p>The output will be in <code>file.s</code>. It's not the most readable output - most of the variable names have been removed and replaced either with numeric stack locations or references to automatically-generated labels. To start with, you probably want to turn off optimizations with <code>-O0</code> so that the assembly language output will follow your source code better.</p>
@@ -4177,8 +4328,8 @@ global_data:
 <li><p>01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots of minor corrections.</p></li>
 <li><p>04/18/2004 - Version 1.1 - Lots of minor updates based on reader comments. Made cleared distinction between dynamic and shared libraries.</p></li>
 </ul>
-<h1 id="common-x86-instructions">Common x86 Instructions</h1>
-<h1 class="unnumbered" id="reading-the-tables">Reading the Tables</h1>
+<h1 id="appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</h1>
+<h1 id="reading-the-tables">Reading the Tables</h1>
 <p>The tables of instructions presented in this appendix include:</p>
 <ul>
 <li><p>The instruction code</p></li>
@@ -4209,7 +4360,7 @@ global_data:
 </dd>
 </dl>
 <p>Other flags exist, but they are much less important.</p>
-<h1 class="unnumbered" id="dtins">Data Transfer Instructions</h1>
+<h1 id="data-transfer-instructions">Data Transfer Instructions</h1>
 <p>These instructions perform little, if any computation. Instead they are mostly used for moving data from one place to another.</p>
 <table>
 <caption>Data Transfer Instructions</caption>
@@ -4283,7 +4434,7 @@ global_data:
 </tr>
 </tbody>
 </table>
-<h1 class="unnumbered" id="intins">Integer Instructions</h1>
+<h1 id="integer-instructions">Integer Instructions</h1>
 <p>These are basic calculating instructions that operate on signed or unsigned integers.</p>
 <table>
 <caption>Integer Instructions</caption>
@@ -4427,7 +4578,7 @@ global_data:
 </tr>
 </tbody>
 </table>
-<h1 class="unnumbered" id="logicins">Logic Instructions</h1>
+<h1 id="logic-instructions">Logic Instructions</h1>
 <p>These instructions operate on memory as bits instead of words.</p>
 <table>
 <caption>Logic Instructions</caption>
@@ -4571,7 +4722,7 @@ global_data:
 </tr>
 </tbody>
 </table>
-<h1 class="unnumbered" id="flowins">Flow Control Instructions</h1>
+<h1 id="flow-control-instructions">Flow Control Instructions</h1>
 <p>These instructions may alter the flow of the program.</p>
 <table style="width:96%;">
 <caption>Flow Control Instructions</caption>
@@ -4657,7 +4808,7 @@ global_data:
 </tr>
 </tbody>
 </table>
-<h1 class="unnumbered" id="dirins">Assembler Directives</h1>
+<h1 id="assembler-directives">Assembler Directives</h1>
 <p>These are instructions to the assembler and linker, instead of instructions to the processor. These are used to help the assembler put your code together properly, and make it easier to use.</p>
 <table>
 <caption>Assembler Directives</caption>
@@ -4758,7 +4909,7 @@ global_data:
 </tr>
 </tbody>
 </table>
-<h1 class="unnumbered" id="differences-in-other-syntaxes-and-terminology">Differences in Other Syntaxes and Terminology</h1>
+<h1 id="differences-in-other-syntaxes-and-terminology">Differences in Other Syntaxes and Terminology</h1>
 <p>The syntax for assembly language used in this book is known at the <em>AT&amp;TAT&amp;T syntax</em> syntax. It is the one supported by the GNU tool chain that comes standard with every Linux distribution. However, the official syntax for x86 assembly language (known as the Intel syntaxIntel syntax) is different. It is the same assembly language for the same platform, but it looks different. Some of the differences include:</p>
 <ul>
 <li><p>In Intel syntax, the operands of instructions are often reversed. The destination operand is listed before the source operand.</p></li>
@@ -4774,7 +4925,7 @@ global_data:
 <p>In Intel syntax, this would be written as:</p>
 <pre><code>mov  [8 + %ebx + 1 * edi], eax</code></pre>
 <p>The memory reference is a bit easier to read than its AT&amp;T counterpart because it spells out exactly how the address will be computed. However, but the order of operands in Intel syntax can be confusing.</p>
-<h1 class="unnumbered" id="where-to-go-for-more-information">Where to Go for More Information</h1>
+<h1 id="where-to-go-for-more-information">Where to Go for More Information</h1>
 <p>Intel has a set of comprehensive guides to their processors. These are available at http://www.intel.com/design/pentium/manuals/ Note that all of these use the Intel syntax, not the AT&amp;T syntax. The most important ones are their IA-32 Intel Architecture Software Developer's Manual in its three volumes::</p>
 <ul>
 <li><p>Volume 1: System Programming Guide (http://developer.intel.com/design/pentium4/manuals/245470.htm)</p></li>
@@ -4782,11 +4933,11 @@ global_data:
 <li><p>Volume 3: System Programming Guide (http://developer.intel.com/design/pentium4/manuals/245472.htm)</p></li>
 </ul>
 <p>In addition, you can find a lot of information in the manual for the GNU assembler, available online at http://www.gnu.org/software/binutils/manual/gas-2.9.1/as.html. Similarly, the manual for the GNU linker is available online at http://www.gnu.org/software/binutils/manual/ld-2.9.1/ld.html.</p>
-<h1 id="using-the-gdb-debugger">Using the GDB Debugger</h1>
+<h1 id="appendix-f-using-the-gdb-debugger">Appendix F. Using the GDB Debugger</h1>
 <p>By the time you read this appendix, you will likely have written at least one program with an error in it. In assembly language, even minor errors usually have results such as the whole program crashing with a segmentation fault error. In most programming languages, you can simply print out the values in your variables as you go along, and use that output to find out where you went wrong. In assembly language, calling output functions is not so easy. Therefore, to aid in determining the source of errors, you must use a <em>source debugger</em>.</p>
 <p>A debugger is a program that helps you find bugs by stepping through the program one step at a time, letting you examine memory and register contents along the way. A <em>source debugger</em> is a debugger that allows you to tie the debugging operation directly to the source code of a program. This means that the debugger allows you to look at the source code as you typed it in - complete with symbols, labels, and comments.</p>
 <p>The debugger we will be looking at is GDB - the GNU Debugger. This application is present on almost all GNU/Linux distributions. It can debug programs in multiple programming languages, including assembly language.</p>
-<h1 class="unnumbered" id="an-example-debugging-session">An Example Debugging Session</h1>
+<h1 id="an-example-debugging-session">An Example Debugging Session</h1>
 <p>The best way to explain how a debugger works is by using it. The program we will be using the debugger on is the <code>maximum</code> program used in <a href="#chapter-3-your-first-programs">Chapter 3. Your First Programs</a>. Let's say that you entered the program perfectly, except that you left out the line:</p>
 <pre><code>    incl %edi</code></pre>
 <p>When you run the program, it just goes in an infinite loop - it never exits. To determine the cause, you need to run the program under GDB. However, to do this, you need to have the assembler include debugging information in the executable. All you need to do to enable this is to add the <code>--gstabs</code> option to the <code>as</code> command. So, you would assemble it like this:</p>
@@ -4846,7 +4997,7 @@ $2 = 0
 <p>This indicates that <em>%edi</em> is set to zero, which is why it keeps on loading the first element of the array. This should cause you to ask yourself two questions - what is the purpose of <em>%edi</em>, and how should its value be changed? To answer the first question, we just need to look in the comments. <em>%edi</em> is holding the current index of <code>data_items</code>. Since our search is a sequential search through the list of numbers in <code>data_items</code>, it would make sense that <em>%edi</em> should be incremented with every loop iteration.</p>
 <p>Scanning the code, there is no code which alters <em>%edi</em> at all. Therefore, we should add a line to increment <em>%edi</em> at the beginning of every loop iteration. This happens to be exactly the line we tossed out at the beginning. Assembling, linking, and running the program again will show that it now works correctly.</p>
 <p>Hopefully this exercise provided some insight into using GDB to help you find errors in your programs.</p>
-<h1 class="unnumbered" id="breakpoints-and-other-gdb-features">Breakpoints and Other GDB Features</h1>
+<h1 id="breakpoints-and-other-gdb-features">Breakpoints and Other GDB Features</h1>
 <p>The program we entered in the last section had an infinite loop, and could be easily stopped using control-c. Other programs may simply abort or finish with errors. In these cases, control-c doesn't help, because by the time you press control-c, the program is already finished. To fix this, you need to set <em>breakpointsbreakpoints</em>. A breakpoint is a place in the source code that you have marked to indicate to the debugger that it should stop the program when it hits that point.</p>
 <p>To set breakpointsbreakpoints you have to set them up before you run the program. Before issuing the <code>run</code> command, you can set up breakpoints using the <code>breakbreak</code> command. For example, to break on line 27, issue the command <code>break 27</code>. Then, when the program crosses line 27, it will stop running, and print out the current line and instruction. You can then step through the program from that point and examine registers and memory. To look at the lines and line numbers of your program, you can simply use the command <code>l</code>. This will print out your program with line numbers a screen at a time.</p>
 <p>When dealing with functions, you can also break on the function names. For example, in the factorial program in <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>, we could set a breakpoint for the factorial function by typing in <code>break factorial</code>. This will cause the debugger to break immediately after the function call and the function setup (it skips the pushing of <em>%ebp</em> and the copying of <em>%esp</em>).</p>
@@ -4854,7 +5005,7 @@ $2 = 0
 <hr />
 <p>One problem that GDB has is with handling interruptsinterrupts. Often times GDB will miss the instruction that immediately follows an interrupt. The instruction is actually executed, but GDB doesn't step through it. This should not be a problem - just be aware that it may happen.</p>
 <hr />
-<h1 class="unnumbered" id="gdbquickref">GDB Quick-Reference</h1>
+<h1 id="gdb-quick-reference">GDB Quick-Reference</h1>
 <p>This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and is used by permission in this book. Parameters listed in brackets are optional.</p>
 <table>
 <caption>Common GDB Debugging Commands</caption>
@@ -4879,7 +5030,7 @@ $2 = 0
 </tr>
 </tbody>
 </table>
-<h1 id="gnu-free-documentation-license">GNU Free Documentation License</h1>
+<h1 id="appendix-h-gnu-free-documentation-license">Appendix H. GNU Free Documentation License</h1>
 <p><code>0. PREAMBLE</code></p>
 <p>The purpose of this License is to make a manual, textbook, or other written document “free” in the sense of freedom: to assure everyone the effective freedom to copy and redistribute it, with or without modifying it, either commercially or noncommercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being considered responsible for modifications made by others.</p>
 <p>This License is a kind of “copyleft”, which means that derivative works of the document must themselves be free in the same sense. It complements the GNU General Public License, which is a copyleft license designed for free software.</p>
@@ -4961,7 +5112,7 @@ $2 = 0
 </blockquote>
 <p>If you have no Invariant Sections, write “with no Invariant Sections” instead of saying which ones are invariant. If you have no Front-Cover Texts, write “no Front-Cover Texts” instead of “Front-Cover Texts being LIST”; likewise for Back-Cover Texts.</p>
 <p>If your document contains nontrivial examples of program code, we recommend releasing these examples in parallel under your choice of free software license, such as the GNU General Public License, to permit their use in free software.</p>
-<h1 id="dedicationap">Personal Dedication</h1>
+<h1 id="appendix-i.-personal-dedication">Appendix I. Personal Dedication</h1>
 <p>There are so many people I could thank. I will name here but a few of the people who have brought me to where I am today. The many family members, Sunday School teachers, youth pastors, school teachers, friends, and other relationships that God has brought into my life to lead me, help me, and teach me are too many to count. This book is dedicated to you all.</p>
 <p>There are some people, however, that I would like to thank specifically.</p>
 <p>First of all, I want to thank the members of the Vineyard Christian Fellowship Church in Champaign, Illinois for everything that you have done to help me and my family in our times of crisis. It's been a long time since I've seen or heard from any of you, but I think about you always. You have been such a blessing to me, my wife, and Daniel, and I could never thank you enough for showing us Christ's love when we needed it most. I thank God every time I think of you - I thank Him for bringing you all to us in our deepest times of need. Even out in the middle of Illinois with no friends of family, God showed that He was still watching after us. Thank you for being His hands on Earth. Specifically, I'd like to thank Joe and Rhonda, Pam and Dell, and Herschel and Vicki. There were many, many others, too - so many people helped us that it would be impossible to list them all.</p>
@@ -4976,8 +5127,8 @@ $2 = 0
 <li id="fn1" role="doc-endnote"><p>This is quite a large document. You certainly don't need to know everything to get started with this book. You simply need to know how to navigate from the command line and how to use an editor like <code>pico</code>, <code>emacs</code>, or <code>vi</code> (or others).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>By "GNU/Linux distribution", I mean an x86 GNU/Linux distribution. GNU/Linux distributions for the Power Macintosh, the Alpha processor, or other processors will not work with this book.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3" role="doc-endnote"><p>The GNU Project is a project by the Free Software Foundation to produce a complete, free operating system.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>With the advent of international character sets and Unicode, this is not entirely true anymore. However, for the purposes of keeping this simple for beginners, we will use the assumption that one number translates directly to one character. For more information, see the <a href="#table-of-ascii-codes">Table of ASCII Codes</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>Previous incarnations of x86 processors only had two-byte words. Therefore, most other literature dealing with x86 processors refers to two-byte entities as words for historical reasons, and therefore refer to four-byte entities as double-words. We are using the term <em>word</em> to mean the normal register size of a computer, which in this case is four bytes. More information is available in <a href="#common-x86-instructions">Common x86 Instructions</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>With the advent of international character sets and Unicode, this is not entirely true anymore. However, for the purposes of keeping this simple for beginners, we will use the assumption that one number translates directly to one character. For more information, see the <a href="#appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Previous incarnations of x86 processors only had two-byte words. Therefore, most other literature dealing with x86 processors refers to two-byte entities as words for historical reasons, and therefore refer to four-byte entities as double-words. We are using the term <em>word</em> to mean the normal register size of a computer, which in this case is four bytes. More information is available in <a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6" role="doc-endnote"><p>Note that here we are talking about general computer theory. Some processors and operating systems actually mark the regions of memory that can be executed with a special marker that indicates this.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7" role="doc-endnote"><p>If you are new to Linux and UNIX®, you may not be aware that files don't have to have extensions. In fact, while Windows® uses the <code>.exe</code> extension to signify an executable program, UNIX executables usually have no extension.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8" role="doc-endnote"><p><code>.</code> refers to the current directory in Linux and UNIX systems.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -5000,13 +5151,13 @@ $2 = 0
 <li id="fn25" role="doc-endnote"><p>This is not always strictly needed unless you are saving registers on the stack before a function call. The base pointer keeps the stack frame in a reasonably consistent state. However, it is still a good idea, and is absolutely necessary if you are temporarily saving registers on the stack.<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn26" role="doc-endnote"><p>By "running at the same time" I am talking about the fact that one will not have finished before a new one is activated. I am not implying that their instructions are running at the same time.<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn27" role="doc-endnote"><p>This will be explained in more detail in <a href="#truth-falsehood-and-binary-numbers">Truth, Falsehood, and Binary Numbers</a>.<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn28" role="doc-endnote"><p>While this sounds complicated, most of the time in programming you will not need to deal directly with buffers and file descriptors. In <a href="#sharing-functions-with-code-libraries">Sharing Functions with Code Libraries</a> you will learn how to use existing code present in Linux to handle most of the complications of file input/output for you.<a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn28" role="doc-endnote"><p>While this sounds complicated, most of the time in programming you will not need to deal directly with buffers and file descriptors. In <a href="#chapter-8-sharing-functions-with-code-libraries">Sharing Functions with Code Libraries</a> you will learn how to use existing code present in Linux to handle most of the complications of file input/output for you.<a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn29" role="doc-endnote"><p>As we mentioned earlier, in Linux, almost everything is a "file". Your keyboard input is considered a file, and so is your screen display.<a href="#fnref29" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn30" role="doc-endnote"><p>Maureen Sprankle's <em>Problem Solving and Programming Concepts</em> is an excellent book on the problem-solving process applied to computer programming.<a href="#fnref30" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn31" role="doc-endnote"><p>This is fairly standard practice among programmers in all languages.<a href="#fnref31" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn32" role="doc-endnote"><p>If you aren't familiar with UNIX permissions, just put <code>$0666</code> here. Don't forget the leading zero, as it means that the number is an octal number.<a href="#fnref32" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn33" role="doc-endnote"><p>Notice that we don't do any error checking on this. That is done just to keep the program simple. In normal programs, every system call should normally be checked for success or failure. In failure cases, <em>%eax</em> will hold an error code instead of a return value. Error codes are negative, so they can be detected by comparing <em>%eax</em> to zero and jumping if it is less than zero.<a href="#fnref33" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn34" role="doc-endnote"><p>A database is a program which handles persistent structured data for you. You don't have to write the programs to read and write the data to disk, to do lookups, or even to do basic processing. It is a very high-level interface to structured data which, although it adds some overhead and additional complexity, is very useful for complex data processing tasks. References for learning how databases work are listed in <a href="#moving-on-from-here">Moving On from Here</a>.<a href="#fnref34" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn34" role="doc-endnote"><p>A database is a program which handles persistent structured data for you. You don't have to write the programs to read and write the data to disk, to do lookups, or even to do basic processing. It is a very high-level interface to structured data which, although it adds some overhead and additional complexity, is very useful for complex data processing tasks. References for learning how databases work are listed in <a href="#chapter-13-moving-on-from-here">Chapter 13. Moving On from Here</a>.<a href="#fnref34" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn35" role="doc-endnote"><p>If you have used C, this is what the <code>strlen</code> function does.<a href="#fnref35" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn36" role="doc-endnote"><p>You will find that after learning the mechanics of programming, most programs are pretty straightforward once you know exactly what it is you want to do. Most of them initialize data, do some processing in a loop, and then clean everything up.<a href="#fnref36" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn37" role="doc-endnote"><p>This assumes that you have already built the object files <code>read-record.o</code> and <code>write-record.o</code> in the previous examples. If not, you will have to do so.<a href="#fnref37" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -5021,7 +5172,7 @@ $2 = 0
 <li id="fn46" role="doc-endnote"><p>Note that not only can Linux have a virtual address map to a different physical address, it can also move those mappings around as needed.<a href="#fnref46" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn47" role="doc-endnote"><p>The function names usually aren't <code>allocate</code> and <code>deallocate</code>, but the functionality will be the same. In the C programming language, for example, they are named <code>malloc</code> and <code>free</code>.<a href="#fnref47" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn48" role="doc-endnote"><p>This is why adding more memory to your computer makes it run faster. The more memory your computer has, the less it puts on disk, so it doesn't have to always be interrupting your programs to retreive pages off the disk.<a href="#fnref48" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn49" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref49" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn49" role="doc-endnote"><p><em>Significance</em> in this context is referring to which digit they represent. For example, in the number 294, the digit 2 is the most significant because it represents the hundreds place, 9 is the next most significant, and 4 is the least significant.<a href="#fnref49" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn50" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref50" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn51" role="doc-endnote"><p>Since these programs are usually short enough not to have noticeable performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.<a href="#fnref51" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn52" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref52" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
