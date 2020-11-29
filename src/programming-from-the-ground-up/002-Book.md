@@ -6715,7 +6715,7 @@ Comments in C are started with `/*` and ended with `*/`. Comments can
 span multiple lines, but many people prefer to start and end comments on
 the same line so they don\'t get confused.
 
-`#include <stdio.h>` is the first part of the program. This is a
+`#include <stdio.h>`{.c} is the first part of the program. This is a
 *preprocessor directive*. C compiling is split into two stages - the
 preprocessor and the main compiler. This directive tells the
 preprocessor to look for the file `stdio.h` and paste it into your
@@ -6728,14 +6728,14 @@ Now, everything in `stdio.h` is now in your program just as if you typed
 it there yourself. The angle brackets around the filename tell the
 compiler to look in its standard paths for the file
 (`/usr/include` and `/usr/local/include`,
-usually). If it was in quotes, like `#include "stdio.h"` it would look
+usually). If it was in quotes, like `#include "stdio.h"`{.c} it would look
 in the current directory for the file. Anyway, `stdio.h` contains the
 declarations for the standard input and output functions and variables.
 These declarations tell the compiler what functions are available for
 input and output. The next few lines are simply comments about the
 program.
-
-Then there is the line `int main(int argc, char **argv)`. This is the
+ 
+Then there is the line `int main(int argc, char **argv)`{.c}. This is the
 start of a function. C Functions are declared with their name, arguments
 and return type. This declaration says that the function\'s name is
 `main`, it returns an `int` (integer - 4 bytes long on the x86
