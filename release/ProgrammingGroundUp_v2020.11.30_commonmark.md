@@ -9071,6 +9071,558 @@ There is a broad range of choices for developing graphical applications,
 but hopefully this appendix gave you a taste of what GUI programming is
 like.
 
+Appendix B. Common x86 Instructions
+===================================
+
+Reading the Tables
+------------------
+
+The tables of instructions presented in this appendix include:
+
+-   The instruction code.
+
+-   The operands used.
+
+-   The flags used.
+
+-   A brief description of what the instruction does.
+
+In the operands section, it will list the type of operands it takes. If
+it takes more than one operand, each operand will be separated by a
+comma. Each operand will have a list of codes which tell whether the
+operand can be an immediate-mode value (I), a register (R), or a memory
+address (M). For example, the `movl` instruction is listed as
+`I/R/M, R/M`. This means that the first operand can be any kind of
+value, while the second operand must be a register or memory location.
+Note, however, that in x86 assembly language you cannot have more than
+one operand be a memory location.
+
+In the flags section, it lists the flags in the *%eflags* register
+affected by the instruction. The following flags are mentioned:
+
+O:  
+Overflow flag. This is set to true if the destination operand was not
+large enough to hold the result of the instruction.
+
+S:  
+Sign flag. This is set to the sign of the last result.
+
+Z:  
+Zero flag. This flag is set to true if the result of the instruction is
+zero.
+
+A:  
+Auxiliary carry flag. This flag is set for carries and borrows between
+the third and fourth bit. It is not often used.
+
+P:  
+Parity flag. This flag is set to true if the low byte of the last result
+had an even number of 1 bits.
+
+C:  
+Carry flag. Used in arithmetic to say whether or not the result should
+be carried over to an additional byte. If the carry flag is set, that
+usually means that the destination register could not hold the full
+result. It is up to the programmer to decide on what action to take
+(i.e. - propogate the result to another byte, signal an error, or ignore
+it entirely).
+
+Other flags exist, but they are much less important.
+
+Data Transfer Instructions
+--------------------------
+
+These instructions perform little, if any computation. Instead they are
+mostly used for moving data from one place to another.
+
+An example of this table is the `movl` instruction which could read like
+this:
+
+``` gnuassembler
+movl   I/R/M,  I/R/M      # eFlags affected: O/S/Z/A/C
+movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
+movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
+```
+
+<table>
+<caption>Table B-1. Data Transfer Instructions.</caption>
+<colgroup>
+<col style="width: 75%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Instruction</th>
+<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>movl</strong>: This copies a word of data from one location to another. <code>movl %eax, %ebx</code> copies the contents of <em>%eax</em> to <em>%ebx</em>.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, I/R/M +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>movb</strong>: Same as <code>movl</code>, but operates on individual bytes.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, I/R/M +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>leal</strong>: This takes a memory location given in the standard format, and, instead of loading the contents of the memory location, loads the computed address. For example, <code>leal 5(%ebp,%ecx,1), %eax</code> loads the address computed by <code>5 + %ebp + 1*%ecx</code> and stores that in <em>%eax</em>.</p>
+<hr /></td>
+<td style="text-align: center;"><p>M, I/R/M +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>popl</strong>: Pops the top of the stack into the given location. This is equivalent to performing <code>movl (%esp), R/M</code> followed by <code>addl $4, %esp</code>. <code>popfl</code> is a variant which pops the top of the stack into the <em>%eflags</em> register.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>pushl</strong>: Pushes the given value onto the stack. This is the equivalent to performing <code>subl $4, %esp</code> followed by <code>movl I/R/M, (%esp)</code>. <code>pushfl</code> is a variant which pushes the current contents of the <em>%eflags</em> register onto the top of the stack.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>xchgl</strong>: Exchange the values of the given operands.</td>
+<td style="text-align: center;">R/M, R/M +++++++++ O/S/Z/A/C</td>
+</tr>
+</tbody>
+</table>
+
+Table B-1. Data Transfer Instructions.
+
+Integer Instructions
+--------------------
+
+These are basic calculating instructions that operate on signed or
+unsigned integers.
+
+<table>
+<caption>Table B-2. Integer Instructions.</caption>
+<colgroup>
+<col style="width: 75%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Instruction</th>
+<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>adcl</strong>: Add with carry. Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true. This is usually used for operations larger than a machine word. The addition on the least-significant word would take place using <code>addl</code>, while additions to the other words would used the <code>adcl</code> instruction to take the carry from the previous add into account. For the usual case, this is not used, and <code>addl</code> is used instead.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>addl</strong>: Addition. Adds the first operand to the second, storing the result in the second. If the result is larger than the destination register, the overflow and carry bits are set to true. This instruction operates on both signed and unsigned integers.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>cdq</strong>: Converts the <em>%eax</em> word into the double-word consisting of <em>%edx</em>:<em>%eax</em> with sign extension. The <code>q</code> signifies that it is a <em>quad-word</em>. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an <code>idivl</code> instruction.</p>
+<hr /></td>
+<td style="text-align: center;"><p>Not Applicable +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>cmpl</strong>: Compares two integers. It does this by subtracting the first operand from the second. It discards the results, but sets the flags accordingly. Usually used before a conditional jump.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>decl</strong>: Decrements the register or memory location. Use <code>decb</code> to decrement a byte instead of a word.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>divl</strong>: Performs unsigned division. Divides the contents of the double-word contained in the combined <em>%edx</em>:<em>%eax</em> registers by the value in the register or memory location specified. The <em>%eax</em> register contains the resulting quotient, and the <em>%edx</em> register contains the resulting remainder. If the quotient is too large to fit in <em>%eax</em>, it triggers a type 0 interrupt.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>idivl</strong>: Performs signed division. Operates just like <code>divl</code> above.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>imull</strong>: Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be <em>%eax</em>, and the full result is stored in the double-word <em>%edx</em>:<em>%eax</em>.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M/I, R +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>incl</strong>: Increments the given register or memory location. Use <code>incb</code> to increment a byte instead of a word.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>mull</strong>: Perform unsigned multiplication. Same rules as apply to <code>imull</code>.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M/I, R +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>negl</strong>: Negates (gives the two's complement inversion of) the given register or memory location.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>sbbl</strong>: Subtract with borrowing. This is used in the same way that <code>adc</code> is, except for subtraction. Normally only <code>subl</code> is used.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>subl</strong>: Subtract the two operands. This subtracts the first operand from the second, and stores the result in the second operand. This instruction can be used on both signed and unsigned numbers.</td>
+<td style="text-align: center;">I/R/M, R/M +++++++++ O/S/Z/A/P/C</td>
+</tr>
+</tbody>
+</table>
+
+Table B-2. Integer Instructions.
+
+Logic Instructions
+------------------
+
+These instructions operate on memory as bits instead of words.
+
+<table>
+<caption>Table B-3. Logic Instructions.</caption>
+<colgroup>
+<col style="width: 75%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Instruction</th>
+<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>andl</strong>: Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/P/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>notl</strong>: Performs a logical not on each bit in the operand. Also known as a one's complement.</p>
+<hr /></td>
+<td style="text-align: center;"><p>R/M +++++++++ Not Applicable</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>orl</strong>: Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>rcll</strong>: Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register <em>%cl</em>. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>rcrl</strong>: Same as above, but rotates right.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>roll</strong>: Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>rorl</strong>: Same as above, but rotates right.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>sall</strong>: Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>sarl</strong>: Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>shll</strong>: Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>shrl</strong>: Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>testl</strong>: Does a logical and of both operands and discards the results, but sets the flags accordingly.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>xorl</strong>: Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
+<td style="text-align: center;">I/R/M, R/M +++++++++ O/S/Z/A/P/C</td>
+</tr>
+</tbody>
+</table>
+
+Table B-3. Logic Instructions.
+
+Flow Control Instructions
+-------------------------
+
+These instructions may alter the flow of the program.
+
+<table>
+<caption>Table B-4. Flow Control Instructions.</caption>
+<colgroup>
+<col style="width: 75%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Instruction</th>
+<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>call</strong>: This pushes what would be the next value for <em>%eip</em> onto the stack, and jumps to the destination address. Used for function calls. Alternatively, the destination address can be an asterisk followed by a register for an indirect function call. For example, <code>call *%eax</code> will call the function at the address in <em>%eax</em>.</p>
+<hr /></td>
+<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>int</strong>: Causes an interrupt of the given number. This is usually used for system calls and other kernel interfaces.</p>
+<hr /></td>
+<td style="text-align: center;"><p>I +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>Jcc</strong>: Conditional branch. <code>cc</code> is the <em>condition code</em>. Jumps to the given address if the condition code is true (set from the previous instruction, probably a comparison). Otherwise, goes to the next instruction. The condition codes are:</p>
+<ul>
+<li><code>[n]a[e]</code> - above(unsigned greater than). An <code>n</code> can be added for "not" and an <code>e</code> can be added for "or equal to".</li>
+<li><code>[n]b[e]</code> - below (unsigned less than).</li>
+<li><code>[n]e</code> - equal to.</li>
+<li><code>[n]z</code> - zero.</li>
+<li><code>[n]g[e]</code> - greater than (signed comparison).</li>
+<li><code>[n]l[e]</code> - less than (signed comparison).</li>
+<li><code>[n]c</code> - carry flag set.</li>
+<li><code>[n]o</code> - overflow flag set.</li>
+<li><code>[p]p</code> - parity flag set.</li>
+<li><code>[n]s</code> - sign flag set.</li>
+<li><code>ecxz</code> - <em>%ecx</em> is zero.</li>
+</ul>
+<hr /></td>
+<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>jmp</strong>: An unconditional jump. This simply sets <em>%eip</em> to the destination address. Alternatively, the destination address can be an asterisk followed by a register for an indirect jump. For example, <code>jmp *%eax</code> will jump tothe address in <em>%eax</em>.</p>
+<hr /></td>
+<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>ret</strong>: Pops a value off of the stack and then sets <em>%eip</em> to that value. Used to return from function calls.</td>
+<td style="text-align: center;">Not Applicable +++++++++ O/S/Z/A/C</td>
+</tr>
+</tbody>
+</table>
+
+Table B-4. Flow Control Instructions.
+
+Assembler Directives
+--------------------
+
+These are instructions to the assembler and linker, instead of
+instructions to the processor. These are used to help the assembler put
+your code together properly, and make it easier to use.
+
+<table>
+<caption>Table B-5. Assembler Directives.</caption>
+<colgroup>
+<col style="width: 84%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Directive</th>
+<th style="text-align: center;">Operands</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>.ascii</strong>: Takes the given quoted string and converts it into byte data.</p>
+<hr /></td>
+<td style="text-align: center;"><p>QUOTED STRING</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>.byte</strong>: Takes a comma-separated list of values and inserts them right there in the program as data.</p>
+<hr /></td>
+<td style="text-align: center;"><p>VALUES</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>.endr</strong>: Ends a repeating section defined with <code>.rept</code>.</p>
+<hr /></td>
+<td style="text-align: center;"><p>N/A</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>.equ</strong>: Sets the given label equivalent to the given value. The value can be a number, a character, or an constant expression that evaluates to a a number or character. From that point on, use of the label will be substituted for the given value.</p>
+<hr /></td>
+<td style="text-align: center;"><p>LABEL, VALUE</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>.globl</strong>: Sets the given label as global, meaning that it can be used from separately-compiled object files.</p>
+<hr /></td>
+<td style="text-align: center;"><p>LABEL</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>.include</strong>: Includes the given file just as if it were typed in right there.</p>
+<hr /></td>
+<td style="text-align: center;"><p>FILE</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>.lcomm</strong>: This is used in the <code>.bss</code> section to specify storage that should be allocated when the program is executed. Defines the symbol with the address where the storage will be located, and makes sure that it is the given number of bytes long.</p>
+<hr /></td>
+<td style="text-align: center;"><p>SYMBOL, SIZE</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>.long</strong>: Takes a sequence of numbers separated by commas, and inserts those numbers as 4-byte words right where they are in the program.</p>
+<hr /></td>
+<td style="text-align: center;"><p>VALUES</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p><strong>.rept</strong>: Repeats everything between this directive and the <code>.endr</code> directives the number of times specified.</p>
+<hr /></td>
+<td style="text-align: center;"><p>COUNT</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>.section</strong>: Switches the section that is being worked on. Common sections include <code>.text</code> (for code), <code>.data</code> (for data embedded in the program itself), and <code>.bss</code> (for uninitialized global data).</p>
+<hr /></td>
+<td style="text-align: center;"><p>SECTION NAME</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>.type</strong>: Tells the linker that the given symbol is a function.</td>
+<td style="text-align: center;">SYMBOL, @function</td>
+</tr>
+</tbody>
+</table>
+
+Table B-5. Assembler Directives.
+
+Differences in Other Syntaxes and Terminology
+---------------------------------------------
+
+The syntax for assembly language used in this book is known at the
+*AT&T* syntax. It is the one supported by the GNU tool chain that comes
+standard with every Linux distribution. However, the official syntax for
+x86 assembly language (known as the Intel® syntaxIntel syntax) is
+different. It is the same assembly language for the same platform, but
+it looks different. Some of the differences include:
+
+-   In Intel syntax, the operands of instructions are often reversed.
+    The destination operand is listed before the source operand.
+
+-   In Intel syntax, registers are not prefixed with the percent sign
+    (`%`).
+
+-   In Intel syntax, a dollar-sign (`$`) is not required to do
+    immediate-mode addressing. Instead, non-immediate addressing is
+    accomplished by surrounding the address with brackets (`[ ]`).
+
+-   In Intel syntax, the instruction name does not include the size of
+    data being moved. If that is ambiguous, it is explicitly stated as
+    `BYTE`, `WORD`, or `DWORD` immediately after the instruction name.
+
+-   The way that memory addresses are represented in Intel assembly
+    language is much different (shown below).
+
+-   Because the x86 processor line originally started out as a 16-bit
+    processor, most literature about x86 processors refer to words as
+    16-bit values, and call 32-bit values double words. However, we use
+    the term "word" to refer to the standard register size on a
+    processor, which is 32 bits on an x86 processor. The syntax also
+    keeps this naming convention - `DWORD` stands for "double word" in
+    Intel syntax and is used for standard-sized registers, which we
+    would call simply a "word".
+
+-   Intel assembly language has the ability to address memory as a
+    segment/offset pair. We do not mention this because Linux does not
+    support segmented memory, and is therefore irrelevant to normal
+    Linux programming.
+
+Other differences exist, but they are small in comparison. To show some
+of the differences, consider the following instruction:
+
+``` gnuassembler
+movl %eax, 8(%ebx,%edi,4)
+```
+
+In Intel syntax, this would be written as:
+
+``` nasm
+mov  [8 + %ebx + 1 * edi], eax
+```
+
+The memory reference is a bit easier to read than its AT&T counterpart
+because it spells out exactly how the address will be computed. However,
+but the order of operands in Intel syntax can be confusing.
+
+Where to Go for More Information
+--------------------------------
+
+Intel has a set of comprehensive guides to their processors. These are
+available at [Intel, Resource & Design
+Center](https://www.intel.com/content/www/us/en/design/resource-design-center.html)
+Note that all of these use the Intel syntax, not the AT&T syntax. The
+most important ones is the [Intel® 64 and IA-32 Architectures Software
+Developer’s Manual Combined Volumes: 1, 2A, 2B, 2C, 2D, 3A, 3B, 3C, 3D,
+and
+4](https://software.intel.com/content/www/us/en/develop/download/intel-64-and-ia-32-architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4.html).
+
+In addition, you can find a lot of information in the manual for the
+[GNU assembler](https://sourceware.org/binutils/docs/as/index.html).
+Similarly, the manual for the [GNU
+linker](https://sourceware.org/binutils/docs/ld/index.html).
+
 Appendix D. Table of ASCII Codes
 ================================
 
@@ -9818,725 +10370,6 @@ Document History
 -   04/18/2004 - Version 1.1 - Lots of minor updates based on reader
     comments. Made cleared distinction between dynamic and shared
     libraries.
-
-Appendix B. Common x86 Instructions
-===================================
-
-Reading the Tables
-==================
-
-The tables of instructions presented in this appendix include:
-
--   The instruction code
-
--   The operands used
-
--   The flags used
-
--   A brief description of what the instruction does
-
-In the operands section, it will list the type of operands it takes. If
-it takes more than one operand, each operand will be separated by a
-comma. Each operand will have a list of codes which tell whether the
-operand can be an immediate-mode value (I), a register (R), or a memory
-address (M). For example, the `movl` instruction is listed as
-`I/R/M, R/M`. This means that the first operand can be any kind of
-value, while the second operand must be a register or memory location.
-Note, however, that in x86 assembly language you cannot have more than
-one operand be a memory location.
-
-In the flagsflags section, it lists the flags in the *%eflags* register
-affected by the instruction. The following flags are mentioned:
-
-O:  
-Overflow flagoverflow flag. This is set to true if the destination
-operand was not large enough to hold the result of the instruction.
-
-S:  
-Sign flagsign flag. This is set to the sign of the last result.
-
-Z:  
-Zero flagzero flag. This flag is set to true if the result of the
-instruction is zero.
-
-A:  
-Auxiliary carry flagauxiliary carry flag. This flag is set for carries
-and borrows between the third and fourth bit. It is not often used.
-
-P:  
-Parity flagparity flag. This flag is set to true if the low byte of the
-last result had an even number of 1 bits.
-
-C:  
-Carry flagcarry flag. Used in arithmetic to say whether or not the
-result should be carried over to an additional byte. If the carry flag
-is set, that usually means that the destination register could not hold
-the full result. It is up to the programmer to decide on what action to
-take (i.e. - propogate the result to another byte, signal an error, or
-ignore it entirely).
-
-Other flags exist, but they are much less important.
-
-Data Transfer Instructions
-==========================
-
-These instructions perform little, if any computation. Instead they are
-mostly used for moving data from one place to another.
-
-<table>
-<caption>Data Transfer Instructions</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: left;">Operands</th>
-<th style="text-align: left;">Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">movlmovl</td>
-<td style="text-align: left;">I/R/M, I/R/M</td>
-<td style="text-align: left;">O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">This copies a word of data from one location to another. <code>movl %eax, %ebx</code> copies the contents of <em>%eax</em> to <em>%ebx</em></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">movbmovb</td>
-<td style="text-align: left;">I/R/M, I/R/M</td>
-<td style="text-align: left;">O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Same as <code>movl</code>, but operates on individual bytes.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">lealleal</td>
-<td style="text-align: left;">M, I/R/M</td>
-<td style="text-align: left;">O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">This takes a memory location given in the standard format, and, instead of loading the contents of the memory location, loads the computed address. For example, <code>leal 5(%ebp,%ecx,1), %eax</code> loads the address computed by <code>5 + %ebp + 1*%ecx</code> and stores that in <em>%eax</em></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">poplpopl</td>
-<td style="text-align: left;">R/M</td>
-<td style="text-align: left;">O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Pops the top of the stack into the given location. This is equivalent to performing <code>movl (%esp), R/M</code> followed by <code>addl $4, %esp</code>. <code>popfl</code> is a variant which pops the top of the stack into the <em>%eflags</em> register.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">pushlpushl</td>
-<td style="text-align: left;">I/R/M</td>
-<td style="text-align: left;">O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Pushes the given value onto the stack. This is the equivalent to performing <code>subl $4, %esp</code> followed by <code>movl I/R/M, (%esp)</code>. <code>pushfl</code> is a variant which pushes the current contents of the <em>%eflags</em> register onto the top of the stack.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">xchglxchgl</td>
-<td style="text-align: left;">R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Exchange the values of the given operands.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-
-Data Transfer Instructions
-
-Integer Instructions
-====================
-
-These are basic calculating instructions that operate on signed or
-unsigned integers.
-
-<table>
-<caption>Integer Instructions</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: left;">Operands</th>
-<th style="text-align: left;">Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">adcladcl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Add with carry. Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true. This is usually used for operations larger than a machine word. The addition on the least-significant word would take place using <code>addl</code>, while additions to the other words would used the <code>adcl</code> instruction to take the carry from the previous add into account. For the usual case, this is not used, and <code>addl</code> is used instead.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">addladdl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Addition. Adds the first operand to the second, storing the result in the second. If the result is larger than the destination register, the overflow and carry bits are set to true. This instruction operates on both signed and unsigned integers.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">cdqcdq</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Converts the <em>%eax<strong>%edx</strong>%eax</em> word into the double-word consisting of <em>%edx</em>:<em>%eax</em> with sign extension. The <code>q</code> signifies that it is a <em>quad-word</em>. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an <code>idivl</code> instruction.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">cmplcmpl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Compares two integers. It does this by subtracting the first operand from the second. It discards the results, but sets the flags accordingly. Usually used before a conditional jump.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">decldecl</td>
-<td style="text-align: left;">R/M</td>
-<td style="text-align: left;">O/S/Z/A/P</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Decrements the register or memory location. Use <code>decb</code> to decrement a byte instead of a word.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">divldivl</td>
-<td style="text-align: left;">R/M</td>
-<td style="text-align: left;">O/S/Z/A/P</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Performs unsigned division. Divides the contents of the double-word contained in the combined <em>%edx</em>:<em>%eax</em> registers by the value in the register or memory location specified. The <em>%eax</em> register contains the resulting quotient, and the <em>%edx</em> register contains the resulting remainder. If the quotient is too large to fit in <em>%eax</em>, it triggers a type 0 interrupt.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">idivlidivl</td>
-<td style="text-align: left;">R/M</td>
-<td style="text-align: left;">O/S/Z/A/P</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Performs signed division. Operates just like <code>divl</code> above.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">imullimull</td>
-<td style="text-align: left;">R/M/I, R</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be <em>%eax</em>, and the full result is stored in the double-word <em>%edx</em>:<em>%eax</em>.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">inclincl</td>
-<td style="text-align: left;">R/M</td>
-<td style="text-align: left;">O/S/Z/A/P</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Increments the given register or memory location. Use <code>incb</code> to increment a byte instead of a word.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">mullmull</td>
-<td style="text-align: left;">R/M/I, R</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Perform unsigned multiplication. Same rules as apply to <code>imull</code>.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">neglnegl</td>
-<td style="text-align: left;">R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Negates (gives the two's complementtwo's complement inversion of) the given register or memory location.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sbblsbbl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Subtract with borrowing. This is used in the same way that <code>adc</code> is, except for subtraction. Normally only <code>subl</code> is used.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sublsubl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Subtract the two operands. This subtracts the first operand from the second, and stores the result in the second operand. This instruction can be used on both signed and unsigned numbers.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-
-Integer Instructions
-
-Logic Instructions
-==================
-
-These instructions operate on memory as bits instead of words.
-
-<table>
-<caption>Logic Instructions</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: left;">Operands</th>
-<th style="text-align: left;">Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">andlandl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">notlnotl</td>
-<td style="text-align: left;">R/M</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Performs a logical not on each bit in the operand. Also known as a one's complementone's complement.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">orlorl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">rcllrcll</td>
-<td style="text-align: left;">I/CL, R/M</td>
-<td style="text-align: left;">O/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register <em>%cl</em>. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">rcrlrcrl</td>
-<td style="text-align: left;">I/CL, R/M</td>
-<td style="text-align: left;">O/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Same as above, but rotates right.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">rollroll</td>
-<td style="text-align: left;">I/CL, R/M</td>
-<td style="text-align: left;">O/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">rorlrorl</td>
-<td style="text-align: left;">I/CL, R/M</td>
-<td style="text-align: left;">O/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Same as above, but rotates right.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sallsall</td>
-<td style="text-align: left;">I/CL, R/M</td>
-<td style="text-align: left;">C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sarlsarl</td>
-<td style="text-align: left;">I/CL, R/M</td>
-<td style="text-align: left;">C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">shllshll</td>
-<td style="text-align: left;">I/CL, R/M</td>
-<td style="text-align: left;">C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">shrlshrl</td>
-<td style="text-align: left;">I/CL, R/M</td>
-<td style="text-align: left;">C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">testltestl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Does a logical and of both operands and discards the results, but sets the flags accordingly.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">xorlxorl</td>
-<td style="text-align: left;">I/R/M, R/M</td>
-<td style="text-align: left;">O/S/Z/A/P/C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-
-Logic Instructions
-
-Flow Control Instructions
-=========================
-
-These instructions may alter the flow of the program.
-
-<table style="width:96%;">
-<caption>Flow Control Instructions</caption>
-<colgroup>
-<col style="width: 41%" />
-<col style="width: 30%" />
-<col style="width: 23%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Instruction</th>
-<th>Operands</th>
-<th>Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>callcall</td>
-<td>destination address</td>
-<td>O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td>This pushes what would be the next value for <em>%eip</em> ont the stack, and jumps to the destination address. Used for function calls. Alternatively, the destination address can be an asterisk followed by a register for an indirect function call. For example, <code>call *%eax</code> will call the function at the address in <em>%eax</em>.</td>
-<td><p>o |</p>
-<p>|</p></td>
-<td><p>|</p>
-<p>|</p></td>
-</tr>
-<tr class="odd">
-<td>intint</td>
-<td>I</td>
-<td>O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td>Causes an interrupt of the given number. This is usually used for system calls and other kernel interfaces.</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>JccJcc</td>
-<td>destination address</td>
-<td>O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td><p>Conditional branch. <code>cc</code> is the <em>condition code</em>. Jumps to the given address if the condition code is true (set from the previous instruction, probably a comparison). Otherwise, goes to the next instruction. The condition codes are:</p>
-<ul>
-<li><p><code>[n]a[e]</code> - above (unsigned greater than). An <code>n</code> can be added for "not" and an <code>e</code> can be added for "or equal to"</p></li>
-<li><p><code>[n]b[e]</code> - below (unsigned less than)</p></li>
-<li><p><code>[n]e</code> - equal to</p></li>
-<li><p><code>[n]z</code> - zero</p></li>
-<li><p><code>[n]g[e]</code> - greater than (signed comparison)</p></li>
-<li><p><code>[n]l[e]</code> - less than (signed comparison)</p></li>
-<li><p><code>[n]c</code> - carry flag set</p></li>
-<li><p><code>[n]o</code> - overflow flag set</p></li>
-<li><p><code>[p]p</code> - parity flag set</p></li>
-<li><p><code>[n]s</code> - sign flag set</p></li>
-<li><p><code>ecxz</code> - _%ecx_PERCENTecx is zero</p></li>
-</ul></td>
-<td>|</td>
-<td>|</td>
-</tr>
-<tr class="odd">
-<td>jmpjmp</td>
-<td>destination address</td>
-<td>O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td>An unconditional jump. This simply sets <em>%eip</em> to the destination address. Alternatively, the destination address can be an asterisk followed by a register for an indirect jump. For example, <code>jmp *%eax</code> will jump to the address in <em>%eax</em>.</td>
-<td><p>|</p>
-<p>|</p></td>
-<td><p>|</p>
-<p>|</p></td>
-</tr>
-<tr class="odd">
-<td>retret</td>
-<td></td>
-<td>O/S/Z/A/C</td>
-</tr>
-<tr class="even">
-<td>Pops a value off of the stack and then sets <em>%eip</em> to that value. Used to return from function calls.</td>
-<td>|</td>
-<td>|</td>
-</tr>
-</tbody>
-</table>
-
-Flow Control Instructions
-
-Assembler Directives
-====================
-
-These are instructions to the assembler and linker, instead of
-instructions to the processor. These are used to help the assembler put
-your code together properly, and make it easier to use.
-
-<table>
-<caption>Assembler Directives</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Directive</th>
-<th style="text-align: left;">Operands</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">.ascii.ascii</td>
-<td style="text-align: left;">QUOTED STRING</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Takes the given quoted string and converts it into byte data.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.byte.byte</td>
-<td style="text-align: left;">VALUES</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Takes a comma-separated list of values and inserts them right there in the program as data.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.endr.endr</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ends a repeating section defined with <code>.rept</code>.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.equ.equ</td>
-<td style="text-align: left;">LABEL, VALUE</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Sets the given label equivalent to the given value. The value can be a number, a character, or an constant expression that evaluates to a a number or character. From that point on, use of the label will be substituted for the given value.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.globl.globl</td>
-<td style="text-align: left;">LABEL</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Sets the given label as global, meaning that it can be used from separately-compiled object files.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.include.include</td>
-<td style="text-align: left;">FILE</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Includes the given file just as if it were typed in right there.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.lcomm.lcomm</td>
-<td style="text-align: left;">SYMBOL, SIZE</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">This is used in the <code>.bss</code> section to specify storage that should be allocated when the program is executed. Defines the symbol with the address where the storage will be located, and makes sure that it is the given number of bytes long.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.long.long</td>
-<td style="text-align: left;">VALUES</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Takes a sequence of numbers separated by commas, and inserts those numbers as 4-byte words right where they are in the program.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.rept.rept</td>
-<td style="text-align: left;">COUNT</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Repeats everything between this directive and the <code>.endr</code> directives the number of times specified.</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.section.section</td>
-<td style="text-align: left;">SECTION NAME</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Switches the section that is being worked on. Common sections include <code>.text</code> (for code), <code>.data</code> (for data embedded in the program itself), and <code>.bss</code> (for uninitialized global data).</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">.type.type</td>
-<td style="text-align: left;">SYMBOL, @function</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Tells the linker that the given symbol is a function.</td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-
-Assembler Directives
-
-Differences in Other Syntaxes and Terminology
-=============================================
-
-The syntax for assembly language used in this book is known at the
-*AT&TAT&T syntax* syntax. It is the one supported by the GNU tool chain
-that comes standard with every Linux distribution. However, the official
-syntax for x86 assembly language (known as the Intel syntaxIntel syntax)
-is different. It is the same assembly language for the same platform,
-but it looks different. Some of the differences include:
-
--   In Intel syntax, the operands of instructions are often reversed.
-    The destination operand is listed before the source operand.
-
--   In Intel syntax, registers are not prefixed with the percent sign
-    (`%`).
-
--   In Intel syntax, a dollar-sign (`$`) is not required to do
-    immediate-mode addressing. Instead, non-immediate addressing is
-    accomplished by surrounding the address with brackets (`[]`).
-
--   In Intel syntax, the instruction name does not include the size of
-    data being moved. If that is ambiguous, it is explicitly stated as
-    `BYTE`, `WORD`, or `DWORD` immediately after the instruction name.
-
--   The way that memory addresses are represented in Intel assembly
-    language is much different (shown below).
-
--   Because the x86 processor line originally started out as a 16-bit
-    processor, most literature about x86 processors refer to words as
-    16-bit values, and call 32-bit values double words. However, we use
-    the term "word" to refer to the standard register size on a
-    processor, which is 32 bits on an x86 processor. The syntax also
-    keeps this naming convention - `DWORD` stands for "double word" in
-    Intel syntax and is used for standard-sized registers, which we
-    would call simply a "word".
-
--   Intel assembly language has the ability to address memory as a
-    segment/offset pair. We do not mention this because Linux does not
-    support segmented memory, and is therefore irrelevant to normal
-    Linux programming.
-
-Other differences exist, but they are small in comparison. To show some
-of the differences, consider the following instruction:
-
-    movl %eax, 8(%ebx,%edi,4)
-
-In Intel syntax, this would be written as:
-
-    mov  [8 + %ebx + 1 * edi], eax
-
-The memory reference is a bit easier to read than its AT&T counterpart
-because it spells out exactly how the address will be computed. However,
-but the order of operands in Intel syntax can be confusing.
-
-Where to Go for More Information
-================================
-
-Intel has a set of comprehensive guides to their processors. These are
-available at http://www.intel.com/design/pentium/manuals/ Note that all
-of these use the Intel syntax, not the AT&T syntax. The most important
-ones are their IA-32 Intel Architecture Software Developer's Manual in
-its three volumes::
-
--   Volume 1: System Programming Guide
-    (http://developer.intel.com/design/pentium4/manuals/245470.htm)
-
--   Volume 2: Instruction Set Reference
-    (http://developer.intel.com/design/pentium4/manuals/245471.htm)
-
--   Volume 3: System Programming Guide
-    (http://developer.intel.com/design/pentium4/manuals/245472.htm)
-
-In addition, you can find a lot of information in the manual for the GNU
-assembler, available online at
-http://www.gnu.org/software/binutils/manual/gas-2.9.1/as.html.
-Similarly, the manual for the GNU linker is available online at
-http://www.gnu.org/software/binutils/manual/ld-2.9.1/ld.html.
 
 Appendix F. Using the GDB Debugger
 ==================================
