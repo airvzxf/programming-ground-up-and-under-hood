@@ -8348,6 +8348,149 @@ Similarly, the manual for the [GNU linker][AB-GNU-Linker].
 
 
 
+Appendix C. Important System Calls {#appendix-c-important-system-calls}
+==================================
+
+These are some of the more important system calls to use when dealing
+with Linux. For most cases, however, it is best to use library functions
+rather than direct system calls, because the system calls were designed
+to be minimalistic while the library functions were designed to be easy
+to program with. For information about the [The GNU C Library][AC-GNU-C].
+
+Remember that _%eax_ holds the system call numbers, and that the
+return values and error codes are also stored in _%eax_.
+
+: Table C-1. Important Linux System Calls.
+
++------+--------+----------+----------+----------+------------------------+
+| %eax | Name   | %ebx     | %ecx     | %edx     | NOTES                  |
++:====:+:======:+:=========+:=========+:=========+:=======================+
+| 1    | exit   | Return   | N/A      | N/A      | Exits the program.     |
+|      |        | value    |          |          |                        |
+|      |        | (int)    |          |          |                        |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 3    | read   | File     | Buffer   | Buffer   | Reads into the given   |
+|      |        |descriptor| start    | size     | buffer.                |
+|      |        |          |          | (int)    |                        |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 4    | write  | File     | Buffer   | Buffer   | Writes the buffer to   |
+|      |        |descriptor| start    | size     | the filedescriptor.    |
+|      |        |          |          | (int)    |                        |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 5    | open   | Null-    | Option   |Permission| Opens the given file.  |
+|      |        |terminated| list     | mode     | Returns the file       |
+|      |        | file name|          |          | descriptor or an error |
+|      |        |          |          |          | number.                |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 6    | close  | File     | N/A      | N/A      | Closes the give file   |
+|      |        |descriptor|          |          | descriptor.            |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 12   | chdir  | Null-    | N/A      | N/A      | Changes the current    |
+|      |        |terminated|          |          | directory of your      |
+|      |        | directory|          |          | program.               |
+|      |        | name     |          |          |                        |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 19   | lseek  | File     | Offset   | Mode     | Repositions where you  |
+|      |        |descriptor|          |          | are in the given file. |
+|      |        |          |          |          | The mode (called the   |
+|      |        |          |          |          | "whence") should be 0  |
+|      |        |          |          |          | for absolute           |
+|      |        |          |          |          | positioning, and 1 for |
+|      |        |          |          |          | relative positioning.  |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 20   | getpid | N/A      | N/A      | N/A      | Returns the process ID |
+|      |        |          |          |          | of the current process.|
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 39   | mkdir  | Null-    |Permission| N/A      | Creates the given      |
+|      |        |terminated| mode     |          | directory. Assumes all |
+|      |        | directory|          |          | directories leading up |
+|      |        | name     |          |          | to it already exist.   |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 40   | rmdir  | Null-    | N/A      | N/A      | Removes the given      |
+|      |        |terminated|          |          | directory.             |
+|      |        | directory|          |          |                        |
+|      |        | name     |          |          |                        |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 41   | dup    | File     | N/A      | N/A      | Returns a new file     |
+|      |        |descriptor|          |          | descriptor that works  |
+|      |        |          |          |          | just like the existing |
+|      |        |          |          |          | file descriptor.       |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 42   | pipe   | Pipe     | N/A      | N/A      | Creates two file       |
+|      |        | array    |          |          | descriptors, where     |
+|      |        |          |          |          | writing on one produces|
+|      |        |          |          |          | data to read on the    |
+|      |        |          |          |          | other and vice-versa.  |
+|      |        |          |          |          | %ebx is a pointer to   |
+|      |        |          |          |          | two words of storage   |
+|      |        |          |          |          | to hold the file       |
+|      |        |          |          |          | descriptors.           |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 45   | brk    | New      | N/A      | N/A      | Sets the system break. |
+|      |        | system   |          |          | If the system break is |
+|      |        | break    |          |          | 0, it simply returns   |
+|      |        |          |          |          | the current system     |
+|      |        |          |          |          | break.                 |
+|      |        |          |          |          | For example: End of    |
+|      |        |          |          |          | the data section.      |
+|      |        |          |          |          |                        |
+|      |        |          |          |          | ---                    |
++------+--------+----------+----------+----------+------------------------+
+| 54   | ioctl  | File     | Request  | Arguments| This is used to set    |
+|      |        |descriptor|          |          | parameters on device   |
+|      |        |          |          |          | files. It’s actual     |
+|      |        |          |          |          | usage varies based on  |
+|      |        |          |          |          | the type of file or    |
+|      |        |          |          |          | device your descriptor |
+|      |        |          |          |          | references.            |
++------+--------+----------+----------+----------+------------------------+
+
+A more complete listing of system calls is in this web site
+[Call convention by architechture][AC-Call-convention],
+along with additional information is available at
+[System Calls for Assembly Level Access][AC-Syscalls]
+You can also get more information about a system call by typing in
+`man 2 syscalls` which will return you the information about the
+system call from section 2 of the UNIX manual. However, this
+refers to the usage of the system call from the C programming language,
+and may or may not be directly helpful.
+
+For information on how system calls are implemented on
+Linux, see the [Linux Kernel 2.4 Internals section on how system calls
+are implemented][AC-Linux-kernel].
+
+
+[AC-GNU-C]: https://www.gnu.org/software/libc/manual/
+[AC-Call-convention]: https://syscall.sh/
+[AC-Syscalls]: http://www.lxhp.in-berlin.de/lhpsyscal.html
+[AC-Linux-kernel]: http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11
+
+
+
 Appendix D. Table of ASCII Codes {#appendix-d-table-of-ascii-codes}
 ================================
 
@@ -8395,69 +8538,6 @@ available in a great Article by Joe Spolsky, called \"The Absolute
 Minimum Every Software Developer Absolutely, Positively Must Know About
 Unicode and Character Sets (No Excuses!)\", available online at
 http://www.joelonsoftware.com/articles/Unicode.html
-
-
-
-Appendix C. Important System Calls {#appendix-c-important-system-calls}
-==================================
-
-These are some of the more important system calls to use when dealing
-with Linux. For most cases, however, it is best to use library functions
-rather than direct system calls, because the system calls were designed
-to be minimalistic while the library functions were designed to be easy
-to program with. For information about the Linux C library, see the
-manual at http://www.gnu.org/software/libc/manual/
-
-Remember that _%eax_ holds the system call numbers, and that the
-return values and error codes are also stored in _%eax_. PERCENTeax
-PERCENTebx PERCENTecx PERCENTedx
-
-  -----------------------------------------------------------------------
-  _%eax_
-  -----------------------------------------------------------------------
-  1
-
-  3
-
-  4
-
-  5
-
-  6
-
-  12
-
-  19
-
-  20
-
-  39
-
-  40
-
-  41
-
-  42
-
-  45
-
-  54
-  -----------------------------------------------------------------------
-
-  : Important Linux System Calls
-
-A more complete listing of system calls, along with additional
-information is available at http://www.lxhp.in-berlin.de/lhpsyscal.html
-You can also get more information about a system call by typing in
-`man 2 SYSCALLNAME` which will return you the information about the
-system call from section 2 of the UNIX manualUNIX manual. However, this
-refers to the usage of the system call from the C programming languageC
-programming language, and may or may not be directly helpful.
-
-For information on how system callssystem calls are implemented on
-Linux, see the Linux Kernel 2.4 Internals section on how system calls
-are implemented at
-http://www.faqs.org/docs/kernel_2\_4/lki-2.html\#ss2.11
 
 
 
