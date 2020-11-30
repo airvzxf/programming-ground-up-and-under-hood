@@ -7505,56 +7505,6 @@ In assembly language, your best resources are on the web.
 
 
 
-Appendix D. Table of ASCII Codes {#appendix-d-table-of-ascii-codes}
-================================
-
-To use this table, simply find the character or escape that you want the
-code for, and add the number on the left and the top.
-
-  ----- ----- ----- ----- ----- ----- ----- ----- -----
-        +0    +1    +2    +3    +4    +5    +6    +7
-  0     NUL   SOH   STX   ETX   EOT   ENQ   ACK   BEL
-  8     BS    HT    LF    VT    FF    CR    SO    SI
-  16    DLE   DC1   DC2   DC3   DC4   NAK   SYN   ETB
-  24    CAN   EM    SUB   ESC   FS    GS    RS    US
-  32          !     \"    \#    \$    \%    &     \'
-  40    (     )     \*    \+    ,     \-    .     /
-  48    0     1     2     3     4     5     6     7
-  56    8     9     :     ;     \<    =     \>    ?
-  64    @     A     B     C     D     E     F     G
-  72    H     I     J     K     L     M     N     O
-  80    P     Q     R     S     T     U     V     W
-  88    X     Y     Z     \[    \\    \]    \^    \_
-  96    \`    a     b     c     d     e     f     g
-  104   h     i     j     k     l     m     n     o
-  112   p     q     r     s     t     u     v     w
-  120   x     y     z     {     \|    }     \~    DEL
-  ----- ----- ----- ----- ----- ----- ----- ----- -----
-
-  : Table of ASCII codes in decimal
-
-ASCII is actually being phased out in favor of an international standard
-known as Unicode, which allows you to display any character from any
-known writing system in the world. As you may have noticed, ASCII only
-has support for English characters. Unicode is much more complicated,
-however, because it requires more than one byte to encode a single
-character. There are several different methods for encoding Unicode
-characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat
-backwards-compatible with ASCII (it is stored the same for English
-characters, but expands into multiple byte for international
-characters). UTF-32 simply requires four bytes for each character rather
-than one. Windows uses UTF-16, which is a variable-length encoding which
-requires at least 2 bytes per character, so it is not
-backwards-compatible with ASCII.
-
-A good tutorial on internationalization issues, fonts, and Unicode is
-available in a great Article by Joe Spolsky, called \"The Absolute
-Minimum Every Software Developer Absolutely, Positively Must Know About
-Unicode and Character Sets (No Excuses!)\", available online at
-http://www.joelonsoftware.com/articles/Unicode.html
-
-
-
 Appendix A. GUI Programming
 ===========================
 
@@ -7571,7 +7521,7 @@ spent passing data from one library to another.
 The GNOME Libraries
 ===================
 
-The GNOMEGNOME projects is one of several projects to provide a complete
+The GNOME projects is one of several projects to provide a complete
 desktop to Linux users. The GNOME project includes a panel to hold
 application launchers and mini-applications called applets, several
 standard applications to do things such as file management, session
@@ -7595,8 +7545,8 @@ will properly manipulate it. When designing libraries, even for use
 within only one program, this is a good practice to keep in mind.
 
 This chapter will not go into details about how GNOME works. If you
-would like to know more, visit the GNOME developer web site at
-http://developer.gnome.org/. This site contains tutorials, mailing
+would like to know more, visit the [GNOME developer web site][A-A-1].
+This site contains tutorials, mailing
 lists, API documentation, and everything else you need to start
 programming in the GNOME environment.
 
@@ -7608,17 +7558,19 @@ application. When that button is clicked it will ask you if you are
 sure, and if you click yes it will close the application. To run this
 program, type in the following as `gnome-example.s`:
 
-    GNOME-EXAMPLE-S
+```{.gnuassembler include=resource/asm/gnome-example.s}
+```
 
 To build this application, execute the following commands:
 
-    as gnome-example.s -o gnome-example.o
-    gcc gnome-example.o `gnome-config --libs gnomeui` \
-        -o gnome-example
+```{.bash}
+as  -o gnome-example.o  gnome-example.s
+gcc -o gnome-example    gnome-example.o `gnome-config --libs gnomeui`
+```
 
 Then type in `./gnome-example` to run it.
 
-This program, like most GUIGUI programs, makes heavy use of passing
+This program, like most GUI programs, makes heavy use of passing
 pointers to functions as parameters. In this program you create widgets
 with the GNOME functions and then you set up functions to be called when
 certain events happen. These functions are called *callback* functions.
@@ -7708,18 +7660,22 @@ gnome_dialog_run_and_close:
 The following is the same program written in the C language. Type it in
 as `gnome-example-c.c`:
 
-    GNOME-EXAMPLE-C-C
+```{.c include=resource/asm/gnome-example-c.c}
+```
 
 To compile it, type
 
-    gcc gnome-example-c.c `gnome-config --cflags \
-        --libs gnomeui` -o gnome-example-c
+```{.bash}
+gcc -o gnome-example-c  gnome-example-c.c \
+                        `gnome-config --cflags --libs gnomeui`
+```
 
 Run it by typing `./gnome-example-c`.
 
-Finally, we have a version in Python. Type it in as gnome-example.py:
+Finally, we have a version in Python. Type it in as `gnome-example.py`:
 
-    GNOME-EXAMPLE-PY
+```{.python include=resource/asm/gnome-example.py}
+```
 
 To run it type `python gnome-example.py`.
 
@@ -7732,18 +7688,70 @@ it where you wanted it. However, this can be quite burdensome for more
 complex applications. Many programming environments, including GNOME,
 have programs called GUI builders that can be used to automatically
 create your GUI for you. You just have to write the code for the signal
-handlers and for initializing your program. The main GUI builderGUI
-builder for GNOME applications is called GLADE. GLADE ships with most
+handlers and for initializing your program. The main GUI builder
+for GNOME applications is called GLADE. GLADE ships with most
 Linux distributions.
 
 There are GUI builders for most programming environments. Borland has a
 range of tools that will build GUIs quickly and easily on Linux and
-Win32Win32 systems. The KDE environment has a tool called QT DesignerQT
-Designer which helps you automatically develop the GUI for their system.
+Win32 systems. The KDE environment has a tool called QT Designer
+which helps you automatically develop the GUI for their system.
 
 There is a broad range of choices for developing graphical applications,
 but hopefully this appendix gave you a taste of what GUI programming is
 like.
+
+[A-A-1]: https://developer.gnome.org/
+
+
+
+Appendix D. Table of ASCII Codes {#appendix-d-table-of-ascii-codes}
+================================
+
+To use this table, simply find the character or escape that you want the
+code for, and add the number on the left and the top.
+
+  ----- ----- ----- ----- ----- ----- ----- ----- -----
+        +0    +1    +2    +3    +4    +5    +6    +7
+  0     NUL   SOH   STX   ETX   EOT   ENQ   ACK   BEL
+  8     BS    HT    LF    VT    FF    CR    SO    SI
+  16    DLE   DC1   DC2   DC3   DC4   NAK   SYN   ETB
+  24    CAN   EM    SUB   ESC   FS    GS    RS    US
+  32          !     \"    \#    \$    \%    &     \'
+  40    (     )     \*    \+    ,     \-    .     /
+  48    0     1     2     3     4     5     6     7
+  56    8     9     :     ;     \<    =     \>    ?
+  64    @     A     B     C     D     E     F     G
+  72    H     I     J     K     L     M     N     O
+  80    P     Q     R     S     T     U     V     W
+  88    X     Y     Z     \[    \\    \]    \^    \_
+  96    \`    a     b     c     d     e     f     g
+  104   h     i     j     k     l     m     n     o
+  112   p     q     r     s     t     u     v     w
+  120   x     y     z     {     \|    }     \~    DEL
+  ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+  : Table of ASCII codes in decimal
+
+ASCII is actually being phased out in favor of an international standard
+known as Unicode, which allows you to display any character from any
+known writing system in the world. As you may have noticed, ASCII only
+has support for English characters. Unicode is much more complicated,
+however, because it requires more than one byte to encode a single
+character. There are several different methods for encoding Unicode
+characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat
+backwards-compatible with ASCII (it is stored the same for English
+characters, but expands into multiple byte for international
+characters). UTF-32 simply requires four bytes for each character rather
+than one. Windows uses UTF-16, which is a variable-length encoding which
+requires at least 2 bytes per character, so it is not
+backwards-compatible with ASCII.
+
+A good tutorial on internationalization issues, fonts, and Unicode is
+available in a great Article by Joe Spolsky, called \"The Absolute
+Minimum Every Software Developer Absolutely, Positively Must Know About
+Unicode and Character Sets (No Excuses!)\", available online at
+http://www.joelonsoftware.com/articles/Unicode.html
 
 
 
