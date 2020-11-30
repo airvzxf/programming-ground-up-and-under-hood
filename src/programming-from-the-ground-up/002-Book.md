@@ -280,6 +280,7 @@ work will put you a step ahead.
 [^1-3]: The GNU Project is a project by the Free Software Foundation to
     produce a complete, free operating system.
 
+
 [3-K12Linux]: https://fedoraproject.org/wiki/K12Linux
 [3-PuTTY]: https://www.chiark.greenend.org.uk/~sgtatham/putty/
 [3-Knoppix]: http://www.knoppix.org/
@@ -2681,6 +2682,7 @@ Review
     one will not have finished before a new one is activated. I am not
     implying that their instructions are running at the same time.
 
+
 [4-LSB]: https://refspecs.linuxfoundation.org/lsb.shtml
 [4-ABI]: https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/programming-from-the-ground-up/resource/pdf/abi386-4.pdf
 
@@ -4630,6 +4632,7 @@ Review
     it. You only have to store the pointer and pass it to the relevant
     other functions.
 
+
 [8-GNU-Libc]: http://www.gnu.org/software/libc/manual/
 [8-Elf-Makan-01]: https://blog.k3170makan.com/2018/09/introduction-to-elf-format-elf-header.html
 [8-Elf-Makan-02]: https://blog.k3170makan.com/2018/09/introduction-to-elf-format-part-ii.html
@@ -5595,6 +5598,7 @@ Review
     faster. The more memory your computer has, the less it puts on disk,
     so it doesn\'t have to always be interrupting your programs to
     retreive pages off the disk.
+
 
 [9-State-ELF]: http://asm.sourceforge.net/articles/startup.html
 [9-VM-OS]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/9_VirtualMemory.html
@@ -6574,6 +6578,7 @@ Review
     represent. For example, in the number 294, the digit 2 is the most
     significant because it represents the hundreds place, 9 is the next
     most significant, and 4 is the least significant.
+
 
 [10-Davs]: http://david.carybros.com/html/endian_faq.html
 [10-holy-war]: https://dcc.ufrj.br/~gabriel/progpar/danny_co.pdf
@@ -7701,6 +7706,7 @@ There is a broad range of choices for developing graphical applications,
 but hopefully this appendix gave you a taste of what GUI programming is
 like.
 
+
 [AA-1]: https://developer.gnome.org/
 
 
@@ -8291,18 +8297,32 @@ Other differences exist, but they are small in comparison. To show some
 of the differences, consider the following instruction:
 
 ```{.gnuassembler}
-movl %eax, 8(%ebx,%edi,4)
+movl $5, %eax               # 1
+movl 12(%ebx), %eax         # 2
+movl (%ebx,%edi), %ecx      # 3
+movl 8(%ebx,%edi), %eax     # 4
+movl (%ebx,%edi,4), %eax    # 5
+movl 8(%ebx,%edi,4), %eax   # 6
 ```
 
 In Intel syntax, this would be written as:
 
 ```{.nasm}
-mov  [8 + %ebx + 1 * edi], eax
+mov  eax, 5                 ; 1
+mov  eax, [ebx+12]          ; 2
+mov  ecx, [ebx+edi]         ; 3
+mov  eax, [ebx+edi+8]       ; 4
+mov  eax, [ebx+edi*4]       ; 5
+mov  eax, [ebx+edi*4+8]     ; 6
 ```
 
 The memory reference is a bit easier to read than its AT&T counterpart
 because it spells out exactly how the address will be computed. However,
 but the order of operands in Intel syntax can be confusing.
+
+The tool [intel2gas][AB-intel2gas] is a small text parser that can convert
+assembler source written in NASM syntax (Intel) to gas syntax (AT&T).
+And nowadays more often also the other way.
 
 Where to Go for More Information
 --------------------------------
@@ -8319,10 +8339,12 @@ In addition, you can find a lot of information in the manual for the
 [GNU assembler][AB-GNU-Assembler].
 Similarly, the manual for the [GNU linker][AB-GNU-Linker].
 
+
 [AB-Intel-resource]: https://www.intel.com/content/www/us/en/design/resource-design-center.html
 [AB-Intel-manuals-volumes]: https://software.intel.com/content/www/us/en/develop/download/intel-64-and-ia-32-architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4.html
 [AB-GNU-Assembler]: https://sourceware.org/binutils/docs/as/index.html
 [AB-GNU-Linker]: https://sourceware.org/binutils/docs/ld/index.html
+[AB-intel2gas]: http://manpages.org/intel2gas
 
 
 
