@@ -8207,9 +8207,6 @@ Review
 -   What kind of problems might a compiler run in to if it tried to
     optimize code across function call boundaries?
 
-Basic Guidelines for Software Development
-=========================================
-
 Chapter 13. Moving On from Here
 ===============================
 
@@ -8243,11 +8240,11 @@ Computer Programming is a vast subject. As a programmer, you will need
 to be prepared to be constantly learning and pushing your limits. These
 books will help you do that. They not only teach their subjects, but
 also teach various ways and methods of *thinking*. As Alan Perlis said,
-"A language that doesn't affect the way you think about programming is
-not worth knowing"
-(http://www.cs.yale.edu/homes/perlis-alan/quotes.html). If you are
-constantly looking for new and better ways of doing and thinking, you
-will make a successful programmer. If you do not seek to enhance
+["A language that doesn't affect the way you think about programming is
+not worth
+knowing"](http://www.cs.yale.edu/homes/perlis-alan/quotes.html). If you
+are constantly looking for new and better ways of doing and thinking,
+you will make a successful programmer. If you do not seek to enhance
 yourself, "A little sleep, a little slumber, a little folding of the
 hands to rest - and poverty will come on you like a bandit and scarcity
 like an armed man." (Proverbs 24:33-34 NIV). Perhaps not quite that
@@ -8265,22 +8262,33 @@ From the Bottom Up
 This list is in the best reading order I could find. It's not
 necessarily easiest to hardest, but based on subject matter.
 
--   Programming from the Ground Up by Jonathan Bartlett
+-   [Programming from the Ground
+    Up](https://savannah.nongnu.org/projects/pgubook/) by Jonathan
+    Bartlett.
 
--   Introduction to Algorithms by Thomas H. Cormen, Charles E.
-    Leiserson, and Ronald L. Rivest
+-   [Introduction to
+    Algorithms](https://mitpress.mit.edu/books/introduction-algorithms-third-edition)
+    by Thomas H. Cormen, Charles E. Leiserson, and Ronald L. Rivest.
 
--   The Art of Computer Programming by Donald Knuth (3 volume set -
-    volume 1 is the most important)
+-   [The Art of Computer
+    Programming](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming)
+    by Donald Knuth (3 volume set - volume 1 is the most important).
 
--   Programming Languages by Samuel N. Kamin
+-   [Programming
+    Languages](https://wiki.c2.com/?ProgrammingLanguagesAnInterpreterBasedApproach)
+    by Samuel N. Kamin.
 
--   Modern Operating Systems by Andrew Tanenbaum
+-   [Modern Operating
+    Systems](https://www.pearson.com/store/p/modern-operating-systems/P100001963021/9780133591620)
+    by Andrew Tanenbaum.
 
--   Linkers and Loaders by John Levine
+-   [Linkers and
+    Loaders](http://norfs.sourceforge.net/linkers_and_loaders.pdf) by
+    John Levine.
 
--   Computer Organization and Design: The Hardware/Software Interface by
-    David Patterson and John Hennessy
+-   [Computer Organization and Design: The Hardware/Software
+    Interface](http://file.allitebooks.com/20160718/Computer%20Organization%20and%20Design,%20Fifth%20Edition.pdf)
+    by David Patterson and John Hennessy.
 
 From the Top Down
 -----------------
@@ -8288,33 +8296,40 @@ From the Top Down
 These books are arranged from the simplest to the hardest. However, they
 can be read in any order you feel comfortable with.
 
--   How to Design Programs by Matthias Felleisen, Robert Bruce Findler,
-    Matthew Flatt, and Shiram Krishnamurthi, available online at
-    http://www.htdp.org/
+-   [How to Design Programs](https://htdp.org/) by Matthias Felleisen,
+    Robert Bruce Findler, Matthew Flatt, and Shiram Krishnamurthi.
 
--   Simply Scheme: An Introduction to Computer Science by Brian Harvey
-    and Matthew Wright
+-   [Simply Scheme: An Introduction to Computer
+    Science](https://people.eecs.berkeley.edu/~bh/ss-toc2.html) by Brian
+    Harvey and Matthew Wright.
 
--   How to Think Like a Computer Scientist: Learning with Python by
-    Allen Downey, Jeff Elkner, and Chris Meyers, available online at
-    http://www.greenteapress.com/thinkpython/
+-   [How to Think Like a Computer Scientist: Learning with
+    Python](https://greenteapress.com/wp/learning-with-python/) by Allen
+    Downey, Jeff Elkner, and Chris Meyers.
 
--   Structure and Interpretation of Computer Programs by Harold Abelson
-    and Gerald Jay Sussman with Julie Sussman, available online at
-    http://mitpress.mit.edu/sicp/
+-   [Structure and Interpretation of Computer
+    Programs](https://mitpress.mit.edu/sites/default/files/sicp/index.html)
+    by Harold Abelson and Gerald Jay Sussman with Julie Sussman.
 
--   Design Patterns by Erich Gamma, Richard Helm, Ralph Johnson, and
-    John Vlissides
+-   [Design Patterns: Elements of Reusable Object-Oriented
+    Software](https://www.pearson.com/us/higher-education/program/Gamma-Design-Patterns-Elements-of-Reusable-Object-Oriented-Software/PGM14333.html)
+    by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides.
 
--   What not How: The Rules Approach to Application Development by Chris
-    Date
+-   [What not How: The Rules Approach to Application
+    Development](https://www.goodreads.com/book/show/1551485.What_Not_How)
+    by Chris Date.
 
--   The Algorithm Design Manual by Steve Skiena
+-   [The Algorithm Design
+    Manual](https://www.springer.com/us/book/9783030542559) by Steve
+    Skiena.
 
--   Programming Language Pragmatics by Michael Scott
+-   [Programming Language
+    Pragmatics](https://www.cs.rochester.edu/u/scott/pragmatics/) by
+    Michael Scott.
 
--   Essentials of Programming Languages by Daniel P. Friedman, Mitchell
-    Wand, and Christopher T. Haynes
+-   [Essentials of Programming
+    Languages](https://mitpress.mit.edu/books/essentials-programming-languages-third-edition)
+    by Daniel P. Friedman, Mitchell Wand, and Christopher T. Haynes.
 
 From the Middle Out
 -------------------
@@ -8322,25 +8337,39 @@ From the Middle Out
 Each of these is the best book on its subject. If you need to know these
 languages, these will tell you all you need to know.
 
--   Programming Perl by Larry Wall, Tom Christiansen, and Jon Orwant
+-   [Programming
+    Perl](http://file.allitebooks.com/20150525/Programming%20Perl,%204th%20Edition.pdf)
+    by Larry Wall, Tom Christiansen, and Jon Orwant.
 
--   Common LISP: The Language by Guy R. Steele
+-   [Common LISP: The
+    Language](https://www.cs.cmu.edu/Groups/AI/html/cltl/cltl2.html) by
+    Guy R. Steele.
 
--   ANSI Common LISP by Paul Graham
+-   [ANSI Common
+    LISP](https://7chan.org/pr/src/ANSI_Common_Lisp_-_Paul_Graham.pdf)
+    by Paul Graham.
 
--   The C Programming Language by Brian W. Kernighan and Dennis M.
-    Ritchie
+-   [The C Programming
+    Language](https://hikage.freeshell.org/books/theCprogrammingLanguage.pdf)
+    by Brian W. Kernighan and Dennis M. Ritchie.
 
--   The Waite Group's C Primer Plus by Stephen Prata
+-   [The Waite Group's C Primer
+    Plus](https://www.pearsonhighered.com/assets/samplechapter/1/5/7/1/1571691618.pdf)
+    by Stephen Prata.
 
--   The C++ Programming Language by Bjarne Stroustrup
+-   [The C++ Programming Language](https://www.stroustrup.com/4th.html)
+    by Bjarne Stroustrup.
 
--   Thinking in Java by Bruce Eckel, available online at
-    http://www.mindview.net/Books/TIJ/
+-   [Thinking in
+    Java](http://www.dblab.ntua.gr/~gtsat/collection/Java%20books/Bruce.Eckel.Thinking.In.Java.4th.Edition.Dec.2007.eBook-BBL.pdf)
+    by Bruce Eckel.
 
--   The Scheme Programming Language by Kent Dybvig
+-   [The Scheme Programming Language](https://www.scheme.com/tspl4/) by
+    Kent Dybvig.
 
--   Linux Assembly Language Programming by Bob Neveln
+-   [Linux Assembly Language
+    Programming](https://www.oreilly.com/library/view/linux-assembly-language/0130879401/)
+    by Bob Neveln.
 
 Specialized Topics
 ------------------
@@ -8349,77 +8378,97 @@ These books are the best books that cover their topic. They are thorough
 and authoritative. To get a broad base of knowledge, you should read
 several outside of the areas you normally program in.
 
--   Practical Programming - Programming Pearls and More Programming
-    Pearls by Jon Louis Bentley
+-   Practical Programming - [Programming Pearls and More Programming
+    Pearls](https://tfetimes.com/wp-content/uploads/2015/04/ProgrammingPearls2nd.pdf)
+    by Jon Louis Bentley.
 
--   Databases - Understanding Relational Databases by Fabian Pascal
+-   Databases - [Understanding Relational
+    Databases](https://archive.org/details/understandingrel00pasc) by
+    Fabian Pascal.
 
--   Project Management - The Mythical Man-Month by Fred P. Brooks
+-   Project Management - [The Mythical
+    Man-Month](https://en.wikipedia.org/wiki/The_Mythical_Man-Month) by
+    Fred P. Brooks.
 
--   UNIX Programming - The Art of UNIX Programming by Eric S. Raymond,
-    available online at http://www.catb.org/~esr/writings/taoup/
+-   UNIX Programming - [The Art of UNIX
+    Programming](http://www.catb.org/%7Eesr/writings/taoup/) by Eric S.
+    Raymond.
 
--   UNIX Programming - Advanced Programming in the UNIX Environment
-    by W. Richard Stevens
+-   UNIX Programming - [Advanced Programming in the UNIX
+    Environment](https://ameensheriffmca.files.wordpress.com/2014/02/advanced-programming-in-the-unix-environment-by-w-richard-stevens-stephen-a-rago-ii-edition.pdf)
+    by W. Richard Stevens.
 
--   Network Programming - UNIX Network Programming (2 volumes) by W.
-    Richard Stevens
+-   Network Programming - [UNIX Network Programming (2
+    volumes)](http://www.unpbook.com/) by W. Richard Stevens.
 
--   Generic Programming - Modern C++ Design by Andrei Alexandrescu
+-   Generic Programming - [Modern C++
+    Design](http://read.pudn.com/downloads68/ebook/245583/Modern%20C%2B%2B%20Design%20.pdf)
+    by Andrei Alexandrescu.
 
--   Compilers - The Art of Compiler Design: Theory and Practice by
-    Thomas Pittman and James Peters
+-   Compilers - [The Art of Compiler Design: Theory and
+    Practice](https://www.pearson.com/us/higher-education/program/Pittman-Art-of-Compiler-Design-The-Theory-and-Practice/PGM320140.html)
+    by Thomas Pittman and James Peters.
 
--   Compilers - Advanced Compiler Design and Implementation by Steven
-    Muchnick
+-   Compilers - [Advanced Compiler Design and
+    Implementation](https://openlibrary.org/works/OL2655436W/Advanced_compiler_design_and_implementation?edition=advancedcompiler00much)
+    by Steven Muchnick.
 
--   Development Process - Refactoring: Improving the Design of Existing
-    Code by Martin Fowler, Kent Beck, John Brant, William Opdyke, and
-    Don Roberts
+-   Development Process - [Refactoring: Improving the Design of Existing
+    Code](https://openlibrary.org/books/OL7407595M/Refactoring) by
+    Martin Fowler, Kent Beck, John Brant, William Opdyke, and Don
+    Roberts.
 
--   Typesetting - Computers and Typesetting (5 volumes) by Donald Knuth
+-   Typesetting - [Computers and Typesetting (5
+    volumes)](https://en.wikipedia.org/wiki/Computers_and_Typesetting)
+    by Donald Knuth.
 
--   Cryptography - Applied Cryptography by Bruce Schneier
+-   Cryptography - [Applied
+    Cryptography](https://ia800202.us.archive.org/10/items/AppliedCryptographyBruceSchneier/Applied%20Cryptography%20%28Bruce%20Schneier%29.pdf)
+    by Bruce Schneier.
 
--   Linux - Professional Linux Programming by Neil Matthew, Richard
-    Stones, and 14 other people
+-   Linux - [Professional Linux
+    Programming](https://openlibrary.org/works/OL16613861W/Professional_Linux_programming?edition=professionallinu00matt)
+    by Neil Matthew, Richard Stones, and 14 other people.
 
--   Linux Kernel - Linux Device Drivers by Alessandro Rubini and
-    Jonathan Corbet
+-   Linux Kernel - [Linux Device Drivers](https://lwn.net/Kernel/LDD3/)
+    by Alessandro Rubini and Jonathan Corbet.
 
--   Open Source Programming - The Cathedral and the Bazaar: Musings on
-    Linux and Open Source by an Accidental Revolutionary by Eric S.
-    Raymond
+-   Open Source Programming - [The Cathedral and the Bazaar: Musings on
+    Linux and Open Source by an Accidental
+    Revolutionary](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/)
+    by Eric S. Raymond.
 
--   Computer Architecture - Computer Architecture: A Quantitative
-    Approach by David Patterson and John Hennessy
+-   Computer Architecture - [Computer Architecture: A Quantitative
+    Approach](https://archive.org/details/computerarchitectureaquantitativeapproach6thedition)
+    by David Patterson and John Hennessy.
 
 Further Resources on Assembly Language
 --------------------------------------
 
 In assembly language, your best resources are on the web.
 
--   http://www.linuxassembly.org/ - a great resource for Linux assembly
-    language programmers
+-   [Sandpile](https://www.sandpile.org/) - A repository of reference
+    material on x86, x86-64, and compatible processors.
 
--   http://www.sandpile.org/ - a repository of reference material on
-    x86, x86-64, and compatible processors
+-   Dr. Dobb's - [Journal Microprocessor
+    Resources](https://www.drdobbs.com/).
 
--   http://www.x86.org/ - Dr. Dobb's Journal Microprocessor Resources
+-   Dr. Paul Carter's [PC Assembly
+    Language](https://pacman128.github.io/pcasm/) Page.
 
--   http://www.drpaulcarter.com/pcasm/ - Dr. Paul Carter's PC Assembly
-    Language Page
+-   [The Art of
+    Assembly](https://www.plantation-productions.com/Webster/) Home
+    Page.
 
--   http://webster.cs.ucr.edu/ - The Art of Assembly Home Page
+-   [Intel's
+    manuals](https://www.intel.com/content/www/us/en/design/resource-design-center.html)
+    for their processors.
 
--   http://www.intel.com/design/pentium/manuals/ - Intel's manuals for
-    their processors
+-   Jan Wagemaker's [Linux assembly language
+    examples](https://www.janwagemakers.be/eng.html).
 
--   http://www.janw.easynet.be/ - Jan Wagemaker's Linux assembly
-    language examples
-
--   http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh's x86
-    Assembly Page
+-   Paul Hsieh's [x86 Assembly
+    Page](http://www.azillionmonkeys.com/qed/asm.html).
 
 Appendix D. Table of ASCII Codes
 ================================
