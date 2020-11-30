@@ -7245,9 +7245,6 @@ Review
 
 
 
-Basic Guidelines for Software Development
-=========================================
-
 Chapter 13. Moving On from Here {#chapter-13-moving-on-from-here}
 ===============================
 
@@ -7281,9 +7278,8 @@ Computer Programming is a vast subject. As a programmer, you will need
 to be prepared to be constantly learning and pushing your limits. These
 books will help you do that. They not only teach their subjects, but
 also teach various ways and methods of *thinking*. As Alan Perlis said,
-\"A language that doesn\'t affect the way you think about programming is
-not worth knowing\"
-(http://www.cs.yale.edu/homes/perlis-alan/quotes.html). If you are
+[\"A language that doesn\'t affect the way you think about programming is
+not worth knowing\"][13-Epigrams-in-programming]. If you are
 constantly looking for new and better ways of doing and thinking, you
 will make a successful programmer. If you do not seek to enhance
 yourself, \"A little sleep, a little slumber, a little folding of the
@@ -7303,22 +7299,22 @@ From the Bottom Up
 This list is in the best reading order I could find. It\'s not
 necessarily easiest to hardest, but based on subject matter.
 
--   Programming from the Ground Up by Jonathan Bartlett
+-   [Programming from the Ground Up][13-PGU] by Jonathan Bartlett.
 
--   Introduction to Algorithms by Thomas H. Cormen, Charles E.
-    Leiserson, and Ronald L. Rivest
+-   [Introduction to Algorithms][13-Introduction-Algorithms]
+    by Thomas H. Cormen, Charles E. Leiserson, and Ronald L. Rivest.
 
--   The Art of Computer Programming by Donald Knuth (3 volume set -
-    volume 1 is the most important)
+-   [The Art of Computer Programming][13-Art-of-computer]
+    by Donald Knuth (3 volume set - volume 1 is the most important).
 
--   Programming Languages by Samuel N. Kamin
+-   [Programming Languages][13-Programming-languages] by Samuel N. Kamin.
 
--   Modern Operating Systems by Andrew Tanenbaum
+-   [Modern Operating Systems][13-Modern-OS] by Andrew Tanenbaum.
 
--   Linkers and Loaders by John Levine
+-   [Linkers and Loaders][13-Linkers-loaders] by John Levine.
 
--   Computer Organization and Design: The Hardware/Software Interface by
-    David Patterson and John Hennessy
+-   [Computer Organization and Design: The Hardware/Software Interface][13-COD]
+    by David Patterson and John Hennessy.
 
 From the Top Down
 -----------------
@@ -7326,33 +7322,30 @@ From the Top Down
 These books are arranged from the simplest to the hardest. However, they
 can be read in any order you feel comfortable with.
 
--   How to Design Programs by Matthias Felleisen, Robert Bruce Findler,
-    Matthew Flatt, and Shiram Krishnamurthi, available online at
-    http://www.htdp.org/
+-   [How to Design Programs][13-Design-programs] by Matthias Felleisen,
+    Robert Bruce Findler, Matthew Flatt, and Shiram Krishnamurthi.
 
--   Simply Scheme: An Introduction to Computer Science by Brian Harvey
-    and Matthew Wright
+-   [Simply Scheme: An Introduction to Computer Science][13-Simply-scheme]
+    by Brian Harvey and Matthew Wright.
 
--   How to Think Like a Computer Scientist: Learning with Python by
-    Allen Downey, Jeff Elkner, and Chris Meyers, available online at
-    http://www.greenteapress.com/thinkpython/
+-   [How to Think Like a Computer Scientist: Learning with Python][13-Python]
+    by Allen Downey, Jeff Elkner, and Chris Meyers.
 
--   Structure and Interpretation of Computer Programs by Harold Abelson
-    and Gerald Jay Sussman with Julie Sussman, available online at
-    http://mitpress.mit.edu/sicp/
+-   [Structure and Interpretation of Computer Programs][13-Structure-and-interpretation]
+    by Harold Abelson and Gerald Jay Sussman with Julie Sussman.
 
--   Design Patterns by Erich Gamma, Richard Helm, Ralph Johnson, and
-    John Vlissides
+-   [Design Patterns: Elements of Reusable Object-Oriented Software][13-Design-patterns]
+    by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides.
 
--   What not How: The Rules Approach to Application Development by Chris
-    Date
+-   [What not How: The Rules Approach to Application Development][13-Rules]
+    by Chris Date.
 
--   The Algorithm Design Manual by Steve Skiena
+-   [The Algorithm Design Manual][13-Algorithm-design] by Steve Skiena.
 
--   Programming Language Pragmatics by Michael Scott
+-   [Programming Language Pragmatics][13-Pragmatics] by Michael Scott.
 
--   Essentials of Programming Languages by Daniel P. Friedman, Mitchell
-    Wand, and Christopher T. Haynes
+-   [Essentials of Programming Languages][13-Essentials-of-programming]
+    by Daniel P. Friedman, Mitchell Wand, and Christopher T. Haynes.
 
 From the Middle Out
 -------------------
@@ -7360,25 +7353,25 @@ From the Middle Out
 Each of these is the best book on its subject. If you need to know these
 languages, these will tell you all you need to know.
 
--   Programming Perl by Larry Wall, Tom Christiansen, and Jon Orwant
+-   [Programming Perl][13-Programming-Perl] by Larry Wall, Tom
+    Christiansen, and Jon Orwant.
 
--   Common LISP: The Language by Guy R. Steele
+-   [Common LISP: The Language][13-Common-LISP] by Guy R. Steele.
 
--   ANSI Common LISP by Paul Graham
+-   [ANSI Common LISP][13-ANSI-Common-LISP] by Paul Graham.
 
--   The C Programming Language by Brian W. Kernighan and Dennis M.
-    Ritchie
+-   [The C Programming Language][13-C-Programming-Language]
+    by Brian W. Kernighan and Dennis M. Ritchie.
 
--   The Waite Group\'s C Primer Plus by Stephen Prata
+-   [The Waite Group\'s C Primer Plus][13-The-Waite] by Stephen Prata.
 
--   The C++ Programming Language by Bjarne Stroustrup
+-   [The C++ Programming Language][13-C-Plus-Plus] by Bjarne Stroustrup.
 
--   Thinking in Java by Bruce Eckel, available online at
-    http://www.mindview.net/Books/TIJ/
+-   [Thinking in Java][13-Thinking-in-Java] by Bruce Eckel.
 
--   The Scheme Programming Language by Kent Dybvig
+-   [The Scheme Programming Language][13-The-scheme-PL] by Kent Dybvig.
 
--   Linux Assembly Language Programming by Bob Neveln
+-   [Linux Assembly Language Programming][13-LALP] by Bob Neveln.
 
 Specialized Topics
 ------------------
@@ -7387,77 +7380,128 @@ These books are the best books that cover their topic. They are thorough
 and authoritative. To get a broad base of knowledge, you should read
 several outside of the areas you normally program in.
 
--   Practical Programming - Programming Pearls and More Programming
-    Pearls by Jon Louis Bentley
+-   Practical Programming - [Programming Pearls and More Programming
+    Pearls][13-Programming-Pearls-and-more] by Jon Louis Bentley.
 
--   Databases - Understanding Relational Databases by Fabian Pascal
+-   Databases - [Understanding Relational Databases][13-DB-Relational]
+    by Fabian Pascal.
 
--   Project Management - The Mythical Man-Month by Fred P. Brooks
+-   Project Management - [The Mythical Man-Month][13-Mythical-Man-Month]
+    by Fred P. Brooks.
 
--   UNIX Programming - The Art of UNIX Programming by Eric S. Raymond,
-    available online at http://www.catb.org/\~esr/writings/taoup/
+-   UNIX Programming - [The Art of UNIX Programming][13-The-Art-UNIX]
+    by Eric S. Raymond.
 
--   UNIX Programming - Advanced Programming in the UNIX Environment
-    by W. Richard Stevens
+-   UNIX Programming - [Advanced Programming in the UNIX
+    Environment][13-Advanced-programming-UNIX] by W. Richard Stevens.
 
--   Network Programming - UNIX Network Programming (2 volumes) by W.
-    Richard Stevens
+-   Network Programming - [UNIX Network Programming (2 volumes)
+    ][13-UNIX-network-programming] by W. Richard Stevens.
 
--   Generic Programming - Modern C++ Design by Andrei Alexandrescu
+-   Generic Programming - [Modern C++ Design][13-Modern-C-plus-plus]
+    by Andrei Alexandrescu.
 
--   Compilers - The Art of Compiler Design: Theory and Practice by
-    Thomas Pittman and James Peters
+-   Compilers -
+    [The Art of Compiler Design: Theory and Practice][13-Art-of-compiler-design]
+    by Thomas Pittman and James Peters.
 
--   Compilers - Advanced Compiler Design and Implementation by Steven
-    Muchnick
+-   Compilers -
+    [Advanced Compiler Design and Implementation][13-Advanced-compiler-design]
+    by Steven Muchnick.
 
--   Development Process - Refactoring: Improving the Design of Existing
-    Code by Martin Fowler, Kent Beck, John Brant, William Opdyke, and
-    Don Roberts
+-   Development Process - [Refactoring: Improving the Design of Existing
+    Code][13-Refactoring-improving] by Martin Fowler, Kent Beck, John
+    Brant, William Opdyke, and Don Roberts.
 
--   Typesetting - Computers and Typesetting (5 volumes) by Donald Knuth
+-   Typesetting - [Computers and Typesetting (5 volumes)][13-Typesetting]
+    by Donald Knuth.
 
--   Cryptography - Applied Cryptography by Bruce Schneier
+-   Cryptography - [Applied Cryptography][13-Cryptography]
+    by Bruce Schneier.
 
--   Linux - Professional Linux Programming by Neil Matthew, Richard
-    Stones, and 14 other people
+-   Linux - [Professional Linux Programming][13-Professional-Linux]
+    by Neil Matthew, Richard Stones, and 14 other people.
 
--   Linux Kernel - Linux Device Drivers by Alessandro Rubini and
-    Jonathan Corbet
+-   Linux Kernel - [Linux Device Drivers][13-Linux-drivers] by Alessandro
+    Rubini and Jonathan Corbet.
 
--   Open Source Programming - The Cathedral and the Bazaar: Musings on
-    Linux and Open Source by an Accidental Revolutionary by Eric S.
-    Raymond
+-   Open Source Programming - [The Cathedral and the Bazaar: Musings on
+    Linux and Open Source by an Accidental Revolutionary][13-CatB]
+    by Eric S. Raymond.
 
--   Computer Architecture - Computer Architecture: A Quantitative
-    Approach by David Patterson and John Hennessy
+-   Computer Architecture - [Computer Architecture: A Quantitative
+    Approach][13-Architecture] by David Patterson and John Hennessy.
 
 Further Resources on Assembly Language
 --------------------------------------
 
 In assembly language, your best resources are on the web.
 
--   http://www.linuxassembly.org/ - a great resource for Linux assembly
-    language programmers
+-   [Sandpile][13-Sandpile] - A repository of reference material on
+    x86, x86-64, and compatible processors.
 
--   http://www.sandpile.org/ - a repository of reference material on
-    x86, x86-64, and compatible processors
+-   Dr. Dobb\'s - [Journal Microprocessor Resources][13-Dr-Dobb].
 
--   http://www.x86.org/ - Dr. Dobb\'s Journal Microprocessor Resources
+-   Dr. Paul Carter\'s [PC Assembly Language][13-PC-Assembly] Page.
 
--   http://www.drpaulcarter.com/pcasm/ - Dr. Paul Carter\'s PC Assembly
-    Language Page
+-   [The Art of Assembly][13-Art-of-Assembly] Home Page.
 
--   http://webster.cs.ucr.edu/ - The Art of Assembly Home Page
+-   [Intel\'s manuals][13-Intel-manuals] for their processors.
 
--   http://www.intel.com/design/pentium/manuals/ - Intel\'s manuals for
-    their processors
+-   Jan Wagemaker\'s [Linux assembly language examples][13-Wagemaker].
 
--   http://www.janw.easynet.be/ - Jan Wagemaker\'s Linux assembly
-    language examples
+-   Paul Hsieh\'s [x86 Assembly Page][13-x86-Assembly-page].
 
--   http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh\'s x86
-    Assembly Page
+
+[13-Epigrams-in-programming]: http://www.cs.yale.edu/homes/perlis-alan/quotes.html
+[13-Introduction-Algorithms]: https://mitpress.mit.edu/books/introduction-algorithms-third-edition
+[13-Art-of-computer]: https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming
+[13-Programming-languages]: https://wiki.c2.com/?ProgrammingLanguagesAnInterpreterBasedApproach
+[13-Modern-OS]: https://www.pearson.com/store/p/modern-operating-systems/P100001963021/9780133591620
+[13-Linkers-loaders]: http://norfs.sourceforge.net/linkers_and_loaders.pdf
+[13-COD]: http://file.allitebooks.com/20160718/Computer%20Organization%20and%20Design,%20Fifth%20Edition.pdf
+[13-PGU]: https://savannah.nongnu.org/projects/pgubook/
+[13-Design-programs]: https://htdp.org/
+[13-Simply-scheme]: https://people.eecs.berkeley.edu/~bh/ss-toc2.html
+[13-Python]: https://greenteapress.com/wp/learning-with-python/
+[13-Structure-and-interpretation]: https://mitpress.mit.edu/sites/default/files/sicp/index.html
+[13-Design-patterns]: https://www.pearson.com/us/higher-education/program/Gamma-Design-Patterns-Elements-of-Reusable-Object-Oriented-Software/PGM14333.html
+[13-Rules]: https://www.goodreads.com/book/show/1551485.What_Not_How
+[13-Algorithm-design]: https://www.springer.com/us/book/9783030542559
+[13-Pragmatics]: https://www.cs.rochester.edu/u/scott/pragmatics/
+[13-Essentials-of-programming]: https://mitpress.mit.edu/books/essentials-programming-languages-third-edition
+[13-Programming-Perl]: http://file.allitebooks.com/20150525/Programming%20Perl,%204th%20Edition.pdf
+[13-Common-LISP]: https://www.cs.cmu.edu/Groups/AI/html/cltl/cltl2.html
+[13-ANSI-Common-LISP]: https://7chan.org/pr/src/ANSI_Common_Lisp_-_Paul_Graham.pdf
+[13-C-Programming-Language]: https://hikage.freeshell.org/books/theCprogrammingLanguage.pdf
+[13-The-Waite]: https://www.pearsonhighered.com/assets/samplechapter/1/5/7/1/1571691618.pdf
+[13-C-Plus-Plus]: https://www.stroustrup.com/4th.html
+[13-Thinking-in-Java]: http://www.dblab.ntua.gr/~gtsat/collection/Java%20books/Bruce.Eckel.Thinking.In.Java.4th.Edition.Dec.2007.eBook-BBL.pdf
+[13-The-scheme-PL]: https://www.scheme.com/tspl4/
+[13-LALP]: https://www.oreilly.com/library/view/linux-assembly-language/0130879401/
+[13-Programming-Pearls-and-more]: https://tfetimes.com/wp-content/uploads/2015/04/ProgrammingPearls2nd.pdf
+[13-DB-Relational]: https://archive.org/details/understandingrel00pasc
+[13-Mythical-Man-Month]: https://en.wikipedia.org/wiki/The_Mythical_Man-Month
+[13-The-Art-UNIX]: http://www.catb.org/%7Eesr/writings/taoup/
+[13-Advanced-programming-UNIX]: https://ameensheriffmca.files.wordpress.com/2014/02/advanced-programming-in-the-unix-environment-by-w-richard-stevens-stephen-a-rago-ii-edition.pdf
+[13-UNIX-network-programming]: http://www.unpbook.com/
+[13-Modern-C-plus-plus]: http://read.pudn.com/downloads68/ebook/245583/Modern%20C%2B%2B%20Design%20.pdf
+[13-Art-of-compiler-design]: https://www.pearson.com/us/higher-education/program/Pittman-Art-of-Compiler-Design-The-Theory-and-Practice/PGM320140.html
+[13-Advanced-compiler-design]: https://openlibrary.org/works/OL2655436W/Advanced_compiler_design_and_implementation?edition=advancedcompiler00much
+[13-Refactoring-improving]: https://openlibrary.org/books/OL7407595M/Refactoring
+[13-Typesetting]: https://en.wikipedia.org/wiki/Computers_and_Typesetting
+[13-Cryptography]: https://ia800202.us.archive.org/10/items/AppliedCryptographyBruceSchneier/Applied%20Cryptography%20%28Bruce%20Schneier%29.pdf
+[13-Professional-Linux]: https://openlibrary.org/works/OL16613861W/Professional_Linux_programming?edition=professionallinu00matt
+[13-Linux-drivers]: https://lwn.net/Kernel/LDD3/
+[13-CatB]: http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/
+[13-Architecture]: https://archive.org/details/computerarchitectureaquantitativeapproach6thedition
+[13-Sandpile]: https://www.sandpile.org/
+[13-Dr-Dobb]: https://www.drdobbs.com/
+[13-PC-Assembly]: https://pacman128.github.io/pcasm/
+[13-Art-of-Assembly]: https://www.plantation-productions.com/Webster/
+[13-Intel-manuals]: https://www.intel.com/content/www/us/en/design/resource-design-center.html
+[13-Wagemaker]: https://www.janwagemakers.be/eng.html
+[13-x86-Assembly-page]: http://www.azillionmonkeys.com/qed/asm.html
 
 
 
