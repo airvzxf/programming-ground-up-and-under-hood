@@ -8474,7 +8474,7 @@ Appendix A. GUI Programming
 ===========================
 
 Introduction to GUI Programming
-===============================
+-------------------------------
 
 The purpose of this appendix is not to teach you how to do Graphical
 User Interfaces. It is simply meant to show how writing graphical
@@ -8484,7 +8484,7 @@ need to get used to learning new libraries. Most of your time will be
 spent passing data from one library to another.
 
 The GNOME Libraries
-===================
+-------------------
 
 The GNOME projects is one of several projects to provide a complete
 desktop to Linux users. The GNOME project includes a panel to hold
@@ -8516,7 +8516,7 @@ mailing lists, API documentation, and everything else you need to start
 programming in the GNOME environment.
 
 A Simple GNOME Program in Several Languages
-===========================================
+-------------------------------------------
 
 This program will simply show a Window that has a button to quit the
 application. When that button is clicked it will ask you if you are
@@ -9050,7 +9050,7 @@ gtk.mainloop()
 To run it type `python gnome-example.py`.
 
 GUI Builders
-============
+------------
 
 In the previous example, you have created the user-interface for the
 application by calling the create functions for each widget and placing
