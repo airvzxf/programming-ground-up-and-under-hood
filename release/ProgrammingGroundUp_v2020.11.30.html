@@ -3774,6 +3774,485 @@ Rotate left 10010111 = 00101111</code></pre>
 <li><p>Jan Wagemaker's <a href="https://www.janwagemakers.be/eng.html">Linux assembly language examples</a>.</p></li>
 <li><p>Paul Hsieh's <a href="http://www.azillionmonkeys.com/qed/asm.html">x86 Assembly Page</a>.</p></li>
 </ul>
+<h1 id="appendix-a.-gui-programming">Appendix A. GUI Programming</h1>
+<h1 id="introduction-to-gui-programming">Introduction to GUI Programming</h1>
+<p>The purpose of this appendix is not to teach you how to do Graphical User Interfaces. It is simply meant to show how writing graphical applications is the same as writing other applications, just using an additional library to handle the graphical parts. As a programmer you need to get used to learning new libraries. Most of your time will be spent passing data from one library to another.</p>
+<h1 id="the-gnome-libraries">The GNOME Libraries</h1>
+<p>The GNOME projects is one of several projects to provide a complete desktop to Linux users. The GNOME project includes a panel to hold application launchers and mini-applications called applets, several standard applications to do things such as file management, session management, and configuration, and an API for creating applications which fit in with the way the rest of the system works.</p>
+<p>One thing to notice about the GNOME libraries is that they constantly create and give you pointers to large data structures, but you never need to know how they are laid out in memory. All manipulation of the GUI data structures are done entirely through function calls. This is a characteristic of good library design. Libraries change from version to version, and so does the data that each data structure holds. If you had to access and manipulate that data yourself, then when the library is updated you would have to modify your programs to work with the new library, or at least recompile them. When you access the data through functions, the functions take care of knowing where in the structure each piece of data is. The pointers you receive from the library are <em>opaque</em> - you don't need to know specifically what the structure they are pointing to looks like, you only need to know the functions that will properly manipulate it. When designing libraries, even for use within only one program, this is a good practice to keep in mind.</p>
+<p>This chapter will not go into details about how GNOME works. If you would like to know more, visit the <a href="https://developer.gnome.org/">GNOME developer web site</a>. This site contains tutorials, mailing lists, API documentation, and everything else you need to start programming in the GNOME environment.</p>
+<h1 id="a-simple-gnome-program-in-several-languages">A Simple GNOME Program in Several Languages</h1>
+<p>This program will simply show a Window that has a button to quit the application. When that button is clicked it will ask you if you are sure, and if you click yes it will close the application. To run this program, type in the following as <code>gnome-example.s</code>:</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.code32</span>                             <span class="co"># Generate 32-bit code.</span></span>
+<span id="cb196-2"><a href="#cb196-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-3"><a href="#cb196-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PURPOSE:  This program is meant to be an example of what GUI</span></span>
+<span id="cb196-4"><a href="#cb196-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           programs look like written with the GNOME libraries.</span></span>
+<span id="cb196-5"><a href="#cb196-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-6"><a href="#cb196-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># INPUT:    The user can only click on the &quot;Quit&quot; button or close</span></span>
+<span id="cb196-7"><a href="#cb196-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           the window.</span></span>
+<span id="cb196-8"><a href="#cb196-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-9"><a href="#cb196-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OUTPUT:   The application will close.</span></span>
+<span id="cb196-10"><a href="#cb196-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-11"><a href="#cb196-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PROCESS:  If the user clicks on the &quot;Quit&quot; button, the program will</span></span>
+<span id="cb196-12"><a href="#cb196-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           display a dialog asking if they are sure.  If they click</span></span>
+<span id="cb196-13"><a href="#cb196-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           Yes, it will close the application.  Otherwise it will</span></span>
+<span id="cb196-14"><a href="#cb196-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#           continue running.</span></span>
+<span id="cb196-15"><a href="#cb196-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-16"><a href="#cb196-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb196-17"><a href="#cb196-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># GNOME definitions:  These were found in the GNOME header files</span></span>
+<span id="cb196-18"><a href="#cb196-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">#                     for the C language and converted into their</span></span>
+<span id="cb196-19"><a href="#cb196-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">#                     assembly equivalents.</span></span>
+<span id="cb196-20"><a href="#cb196-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
+<span id="cb196-21"><a href="#cb196-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">GNOME_STOCK_BUTTON_YES:</span>         <span class="co"># GNOME Button Names.</span></span>
+<span id="cb196-22"><a href="#cb196-22" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;Button_Yes</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-23"><a href="#cb196-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-24"><a href="#cb196-24" aria-hidden="true" tabindex="-1"></a>        <span class="kw">GNOME_STOCK_BUTTON_NO:</span></span>
+<span id="cb196-25"><a href="#cb196-25" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;Button_No</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-26"><a href="#cb196-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-27"><a href="#cb196-27" aria-hidden="true" tabindex="-1"></a>        <span class="kw">GNOME_MESSAGE_BOX_QUESTION:</span>     <span class="co"># Gnome MessageBox Types.</span></span>
+<span id="cb196-28"><a href="#cb196-28" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;question</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-29"><a href="#cb196-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-30"><a href="#cb196-30" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span> NULL, <span class="dv">0</span>                    <span class="co"># Standard definition of NULL.</span></span>
+<span id="cb196-31"><a href="#cb196-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-32"><a href="#cb196-32" aria-hidden="true" tabindex="-1"></a>        <span class="kw">signal_destroy:</span>                 <span class="co"># GNOME signal definitions.</span></span>
+<span id="cb196-33"><a href="#cb196-33" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;destroy</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-34"><a href="#cb196-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-35"><a href="#cb196-35" aria-hidden="true" tabindex="-1"></a>        <span class="kw">signal_delete_event:</span></span>
+<span id="cb196-36"><a href="#cb196-36" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;delete_event</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-37"><a href="#cb196-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-38"><a href="#cb196-38" aria-hidden="true" tabindex="-1"></a>        <span class="kw">signal_clicked:</span></span>
+<span id="cb196-39"><a href="#cb196-39" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;clicked</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-40"><a href="#cb196-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-41"><a href="#cb196-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ----- Application-specific definitions ----- #</span></span>
+<span id="cb196-42"><a href="#cb196-42" aria-hidden="true" tabindex="-1"></a>        <span class="co">#</span></span>
+<span id="cb196-43"><a href="#cb196-43" aria-hidden="true" tabindex="-1"></a>        <span class="kw">app_id:</span>                         <span class="co"># Application information.</span></span>
+<span id="cb196-44"><a href="#cb196-44" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;gnome-example</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-45"><a href="#cb196-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-46"><a href="#cb196-46" aria-hidden="true" tabindex="-1"></a>        <span class="kw">app_version:</span></span>
+<span id="cb196-47"><a href="#cb196-47" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;1.000</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-48"><a href="#cb196-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-49"><a href="#cb196-49" aria-hidden="true" tabindex="-1"></a>        <span class="kw">app_title:</span></span>
+<span id="cb196-50"><a href="#cb196-50" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;Gnome Example Program</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-51"><a href="#cb196-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-52"><a href="#cb196-52" aria-hidden="true" tabindex="-1"></a>        <span class="kw">button_quit_text:</span>               <span class="co"># Text for Buttons and windows.</span></span>
+<span id="cb196-53"><a href="#cb196-53" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;I Want to Quit the GNOME Example Program</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-54"><a href="#cb196-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-55"><a href="#cb196-55" aria-hidden="true" tabindex="-1"></a>        <span class="kw">quit_question:</span></span>
+<span id="cb196-56"><a href="#cb196-56" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.ascii</span> <span class="st">&quot;Are you sure you want to quit?</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb196-57"><a href="#cb196-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-58"><a href="#cb196-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.bss</span></span>
+<span id="cb196-59"><a href="#cb196-59" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.equ</span>   WORD_SIZE,  <span class="dv">4</span>            <span class="co"># Variables to save the created</span></span>
+<span id="cb196-60"><a href="#cb196-60" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.lcomm</span> appPtr,     WORD_SIZE    <span class="co"># widgets in.</span></span>
+<span id="cb196-61"><a href="#cb196-61" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.lcomm</span> btnQuit,    WORD_SIZE</span>
+<span id="cb196-62"><a href="#cb196-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-63"><a href="#cb196-63" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb196-64"><a href="#cb196-64" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.globl</span> main</span>
+<span id="cb196-65"><a href="#cb196-65" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.type</span>  main,  <span class="co">@function</span></span>
+<span id="cb196-66"><a href="#cb196-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-67"><a href="#cb196-67" aria-hidden="true" tabindex="-1"></a><span class="kw">main:</span></span>
+<span id="cb196-68"><a href="#cb196-68" aria-hidden="true" tabindex="-1"></a>    pushl %ebp</span>
+<span id="cb196-69"><a href="#cb196-69" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb196-70"><a href="#cb196-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-71"><a href="#cb196-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize GNOME libraries.</span></span>
+<span id="cb196-72"><a href="#cb196-72" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-73"><a href="#cb196-73" aria-hidden="true" tabindex="-1"></a>    pushl <span class="dv">12</span>(%ebp)                      <span class="co"># Argv.</span></span>
+<span id="cb196-74"><a href="#cb196-74" aria-hidden="true" tabindex="-1"></a>    pushl <span class="dv">8</span>(%ebp)                       <span class="co"># Argc.</span></span>
+<span id="cb196-75"><a href="#cb196-75" aria-hidden="true" tabindex="-1"></a>    pushl $app_version</span>
+<span id="cb196-76"><a href="#cb196-76" aria-hidden="true" tabindex="-1"></a>    pushl $app_id</span>
+<span id="cb196-77"><a href="#cb196-77" aria-hidden="true" tabindex="-1"></a>    call  gnome_init</span>
+<span id="cb196-78"><a href="#cb196-78" aria-hidden="true" tabindex="-1"></a>    addl  $16, %esp                     <span class="co"># Recover the stack.</span></span>
+<span id="cb196-79"><a href="#cb196-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-80"><a href="#cb196-80" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create new application window.</span></span>
+<span id="cb196-81"><a href="#cb196-81" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-82"><a href="#cb196-82" aria-hidden="true" tabindex="-1"></a>    pushl $app_title                    <span class="co"># Window title.</span></span>
+<span id="cb196-83"><a href="#cb196-83" aria-hidden="true" tabindex="-1"></a>    pushl $app_id                       <span class="co"># Application ID.</span></span>
+<span id="cb196-84"><a href="#cb196-84" aria-hidden="true" tabindex="-1"></a>    call  gnome_app_new</span>
+<span id="cb196-85"><a href="#cb196-85" aria-hidden="true" tabindex="-1"></a>    addl  $8, %esp                      <span class="co"># Recover the stack.</span></span>
+<span id="cb196-86"><a href="#cb196-86" aria-hidden="true" tabindex="-1"></a>    movl  %eax, appPtr                  <span class="co"># Save the window pointer.</span></span>
+<span id="cb196-87"><a href="#cb196-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-88"><a href="#cb196-88" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create new button.</span></span>
+<span id="cb196-89"><a href="#cb196-89" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-90"><a href="#cb196-90" aria-hidden="true" tabindex="-1"></a>    pushl $button_quit_text             <span class="co"># Button text.</span></span>
+<span id="cb196-91"><a href="#cb196-91" aria-hidden="true" tabindex="-1"></a>    call  gtk_button_new_with_label</span>
+<span id="cb196-92"><a href="#cb196-92" aria-hidden="true" tabindex="-1"></a>    addl  $4, %esp                      <span class="co"># Recover the stack.</span></span>
+<span id="cb196-93"><a href="#cb196-93" aria-hidden="true" tabindex="-1"></a>    movl  %eax, btnQuit                 <span class="co"># Save the button pointer.</span></span>
+<span id="cb196-94"><a href="#cb196-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-95"><a href="#cb196-95" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make the button show up inside the application window.</span></span>
+<span id="cb196-96"><a href="#cb196-96" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-97"><a href="#cb196-97" aria-hidden="true" tabindex="-1"></a>    pushl btnQuit</span>
+<span id="cb196-98"><a href="#cb196-98" aria-hidden="true" tabindex="-1"></a>    pushl appPtr</span>
+<span id="cb196-99"><a href="#cb196-99" aria-hidden="true" tabindex="-1"></a>    call  gnome_app_set_contents</span>
+<span id="cb196-100"><a href="#cb196-100" aria-hidden="true" tabindex="-1"></a>    addl  $8, %esp</span>
+<span id="cb196-101"><a href="#cb196-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-102"><a href="#cb196-102" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Makes the button show up (only after it&#39;s window shows up, though).</span></span>
+<span id="cb196-103"><a href="#cb196-103" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-104"><a href="#cb196-104" aria-hidden="true" tabindex="-1"></a>    pushl btnQuit</span>
+<span id="cb196-105"><a href="#cb196-105" aria-hidden="true" tabindex="-1"></a>    call  gtk_widget_show</span>
+<span id="cb196-106"><a href="#cb196-106" aria-hidden="true" tabindex="-1"></a>    addl  $4, %esp</span>
+<span id="cb196-107"><a href="#cb196-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-108"><a href="#cb196-108" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Makes the application window show up.</span></span>
+<span id="cb196-109"><a href="#cb196-109" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-110"><a href="#cb196-110" aria-hidden="true" tabindex="-1"></a>    pushl appPtr</span>
+<span id="cb196-111"><a href="#cb196-111" aria-hidden="true" tabindex="-1"></a>    call  gtk_widget_show</span>
+<span id="cb196-112"><a href="#cb196-112" aria-hidden="true" tabindex="-1"></a>    addl  $4, %esp</span>
+<span id="cb196-113"><a href="#cb196-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-114"><a href="#cb196-114" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Have GNOME call our delete_handler function whenever a &quot;delete&quot;</span></span>
+<span id="cb196-115"><a href="#cb196-115" aria-hidden="true" tabindex="-1"></a>    <span class="co"># event occurs.</span></span>
+<span id="cb196-116"><a href="#cb196-116" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-117"><a href="#cb196-117" aria-hidden="true" tabindex="-1"></a>    pushl $NULL                         <span class="co"># Extra data to pass to our</span></span>
+<span id="cb196-118"><a href="#cb196-118" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># function (we don&#39;t use any).</span></span>
+<span id="cb196-119"><a href="#cb196-119" aria-hidden="true" tabindex="-1"></a>    pushl $delete_handler               <span class="co"># Function address to call.</span></span>
+<span id="cb196-120"><a href="#cb196-120" aria-hidden="true" tabindex="-1"></a>    pushl $signal_delete_event          <span class="co"># Name of the signal.</span></span>
+<span id="cb196-121"><a href="#cb196-121" aria-hidden="true" tabindex="-1"></a>    pushl appPtr                        <span class="co"># Widget to listen for events on.</span></span>
+<span id="cb196-122"><a href="#cb196-122" aria-hidden="true" tabindex="-1"></a>    call  gtk_signal_connect</span>
+<span id="cb196-123"><a href="#cb196-123" aria-hidden="true" tabindex="-1"></a>    addl  $16, %esp                     <span class="co"># recover stack</span></span>
+<span id="cb196-124"><a href="#cb196-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-125"><a href="#cb196-125" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Have GNOME call our destroy_handler function whenever a &quot;destroy&quot;</span></span>
+<span id="cb196-126"><a href="#cb196-126" aria-hidden="true" tabindex="-1"></a>    <span class="co"># event occurs.</span></span>
+<span id="cb196-127"><a href="#cb196-127" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-128"><a href="#cb196-128" aria-hidden="true" tabindex="-1"></a>    pushl $NULL                         <span class="co"># Extra data to pass to our</span></span>
+<span id="cb196-129"><a href="#cb196-129" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># function (we don&#39;t use any).</span></span>
+<span id="cb196-130"><a href="#cb196-130" aria-hidden="true" tabindex="-1"></a>    pushl $destroy_handler              <span class="co"># Function address to call.</span></span>
+<span id="cb196-131"><a href="#cb196-131" aria-hidden="true" tabindex="-1"></a>    pushl $signal_destroy               <span class="co"># Name of the signal.</span></span>
+<span id="cb196-132"><a href="#cb196-132" aria-hidden="true" tabindex="-1"></a>    pushl appPtr                        <span class="co"># Widget to listen for events on.</span></span>
+<span id="cb196-133"><a href="#cb196-133" aria-hidden="true" tabindex="-1"></a>    call  gtk_signal_connect</span>
+<span id="cb196-134"><a href="#cb196-134" aria-hidden="true" tabindex="-1"></a>    addl  $16, %esp                     <span class="co"># Recover stack.</span></span>
+<span id="cb196-135"><a href="#cb196-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-136"><a href="#cb196-136" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Have GNOME call our click_handler function whenever a &quot;click&quot; event</span></span>
+<span id="cb196-137"><a href="#cb196-137" aria-hidden="true" tabindex="-1"></a>    <span class="co"># occurs.  Note that the previous signals were listening on the</span></span>
+<span id="cb196-138"><a href="#cb196-138" aria-hidden="true" tabindex="-1"></a>    <span class="co"># application window, while this one is only listening on the button.</span></span>
+<span id="cb196-139"><a href="#cb196-139" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-140"><a href="#cb196-140" aria-hidden="true" tabindex="-1"></a>    pushl $NULL</span>
+<span id="cb196-141"><a href="#cb196-141" aria-hidden="true" tabindex="-1"></a>    pushl $click_handler</span>
+<span id="cb196-142"><a href="#cb196-142" aria-hidden="true" tabindex="-1"></a>    pushl $signal_clicked</span>
+<span id="cb196-143"><a href="#cb196-143" aria-hidden="true" tabindex="-1"></a>    pushl btnQuit</span>
+<span id="cb196-144"><a href="#cb196-144" aria-hidden="true" tabindex="-1"></a>    call  gtk_signal_connect</span>
+<span id="cb196-145"><a href="#cb196-145" aria-hidden="true" tabindex="-1"></a>    addl  $16, %esp</span>
+<span id="cb196-146"><a href="#cb196-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-147"><a href="#cb196-147" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transfer control to GNOME.  Everything that happens from here out is</span></span>
+<span id="cb196-148"><a href="#cb196-148" aria-hidden="true" tabindex="-1"></a>    <span class="co"># in reaction to user events, which call signal handlers.  This main</span></span>
+<span id="cb196-149"><a href="#cb196-149" aria-hidden="true" tabindex="-1"></a>    <span class="co"># function just sets up the main window and connects signal handlers,</span></span>
+<span id="cb196-150"><a href="#cb196-150" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and the signal handlers take care of the rest.</span></span>
+<span id="cb196-151"><a href="#cb196-151" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-152"><a href="#cb196-152" aria-hidden="true" tabindex="-1"></a>    call  gtk_main</span>
+<span id="cb196-153"><a href="#cb196-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-154"><a href="#cb196-154" aria-hidden="true" tabindex="-1"></a>    <span class="co"># After the program is finished, leave.</span></span>
+<span id="cb196-155"><a href="#cb196-155" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-156"><a href="#cb196-156" aria-hidden="true" tabindex="-1"></a>    movl  $0, %eax</span>
+<span id="cb196-157"><a href="#cb196-157" aria-hidden="true" tabindex="-1"></a>    leave</span>
+<span id="cb196-158"><a href="#cb196-158" aria-hidden="true" tabindex="-1"></a>    ret</span>
+<span id="cb196-159"><a href="#cb196-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-160"><a href="#cb196-160" aria-hidden="true" tabindex="-1"></a><span class="kw">destroy_handler:</span></span>
+<span id="cb196-161"><a href="#cb196-161" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A &quot;destroy&quot; event happens when the widget is being removed.  In this</span></span>
+<span id="cb196-162"><a href="#cb196-162" aria-hidden="true" tabindex="-1"></a>    <span class="co"># case, when the application window is being removed, we simply want</span></span>
+<span id="cb196-163"><a href="#cb196-163" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the event loop to quit.</span></span>
+<span id="cb196-164"><a href="#cb196-164" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-165"><a href="#cb196-165" aria-hidden="true" tabindex="-1"></a>    pushl %ebp</span>
+<span id="cb196-166"><a href="#cb196-166" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb196-167"><a href="#cb196-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-168"><a href="#cb196-168" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This causes gtk to exit it&#39;s event loop as soon as it can.</span></span>
+<span id="cb196-169"><a href="#cb196-169" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-170"><a href="#cb196-170" aria-hidden="true" tabindex="-1"></a>    call  gtk_main_quit</span>
+<span id="cb196-171"><a href="#cb196-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-172"><a href="#cb196-172" aria-hidden="true" tabindex="-1"></a>    movl  $0, %eax</span>
+<span id="cb196-173"><a href="#cb196-173" aria-hidden="true" tabindex="-1"></a>    leave</span>
+<span id="cb196-174"><a href="#cb196-174" aria-hidden="true" tabindex="-1"></a>    ret</span>
+<span id="cb196-175"><a href="#cb196-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-176"><a href="#cb196-176" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A &quot;delete&quot; event happens when the application window gets clicked in</span></span>
+<span id="cb196-177"><a href="#cb196-177" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the &quot;x&quot; that you normally use to close a window.</span></span>
+<span id="cb196-178"><a href="#cb196-178" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-179"><a href="#cb196-179" aria-hidden="true" tabindex="-1"></a>    <span class="kw">delete_handler:</span></span>
+<span id="cb196-180"><a href="#cb196-180" aria-hidden="true" tabindex="-1"></a>    movl  $1, %eax</span>
+<span id="cb196-181"><a href="#cb196-181" aria-hidden="true" tabindex="-1"></a>    ret</span>
+<span id="cb196-182"><a href="#cb196-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-183"><a href="#cb196-183" aria-hidden="true" tabindex="-1"></a><span class="kw">click_handler:</span></span>
+<span id="cb196-184"><a href="#cb196-184" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A &quot;click&quot; event happens when the widget gets clicked.</span></span>
+<span id="cb196-185"><a href="#cb196-185" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-186"><a href="#cb196-186" aria-hidden="true" tabindex="-1"></a>    pushl %ebp</span>
+<span id="cb196-187"><a href="#cb196-187" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb196-188"><a href="#cb196-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-189"><a href="#cb196-189" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the &quot;Are you sure&quot; dialog.</span></span>
+<span id="cb196-190"><a href="#cb196-190" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-191"><a href="#cb196-191" aria-hidden="true" tabindex="-1"></a>    pushl $NULL                         <span class="co"># End of buttons.</span></span>
+<span id="cb196-192"><a href="#cb196-192" aria-hidden="true" tabindex="-1"></a>    pushl $GNOME_STOCK_BUTTON_NO        <span class="co"># Button 1.</span></span>
+<span id="cb196-193"><a href="#cb196-193" aria-hidden="true" tabindex="-1"></a>    pushl $GNOME_STOCK_BUTTON_YES       <span class="co"># Button 0.</span></span>
+<span id="cb196-194"><a href="#cb196-194" aria-hidden="true" tabindex="-1"></a>    pushl $GNOME_MESSAGE_BOX_QUESTION   <span class="co"># Dialog type.</span></span>
+<span id="cb196-195"><a href="#cb196-195" aria-hidden="true" tabindex="-1"></a>    pushl $quit_question                <span class="co"># Dialog mesasge.</span></span>
+<span id="cb196-196"><a href="#cb196-196" aria-hidden="true" tabindex="-1"></a>    call  gnome_message_box_new</span>
+<span id="cb196-197"><a href="#cb196-197" aria-hidden="true" tabindex="-1"></a>    addl  $16, %esp                     <span class="co"># Recover stack.</span></span>
+<span id="cb196-198"><a href="#cb196-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-199"><a href="#cb196-199" aria-hidden="true" tabindex="-1"></a>    <span class="co"># %eax now holds the pointer to the dialog window.</span></span>
+<span id="cb196-200"><a href="#cb196-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-201"><a href="#cb196-201" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setting Modal to 1 prevents any other user interaction while the</span></span>
+<span id="cb196-202"><a href="#cb196-202" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dialog is being shown.</span></span>
+<span id="cb196-203"><a href="#cb196-203" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-204"><a href="#cb196-204" aria-hidden="true" tabindex="-1"></a>    pushl $1</span>
+<span id="cb196-205"><a href="#cb196-205" aria-hidden="true" tabindex="-1"></a>    pushl %eax</span>
+<span id="cb196-206"><a href="#cb196-206" aria-hidden="true" tabindex="-1"></a>    call  gtk_window_set_modal</span>
+<span id="cb196-207"><a href="#cb196-207" aria-hidden="true" tabindex="-1"></a>    popl  %eax</span>
+<span id="cb196-208"><a href="#cb196-208" aria-hidden="true" tabindex="-1"></a>    addl  $4, %esp</span>
+<span id="cb196-209"><a href="#cb196-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-210"><a href="#cb196-210" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Now we show the dialog.</span></span>
+<span id="cb196-211"><a href="#cb196-211" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-212"><a href="#cb196-212" aria-hidden="true" tabindex="-1"></a>    pushl %eax</span>
+<span id="cb196-213"><a href="#cb196-213" aria-hidden="true" tabindex="-1"></a>    call  gtk_widget_show</span>
+<span id="cb196-214"><a href="#cb196-214" aria-hidden="true" tabindex="-1"></a>    popl  %eax</span>
+<span id="cb196-215"><a href="#cb196-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-216"><a href="#cb196-216" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This sets up all the necessary signal handlers in order to just show</span></span>
+<span id="cb196-217"><a href="#cb196-217" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the dialog, close it when one of the buttons is clicked, and return</span></span>
+<span id="cb196-218"><a href="#cb196-218" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the number of the button that the user clicked on.  The button</span></span>
+<span id="cb196-219"><a href="#cb196-219" aria-hidden="true" tabindex="-1"></a>    <span class="co"># number is based on the order the buttons were pushed on in the</span></span>
+<span id="cb196-220"><a href="#cb196-220" aria-hidden="true" tabindex="-1"></a>    <span class="co"># gnome_message_box_new function.</span></span>
+<span id="cb196-221"><a href="#cb196-221" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-222"><a href="#cb196-222" aria-hidden="true" tabindex="-1"></a>    pushl %eax</span>
+<span id="cb196-223"><a href="#cb196-223" aria-hidden="true" tabindex="-1"></a>    call  gnome_dialog_run_and_close</span>
+<span id="cb196-224"><a href="#cb196-224" aria-hidden="true" tabindex="-1"></a>    addl  $4, %esp</span>
+<span id="cb196-225"><a href="#cb196-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-226"><a href="#cb196-226" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Button 0 is the Yes button.  If this is the button they clicked on,</span></span>
+<span id="cb196-227"><a href="#cb196-227" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tell GNOME to quit it&#39;s event loop.  Otherwise, do nothing.</span></span>
+<span id="cb196-228"><a href="#cb196-228" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb196-229"><a href="#cb196-229" aria-hidden="true" tabindex="-1"></a>    cmpl  $0, %eax</span>
+<span id="cb196-230"><a href="#cb196-230" aria-hidden="true" tabindex="-1"></a>    jne   click_handler_end</span>
+<span id="cb196-231"><a href="#cb196-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-232"><a href="#cb196-232" aria-hidden="true" tabindex="-1"></a>    call  gtk_main_quit</span>
+<span id="cb196-233"><a href="#cb196-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb196-234"><a href="#cb196-234" aria-hidden="true" tabindex="-1"></a><span class="kw">click_handler_end:</span></span>
+<span id="cb196-235"><a href="#cb196-235" aria-hidden="true" tabindex="-1"></a>    leave</span>
+<span id="cb196-236"><a href="#cb196-236" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
+<p>To build this application, execute the following commands:</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span>  -o gnome-example.o  gnome-example.s</span>
+<span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> -o gnome-example    gnome-example.o <span class="kw">`</span><span class="ex">gnome-config</span> --libs gnomeui<span class="kw">`</span></span></code></pre></div>
+<p>Then type in <code>./gnome-example</code> to run it.</p>
+<p>This program, like most GUI programs, makes heavy use of passing pointers to functions as parameters. In this program you create widgets with the GNOME functions and then you set up functions to be called when certain events happen. These functions are called <em>callback</em> functions. All of the event processing is handled by the function <code>gtk_main</code>, so you don't have to worry about how the events are being processed. All you have to do is have callbacks set up to wait for them.</p>
+<p>Here is a short description of all of the GNOME functions that were used in this program:</p>
+<dl>
+<dt>gnome_init:</dt>
+<dd><p>Takes the command-line arguments, argument count, application id, and application version and initializes the GNOME libraries.</p>
+</dd>
+<dt>gnome_app_new:</dt>
+<dd><p>Creates a new application window, and returns a pointer to it. Takes the application id and the window title as arguments.</p>
+</dd>
+<dt>gtk_button_new_with_label:</dt>
+<dd><p>Creates a new button and returns a pointer to it. Takes one argument - the text that is in the button.</p>
+</dd>
+<dt>gnome_app_set_contents:</dt>
+<dd><p>This takes a pointer to the gnome application window and whatever widget you want (a button in this case) and makes the widget be the contents of the application window</p>
+</dd>
+<dt>gtk_widget_show:</dt>
+<dd><p>This must be called on every widget created (application window, buttons, text entry boxes, etc) in order for them to be visible. However, in order for a given widget to be visible, all of its parents must be visible as well.</p>
+</dd>
+<dt>gtk_signal_connect:</dt>
+<dd><p>This is the function that connects widgets and their signal handling callback functions. This function takes the widget pointer, the name of the signal, the callback function, and an extra data pointer. After this function is called, any time the given event is triggered, the callback will be called with the widget that produced the signal and the extra data pointer. In this application, we don't use the extra data pointer, so we just set it to NULL, which is 0.</p>
+</dd>
+<dt>gtk_main:</dt>
+<dd><p>This function causes GNOME to enter into its main loop. To make application programming easier, GNOME handles the main loop of the program for us. GNOME will check for events and call the appropriate callback functions when they occur. This function will continue to process events until <code>gtk_main_quit</code> is called by a signal handler.</p>
+</dd>
+<dt>gtk_main_quit:</dt>
+<dd><p>This function causes GNOME to exit its main loop at the earliest opportunity.</p>
+</dd>
+<dt>gnome_message_box_new:</dt>
+<dd><p>This function creates a dialog window containing a question and response buttons. It takes as parameters the message to display, the type of message it is (warning, question, etc), and a list of buttons to display. The final parameter should be NULL to indicate that there are no more buttons to display.</p>
+</dd>
+<dt>gtk_window_set_modal:</dt>
+<dd><p>This function makes the given window a modal window. In GUI programming, a modal window is one that prevents event processing in other windows until that window is closed. This is often used with Dialog windows.</p>
+</dd>
+<dt>gnome_dialog_run_and_close:</dt>
+<dd><p>This function takes a dialog pointer (the pointer returned by <code>gnome_message_box_new</code> can be used here) and will set up all of the appropriate signal handlers so that it will run until a button is pressed. At that time it will close the dialog and return to you which button was pressed. The button number refers to the order in which the buttons were set up in <code>gnome_message_box_new</code>.</p>
+</dd>
+</dl>
+<p>The following is the same program written in the C language. Type it in as <code>gnome-example-c.c</code>:</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* PURPOSE:  This program is meant to be an example of what GUI programs</span></span>
+<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a><span class="co">             look like written with the GNOME libraries.</span></span>
+<span id="cb198-3"><a href="#cb198-3" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb198-4"><a href="#cb198-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-5"><a href="#cb198-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;gnome.h&gt;</span><span class="pp">;</span></span>
+<span id="cb198-6"><a href="#cb198-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-7"><a href="#cb198-7" aria-hidden="true" tabindex="-1"></a><span class="co">/* Program definitions. */</span></span>
+<span id="cb198-8"><a href="#cb198-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MY_APP_TITLE &quot;Gnome Example Program&quot;</span></span>
+<span id="cb198-9"><a href="#cb198-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MY_APP_ID &quot;gnome-example&quot;</span></span>
+<span id="cb198-10"><a href="#cb198-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MY_APP_VERSION &quot;1.000&quot;</span></span>
+<span id="cb198-11"><a href="#cb198-11" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MY_BUTTON_TEXT &quot;I Want to Quit the Example Program&quot;</span></span>
+<span id="cb198-12"><a href="#cb198-12" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MY_QUIT_QUESTION &quot;Are you sure you want to quit?&quot;</span></span>
+<span id="cb198-13"><a href="#cb198-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-14"><a href="#cb198-14" aria-hidden="true" tabindex="-1"></a><span class="co">/* Must declare functions before they are used. */</span></span>
+<span id="cb198-15"><a href="#cb198-15" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> destroy_handler(gpointer window,</span>
+<span id="cb198-16"><a href="#cb198-16" aria-hidden="true" tabindex="-1"></a>        GdkEventAny *e,</span>
+<span id="cb198-17"><a href="#cb198-17" aria-hidden="true" tabindex="-1"></a>        gpointer data);</span>
+<span id="cb198-18"><a href="#cb198-18" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> delete_handler(gpointer window,</span>
+<span id="cb198-19"><a href="#cb198-19" aria-hidden="true" tabindex="-1"></a>        GdkEventAny *e,</span>
+<span id="cb198-20"><a href="#cb198-20" aria-hidden="true" tabindex="-1"></a>        gpointer data);</span>
+<span id="cb198-21"><a href="#cb198-21" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> click_handler(gpointer window,</span>
+<span id="cb198-22"><a href="#cb198-22" aria-hidden="true" tabindex="-1"></a>        GdkEventAny *e,</span>
+<span id="cb198-23"><a href="#cb198-23" aria-hidden="true" tabindex="-1"></a>        gpointer data);</span>
+<span id="cb198-24"><a href="#cb198-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-25"><a href="#cb198-25" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv)</span>
+<span id="cb198-26"><a href="#cb198-26" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb198-27"><a href="#cb198-27" aria-hidden="true" tabindex="-1"></a>    gpointer appPtr;  <span class="co">/* Application window. */</span></span>
+<span id="cb198-28"><a href="#cb198-28" aria-hidden="true" tabindex="-1"></a>    gpointer btnQuit; <span class="co">/* Quit button. */</span></span>
+<span id="cb198-29"><a href="#cb198-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-30"><a href="#cb198-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Initialize GNOME libraries. */</span></span>
+<span id="cb198-31"><a href="#cb198-31" aria-hidden="true" tabindex="-1"></a>    gnome_init(MY_APP_ID, MY_APP_VERSION, argc, argv);</span>
+<span id="cb198-32"><a href="#cb198-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-33"><a href="#cb198-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Create new application window. */</span></span>
+<span id="cb198-34"><a href="#cb198-34" aria-hidden="true" tabindex="-1"></a>    appPtr = gnome_app_new(MY_APP_ID, MY_APP_TITLE);</span>
+<span id="cb198-35"><a href="#cb198-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-36"><a href="#cb198-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Create new button. */</span></span>
+<span id="cb198-37"><a href="#cb198-37" aria-hidden="true" tabindex="-1"></a>    btnQuit = gtk_button_new_with_label(MY_BUTTON_TEXT);</span>
+<span id="cb198-38"><a href="#cb198-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-39"><a href="#cb198-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Make the button show up inside the application window. */</span></span>
+<span id="cb198-40"><a href="#cb198-40" aria-hidden="true" tabindex="-1"></a>    gnome_app_set_contents(appPtr, btnQuit);</span>
+<span id="cb198-41"><a href="#cb198-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-42"><a href="#cb198-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Makes the button show up. */</span></span>
+<span id="cb198-43"><a href="#cb198-43" aria-hidden="true" tabindex="-1"></a>    gtk_widget_show(btnQuit);</span>
+<span id="cb198-44"><a href="#cb198-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-45"><a href="#cb198-45" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Makes the application window show up. */</span></span>
+<span id="cb198-46"><a href="#cb198-46" aria-hidden="true" tabindex="-1"></a>    gtk_widget_show(appPtr);</span>
+<span id="cb198-47"><a href="#cb198-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-48"><a href="#cb198-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Connect the signal handlers. */</span></span>
+<span id="cb198-49"><a href="#cb198-49" aria-hidden="true" tabindex="-1"></a>    gtk_signal_connect(appPtr, <span class="st">&quot;delete_event&quot;</span>,</span>
+<span id="cb198-50"><a href="#cb198-50" aria-hidden="true" tabindex="-1"></a>            GTK_SIGNAL_FUNC(delete_handler), NULL);</span>
+<span id="cb198-51"><a href="#cb198-51" aria-hidden="true" tabindex="-1"></a>    gtk_signal_connect(appPtr, <span class="st">&quot;destroy&quot;</span>,</span>
+<span id="cb198-52"><a href="#cb198-52" aria-hidden="true" tabindex="-1"></a>            GTK_SIGNAL_FUNC(destroy_handler), NULL);</span>
+<span id="cb198-53"><a href="#cb198-53" aria-hidden="true" tabindex="-1"></a>    gtk_signal_connect(btnQuit, <span class="st">&quot;clicked&quot;</span>,</span>
+<span id="cb198-54"><a href="#cb198-54" aria-hidden="true" tabindex="-1"></a>            GTK_SIGNAL_FUNC(click_handler), NULL);</span>
+<span id="cb198-55"><a href="#cb198-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-56"><a href="#cb198-56" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Transfer control to GNOME. */</span></span>
+<span id="cb198-57"><a href="#cb198-57" aria-hidden="true" tabindex="-1"></a>    gtk_main();</span>
+<span id="cb198-58"><a href="#cb198-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-59"><a href="#cb198-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb198-60"><a href="#cb198-60" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb198-61"><a href="#cb198-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-62"><a href="#cb198-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-63"><a href="#cb198-63" aria-hidden="true" tabindex="-1"></a><span class="co">/* Function to receive the &quot;destroy&quot; signal. */</span></span>
+<span id="cb198-64"><a href="#cb198-64" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> destroy_handler(gpointer window,</span>
+<span id="cb198-65"><a href="#cb198-65" aria-hidden="true" tabindex="-1"></a>        GdkEventAny *e,</span>
+<span id="cb198-66"><a href="#cb198-66" aria-hidden="true" tabindex="-1"></a>        gpointer data)</span>
+<span id="cb198-67"><a href="#cb198-67" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb198-68"><a href="#cb198-68" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Leave GNOME event loop. */</span></span>
+<span id="cb198-69"><a href="#cb198-69" aria-hidden="true" tabindex="-1"></a>    gtk_main_quit();</span>
+<span id="cb198-70"><a href="#cb198-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb198-71"><a href="#cb198-71" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb198-72"><a href="#cb198-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-73"><a href="#cb198-73" aria-hidden="true" tabindex="-1"></a><span class="co">/* Function to receive the &quot;delete_event&quot; signal. */</span></span>
+<span id="cb198-74"><a href="#cb198-74" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> delete_handler(gpointer window,</span>
+<span id="cb198-75"><a href="#cb198-75" aria-hidden="true" tabindex="-1"></a>        GdkEventAny *e,</span>
+<span id="cb198-76"><a href="#cb198-76" aria-hidden="true" tabindex="-1"></a>        gpointer data)</span>
+<span id="cb198-77"><a href="#cb198-77" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb198-78"><a href="#cb198-78" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb198-79"><a href="#cb198-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb198-80"><a href="#cb198-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-81"><a href="#cb198-81" aria-hidden="true" tabindex="-1"></a><span class="co">/* Function to receive the &quot;clicked&quot; signal. */</span></span>
+<span id="cb198-82"><a href="#cb198-82" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> click_handler(gpointer window,</span>
+<span id="cb198-83"><a href="#cb198-83" aria-hidden="true" tabindex="-1"></a>        GdkEventAny *e,</span>
+<span id="cb198-84"><a href="#cb198-84" aria-hidden="true" tabindex="-1"></a>        gpointer data)</span>
+<span id="cb198-85"><a href="#cb198-85" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb198-86"><a href="#cb198-86" aria-hidden="true" tabindex="-1"></a>    gpointer msgbox;</span>
+<span id="cb198-87"><a href="#cb198-87" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> buttonClicked;</span>
+<span id="cb198-88"><a href="#cb198-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-89"><a href="#cb198-89" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Create the &quot;Are you sure&quot; dialog. */</span></span>
+<span id="cb198-90"><a href="#cb198-90" aria-hidden="true" tabindex="-1"></a>    msgbox = gnome_message_box_new(</span>
+<span id="cb198-91"><a href="#cb198-91" aria-hidden="true" tabindex="-1"></a>        MY_QUIT_QUESTION,</span>
+<span id="cb198-92"><a href="#cb198-92" aria-hidden="true" tabindex="-1"></a>        GNOME_MESSAGE_BOX_QUESTION,</span>
+<span id="cb198-93"><a href="#cb198-93" aria-hidden="true" tabindex="-1"></a>        GNOME_STOCK_BUTTON_YES,</span>
+<span id="cb198-94"><a href="#cb198-94" aria-hidden="true" tabindex="-1"></a>        GNOME_STOCK_BUTTON_NO,</span>
+<span id="cb198-95"><a href="#cb198-95" aria-hidden="true" tabindex="-1"></a>        NULL);</span>
+<span id="cb198-96"><a href="#cb198-96" aria-hidden="true" tabindex="-1"></a>    gtk_window_set_modal(msgbox, <span class="dv">1</span>);</span>
+<span id="cb198-97"><a href="#cb198-97" aria-hidden="true" tabindex="-1"></a>    gtk_widget_show(msgbox);</span>
+<span id="cb198-98"><a href="#cb198-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-99"><a href="#cb198-99" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Run dialog box. */</span></span>
+<span id="cb198-100"><a href="#cb198-100" aria-hidden="true" tabindex="-1"></a>    buttonClicked = gnome_dialog_run_and_close(msgbox);</span>
+<span id="cb198-101"><a href="#cb198-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-102"><a href="#cb198-102" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Button 0 is the Yes button.  If this is the button they clicked</span></span>
+<span id="cb198-103"><a href="#cb198-103" aria-hidden="true" tabindex="-1"></a><span class="co">       on, tell GNOME to quit it&#39;s event loop.  Otherwise, do nothing. */</span></span>
+<span id="cb198-104"><a href="#cb198-104" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(buttonClicked == <span class="dv">0</span>)</span>
+<span id="cb198-105"><a href="#cb198-105" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb198-106"><a href="#cb198-106" aria-hidden="true" tabindex="-1"></a>        gtk_main_quit();</span>
+<span id="cb198-107"><a href="#cb198-107" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb198-108"><a href="#cb198-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-109"><a href="#cb198-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb198-110"><a href="#cb198-110" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To compile it, type</p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> -o gnome-example-c  gnome-example-c.c <span class="kw">\</span></span>
+<span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a>                        <span class="kw">`</span><span class="ex">gnome-config</span> --cflags --libs gnomeui<span class="kw">`</span></span></code></pre></div>
+<p>Run it by typing <code>./gnome-example-c</code>.</p>
+<p>Finally, we have a version in Python. Type it in as <code>gnome-example.py</code>:</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PURPOSE:  This program is meant to be an example of what GUI programs</span></span>
+<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="co">#           look like written with the GNOME libraries.</span></span>
+<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-4"><a href="#cb200-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-5"><a href="#cb200-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Import GNOME libraries.</span></span>
+<span id="cb200-6"><a href="#cb200-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-7"><a href="#cb200-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gtk</span>
+<span id="cb200-8"><a href="#cb200-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gnome.ui</span>
+<span id="cb200-9"><a href="#cb200-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-10"><a href="#cb200-10" aria-hidden="true" tabindex="-1"></a><span class="co">#### DEFINE CALLBACK FUNCTIONS FIRST ####</span></span>
+<span id="cb200-11"><a href="#cb200-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-12"><a href="#cb200-12" aria-hidden="true" tabindex="-1"></a><span class="co"># In Python, functions have to be defined before they are used, so we have</span></span>
+<span id="cb200-13"><a href="#cb200-13" aria-hidden="true" tabindex="-1"></a><span class="co"># to define our callback functions first.</span></span>
+<span id="cb200-14"><a href="#cb200-14" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-15"><a href="#cb200-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> destroy_handler(event):</span>
+<span id="cb200-16"><a href="#cb200-16" aria-hidden="true" tabindex="-1"></a>    gtk.mainquit()</span>
+<span id="cb200-17"><a href="#cb200-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb200-18"><a href="#cb200-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-19"><a href="#cb200-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> delete_handler(window, event):</span>
+<span id="cb200-20"><a href="#cb200-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb200-21"><a href="#cb200-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-22"><a href="#cb200-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> click_handler(event):</span>
+<span id="cb200-23"><a href="#cb200-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the &quot;Are you sure&quot; dialog.</span></span>
+<span id="cb200-24"><a href="#cb200-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb200-25"><a href="#cb200-25" aria-hidden="true" tabindex="-1"></a>    msgbox <span class="op">=</span> gnome.ui.GnomeMessageBox(</span>
+<span id="cb200-26"><a href="#cb200-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Are you sure you want to quit?&quot;</span>,</span>
+<span id="cb200-27"><a href="#cb200-27" aria-hidden="true" tabindex="-1"></a>        gnome.ui.MESSAGE_BOX_QUESTION,</span>
+<span id="cb200-28"><a href="#cb200-28" aria-hidden="true" tabindex="-1"></a>        gnome.ui.STOCK_BUTTON_YES,</span>
+<span id="cb200-29"><a href="#cb200-29" aria-hidden="true" tabindex="-1"></a>        gnome.ui.STOCK_BUTTON_NO)</span>
+<span id="cb200-30"><a href="#cb200-30" aria-hidden="true" tabindex="-1"></a>    msgbox.set_modal(<span class="dv">1</span>)</span>
+<span id="cb200-31"><a href="#cb200-31" aria-hidden="true" tabindex="-1"></a>    msgbox.show()</span>
+<span id="cb200-32"><a href="#cb200-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-33"><a href="#cb200-33" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> msgbox.run_and_close()</span>
+<span id="cb200-34"><a href="#cb200-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-35"><a href="#cb200-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Button 0 is the Yes button.  If this is the button they clicked on,</span></span>
+<span id="cb200-36"><a href="#cb200-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tell GNOME to quit it&#39;s event loop.  Otherwise, do nothing.</span></span>
+<span id="cb200-37"><a href="#cb200-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb200-38"><a href="#cb200-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (result <span class="op">==</span> <span class="dv">0</span>):</span>
+<span id="cb200-39"><a href="#cb200-39" aria-hidden="true" tabindex="-1"></a>        gtk.mainquit()</span>
+<span id="cb200-40"><a href="#cb200-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-41"><a href="#cb200-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb200-42"><a href="#cb200-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-43"><a href="#cb200-43" aria-hidden="true" tabindex="-1"></a><span class="co">#### MAIN PROGRAM ####</span></span>
+<span id="cb200-44"><a href="#cb200-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-45"><a href="#cb200-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new application window.</span></span>
+<span id="cb200-46"><a href="#cb200-46" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-47"><a href="#cb200-47" aria-hidden="true" tabindex="-1"></a>myapp <span class="op">=</span> gnome.ui.GnomeApp(</span>
+<span id="cb200-48"><a href="#cb200-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;gnome-example&quot;</span>, <span class="st">&quot;Gnome Example Program&quot;</span>)</span>
+<span id="cb200-49"><a href="#cb200-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-50"><a href="#cb200-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new button.</span></span>
+<span id="cb200-51"><a href="#cb200-51" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-52"><a href="#cb200-52" aria-hidden="true" tabindex="-1"></a>mybutton <span class="op">=</span> gtk.GtkButton(</span>
+<span id="cb200-53"><a href="#cb200-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;I Want to Quit the GNOME Example program&quot;</span>)</span>
+<span id="cb200-54"><a href="#cb200-54" aria-hidden="true" tabindex="-1"></a>myapp.set_contents(mybutton)</span>
+<span id="cb200-55"><a href="#cb200-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-56"><a href="#cb200-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Makes the button show up.</span></span>
+<span id="cb200-57"><a href="#cb200-57" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-58"><a href="#cb200-58" aria-hidden="true" tabindex="-1"></a>mybutton.show()</span>
+<span id="cb200-59"><a href="#cb200-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-60"><a href="#cb200-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Makes the application window show up.</span></span>
+<span id="cb200-61"><a href="#cb200-61" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-62"><a href="#cb200-62" aria-hidden="true" tabindex="-1"></a>myapp.show()</span>
+<span id="cb200-63"><a href="#cb200-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-64"><a href="#cb200-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect signal handlers.</span></span>
+<span id="cb200-65"><a href="#cb200-65" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-66"><a href="#cb200-66" aria-hidden="true" tabindex="-1"></a>myapp.<span class="ex">connect</span>(<span class="st">&quot;delete_event&quot;</span>, delete_handler)</span>
+<span id="cb200-67"><a href="#cb200-67" aria-hidden="true" tabindex="-1"></a>myapp.<span class="ex">connect</span>(<span class="st">&quot;destroy&quot;</span>, destroy_handler)</span>
+<span id="cb200-68"><a href="#cb200-68" aria-hidden="true" tabindex="-1"></a>mybutton.<span class="ex">connect</span>(<span class="st">&quot;clicked&quot;</span>, click_handler)</span>
+<span id="cb200-69"><a href="#cb200-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-70"><a href="#cb200-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer control to GNOME.</span></span>
+<span id="cb200-71"><a href="#cb200-71" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb200-72"><a href="#cb200-72" aria-hidden="true" tabindex="-1"></a>gtk.mainloop()</span></code></pre></div>
+<p>To run it type <code>python gnome-example.py</code>.</p>
+<h1 id="gui-builders">GUI Builders</h1>
+<p>In the previous example, you have created the user-interface for the application by calling the create functions for each widget and placing it where you wanted it. However, this can be quite burdensome for more complex applications. Many programming environments, including GNOME, have programs called GUI builders that can be used to automatically create your GUI for you. You just have to write the code for the signal handlers and for initializing your program. The main GUI builder for GNOME applications is called GLADE. GLADE ships with most Linux distributions.</p>
+<p>There are GUI builders for most programming environments. Borland has a range of tools that will build GUIs quickly and easily on Linux and Win32 systems. The KDE environment has a tool called QT Designer which helps you automatically develop the GUI for their system.</p>
+<p>There is a broad range of choices for developing graphical applications, but hopefully this appendix gave you a taste of what GUI programming is like.</p>
 <h1 id="appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</h1>
 <p>To use this table, simply find the character or escape that you want the code for, and add the number on the left and the top.</p>
 <table>
@@ -3970,71 +4449,6 @@ Rotate left 10010111 = 00101111</code></pre>
 </table>
 <p>ASCII is actually being phased out in favor of an international standard known as Unicode, which allows you to display any character from any known writing system in the world. As you may have noticed, ASCII only has support for English characters. Unicode is much more complicated, however, because it requires more than one byte to encode a single character. There are several different methods for encoding Unicode characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat backwards-compatible with ASCII (it is stored the same for English characters, but expands into multiple byte for international characters). UTF-32 simply requires four bytes for each character rather than one. Windows uses UTF-16, which is a variable-length encoding which requires at least 2 bytes per character, so it is not backwards-compatible with ASCII.</p>
 <p>A good tutorial on internationalization issues, fonts, and Unicode is available in a great Article by Joe Spolsky, called "The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)", available online at http://www.joelonsoftware.com/articles/Unicode.html</p>
-<h1 id="appendix-a.-gui-programming">Appendix A. GUI Programming</h1>
-<h1 id="introduction-to-gui-programming">Introduction to GUI Programming</h1>
-<p>The purpose of this appendix is not to teach you how to do Graphical User Interfaces. It is simply meant to show how writing graphical applications is the same as writing other applications, just using an additional library to handle the graphical parts. As a programmer you need to get used to learning new libraries. Most of your time will be spent passing data from one library to another.</p>
-<h1 id="the-gnome-libraries">The GNOME Libraries</h1>
-<p>The GNOMEGNOME projects is one of several projects to provide a complete desktop to Linux users. The GNOME project includes a panel to hold application launchers and mini-applications called applets, several standard applications to do things such as file management, session management, and configuration, and an API for creating applications which fit in with the way the rest of the system works.</p>
-<p>One thing to notice about the GNOME libraries is that they constantly create and give you pointers to large data structures, but you never need to know how they are laid out in memory. All manipulation of the GUI data structures are done entirely through function calls. This is a characteristic of good library design. Libraries change from version to version, and so does the data that each data structure holds. If you had to access and manipulate that data yourself, then when the library is updated you would have to modify your programs to work with the new library, or at least recompile them. When you access the data through functions, the functions take care of knowing where in the structure each piece of data is. The pointers you receive from the library are <em>opaque</em> - you don't need to know specifically what the structure they are pointing to looks like, you only need to know the functions that will properly manipulate it. When designing libraries, even for use within only one program, this is a good practice to keep in mind.</p>
-<p>This chapter will not go into details about how GNOME works. If you would like to know more, visit the GNOME developer web site at http://developer.gnome.org/. This site contains tutorials, mailing lists, API documentation, and everything else you need to start programming in the GNOME environment.</p>
-<h1 id="a-simple-gnome-program-in-several-languages">A Simple GNOME Program in Several Languages</h1>
-<p>This program will simply show a Window that has a button to quit the application. When that button is clicked it will ask you if you are sure, and if you click yes it will close the application. To run this program, type in the following as <code>gnome-example.s</code>:</p>
-<pre><code>GNOME-EXAMPLE-S</code></pre>
-<p>To build this application, execute the following commands:</p>
-<pre><code>as gnome-example.s -o gnome-example.o
-gcc gnome-example.o `gnome-config --libs gnomeui` \
-    -o gnome-example</code></pre>
-<p>Then type in <code>./gnome-example</code> to run it.</p>
-<p>This program, like most GUIGUI programs, makes heavy use of passing pointers to functions as parameters. In this program you create widgets with the GNOME functions and then you set up functions to be called when certain events happen. These functions are called <em>callback</em> functions. All of the event processing is handled by the function <code>gtk_main</code>, so you don't have to worry about how the events are being processed. All you have to do is have callbacks set up to wait for them.</p>
-<p>Here is a short description of all of the GNOME functions that were used in this program:</p>
-<dl>
-<dt>gnome_init:</dt>
-<dd><p>Takes the command-line arguments, argument count, application id, and application version and initializes the GNOME libraries.</p>
-</dd>
-<dt>gnome_app_new:</dt>
-<dd><p>Creates a new application window, and returns a pointer to it. Takes the application id and the window title as arguments.</p>
-</dd>
-<dt>gtk_button_new_with_label:</dt>
-<dd><p>Creates a new button and returns a pointer to it. Takes one argument - the text that is in the button.</p>
-</dd>
-<dt>gnome_app_set_contents:</dt>
-<dd><p>This takes a pointer to the gnome application window and whatever widget you want (a button in this case) and makes the widget be the contents of the application window</p>
-</dd>
-<dt>gtk_widget_show:</dt>
-<dd><p>This must be called on every widget created (application window, buttons, text entry boxes, etc) in order for them to be visible. However, in order for a given widget to be visible, all of its parents must be visible as well.</p>
-</dd>
-<dt>gtk_signal_connect:</dt>
-<dd><p>This is the function that connects widgets and their signal handling callback functions. This function takes the widget pointer, the name of the signal, the callback function, and an extra data pointer. After this function is called, any time the given event is triggered, the callback will be called with the widget that produced the signal and the extra data pointer. In this application, we don't use the extra data pointer, so we just set it to NULL, which is 0.</p>
-</dd>
-<dt>gtk_main:</dt>
-<dd><p>This function causes GNOME to enter into its main loop. To make application programming easier, GNOME handles the main loop of the program for us. GNOME will check for events and call the appropriate callback functions when they occur. This function will continue to process events until <code>gtk_main_quit</code> is called by a signal handler.</p>
-</dd>
-<dt>gtk_main_quit:</dt>
-<dd><p>This function causes GNOME to exit its main loop at the earliest opportunity.</p>
-</dd>
-<dt>gnome_message_box_new:</dt>
-<dd><p>This function creates a dialog window containing a question and response buttons. It takes as parameters the message to display, the type of message it is (warning, question, etc), and a list of buttons to display. The final parameter should be NULL to indicate that there are no more buttons to display.</p>
-</dd>
-<dt>gtk_window_set_modal:</dt>
-<dd><p>This function makes the given window a modal window. In GUI programming, a modal window is one that prevents event processing in other windows until that window is closed. This is often used with Dialog windows.</p>
-</dd>
-<dt>gnome_dialog_run_and_close:</dt>
-<dd><p>This function takes a dialog pointer (the pointer returned by <code>gnome_message_box_new</code> can be used here) and will set up all of the appropriate signal handlers so that it will run until a button is pressed. At that time it will close the dialog and return to you which button was pressed. The button number refers to the order in which the buttons were set up in <code>gnome_message_box_new</code>.</p>
-</dd>
-</dl>
-<p>The following is the same program written in the C language. Type it in as <code>gnome-example-c.c</code>:</p>
-<pre><code>GNOME-EXAMPLE-C-C</code></pre>
-<p>To compile it, type</p>
-<pre><code>gcc gnome-example-c.c `gnome-config --cflags \
-    --libs gnomeui` -o gnome-example-c</code></pre>
-<p>Run it by typing <code>./gnome-example-c</code>.</p>
-<p>Finally, we have a version in Python. Type it in as gnome-example.py:</p>
-<pre><code>GNOME-EXAMPLE-PY</code></pre>
-<p>To run it type <code>python gnome-example.py</code>.</p>
-<h1 id="gui-builders">GUI Builders</h1>
-<p>In the previous example, you have created the user-interface for the application by calling the create functions for each widget and placing it where you wanted it. However, this can be quite burdensome for more complex applications. Many programming environments, including GNOME, have programs called GUI builders that can be used to automatically create your GUI for you. You just have to write the code for the signal handlers and for initializing your program. The main GUI builderGUI builder for GNOME applications is called GLADE. GLADE ships with most Linux distributions.</p>
-<p>There are GUI builders for most programming environments. Borland has a range of tools that will build GUIs quickly and easily on Linux and Win32Win32 systems. The KDE environment has a tool called QT DesignerQT Designer which helps you automatically develop the GUI for their system.</p>
-<p>There is a broad range of choices for developing graphical applications, but hopefully this appendix gave you a taste of what GUI programming is like.</p>
 <h1 id="appendix-c-important-system-calls">Appendix C. Important System Calls</h1>
 <p>These are some of the more important system calls to use when dealing with Linux. For most cases, however, it is best to use library functions rather than direct system calls, because the system calls were designed to be minimalistic while the library functions were designed to be easy to program with. For information about the Linux C library, see the manual at http://www.gnu.org/software/libc/manual/</p>
 <p>Remember that <em>%eax</em> holds the system call numbers, and that the return values and error codes are also stored in <em>%eax</em>. PERCENTeax PERCENTebx PERCENTecx PERCENTedx</p>

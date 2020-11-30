@@ -8470,54 +8470,6 @@ In assembly language, your best resources are on the web.
 -   Paul Hsieh's [x86 Assembly
     Page](http://www.azillionmonkeys.com/qed/asm.html).
 
-Appendix D. Table of ASCII Codes
-================================
-
-To use this table, simply find the character or escape that you want the
-code for, and add the number on the left and the top.
-
-|     |     |     |     |     |      |     |      |     |
-|-----|:----|:----|:----|:----|:-----|:----|:-----|:----|
-|     | +0  | +1  | +2  | +3  | +4   | +5  | +6   | +7  |
-| 0   | NUL | SOH | STX | ETX | EOT  | ENQ | ACK  | BEL |
-| 8   | BS  | HT  | LF  | VT  | FF   | CR  | SO   | SI  |
-| 16  | DLE | DC1 | DC2 | DC3 | DC4  | NAK | SYN  | ETB |
-| 24  | CAN | EM  | SUB | ESC | FS   | GS  | RS   | US  |
-| 32  |     | !   | "   | \#  | $    | %   | &    | '   |
-| 40  | (   | )   | \*  | \+  | ,    | \-  | .    | /   |
-| 48  | 0   | 1   | 2   | 3   | 4    | 5   | 6    | 7   |
-| 56  | 8   | 9   | :   | ;   | &lt; | =   | &gt; | ?   |
-| 64  | @   | A   | B   | C   | D    | E   | F    | G   |
-| 72  | H   | I   | J   | K   | L    | M   | N    | O   |
-| 80  | P   | Q   | R   | S   | T    | U   | V    | W   |
-| 88  | X   | Y   | Z   | \[  | \\   | \]  | ^    | \_  |
-| 96  | \`  | a   | b   | c   | d    | e   | f    | g   |
-| 104 | h   | i   | j   | k   | l    | m   | n    | o   |
-| 112 | p   | q   | r   | s   | t    | u   | v    | w   |
-| 120 | x   | y   | z   | {   | \|   | }   | \~   | DEL |
-
-Table of ASCII codes in decimal
-
-ASCII is actually being phased out in favor of an international standard
-known as Unicode, which allows you to display any character from any
-known writing system in the world. As you may have noticed, ASCII only
-has support for English characters. Unicode is much more complicated,
-however, because it requires more than one byte to encode a single
-character. There are several different methods for encoding Unicode
-characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat
-backwards-compatible with ASCII (it is stored the same for English
-characters, but expands into multiple byte for international
-characters). UTF-32 simply requires four bytes for each character rather
-than one. Windows uses UTF-16, which is a variable-length encoding which
-requires at least 2 bytes per character, so it is not
-backwards-compatible with ASCII.
-
-A good tutorial on internationalization issues, fonts, and Unicode is
-available in a great Article by Joe Spolsky, called "The Absolute
-Minimum Every Software Developer Absolutely, Positively Must Know About
-Unicode and Character Sets (No Excuses!)", available online at
-http://www.joelonsoftware.com/articles/Unicode.html
-
 Appendix A. GUI Programming
 ===========================
 
@@ -8534,7 +8486,7 @@ spent passing data from one library to another.
 The GNOME Libraries
 ===================
 
-The GNOMEGNOME projects is one of several projects to provide a complete
+The GNOME projects is one of several projects to provide a complete
 desktop to Linux users. The GNOME project includes a panel to hold
 application launchers and mini-applications called applets, several
 standard applications to do things such as file management, session
@@ -8558,9 +8510,9 @@ will properly manipulate it. When designing libraries, even for use
 within only one program, this is a good practice to keep in mind.
 
 This chapter will not go into details about how GNOME works. If you
-would like to know more, visit the GNOME developer web site at
-http://developer.gnome.org/. This site contains tutorials, mailing
-lists, API documentation, and everything else you need to start
+would like to know more, visit the [GNOME developer web
+site](https://developer.gnome.org/). This site contains tutorials,
+mailing lists, API documentation, and everything else you need to start
 programming in the GNOME environment.
 
 A Simple GNOME Program in Several Languages
@@ -8571,17 +8523,255 @@ application. When that button is clicked it will ask you if you are
 sure, and if you click yes it will close the application. To run this
 program, type in the following as `gnome-example.s`:
 
-    GNOME-EXAMPLE-S
+``` gnuassembler
+    .code32                             # Generate 32-bit code.
+
+    # PURPOSE:  This program is meant to be an example of what GUI
+    #           programs look like written with the GNOME libraries.
+    #
+    # INPUT:    The user can only click on the "Quit" button or close
+    #           the window.
+    #
+    # OUTPUT:   The application will close.
+    #
+    # PROCESS:  If the user clicks on the "Quit" button, the program will
+    #           display a dialog asking if they are sure.  If they click
+    #           Yes, it will close the application.  Otherwise it will
+    #           continue running.
+    #
+    .section .data
+        # GNOME definitions:  These were found in the GNOME header files
+        #                     for the C language and converted into their
+        #                     assembly equivalents.
+        #
+        GNOME_STOCK_BUTTON_YES:         # GNOME Button Names.
+            .ascii "Button_Yes\0"
+
+        GNOME_STOCK_BUTTON_NO:
+            .ascii "Button_No\0"
+
+        GNOME_MESSAGE_BOX_QUESTION:     # Gnome MessageBox Types.
+            .ascii "question\0"
+
+        .equ NULL, 0                    # Standard definition of NULL.
+
+        signal_destroy:                 # GNOME signal definitions.
+            .ascii "destroy\0"
+
+        signal_delete_event:
+            .ascii "delete_event\0"
+
+        signal_clicked:
+            .ascii "clicked\0"
+
+        # ----- Application-specific definitions ----- #
+        #
+        app_id:                         # Application information.
+            .ascii "gnome-example\0"
+
+        app_version:
+            .ascii "1.000\0"
+
+        app_title:
+            .ascii "Gnome Example Program\0"
+
+        button_quit_text:               # Text for Buttons and windows.
+            .ascii "I Want to Quit the GNOME Example Program\0"
+
+        quit_question:
+            .ascii "Are you sure you want to quit?\0"
+
+    .section .bss
+        .equ   WORD_SIZE,  4            # Variables to save the created
+        .lcomm appPtr,     WORD_SIZE    # widgets in.
+        .lcomm btnQuit,    WORD_SIZE
+
+    .section .text
+        .globl main
+        .type  main,  @function
+
+main:
+    pushl %ebp
+    movl  %esp, %ebp
+
+    # Initialize GNOME libraries.
+    #
+    pushl 12(%ebp)                      # Argv.
+    pushl 8(%ebp)                       # Argc.
+    pushl $app_version
+    pushl $app_id
+    call  gnome_init
+    addl  $16, %esp                     # Recover the stack.
+
+    # Create new application window.
+    #
+    pushl $app_title                    # Window title.
+    pushl $app_id                       # Application ID.
+    call  gnome_app_new
+    addl  $8, %esp                      # Recover the stack.
+    movl  %eax, appPtr                  # Save the window pointer.
+
+    # Create new button.
+    #
+    pushl $button_quit_text             # Button text.
+    call  gtk_button_new_with_label
+    addl  $4, %esp                      # Recover the stack.
+    movl  %eax, btnQuit                 # Save the button pointer.
+
+    # Make the button show up inside the application window.
+    #
+    pushl btnQuit
+    pushl appPtr
+    call  gnome_app_set_contents
+    addl  $8, %esp
+
+    # Makes the button show up (only after it's window shows up, though).
+    #
+    pushl btnQuit
+    call  gtk_widget_show
+    addl  $4, %esp
+
+    # Makes the application window show up.
+    #
+    pushl appPtr
+    call  gtk_widget_show
+    addl  $4, %esp
+
+    # Have GNOME call our delete_handler function whenever a "delete"
+    # event occurs.
+    #
+    pushl $NULL                         # Extra data to pass to our
+                                        # function (we don't use any).
+    pushl $delete_handler               # Function address to call.
+    pushl $signal_delete_event          # Name of the signal.
+    pushl appPtr                        # Widget to listen for events on.
+    call  gtk_signal_connect
+    addl  $16, %esp                     # recover stack
+
+    # Have GNOME call our destroy_handler function whenever a "destroy"
+    # event occurs.
+    #
+    pushl $NULL                         # Extra data to pass to our
+                                        # function (we don't use any).
+    pushl $destroy_handler              # Function address to call.
+    pushl $signal_destroy               # Name of the signal.
+    pushl appPtr                        # Widget to listen for events on.
+    call  gtk_signal_connect
+    addl  $16, %esp                     # Recover stack.
+
+    # Have GNOME call our click_handler function whenever a "click" event
+    # occurs.  Note that the previous signals were listening on the
+    # application window, while this one is only listening on the button.
+    #
+    pushl $NULL
+    pushl $click_handler
+    pushl $signal_clicked
+    pushl btnQuit
+    call  gtk_signal_connect
+    addl  $16, %esp
+
+    # Transfer control to GNOME.  Everything that happens from here out is
+    # in reaction to user events, which call signal handlers.  This main
+    # function just sets up the main window and connects signal handlers,
+    # and the signal handlers take care of the rest.
+    #
+    call  gtk_main
+
+    # After the program is finished, leave.
+    #
+    movl  $0, %eax
+    leave
+    ret
+
+destroy_handler:
+    # A "destroy" event happens when the widget is being removed.  In this
+    # case, when the application window is being removed, we simply want
+    # the event loop to quit.
+    #
+    pushl %ebp
+    movl  %esp, %ebp
+
+    # This causes gtk to exit it's event loop as soon as it can.
+    #
+    call  gtk_main_quit
+
+    movl  $0, %eax
+    leave
+    ret
+
+    # A "delete" event happens when the application window gets clicked in
+    # the "x" that you normally use to close a window.
+    #
+    delete_handler:
+    movl  $1, %eax
+    ret
+
+click_handler:
+    # A "click" event happens when the widget gets clicked.
+    #
+    pushl %ebp
+    movl  %esp, %ebp
+
+    # Create the "Are you sure" dialog.
+    #
+    pushl $NULL                         # End of buttons.
+    pushl $GNOME_STOCK_BUTTON_NO        # Button 1.
+    pushl $GNOME_STOCK_BUTTON_YES       # Button 0.
+    pushl $GNOME_MESSAGE_BOX_QUESTION   # Dialog type.
+    pushl $quit_question                # Dialog mesasge.
+    call  gnome_message_box_new
+    addl  $16, %esp                     # Recover stack.
+
+    # %eax now holds the pointer to the dialog window.
+
+    # Setting Modal to 1 prevents any other user interaction while the
+    # dialog is being shown.
+    #
+    pushl $1
+    pushl %eax
+    call  gtk_window_set_modal
+    popl  %eax
+    addl  $4, %esp
+
+    # Now we show the dialog.
+    #
+    pushl %eax
+    call  gtk_widget_show
+    popl  %eax
+
+    # This sets up all the necessary signal handlers in order to just show
+    # the dialog, close it when one of the buttons is clicked, and return
+    # the number of the button that the user clicked on.  The button
+    # number is based on the order the buttons were pushed on in the
+    # gnome_message_box_new function.
+    #
+    pushl %eax
+    call  gnome_dialog_run_and_close
+    addl  $4, %esp
+
+    # Button 0 is the Yes button.  If this is the button they clicked on,
+    # tell GNOME to quit it's event loop.  Otherwise, do nothing.
+    #
+    cmpl  $0, %eax
+    jne   click_handler_end
+
+    call  gtk_main_quit
+
+click_handler_end:
+    leave
+    ret
+```
 
 To build this application, execute the following commands:
 
-    as gnome-example.s -o gnome-example.o
-    gcc gnome-example.o `gnome-config --libs gnomeui` \
-        -o gnome-example
+``` bash
+as  -o gnome-example.o  gnome-example.s
+gcc -o gnome-example    gnome-example.o `gnome-config --libs gnomeui`
+```
 
 Then type in `./gnome-example` to run it.
 
-This program, like most GUIGUI programs, makes heavy use of passing
+This program, like most GUI programs, makes heavy use of passing
 pointers to functions as parameters. In this program you create widgets
 with the GNOME functions and then you set up functions to be called when
 certain events happen. These functions are called *callback* functions.
@@ -8658,18 +8848,204 @@ buttons were set up in `gnome_message_box_new`.
 The following is the same program written in the C language. Type it in
 as `gnome-example-c.c`:
 
-    GNOME-EXAMPLE-C-C
+``` c
+/* PURPOSE:  This program is meant to be an example of what GUI programs
+             look like written with the GNOME libraries.
+ */
+
+#include <gnome.h>;
+
+/* Program definitions. */
+#define MY_APP_TITLE "Gnome Example Program"
+#define MY_APP_ID "gnome-example"
+#define MY_APP_VERSION "1.000"
+#define MY_BUTTON_TEXT "I Want to Quit the Example Program"
+#define MY_QUIT_QUESTION "Are you sure you want to quit?"
+
+/* Must declare functions before they are used. */
+int destroy_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data);
+int delete_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data);
+int click_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data);
+
+int main(int argc, char **argv)
+{
+    gpointer appPtr;  /* Application window. */
+    gpointer btnQuit; /* Quit button. */
+
+    /* Initialize GNOME libraries. */
+    gnome_init(MY_APP_ID, MY_APP_VERSION, argc, argv);
+
+    /* Create new application window. */
+    appPtr = gnome_app_new(MY_APP_ID, MY_APP_TITLE);
+
+    /* Create new button. */
+    btnQuit = gtk_button_new_with_label(MY_BUTTON_TEXT);
+
+    /* Make the button show up inside the application window. */
+    gnome_app_set_contents(appPtr, btnQuit);
+
+    /* Makes the button show up. */
+    gtk_widget_show(btnQuit);
+
+    /* Makes the application window show up. */
+    gtk_widget_show(appPtr);
+
+    /* Connect the signal handlers. */
+    gtk_signal_connect(appPtr, "delete_event",
+            GTK_SIGNAL_FUNC(delete_handler), NULL);
+    gtk_signal_connect(appPtr, "destroy",
+            GTK_SIGNAL_FUNC(destroy_handler), NULL);
+    gtk_signal_connect(btnQuit, "clicked",
+            GTK_SIGNAL_FUNC(click_handler), NULL);
+
+    /* Transfer control to GNOME. */
+    gtk_main();
+
+    return 0;
+}
+
+
+/* Function to receive the "destroy" signal. */
+int destroy_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data)
+{
+    /* Leave GNOME event loop. */
+    gtk_main_quit();
+    return 0;
+}
+
+/* Function to receive the "delete_event" signal. */
+int delete_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data)
+{
+    return 0;
+}
+
+/* Function to receive the "clicked" signal. */
+int click_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data)
+{
+    gpointer msgbox;
+    int buttonClicked;
+
+    /* Create the "Are you sure" dialog. */
+    msgbox = gnome_message_box_new(
+        MY_QUIT_QUESTION,
+        GNOME_MESSAGE_BOX_QUESTION,
+        GNOME_STOCK_BUTTON_YES,
+        GNOME_STOCK_BUTTON_NO,
+        NULL);
+    gtk_window_set_modal(msgbox, 1);
+    gtk_widget_show(msgbox);
+
+    /* Run dialog box. */
+    buttonClicked = gnome_dialog_run_and_close(msgbox);
+
+    /* Button 0 is the Yes button.  If this is the button they clicked
+       on, tell GNOME to quit it's event loop.  Otherwise, do nothing. */
+    if(buttonClicked == 0)
+    {
+        gtk_main_quit();
+    }
+
+    return 0;
+}
+```
 
 To compile it, type
 
-    gcc gnome-example-c.c `gnome-config --cflags \
-        --libs gnomeui` -o gnome-example-c
+``` bash
+gcc -o gnome-example-c  gnome-example-c.c \
+                        `gnome-config --cflags --libs gnomeui`
+```
 
 Run it by typing `./gnome-example-c`.
 
-Finally, we have a version in Python. Type it in as gnome-example.py:
+Finally, we have a version in Python. Type it in as `gnome-example.py`:
 
-    GNOME-EXAMPLE-PY
+``` python
+# PURPOSE:  This program is meant to be an example of what GUI programs
+#           look like written with the GNOME libraries.
+#
+
+# Import GNOME libraries.
+#
+import gtk
+import gnome.ui
+
+#### DEFINE CALLBACK FUNCTIONS FIRST ####
+
+# In Python, functions have to be defined before they are used, so we have
+# to define our callback functions first.
+#
+def destroy_handler(event):
+    gtk.mainquit()
+    return 0
+
+def delete_handler(window, event):
+    return 0
+
+def click_handler(event):
+    # Create the "Are you sure" dialog.
+    #
+    msgbox = gnome.ui.GnomeMessageBox(
+        "Are you sure you want to quit?",
+        gnome.ui.MESSAGE_BOX_QUESTION,
+        gnome.ui.STOCK_BUTTON_YES,
+        gnome.ui.STOCK_BUTTON_NO)
+    msgbox.set_modal(1)
+    msgbox.show()
+
+    result = msgbox.run_and_close()
+
+    # Button 0 is the Yes button.  If this is the button they clicked on,
+    # tell GNOME to quit it's event loop.  Otherwise, do nothing.
+    #
+    if (result == 0):
+        gtk.mainquit()
+
+    return 0
+
+#### MAIN PROGRAM ####
+
+# Create new application window.
+#
+myapp = gnome.ui.GnomeApp(
+    "gnome-example", "Gnome Example Program")
+
+# Create new button.
+#
+mybutton = gtk.GtkButton(
+    "I Want to Quit the GNOME Example program")
+myapp.set_contents(mybutton)
+
+# Makes the button show up.
+#
+mybutton.show()
+
+# Makes the application window show up.
+#
+myapp.show()
+
+# Connect signal handlers.
+#
+myapp.connect("delete_event", delete_handler)
+myapp.connect("destroy", destroy_handler)
+mybutton.connect("clicked", click_handler)
+
+# Transfer control to GNOME.
+#
+gtk.mainloop()
+```
 
 To run it type `python gnome-example.py`.
 
@@ -8682,18 +9058,66 @@ it where you wanted it. However, this can be quite burdensome for more
 complex applications. Many programming environments, including GNOME,
 have programs called GUI builders that can be used to automatically
 create your GUI for you. You just have to write the code for the signal
-handlers and for initializing your program. The main GUI builderGUI
-builder for GNOME applications is called GLADE. GLADE ships with most
-Linux distributions.
+handlers and for initializing your program. The main GUI builder for
+GNOME applications is called GLADE. GLADE ships with most Linux
+distributions.
 
 There are GUI builders for most programming environments. Borland has a
 range of tools that will build GUIs quickly and easily on Linux and
-Win32Win32 systems. The KDE environment has a tool called QT DesignerQT
-Designer which helps you automatically develop the GUI for their system.
+Win32 systems. The KDE environment has a tool called QT Designer which
+helps you automatically develop the GUI for their system.
 
 There is a broad range of choices for developing graphical applications,
 but hopefully this appendix gave you a taste of what GUI programming is
 like.
+
+Appendix D. Table of ASCII Codes
+================================
+
+To use this table, simply find the character or escape that you want the
+code for, and add the number on the left and the top.
+
+|     |     |     |     |     |      |     |      |     |
+|-----|:----|:----|:----|:----|:-----|:----|:-----|:----|
+|     | +0  | +1  | +2  | +3  | +4   | +5  | +6   | +7  |
+| 0   | NUL | SOH | STX | ETX | EOT  | ENQ | ACK  | BEL |
+| 8   | BS  | HT  | LF  | VT  | FF   | CR  | SO   | SI  |
+| 16  | DLE | DC1 | DC2 | DC3 | DC4  | NAK | SYN  | ETB |
+| 24  | CAN | EM  | SUB | ESC | FS   | GS  | RS   | US  |
+| 32  |     | !   | "   | \#  | $    | %   | &    | '   |
+| 40  | (   | )   | \*  | \+  | ,    | \-  | .    | /   |
+| 48  | 0   | 1   | 2   | 3   | 4    | 5   | 6    | 7   |
+| 56  | 8   | 9   | :   | ;   | &lt; | =   | &gt; | ?   |
+| 64  | @   | A   | B   | C   | D    | E   | F    | G   |
+| 72  | H   | I   | J   | K   | L    | M   | N    | O   |
+| 80  | P   | Q   | R   | S   | T    | U   | V    | W   |
+| 88  | X   | Y   | Z   | \[  | \\   | \]  | ^    | \_  |
+| 96  | \`  | a   | b   | c   | d    | e   | f    | g   |
+| 104 | h   | i   | j   | k   | l    | m   | n    | o   |
+| 112 | p   | q   | r   | s   | t    | u   | v    | w   |
+| 120 | x   | y   | z   | {   | \|   | }   | \~   | DEL |
+
+Table of ASCII codes in decimal
+
+ASCII is actually being phased out in favor of an international standard
+known as Unicode, which allows you to display any character from any
+known writing system in the world. As you may have noticed, ASCII only
+has support for English characters. Unicode is much more complicated,
+however, because it requires more than one byte to encode a single
+character. There are several different methods for encoding Unicode
+characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat
+backwards-compatible with ASCII (it is stored the same for English
+characters, but expands into multiple byte for international
+characters). UTF-32 simply requires four bytes for each character rather
+than one. Windows uses UTF-16, which is a variable-length encoding which
+requires at least 2 bytes per character, so it is not
+backwards-compatible with ASCII.
+
+A good tutorial on internationalization issues, fonts, and Unicode is
+available in a great Article by Joe Spolsky, called "The Absolute
+Minimum Every Software Developer Absolutely, Positively Must Know About
+Unicode and Character Sets (No Excuses!)", available online at
+http://www.joelonsoftware.com/articles/Unicode.html
 
 Appendix C. Important System Calls
 ==================================
