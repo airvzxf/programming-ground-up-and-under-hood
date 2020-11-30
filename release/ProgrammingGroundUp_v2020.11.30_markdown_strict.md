@@ -9286,15 +9286,29 @@ it looks different. Some of the differences include:
 Other differences exist, but they are small in comparison. To show some
 of the differences, consider the following instruction:
 
-    movl %eax, 8(%ebx,%edi,4)
+    movl $5, %eax               # 1
+    movl 12(%ebx), %eax         # 2
+    movl (%ebx,%edi), %ecx      # 3
+    movl 8(%ebx,%edi), %eax     # 4
+    movl (%ebx,%edi,4), %eax    # 5
+    movl 8(%ebx,%edi,4), %eax   # 6
 
 In Intel syntax, this would be written as:
 
-    mov  [8 + %ebx + 1 * edi], eax
+    mov  eax, 5                 ; 1
+    mov  eax, [ebx+12]          ; 2
+    mov  ecx, [ebx+edi]         ; 3
+    mov  eax, [ebx+edi+8]       ; 4
+    mov  eax, [ebx+edi*4]       ; 5
+    mov  eax, [ebx+edi*4+8]     ; 6
 
 The memory reference is a bit easier to read than its AT&T counterpart
 because it spells out exactly how the address will be computed. However,
 but the order of operands in Intel syntax can be confusing.
+
+The tool [intel2gas](http://manpages.org/intel2gas) is a small text
+parser that can convert assembler source written in NASM syntax (Intel)
+to gas syntax (AT&T). And nowadays more often also the other way.
 
 Where to Go for More Information
 --------------------------------
