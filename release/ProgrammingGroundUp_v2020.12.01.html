@@ -4315,7 +4315,6 @@ Rotate left 10010111 = 00101111</code></pre>
 <div class="sourceCode" id="cb201"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>movl   I/R/M,  I/R/M      <span class="co"># eFlags affected: O/S/Z/A/C</span></span>
 <span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>movl   $5,     eax        <span class="co"># I, R -&gt; eFlags that may affect: O/S/Z/A/C</span></span>
 <span id="cb201-3"><a href="#cb201-3" aria-hidden="true" tabindex="-1"></a>movl   edx,    (%ebp)     <span class="co"># R, M -&gt; eFlags that may affect: O/S/Z/A/C</span></span></code></pre></div>
-<hr />
 <p>Table B-1. Data Transfer Instructions.</p>
 <p><strong>Instruction</strong> <em>Operands</em> —–&gt; Affected Flags (eFlags).</p>
 <hr />
@@ -4346,219 +4345,138 @@ Rotate left 10010111 = 00101111</code></pre>
 <hr />
 <h2 id="integer-instructions">Integer Instructions</h2>
 <p>These are basic calculating instructions that operate on signed or unsigned integers.</p>
-<table>
-<caption>Table B-2. Integer Instructions.</caption>
-<colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>adcl</strong>: Add with carry. Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true. This is usually used for operations larger than a machine word. The addition on the least-significant word would take place using <code>addl</code>, while additions to the other words would used the <code>adcl</code> instruction to take the carry from the previous add into account. For the usual case, this is not used, and <code>addl</code> is used instead.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>addl</strong>: Addition. Adds the first operand to the second, storing the result in the second. If the result is larger than the destination register, the overflow and carry bits are set to true. This instruction operates on both signed and unsigned integers.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>cdq</strong>: Converts the <em>%eax</em> word into the double-word consisting of <em>%edx</em>:<em>%eax</em> with sign extension. The <code>q</code> signifies that it is a <em>quad-word</em>. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an <code>idivl</code> instruction.</p>
-<hr /></td>
-<td style="text-align: center;"><p>Not Applicable +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>cmpl</strong>: Compares two integers. It does this by subtracting the first operand from the second. It discards the results, but sets the flags accordingly. Usually used before a conditional jump.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>decl</strong>: Decrements the register or memory location. Use <code>decb</code> to decrement a byte instead of a word.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>divl</strong>: Performs unsigned division. Divides the contents of the double-word contained in the combined <em>%edx</em>:<em>%eax</em> registers by the value in the register or memory location specified. The <em>%eax</em> register contains the resulting quotient, and the <em>%edx</em> register contains the resulting remainder. If the quotient is too large to fit in <em>%eax</em>, it triggers a type 0 interrupt.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>idivl</strong>: Performs signed division. Operates just like <code>divl</code> above.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>imull</strong>: Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be <em>%eax</em>, and the full result is stored in the double-word <em>%edx</em>:<em>%eax</em>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M/I, R +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>incl</strong>: Increments the given register or memory location. Use <code>incb</code> to increment a byte instead of a word.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>mull</strong>: Perform unsigned multiplication. Same rules as apply to <code>imull</code>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M/I, R +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>negl</strong>: Negates (gives the two's complement inversion of) the given register or memory location.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>sbbl</strong>: Subtract with borrowing. This is used in the same way that <code>adc</code> is, except for subtraction. Normally only <code>subl</code> is used.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>subl</strong>: Subtract the two operands. This subtracts the first operand from the second, and stores the result in the second operand. This instruction can be used on both signed and unsigned numbers.</td>
-<td style="text-align: center;">I/R/M, R/M +++++++++ O/S/Z/A/P/C</td>
-</tr>
-</tbody>
-</table>
+<p>Table B-2. Integer Instructions.</p>
+<p><strong>Instruction</strong> <em>Operands</em> —–&gt; Affected Flags (eFlags).</p>
+<hr />
+<p><strong>adcl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Add with carry. Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true. This is usually used for operations larger than a machine word. The addition on the least-significant word would take place using <code>addl</code>, while additions to the other words would used the <code>adcl</code> instruction to take the carry from the previous add into account. For the usual case, this is not used, and <code>addl</code> is used instead.</p>
+</blockquote>
+<p><strong>addl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Addition. Adds the first operand to the second, storing the result in the second. If the result is larger than the destination register, the overflow and carry bits are set to true. This instruction operates on both signed and unsigned integers.</p>
+</blockquote>
+<p><strong>cdq</strong> <em>Not Applicable</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Converts the <em>%eax</em> word into the double-word consisting of <em>%edx</em>:<em>%eax</em> with sign extension. The <code>q</code> signifies that it is a <em>quad-word</em>. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an <code>idivl</code> instruction.</p>
+</blockquote>
+<p><strong>cmpl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Compares two integers. It does this by subtracting the first operand from the second. It discards the results, but sets the flags accordingly. Usually used before a conditional jump.</p>
+</blockquote>
+<p><strong>decl</strong> <em>R/M</em> —–&gt; O/S/Z/A/P:</p>
+<blockquote>
+<p>Decrements the register or memory location. Use <code>decb</code> to decrement a byte instead of a word.</p>
+</blockquote>
+<p><strong>divl</strong> <em>R/M</em> —–&gt; O/S/Z/A/P:</p>
+<blockquote>
+<p>Performs unsigned division. Divides the contents of the double-word contained in the combined <em>%edx</em>:<em>%eax</em> registers by the value in the register or memory location specified. The <em>%eax</em> register contains the resulting quotient, and the <em>%edx</em> register contains the resulting remainder. If the quotient is too large to fit in <em>%eax</em>, it triggers a type 0 interrupt.</p>
+</blockquote>
+<p><strong>idivl</strong> <em>R/M</em> —–&gt; O/S/Z/A/P:</p>
+<blockquote>
+<p>Performs signed division. Operates just like <code>divl</code> above.</p>
+</blockquote>
+<p><strong>imull</strong> <em>R/M/I</em>, <em>R</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be <em>%eax</em>, and the full result is stored in the double-word <em>%edx</em>:<em>%eax</em>.</p>
+</blockquote>
+<p><strong>incl</strong> <em>R/M</em> —–&gt; O/S/Z/A/P:</p>
+<blockquote>
+<p>Increments the given register or memory location. Use <code>incb</code> to increment a byte instead of a word.</p>
+</blockquote>
+<p><strong>mull</strong> <em>R/M/I</em>, <em>R</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Perform unsigned multiplication. Same rules as apply to <code>imull</code>.</p>
+</blockquote>
+<p><strong>negl</strong> <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Negates (gives the two's complement inversion of) the given register or memory location.</p>
+</blockquote>
+<p><strong>sbbl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Subtract with borrowing. This is used in the same way that <code>adc</code> is, except for subtraction. Normally only <code>subl</code> is used.</p>
+</blockquote>
+<p><strong>subl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Subtract the two operands. This subtracts the first operand from the second, and stores the result in the second operand. This instruction can be used on both signed and unsigned numbers.</p>
+</blockquote>
+<hr />
 <h2 id="logic-instructions">Logic Instructions</h2>
 <p>These instructions operate on memory as bits instead of words.</p>
-<table>
-<caption>Table B-3. Logic Instructions.</caption>
-<colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>andl</strong>: Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>notl</strong>: Performs a logical not on each bit in the operand. Also known as a one's complement.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ Not Applicable</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>orl</strong>: Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>rcll</strong>: Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register <em>%cl</em>. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>rcrl</strong>: Same as above, but rotates right.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>roll</strong>: Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>rorl</strong>: Same as above, but rotates right.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>sall</strong>: Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>sarl</strong>: Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>shll</strong>: Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>shrl</strong>: Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>testl</strong>: Does a logical and of both operands and discards the results, but sets the flags accordingly.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>xorl</strong>: Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
-<td style="text-align: center;">I/R/M, R/M +++++++++ O/S/Z/A/P/C</td>
-</tr>
-</tbody>
-</table>
+<p>Table B-3. Logic Instructions.</p>
+<p><strong>Instruction</strong> <em>Operands</em> —–&gt; Affected Flags (eFlags).</p>
+<hr />
+<p><strong>andl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/P/C:</p>
+<blockquote>
+<p>Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
+</blockquote>
+<p><strong>notl</strong> <em>R/M</em> —–&gt; Not Applicable:</p>
+<blockquote>
+<p>Performs a logical not on each bit in the operand. Also known as a one's complement.</p>
+</blockquote>
+<p><strong>orl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
+</blockquote>
+<p><strong>rcll</strong> <em>I/cl</em>, <em>R/M</em> —–&gt; O/C:</p>
+<blockquote>
+<p>Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register <em>%cl</em>. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.</p>
+</blockquote>
+<p><strong>rcrl</strong> <em>I/cl</em>, <em>R/M</em> —–&gt; O/C:</p>
+<blockquote>
+<p>Same as above, but rotates right.</p>
+</blockquote>
+<p><strong>roll</strong> <em>I/cl</em>, <em>R/M</em> —–&gt; O/C:</p>
+<blockquote>
+<p>Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+</blockquote>
+<p><strong>rorl</strong> <em>I/cl</em>, <em>R/M</em> —–&gt; O/C:</p>
+<blockquote>
+<p>Same as above, but rotates right.</p>
+</blockquote>
+<p><strong>sall</strong> <em>I/cl</em>, <em>R/M</em> —–&gt; C:</p>
+<blockquote>
+<p>Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+</blockquote>
+<p><strong>sarl</strong> <em>I/cl</em>, <em>R/M</em> —–&gt; C:</p>
+<blockquote>
+<p>Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+</blockquote>
+<p><strong>shll</strong> <em>I/cl</em>, <em>R/M</em> —–&gt; C:</p>
+<blockquote>
+<p>Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+</blockquote>
+<p><strong>shrl</strong> <em>I/cl</em>, <em>R/M</em> —–&gt; C:</p>
+<blockquote>
+<p>Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
+</blockquote>
+<p><strong>testl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Does a logical and of both operands and discards the results, but sets the flags accordingly.</p>
+</blockquote>
+<p><strong>xorl</strong> <em>I/R/M</em>, <em>R/M</em> —–&gt; O/S/Z/A/P/C:</p>
+<blockquote>
+<p>Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
+</blockquote>
+<hr />
 <h2 id="flow-control-instructions">Flow Control Instructions</h2>
 <p>These instructions may alter the flow of the program.</p>
-<table>
-<caption>Table B-4. Flow Control Instructions.</caption>
-<colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>call</strong>: This pushes what would be the next value for <em>%eip</em> onto the stack, and jumps to the destination address. Used for function calls. Alternatively, the destination address can be an asterisk followed by a register for an indirect function call. For example, <code>call *%eax</code> will call the function at the address in <em>%eax</em>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>int</strong>: Causes an interrupt of the given number. This is usually used for system calls and other kernel interfaces.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>Jcc</strong>: Conditional branch. <code>cc</code> is the <em>condition code</em>. Jumps to the given address if the condition code is true (set from the previous instruction, probably a comparison). Otherwise, goes to the next instruction. The condition codes are:</p>
+<p>Table B-4. Flow Control Instructions.</p>
+<p><strong>Instruction</strong> <em>Operands</em> —–&gt; Affected Flags (eFlags).</p>
+<hr />
+<p><strong>call</strong> <em>Destination address</em> —–&gt; O/S/Z/A/C:</p>
+<blockquote>
+<p>This pushes what would be the next value for <em>%eip</em> onto the stack, and jumps to the destination address. Used for function calls. Alternatively, the destination address can be an asterisk followed by a register for an indirect function call. For example, <code>call *%eax</code> will call the function at the address in <em>%eax</em>.</p>
+</blockquote>
+<p><strong>int</strong> <em>I</em> —–&gt; O/S/Z/A/C:</p>
+<blockquote>
+<p>Causes an interrupt of the given number. This is usually used for system calls and other kernel interfaces.</p>
+</blockquote>
+<p><strong>Jcc</strong> <em>Destination address</em> —–&gt; O/S/Z/A/C:</p>
+<blockquote>
+<p>Conditional branch. <code>cc</code> is the <em>condition code</em>. Jumps to the given address if the condition code is true (set from the previous instruction, probably a comparison). Otherwise, goes to the next instruction. The condition codes are:</p>
+</blockquote>
+<blockquote>
 <ul>
 <li><code>[n]a[e]</code> - above(unsigned greater than). An <code>n</code> can be added for "not" and an <code>e</code> can be added for "or equal to".</li>
 <li><code>[n]b[e]</code> - below (unsigned less than).</li>
@@ -4572,103 +4490,65 @@ Rotate left 10010111 = 00101111</code></pre>
 <li><code>[n]s</code> - sign flag set.</li>
 <li><code>ecxz</code> - <em>%ecx</em> is zero.</li>
 </ul>
-<hr /></td>
-<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>jmp</strong>: An unconditional jump. This simply sets <em>%eip</em> to the destination address. Alternatively, the destination address can be an asterisk followed by a register for an indirect jump. For example, <code>jmp *%eax</code> will jump tothe address in <em>%eax</em>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>ret</strong>: Pops a value off of the stack and then sets <em>%eip</em> to that value. Used to return from function calls.</td>
-<td style="text-align: center;">Not Applicable +++++++++ O/S/Z/A/C</td>
-</tr>
-</tbody>
-</table>
+</blockquote>
+<p><strong>jmp</strong> <em>Destination address</em> —–&gt; O/S/Z/A/C:</p>
+<blockquote>
+<p>An unconditional jump. This simply sets <em>%eip</em> to the destination address. Alternatively, the destination address can be an asterisk followed by a register for an indirect jump. For example, <code>jmp *%eax</code> will jump tothe address in <em>%eax</em>.</p>
+</blockquote>
+<p><strong>ret</strong> <em>Not Applicable</em> —–&gt; O/S/Z/A/C:</p>
+<blockquote>
+<p>Pops a value off of the stack and then sets <em>%eip</em> to that value. Used to return from function calls.</p>
+</blockquote>
 <h2 id="assembler-directives">Assembler Directives</h2>
 <p>These are instructions to the assembler and linker, instead of instructions to the processor. These are used to help the assembler put your code together properly, and make it easier to use.</p>
-<table>
-<caption>Table B-5. Assembler Directives.</caption>
-<colgroup>
-<col style="width: 84%" />
-<col style="width: 15%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Directive</th>
-<th style="text-align: center;">Operands</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.ascii</strong>: Takes the given quoted string and converts it into byte data.</p>
-<hr /></td>
-<td style="text-align: center;"><p>QUOTED STRING</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.byte</strong>: Takes a comma-separated list of values and inserts them right there in the program as data.</p>
-<hr /></td>
-<td style="text-align: center;"><p>VALUES</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.endr</strong>: Ends a repeating section defined with <code>.rept</code>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>N/A</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.equ</strong>: Sets the given label equivalent to the given value. The value can be a number, a character, or an constant expression that evaluates to a a number or character. From that point on, use of the label will be substituted for the given value.</p>
-<hr /></td>
-<td style="text-align: center;"><p>LABEL, VALUE</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.globl</strong>: Sets the given label as global, meaning that it can be used from separately-compiled object files.</p>
-<hr /></td>
-<td style="text-align: center;"><p>LABEL</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.include</strong>: Includes the given file just as if it were typed in right there.</p>
-<hr /></td>
-<td style="text-align: center;"><p>FILE</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.lcomm</strong>: This is used in the <code>.bss</code> section to specify storage that should be allocated when the program is executed. Defines the symbol with the address where the storage will be located, and makes sure that it is the given number of bytes long.</p>
-<hr /></td>
-<td style="text-align: center;"><p>SYMBOL, SIZE</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.long</strong>: Takes a sequence of numbers separated by commas, and inserts those numbers as 4-byte words right where they are in the program.</p>
-<hr /></td>
-<td style="text-align: center;"><p>VALUES</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.rept</strong>: Repeats everything between this directive and the <code>.endr</code> directives the number of times specified.</p>
-<hr /></td>
-<td style="text-align: center;"><p>COUNT</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.section</strong>: Switches the section that is being worked on. Common sections include <code>.text</code> (for code), <code>.data</code> (for data embedded in the program itself), and <code>.bss</code> (for uninitialized global data).</p>
-<hr /></td>
-<td style="text-align: center;"><p>SECTION NAME</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>.type</strong>: Tells the linker that the given symbol is a function.</td>
-<td style="text-align: center;">SYMBOL, @function</td>
-</tr>
-</tbody>
-</table>
+<p>Table B-5. Assembler Directives.</p>
+<p><strong>Directive</strong> <em>Operands</em>.</p>
+<hr />
+<p><strong>.ascii</strong> <em>Quoted String</em>:</p>
+<blockquote>
+<p>Takes the given quoted string and converts it into byte data.</p>
+</blockquote>
+<p><strong>.byte</strong> <em>Values</em>:</p>
+<blockquote>
+<p>Takes a comma-separated list of values and inserts them right there in the program as data.</p>
+</blockquote>
+<p><strong>.endr</strong> <em>Not Applicable</em>:</p>
+<blockquote>
+<p>Ends a repeating section defined with <code>.rept</code>.</p>
+</blockquote>
+<p><strong>.equ</strong> <em>Label</em>, <em>Value</em>:</p>
+<blockquote>
+<p>Sets the given label equivalent to the given value. The value can be a number, a character, or an constant expression that evaluates to a number or character. From that point on, use of the label will be substituted for the given value.</p>
+</blockquote>
+<p><strong>.globl</strong> <em>Label</em>:</p>
+<blockquote>
+<p>Sets the given label as global, meaning that it can be used from separately-compiled object files.</p>
+</blockquote>
+<p><strong>.include</strong> <em>File</em>:</p>
+<blockquote>
+<p>Includes the given file just as if it were typed in right there.</p>
+</blockquote>
+<p><strong>.lcomm</strong> <em>Symbol</em>, <em>Size</em>:</p>
+<blockquote>
+<p>This is used in the <code>.bss</code> section to specify storage that should be allocated when the program is executed. Defines the symbol with the address where the storage will be located, and makes sure that it is the given number of bytes long.</p>
+</blockquote>
+<p><strong>.long</strong> <em>Values</em>:</p>
+<blockquote>
+<p>Takes a sequence of numbers separated by commas, and inserts those numbers as 4-byte words right where they are in the program.</p>
+</blockquote>
+<p><strong>.rept</strong> <em>Count</em>:</p>
+<blockquote>
+<p>Repeats everything between this directive and the <code>.endr</code> directives the number of times specified.</p>
+</blockquote>
+<p><strong>.section</strong> <em>Section Name</em>:</p>
+<blockquote>
+<p>Switches the section that is being worked on. Common sections include <code>.text</code> (for code), <code>.data</code> (for data embedded in the program itself), and <code>.bss</code> (for uninitialized global data).</p>
+</blockquote>
+<p><strong>.type</strong> <em>Symbol</em>, <em>@function</em>:</p>
+<blockquote>
+<p>Tells the linker that the given symbol is a function.</p>
+</blockquote>
+<hr />
 <h2 id="differences-in-other-syntaxes-and-terminology">Differences in Other Syntaxes and Terminology</h2>
 <p>The syntax for assembly language used in this book is known at the <em>AT&amp;T</em> syntax. It is the one supported by the GNU tool chain that comes standard with every Linux distribution. However, the official syntax for x86 assembly language (known as the Intel® syntaxIntel syntax) is different. It is the same assembly language for the same platform, but it looks different. Some of the differences include:</p>
 <ul>
@@ -4702,160 +4582,118 @@ Rotate left 10010111 = 00101111</code></pre>
 <h1 id="appendix-c-important-system-calls">Appendix C. Important System Calls</h1>
 <p>These are some of the more important system calls to use when dealing with Linux. For most cases, however, it is best to use library functions rather than direct system calls, because the system calls were designed to be minimalistic while the library functions were designed to be easy to program with. For information about the <a href="https://www.gnu.org/software/libc/manual/">The GNU C Library</a>.</p>
 <p>Remember that <em>%eax</em> holds the system call numbers, and that the return values and error codes are also stored in <em>%eax</em>.</p>
-<table>
-<caption>Table C-1. Important Linux System Calls.</caption>
-<colgroup>
-<col style="width: 9%" />
-<col style="width: 12%" />
-<col style="width: 14%" />
-<col style="width: 14%" />
-<col style="width: 14%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">%eax</th>
-<th style="text-align: center;">Name</th>
-<th style="text-align: left;">%ebx</th>
-<th style="text-align: left;">%ecx</th>
-<th style="text-align: left;">%edx</th>
-<th style="text-align: left;">NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">exit</td>
-<td style="text-align: left;">Return value (int)</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Exits the program.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">read</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">Buffer start</td>
-<td style="text-align: left;">Buffer size (int)</td>
-<td style="text-align: left;"><p>Reads into the given buffer.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">write</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">Buffer start</td>
-<td style="text-align: left;">Buffer size (int)</td>
-<td style="text-align: left;"><p>Writes the buffer to the filedescriptor.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">open</td>
-<td style="text-align: left;">Null- terminated file name</td>
-<td style="text-align: left;">Option list</td>
-<td style="text-align: left;">Permission mode</td>
-<td style="text-align: left;"><p>Opens the given file. Returns the file descriptor or an error number.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">close</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Closes the give file descriptor.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">12</td>
-<td style="text-align: center;">chdir</td>
-<td style="text-align: left;">Null- terminated directory name</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Changes the current directory of your program.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">19</td>
-<td style="text-align: center;">lseek</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">Offset</td>
-<td style="text-align: left;">Mode</td>
-<td style="text-align: left;"><p>Repositions where you are in the given file. The mode (called the “whence”) should be 0 for absolute positioning, and 1 for relative positioning.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">20</td>
-<td style="text-align: center;">getpid</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Returns the process ID of the current process.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">39</td>
-<td style="text-align: center;">mkdir</td>
-<td style="text-align: left;">Null- terminated directory name</td>
-<td style="text-align: left;">Permission mode</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Creates the given directory. Assumes all directories leading up to it already exist.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">40</td>
-<td style="text-align: center;">rmdir</td>
-<td style="text-align: left;">Null- terminated directory name</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Removes the given directory.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">41</td>
-<td style="text-align: center;">dup</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Returns a new file descriptor that works just like the existing file descriptor.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">42</td>
-<td style="text-align: center;">pipe</td>
-<td style="text-align: left;">Pipe array</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Creates two file descriptors, where writing on one produces data to read on the other and vice-versa. %ebx is a pointer to two words of storage to hold the file descriptors.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">45</td>
-<td style="text-align: center;">brk</td>
-<td style="text-align: left;">New system break</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Sets the system break. If the system break is 0, it simply returns the current system break. For example: End of the data section.</p>
-<p>+++++</p></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">54</td>
-<td style="text-align: center;">ioctl</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">Request</td>
-<td style="text-align: left;">Arguments</td>
-<td style="text-align: left;">This is used to set parameters on device files. It’s actual usage varies based on the type of file or device your descriptor references.</td>
-</tr>
-</tbody>
-</table>
-<!-- TODO: Fix the problem about the line versus ++++ in the syscall #45.
-            ! pdfTeX error (ext4): \pdfendlink ended up in different nesting level than \pd fstartlink.
-            \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                \fi \fi 
-            l.11550
--->
+<p>Table C-1. Important Linux System Calls.</p>
+<p><strong>System Call</strong>: <em>%eax</em>.</p>
+<hr />
+<p><strong>exit</strong>: <em>1</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: Return value (int).</li>
+<li>Exits the program.</li>
+</ul>
+</blockquote>
+<p><strong>read</strong>: <em>3</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: File descriptor.</li>
+<li><strong>%ecx</strong>: Buffer start.</li>
+<li><strong>%edx</strong>: Buffer size (int).</li>
+<li>Reads into the given buffer.</li>
+</ul>
+</blockquote>
+<p><strong>write</strong>: <em>4</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: File descriptor.</li>
+<li><strong>%ecx</strong>: Buffer start.</li>
+<li><strong>%edx</strong>: Buffer size (int).</li>
+<li>Writes the buffer to the file descriptor.</li>
+</ul>
+</blockquote>
+<p><strong>open</strong>: <em>5</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: Null-terminated file name.</li>
+<li><strong>%ecx</strong>: Option list.</li>
+<li><strong>%edx</strong>: Permission mode.</li>
+<li>Opens the given file. Returns the file descriptor or an error number.</li>
+</ul>
+</blockquote>
+<p><strong>close</strong>: <em>6</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: File descriptor.</li>
+<li>Closes the give file descriptor.</li>
+</ul>
+</blockquote>
+<p><strong>chdir</strong>: <em>12</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: Null-terminated directory name.</li>
+<li>Changes the current directory of your program.</li>
+</ul>
+</blockquote>
+<p><strong>lseek</strong>: <em>19</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: File descriptor.</li>
+<li><strong>%ecx</strong>: Offset.</li>
+<li><strong>%edx</strong>: Mode.</li>
+<li>Repositions where you are in the given file. The mode (called the “whence”) should be 0 for absolute positioning, and 1 for relative positioning.</li>
+</ul>
+</blockquote>
+<p><strong>getpid</strong>: <em>20</em>.</p>
+<blockquote>
+<ul>
+<li>Returns the process ID of the current process.</li>
+</ul>
+</blockquote>
+<p><strong>mkdir</strong>: <em>39</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: Null-terminated directory name.</li>
+<li><strong>%ecx</strong>: Permission mode.</li>
+<li>Creates the given directory. Assumes all directories leading up to it already exist.</li>
+</ul>
+</blockquote>
+<p><strong>rmdir</strong>: <em>40</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: Null-terminated directory name.</li>
+<li>Removes the given directory.</li>
+</ul>
+</blockquote>
+<p><strong>dup</strong>: <em>41</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: File descriptor.</li>
+<li>Returns a new file descriptor that works just like the existing file descriptor.</li>
+</ul>
+</blockquote>
+<p><strong>pipe</strong>: <em>42</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: Pipe array.</li>
+<li>Creates two file descriptors, where writing on one produces data to read on the other and vice-versa. %ebx is a pointer to two words of storage to hold the file descriptors.</li>
+</ul>
+</blockquote>
+<p><strong>brk</strong>: <em>45</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: New system break.</li>
+<li>Sets the system break If the system break is 0, it simply returns the current system break. I.E. - The end of the data section.</li>
+</ul>
+</blockquote>
+<p><strong>ioctl</strong>: <em>54</em>.</p>
+<blockquote>
+<ul>
+<li><strong>%ebx</strong>: File descriptor.</li>
+<li><strong>%ecx</strong>: Request.</li>
+<li><strong>%edx</strong>: Arguments.</li>
+<li>This is used to set parameters on device files. It’s actual usage varies based on the type of file or device your descriptor references.</li>
+</ul>
+</blockquote>
+<hr />
 <p>A more complete listing of system calls is in this web site <a href="https://syscall.sh/">Call convention by architechture</a>, along with additional information is available at <a href="http://www.lxhp.in-berlin.de/lhpsyscal.html">System Calls for Assembly Level Access</a> You can also get more information about a system call by typing in <code>man 2 syscalls</code> which will return you the information about the system call from section 2 of the UNIX manual. However, this refers to the usage of the system call from the C programming language, and may or may not be directly helpful.</p>
 <p>For information on how system calls are implemented on Linux, see the <a href="http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11">Linux Kernel 2.4 Internals section on how system calls are implemented</a>.</p>
 <h1 id="appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</h1>

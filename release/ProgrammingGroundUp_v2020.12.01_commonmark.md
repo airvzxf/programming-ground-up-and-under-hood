@@ -9144,8 +9144,6 @@ movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
 movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
 ```
 
-------------------------------------------------------------------------
-
 Table B-1. Data Transfer Instructions.
 
 **Instruction** *Operands* —–&gt; Affected Flags (eFlags).
@@ -9194,262 +9192,241 @@ Integer Instructions
 These are basic calculating instructions that operate on signed or
 unsigned integers.
 
-<table>
-<caption>Table B-2. Integer Instructions.</caption>
-<colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>adcl</strong>: Add with carry. Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true. This is usually used for operations larger than a machine word. The addition on the least-significant word would take place using <code>addl</code>, while additions to the other words would used the <code>adcl</code> instruction to take the carry from the previous add into account. For the usual case, this is not used, and <code>addl</code> is used instead.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>addl</strong>: Addition. Adds the first operand to the second, storing the result in the second. If the result is larger than the destination register, the overflow and carry bits are set to true. This instruction operates on both signed and unsigned integers.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>cdq</strong>: Converts the <em>%eax</em> word into the double-word consisting of <em>%edx</em>:<em>%eax</em> with sign extension. The <code>q</code> signifies that it is a <em>quad-word</em>. It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days. This is usually used before issuing an <code>idivl</code> instruction.</p>
-<hr /></td>
-<td style="text-align: center;"><p>Not Applicable +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>cmpl</strong>: Compares two integers. It does this by subtracting the first operand from the second. It discards the results, but sets the flags accordingly. Usually used before a conditional jump.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>decl</strong>: Decrements the register or memory location. Use <code>decb</code> to decrement a byte instead of a word.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>divl</strong>: Performs unsigned division. Divides the contents of the double-word contained in the combined <em>%edx</em>:<em>%eax</em> registers by the value in the register or memory location specified. The <em>%eax</em> register contains the resulting quotient, and the <em>%edx</em> register contains the resulting remainder. If the quotient is too large to fit in <em>%eax</em>, it triggers a type 0 interrupt.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>idivl</strong>: Performs signed division. Operates just like <code>divl</code> above.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>imull</strong>: Performs signed multiplication and stores the result in the second operand. If the second operand is left out, it is assumed to be <em>%eax</em>, and the full result is stored in the double-word <em>%edx</em>:<em>%eax</em>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M/I, R +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>incl</strong>: Increments the given register or memory location. Use <code>incb</code> to increment a byte instead of a word.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>mull</strong>: Perform unsigned multiplication. Same rules as apply to <code>imull</code>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M/I, R +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>negl</strong>: Negates (gives the two's complement inversion of) the given register or memory location.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>sbbl</strong>: Subtract with borrowing. This is used in the same way that <code>adc</code> is, except for subtraction. Normally only <code>subl</code> is used.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>subl</strong>: Subtract the two operands. This subtracts the first operand from the second, and stores the result in the second operand. This instruction can be used on both signed and unsigned numbers.</td>
-<td style="text-align: center;">I/R/M, R/M +++++++++ O/S/Z/A/P/C</td>
-</tr>
-</tbody>
-</table>
-
 Table B-2. Integer Instructions.
+
+**Instruction** *Operands* —–&gt; Affected Flags (eFlags).
+
+------------------------------------------------------------------------
+
+**adcl** *I/R/M*, *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Add with carry. Adds the carry bit and the first operand to the
+> second, and, if there is an overflow, sets overflow and carry to true.
+> This is usually used for operations larger than a machine word. The
+> addition on the least-significant word would take place using `addl`,
+> while additions to the other words would used the `adcl` instruction
+> to take the carry from the previous add into account. For the usual
+> case, this is not used, and `addl` is used instead.
+
+**addl** *I/R/M*, *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Addition. Adds the first operand to the second, storing the result in
+> the second. If the result is larger than the destination register, the
+> overflow and carry bits are set to true. This instruction operates on
+> both signed and unsigned integers.
+
+**cdq** *Not Applicable* —–&gt; O/S/Z/A/P/C:
+
+> Converts the *%eax* word into the double-word consisting of
+> *%edx*:*%eax* with sign extension. The `q` signifies that it is a
+> *quad-word*. It's actually a double-word, but it's called a quad-word
+> because of the terminology used in the 16-bit days. This is usually
+> used before issuing an `idivl` instruction.
+
+**cmpl** *I/R/M*, *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Compares two integers. It does this by subtracting the first operand
+> from the second. It discards the results, but sets the flags
+> accordingly. Usually used before a conditional jump.
+
+**decl** *R/M* —–&gt; O/S/Z/A/P:
+
+> Decrements the register or memory location. Use `decb` to decrement a
+> byte instead of a word.
+
+**divl** *R/M* —–&gt; O/S/Z/A/P:
+
+> Performs unsigned division. Divides the contents of the double-word
+> contained in the combined *%edx*:*%eax* registers by the value in the
+> register or memory location specified. The *%eax* register contains
+> the resulting quotient, and the *%edx* register contains the resulting
+> remainder. If the quotient is too large to fit in *%eax*, it triggers
+> a type 0 interrupt.
+
+**idivl** *R/M* —–&gt; O/S/Z/A/P:
+
+> Performs signed division. Operates just like `divl` above.
+
+**imull** *R/M/I*, *R* —–&gt; O/S/Z/A/P/C:
+
+> Performs signed multiplication and stores the result in the second
+> operand. If the second operand is left out, it is assumed to be
+> *%eax*, and the full result is stored in the double-word
+> *%edx*:*%eax*.
+
+**incl** *R/M* —–&gt; O/S/Z/A/P:
+
+> Increments the given register or memory location. Use `incb` to
+> increment a byte instead of a word.
+
+**mull** *R/M/I*, *R* —–&gt; O/S/Z/A/P/C:
+
+> Perform unsigned multiplication. Same rules as apply to `imull`.
+
+**negl** *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Negates (gives the two's complement inversion of) the given register
+> or memory location.
+
+**sbbl** *I/R/M*, *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Subtract with borrowing. This is used in the same way that `adc` is,
+> except for subtraction. Normally only `subl` is used.
+
+**subl** *I/R/M*, *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Subtract the two operands. This subtracts the first operand from the
+> second, and stores the result in the second operand. This instruction
+> can be used on both signed and unsigned numbers.
+
+------------------------------------------------------------------------
 
 Logic Instructions
 ------------------
 
 These instructions operate on memory as bits instead of words.
 
-<table>
-<caption>Table B-3. Logic Instructions.</caption>
-<colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>andl</strong>: Performs a logical and of the contents of the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>notl</strong>: Performs a logical not on each bit in the operand. Also known as a one's complement.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ Not Applicable</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>orl</strong>: Performs a logical or between the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>rcll</strong>: Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register <em>%cl</em>. The carry flag is included in the rotation, making it use 33 bits instead of 32. Also sets the overflow flag.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>rcrl</strong>: Same as above, but rotates right.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>roll</strong>: Rotate bits to the left. It sets the overflow and carry flags, but does not count the carry flag as part of the rotation. The number of bits to roll is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>rorl</strong>: Same as above, but rotates right.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++ O/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>sall</strong>: Arithmetic shift left. The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit. Other bits are simply shifted to the left. This is the same as the regular shift left. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>sarl</strong>: Arithmetic shift right. The least significant bit is shifted out to the carry flag. The sign bit is shifted in, and kept as the sign bit. Other bits are simply shifted to the right. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>shll</strong>: Logical shift left. This shifts all bits to the left (sign bit is not treated specially). The leftmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>shrl</strong>: Logical shift right. This shifts all bits in the register to the right (sign bit is not treated specially). The rightmost bit is pushed to the carry flag. The number of bits to shift is either specified in immediate mode or is contained in the <em>%cl</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/%cl, R/M +++++++++++ C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>testl</strong>: Does a logical and of both operands and discards the results, but sets the flags accordingly.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, R/M +++++++++ O/S/Z/A/P/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>xorl</strong>: Does an exclusive or on the two operands, and stores the result in the second operand. Sets the overflow and carry flags to false.</td>
-<td style="text-align: center;">I/R/M, R/M +++++++++ O/S/Z/A/P/C</td>
-</tr>
-</tbody>
-</table>
-
 Table B-3. Logic Instructions.
+
+**Instruction** *Operands* —–&gt; Affected Flags (eFlags).
+
+------------------------------------------------------------------------
+
+**andl** *I/R/M*, *R/M* —–&gt; O/S/Z/P/C:
+
+> Performs a logical and of the contents of the two operands, and stores
+> the result in the second operand. Sets the overflow and carry flags to
+> false.
+
+**notl** *R/M* —–&gt; Not Applicable:
+
+> Performs a logical not on each bit in the operand. Also known as a
+> one's complement.
+
+**orl** *I/R/M*, *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Performs a logical or between the two operands, and stores the result
+> in the second operand. Sets the overflow and carry flags to false.
+
+**rcll** *I/cl*, *R/M* —–&gt; O/C:
+
+> Rotates the given location's bits to the left the number of times in
+> the first operand, which is either an immediate-mode value or the
+> register *%cl*. The carry flag is included in the rotation, making it
+> use 33 bits instead of 32. Also sets the overflow flag.
+
+**rcrl** *I/cl*, *R/M* —–&gt; O/C:
+
+> Same as above, but rotates right.
+
+**roll** *I/cl*, *R/M* —–&gt; O/C:
+
+> Rotate bits to the left. It sets the overflow and carry flags, but
+> does not count the carry flag as part of the rotation. The number of
+> bits to roll is either specified in immediate mode or is contained in
+> the *%cl* register.
+
+**rorl** *I/cl*, *R/M* —–&gt; O/C:
+
+> Same as above, but rotates right.
+
+**sall** *I/cl*, *R/M* —–&gt; C:
+
+> Arithmetic shift left. The sign bit is shifted out to the carry flag,
+> and a zero bit is placed in the least significant bit. Other bits are
+> simply shifted to the left. This is the same as the regular shift
+> left. The number of bits to shift is either specified in immediate
+> mode or is contained in the *%cl* register.
+
+**sarl** *I/cl*, *R/M* —–&gt; C:
+
+> Arithmetic shift right. The least significant bit is shifted out to
+> the carry flag. The sign bit is shifted in, and kept as the sign bit.
+> Other bits are simply shifted to the right. The number of bits to
+> shift is either specified in immediate mode or is contained in the
+> *%cl* register.
+
+**shll** *I/cl*, *R/M* —–&gt; C:
+
+> Logical shift left. This shifts all bits to the left (sign bit is not
+> treated specially). The leftmost bit is pushed to the carry flag. The
+> number of bits to shift is either specified in immediate mode or is
+> contained in the *%cl* register.
+
+**shrl** *I/cl*, *R/M* —–&gt; C:
+
+> Logical shift right. This shifts all bits in the register to the right
+> (sign bit is not treated specially). The rightmost bit is pushed to
+> the carry flag. The number of bits to shift is either specified in
+> immediate mode or is contained in the *%cl* register.
+
+**testl** *I/R/M*, *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Does a logical and of both operands and discards the results, but sets
+> the flags accordingly.
+
+**xorl** *I/R/M*, *R/M* —–&gt; O/S/Z/A/P/C:
+
+> Does an exclusive or on the two operands, and stores the result in the
+> second operand. Sets the overflow and carry flags to false.
+
+------------------------------------------------------------------------
 
 Flow Control Instructions
 -------------------------
 
 These instructions may alter the flow of the program.
 
-<table>
-<caption>Table B-4. Flow Control Instructions.</caption>
-<colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>call</strong>: This pushes what would be the next value for <em>%eip</em> onto the stack, and jumps to the destination address. Used for function calls. Alternatively, the destination address can be an asterisk followed by a register for an indirect function call. For example, <code>call *%eax</code> will call the function at the address in <em>%eax</em>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>int</strong>: Causes an interrupt of the given number. This is usually used for system calls and other kernel interfaces.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>Jcc</strong>: Conditional branch. <code>cc</code> is the <em>condition code</em>. Jumps to the given address if the condition code is true (set from the previous instruction, probably a comparison). Otherwise, goes to the next instruction. The condition codes are:</p>
-<ul>
-<li><code>[n]a[e]</code> - above(unsigned greater than). An <code>n</code> can be added for "not" and an <code>e</code> can be added for "or equal to".</li>
-<li><code>[n]b[e]</code> - below (unsigned less than).</li>
-<li><code>[n]e</code> - equal to.</li>
-<li><code>[n]z</code> - zero.</li>
-<li><code>[n]g[e]</code> - greater than (signed comparison).</li>
-<li><code>[n]l[e]</code> - less than (signed comparison).</li>
-<li><code>[n]c</code> - carry flag set.</li>
-<li><code>[n]o</code> - overflow flag set.</li>
-<li><code>[p]p</code> - parity flag set.</li>
-<li><code>[n]s</code> - sign flag set.</li>
-<li><code>ecxz</code> - <em>%ecx</em> is zero.</li>
-</ul>
-<hr /></td>
-<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>jmp</strong>: An unconditional jump. This simply sets <em>%eip</em> to the destination address. Alternatively, the destination address can be an asterisk followed by a register for an indirect jump. For example, <code>jmp *%eax</code> will jump tothe address in <em>%eax</em>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>Destination address +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>ret</strong>: Pops a value off of the stack and then sets <em>%eip</em> to that value. Used to return from function calls.</td>
-<td style="text-align: center;">Not Applicable +++++++++ O/S/Z/A/C</td>
-</tr>
-</tbody>
-</table>
-
 Table B-4. Flow Control Instructions.
+
+**Instruction** *Operands* —–&gt; Affected Flags (eFlags).
+
+------------------------------------------------------------------------
+
+**call** *Destination address* —–&gt; O/S/Z/A/C:
+
+> This pushes what would be the next value for *%eip* onto the stack,
+> and jumps to the destination address. Used for function calls.
+> Alternatively, the destination address can be an asterisk followed by
+> a register for an indirect function call. For example, `call *%eax`
+> will call the function at the address in *%eax*.
+
+**int** *I* —–&gt; O/S/Z/A/C:
+
+> Causes an interrupt of the given number. This is usually used for
+> system calls and other kernel interfaces.
+
+**Jcc** *Destination address* —–&gt; O/S/Z/A/C:
+
+> Conditional branch. `cc` is the *condition code*. Jumps to the given
+> address if the condition code is true (set from the previous
+> instruction, probably a comparison). Otherwise, goes to the next
+> instruction. The condition codes are:
+
+> -   `[n]a[e]` - above(unsigned greater than). An `n` can be added for
+>     "not" and an `e` can be added for "or equal to".
+> -   `[n]b[e]` - below (unsigned less than).
+> -   `[n]e` - equal to.
+> -   `[n]z` - zero.
+> -   `[n]g[e]` - greater than (signed comparison).
+> -   `[n]l[e]` - less than (signed comparison).
+> -   `[n]c` - carry flag set.
+> -   `[n]o` - overflow flag set.
+> -   `[p]p` - parity flag set.
+> -   `[n]s` - sign flag set.
+> -   `ecxz` - *%ecx* is zero.
+
+**jmp** *Destination address* —–&gt; O/S/Z/A/C:
+
+> An unconditional jump. This simply sets *%eip* to the destination
+> address. Alternatively, the destination address can be an asterisk
+> followed by a register for an indirect jump. For example, `jmp *%eax`
+> will jump tothe address in *%eax*.
+
+**ret** *Not Applicable* —–&gt; O/S/Z/A/C:
+
+> Pops a value off of the stack and then sets *%eip* to that value. Used
+> to return from function calls.
 
 Assembler Directives
 --------------------
@@ -9458,87 +9435,69 @@ These are instructions to the assembler and linker, instead of
 instructions to the processor. These are used to help the assembler put
 your code together properly, and make it easier to use.
 
-<table>
-<caption>Table B-5. Assembler Directives.</caption>
-<colgroup>
-<col style="width: 84%" />
-<col style="width: 15%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Directive</th>
-<th style="text-align: center;">Operands</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.ascii</strong>: Takes the given quoted string and converts it into byte data.</p>
-<hr /></td>
-<td style="text-align: center;"><p>QUOTED STRING</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.byte</strong>: Takes a comma-separated list of values and inserts them right there in the program as data.</p>
-<hr /></td>
-<td style="text-align: center;"><p>VALUES</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.endr</strong>: Ends a repeating section defined with <code>.rept</code>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>N/A</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.equ</strong>: Sets the given label equivalent to the given value. The value can be a number, a character, or an constant expression that evaluates to a a number or character. From that point on, use of the label will be substituted for the given value.</p>
-<hr /></td>
-<td style="text-align: center;"><p>LABEL, VALUE</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.globl</strong>: Sets the given label as global, meaning that it can be used from separately-compiled object files.</p>
-<hr /></td>
-<td style="text-align: center;"><p>LABEL</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.include</strong>: Includes the given file just as if it were typed in right there.</p>
-<hr /></td>
-<td style="text-align: center;"><p>FILE</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.lcomm</strong>: This is used in the <code>.bss</code> section to specify storage that should be allocated when the program is executed. Defines the symbol with the address where the storage will be located, and makes sure that it is the given number of bytes long.</p>
-<hr /></td>
-<td style="text-align: center;"><p>SYMBOL, SIZE</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.long</strong>: Takes a sequence of numbers separated by commas, and inserts those numbers as 4-byte words right where they are in the program.</p>
-<hr /></td>
-<td style="text-align: center;"><p>VALUES</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>.rept</strong>: Repeats everything between this directive and the <code>.endr</code> directives the number of times specified.</p>
-<hr /></td>
-<td style="text-align: center;"><p>COUNT</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>.section</strong>: Switches the section that is being worked on. Common sections include <code>.text</code> (for code), <code>.data</code> (for data embedded in the program itself), and <code>.bss</code> (for uninitialized global data).</p>
-<hr /></td>
-<td style="text-align: center;"><p>SECTION NAME</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>.type</strong>: Tells the linker that the given symbol is a function.</td>
-<td style="text-align: center;">SYMBOL, @function</td>
-</tr>
-</tbody>
-</table>
-
 Table B-5. Assembler Directives.
+
+**Directive** *Operands*.
+
+------------------------------------------------------------------------
+
+**.ascii** *Quoted String*:
+
+> Takes the given quoted string and converts it into byte data.
+
+**.byte** *Values*:
+
+> Takes a comma-separated list of values and inserts them right there in
+> the program as data.
+
+**.endr** *Not Applicable*:
+
+> Ends a repeating section defined with `.rept`.
+
+**.equ** *Label*, *Value*:
+
+> Sets the given label equivalent to the given value. The value can be a
+> number, a character, or an constant expression that evaluates to a
+> number or character. From that point on, use of the label will be
+> substituted for the given value.
+
+**.globl** *Label*:
+
+> Sets the given label as global, meaning that it can be used from
+> separately-compiled object files.
+
+**.include** *File*:
+
+> Includes the given file just as if it were typed in right there.
+
+**.lcomm** *Symbol*, *Size*:
+
+> This is used in the `.bss` section to specify storage that should be
+> allocated when the program is executed. Defines the symbol with the
+> address where the storage will be located, and makes sure that it is
+> the given number of bytes long.
+
+**.long** *Values*:
+
+> Takes a sequence of numbers separated by commas, and inserts those
+> numbers as 4-byte words right where they are in the program.
+
+**.rept** *Count*:
+
+> Repeats everything between this directive and the `.endr` directives
+> the number of times specified.
+
+**.section** *Section Name*:
+
+> Switches the section that is being worked on. Common sections include
+> `.text` (for code), `.data` (for data embedded in the program itself),
+> and `.bss` (for uninitialized global data).
+
+**.type** *Symbol*, *@function*:
+
+> Tells the linker that the given symbol is a function.
+
+------------------------------------------------------------------------
 
 Differences in Other Syntaxes and Terminology
 ---------------------------------------------
@@ -9642,163 +9601,103 @@ Library](https://www.gnu.org/software/libc/manual/).
 Remember that *%eax* holds the system call numbers, and that the return
 values and error codes are also stored in *%eax*.
 
-<table>
-<caption>Table C-1. Important Linux System Calls.</caption>
-<colgroup>
-<col style="width: 9%" />
-<col style="width: 12%" />
-<col style="width: 14%" />
-<col style="width: 14%" />
-<col style="width: 14%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">%eax</th>
-<th style="text-align: center;">Name</th>
-<th style="text-align: left;">%ebx</th>
-<th style="text-align: left;">%ecx</th>
-<th style="text-align: left;">%edx</th>
-<th style="text-align: left;">NOTES</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">exit</td>
-<td style="text-align: left;">Return value (int)</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Exits the program.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">read</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">Buffer start</td>
-<td style="text-align: left;">Buffer size (int)</td>
-<td style="text-align: left;"><p>Reads into the given buffer.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">write</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">Buffer start</td>
-<td style="text-align: left;">Buffer size (int)</td>
-<td style="text-align: left;"><p>Writes the buffer to the filedescriptor.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">open</td>
-<td style="text-align: left;">Null- terminated file name</td>
-<td style="text-align: left;">Option list</td>
-<td style="text-align: left;">Permission mode</td>
-<td style="text-align: left;"><p>Opens the given file. Returns the file descriptor or an error number.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">close</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Closes the give file descriptor.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">12</td>
-<td style="text-align: center;">chdir</td>
-<td style="text-align: left;">Null- terminated directory name</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Changes the current directory of your program.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">19</td>
-<td style="text-align: center;">lseek</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">Offset</td>
-<td style="text-align: left;">Mode</td>
-<td style="text-align: left;"><p>Repositions where you are in the given file. The mode (called the “whence”) should be 0 for absolute positioning, and 1 for relative positioning.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">20</td>
-<td style="text-align: center;">getpid</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Returns the process ID of the current process.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">39</td>
-<td style="text-align: center;">mkdir</td>
-<td style="text-align: left;">Null- terminated directory name</td>
-<td style="text-align: left;">Permission mode</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Creates the given directory. Assumes all directories leading up to it already exist.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">40</td>
-<td style="text-align: center;">rmdir</td>
-<td style="text-align: left;">Null- terminated directory name</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Removes the given directory.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">41</td>
-<td style="text-align: center;">dup</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Returns a new file descriptor that works just like the existing file descriptor.</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">42</td>
-<td style="text-align: center;">pipe</td>
-<td style="text-align: left;">Pipe array</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Creates two file descriptors, where writing on one produces data to read on the other and vice-versa. %ebx is a pointer to two words of storage to hold the file descriptors.</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">45</td>
-<td style="text-align: center;">brk</td>
-<td style="text-align: left;">New system break</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;">N/A</td>
-<td style="text-align: left;"><p>Sets the system break. If the system break is 0, it simply returns the current system break. For example: End of the data section.</p>
-<p>+++++</p></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">54</td>
-<td style="text-align: center;">ioctl</td>
-<td style="text-align: left;">File descriptor</td>
-<td style="text-align: left;">Request</td>
-<td style="text-align: left;">Arguments</td>
-<td style="text-align: left;">This is used to set parameters on device files. It’s actual usage varies based on the type of file or device your descriptor references.</td>
-</tr>
-</tbody>
-</table>
-
 Table C-1. Important Linux System Calls.
 
-<!-- TODO: Fix the problem about the line versus ++++ in the syscall #45.
-            ! pdfTeX error (ext4): \pdfendlink ended up in different nesting level than \pd fstartlink.
-            \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                \fi \fi 
-            l.11550
--->
+**System Call**: *%eax*.
+
+------------------------------------------------------------------------
+
+**exit**: *1*.
+
+> -   **%ebx**: Return value (int).
+> -   Exits the program.
+
+**read**: *3*.
+
+> -   **%ebx**: File descriptor.
+> -   **%ecx**: Buffer start.
+> -   **%edx**: Buffer size (int).
+> -   Reads into the given buffer.
+
+**write**: *4*.
+
+> -   **%ebx**: File descriptor.
+> -   **%ecx**: Buffer start.
+> -   **%edx**: Buffer size (int).
+> -   Writes the buffer to the file descriptor.
+
+**open**: *5*.
+
+> -   **%ebx**: Null-terminated file name.
+> -   **%ecx**: Option list.
+> -   **%edx**: Permission mode.
+> -   Opens the given file. Returns the file descriptor or an error
+>     number.
+
+**close**: *6*.
+
+> -   **%ebx**: File descriptor.
+> -   Closes the give file descriptor.
+
+**chdir**: *12*.
+
+> -   **%ebx**: Null-terminated directory name.
+> -   Changes the current directory of your program.
+
+**lseek**: *19*.
+
+> -   **%ebx**: File descriptor.
+> -   **%ecx**: Offset.
+> -   **%edx**: Mode.
+> -   Repositions where you are in the given file. The mode (called the
+>     “whence”) should be 0 for absolute positioning, and 1 for relative
+>     positioning.
+
+**getpid**: *20*.
+
+> -   Returns the process ID of the current process.
+
+**mkdir**: *39*.
+
+> -   **%ebx**: Null-terminated directory name.
+> -   **%ecx**: Permission mode.
+> -   Creates the given directory. Assumes all directories leading up to
+>     it already exist.
+
+**rmdir**: *40*.
+
+> -   **%ebx**: Null-terminated directory name.
+> -   Removes the given directory.
+
+**dup**: *41*.
+
+> -   **%ebx**: File descriptor.
+> -   Returns a new file descriptor that works just like the existing
+>     file descriptor.
+
+**pipe**: *42*.
+
+> -   **%ebx**: Pipe array.
+> -   Creates two file descriptors, where writing on one produces data
+>     to read on the other and vice-versa. %ebx is a pointer to two
+>     words of storage to hold the file descriptors.
+
+**brk**: *45*.
+
+> -   **%ebx**: New system break.
+> -   Sets the system break If the system break is 0, it simply returns
+>     the current system break. I.E. - The end of the data section.
+
+**ioctl**: *54*.
+
+> -   **%ebx**: File descriptor.
+> -   **%ecx**: Request.
+> -   **%edx**: Arguments.
+> -   This is used to set parameters on device files. It’s actual usage
+>     varies based on the type of file or device your descriptor
+>     references.
+
+------------------------------------------------------------------------
 
 A more complete listing of system calls is in this web site [Call
 convention by architechture](https://syscall.sh/), along with additional
