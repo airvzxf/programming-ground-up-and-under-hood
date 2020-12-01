@@ -7791,59 +7791,48 @@ movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
 movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
 ```
 
-: Table B-1. Data Transfer Instructions.
+---
 
-+-----------------------------------------------------+-----------------+
-| Instruction                                         | Operands        |
-|                                                     | +++++++++       |
-|                                                     | Affected Flags  |
-+:====================================================+:===============:+
-| **movl**:                                           | I/R/M, I/R/M    |
-| This copies a word of data from one location to     | +++++++++       |
-| another. `movl %eax, %ebx` copies the contents of   | O/S/Z/A/C       |
-| _%eax_ to _%ebx_.                                   |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **movb**:                                           | I/R/M, I/R/M    |
-| Same as `movl`, but operates on individual bytes.   | +++++++++       |
-|                                                     | O/S/Z/A/C       |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **leal**:                                           | M, I/R/M        |
-| This takes a memory location given in the           | +++++++++       |
-| standard format, and, instead of loading the        | O/S/Z/A/C       |
-| contents of the memory location, loads the          |                 |
-| computed address. For example,                      |                 |
-| `leal 5(%ebp,%ecx,1), %eax` loads the address       |                 |
-| computed by `5 + %ebp + 1*%ecx` and stores          |                 |
-| that in _%eax_.                                     |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **popl**:                                           | R/M             |
-| Pops the top of the stack into the given            | +++++++++       |
-| location. This is equivalent to performing          | O/S/Z/A/C       |
-| `movl (%esp), R/M` followed by `addl $4, %esp`.     |                 |
-| `popfl` is a variant which pops the top of the      |                 |
-| stack into the _%eflags_ register.                  |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **pushl**:                                          | I/R/M           |
-| Pushes the given value onto the stack. This is      | +++++++++       |
-| the equivalent to performing `subl $4, %esp`        | O/S/Z/A/C       |
-| followed by `movl I/R/M, (%esp)`. `pushfl` is a     |                 |
-| variant which pushes the current contents of        |                 |
-| the _%eflags_ register onto the top of the stack.   |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **xchgl**:                                          | R/M, R/M        |
-| Exchange the values of the given operands.          | +++++++++       |
-|                                                     | O/S/Z/A/C       |
-+-----------------------------------------------------+-----------------+
+Table B-1. Data Transfer Instructions.
+
+**Instruction** _Operands_ -----> Affected Flags (eFlags).
+
+---
+
+**movl** _I/R/M_, _I/R/M_ -----> O/S/Z/A/C:
+
+> This copies a word of data from one location to another. `movl %eax, %ebx`
+  copies the contents of _%eax_ to _%ebx_.
+
+**movb** _I/R/M_, _I/R/M_ -----> O/S/Z/A/C:
+
+> Same as `movl`, but operates on individual bytes.
+
+**leal** _M_, _I/R/M_ -----> O/S/Z/A/C:
+
+> This takes a memory location given in the standard format, and, instead
+  of loading the contents of the memory location, loads the computed
+  address. For example, `leal 5(%ebp,%ecx,1), %eax` loads the address
+  computed by `5 + %ebp + 1*%ecx` and stores that in _%eax_.
+
+**popl** _R/M_ -----> O/S/Z/A/C:
+
+> Pops the top of the stack into the given location. This is equivalent to
+  performing `movl (%esp), R/M` followed by `addl $4, %esp`. `popfl` is a
+  variant which pops the top of the stack into the _%eflags_ register.
+
+**pushl** _I/R/M_ -----> O/S/Z/A/C:
+
+> Pushes the given value onto the stack. This is the equivalent to
+  performing `subl $4, %esp` followed by `movl I/R/M, (%esp)`. `pushfl` is
+  a variant which pushes the current contents of the _%eflags_ register
+  onto the top of the stack.
+
+**xchgl** _R/M_, _R/M_ -----> O/S/Z/A/C:
+
+> Exchange the values of the given operands.
+
+---
 
 Integer Instructions
 --------------------
@@ -8504,27 +8493,26 @@ Appendix D. Table of ASCII Codes {#appendix-d-table-of-ascii-codes}
 To use this table, simply find the character or escape that you want the
 code for, and add the number on the left and the top.
 
-  ----- ----- ----- ----- ----- ----- ----- ----- -----
-        +0    +1    +2    +3    +4    +5    +6    +7
-  0     NUL   SOH   STX   ETX   EOT   ENQ   ACK   BEL
-  8     BS    HT    LF    VT    FF    CR    SO    SI
-  16    DLE   DC1   DC2   DC3   DC4   NAK   SYN   ETB
-  24    CAN   EM    SUB   ESC   FS    GS    RS    US
-  32          !     \"    \#    \$    \%    &     \'
-  40    (     )     \*    \+    ,     \-    .     /
-  48    0     1     2     3     4     5     6     7
-  56    8     9     :     ;     \<    =     \>    ?
-  64    @     A     B     C     D     E     F     G
-  72    H     I     J     K     L     M     N     O
-  80    P     Q     R     S     T     U     V     W
-  88    X     Y     Z     \[    \\    \]    \^    \_
-  96    \`    a     b     c     d     e     f     g
-  104   h     i     j     k     l     m     n     o
-  112   p     q     r     s     t     u     v     w
-  120   x     y     z     {     \|    }     \~    DEL
-  ----- ----- ----- ----- ----- ----- ----- ----- -----
+: Table D-1. Table of ASCII codes in decimal.
 
-  : Table of ASCII codes in decimal
+Num   +0    +1    +2    +3    +4    +5    +6    +7
+----- ----- ----- ----- ----- ----- ----- ----- -----
+0     NUL   SOH   STX   ETX   EOT   ENQ   ACK   BEL
+8     BS    HT    LF    VT    FF    CR    SO    SI
+16    DLE   DC1   DC2   DC3   DC4   NAK   SYN   ETB
+24    CAN   EM    SUB   ESC   FS    GS    RS    US
+32          !     \"    \#    \$    \%    &     \'
+40    (     )     \*    \+    ,     \-    .     /
+48    0     1     2     3     4     5     6     7
+56    8     9     :     ;     \<    =     \>    ?
+64    @     A     B     C     D     E     F     G
+72    H     I     J     K     L     M     N     O
+80    P     Q     R     S     T     U     V     W
+88    X     Y     Z     \[    \\    \]    \^    \_
+96    \`    a     b     c     d     e     f     g
+104   h     i     j     k     l     m     n     o
+112   p     q     r     s     t     u     v     w
+120   x     y     z     {     \|    }     \~    DEL
 
 ASCII is actually being phased out in favor of an international standard
 known as Unicode, which allows you to display any character from any
@@ -8536,15 +8524,17 @@ characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat
 backwards-compatible with ASCII (it is stored the same for English
 characters, but expands into multiple byte for international
 characters). UTF-32 simply requires four bytes for each character rather
-than one. Windows uses UTF-16, which is a variable-length encoding which
+than one. Windows® uses UTF-16, which is a variable-length encoding which
 requires at least 2 bytes per character, so it is not
 backwards-compatible with ASCII.
 
 A good tutorial on internationalization issues, fonts, and Unicode is
-available in a great Article by Joe Spolsky, called \"The Absolute
+available in a great Article by Joe Spolsky, called [\"The Absolute
 Minimum Every Software Developer Absolutely, Positively Must Know About
-Unicode and Character Sets (No Excuses!)\", available online at
-http://www.joelonsoftware.com/articles/Unicode.html
+Unicode and Character Sets (No Excuses!)\"][AD-The-absolute].
+
+
+[AD-The-absolute]: http://www.joelonsoftware.com/articles/Unicode.html
 
 
 
