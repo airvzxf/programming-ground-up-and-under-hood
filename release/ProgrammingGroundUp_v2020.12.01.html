@@ -4698,8 +4698,8 @@ Rotate left 10010111 = 00101111</code></pre>
 <p>For information on how system calls are implemented on Linux, see the <a href="http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11">Linux Kernel 2.4 Internals section on how system calls are implemented</a>.</p>
 <h1 id="appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</h1>
 <p>To use this table, simply find the character or escape that you want the code for, and add the number on the left and the top.</p>
+<p>Table D-1. Table of ASCII codes in decimal.</p>
 <table>
-<caption>Table D-1. Table of ASCII codes in decimal.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Num</th>
@@ -4895,262 +4895,228 @@ Rotate left 10010111 = 00101111</code></pre>
 <p>ASCII is actually being phased out in favor of an international standard known as Unicode, which allows you to display any character from any known writing system in the world. As you may have noticed, ASCII only has support for English characters. Unicode is much more complicated, however, because it requires more than one byte to encode a single character. There are several different methods for encoding Unicode characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat backwards-compatible with ASCII (it is stored the same for English characters, but expands into multiple byte for international characters). UTF-32 simply requires four bytes for each character rather than one. Windows® uses UTF-16, which is a variable-length encoding which requires at least 2 bytes per character, so it is not backwards-compatible with ASCII.</p>
 <p>A good tutorial on internationalization issues, fonts, and Unicode is available in a great Article by Joe Spolsky, called <a href="http://www.joelonsoftware.com/articles/Unicode.html">"The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)"</a>.</p>
 <h1 id="appendix-e-c-idioms-in-assembly-language">Appendix E. C Idioms in Assembly Language</h1>
-<p>C programming language This appendix is for C programmers learning assembly language. It is meant to give a general idea about how C constructs can be implemented in assembly language.</p>
-<h1 id="if-statement">If Statement</h1>
-<p>In C, an if statementif statement consists of three parts - the conditioncondition, the true branchtrue branch, and the false branchfalse branch. However, since assembly language is not a block structured languageblock structured language, you have to work a little to implement the block-like nature of C. For example, look at the following C code:</p>
-<pre><code>if(a == b)
-{
-    /* True Branch Code Here */
-}
-else
-{
-    /* False Branch Code Here */
-}
-
-/* At This Point, Reconverge */</code></pre>
+<p>This appendix is for C programmers learning assembly language. It is meant to give a general idea about how C constructs can be implemented in assembly language.</p>
+<h2 id="if-statement">If Statement</h2>
+<p>In C, an if statement consists of three parts - the condition, the true brancht, and the false branch. However, since assembly language is not a block structured language, you have to work a little to implement the block-like nature of C. For example, look at the following C code:</p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(a == b)</span>
+<span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb204-3"><a href="#cb204-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* True Branch Code Here */</span></span>
+<span id="cb204-4"><a href="#cb204-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb204-5"><a href="#cb204-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb204-6"><a href="#cb204-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb204-7"><a href="#cb204-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* False Branch Code Here */</span></span>
+<span id="cb204-8"><a href="#cb204-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb204-9"><a href="#cb204-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb204-10"><a href="#cb204-10" aria-hidden="true" tabindex="-1"></a><span class="co">/* At This Point, Reconverge */</span></span></code></pre></div>
 <p>In assembly language, this can be rendered as:</p>
-<pre><code>    #Move a and b into registers for comparison
-    movl a, %eax
-    movl b, %ebx
-
-    #Compare
-    cmpl %eax, %ebx
-
-    #If True, go to true branch
-    je true_branch
-
-false_branch:  #This label is unnecessary, 
-               #only here for documentation
-    #False Branch Code Here
-
-    #Jump to recovergence point
-    jmp reconverge
-
-
-true_branch:
-    #True Branch Code Here
-
-
-reconverge:
-    #Both branches recoverge to this point</code></pre>
+<div class="sourceCode" id="cb205"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>    movl a, %eax                        <span class="co"># Move a and b into registers for</span></span>
+<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>    movl b, %ebx                        <span class="co"># comparison.</span></span>
+<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-4"><a href="#cb205-4" aria-hidden="true" tabindex="-1"></a>    cmpl %eax, %ebx                     <span class="co"># Compare.</span></span>
+<span id="cb205-5"><a href="#cb205-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-6"><a href="#cb205-6" aria-hidden="true" tabindex="-1"></a>    je true_branch                      <span class="co"># If True, go to true branch.</span></span>
+<span id="cb205-7"><a href="#cb205-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-8"><a href="#cb205-8" aria-hidden="true" tabindex="-1"></a><span class="kw">false_branch:</span>                           <span class="co"># This label is unnecessary, </span></span>
+<span id="cb205-9"><a href="#cb205-9" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># only here for documentation.</span></span>
+<span id="cb205-10"><a href="#cb205-10" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># False branch code here.</span></span>
+<span id="cb205-11"><a href="#cb205-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-12"><a href="#cb205-12" aria-hidden="true" tabindex="-1"></a>    jmp reconverge                      <span class="co"># Jump to recovergence point.</span></span>
+<span id="cb205-13"><a href="#cb205-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-14"><a href="#cb205-14" aria-hidden="true" tabindex="-1"></a><span class="kw">true_branch:</span>                            <span class="co"># True branch code here.</span></span>
+<span id="cb205-15"><a href="#cb205-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-16"><a href="#cb205-16" aria-hidden="true" tabindex="-1"></a><span class="kw">reconverge:</span>                             <span class="co"># Both branches recoverge to this</span></span>
+<span id="cb205-17"><a href="#cb205-17" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># point.</span></span></code></pre></div>
 <p>As you can see, since assembly language is linear, the blocks have to jump around each other. Recovergence is handled by the programmer, not the system.</p>
-<p>A case statementcase statement is written just like a sequence of if statements.</p>
-<h1 id="function-call">Function Call</h1>
-<p>A function callfunction call in assembly language simply requires pushing the arguments to the function onto the stack in <em>reverse</em> order, and issuing a <code>callcall</code> instruction. After calling, the arguments are then popped back off of the stack. For example, consider the C code:</p>
-<pre><code>    printf(&quot;The number is %d&quot;, 88);</code></pre>
+<p>A case statement is written just like a sequence of if statements.</p>
+<h2 id="function-call">Function Call</h2>
+<p>A function call in assembly language simply requires pushing the arguments to the function onto the stack in <em>reverse</em> order, and issuing a <code>call</code> instruction. After calling, the arguments are then popped back off of the stack. For example, consider the C code:</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a>printf(<span class="st">&quot;The number is %d&quot;</span>, <span class="dv">88</span>);</span></code></pre></div>
 <p>In assembly language, this would be rendered as:</p>
-<pre><code>    .section .data
-    text_string:
-    .ascii &quot;The number is %d\0&quot;
-
-    .section .text
-    pushl $88
-    pushl $text_string
-    call  printf
-    popl  %eax
-    popl  %eax      #%eax is just a dummy variable,
-                    #nothing is actually being done 
-                    #with the value.  You can also 
-                    #directly re-adjust %esp to the
-                    #proper location.</code></pre>
-<h1 id="variables-and-assignment">Variables and Assignment</h1>
-<p>global variables static variables local variables Global and static variables are declared using <code>.data</code> or <code>.bss</code> entries. Local variables are declared by reserving space on the stack at the beginning of the function. This space is given back at the end of the function.</p>
-<p>Interestingly, global variables are accessed differently than local variables in assembly language. Global variables are accessed using direct addressingdirect addressing mode, while local variables are accessed using base pointer addressingbase pointer addressing mode. For example, consider the following C code:</p>
-<pre><code>int my_global_var;
-
-int foo()
-{
-    int my_local_var;
-
-    my_local_var = 1;
-    my_global_var = 2;
-
-    return 0;
-}</code></pre>
+<div class="sourceCode" id="cb207"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">text_string:</span></span>
+<span id="cb207-3"><a href="#cb207-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.ascii</span> <span class="st">&quot;The number is %d</span><span class="sc">\0</span><span class="st">&quot;</span></span>
+<span id="cb207-4"><a href="#cb207-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb207-5"><a href="#cb207-5" aria-hidden="true" tabindex="-1"></a><span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb207-6"><a href="#cb207-6" aria-hidden="true" tabindex="-1"></a>    pushl $88</span>
+<span id="cb207-7"><a href="#cb207-7" aria-hidden="true" tabindex="-1"></a>    pushl $text_string</span>
+<span id="cb207-8"><a href="#cb207-8" aria-hidden="true" tabindex="-1"></a>    call  printf</span>
+<span id="cb207-9"><a href="#cb207-9" aria-hidden="true" tabindex="-1"></a>    popl  %eax</span>
+<span id="cb207-10"><a href="#cb207-10" aria-hidden="true" tabindex="-1"></a>    popl  %eax                          <span class="co"># %eax is just a dummy variable,</span></span>
+<span id="cb207-11"><a href="#cb207-11" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># nothing is actually being done </span></span>
+<span id="cb207-12"><a href="#cb207-12" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># with the value.  You can also </span></span>
+<span id="cb207-13"><a href="#cb207-13" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># directly re-adjust %esp to the</span></span>
+<span id="cb207-14"><a href="#cb207-14" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># proper location.</span></span></code></pre></div>
+<h2 id="variables-and-assignment">Variables and Assignment</h2>
+<p>Global and static variables are declared using <code>.data</code> or <code>.bss</code> entries. Local variables are declared by reserving space on the stack at the beginning of the function. This space is given back at the end of the function.</p>
+<p>Interestingly, global variables are accessed differently than local variables in assembly language. Global variables are accessed using direct addressing mode, while local variables are accessed using base pointer addressing mode. For example, consider the following C code:</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> my_global_var;</span>
+<span id="cb208-2"><a href="#cb208-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb208-3"><a href="#cb208-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> foo()</span>
+<span id="cb208-4"><a href="#cb208-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb208-5"><a href="#cb208-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> my_local_var;</span>
+<span id="cb208-6"><a href="#cb208-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb208-7"><a href="#cb208-7" aria-hidden="true" tabindex="-1"></a>    my_local_var = <span class="dv">1</span>;</span>
+<span id="cb208-8"><a href="#cb208-8" aria-hidden="true" tabindex="-1"></a>    my_global_var = <span class="dv">2</span>;</span>
+<span id="cb208-9"><a href="#cb208-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb208-10"><a href="#cb208-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb208-11"><a href="#cb208-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>This would be rendered in assembly language as:</p>
-<pre><code>    .section .data
-    .lcomm my_global_var, 4
-
-    .type foo, @function
-foo:
-    pushl %ebp            #Save old base pointer
-    movl  %esp, $ebp      #make stack pointer base pointer
-    subl  $4, %esp        #Make room for my_local_var
-    .equ my_local_var, -4 #Can now use my_local_var to 
-                          #find the local variable
-
-
-    movl  $1, my_local_var(%ebp)
-    movl  $2, my_global_var
-
-    movl  %ebp, %esp      #Clean up function and return
-    popl  %ebp
-    ret</code></pre>
-<p>What may not be obvious is that accessing the global variable takes fewer machine cycles than accessing the local variable. However, that may not matter because the stack is more likely to be in physical memoryphysical memory (instead of swap) than the global variable is.</p>
-<p>Also note that in the C programming language, after the compiler loads a value into a register, that value will likely stay in that register until that register is needed for something else. It may also move registers. For example, if you have a variable <code>foo</code>, it may start on the stack, but the compiler will eventually move it into registers for processing. If there aren't many variables in use, the value may simply stay in the register until it is needed again. Otherwise, when that register is needed for something else, the value, if it's changed, is copied back to its corresponding memory location. In C, you can use the keyword <code>volatilevolatile</code> to make sure all modifications and references to the variable are done to the memory location itself, rather than a register copy of it, in case other processes, threads, or hardware may be modifying the value while your function is running.</p>
-<h1 id="loops">Loops</h1>
-<p>Loopsloops work a lot like if statements in assembly language - the blocks are formed by jumping around. In C, a while loop consists of a loop body, and a test to determine whether or not it is time to exit the loop. A for loop is exactly the same, with optional initialization and counter-increment sections. These can simply be moved around to make a while loopwhile loop.</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.lcomm</span> my_global_var, <span class="dv">4</span></span>
+<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.type</span>  foo,  <span class="co">@function</span></span>
+<span id="cb209-5"><a href="#cb209-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-6"><a href="#cb209-6" aria-hidden="true" tabindex="-1"></a><span class="kw">foo:</span></span>
+<span id="cb209-7"><a href="#cb209-7" aria-hidden="true" tabindex="-1"></a>    pushl %ebp                          <span class="co"># Save old base pointer.</span></span>
+<span id="cb209-8"><a href="#cb209-8" aria-hidden="true" tabindex="-1"></a>    movl  %esp, $ebp                    <span class="co"># make stack pointer base pointer.</span></span>
+<span id="cb209-9"><a href="#cb209-9" aria-hidden="true" tabindex="-1"></a>    subl  $4, %esp                      <span class="co"># Make room for my_local_var.</span></span>
+<span id="cb209-10"><a href="#cb209-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> my_local_var, -<span class="dv">4</span>               <span class="co"># Can now use my_local_var to </span></span>
+<span id="cb209-11"><a href="#cb209-11" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># find the local variable.</span></span>
+<span id="cb209-12"><a href="#cb209-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-13"><a href="#cb209-13" aria-hidden="true" tabindex="-1"></a>    movl  $1, my_local_var(%ebp)</span>
+<span id="cb209-14"><a href="#cb209-14" aria-hidden="true" tabindex="-1"></a>    movl  $2, my_global_var</span>
+<span id="cb209-15"><a href="#cb209-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-16"><a href="#cb209-16" aria-hidden="true" tabindex="-1"></a>    movl  %ebp, %esp                    <span class="co"># Clean up function and return.</span></span>
+<span id="cb209-17"><a href="#cb209-17" aria-hidden="true" tabindex="-1"></a>    popl  %ebp</span>
+<span id="cb209-18"><a href="#cb209-18" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
+<p>What may not be obvious is that accessing the global variable takes fewer machine cycles than accessing the local variable. However, that may not matter because the stack is more likely to be in physical memory (instead of swap) than the global variable is.</p>
+<p>Also note that in the C programming language, after the compiler loads a value into a register, that value will likely stay in that register until that register is needed for something else. It may also move registers. For example, if you have a variable <code>foo</code>, it may start on the stack, but the compiler will eventually move it into registers for processing. If there aren't many variables in use, the value may simply stay in the register until it is needed again. Otherwise, when that register is needed for something else, the value, if it's changed, is copied back to its corresponding memory location. In C, you can use the keyword <code>volatile</code> to make sure all modifications and references to the variable are done to the memory location itself, rather than a register copy of it, in case other processes, threads, or hardware may be modifying the value while your function is running.</p>
+<h2 id="loops">Loops</h2>
+<p>Loops work a lot like if statements in assembly language - the blocks are formed by jumping around. In C, a while loop consists of a loop body, and a test to determine whether or not it is time to exit the loop. A for loop is exactly the same, with optional initialization and counter-increment sections. These can simply be moved around to make a while loop.</p>
 <p>In C, a while loop looks like this:</p>
-<pre><code>    while(a &lt; b)
-    {
-        /* Do stuff here */
-    }
-
-    /* Finished Looping */</code></pre>
+<div class="sourceCode" id="cb210"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(a &lt; b)</span>
+<span id="cb210-2"><a href="#cb210-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb210-3"><a href="#cb210-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Do stuff here */</span></span>
+<span id="cb210-4"><a href="#cb210-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb210-5"><a href="#cb210-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb210-6"><a href="#cb210-6" aria-hidden="true" tabindex="-1"></a><span class="co">/* Finished Looping */</span></span></code></pre></div>
 <p>This can be rendered in assembly language like this:</p>
-<pre><code>loop_begin:
-    movl  a, %eax
-    movl  b, %ebx
-    cmpl  %eax, %ebx
-    jge   loop_end
-
-loop_body:
-    #Do stuff here
-    
-    jmp loop_begin
-
-loop_end:
-    #Finished looping</code></pre>
-<p>The x86 assembly language has some direct support for looping as well. The <em>%ecx</em> register can be used as a counter that <em>ends</em> with zero. The <code>looploop</code> instruction will decrement <em>%ecx</em> and jump to a specified address unless <em>%ecx</em> is zero. For example, if you wanted to execute a statement 100 times, you would do this in C:</p>
-<pre><code>    for(i=0; i &lt; 100; i++)
-    {
-        /* Do process here */
-    }</code></pre>
+<div class="sourceCode" id="cb211"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_begin:</span></span>
+<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a>    movl  a, %eax</span>
+<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>    movl  b, %ebx</span>
+<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>    cmpl  %eax, %ebx</span>
+<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>    jge   loop_end</span>
+<span id="cb211-6"><a href="#cb211-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-7"><a href="#cb211-7" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_body:</span>                              <span class="co"># Do stuff here.</span></span>
+<span id="cb211-8"><a href="#cb211-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb211-9"><a href="#cb211-9" aria-hidden="true" tabindex="-1"></a>    jmp loop_begin</span>
+<span id="cb211-10"><a href="#cb211-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-11"><a href="#cb211-11" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_end:</span>                               <span class="co"># Finished looping.</span></span></code></pre></div>
+<p>The x86 assembly language has some direct support for looping as well. The <em>%ecx</em> register can be used as a counter that <em>ends</em> with zero. The <code>loop</code> instruction will decrement <em>%ecx</em> and jump to a specified address unless <em>%ecx</em> is zero. For example, if you wanted to execute a statement 100 times, you would do this in C:</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i=<span class="dv">0</span>; i &lt; <span class="dv">100</span>; i++)</span>
+<span id="cb212-2"><a href="#cb212-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb212-3"><a href="#cb212-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Do process here */</span></span>
+<span id="cb212-4"><a href="#cb212-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>In assembly language it would be written like this:</p>
-<pre><code>loop_initialize:
-    movl $100, %ecx
-loop_begin:
-    #
-    #Do Process Here
-    #
-
-    #Decrement %ecx and loops if not zero
-    loop loop_begin 
-
-rest_of_program:
-    #Continues on to here</code></pre>
+<div class="sourceCode" id="cb213"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_initialize:</span></span>
+<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>    movl $100, %ecx</span>
+<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-4"><a href="#cb213-4" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_begin:</span>                             <span class="co"># Do Process Here.</span></span>
+<span id="cb213-5"><a href="#cb213-5" aria-hidden="true" tabindex="-1"></a>    loop loop_begin                     <span class="co"># Decrement %ecx and loops if not</span></span>
+<span id="cb213-6"><a href="#cb213-6" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># zero.</span></span>
+<span id="cb213-7"><a href="#cb213-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-8"><a href="#cb213-8" aria-hidden="true" tabindex="-1"></a><span class="kw">rest_of_program:</span>                        <span class="co"># Continues on to here.</span></span></code></pre></div>
 <p>One thing to notice is that the <code>loop</code> instruction <em>requires you to be counting backwards to zero</em>. If you need to count forwards or use another ending number, you should use the loop form which does not include the <code>loop</code> instruction.</p>
-<p>For really tight loops of character string operations, there is also the <code>reprep</code> instruction, but we will leave learning about that as an exercise to the reader.</p>
-<h1 id="structs">Structs</h1>
-<p>Structsstructs are simply descriptions of memory blocks. For example, in C you can say:</p>
-<pre><code>struct person {
-    char firstname[40];
-    char lastname[40];
-    int age;
-};</code></pre>
-<p>This doesn't do anything by itself, except give you ways of intelligently using 84 bytes of data. You can do basically the same thing using <code>.equ.equ</code> directives in assembly language. Like this:</p>
-<pre><code>    .equ PERSON_SIZE, 84
-    .equ PERSON_FIRSTNAME_OFFSET, 0
-    .equ PERSON_LASTNAME_OFFSET, 40
-    .equ PERSON_AGE_OFFSET, 80</code></pre>
+<p>For really tight loops of character string operations, there is also the <code>rep</code> instruction, but we will leave learning about that as an exercise to the reader.</p>
+<h2 id="structs">Structs</h2>
+<p>Structs are simply descriptions of memory blocks. For example, in C you can say:</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> person {</span>
+<span id="cb214-2"><a href="#cb214-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> firstname[<span class="dv">40</span>];</span>
+<span id="cb214-3"><a href="#cb214-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> lastname[<span class="dv">40</span>];</span>
+<span id="cb214-4"><a href="#cb214-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> age;</span>
+<span id="cb214-5"><a href="#cb214-5" aria-hidden="true" tabindex="-1"></a>};</span></code></pre></div>
+<p>This doesn't do anything by itself, except give you ways of intelligently using 84 bytes of data. You can do basically the same thing using <code>.equ</code> directives in assembly language. Like this:</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> PERSON_FIRSTNAME_OFFSET,  <span class="dv">0</span></span>
+<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> PERSON_LASTNAME_OFFSET,   <span class="dv">40</span></span>
+<span id="cb215-3"><a href="#cb215-3" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> PERSON_AGE_OFFSET,        <span class="dv">80</span></span>
+<span id="cb215-4"><a href="#cb215-4" aria-hidden="true" tabindex="-1"></a><span class="kw">.equ</span> PERSON_SIZE,              <span class="dv">84</span></span></code></pre></div>
 <p>When you declare a variable of this type, all you are doing is reserving 84 bytes of space. So, if you have this in C:</p>
-<pre><code>void foo()
-{
-    struct person p;
-
-    /* Do stuff here */
-}</code></pre>
+<div class="sourceCode" id="cb216"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> foo()</span>
+<span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb216-3"><a href="#cb216-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> person p;</span>
+<span id="cb216-4"><a href="#cb216-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb216-5"><a href="#cb216-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Do stuff here */</span></span>
+<span id="cb216-6"><a href="#cb216-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>In assembly language you would have:</p>
-<pre><code>foo:
-    #Standard header beginning
-    pushl %ebp
-    movl %esp, %ebp
-
-    #Reserve our local variable
-    subl $PERSON_SIZE, %esp 
-    #This is the variable&#39;s offset from %ebp
-    .equ P_VAR, 0 - PERSON_SIZE
-
-    #Do Stuff Here
-
-    #Standard function ending
-    movl %ebp, %esp
-    popl %ebp
-    ret</code></pre>
-<p>To access structure members, you just have to use base pointer addressingbase pointer addressing mode with the offsets defined above. For example, in C you could set the person's age like this:</p>
-<pre><code>    p.age = 30;</code></pre>
+<div class="sourceCode" id="cb217"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foo:</span>                                    <span class="co"># Standard header beginning.</span></span>
+<span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a>    pushl %ebp</span>
+<span id="cb217-3"><a href="#cb217-3" aria-hidden="true" tabindex="-1"></a>    movl %esp, %ebp</span>
+<span id="cb217-4"><a href="#cb217-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb217-5"><a href="#cb217-5" aria-hidden="true" tabindex="-1"></a>    subl $PERSON_SIZE, %esp             <span class="co"># Reserve our local variable.</span></span>
+<span id="cb217-6"><a href="#cb217-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> P_VAR, <span class="dv">0</span> - PERSON_SIZE         <span class="co"># This is the variable&#39;s offset</span></span>
+<span id="cb217-7"><a href="#cb217-7" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># from %ebp.</span></span>
+<span id="cb217-8"><a href="#cb217-8" aria-hidden="true" tabindex="-1"></a>                                        <span class="co"># Do stuff here.</span></span>
+<span id="cb217-9"><a href="#cb217-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb217-10"><a href="#cb217-10" aria-hidden="true" tabindex="-1"></a>    movl %ebp, %esp                     <span class="co"># Standard function ending.</span></span>
+<span id="cb217-11"><a href="#cb217-11" aria-hidden="true" tabindex="-1"></a>    popl %ebp</span>
+<span id="cb217-12"><a href="#cb217-12" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
+<p>To access structure members, you just have to use base pointer addressing mode with the offsets defined above. For example, in C you could set the person's age like this:</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a>p.age = <span class="dv">30</span>;</span></code></pre></div>
 <p>In assembly language it would look like this:</p>
-<pre><code>    movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)</code></pre>
-<h1 id="pointers">Pointers</h1>
-<p>Pointerspointers are very easy. Remember, pointers are simply the addressaddress that a value resides at. Let's start by taking a look at global variables. For example:</p>
-<pre><code>int global_data = 30;</code></pre>
+<div class="sourceCode" id="cb219"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a>movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)</span></code></pre></div>
+<h2 id="pointers">Pointers</h2>
+<p>Pointers are very easy. Remember, pointers are simply the address that a value resides at. Let's start by taking a look at global variables. For example:</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> global_data = <span class="dv">30</span>;</span></code></pre></div>
 <p>In assembly language, this would be:</p>
-<pre><code>    .section .data
-global_data:
-    .long 30</code></pre>
+<div class="sourceCode" id="cb221"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="kw">.section</span> <span class="kw">.data</span></span>
+<span id="cb221-2"><a href="#cb221-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global_data:</span></span>
+<span id="cb221-3"><a href="#cb221-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.long</span> <span class="dv">30</span></span></code></pre></div>
 <p>Taking the address of this data in C:</p>
-<pre><code>    a = &amp;global_data;</code></pre>
+<div class="sourceCode" id="cb222"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb222-1"><a href="#cb222-1" aria-hidden="true" tabindex="-1"></a>a = &amp;global_data;</span></code></pre></div>
 <p>Taking the address of this data in assembly language:</p>
-<pre><code>    movl $global_data, %eax</code></pre>
-<p>You see, with assembly language, you are almost always accessing memory through pointers. That's what direct addressing is. To get the pointer itself, you just have to go with immediate mode addressingimmediate mode addressing.</p>
-<p>Local variableslocal variables are a little more difficult, but not much. Here is how you take the address of a local variable in C:</p>
-<pre><code>void foo()
-{
-    int a;
-    int *b;
-
-    a = 30;
-
-    b = &amp;a;
-
-    *b = 44;
-}</code></pre>
+<div class="sourceCode" id="cb223"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a>movl $global_data, %eax</span></code></pre></div>
+<p>You see, with assembly language, you are almost always accessing memory through pointers. That's what direct addressing is. To get the pointer itself, you just have to go with immediate mode addressing.</p>
+<p>Local variables are a little more difficult, but not much. Here is how you take the address of a local variable in C:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb224-1"><a href="#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> foo()</span>
+<span id="cb224-2"><a href="#cb224-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb224-3"><a href="#cb224-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a;</span>
+<span id="cb224-4"><a href="#cb224-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> *b;</span>
+<span id="cb224-5"><a href="#cb224-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb224-6"><a href="#cb224-6" aria-hidden="true" tabindex="-1"></a>    a = <span class="dv">30</span>;</span>
+<span id="cb224-7"><a href="#cb224-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb224-8"><a href="#cb224-8" aria-hidden="true" tabindex="-1"></a>    b = &amp;a;</span>
+<span id="cb224-9"><a href="#cb224-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb224-10"><a href="#cb224-10" aria-hidden="true" tabindex="-1"></a>    *b = <span class="dv">44</span>;</span>
+<span id="cb224-11"><a href="#cb224-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The same code in assembly language:</p>
-<pre><code>foo:
-    #Standard opening
-    pushl %ebp
-    movl  %esp, %ebp
-
-    #Reserve two words of memory
-    subl  $8, $esp
-    .equ A_VAR, -4
-    .equ B_VAR, -8
-
-    #a = 30
-    movl $30, A_VAR(%ebp)
-
-    #b = &amp;a
-    movl $A_VAR, B_VAR(%ebp)
-    addl %ebp, B_VAR(%ebp)
-
-    #*b = 30
-    movl B_VAR(%ebp), %eax
-    movl $30, (%eax)
-
-    #Standard closing
-    movl %ebp, %esp
-    popl %ebp
-    ret</code></pre>
-<p>As you can see, to take the address of a local variable, the address has to be computed the same way the computer computes the addresses in base pointer addressing. There is an easier way - the processor provides the instruction <code>lealleal</code>, which stands for "load effective addresseffective address". This lets the computer compute the address, and then load it wherever you want. So, we could just say:</p>
-<pre><code>    #b = &amp;a
-    leal A_VAR(%ebp), %eax
-    movl %eax, B_VAR(%ebp)</code></pre>
-<p>It's the same number of lines, but a little cleaner. Then, to use this value, you simply have to move it to a general-purpose register and use indirect addressingindirect addressing mode, as shown in the example above.</p>
-<h1 id="getting-gcc-to-help">Getting GCC to Help</h1>
-<p>One of the nice things about GCCGCC is its ability to spit out assembly language code. To convert a C language file to assembly, you can simply do:</p>
-<pre><code>gcc -S file.c</code></pre>
+<div class="sourceCode" id="cb225"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foo:</span></span>
+<span id="cb225-2"><a href="#cb225-2" aria-hidden="true" tabindex="-1"></a>    pushl %ebp                          <span class="co"># Standard opening.</span></span>
+<span id="cb225-3"><a href="#cb225-3" aria-hidden="true" tabindex="-1"></a>    movl  %esp, %ebp</span>
+<span id="cb225-4"><a href="#cb225-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-5"><a href="#cb225-5" aria-hidden="true" tabindex="-1"></a>    subl  $8, $esp                      <span class="co"># Reserve two words of memory.</span></span>
+<span id="cb225-6"><a href="#cb225-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> A_VAR, -<span class="dv">4</span></span>
+<span id="cb225-7"><a href="#cb225-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.equ</span> B_VAR, -<span class="dv">8</span></span>
+<span id="cb225-8"><a href="#cb225-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-9"><a href="#cb225-9" aria-hidden="true" tabindex="-1"></a>    movl $30, A_VAR(%ebp)               <span class="co"># a = 30.</span></span>
+<span id="cb225-10"><a href="#cb225-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-11"><a href="#cb225-11" aria-hidden="true" tabindex="-1"></a>    movl $A_VAR, B_VAR(%ebp)            <span class="co"># b = &amp;a.</span></span>
+<span id="cb225-12"><a href="#cb225-12" aria-hidden="true" tabindex="-1"></a>    addl %ebp, B_VAR(%ebp)</span>
+<span id="cb225-13"><a href="#cb225-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-14"><a href="#cb225-14" aria-hidden="true" tabindex="-1"></a>    movl B_VAR(%ebp), %eax              <span class="co"># *b = 30.</span></span>
+<span id="cb225-15"><a href="#cb225-15" aria-hidden="true" tabindex="-1"></a>    movl $30, (%eax)</span>
+<span id="cb225-16"><a href="#cb225-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-17"><a href="#cb225-17" aria-hidden="true" tabindex="-1"></a>    movl %ebp, %esp                     <span class="co"># Standard closing.</span></span>
+<span id="cb225-18"><a href="#cb225-18" aria-hidden="true" tabindex="-1"></a>    popl %ebp</span>
+<span id="cb225-19"><a href="#cb225-19" aria-hidden="true" tabindex="-1"></a>    ret</span></code></pre></div>
+<p>As you can see, to take the address of a local variable, the address has to be computed the same way the computer computes the addresses in base pointer addressing. There is an easier way - the processor provides the instruction <code>leal</code>, which stands for "load effective address". This lets the computer compute the address, and then load it wherever you want. So, we could just say:</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb226-1"><a href="#cb226-1" aria-hidden="true" tabindex="-1"></a>leal A_VAR(%ebp), %eax                  <span class="co"># b = &amp;a.</span></span>
+<span id="cb226-2"><a href="#cb226-2" aria-hidden="true" tabindex="-1"></a>movl %eax, B_VAR(%ebp)</span></code></pre></div>
+<p>It's the same number of lines, but a little cleaner. Then, to use this value, you simply have to move it to a general-purpose register and use indirect addressing mode, as shown in the example above.</p>
+<h2 id="getting-gcc-to-help">Getting GCC to Help</h2>
+<p>One of the nice things about GCC is its ability to spit out assembly language code. To convert a C language file to assembly, you can simply do:</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> -S file.c</span></code></pre></div>
 <p>The output will be in <code>file.s</code>. It's not the most readable output - most of the variable names have been removed and replaced either with numeric stack locations or references to automatically-generated labels. To start with, you probably want to turn off optimizations with <code>-O0</code> so that the assembly language output will follow your source code better.</p>
 <p>Something else you might notice is that GCC reserves more stack space for local variables than we do, and then AND's <em>%esp</em> <a href="#fn52" class="footnote-ref" id="fnref52" role="doc-noteref"><sup>52</sup></a> This is to increase memory and cache efficiency by double-word aligning variables.</p>
-<p>Finally, at the end of functions, we usually do the following instructions to clean up the stack before issuing a <code>retret</code> instruction:</p>
-<pre><code>    movl %ebp, %esp
-    popl %ebp</code></pre>
-<p>However, GCC output will usually just include the instruction <code>leaveleave</code>. This instruction is simply the combination of the above two instructions. We do not use <code>leave</code> in this text because we want to be clear about exactly what is happening at the processor level.</p>
+<p>Finally, at the end of functions, we usually do the following instructions to clean up the stack before issuing a <code>ret</code> instruction:</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb228-1"><a href="#cb228-1" aria-hidden="true" tabindex="-1"></a>movl %ebp, %esp</span>
+<span id="cb228-2"><a href="#cb228-2" aria-hidden="true" tabindex="-1"></a>popl %ebp</span></code></pre></div>
+<p>However, GCC output will usually just include the instruction <code>leave</code>. This instruction is simply the combination of the above two instructions. We do not use <code>leave</code> in this text because we want to be clear about exactly what is happening at the processor level.</p>
 <p>I encourage you to take a C program you have written and compile it to assembly language and trace the logic. Then, add in optimizations and try again. See how the compiler chose to rearrange your program to be more optimized, and try to figure out why it chose the arrangement and instructions it did.</p>
-<h1 id="document-history">Document History</h1>
-<ul>
-<li><p>12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL</p></li>
-<li><p>07/18/2003 - Version 0.6 - Added ASCII appendix, finished the discussion of the CPU in the Memory chapter, reworked exercises into a new format, corrected several errors. Thanks to Harald Korneliussen for the many suggestions and the ASCII table.</p></li>
-<li><p>01/11/2004 - Version 0.7 - Added C translation appendix, added the beginnings of an appendix of x86 instructions, added the beginnings of a GDB appendix, finished out the files chapter, finished out the counting chapter, added a records chapter, created a source file of common linux definitions, corrected several errors, and lots of other fixes</p></li>
-<li><p>01/22/2004 - Version 0.8 - Finished GDB appendix, mostly finished w/ appendix of x86 instructions, added section on planning programs, added lots of review questions, and got everything to a completed, initial draft state.</p></li>
-<li><p>01/29/2004 - Version 0.9 - Lots of editting of all chapters. Made code more consistent and made explanations clearer. Added some illustrations.</p></li>
-<li><p>01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots of minor corrections.</p></li>
-<li><p>04/18/2004 - Version 1.1 - Lots of minor updates based on reader comments. Made cleared distinction between dynamic and shared libraries.</p></li>
-</ul>
 <h1 id="appendix-f-using-the-gdb-debugger">Appendix F. Using the GDB Debugger</h1>
 <p>By the time you read this appendix, you will likely have written at least one program with an error in it. In assembly language, even minor errors usually have results such as the whole program crashing with a segmentation fault error. In most programming languages, you can simply print out the values in your variables as you go along, and use that output to find out where you went wrong. In assembly language, calling output functions is not so easy. Therefore, to aid in determining the source of errors, you must use a <em>source debugger</em>.</p>
 <p>A debugger is a program that helps you find bugs by stepping through the program one step at a time, letting you examine memory and register contents along the way. A <em>source debugger</em> is a debugger that allows you to tie the debugging operation directly to the source code of a program. This means that the debugger allows you to look at the source code as you typed it in - complete with symbols, labels, and comments.</p>
 <p>The debugger we will be looking at is GDB - the GNU Debugger. This application is present on almost all GNU/Linux distributions. It can debug programs in multiple programming languages, including assembly language.</p>
-<h1 id="an-example-debugging-session">An Example Debugging Session</h1>
+<h2 id="an-example-debugging-session">An Example Debugging Session</h2>
 <p>The best way to explain how a debugger works is by using it. The program we will be using the debugger on is the <code>maximum</code> program used in <a href="#chapter-3-your-first-programs">Chapter 3. Your First Programs</a>. Let's say that you entered the program perfectly, except that you left out the line:</p>
 <pre><code>    incl %edi</code></pre>
 <p>When you run the program, it just goes in an infinite loop - it never exits. To determine the cause, you need to run the program under GDB. However, to do this, you need to have the assembler include debugging information in the executable. All you need to do to enable this is to add the <code>--gstabs</code> option to the <code>as</code> command. So, you would assemble it like this:</p>
@@ -5210,7 +5176,7 @@ $2 = 0
 <p>This indicates that <em>%edi</em> is set to zero, which is why it keeps on loading the first element of the array. This should cause you to ask yourself two questions - what is the purpose of <em>%edi</em>, and how should its value be changed? To answer the first question, we just need to look in the comments. <em>%edi</em> is holding the current index of <code>data_items</code>. Since our search is a sequential search through the list of numbers in <code>data_items</code>, it would make sense that <em>%edi</em> should be incremented with every loop iteration.</p>
 <p>Scanning the code, there is no code which alters <em>%edi</em> at all. Therefore, we should add a line to increment <em>%edi</em> at the beginning of every loop iteration. This happens to be exactly the line we tossed out at the beginning. Assembling, linking, and running the program again will show that it now works correctly.</p>
 <p>Hopefully this exercise provided some insight into using GDB to help you find errors in your programs.</p>
-<h1 id="breakpoints-and-other-gdb-features">Breakpoints and Other GDB Features</h1>
+<h2 id="breakpoints-and-other-gdb-features">Breakpoints and Other GDB Features</h2>
 <p>The program we entered in the last section had an infinite loop, and could be easily stopped using control-c. Other programs may simply abort or finish with errors. In these cases, control-c doesn't help, because by the time you press control-c, the program is already finished. To fix this, you need to set <em>breakpointsbreakpoints</em>. A breakpoint is a place in the source code that you have marked to indicate to the debugger that it should stop the program when it hits that point.</p>
 <p>To set breakpointsbreakpoints you have to set them up before you run the program. Before issuing the <code>run</code> command, you can set up breakpoints using the <code>breakbreak</code> command. For example, to break on line 27, issue the command <code>break 27</code>. Then, when the program crosses line 27, it will stop running, and print out the current line and instruction. You can then step through the program from that point and examine registers and memory. To look at the lines and line numbers of your program, you can simply use the command <code>l</code>. This will print out your program with line numbers a screen at a time.</p>
 <p>When dealing with functions, you can also break on the function names. For example, in the factorial program in <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>, we could set a breakpoint for the factorial function by typing in <code>break factorial</code>. This will cause the debugger to break immediately after the function call and the function setup (it skips the pushing of <em>%ebp</em> and the copying of <em>%esp</em>).</p>
@@ -5218,7 +5184,7 @@ $2 = 0
 <hr />
 <p>One problem that GDB has is with handling interruptsinterrupts. Often times GDB will miss the instruction that immediately follows an interrupt. The instruction is actually executed, but GDB doesn't step through it. This should not be a problem - just be aware that it may happen.</p>
 <hr />
-<h1 id="gdb-quick-reference">GDB Quick-Reference</h1>
+<h2 id="gdb-quick-reference">GDB Quick-Reference</h2>
 <p>This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and is used by permission in this book. Parameters listed in brackets are optional.</p>
 <table>
 <caption>Common GDB Debugging Commands</caption>
@@ -5243,6 +5209,17 @@ $2 = 0
 </tr>
 </tbody>
 </table>
+<h1 id="appendix-g.-document-history">Appendix G. Document History</h1>
+<ul>
+<li><p>12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook to a Pandoc’s Markdown then it will export to ePUB, PDF, HTML and Github Markdown, could be extended to other types to documents. This version fixed some minimal details and update others like the links from some broken web sites, a lots of minor updates was done.</p></li>
+<li><p>04/18/2004 - Version 1.1 - Lots of minor updates based on reader comments. Made cleared distinction between dynamic and shared libraries.</p></li>
+<li><p>01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots of minor corrections.</p></li>
+<li><p>01/29/2004 - Version 0.9 - Lots of editting of all chapters. Made code more consistent and made explanations clearer. Added some illustrations.</p></li>
+<li><p>01/22/2004 - Version 0.8 - Finished GDB appendix, mostly finished w/ appendix of x86 instructions, added section on planning programs, added lots of review questions, and got everything to a completed, initial draft state.</p></li>
+<li><p>01/11/2004 - Version 0.7 - Added C translation appendix, added the beginnings of an appendix of x86 instructions, added the beginnings of a GDB appendix, finished out the files chapter, finished out the counting chapter, added a records chapter, created a source file of common linux definitions, corrected several errors, and lots of other fixes</p></li>
+<li><p>07/18/2003 - Version 0.6 - Added ASCII appendix, finished the discussion of the CPU in the Memory chapter, reworked exercises into a new format, corrected several errors. Thanks to Harald Korneliussen for the many suggestions and the ASCII table.</p></li>
+<li><p>12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL</p></li>
+</ul>
 <h1 id="appendix-h-gnu-free-documentation-license">Appendix H. GNU Free Documentation License</h1>
 <p><code>0. PREAMBLE</code></p>
 <p>The purpose of this License is to make a manual, textbook, or other written document “free” in the sense of freedom: to assure everyone the effective freedom to copy and redistribute it, with or without modifying it, either commercially or noncommercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being considered responsible for modifications made by others.</p>

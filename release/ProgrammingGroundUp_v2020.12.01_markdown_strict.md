@@ -9408,8 +9408,9 @@ Appendix D. Table of ASCII Codes
 To use this table, simply find the character or escape that you want the
 code for, and add the number on the left and the top.
 
+Table D-1. Table of ASCII codes in decimal.
+
 <table>
-<caption>Table D-1. Table of ASCII codes in decimal.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Num</th>
@@ -9603,8 +9604,6 @@ code for, and add the number on the left and the top.
 </tbody>
 </table>
 
-Table D-1. Table of ASCII codes in decimal.
-
 ASCII is actually being phased out in favor of an international standard
 known as Unicode, which allows you to display any character from any
 known writing system in the world. As you may have noticed, ASCII only
@@ -9628,19 +9627,17 @@ Excuses!)"](http://www.joelonsoftware.com/articles/Unicode.html).
 Appendix E. C Idioms in Assembly Language
 =========================================
 
-C programming language This appendix is for C programmers learning
-assembly language. It is meant to give a general idea about how C
-constructs can be implemented in assembly language.
+This appendix is for C programmers learning assembly language. It is
+meant to give a general idea about how C constructs can be implemented
+in assembly language.
 
 If Statement
-============
+------------
 
-In C, an if statementif statement consists of three parts - the
-conditioncondition, the true branchtrue branch, and the false
-branchfalse branch. However, since assembly language is not a block
-structured languageblock structured language, you have to work a little
-to implement the block-like nature of C. For example, look at the
-following C code:
+In C, an if statement consists of three parts - the condition, the true
+brancht, and the false branch. However, since assembly language is not a
+block structured language, you have to work a little to implement the
+block-like nature of C. For example, look at the following C code:
 
     if(a == b)
     {
@@ -9655,78 +9652,69 @@ following C code:
 
 In assembly language, this can be rendered as:
 
-        #Move a and b into registers for comparison
-        movl a, %eax
-        movl b, %ebx
+        movl a, %eax                        # Move a and b into registers for
+        movl b, %ebx                        # comparison.
 
-        #Compare
-        cmpl %eax, %ebx
+        cmpl %eax, %ebx                     # Compare.
 
-        #If True, go to true branch
-        je true_branch
+        je true_branch                      # If True, go to true branch.
 
-    false_branch:  #This label is unnecessary, 
-                   #only here for documentation
-        #False Branch Code Here
+    false_branch:                           # This label is unnecessary, 
+                                            # only here for documentation.
+                                            # False branch code here.
 
-        #Jump to recovergence point
-        jmp reconverge
+        jmp reconverge                      # Jump to recovergence point.
 
+    true_branch:                            # True branch code here.
 
-    true_branch:
-        #True Branch Code Here
-
-
-    reconverge:
-        #Both branches recoverge to this point
+    reconverge:                             # Both branches recoverge to this
+                                            # point.
 
 As you can see, since assembly language is linear, the blocks have to
 jump around each other. Recovergence is handled by the programmer, not
 the system.
 
-A case statementcase statement is written just like a sequence of if
-statements.
+A case statement is written just like a sequence of if statements.
 
 Function Call
-=============
+-------------
 
-A function callfunction call in assembly language simply requires
-pushing the arguments to the function onto the stack in *reverse* order,
-and issuing a `callcall` instruction. After calling, the arguments are
-then popped back off of the stack. For example, consider the C code:
+A function call in assembly language simply requires pushing the
+arguments to the function onto the stack in *reverse* order, and issuing
+a `call` instruction. After calling, the arguments are then popped back
+off of the stack. For example, consider the C code:
 
-        printf("The number is %d", 88);
+    printf("The number is %d", 88);
 
 In assembly language, this would be rendered as:
 
-        .section .data
+    .section .data
         text_string:
-        .ascii "The number is %d\0"
+            .ascii "The number is %d\0"
 
-        .section .text
+    .section .text
         pushl $88
         pushl $text_string
         call  printf
         popl  %eax
-        popl  %eax      #%eax is just a dummy variable,
-                        #nothing is actually being done 
-                        #with the value.  You can also 
-                        #directly re-adjust %esp to the
-                        #proper location.
+        popl  %eax                          # %eax is just a dummy variable,
+                                            # nothing is actually being done 
+                                            # with the value.  You can also 
+                                            # directly re-adjust %esp to the
+                                            # proper location.
 
 Variables and Assignment
-========================
+------------------------
 
-global variables static variables local variables Global and static
-variables are declared using `.data` or `.bss` entries. Local variables
-are declared by reserving space on the stack at the beginning of the
-function. This space is given back at the end of the function.
+Global and static variables are declared using `.data` or `.bss`
+entries. Local variables are declared by reserving space on the stack at
+the beginning of the function. This space is given back at the end of
+the function.
 
 Interestingly, global variables are accessed differently than local
 variables in assembly language. Global variables are accessed using
-direct addressingdirect addressing mode, while local variables are
-accessed using base pointer addressingbase pointer addressing mode. For
-example, consider the following C code:
+direct addressing mode, while local variables are accessed using base
+pointer addressing mode. For example, consider the following C code:
 
     int my_global_var;
 
@@ -9743,28 +9731,28 @@ example, consider the following C code:
 This would be rendered in assembly language as:
 
         .section .data
-        .lcomm my_global_var, 4
+            .lcomm my_global_var, 4
 
-        .type foo, @function
+        .type  foo,  @function
+
     foo:
-        pushl %ebp            #Save old base pointer
-        movl  %esp, $ebp      #make stack pointer base pointer
-        subl  $4, %esp        #Make room for my_local_var
-        .equ my_local_var, -4 #Can now use my_local_var to 
-                              #find the local variable
-
+        pushl %ebp                          # Save old base pointer.
+        movl  %esp, $ebp                    # make stack pointer base pointer.
+        subl  $4, %esp                      # Make room for my_local_var.
+        .equ my_local_var, -4               # Can now use my_local_var to 
+                                            # find the local variable.
 
         movl  $1, my_local_var(%ebp)
         movl  $2, my_global_var
 
-        movl  %ebp, %esp      #Clean up function and return
+        movl  %ebp, %esp                    # Clean up function and return.
         popl  %ebp
         ret
 
 What may not be obvious is that accessing the global variable takes
 fewer machine cycles than accessing the local variable. However, that
-may not matter because the stack is more likely to be in physical
-memoryphysical memory (instead of swap) than the global variable is.
+may not matter because the stack is more likely to be in physical memory
+(instead of swap) than the global variable is.
 
 Also note that in the C programming language, after the compiler loads a
 value into a register, that value will likely stay in that register
@@ -9775,29 +9763,29 @@ processing. If there aren't many variables in use, the value may simply
 stay in the register until it is needed again. Otherwise, when that
 register is needed for something else, the value, if it's changed, is
 copied back to its corresponding memory location. In C, you can use the
-keyword `volatilevolatile` to make sure all modifications and references
-to the variable are done to the memory location itself, rather than a
-register copy of it, in case other processes, threads, or hardware may
-be modifying the value while your function is running.
+keyword `volatile` to make sure all modifications and references to the
+variable are done to the memory location itself, rather than a register
+copy of it, in case other processes, threads, or hardware may be
+modifying the value while your function is running.
 
 Loops
-=====
+-----
 
-Loopsloops work a lot like if statements in assembly language - the
-blocks are formed by jumping around. In C, a while loop consists of a
-loop body, and a test to determine whether or not it is time to exit the
+Loops work a lot like if statements in assembly language - the blocks
+are formed by jumping around. In C, a while loop consists of a loop
+body, and a test to determine whether or not it is time to exit the
 loop. A for loop is exactly the same, with optional initialization and
 counter-increment sections. These can simply be moved around to make a
-while loopwhile loop.
+while loop.
 
 In C, a while loop looks like this:
 
-        while(a < b)
-        {
-            /* Do stuff here */
-        }
+    while(a < b)
+    {
+        /* Do stuff here */
+    }
 
-        /* Finished Looping */
+    /* Finished Looping */
 
 This can be rendered in assembly language like this:
 
@@ -9807,39 +9795,33 @@ This can be rendered in assembly language like this:
         cmpl  %eax, %ebx
         jge   loop_end
 
-    loop_body:
-        #Do stuff here
+    loop_body:                              # Do stuff here.
         
         jmp loop_begin
 
-    loop_end:
-        #Finished looping
+    loop_end:                               # Finished looping.
 
 The x86 assembly language has some direct support for looping as well.
 The *%ecx* register can be used as a counter that *ends* with zero. The
-`looploop` instruction will decrement *%ecx* and jump to a specified
-address unless *%ecx* is zero. For example, if you wanted to execute a
-statement 100 times, you would do this in C:
+`loop` instruction will decrement *%ecx* and jump to a specified address
+unless *%ecx* is zero. For example, if you wanted to execute a statement
+100 times, you would do this in C:
 
-        for(i=0; i < 100; i++)
-        {
-            /* Do process here */
-        }
+    for(i=0; i < 100; i++)
+    {
+        /* Do process here */
+    }
 
 In assembly language it would be written like this:
 
     loop_initialize:
         movl $100, %ecx
-    loop_begin:
-        #
-        #Do Process Here
-        #
 
-        #Decrement %ecx and loops if not zero
-        loop loop_begin 
+    loop_begin:                             # Do Process Here.
+        loop loop_begin                     # Decrement %ecx and loops if not
+                                            # zero.
 
-    rest_of_program:
-        #Continues on to here
+    rest_of_program:                        # Continues on to here.
 
 One thing to notice is that the `loop` instruction *requires you to be
 counting backwards to zero*. If you need to count forwards or use
@@ -9847,14 +9829,14 @@ another ending number, you should use the loop form which does not
 include the `loop` instruction.
 
 For really tight loops of character string operations, there is also the
-`reprep` instruction, but we will leave learning about that as an
-exercise to the reader.
+`rep` instruction, but we will leave learning about that as an exercise
+to the reader.
 
 Structs
-=======
+-------
 
-Structsstructs are simply descriptions of memory blocks. For example, in
-C you can say:
+Structs are simply descriptions of memory blocks. For example, in C you
+can say:
 
     struct person {
         char firstname[40];
@@ -9864,12 +9846,12 @@ C you can say:
 
 This doesn't do anything by itself, except give you ways of
 intelligently using 84 bytes of data. You can do basically the same
-thing using `.equ.equ` directives in assembly language. Like this:
+thing using `.equ` directives in assembly language. Like this:
 
-        .equ PERSON_SIZE, 84
-        .equ PERSON_FIRSTNAME_OFFSET, 0
-        .equ PERSON_LASTNAME_OFFSET, 40
-        .equ PERSON_AGE_OFFSET, 80
+    .equ PERSON_FIRSTNAME_OFFSET,  0
+    .equ PERSON_LASTNAME_OFFSET,   40
+    .equ PERSON_AGE_OFFSET,        80
+    .equ PERSON_SIZE,              84
 
 When you declare a variable of this type, all you are doing is reserving
 84 bytes of space. So, if you have this in C:
@@ -9883,63 +9865,58 @@ When you declare a variable of this type, all you are doing is reserving
 
 In assembly language you would have:
 
-    foo:
-        #Standard header beginning
+    foo:                                    # Standard header beginning.
         pushl %ebp
         movl %esp, %ebp
 
-        #Reserve our local variable
-        subl $PERSON_SIZE, %esp 
-        #This is the variable's offset from %ebp
-        .equ P_VAR, 0 - PERSON_SIZE
+        subl $PERSON_SIZE, %esp             # Reserve our local variable.
+        .equ P_VAR, 0 - PERSON_SIZE         # This is the variable's offset
+                                            # from %ebp.
+                                            # Do stuff here.
 
-        #Do Stuff Here
-
-        #Standard function ending
-        movl %ebp, %esp
+        movl %ebp, %esp                     # Standard function ending.
         popl %ebp
         ret
 
 To access structure members, you just have to use base pointer
-addressingbase pointer addressing mode with the offsets defined above.
-For example, in C you could set the person's age like this:
+addressing mode with the offsets defined above. For example, in C you
+could set the person's age like this:
 
-        p.age = 30;
+    p.age = 30;
 
 In assembly language it would look like this:
 
-        movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
+    movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
 
 Pointers
-========
+--------
 
-Pointerspointers are very easy. Remember, pointers are simply the
-addressaddress that a value resides at. Let's start by taking a look at
-global variables. For example:
+Pointers are very easy. Remember, pointers are simply the address that a
+value resides at. Let's start by taking a look at global variables. For
+example:
 
     int global_data = 30;
 
 In assembly language, this would be:
 
-        .section .data
-    global_data:
-        .long 30
+    .section .data
+        global_data:
+            .long 30
 
 Taking the address of this data in C:
 
-        a = &global_data;
+    a = &global_data;
 
 Taking the address of this data in assembly language:
 
-        movl $global_data, %eax
+    movl $global_data, %eax
 
 You see, with assembly language, you are almost always accessing memory
 through pointers. That's what direct addressing is. To get the pointer
-itself, you just have to go with immediate mode addressingimmediate mode
-addressing.
+itself, you just have to go with immediate mode addressing.
 
-Local variableslocal variables are a little more difficult, but not
-much. Here is how you take the address of a local variable in C:
+Local variables are a little more difficult, but not much. Here is how
+you take the address of a local variable in C:
 
     void foo()
     {
@@ -9956,51 +9933,43 @@ much. Here is how you take the address of a local variable in C:
 The same code in assembly language:
 
     foo:
-        #Standard opening
-        pushl %ebp
+        pushl %ebp                          # Standard opening.
         movl  %esp, %ebp
 
-        #Reserve two words of memory
-        subl  $8, $esp
+        subl  $8, $esp                      # Reserve two words of memory.
         .equ A_VAR, -4
         .equ B_VAR, -8
 
-        #a = 30
-        movl $30, A_VAR(%ebp)
+        movl $30, A_VAR(%ebp)               # a = 30.
 
-        #b = &a
-        movl $A_VAR, B_VAR(%ebp)
+        movl $A_VAR, B_VAR(%ebp)            # b = &a.
         addl %ebp, B_VAR(%ebp)
 
-        #*b = 30
-        movl B_VAR(%ebp), %eax
+        movl B_VAR(%ebp), %eax              # *b = 30.
         movl $30, (%eax)
 
-        #Standard closing
-        movl %ebp, %esp
+        movl %ebp, %esp                     # Standard closing.
         popl %ebp
         ret
 
 As you can see, to take the address of a local variable, the address has
 to be computed the same way the computer computes the addresses in base
 pointer addressing. There is an easier way - the processor provides the
-instruction `lealleal`, which stands for "load effective
-addresseffective address". This lets the computer compute the address,
-and then load it wherever you want. So, we could just say:
+instruction `leal`, which stands for "load effective address". This lets
+the computer compute the address, and then load it wherever you want.
+So, we could just say:
 
-        #b = &a
-        leal A_VAR(%ebp), %eax
-        movl %eax, B_VAR(%ebp)
+    leal A_VAR(%ebp), %eax                  # b = &a.
+    movl %eax, B_VAR(%ebp)
 
 It's the same number of lines, but a little cleaner. Then, to use this
 value, you simply have to move it to a general-purpose register and use
-indirect addressingindirect addressing mode, as shown in the example
-above.
+indirect addressing mode, as shown in the example above.
 
 Getting GCC to Help
-===================
+-------------------
 
-One of the nice things about GCCGCC is its ability to spit out assembly
+One of the nice things about GCC is its ability to spit out assembly
 language code. To convert a C language file to assembly, you can simply
 do:
 
@@ -10017,55 +9986,21 @@ for local variables than we do, and then AND's *%esp* [52] This is to
 increase memory and cache efficiency by double-word aligning variables.
 
 Finally, at the end of functions, we usually do the following
-instructions to clean up the stack before issuing a `retret`
-instruction:
+instructions to clean up the stack before issuing a `ret` instruction:
 
-        movl %ebp, %esp
-        popl %ebp
+    movl %ebp, %esp
+    popl %ebp
 
-However, GCC output will usually just include the instruction
-`leaveleave`. This instruction is simply the combination of the above
-two instructions. We do not use `leave` in this text because we want to
-be clear about exactly what is happening at the processor level.
+However, GCC output will usually just include the instruction `leave`.
+This instruction is simply the combination of the above two
+instructions. We do not use `leave` in this text because we want to be
+clear about exactly what is happening at the processor level.
 
 I encourage you to take a C program you have written and compile it to
 assembly language and trace the logic. Then, add in optimizations and
 try again. See how the compiler chose to rearrange your program to be
 more optimized, and try to figure out why it chose the arrangement and
 instructions it did.
-
-Document History
-================
-
--   12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL
-
--   07/18/2003 - Version 0.6 - Added ASCII appendix, finished the
-    discussion of the CPU in the Memory chapter, reworked exercises into
-    a new format, corrected several errors. Thanks to Harald
-    Korneliussen for the many suggestions and the ASCII table.
-
--   01/11/2004 - Version 0.7 - Added C translation appendix, added the
-    beginnings of an appendix of x86 instructions, added the beginnings
-    of a GDB appendix, finished out the files chapter, finished out the
-    counting chapter, added a records chapter, created a source file of
-    common linux definitions, corrected several errors, and lots of
-    other fixes
-
--   01/22/2004 - Version 0.8 - Finished GDB appendix, mostly finished w/
-    appendix of x86 instructions, added section on planning programs,
-    added lots of review questions, and got everything to a completed,
-    initial draft state.
-
--   01/29/2004 - Version 0.9 - Lots of editting of all chapters. Made
-    code more consistent and made explanations clearer. Added some
-    illustrations.
-
--   01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots
-    of minor corrections.
-
--   04/18/2004 - Version 1.1 - Lots of minor updates based on reader
-    comments. Made cleared distinction between dynamic and shared
-    libraries.
 
 Appendix F. Using the GDB Debugger
 ==================================
@@ -10092,7 +10027,7 @@ debug programs in multiple programming languages, including assembly
 language.
 
 An Example Debugging Session
-============================
+----------------------------
 
 The best way to explain how a debugger works is by using it. The program
 we will be using the debugger on is the `maximum` program used in
@@ -10246,7 +10181,7 @@ Hopefully this exercise provided some insight into using GDB to help you
 find errors in your programs.
 
 Breakpoints and Other GDB Features
-==================================
+----------------------------------
 
 The program we entered in the last section had an infinite loop, and
 could be easily stopped using control-c. Other programs may simply abort
@@ -10293,7 +10228,7 @@ happen.
 ------------------------------------------------------------------------
 
 GDB Quick-Reference
-===================
+-------------------
 
 This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and
 is used by permission in this book. Parameters listed in brackets are
@@ -10324,6 +10259,46 @@ optional.
 </table>
 
 Common GDB Debugging Commands
+
+Appendix G. Document History
+============================
+
+-   12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the
+    DocBook to a Pandoc’s Markdown then it will export to ePUB, PDF,
+    HTML and Github Markdown, could be extended to other types to
+    documents. This version fixed some minimal details and update others
+    like the links from some broken web sites, a lots of minor updates
+    was done.
+
+-   04/18/2004 - Version 1.1 - Lots of minor updates based on reader
+    comments. Made cleared distinction between dynamic and shared
+    libraries.
+
+-   01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots
+    of minor corrections.
+
+-   01/29/2004 - Version 0.9 - Lots of editting of all chapters. Made
+    code more consistent and made explanations clearer. Added some
+    illustrations.
+
+-   01/22/2004 - Version 0.8 - Finished GDB appendix, mostly finished w/
+    appendix of x86 instructions, added section on planning programs,
+    added lots of review questions, and got everything to a completed,
+    initial draft state.
+
+-   01/11/2004 - Version 0.7 - Added C translation appendix, added the
+    beginnings of an appendix of x86 instructions, added the beginnings
+    of a GDB appendix, finished out the files chapter, finished out the
+    counting chapter, added a records chapter, created a source file of
+    common linux definitions, corrected several errors, and lots of
+    other fixes
+
+-   07/18/2003 - Version 0.6 - Added ASCII appendix, finished the
+    discussion of the CPU in the Memory chapter, reworked exercises into
+    a new format, corrected several errors. Thanks to Harald
+    Korneliussen for the many suggestions and the ASCII table.
+
+-   12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL
 
 Appendix H. GNU Free Documentation License
 ==========================================
