@@ -9144,57 +9144,49 @@ movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
 movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
 ```
 
-<table>
-<caption>Table B-1. Data Transfer Instructions.</caption>
-<colgroup>
-<col style="width: 75%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Instruction</th>
-<th style="text-align: center;">Operands +++++++++ Affected Flags</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>movl</strong>: This copies a word of data from one location to another. <code>movl %eax, %ebx</code> copies the contents of <em>%eax</em> to <em>%ebx</em>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, I/R/M +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>movb</strong>: Same as <code>movl</code>, but operates on individual bytes.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M, I/R/M +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>leal</strong>: This takes a memory location given in the standard format, and, instead of loading the contents of the memory location, loads the computed address. For example, <code>leal 5(%ebp,%ecx,1), %eax</code> loads the address computed by <code>5 + %ebp + 1*%ecx</code> and stores that in <em>%eax</em>.</p>
-<hr /></td>
-<td style="text-align: center;"><p>M, I/R/M +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>popl</strong>: Pops the top of the stack into the given location. This is equivalent to performing <code>movl (%esp), R/M</code> followed by <code>addl $4, %esp</code>. <code>popfl</code> is a variant which pops the top of the stack into the <em>%eflags</em> register.</p>
-<hr /></td>
-<td style="text-align: center;"><p>R/M +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>pushl</strong>: Pushes the given value onto the stack. This is the equivalent to performing <code>subl $4, %esp</code> followed by <code>movl I/R/M, (%esp)</code>. <code>pushfl</code> is a variant which pushes the current contents of the <em>%eflags</em> register onto the top of the stack.</p>
-<hr /></td>
-<td style="text-align: center;"><p>I/R/M +++++++++ O/S/Z/A/C</p>
-<hr /></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>xchgl</strong>: Exchange the values of the given operands.</td>
-<td style="text-align: center;">R/M, R/M +++++++++ O/S/Z/A/C</td>
-</tr>
-</tbody>
-</table>
+------------------------------------------------------------------------
 
 Table B-1. Data Transfer Instructions.
+
+**Instruction** *Operands* —–&gt; Affected Flags (eFlags).
+
+------------------------------------------------------------------------
+
+**movl** *I/R/M*, *I/R/M* —–&gt; O/S/Z/A/C:
+
+> This copies a word of data from one location to another.
+> `movl %eax, %ebx` copies the contents of *%eax* to *%ebx*.
+
+**movb** *I/R/M*, *I/R/M* —–&gt; O/S/Z/A/C:
+
+> Same as `movl`, but operates on individual bytes.
+
+**leal** *M*, *I/R/M* —–&gt; O/S/Z/A/C:
+
+> This takes a memory location given in the standard format, and,
+> instead of loading the contents of the memory location, loads the
+> computed address. For example, `leal 5(%ebp,%ecx,1), %eax` loads the
+> address computed by `5 + %ebp + 1*%ecx` and stores that in *%eax*.
+
+**popl** *R/M* —–&gt; O/S/Z/A/C:
+
+> Pops the top of the stack into the given location. This is equivalent
+> to performing `movl (%esp), R/M` followed by `addl $4, %esp`. `popfl`
+> is a variant which pops the top of the stack into the *%eflags*
+> register.
+
+**pushl** *I/R/M* —–&gt; O/S/Z/A/C:
+
+> Pushes the given value onto the stack. This is the equivalent to
+> performing `subl $4, %esp` followed by `movl I/R/M, (%esp)`. `pushfl`
+> is a variant which pushes the current contents of the *%eflags*
+> register onto the top of the stack.
+
+**xchgl** *R/M*, *R/M* —–&gt; O/S/Z/A/C:
+
+> Exchange the values of the given operands.
+
+------------------------------------------------------------------------
 
 Integer Instructions
 --------------------
@@ -9637,15 +9629,198 @@ In addition, you can find a lot of information in the manual for the
 Similarly, the manual for the [GNU
 linker](https://sourceware.org/binutils/docs/ld/index.html).
 
+Appendix C. Important System Calls
+==================================
+
+These are some of the more important system calls to use when dealing
+with Linux. For most cases, however, it is best to use library functions
+rather than direct system calls, because the system calls were designed
+to be minimalistic while the library functions were designed to be easy
+to program with. For information about the [The GNU C
+Library](https://www.gnu.org/software/libc/manual/).
+
+Remember that *%eax* holds the system call numbers, and that the return
+values and error codes are also stored in *%eax*.
+
+<table>
+<caption>Table C-1. Important Linux System Calls.</caption>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 12%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">%eax</th>
+<th style="text-align: center;">Name</th>
+<th style="text-align: left;">%ebx</th>
+<th style="text-align: left;">%ecx</th>
+<th style="text-align: left;">%edx</th>
+<th style="text-align: left;">NOTES</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">exit</td>
+<td style="text-align: left;">Return value (int)</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Exits the program.</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">read</td>
+<td style="text-align: left;">File descriptor</td>
+<td style="text-align: left;">Buffer start</td>
+<td style="text-align: left;">Buffer size (int)</td>
+<td style="text-align: left;"><p>Reads into the given buffer.</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">write</td>
+<td style="text-align: left;">File descriptor</td>
+<td style="text-align: left;">Buffer start</td>
+<td style="text-align: left;">Buffer size (int)</td>
+<td style="text-align: left;"><p>Writes the buffer to the filedescriptor.</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">open</td>
+<td style="text-align: left;">Null- terminated file name</td>
+<td style="text-align: left;">Option list</td>
+<td style="text-align: left;">Permission mode</td>
+<td style="text-align: left;"><p>Opens the given file. Returns the file descriptor or an error number.</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">close</td>
+<td style="text-align: left;">File descriptor</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Closes the give file descriptor.</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">chdir</td>
+<td style="text-align: left;">Null- terminated directory name</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Changes the current directory of your program.</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">lseek</td>
+<td style="text-align: left;">File descriptor</td>
+<td style="text-align: left;">Offset</td>
+<td style="text-align: left;">Mode</td>
+<td style="text-align: left;"><p>Repositions where you are in the given file. The mode (called the “whence”) should be 0 for absolute positioning, and 1 for relative positioning.</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">getpid</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Returns the process ID of the current process.</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">mkdir</td>
+<td style="text-align: left;">Null- terminated directory name</td>
+<td style="text-align: left;">Permission mode</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Creates the given directory. Assumes all directories leading up to it already exist.</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">rmdir</td>
+<td style="text-align: left;">Null- terminated directory name</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Removes the given directory.</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">dup</td>
+<td style="text-align: left;">File descriptor</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Returns a new file descriptor that works just like the existing file descriptor.</p>
+<hr /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">pipe</td>
+<td style="text-align: left;">Pipe array</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Creates two file descriptors, where writing on one produces data to read on the other and vice-versa. %ebx is a pointer to two words of storage to hold the file descriptors.</p>
+<hr /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">brk</td>
+<td style="text-align: left;">New system break</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;">N/A</td>
+<td style="text-align: left;"><p>Sets the system break. If the system break is 0, it simply returns the current system break. For example: End of the data section.</p>
+<p>+++++</p></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">54</td>
+<td style="text-align: center;">ioctl</td>
+<td style="text-align: left;">File descriptor</td>
+<td style="text-align: left;">Request</td>
+<td style="text-align: left;">Arguments</td>
+<td style="text-align: left;">This is used to set parameters on device files. It’s actual usage varies based on the type of file or device your descriptor references.</td>
+</tr>
+</tbody>
+</table>
+
+Table C-1. Important Linux System Calls.
+
+<!-- TODO: Fix the problem about the line versus ++++ in the syscall #45.
+            ! pdfTeX error (ext4): \pdfendlink ended up in different nesting level than \pd fstartlink.
+            \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                \fi \fi 
+            l.11550
+-->
+
+A more complete listing of system calls is in this web site [Call
+convention by architechture](https://syscall.sh/), along with additional
+information is available at [System Calls for Assembly Level
+Access](http://www.lxhp.in-berlin.de/lhpsyscal.html) You can also get
+more information about a system call by typing in `man 2 syscalls` which
+will return you the information about the system call from section 2 of
+the UNIX manual. However, this refers to the usage of the system call
+from the C programming language, and may or may not be directly helpful.
+
+For information on how system calls are implemented on Linux, see the
+[Linux Kernel 2.4 Internals section on how system calls are
+implemented](http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11).
+
 Appendix D. Table of ASCII Codes
 ================================
 
 To use this table, simply find the character or escape that you want the
 code for, and add the number on the left and the top.
 
-|     |     |     |     |     |      |     |      |     |
-|-----|:----|:----|:----|:----|:-----|:----|:-----|:----|
-|     | +0  | +1  | +2  | +3  | +4   | +5  | +6   | +7  |
+| Num | +0  | +1  | +2  | +3  | +4   | +5  | +6   | +7  |
+|:----|:----|:----|:----|:----|:-----|:----|:-----|:----|
 | 0   | NUL | SOH | STX | ETX | EOT  | ENQ | ACK  | BEL |
 | 8   | BS  | HT  | LF  | VT  | FF   | CR  | SO   | SI  |
 | 16  | DLE | DC1 | DC2 | DC3 | DC4  | NAK | SYN  | ETB |
@@ -9663,7 +9838,7 @@ code for, and add the number on the left and the top.
 | 112 | p   | q   | r   | s   | t    | u   | v    | w   |
 | 120 | x   | y   | z   | {   | \|   | }   | \~   | DEL |
 
-Table of ASCII codes in decimal
+Table D-1. Table of ASCII codes in decimal.
 
 ASCII is actually being phased out in favor of an international standard
 known as Unicode, which allows you to display any character from any
@@ -9675,61 +9850,15 @@ characters. The most common is UTF-8 and UTF-32. UTF-8 is somewhat
 backwards-compatible with ASCII (it is stored the same for English
 characters, but expands into multiple byte for international
 characters). UTF-32 simply requires four bytes for each character rather
-than one. Windows uses UTF-16, which is a variable-length encoding which
-requires at least 2 bytes per character, so it is not
+than one. Windows® uses UTF-16, which is a variable-length encoding
+which requires at least 2 bytes per character, so it is not
 backwards-compatible with ASCII.
 
 A good tutorial on internationalization issues, fonts, and Unicode is
-available in a great Article by Joe Spolsky, called "The Absolute
+available in a great Article by Joe Spolsky, called ["The Absolute
 Minimum Every Software Developer Absolutely, Positively Must Know About
-Unicode and Character Sets (No Excuses!)", available online at
-http://www.joelonsoftware.com/articles/Unicode.html
-
-Appendix C. Important System Calls
-==================================
-
-These are some of the more important system calls to use when dealing
-with Linux. For most cases, however, it is best to use library functions
-rather than direct system calls, because the system calls were designed
-to be minimalistic while the library functions were designed to be easy
-to program with. For information about the Linux C library, see the
-manual at http://www.gnu.org/software/libc/manual/
-
-Remember that *%eax* holds the system call numbers, and that the return
-values and error codes are also stored in *%eax*. PERCENTeax PERCENTebx
-PERCENTecx PERCENTedx
-
-| *%eax* |
-|:-------|
-| 1      |
-| 3      |
-| 4      |
-| 5      |
-| 6      |
-| 12     |
-| 19     |
-| 20     |
-| 39     |
-| 40     |
-| 41     |
-| 42     |
-| 45     |
-| 54     |
-
-Important Linux System Calls
-
-A more complete listing of system calls, along with additional
-information is available at http://www.lxhp.in-berlin.de/lhpsyscal.html
-You can also get more information about a system call by typing in
-`man 2 SYSCALLNAME` which will return you the information about the
-system call from section 2 of the UNIX manualUNIX manual. However, this
-refers to the usage of the system call from the C programming languageC
-programming language, and may or may not be directly helpful.
-
-For information on how system callssystem calls are implemented on
-Linux, see the Linux Kernel 2.4 Internals section on how system calls
-are implemented at
-http://www.faqs.org/docs/kernel\_2\_4/lki-2.html\#ss2.11
+Unicode and Character Sets (No
+Excuses!)"](http://www.joelonsoftware.com/articles/Unicode.html).
 
 Appendix E. C Idioms in Assembly Language
 =========================================
