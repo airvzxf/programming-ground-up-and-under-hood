@@ -7791,8 +7791,6 @@ movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
 movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
 ```
 
----
-
 Table B-1. Data Transfer Instructions.
 
 **Instruction** _Operands_ -----> Affected Flags (eFlags).
@@ -7840,322 +7838,239 @@ Integer Instructions
 These are basic calculating instructions that operate on signed or
 unsigned integers.
 
-: Table B-2. Integer Instructions.
+Table B-2. Integer Instructions.
 
-+-----------------------------------------------------+-----------------+
-| Instruction                                         | Operands        |
-|                                                     | +++++++++       |
-|                                                     | Affected Flags  |
-+:====================================================+:===============:+
-| **adcl**:                                           | I/R/M, R/M      |
-| Add with carry. Adds the carry bit and the          | +++++++++       |
-| first operand to the second, and, if there          | O/S/Z/A/P/C     |
-| is an overflow, sets overflow and carry to          |                 |
-| true. This is usually used for operations           |                 |
-| larger than a machine word. The addition on         |                 |
-| the least-significant word would take place         |                 |
-| using `addl`, while additions to the other          |                 |
-| words would used the `adcl` instruction to          |                 |
-| take the carry from the previous add into           |                 |
-| account. For the usual case, this is not            |                 |
-| used, and `addl` is used instead.                   |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **addl**:                                           | I/R/M, R/M      |
-| Addition. Adds the first operand to the             | +++++++++       |
-| second, storing the result in the second. If        | O/S/Z/A/P/C     |
-| the result is larger than the destination           |                 |
-| register, the overflow and carry bits are set       |                 |
-| to true. This instruction operates on both          |                 |
-| signed and unsigned integers.                       |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **cdq**:                                            | Not Applicable  |
-| Converts the _%eax_ word into the double-word       | +++++++++       |
-| consisting of _%edx_:_%eax_ with sign               | O/S/Z/A/P/C     |
-| extension. The `q` signifies that it is a           |                 |
-| *quad-word*. It\'s actually a double-word,          |                 |
-| but it\'s called a quad-word because of the         |                 |
-| terminology used in the 16-bit days. This is        |                 |
-| usually used before issuing an `idivl`              |                 |
-| instruction.                                        |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **cmpl**:                                           | I/R/M, R/M      |
-| Compares two integers. It does this by              | +++++++++       |
-| subtracting the first operand from the              | O/S/Z/A/P/C     |
-| second. It discards the results, but sets the       |                 |
-| flags accordingly. Usually used before a            |                 |
-| conditional jump.                                   |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **decl**:                                           | R/M             |
-| Decrements the register or memory location.         | +++++++++       |
-| Use `decb` to decrement a byte instead of a         | O/S/Z/A/P       |
-| word.                                               |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **divl**:                                           | R/M             |
-| Performs unsigned division. Divides the             | +++++++++       |
-| contents of the double-word contained in the        | O/S/Z/A/P       |
-| combined _%edx_:_%eax_ registers by the value       |                 |
-| in the register or memory location specified.       |                 |
-| The _%eax_ register contains the resulting          |                 |
-| quotient, and the _%edx_ register contains          |                 |
-| the resulting remainder. If the quotient is         |                 |
-| too large to fit in _%eax_, it triggers a           |                 |
-| type 0 interrupt.                                   |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **idivl**:                                          | R/M             |
-| Performs signed division. Operates just like        | +++++++++       |
-| `divl` above.                                       | O/S/Z/A/P       |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **imull**:                                          | R/M/I, R        |
-| Performs signed multiplication and stores the       | +++++++++       |
-| result in the second operand. If the second         | O/S/Z/A/P/C     |
-| operand is left out, it is assumed to be            |                 |
-| _%eax_, and the full result is stored in the        |                 |
-| double-word _%edx_:_%eax_.                          |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **incl**:                                           | R/M             |
-| Increments the given register or memory             | +++++++++       |
-| location. Use `incb` to increment a byte            | O/S/Z/A/P       |
-| instead of a word.                                  |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **mull**:                                           | R/M/I, R        |
-| Perform unsigned multiplication. Same rules         | +++++++++       |
-| as apply to `imull`.                                | O/S/Z/A/P/C     |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **negl**:                                           | R/M             |
-| Negates (gives the two\'s complement                | +++++++++       |
-| inversion of) the given register or memory          | O/S/Z/A/P/C     |
-| location.                                           |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **sbbl**:                                           | I/R/M, R/M      |
-| Subtract with borrowing. This is used in the        | +++++++++       |
-| same way that `adc` is, except for                  | O/S/Z/A/P/C     |
-| subtraction. Normally only `subl` is used.          |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **subl**:                                           | I/R/M, R/M      |
-| Subtract the two operands. This subtracts the       | +++++++++       |
-| first operand from the second, and stores the       | O/S/Z/A/P/C     |
-| result in the second operand. This                  |                 |
-| instruction can be used on both signed and          |                 |
-| unsigned numbers.                                   |                 |
-+-----------------------------------------------------+-----------------+
+**Instruction** _Operands_ -----> Affected Flags (eFlags).
+
+---
+
+**adcl** _I/R/M_, _R/M_ -----> O/S/Z/A/P/C:
+
+> Add with carry. Adds the carry bit and the first operand to the second,
+  and, if there is an overflow, sets overflow and carry to true. This is
+  usually used for operations larger than a machine word. The addition on
+  the least-significant word would take place using `addl`, while additions
+  to the other words would used the `adcl` instruction to take the carry
+  from the previous add into account. For the usual case, this is not
+  used, and `addl` is used instead.
+
+**addl** _I/R/M_, _R/M_ -----> O/S/Z/A/P/C:
+
+> Addition. Adds the first operand to the second, storing the result in the
+  second. If the result is larger than the destination register, the
+  overflow and carry bits are set to true. This instruction operates on
+  both signed and unsigned integers.
+
+**cdq** _Not Applicable_ -----> O/S/Z/A/P/C:
+
+> Converts the _%eax_ word into the double-word consisting of _%edx_:_%eax_
+  with sign extension. The `q` signifies that it is a *quad-word*. It\'s
+  actually a double-word, but it\'s called a quad-word because of the
+  terminology used in the 16-bit days. This is usually used before issuing
+  an `idivl` instruction.
+
+**cmpl** _I/R/M_, _R/M_ -----> O/S/Z/A/P/C:
+
+> Compares two integers. It does this by subtracting the first operand from
+  the second. It discards the results, but sets the flags accordingly.
+  Usually used before a conditional jump.
+
+**decl** _R/M_ -----> O/S/Z/A/P:
+
+> Decrements the register or memory location. Use `decb` to decrement a
+  byte instead of a word.
+
+**divl** _R/M_ -----> O/S/Z/A/P:
+
+> Performs unsigned division. Divides the contents of the double-word
+  contained in the combined _%edx_:_%eax_ registers by the value in the
+  register or memory location specified. The _%eax_ register contains the
+  resulting quotient, and the _%edx_ register contains the resulting
+  remainder. If the quotient is too large to fit in _%eax_, it triggers a
+  type 0 interrupt.
+
+**idivl** _R/M_ -----> O/S/Z/A/P:
+
+> Performs signed division. Operates just like `divl` above.
+
+**imull** _R/M/I_, _R_ -----> O/S/Z/A/P/C:
+
+> Performs signed multiplication and stores the result in the second
+  operand. If the second operand is left out, it is assumed to be _%eax_,
+  and the full result is stored in the double-word _%edx_:_%eax_.
+
+**incl** _R/M_ -----> O/S/Z/A/P:
+
+> Increments the given register or memory location. Use `incb` to increment
+  a byte instead of a word.
+
+**mull** _R/M/I_, _R_ -----> O/S/Z/A/P/C:
+
+> Perform unsigned multiplication. Same rules as apply to `imull`.
+
+**negl** _R/M_ -----> O/S/Z/A/P/C:
+
+> Negates (gives the two\'s complement inversion of) the given register or
+  memory location.
+
+**sbbl** _I/R/M_, _R/M_ -----> O/S/Z/A/P/C:
+
+> Subtract with borrowing. This is used in the same way that `adc` is,
+  except for subtraction. Normally only `subl` is used.
+
+**subl** _I/R/M_, _R/M_ -----> O/S/Z/A/P/C:
+
+> Subtract the two operands. This subtracts the first operand from the
+  second, and stores the result in the second operand. This instruction can
+  be used on both signed and unsigned numbers.
+
+---
 
 Logic Instructions
 ------------------
 
 These instructions operate on memory as bits instead of words.
 
-: Table B-3. Logic Instructions.
+Table B-3. Logic Instructions.
 
-+-----------------------------------------------------+-----------------+
-| Instruction                                         | Operands        |
-|                                                     | +++++++++       |
-|                                                     | Affected Flags  |
-+:====================================================+:===============:+
-| **andl**:                                           | I/R/M, R/M      |
-| Performs a logical and of the contents of the       | +++++++++       |
-| two operands, and stores the result in the          | O/S/Z/P/C       |
-| second operand. Sets the overflow and carry         |                 |
-| flags to false.                                     |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **notl**:                                           | R/M             |
-| Performs a logical not on each bit in the           | +++++++++       |
-| operand. Also known as a one\'s complement.         | Not Applicable  |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **orl**:                                            | I/R/M, R/M      |
-| Performs a logical or between the two               | +++++++++       |
-| operands, and stores the result in the second       | O/S/Z/A/P/C     |
-| operand. Sets the overflow and carry flags          |                 |
-| to false.                                           |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **rcll**:                                           | I/%cl, R/M      |
-| Rotates the given location\'s bits to the           | +++++++++       |
-| left the number of times in the first               | O/C             |
-| operand, which is either an immediate-mode          |                 |
-| value or the register _%cl_. The carry flag         |                 |
-| is included in the rotation, making it use          |                 |
-| 33 bits instead of 32. Also sets the                |                 |
-| overflow flag.                                      |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **rcrl**:                                           | I/%cl, R/M      |
-| Same as above, but rotates right.                   | +++++++++       |
-|                                                     | O/C             |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **roll**:                                           | I/%cl, R/M      |
-| Rotate bits to the left. It sets the overflow       | +++++++++       |
-| and carry flags, but does not count the carry       | O/C             |
-| flag as part of the rotation. The number of         |                 |
-| bits to roll is either specified in immediate       |                 |
-| mode or is contained in the _%cl_ register.         |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **rorl**:                                           | I/%cl, R/M      |
-| Same as above, but rotates right.                   | +++++++++       |
-|                                                     | O/C             |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **sall**:                                           | I/%cl, R/M      |
-| Arithmetic shift left. The sign bit is              | +++++++++++     |
-| shifted out to the carry flag, and a zero bit       | C               |
-| is placed in the least significant bit. Other       |                 |
-| bits are simply shifted to the left. This is        |                 |
-| the same as the regular shift left. The             |                 |
-| number of bits to shift is either specified         |                 |
-| in immediate mode or is contained in the            |                 |
-| _%cl_ register.                                     |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **sarl**:                                           | I/%cl, R/M      |
-| Arithmetic shift right. The least significant       | +++++++++++     |
-| bit is shifted out to the carry flag. The           | C               |
-| sign bit is shifted in, and kept as the sign        |                 |
-| bit. Other bits are simply shifted to the           |                 |
-| right. The number of bits to shift is either        |                 |
-| specified in immediate mode or is contained         |                 |
-| in the _%cl_ register.                              |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **shll**:                                           | I/%cl, R/M      |
-| Logical shift left. This shifts all bits to         | +++++++++++     |
-| the left (sign bit is not treated specially).       | C               |
-| The leftmost bit is pushed to the carry flag.       |                 |
-| The number of bits to shift is either               |                 |
-| specified in immediate mode or is contained         |                 |
-| in the _%cl_ register.                              |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **shrl**:                                           | I/%cl, R/M      |
-| Logical shift right. This shifts all bits in        | +++++++++++     |
-| the register to the right (sign bit is not          | C               |
-| treated specially). The rightmost bit is            |                 |
-| pushed to the carry flag. The number of bits        |                 |
-| to shift is either specified in immediate           |                 |
-| mode or is contained in the _%cl_ register.         |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **testl**:                                          | I/R/M, R/M      |
-| Does a logical and of both operands and             | +++++++++       |
-| discards the results, but sets the flags            | O/S/Z/A/P/C     |
-| accordingly.                                        |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **xorl**:                                           | I/R/M, R/M      |
-| Does an exclusive or on the two operands,           | +++++++++       |
-| and stores the result in the second operand.        | O/S/Z/A/P/C     |
-| Sets the overflow and carry flags to false.         |                 |
-+-----------------------------------------------------+-----------------+
+**Instruction** _Operands_ -----> Affected Flags (eFlags).
+
+---
+
+**andl** _I/R/M_, _R/M_ -----> O/S/Z/P/C:
+
+> Performs a logical and of the contents of the two operands, and stores
+  the result in the second operand. Sets the overflow and carry flags to
+  false.
+
+**notl** _R/M_ -----> Not Applicable:
+
+> Performs a logical not on each bit in the operand. Also known as a one\'s
+  complement.
+
+**orl** _I/R/M_, _R/M_ -----> O/S/Z/A/P/C:
+
+> Performs a logical or between the two operands, and stores the result in
+  the second operand. Sets the overflow and carry flags to false.
+
+**rcll** _I/cl_, _R/M_ -----> O/C:
+
+> Rotates the given location\'s bits to the left the number of times in the
+  first operand, which is either an immediate-mode value or the register
+  _%cl_. The carry flag is included in the rotation, making it use 33 bits
+  instead of 32. Also sets the overflow flag.
+
+**rcrl** _I/cl_, _R/M_ -----> O/C:
+
+> Same as above, but rotates right.
+
+**roll** _I/cl_, _R/M_ -----> O/C:
+
+> Rotate bits to the left. It sets the overflow and carry flags, but does
+  not count the carry flag as part of the rotation. The number of bits to
+  roll is either specified in immediate mode or is contained in the _%cl_
+  register.
+
+**rorl** _I/cl_, _R/M_ -----> O/C:
+
+> Same as above, but rotates right.
+
+**sall** _I/cl_, _R/M_ -----> C:
+
+> Arithmetic shift left. The sign bit is shifted out to the carry flag, and
+  a zero bit is placed in the least significant bit. Other bits are simply
+  shifted to the left. This is the same as the regular shift left. The
+  number of bits to shift is either specified in immediate mode or is
+  contained in the _%cl_ register.
+
+**sarl** _I/cl_, _R/M_ -----> C:
+
+> Arithmetic shift right. The least significant bit is shifted out to the
+  carry flag. The sign bit is shifted in, and kept as the sign bit. Other
+  bits are simply shifted to the right. The number of bits to shift is
+  either specified in immediate mode or is contained in the _%cl_ register.
+
+**shll** _I/cl_, _R/M_ -----> C:
+
+> Logical shift left. This shifts all bits to the left (sign bit is not
+  treated specially). The leftmost bit is pushed to the carry flag. The
+  number of bits to shift is either specified in immediate mode or is
+  contained in the _%cl_ register.
+
+**shrl** _I/cl_, _R/M_ -----> C:
+
+> Logical shift right. This shifts all bits in the register to the right
+  (sign bit is not treated specially). The rightmost bit is pushed to the
+  carry flag. The number of bits to shift is either specified in immediate
+  mode or is contained in the _%cl_ register.
+
+**testl** _I/R/M_, _R/M_ -----> O/S/Z/A/P/C:
+
+> Does a logical and of both operands and discards the results, but sets
+  the flags accordingly.
+
+**xorl** _I/R/M_, _R/M_ -----> O/S/Z/A/P/C:
+
+> Does an exclusive or on the two operands, and stores the result in the
+  second operand. Sets the overflow and carry flags to false.
+
+---
 
 Flow Control Instructions
 -------------------------
 
 These instructions may alter the flow of the program.
 
-: Table B-4. Flow Control Instructions.
+Table B-4. Flow Control Instructions.
 
-+-----------------------------------------------------+-----------------+
-| Instruction                                         | Operands        |
-|                                                     | +++++++++       |
-|                                                     | Affected Flags  |
-+:====================================================+:===============:+
-| **call**:                                           | Destination     |
-| This pushes what would be the next value for        | address         |
-| _%eip_ onto the stack, and jumps to the             | +++++++++       |
-| destination address. Used for function              | O/S/Z/A/C       |
-| calls. Alternatively, the destination               |                 |
-| address can be an asterisk followed by a            |                 |
-| register for an indirect function call. For         |                 |
-| example, `call *%eax` will call the function        |                 |
-| at the address in _%eax_.                           |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **int**:                                            | I               |
-| Causes an interrupt of the given number.            | +++++++++       |
-| This is usually used for system calls and           | O/S/Z/A/C       |
-| other kernel interfaces.                            |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **Jcc**:                                            | Destination     | 
-| Conditional branch. `cc` is the *condition          | address         |
-| code*. Jumps to the given address if the            | +++++++++       |
-| condition code is true (set from the                | O/S/Z/A/C       |
-| previous instruction, probably a                    |                 |
-| comparison). Otherwise, goes to the next            |                 |
-| instruction. The condition codes are:               |                 |
-|                                                     |                 |
-| - `[n]a[e]` - above(unsigned greater than).         |                 |
-|   An `n` can be added for \"not\" and an `e`        |                 |
-|   can be added for \"or equal to\".                 |                 |
-| - `[n]b[e]` - below (unsigned less than).           |                 |
-| - `[n]e` - equal to.                                |                 |
-| - `[n]z` - zero.                                    |                 |
-| - `[n]g[e]` - greater than (signed                  |                 |
-|   comparison).                                      |                 |
-| - `[n]l[e]` - less than (signed comparison).        |                 |
-| - `[n]c` - carry flag set.                          |                 |
-| - `[n]o` - overflow flag set.                       |                 |
-| - `[p]p` - parity flag set.                         |                 |
-| - `[n]s` - sign flag set.                           |                 |
-| - `ecxz` - _%ecx_ is zero.                          |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **jmp**:                                            | Destination     | 
-| An unconditional jump. This simply sets             | address         |
-| _%eip_ to the destination address.                  | +++++++++       |
-| Alternatively, the destination address can          | O/S/Z/A/C       |
-| be an asterisk followed by a register for an        |                 |
-| indirect jump. For example, `jmp *%eax` will        |                 |
-| jump tothe address in _%eax_.                       |                 |
-|                                                     |                 |
-| ---                                                 | ---             |
-+-----------------------------------------------------+-----------------+
-| **ret**:                                            | Not Applicable  |
-| Pops a value off of the stack and then sets         | +++++++++       |
-| _%eip_ to that value. Used to return from           | O/S/Z/A/C       |
-| function calls.                                     |                 |
-+-----------------------------------------------------+-----------------+
+**Instruction** _Operands_ -----> Affected Flags (eFlags).
+
+---
+
+**call** _Destination address_ -----> O/S/Z/A/C:
+
+> This pushes what would be the next value for _%eip_ onto the stack, and
+  jumps to the destination address. Used for function calls. Alternatively,
+  the destination address can be an asterisk followed by a register for an
+  indirect function call. For example, `call *%eax` will call the function
+  at the address in _%eax_.
+
+**int** _I_ -----> O/S/Z/A/C:
+
+> Causes an interrupt of the given number. This is usually used for system
+  calls and other kernel interfaces.
+
+**Jcc** _Destination address_ -----> O/S/Z/A/C:
+
+> Conditional branch. `cc` is the *condition code*. Jumps to the given
+  address if the condition code is true (set from the previous instruction,
+  probably a comparison). Otherwise, goes to the next instruction. The
+  condition codes are:
+
+  > - `[n]a[e]` - above(unsigned greater than). An `n` can be added for
+        \"not\" and an `e` can be added for \"or equal to\".
+    - `[n]b[e]` - below (unsigned less than).
+    - `[n]e` - equal to.
+    - `[n]z` - zero.
+    - `[n]g[e]` - greater than (signed comparison).
+    - `[n]l[e]` - less than (signed comparison).
+    - `[n]c` - carry flag set.
+    - `[n]o` - overflow flag set.
+    - `[p]p` - parity flag set.
+    - `[n]s` - sign flag set.
+    - `ecxz` - _%ecx_ is zero.
+
+**jmp** _Destination address_ -----> O/S/Z/A/C:
+
+> An unconditional jump. This simply sets _%eip_ to the destination
+  address. Alternatively, the destination address can be an asterisk
+  followed by a register for an indirect jump. For example, `jmp *%eax`
+  will jump tothe address in _%eax_.
+
+**ret** _Not Applicable_ -----> O/S/Z/A/C:
+
+> Pops a value off of the stack and then sets _%eip_ to that value. Used to
+  return from function calls.
 
 Assembler Directives
 --------------------
@@ -8164,82 +8079,69 @@ These are instructions to the assembler and linker, instead of
 instructions to the processor. These are used to help the assembler put
 your code together properly, and make it easier to use.
 
-: Table B-5. Assembler Directives.
+Table B-5. Assembler Directives.
 
-+:-----------------------------------------------------------+:--------:+
-| Directive                                                  | Operands |
-+:===========================================================+:========:+
-| **.ascii**:                                                | QUOTED   |
-| Takes the given quoted string and converts it into byte    | STRING   |
-| data.                                                      |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.byte**:                                                 | VALUES   |
-| Takes a comma-separated list of values and inserts them    |          |
-| right there in the program as data.                        |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.endr**:                                                 | N/A      |
-| Ends a repeating section defined with `.rept`.             |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.equ**:                                                  | LABEL,   |
-| Sets the given label equivalent to the given value. The    | VALUE    |
-| value can be a number, a character, or an constant         |          |
-| expression that evaluates to a a number or character. From |          |
-| that point on, use of the label will be substituted for    |          |
-| the given value.                                           |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.globl**:                                                | LABEL    |
-| Sets the given label as global, meaning that it can be used|          |
-| from separately-compiled object files.                     |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.include**:                                              | FILE     |
-| Includes the given file just as if it were typed in right  |          |
-| there.                                                     |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.lcomm**:                                                | SYMBOL,  |
-| This is used in the `.bss` section to specify storage that | SIZE     |
-| should be allocated when the program is executed. Defines  |          |
-| the symbol with the address where the storage will be      |          |
-| located, and makes sure that it is the given number of     |          |
-| bytes long.                                                |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.long**:                                                 | VALUES   |
-| Takes a sequence of numbers separated by commas, and       |          |
-| inserts those numbers as 4-byte words right where they are |          |
-| in the program.                                            |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.rept**:                                                 | COUNT    |
-| Repeats everything between this directive and the `.endr`  |          |
-| directives the number of times specified.                  |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.section**:                                              | SECTION  |
-| Switches the section that is being worked on. Common       | NAME     |
-| sections include `.text` (for code), `.data` (for data     |          |
-| embedded in the program itself), and `.bss` (for           |          |
-| uninitialized global data).                                |          |
-|                                                            |          |
-| ---                                                        | ---      |
-+------------------------------------------------------------+----------+
-| **.type**:                                                 | SYMBOL,  |
-| Tells the linker that the given symbol is a function.      |\@function|
-+------------------------------------------------------------+----------+
+**Directive** _Operands_.
+
+---
+
+**.ascii** _Quoted String_:
+
+> Takes the given quoted string and converts it into byte data.
+
+**.byte** _Values_:
+
+> Takes a comma-separated list of values and inserts them right there in
+  the program as data.
+
+**.endr** _Not Applicable_:
+
+> Ends a repeating section defined with `.rept`.
+
+**.equ** _Label_, _Value_:
+
+> Sets the given label equivalent to the given value. The value can be a
+  number, a character, or an constant expression that evaluates to a
+  number or character. From that point on, use of the label will be
+  substituted for the given value.
+
+**.globl** _Label_:
+
+> Sets the given label as global, meaning that it can be used from
+  separately-compiled object files.
+
+**.include** _File_:
+
+> Includes the given file just as if it were typed in right there.
+
+**.lcomm** _Symbol_, _Size_:
+
+> This is used in the `.bss` section to specify storage that should be
+  allocated when the program is executed. Defines the symbol with the
+  address where the storage will be located, and makes sure that it is the
+  given number of bytes long.
+
+**.long** _Values_:
+
+> Takes a sequence of numbers separated by commas, and inserts those
+  numbers as 4-byte words right where they are in the program.
+
+**.rept** _Count_:
+
+> Repeats everything between this directive and the `.endr` directives the
+  number of times specified.
+
+**.section** _Section Name_:
+
+> Switches the section that is being worked on. Common sections include
+  `.text` (for code), `.data` (for data embedded in the program itself),
+  and `.bss` (for uninitialized global data).
+
+**.type** _Symbol_, _\@function_:
+
+> Tells the linker that the given symbol is a function.
+
+---
 
 Differences in Other Syntaxes and Terminology
 ---------------------------------------------
@@ -8349,121 +8251,101 @@ to program with. For information about the [The GNU C Library][AC-GNU-C].
 Remember that _%eax_ holds the system call numbers, and that the
 return values and error codes are also stored in _%eax_.
 
-: Table C-1. Important Linux System Calls.
+Table C-1. Important Linux System Calls.
 
-+------+--------+----------+----------+----------+------------------------+
-| %eax | Name   | %ebx     | %ecx     | %edx     | NOTES                  |
-+:====:+:======:+:=========+:=========+:=========+:=======================+
-| 1    | exit   | Return   | N/A      | N/A      | Exits the program.     |
-|      |        | value    |          |          |                        |
-|      |        | (int)    |          |          |                        |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 3    | read   | File     | Buffer   | Buffer   | Reads into the given   |
-|      |        |descriptor| start    | size     | buffer.                |
-|      |        |          |          | (int)    |                        |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 4    | write  | File     | Buffer   | Buffer   | Writes the buffer to   |
-|      |        |descriptor| start    | size     | the filedescriptor.    |
-|      |        |          |          | (int)    |                        |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 5    | open   | Null-    | Option   |Permission| Opens the given file.  |
-|      |        |terminated| list     | mode     | Returns the file       |
-|      |        | file name|          |          | descriptor or an error |
-|      |        |          |          |          | number.                |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 6    | close  | File     | N/A      | N/A      | Closes the give file   |
-|      |        |descriptor|          |          | descriptor.            |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 12   | chdir  | Null-    | N/A      | N/A      | Changes the current    |
-|      |        |terminated|          |          | directory of your      |
-|      |        | directory|          |          | program.               |
-|      |        | name     |          |          |                        |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 19   | lseek  | File     | Offset   | Mode     | Repositions where you  |
-|      |        |descriptor|          |          | are in the given file. |
-|      |        |          |          |          | The mode (called the   |
-|      |        |          |          |          | "whence") should be 0  |
-|      |        |          |          |          | for absolute           |
-|      |        |          |          |          | positioning, and 1 for |
-|      |        |          |          |          | relative positioning.  |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 20   | getpid | N/A      | N/A      | N/A      | Returns the process ID |
-|      |        |          |          |          | of the current process.|
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 39   | mkdir  | Null-    |Permission| N/A      | Creates the given      |
-|      |        |terminated| mode     |          | directory. Assumes all |
-|      |        | directory|          |          | directories leading up |
-|      |        | name     |          |          | to it already exist.   |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 40   | rmdir  | Null-    | N/A      | N/A      | Removes the given      |
-|      |        |terminated|          |          | directory.             |
-|      |        | directory|          |          |                        |
-|      |        | name     |          |          |                        |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 41   | dup    | File     | N/A      | N/A      | Returns a new file     |
-|      |        |descriptor|          |          | descriptor that works  |
-|      |        |          |          |          | just like the existing |
-|      |        |          |          |          | file descriptor.       |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 42   | pipe   | Pipe     | N/A      | N/A      | Creates two file       |
-|      |        | array    |          |          | descriptors, where     |
-|      |        |          |          |          | writing on one produces|
-|      |        |          |          |          | data to read on the    |
-|      |        |          |          |          | other and vice-versa.  |
-|      |        |          |          |          | %ebx is a pointer to   |
-|      |        |          |          |          | two words of storage   |
-|      |        |          |          |          | to hold the file       |
-|      |        |          |          |          | descriptors.           |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | ---                    |
-+------+--------+----------+----------+----------+------------------------+
-| 45   | brk    | New      | N/A      | N/A      | Sets the system break. |
-|      |        | system   |          |          | If the system break is |
-|      |        | break    |          |          | 0, it simply returns   |
-|      |        |          |          |          | the current system     |
-|      |        |          |          |          | break.                 |
-|      |        |          |          |          | For example: End of    |
-|      |        |          |          |          | the data section.      |
-|      |        |          |          |          |                        |
-|      |        |          |          |          | +++++                  |
-+------+--------+----------+----------+----------+------------------------+
-| 54   | ioctl  | File     | Request  | Arguments| This is used to set    |
-|      |        |descriptor|          |          | parameters on device   |
-|      |        |          |          |          | files. It’s actual     |
-|      |        |          |          |          | usage varies based on  |
-|      |        |          |          |          | the type of file or    |
-|      |        |          |          |          | device your descriptor |
-|      |        |          |          |          | references.            |
-+------+--------+----------+----------+----------+------------------------+
+**System Call**: _%eax_.
 
-<!-- TODO: Fix the problem about the line versus ++++ in the syscall #45.
-            ! pdfTeX error (ext4): \pdfendlink ended up in different nesting level than \pd fstartlink.
-            \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                \fi \fi 
-            l.11550
--->
+---
+
+**exit**: _1_.
+
+> - **%ebx**: Return value (int).
+  - Exits the program.
+
+**read**: _3_.
+
+> - **%ebx**: File descriptor.
+  - **%ecx**: Buffer start.
+  - **%edx**: Buffer size (int).
+  - Reads into the given buffer.
+
+**write**: _4_.
+
+> - **%ebx**: File descriptor.
+  - **%ecx**: Buffer start.
+  - **%edx**: Buffer size (int).
+  - Writes the buffer to the file descriptor.
+
+**open**: _5_.
+
+> - **%ebx**: Null-terminated file name.
+  - **%ecx**: Option list.
+  - **%edx**: Permission mode.
+  - Opens the given file. Returns the file descriptor or an error number.
+
+**close**: _6_.
+
+> - **%ebx**: File descriptor.
+  - Closes the give file descriptor.
+
+**chdir**: _12_.
+
+> - **%ebx**: Null-terminated directory name.
+  - Changes the current directory of your program.
+
+**lseek**: _19_.
+
+> - **%ebx**: File descriptor.
+  - **%ecx**: Offset.
+  - **%edx**: Mode.
+  - Repositions where you are in the given file. The mode (called the
+    "whence") should be 0 for absolute positioning, and 1 for relative
+    positioning.
+
+**getpid**: _20_.
+
+> - Returns the process ID of the current process.
+
+**mkdir**: _39_.
+
+> - **%ebx**: Null-terminated directory name.
+  - **%ecx**: Permission mode.
+  - Creates the given directory. Assumes all directories leading up to it
+    already exist.
+
+**rmdir**: _40_.
+
+> - **%ebx**: Null-terminated directory name.
+  - Removes the given directory.
+
+**dup**: _41_.
+
+> - **%ebx**: File descriptor.
+  - Returns a new file descriptor that works just like the existing file
+    descriptor.
+
+**pipe**: _42_.
+
+> - **%ebx**: Pipe array.
+  - Creates two file descriptors, where writing on one produces data to
+    read on the other and vice-versa. %ebx is a pointer to two words of
+    storage to hold the file descriptors.
+
+**brk**: _45_.
+
+> - **%ebx**: New system break.
+  - Sets the system break If the system break is 0, it simply returns the
+    current system break. I.E. - The end of the data section.
+
+**ioctl**: _54_.
+
+> - **%ebx**: File descriptor.
+  - **%ecx**: Request.
+  - **%edx**: Arguments.
+  - This is used to set parameters on device files. It’s actual usage
+    varies based on the type of file or device your descriptor references.
+
+---
 
 A more complete listing of system calls is in this web site
 [Call convention by architechture][AC-Call-convention],
