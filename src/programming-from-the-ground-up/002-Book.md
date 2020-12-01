@@ -8855,47 +8855,6 @@ instructions it did.
 
 
 
-Appendix G. Document History
-============================
-
--   12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook
-    to a Pandoc's Markdown then it will export to ePUB, PDF, HTML and
-    Github Markdown, could be extended to other types to documents. This
-    version fixed some minimal details and update others like the links
-    from some broken web sites, a lots of minor updates was done.
-
--   04/18/2004 - Version 1.1 - Lots of minor updates based on reader
-    comments. Made cleared distinction between dynamic and shared
-    libraries.
-
--   01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots
-    of minor corrections.
-
--   01/29/2004 - Version 0.9 - Lots of editting of all chapters. Made
-    code more consistent and made explanations clearer. Added some
-    illustrations.
-
--   01/22/2004 - Version 0.8 - Finished GDB appendix, mostly finished w/
-    appendix of x86 instructions, added section on planning programs,
-    added lots of review questions, and got everything to a completed,
-    initial draft state.
-
--   01/11/2004 - Version 0.7 - Added C translation appendix, added the
-    beginnings of an appendix of x86 instructions, added the beginnings
-    of a GDB appendix, finished out the files chapter, finished out the
-    counting chapter, added a records chapter, created a source file of
-    common linux definitions, corrected several errors, and lots of
-    other fixes
-
--   07/18/2003 - Version 0.6 - Added ASCII appendix, finished the
-    discussion of the CPU in the Memory chapter, reworked exercises into
-    a new format, corrected several errors. Thanks to Harald
-    Korneliussen for the many suggestions and the ASCII table.
-
--   12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL
-
-
-
 Appendix F. Using the GDB Debugger {#appendix-f-using-the-gdb-debugger}
 ==================================
 
@@ -9136,6 +9095,47 @@ optional.
   directorydirectory \[dir1\] \[dir2\] \...   Add directories `dir1`, `dir2`, etc. to the list of directories searched for source files.
 
   : Common GDB Debugging Commands
+
+
+
+Appendix G. Document History
+============================
+
+-   12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook
+    to a Pandoc's Markdown then it will export to ePUB, PDF, HTML and
+    Github Markdown, could be extended to other types to documents. This
+    version fixed some minimal details and update others like the links
+    from some broken web sites, a lots of minor updates was done.
+
+-   04/18/2004 - Version 1.1 - Lots of minor updates based on reader
+    comments. Made cleared distinction between dynamic and shared
+    libraries.
+
+-   01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots
+    of minor corrections.
+
+-   01/29/2004 - Version 0.9 - Lots of editting of all chapters. Made
+    code more consistent and made explanations clearer. Added some
+    illustrations.
+
+-   01/22/2004 - Version 0.8 - Finished GDB appendix, mostly finished w/
+    appendix of x86 instructions, added section on planning programs,
+    added lots of review questions, and got everything to a completed,
+    initial draft state.
+
+-   01/11/2004 - Version 0.7 - Added C translation appendix, added the
+    beginnings of an appendix of x86 instructions, added the beginnings
+    of a GDB appendix, finished out the files chapter, finished out the
+    counting chapter, added a records chapter, created a source file of
+    common linux definitions, corrected several errors, and lots of
+    other fixes
+
+-   07/18/2003 - Version 0.6 - Added ASCII appendix, finished the
+    discussion of the CPU in the Memory chapter, reworked exercises into
+    a new format, corrected several errors. Thanks to Harald
+    Korneliussen for the many suggestions and the ASCII table.
+
+-   12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL
 
 
 
