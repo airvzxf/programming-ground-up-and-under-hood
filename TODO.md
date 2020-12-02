@@ -10,7 +10,7 @@
 - [ ] Review, execute and correct all the assembly source files.
 - [ ] Add to all the examples code a note about use GDB to see what is happening.
 - [ ] Rename the assembly source files with the prefix chapters and appendixes `001-`, `012`, `AA-` and `AF-`.
-- [ ] Create releases as `./releases/v2020.11.01/ProgrammingGroundUp.epub`. Create commands in the `./make` script to replace the version (`text: x86 v2020.11`) inside of the `001-ProgrammingGroundUp.txt` file.
+- [ ] Create releases as `./releases/v2020.12.01/ProgrammingGroundUp.epub`. Create commands in the `./make` script to replace the version (`text: x86 v2020.12`) inside of the `001-ProgrammingGroundUp.txt` file.
 - [ ] Update the GDB debug appendix.
   - [x] Example: `as --gstabs` vs `as --gstabs+`
 - [ ] Refer the GDB debug in the review sections for chapter 3.
@@ -28,6 +28,7 @@
   - [ ] Chapter 12.
   - [ ] Chapter 13.
   - [ ] Appendixes.
+- [ ] Check spelling for all the book with [LanguageTool](https://languagetool.org/)
 
 ## Pending in the official website.
 - [ ] Apply the bugs reported in the official resource page: [https://savannah.nongnu.org/bugs/?group=pgubook](https://savannah.nongnu.org/bugs/?group=pgubook).

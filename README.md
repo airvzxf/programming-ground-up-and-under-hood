@@ -1,17 +1,17 @@
-# Programming from the ground up | <br> Programming under hood <br> Updated by AirvZxf <br> Arch: x86 <br>v2020.11
+# Programming from the ground up | <br> Programming under hood <br> Updated by AirvZxf <br> Arch: x86 <br>v2020.12
 
 ## About this project.
 
 I try to learn the GNU Assembler (`as` or `gas`) and I didn't found many resources but this book is great.
 
-This is a 3% of the WIP (work in progress) project.
+This is a 25% of the WIP (work in progress) for the project `Programming from the ground up`.
 
 Goals:
 
 - [ ] Programming from the ground up.
   - [x] Convert the original _DocBook_ to a _Markdown_ then with [pandoc](https://pandoc.org/) convert it to _ePUB_, _MOBI_ and _PDF_.
-  - [ ] Try to fix the [bugs](https://savannah.nongnu.org/bugs/?group=pgubook) and [support tickets](https://savannah.nongnu.org/support/?group=pgubook), since 2004 is not updated this [book](https://savannah.nongnu.org/projects/pgubook).
   - [ ] Improve and update the sections where I am missing.
+  - [ ] Try to fix the [bugs](https://savannah.nongnu.org/bugs/?group=pgubook) and [support tickets](https://savannah.nongnu.org/support/?group=pgubook), since 2004 is not updated this [book](https://savannah.nongnu.org/projects/pgubook).
 - [ ] Programming under hood.
   - [ ] Convert the original _LaTeX_ to a _Markdown_ then with [pandoc](https://pandoc.org/) then convert it to _ePUB_, _MOBI_ and _PDF_.
 - [ ] Final version.
