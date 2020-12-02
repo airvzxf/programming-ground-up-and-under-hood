@@ -991,6 +991,8 @@ control. In this case, all we're doing is asking Linux to terminate the
 program, in which case we won't be back in control. If we didn't signal
 the interrupt, then no system call would have been performed.
 
+> **NOTE.**
+>
 > **Quick System Call Review:** To recap - Operating System features are
 > accessed through system calls. These are invoked by setting up the
 > registers in a special way and issuing the instruction `int $0x80`.
@@ -1152,10 +1154,12 @@ Enter the following program as `maximum.s`:
     #                  to terminate the data.
     #
     .section .data
-data_items:                          # These are the data items.
-    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+        data_items:                  # These are the data items.
+            .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+
     .section .text
-    .globl _start
+        .globl _start
+
 _start:
     movl $0, %edi                    # Move 0 into the index register.
     movl data_items(,%edi,4), %eax   # Load the first byte of data.
@@ -1164,19 +1168,19 @@ _start:
 start_loop:                          # Start loop.
     cmpl $0, %eax                    # Check to see if we've hit the end.
     je loop_exit
-    incl %edi                        # Load next value.
-    movl data_items(,%edi,4), %eax
+    incl %edi                        # Increment %edi by 1.
+    movl data_items(,%edi,4), %eax   # Load next value.
     cmpl %ebx, %eax                  # Compare values.
     jle start_loop                   # Jump to loop beginning if the new
                                      # one isn't bigger.
     movl %eax, %ebx                  # Move the value as the largest.
     jmp start_loop                   # Jump to loop beginning.
+
 loop_exit:
                                      # %ebx is the status code for the
                                      # exit systemcall and it already has
-                                     # the maximum number 1 is the
-        movl $1, %eax                # exit() syscall.
-        int  $0x80
+        movl $1, %eax                # the maximum number 1 is the
+        int  $0x80                   # exit() syscall.
 ```
 
 Now, assemble and link it with these commands:
@@ -2051,33 +2055,37 @@ values of the parameters anymore).[25]
 
 ------------------------------------------------------------------------
 
-**Destruction of Registers**
-
-When you call a function, you should assume that everything currently in
-your registers will be wiped out. The only register that is guaranteed
-to be left with the value it started with are *%ebp* and a few others
-(the Linux C calling convention requires functions to preserve the
-values of *%ebx*, *%edi*, and *%esi* if they are altered - this is not
-strictly held during this book because these programs are self-contained
-and not called by outside functions). *%ebx* also has some other uses in
-position-independent code, which is not covered in this book. *%eax* is
-guaranteed to be overwritten with the return value, and the others
-likely are. If there are registers you want to save before calling a
-function, you need to save them by pushing them on the stack before
-pushing the function's parameters. You can then pop them back off in
-reverse order after popping off the parameters. Even if you know a
-function does not overwrite a register you should save it, because
-future versions of that function may.
-
-Other languages' calling convention may be different. For example, other
-calling conventions may place the burden on the function to save any
-registers it uses. Be sure to check to make sure the calling conventions
-of your languages are compatible before trying to mix languages. Or in
-the case of assembly language, be sure you know how to call the other
-language's functions.
+> **WARNING!**
+>
+> **Destruction of Registers:**
+>
+> When you call a function, you should assume that everything currently
+> in your registers will be wiped out. The only register that is
+> guaranteed to be left with the value it started with are *%ebp* and a
+> few others (the Linux C calling convention requires functions to
+> preserve the values of *%ebx*, *%edi*, and *%esi* if they are altered
+> - this is not strictly held during this book because these programs
+> are self-contained and not called by outside functions). *%ebx* also
+> has some other uses in position-independent code, which is not covered
+> in this book. *%eax* is guaranteed to be overwritten with the return
+> value, and the others likely are. If there are registers you want to
+> save before calling a function, you need to save them by pushing them
+> on the stack before pushing the function's parameters. You can then
+> pop them back off in reverse order after popping off the parameters.
+> Even if you know a function does not overwrite a register you should
+> save it, because future versions of that function may.
+>
+> Other languages' calling convention may be different. For example,
+> other calling conventions may place the burden on the function to save
+> any registers it uses. Be sure to check to make sure the calling
+> conventions of your languages are compatible before trying to mix
+> languages. Or in the case of assembly language, be sure you know how
+> to call the other language's functions.
 
 ------------------------------------------------------------------------
 
+> **NOTE.**
+>
 > **Extended Specification:** Details of the C language calling
 > convention (also known as the ABI, or Application Binary Interface) is
 > available online. We have oversimplified and left out several
@@ -4992,9 +5000,11 @@ annoying, because you have to look up what all of the typedefs and
 structs in a function prototype really mean. However, `typedef`s are
 useful for giving types more meaningful and descriptive names.
 
-> **Compatibility Note:** The listed sizes are for intel-compatible
-> (x86) machines. Other machines will have different sizes. Also, even
-> when parameters shorter than a word are passed to functions, they are
+> **NOTE.**
+>
+> **Compatibility:** The listed sizes are for intel-compatible (x86)
+> machines. Other machines will have different sizes. Also, even when
+> parameters shorter than a word are passed to functions, they are
 > passed as longs on the stack.
 
 That's how to read function documentation. Now, let's get back to the
@@ -5510,6 +5520,8 @@ leads to a condition called *swap death* which leads to your system
 being unresponsive and unproductive. It's usually usually recoverable if
 you start terminating your memory-hungry programs, but it's a pain.
 
+> **NOTE.**
+>
 > **Resident Set Size:** The amount of memory that your program
 > currently has in physical memory is called its resident set size, and
 > can be viewed by using the program `top`. The resident set size is
@@ -10220,7 +10232,9 @@ we will be using the debugger on is the `maximum` program used in
 say that you entered the program perfectly, except that you left out the
 line:
 
-        incl %edi
+``` gnuassembler
+incl %edi
+```
 
 When you run the program, it just goes in an infinite loop - it never
 exits. To determine the cause, you need to run the program under GDB.
@@ -10229,76 +10243,86 @@ information in the executable. All you need to do to enable this is to
 add the `--gstabs` option to the `as` command. So, you would assemble it
 like this:
 
-    as --gstabs maximum.s -o maximum.o
+``` bash
+as -o maximum.o  --gstabs maximum.s
+ld -o maximum    maximum.o
+```
 
 Linking would be the same as normal. "stabs" is the debugging format
 used by GDB. Now, to run the program under the debugger, you would type
 in `gdb ./maximum`. Be sure that the source files are in the current
 directory. The output should look similar to this:
 
-    GNU gdb Red Hat Linux (5.2.1-4)
-    Copyright 2002 Free Software Foundation, Inc.
-    GDB is free software, covered by the GNU General Public 
-    License, and you are welcome to change it and/or 
-    distribute copies of it under certain conditions. Type 
-    "show copying" to see the conditions.  There is 
-    absolutely no warranty for GDB.  Type "show warranty" 
-    for details.  
-    This GDB was configured as "i386-redhat-linux"...
+    GNU gdb (GDB) 10.1
+    Copyright (C) 2020 Free Software Foundation, Inc.
+    License GPLv3+: GNU GPL version 3 or later.
+    This GDB was configured as "x86_64-pc-linux-gnu".
+    Type "show configuration" for configuration details.
+    For help, type "help".
+    Type "apropos word" to search for commands related to "word".
+    Debugger response to a program call of fork or vfork is "parent".
+    Whether gdb will detach the child of a fork is off.
+    Reading symbols from ./maximum...
     (gdb)
 
-Depending on which version of GDBGDB you are running, this output may
-vary slightly. At this point, the program is loaded, but is not running
-yet. The debugger is waiting your command. To run your program, just
-type in `runrun`. This will not return, because the program is running
-in an infinite loop. To stop the program, hit control-c. The screen will
+Depending on which version of GDB you are running, this output may vary
+slightly. At this point, the program is loaded, but is not running yet.
+The debugger is waiting your command. To run your program, just type in
+`run`. This will not return, because the program is running in an
+infinite loop. To stop the program, hit `control-c`. The screen will
 then say this:
 
     Starting program: /home/johnnyb/maximum
-
+    ^C
     Program received signal SIGINT, Interrupt.
-    start_loop () at maximum.s:34
-    34              movl data_items(,%edi,4), %eax
-    Current language:  auto; currently asm
+    start_loop () at maximum.s:31
+    31          cmpl %ebx, %eax
     (gdb)
 
-This tells you that the program was interrupted by the SIGINTSIGINT
-signal (from your control-c), and was within the section labelled
-`start_loop`, and was executing on line 34 when it stopped. It gives you
+This tells you that the program was interrupted by the SIGINT signal
+(from your `control-c`), and was within the section labelled
+`start_loop`, and was executing on line 31 when it stopped. It gives you
 the code that it is about to execute. Depending on exactly when you hit
-control-c, it may have stopped on a different line or a different
+`control-c`, it may have stopped on a different line or a different
 instruction than the example.
 
 One of the best ways to find bugs in a program is to follow the flow of
 the program to see where it is branching incorrectly. To follow the flow
-of this program, keep on entering `stepistepi` (for "step instruction"),
+of this program, keep on entering `stepi` (for "step instruction"),
 which will cause the computer to execute one instruction at a time. If
 you do this several times, your output will look something like this:
 
+    27          cmpl $0, %eax
+
     (gdb) stepi
-    35              cmpl %ebx, %eax           
+    28          je loop_exit
+
     (gdb) stepi
-    36              jle start_loop            
+    29          incl %edi
+
     (gdb) stepi
-    32              cmpl $0, %eax             
+    30          movl data_items(,%edi,4), %eax
+
     (gdb) stepi
-    33              je loop_exit
+    31          cmpl %ebx, %eax
+
     (gdb) stepi
-    34              movl data_items(,%edi,4), %eax
+    32          jle start_loop
+
     (gdb) stepi
-    35              cmpl %ebx, %eax           
-    (gdb) stepi
-    36              jle start_loop            
-    (gdb) step
-    32              cmpl $0, %eax             
+    27          cmpl $0, %eax
+
+    (gdb)
 
 As you can tell, it has looped. In general, this is good, since we wrote
 it to loop. However, the problem is that it is *never stopping*.
 Therefore, to find out what the problem is, let's look at the point in
-our code where we should be exitting the looploop:
+our code where we should be exitting the loop:
 
-    cmpl  $0, %eax
-    je    loop_exit
+``` gnuassembler
+cmpl  $0, %eax
+je    loop_exit
+```
 
 Basically, it is checking to see if *%eax* hits zero. If so, it should
 exit the loop. There are several things to check here. First of all, you
@@ -10311,16 +10335,31 @@ strange things would happen. However, again, this is not the case.
 Neither of those potential problems are the culprit. So, the next option
 is that perhaps *%eax* has the wrong value. There are two ways to check
 the contents of register in GDB. The first one is the command
-`info registerinfo register`. This will display the contents of all
-registers in hexadecimal. However, we are only interested in *%eax* at
-this point. To just display *%eax* we can do `print/$eax` to print it in
-hexadecimal, or do `printprint/d $eax` to print it in decimal. Notice
-that in GDB, registers are prefixed with dollar signs rather than
-percent signs. Your screen should have this on it:
+`info register`. This will display the contents of all registers in
+hexadecimal. However, we are only interested in *%eax* at this point. To
+just display *%eax* we can do `print $eax` to print it in hexadecimal,
+or do `print/d $eax` to print it in decimal. Notice that in GDB,
+registers are prefixed with dollar signs rather than percent signs. Your
+screen should have this on it:
 
-    (gdb) print/d $eax
+    (gdb) print $eax        # Default print.
     $1 = 3
-    (gdb)
+    (gdb) print/d $eax      # Print as a decimal.
+    $2 = 3
+    (gdb) print/t $eax      # Print as a binary.
+    $3 = 11
+    (gdb) print/o $eax      # Print as a octal
+    $4 = 03
+    (gdb) print/x $eax      # Print as a hexadecimal.
+    $5 = 0x3
+    (gdb) print/f $eax      # Print as a floating.
+    $6 = 4.20389539e-45
+    (gdb) print/s $eax      # Print as a string.
+    $7 = 3
+    (gdb) print/c $eax      # Print as a character.
+    $8 = 3 '\003'
+    (gdb) print/a $eax      # Print as an address.
+    $9 = 0x3
 
 This means that the result of your first inquiry is 3. Every inquiry you
 make will be assigned a number prefixed with a dollar sign. Now, if you
@@ -10334,7 +10373,9 @@ Okay, now we know that *%eax* is being loaded with the same value over
 and over again. Let's search to see where *%eax* is being loaded from.
 The line of code is this:
 
-        movl data_items(,%edi,4), %eax
+``` gnuassembler
+movl data_items(,%edi,4), %eax
+```
 
 So, step until this line of code is ready to execute. Now, this code
 depends on two values - `data_items` and *%edi*. `data_items` is a
@@ -10343,9 +10384,8 @@ code to make sure the label is in front of the right data, but in our
 case it is. Therefore, we need to look at *%edi*. So, we need to print
 it out. It will look like this:
 
-    (gdb) print/d $edi
-    $2 = 0
-    (gdb)
+    (gdb) print $edi
+    $1 = 0
 
 This indicates that *%edi* is set to zero, which is why it keeps on
 loading the first element of the array. This should cause you to ask
@@ -10362,6 +10402,15 @@ every loop iteration. This happens to be exactly the line we tossed out
 at the beginning. Assembling, linking, and running the program again
 will show that it now works correctly.
 
+Let’s finish the execution typing `quit`, it will show a warning about
+kill the process because it is an infinite loop and the program never
+exit properly, type `y` to kill and exit from GDB:
+
+    (gdb) quit
+    A debugging session is active.
+            Inferior 1 [process 682240] will be killed.
+    Quit anyway? (y or n) y
+
 Hopefully this exercise provided some insight into using GDB to help you
 find errors in your programs.
 
@@ -10369,22 +10418,47 @@ Breakpoints and Other GDB Features
 ----------------------------------
 
 The program we entered in the last section had an infinite loop, and
-could be easily stopped using control-c. Other programs may simply abort
-or finish with errors. In these cases, control-c doesn't help, because
-by the time you press control-c, the program is already finished. To fix
-this, you need to set *breakpointsbreakpoints*. A breakpoint is a place
-in the source code that you have marked to indicate to the debugger that
-it should stop the program when it hits that point.
+could be easily stopped using `control-c`. Other programs may simply
+abort or finish with errors. In these cases, `control-c` doesn't help,
+because by the time you press `control-c`, the program is already
+finished. To fix this, you need to set *breakpoints*. A breakpoint is a
+place in the source code that you have marked to indicate to the
+debugger that it should stop the program when it hits that point.
 
-To set breakpointsbreakpoints you have to set them up before you run the
-program. Before issuing the `run` command, you can set up breakpoints
-using the `breakbreak` command. For example, to break on line 27, issue
-the command `break 27`. Then, when the program crosses line 27, it will
-stop running, and print out the current line and instruction. You can
-then step through the program from that point and examine registers and
+To set breakpoints you have to set them up before you run the program.
+Before issuing the `run` command, you can set up breakpoints using the
+`break` command. For example, to break on line 25, issue the command
+`break 25`. Then, when the program crosses line 25, it will stop
+running, and print out the current line and instruction. You can then
+step through the program from that point and examine registers and
 memory. To look at the lines and line numbers of your program, you can
 simply use the command `l`. This will print out your program with line
 numbers a screen at a time.
+
+    GNU gdb (GDB) 10.1
+    For help, type "help".
+    Reading symbols from ./maximum...
+
+    (gdb) break 25
+    Breakpoint 1 at 0x401005: file maximum.s, line 25.
+
+    (gdb) run
+    Starting program: /home/johnnyb/maximum
+    Breakpoint 1, _start () at maximum.s:25
+    warning: Source file is more recent than executable.
+    25          movl data_items(,%edi,4), %eax   # Load the first byte of data.
+
+    (gdb) l
+    20          .section .text
+    21              .globl _start
+    22
+    23      _start:
+    24          movl $0, %edi       # Move 0 into the index register.
+    25          movl data_items(,%edi,4), %eax  # Load first byte of data.
+    26          movl %eax, %ebx     # Since this is the first item,
+    27                              # %eax is the biggest.
+    28      start_loop:             # Start loop.
+    29          cmpl $0, %eax       # Check to see if we've hit the end.
 
 When dealing with functions, you can also break on the function names.
 For example, in the factorial program in [Chapter 4. All About
@@ -10392,40 +10466,283 @@ Functions](#chapter-4-all-about-functions), we could set a breakpoint
 for the factorial function by typing in `break factorial`. This will
 cause the debugger to break immediately after the function call and the
 function setup (it skips the pushing of *%ebp* and the copying of
-*%esp*).
+*%esp*). To send arguments through the GDB is necessary to type
+`set args` and the arguments same as we usually do in the command line.
+
+<!-- TODO: Personal. Looks like this is not a good example for the command nexti vs stepi. -->
+
+``` bash
+as -o factorial.o  --gstabs factorial.s
+ld -o factorial    factorial.o
+```
+
+    $ gdb ./factorial 
+    GNU gdb (GDB) 10.1
+    For help, type "help".
+
+    (gdb) set args 55
+
+    (gdb) break factorial
+    Breakpoint 1 at 0x401013: file factorial.s, line 34.
 
 When stepping through code, you often don't want to have to step through
 every instruction of every function. Well-tested functions are usually a
 waste of time to step through except on rare occasion. Therefore, if you
-use the `nextinexti` command instead of the `stepistepi` command, GDB
-will wait until completion of the function before going on. Otherwise,
-with `stepi`, GDB would step you through every instruction within every
+use the `nexti` command instead of the `stepi` command, GDB will wait
+until completion of the function before going on. Otherwise, with
+`stepi`, GDB would step you through every instruction within every
 called function.
+
+    (gdb) run
+    Starting program: /home/johnnyb/factorial 
+    Breakpoint 1, factorial () at factorial.s:34
+    34          pushl %ebp
+
+    (gdb) nexti
+    37          movl  %esp, %ebp
+
+    (gdb) nexti
+    40          movl  8(%ebp), %eax
+
+    (gdb) nexti
+    Program received signal SIGSEGV, Segmentation fault.
+    factorial () at factorial.s:40
+    40          movl  8(%ebp), %eax
+
+    (gdb) nexti
+    Program terminated with signal SIGSEGV, Segmentation fault.
+    The program no longer exists.
+
+Let’s see the differences between `stepi`:
+
+    $ gdb ./factorial 
+    GNU gdb (GDB) 10.1
+    Reading symbols from ./factorial...
+
+    (gdb) break factorial
+    Breakpoint 1 at 0x401013: file factorial.s, line 34.
+
+    (gdb) set args 55
+
+    (gdb) run
+    Starting program: /home/johnnyb/factorial 
+    Breakpoint 1, factorial () at factorial.s:34
+    34          pushl %ebp
+
+    (gdb) stepi
+    37          movl  %esp, %ebp
+
+    (gdb) stepi
+    40          movl  8(%ebp), %eax
+
+    (gdb) stepi
+    Program received signal SIGSEGV, Segmentation fault.
+    factorial () at factorial.s:40
+    40          movl  8(%ebp), %eax
+
+    (gdb) stepi
+    Program terminated with signal SIGSEGV, Segmentation fault.
+    The program no longer exists.
 
 ------------------------------------------------------------------------
 
-One problem that GDB has is with handling interruptsinterrupts. Often
-times GDB will miss the instruction that immediately follows an
-interrupt. The instruction is actually executed, but GDB doesn't step
-through it. This should not be a problem - just be aware that it may
-happen.
+> **Warning!**
+>
+> One problem that GDB has is with handling interrupts. Often times GDB
+> will miss the instruction that immediately follows an interrupt. The
+> instruction is actually executed, but GDB doesn't step through it.
+> This should not be a problem - just be aware that it may happen.
 
 ------------------------------------------------------------------------
 
 GDB Quick-Reference
 -------------------
 
-This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and
-is used by permission in this book. Parameters listed in brackets are
-optional.
+This [quick-reference
+table](https://www.cs.princeton.edu/courses/archive/spring05/cos217/precepthandouts/18/gdb4assembly.pdf)
+is copyright 2002 [Robert M. Dondero,
+Jr.](https://www.cs.princeton.edu/~rdondero/), and is used by permission
+in this book. Parameters listed in brackets are optional. Here is
+another [GDB quick
+reference](https://www.cs.princeton.edu/courses/archive/fall16/cos432/hw2/gdb-refcard.pdf)
+created by [Free Software Foundation](https://www.fsf.org/).
 
-| Miscellaneous                            |                                                                                            |
-|:-----------------------------------------|--------------------------------------------------------------------------------------------|
-| quitquit                                 | Exit GDB                                                                                   |
-| helphelp \[cmd\]                         | Print description of debugger command `cmd`. Without `cmd`, prints a list of topics.       |
-| directorydirectory \[dir1\] \[dir2\] ... | Add directories `dir1`, `dir2`, etc. to the list of directories searched for source files. |
+Table F-1. Common GDB Debugging Commands
 
-Common GDB Debugging Commands
+### Miscellaneous
+
+quit
+
+> Exit GDB.
+
+help \[cmd\]
+
+> Print description of debugger command `cmd`. Without `cmd`, prints a
+> list of topics.
+
+directory \[dir1\] \[dir2\]…
+
+> Add directories `dir1`, `dir2`, etc. to the list of directories
+> searched for source files.
+
+### Running the Program
+
+run \[arg1\] \[arg2\]…
+
+> Run the program with command line arguments `arg1`, `arg2`, etc.
+
+set args arg1 \[arg2\]…
+
+> Set the program's command-line arguments to `arg1`, `arg2`, etc.
+
+show args
+
+> Print the program's command-line arguments.
+
+### Using Breakpoints
+
+info breakpoints
+
+> Print a list of all breakpoints and their numbers (breakpoint numbers
+> are used for other breakpoint commands).
+
+break *linenum*
+
+> Set a breakpoint at line number *linenum*.
+
+break \**addr*
+
+> Set a breakpoint at memory address *addr*.
+
+break *fn*
+
+> Set a breakpoint at the beginning of function *fn*.
+
+condition *bpnum* *expr*
+
+> Break at breakpoint *bpnum* only if expression *expr* is non-zero.
+
+command \[*bpnum*\] *cmd1* \[*cmd2*\]…
+
+> Execute commands `cmd1`, `cmd2`, etc. whenever breakpoint *bpnum* (or
+> the current breakpoint) is hit.
+
+continue
+
+> Continue executing the program.
+
+kill
+
+> Stop executing the program.
+
+delete \[*bpnum1*\] \[*bpnum2*\]…
+
+> Delete breakpoints *bpnum1*, *bpnum2*, etc., or all breakpoints if
+> none specified.
+
+clear \**addr*
+
+> Clear the breakpoint at memory address *addr*.
+
+clear \[*fn*\]
+
+> Clear the breakpoint at function *fn*, or the current breakpoint.
+
+clear *linenum*
+
+> Clear the breakpoint at line number *linenum*.
+
+disable \[*bpnum1*\] \[*bpnum2*\]…
+
+> Disable breakpoints *bpnum1*, *bpnum2*, etc., or all breakpoints if
+> none specified.
+
+enable \[*bpnum1*\] \[*bpnum2*\]…
+
+> Enable breakpoints *bpnum1*, *bpnum2*, etc., or all breakpoints if
+> none specified.
+
+### Stepping through the Program
+
+nexti
+
+> "Step over" the next instruction (doesn't follow function calls).
+
+stepi
+
+> "Step into" the next instruction (follows function calls).
+
+finish
+
+> "Step out" of the current function.
+
+### Examining Registers and Memory
+
+info registers
+
+> Print the contents of all registers.
+
+print/*f* *$reg*
+
+> Print the contents of register *$reg* using format *f*.The format can
+> be *x* (hexadecimal), *u* (unsigned decimal), *o* (octal), *a*
+> (address), *c* (character), *s* (string), or *f* (floating point).
+
+x/*rsf* *addr*
+
+> Print the contents of memory address *addr* using repeat count *r*,
+> size *s*, and format *f*. Repeat count defaults to 1 if not specified.
+> Size can be *b* (byte), *h* (halfword), *w* (word), or *g* (double
+> word). Size defaults to word if not specified. Format is the same as
+> for print, with the additions of *s* (string) and *i* (instruction).
+> For example `x/5i $eip` should display 5 instructions or
+> `x/4bs 0x56559004` it will be display four bits in this specific
+> memory address.
+
+info display
+
+> Shows a numbered list of expressions set up to display automatically
+> at each break.
+
+display/*f* *$reg*
+
+> At each break, print the contents of register *reg* using format *f*.
+
+display/*si* *addr*
+
+> At each break, print the contents of memory address *addr* using size
+> *s* (same options as for the x command).
+
+display/*ss* *addr*
+
+> At each break, print the string of size *s* that begins in memory
+> address *addr*.
+
+undisplay *displaynum*
+
+> Remove *displaynum* from the display list.
+
+### Examining the Call Stack
+
+where
+
+> Print the call stack.
+
+backtrace
+
+> Print the call stack.
+
+frame
+
+> Print the top of the call stack.
+
+up
+
+> Move the context toward the bottom of the call stack.
+
+down
+
+> Move the context toward the top of the call stack.
 
 Appendix G. Document History
 ============================

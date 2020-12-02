@@ -482,6 +482,7 @@
 <div class="sourceCode" id="cb15"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>int $0x80</span></code></pre></div>
 <p>The <code>int</code> stands for <em>interrupt</em>. The <code>0x80</code> is the interrupt number to use.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> An <em>interrupt</em> interrupts the normal program flow, and transfers control from our program to Linux so that it will do a system call.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>. You can think of it as like signaling Batman (or Larry-Boy<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>, if you prefer). You need something done, you send the signal, and then he comes to the rescue. You don't care how he does his work - it's more or less magic - and when he's done you're back in control. In this case, all we're doing is asking Linux to terminate the program, in which case we won't be back in control. If we didn't signal the interrupt, then no system call would have been performed.</p>
 <blockquote>
+<p><strong>NOTE.</strong></p>
 <p><strong>Quick System Call Review:</strong> To recap - Operating System features are accessed through system calls. These are invoked by setting up the registers in a special way and issuing the instruction <code>int $0x80</code>. Linux knows which system call we want to access by what we stored in the <em>%eax</em> register. Each system call has other requirements as to what needs to be stored in the other registers. System call number 1 is the <code>exit</code> system call, which requires the status code to be placed in <em>%ebx</em>.</p>
 </blockquote>
 <p>Now that you've assembled, linked, run, and examined the program, you should make some basic edits. Do things like change the number that is loaded into <code>%ebx</code>, and watch it come out at the end with <code>echo $?</code>. Don't forget to assemble and link it again before running it. Add some comments. Don't worry, the worse thing that would happen is that the program won't assemble or link, or will freeze your screen. That's just part of learning!</p>
@@ -533,31 +534,33 @@
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                  to terminate the data.</span></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.data</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="kw">data_items:</span>                          <span class="co"># These are the data items.</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.long</span> <span class="dv">3</span>, <span class="dv">67</span>, <span class="dv">34</span>, <span class="dv">222</span>, <span class="dv">45</span>, <span class="dv">75</span>, <span class="dv">54</span>, <span class="dv">34</span>, <span class="dv">44</span>, <span class="dv">33</span>, <span class="dv">22</span>, <span class="dv">11</span>, <span class="dv">66</span>, <span class="dv">0</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.globl</span> _start</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    movl $0, %edi                    <span class="co"># Move 0 into the index register.</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    movl data_items(,%edi,<span class="dv">4</span>), %eax   <span class="co"># Load the first byte of data.</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    movl %eax, %ebx                  <span class="co"># Since this is the first item,</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># %eax is the biggest.</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="kw">start_loop:</span>                          <span class="co"># Start loop.</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    cmpl $0, %eax                    <span class="co"># Check to see if we&#39;ve hit the end.</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    je loop_exit</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    incl %edi                        <span class="co"># Load next value.</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    movl data_items(,%edi,<span class="dv">4</span>), %eax</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    cmpl %ebx, %eax                  <span class="co"># Compare values.</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    jle start_loop                   <span class="co"># Jump to loop beginning if the new</span></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># one isn&#39;t bigger.</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    movl %eax, %ebx                  <span class="co"># Move the value as the largest.</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    jmp start_loop                   <span class="co"># Jump to loop beginning.</span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_exit:</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># %ebx is the status code for the</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># exit systemcall and it already has</span></span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># the maximum number 1 is the</span></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>        movl $1, %eax                <span class="co"># exit() syscall.</span></span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>        int  $0x80</span></code></pre></div>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">data_items:</span>                  <span class="co"># These are the data items.</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>            <span class="kw">.long</span> <span class="dv">3</span>, <span class="dv">67</span>, <span class="dv">34</span>, <span class="dv">222</span>, <span class="dv">45</span>, <span class="dv">75</span>, <span class="dv">54</span>, <span class="dv">34</span>, <span class="dv">44</span>, <span class="dv">33</span>, <span class="dv">22</span>, <span class="dv">11</span>, <span class="dv">66</span>, <span class="dv">0</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">.section</span> <span class="kw">.text</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.globl</span> _start</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="kw">_start:</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    movl $0, %edi                    <span class="co"># Move 0 into the index register.</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    movl data_items(,%edi,<span class="dv">4</span>), %eax   <span class="co"># Load the first byte of data.</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    movl %eax, %ebx                  <span class="co"># Since this is the first item,</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># %eax is the biggest.</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="kw">start_loop:</span>                          <span class="co"># Start loop.</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    cmpl $0, %eax                    <span class="co"># Check to see if we&#39;ve hit the end.</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    je loop_exit</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    incl %edi                        <span class="co"># Increment %edi by 1.</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    movl data_items(,%edi,<span class="dv">4</span>), %eax   <span class="co"># Load next value.</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    cmpl %ebx, %eax                  <span class="co"># Compare values.</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    jle start_loop                   <span class="co"># Jump to loop beginning if the new</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># one isn&#39;t bigger.</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    movl %eax, %ebx                  <span class="co"># Move the value as the largest.</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    jmp start_loop                   <span class="co"># Jump to loop beginning.</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="kw">loop_exit:</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># %ebx is the status code for the</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># exit systemcall and it already has</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>        movl $1, %eax                <span class="co"># the maximum number 1 is the</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>        int  $0x80                   <span class="co"># exit() syscall.</span></span></code></pre></div>
 <p>Now, assemble and link it with these commands:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o maximum.o  maximum.s</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o maximum    maximum.o</span></code></pre></div>
@@ -853,11 +856,15 @@ Local Variable 2 &lt;--- -8(%ebp) and (%esp)</code></pre>
 <p><em>At this point, you should consider all local variables to be disposed of.</em> The reason is that after you move the stack pointer back, future stack pushes will likely overwrite everything you put there. Therefore, you should never save the address of a local variable past the life of the function it was created in, or else it will be overwritten after the life of its stack frame ends.</p>
 <p>Control has now been handed back to the calling code, which can now examine <em>%eax</em> for the return value. The calling code also needs to pop off all of the parameters it pushed onto the stack in order to get the stack pointer back where it was (you can also simply add 4 * number of parameters to <em>%esp</em> using the <code>addl</code> instruction, if you don't need the values of the parameters anymore).<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a></p>
 <hr />
-<p><strong>Destruction of Registers</strong></p>
+<blockquote>
+<p><strong>WARNING!</strong></p>
+<p><strong>Destruction of Registers:</strong></p>
 <p>When you call a function, you should assume that everything currently in your registers will be wiped out. The only register that is guaranteed to be left with the value it started with are <em>%ebp</em> and a few others (the Linux C calling convention requires functions to preserve the values of <em>%ebx</em>, <em>%edi</em>, and <em>%esi</em> if they are altered - this is not strictly held during this book because these programs are self-contained and not called by outside functions). <em>%ebx</em> also has some other uses in position-independent code, which is not covered in this book. <em>%eax</em> is guaranteed to be overwritten with the return value, and the others likely are. If there are registers you want to save before calling a function, you need to save them by pushing them on the stack before pushing the function's parameters. You can then pop them back off in reverse order after popping off the parameters. Even if you know a function does not overwrite a register you should save it, because future versions of that function may.</p>
 <p>Other languages' calling convention may be different. For example, other calling conventions may place the burden on the function to save any registers it uses. Be sure to check to make sure the calling conventions of your languages are compatible before trying to mix languages. Or in the case of assembly language, be sure you know how to call the other language's functions.</p>
+</blockquote>
 <hr />
 <blockquote>
+<p><strong>NOTE.</strong></p>
 <p><strong>Extended Specification:</strong> Details of the C language calling convention (also known as the ABI, or Application Binary Interface) is available online. We have oversimplified and left out several important pieces to make this simpler for new programmers. For full details, you should check out the documents available at <a href="https://refspecs.linuxfoundation.org/lsb.shtml">Linux Standard Base (LSB)</a>, you should look for the <a href="https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/programming-from-the-ground-up/resource/pdf/abi386-4.pdf">System V Application Binary Interface - Intel386 Architecture Processor Supplement, Fourth Edition</a>.</p>
 </blockquote>
 <h2 id="a-function-example">A Function Example</h2>
@@ -2364,7 +2371,8 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 </dd>
 </dl>
 <blockquote>
-<p><strong>Compatibility Note:</strong> The listed sizes are for intel-compatible (x86) machines. Other machines will have different sizes. Also, even when parameters shorter than a word are passed to functions, they are passed as longs on the stack.</p>
+<p><strong>NOTE.</strong></p>
+<p><strong>Compatibility:</strong> The listed sizes are for intel-compatible (x86) machines. Other machines will have different sizes. Also, even when parameters shorter than a word are passed to functions, they are passed as longs on the stack.</p>
 </blockquote>
 <p>That's how to read function documentation. Now, let's get back to the question of how to find out about libraries. Most of your system libraries are in <code>/usr/lib</code> or <code>/lib</code>. If you want to just see what symbols they define, just run <code>objdump -R FILENAME</code> where <code>FILENAME</code> is the full path to the library. The output of that isn't too helpful, though, for finding an interface that you might need. Usually, you have to know what library you want at the beginning, and then just read the documentation. Most libraries have manuals or man pages for their functions. The web is the best source of documentation for libraries. Most libraries from the GNU project also have info pages on them, which are a little more thorough than man pages.</p>
 <h2 id="useful-functions">Useful Functions</h2>
@@ -2514,6 +2522,7 @@ librecord.so: cannot open shared object file: No such file or directory</code></
 <p>Now, in order to make the process more efficient, memory is separated out into groups called <em>pages</em>. When running Linux on x86 processors, a page is 4096 bytes of memory. All of the memory mappings are done a page at a time. Physical memory assignment, swapping, mapping, etc. are all done to memory pages instead of individual memory addresses. What this means to you as a programmer is that whenever you are programming, you should try to keep most memory accesses within the same basic range of memory, so you will only need a page or two of memory at a time. Otherwise, Linux may have to keep moving pages on and off of disk to satisfy your memory needs. Disk access is slow, so this can really slow down your program.</p>
 <p>Sometimes so many programs can be loaded that there is hardly enough physical memory for them. They wind up spending more time just swapping memory on and off of disk than they do actually processing it. This leads to a condition called <em>swap death</em> which leads to your system being unresponsive and unproductive. It's usually usually recoverable if you start terminating your memory-hungry programs, but it's a pain.</p>
 <blockquote>
+<p><strong>NOTE.</strong></p>
 <p><strong>Resident Set Size:</strong> The amount of memory that your program currently has in physical memory is called its resident set size, and can be viewed by using the program <code>top</code>. The resident set size is listed under the column labelled "RSS".</p>
 </blockquote>
 <h2 id="getting-more-memory">Getting More Memory</h2>
@@ -5118,97 +5127,336 @@ Rotate left 10010111 = 00101111</code></pre>
 <p>The debugger we will be looking at is GDB - the GNU Debugger. This application is present on almost all GNU/Linux distributions. It can debug programs in multiple programming languages, including assembly language.</p>
 <h2 id="an-example-debugging-session">An Example Debugging Session</h2>
 <p>The best way to explain how a debugger works is by using it. The program we will be using the debugger on is the <code>maximum</code> program used in <a href="#chapter-3-your-first-programs">Chapter 3. Your First Programs</a>. Let's say that you entered the program perfectly, except that you left out the line:</p>
-<pre><code>    incl %edi</code></pre>
+<div class="sourceCode" id="cb229"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a>incl %edi</span></code></pre></div>
 <p>When you run the program, it just goes in an infinite loop - it never exits. To determine the cause, you need to run the program under GDB. However, to do this, you need to have the assembler include debugging information in the executable. All you need to do to enable this is to add the <code>--gstabs</code> option to the <code>as</code> command. So, you would assemble it like this:</p>
-<pre><code>as --gstabs maximum.s -o maximum.o</code></pre>
+<div class="sourceCode" id="cb230"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb230-1"><a href="#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o maximum.o  --gstabs maximum.s</span>
+<span id="cb230-2"><a href="#cb230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o maximum    maximum.o</span></code></pre></div>
 <p>Linking would be the same as normal. "stabs" is the debugging format used by GDB. Now, to run the program under the debugger, you would type in <code>gdb ./maximum</code>. Be sure that the source files are in the current directory. The output should look similar to this:</p>
-<pre><code>GNU gdb Red Hat Linux (5.2.1-4)
-Copyright 2002 Free Software Foundation, Inc.
-GDB is free software, covered by the GNU General Public 
-License, and you are welcome to change it and/or 
-distribute copies of it under certain conditions. Type 
-&quot;show copying&quot; to see the conditions.  There is 
-absolutely no warranty for GDB.  Type &quot;show warranty&quot; 
-for details.  
-This GDB was configured as &quot;i386-redhat-linux&quot;...
+<pre><code>GNU gdb (GDB) 10.1
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later.
+This GDB was configured as &quot;x86_64-pc-linux-gnu&quot;.
+Type &quot;show configuration&quot; for configuration details.
+For help, type &quot;help&quot;.
+Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;.
+Debugger response to a program call of fork or vfork is &quot;parent&quot;.
+Whether gdb will detach the child of a fork is off.
+Reading symbols from ./maximum...
 (gdb)</code></pre>
-<p>Depending on which version of GDBGDB you are running, this output may vary slightly. At this point, the program is loaded, but is not running yet. The debugger is waiting your command. To run your program, just type in <code>runrun</code>. This will not return, because the program is running in an infinite loop. To stop the program, hit control-c. The screen will then say this:</p>
+<p>Depending on which version of GDB you are running, this output may vary slightly. At this point, the program is loaded, but is not running yet. The debugger is waiting your command. To run your program, just type in <code>run</code>. This will not return, because the program is running in an infinite loop. To stop the program, hit <code>control-c</code>. The screen will then say this:</p>
 <pre><code>Starting program: /home/johnnyb/maximum
-
+^C
 Program received signal SIGINT, Interrupt.
-start_loop () at maximum.s:34
-34              movl data_items(,%edi,4), %eax
-Current language:  auto; currently asm
+start_loop () at maximum.s:31
+31          cmpl %ebx, %eax
 (gdb)</code></pre>
-<p>This tells you that the program was interrupted by the SIGINTSIGINT signal (from your control-c), and was within the section labelled <code>start_loop</code>, and was executing on line 34 when it stopped. It gives you the code that it is about to execute. Depending on exactly when you hit control-c, it may have stopped on a different line or a different instruction than the example.</p>
-<p>One of the best ways to find bugs in a program is to follow the flow of the program to see where it is branching incorrectly. To follow the flow of this program, keep on entering <code>stepistepi</code> (for "step instruction"), which will cause the computer to execute one instruction at a time. If you do this several times, your output will look something like this:</p>
-<pre><code>(gdb) stepi
-35              cmpl %ebx, %eax           
+<p>This tells you that the program was interrupted by the SIGINT signal (from your <code>control-c</code>), and was within the section labelled <code>start_loop</code>, and was executing on line 31 when it stopped. It gives you the code that it is about to execute. Depending on exactly when you hit <code>control-c</code>, it may have stopped on a different line or a different instruction than the example.</p>
+<p>One of the best ways to find bugs in a program is to follow the flow of the program to see where it is branching incorrectly. To follow the flow of this program, keep on entering <code>stepi</code> (for "step instruction"), which will cause the computer to execute one instruction at a time. If you do this several times, your output will look something like this:</p>
+<pre><code>27          cmpl $0, %eax
+
 (gdb) stepi
-36              jle start_loop            
+28          je loop_exit
+
 (gdb) stepi
-32              cmpl $0, %eax             
+29          incl %edi
+
 (gdb) stepi
-33              je loop_exit
+30          movl data_items(,%edi,4), %eax
+
 (gdb) stepi
-34              movl data_items(,%edi,4), %eax
+31          cmpl %ebx, %eax
+
 (gdb) stepi
-35              cmpl %ebx, %eax           
+32          jle start_loop
+
 (gdb) stepi
-36              jle start_loop            
-(gdb) step
-32              cmpl $0, %eax             </code></pre>
-<p>As you can tell, it has looped. In general, this is good, since we wrote it to loop. However, the problem is that it is <em>never stopping</em>. Therefore, to find out what the problem is, let's look at the point in our code where we should be exitting the looploop:</p>
-<pre><code>cmpl  $0, %eax
-je    loop_exit</code></pre>
+27          cmpl $0, %eax
+
+(gdb)</code></pre>
+<p>As you can tell, it has looped. In general, this is good, since we wrote it to loop. However, the problem is that it is <em>never stopping</em>. Therefore, to find out what the problem is, let's look at the point in our code where we should be exitting the loop:</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb234-1"><a href="#cb234-1" aria-hidden="true" tabindex="-1"></a>cmpl  $0, %eax</span>
+<span id="cb234-2"><a href="#cb234-2" aria-hidden="true" tabindex="-1"></a>je    loop_exit</span></code></pre></div>
 <p>Basically, it is checking to see if <em>%eax</em> hits zero. If so, it should exit the loop. There are several things to check here. First of all, you may have left this piece out altogether. It is not uncommon for a programmer to forget to include a way to exit a loop. However, this is not the case here. Second, you should make sure that <code>loop_exit</code> actually is outside the loop. If we put the label in the wrong place, strange things would happen. However, again, this is not the case.</p>
-<p>Neither of those potential problems are the culprit. So, the next option is that perhaps <em>%eax</em> has the wrong value. There are two ways to check the contents of register in GDB. The first one is the command <code>info registerinfo register</code>. This will display the contents of all registers in hexadecimal. However, we are only interested in <em>%eax</em> at this point. To just display <em>%eax</em> we can do <code>print/$eax</code> to print it in hexadecimal, or do <code>printprint/d $eax</code> to print it in decimal. Notice that in GDB, registers are prefixed with dollar signs rather than percent signs. Your screen should have this on it:</p>
-<pre><code>(gdb) print/d $eax
+<p>Neither of those potential problems are the culprit. So, the next option is that perhaps <em>%eax</em> has the wrong value. There are two ways to check the contents of register in GDB. The first one is the command <code>info register</code>. This will display the contents of all registers in hexadecimal. However, we are only interested in <em>%eax</em> at this point. To just display <em>%eax</em> we can do <code>print $eax</code> to print it in hexadecimal, or do <code>print/d $eax</code> to print it in decimal. Notice that in GDB, registers are prefixed with dollar signs rather than percent signs. Your screen should have this on it:</p>
+<pre><code>(gdb) print $eax        # Default print.
 $1 = 3
-(gdb)</code></pre>
+(gdb) print/d $eax      # Print as a decimal.
+$2 = 3
+(gdb) print/t $eax      # Print as a binary.
+$3 = 11
+(gdb) print/o $eax      # Print as a octal
+$4 = 03
+(gdb) print/x $eax      # Print as a hexadecimal.
+$5 = 0x3
+(gdb) print/f $eax      # Print as a floating.
+$6 = 4.20389539e-45
+(gdb) print/s $eax      # Print as a string.
+$7 = 3
+(gdb) print/c $eax      # Print as a character.
+$8 = 3 &#39;\003&#39;
+(gdb) print/a $eax      # Print as an address.
+$9 = 0x3</code></pre>
 <p>This means that the result of your first inquiry is 3. Every inquiry you make will be assigned a number prefixed with a dollar sign. Now, if you look back into the code, you will find that 3 is the first number in the list of numbers to search through. If you step through the loop a few more times, you will find that in every loop iteration <em>%eax</em> has the number 3. This is not what should be happening. <em>%eax</em> should go to the next value in the list in every iteration.</p>
 <p>Okay, now we know that <em>%eax</em> is being loaded with the same value over and over again. Let's search to see where <em>%eax</em> is being loaded from. The line of code is this:</p>
-<pre><code>    movl data_items(,%edi,4), %eax</code></pre>
+<div class="sourceCode" id="cb236"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb236-1"><a href="#cb236-1" aria-hidden="true" tabindex="-1"></a>movl data_items(,%edi,<span class="dv">4</span>), %eax</span></code></pre></div>
 <p>So, step until this line of code is ready to execute. Now, this code depends on two values - <code>data_items</code> and <em>%edi</em>. <code>data_items</code> is a symbol, and therefore constant. It's a good idea to check your source code to make sure the label is in front of the right data, but in our case it is. Therefore, we need to look at <em>%edi</em>. So, we need to print it out. It will look like this:</p>
-<pre><code>(gdb) print/d $edi
-$2 = 0
-(gdb)</code></pre>
+<pre><code>(gdb) print $edi
+$1 = 0</code></pre>
 <p>This indicates that <em>%edi</em> is set to zero, which is why it keeps on loading the first element of the array. This should cause you to ask yourself two questions - what is the purpose of <em>%edi</em>, and how should its value be changed? To answer the first question, we just need to look in the comments. <em>%edi</em> is holding the current index of <code>data_items</code>. Since our search is a sequential search through the list of numbers in <code>data_items</code>, it would make sense that <em>%edi</em> should be incremented with every loop iteration.</p>
 <p>Scanning the code, there is no code which alters <em>%edi</em> at all. Therefore, we should add a line to increment <em>%edi</em> at the beginning of every loop iteration. This happens to be exactly the line we tossed out at the beginning. Assembling, linking, and running the program again will show that it now works correctly.</p>
+<p>Let’s finish the execution typing <code>quit</code>, it will show a warning about kill the process because it is an infinite loop and the program never exit properly, type <code>y</code> to kill and exit from GDB:</p>
+<pre><code>(gdb) quit
+A debugging session is active.
+        Inferior 1 [process 682240] will be killed.
+Quit anyway? (y or n) y</code></pre>
 <p>Hopefully this exercise provided some insight into using GDB to help you find errors in your programs.</p>
 <h2 id="breakpoints-and-other-gdb-features">Breakpoints and Other GDB Features</h2>
-<p>The program we entered in the last section had an infinite loop, and could be easily stopped using control-c. Other programs may simply abort or finish with errors. In these cases, control-c doesn't help, because by the time you press control-c, the program is already finished. To fix this, you need to set <em>breakpointsbreakpoints</em>. A breakpoint is a place in the source code that you have marked to indicate to the debugger that it should stop the program when it hits that point.</p>
-<p>To set breakpointsbreakpoints you have to set them up before you run the program. Before issuing the <code>run</code> command, you can set up breakpoints using the <code>breakbreak</code> command. For example, to break on line 27, issue the command <code>break 27</code>. Then, when the program crosses line 27, it will stop running, and print out the current line and instruction. You can then step through the program from that point and examine registers and memory. To look at the lines and line numbers of your program, you can simply use the command <code>l</code>. This will print out your program with line numbers a screen at a time.</p>
-<p>When dealing with functions, you can also break on the function names. For example, in the factorial program in <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>, we could set a breakpoint for the factorial function by typing in <code>break factorial</code>. This will cause the debugger to break immediately after the function call and the function setup (it skips the pushing of <em>%ebp</em> and the copying of <em>%esp</em>).</p>
-<p>When stepping through code, you often don't want to have to step through every instruction of every function. Well-tested functions are usually a waste of time to step through except on rare occasion. Therefore, if you use the <code>nextinexti</code> command instead of the <code>stepistepi</code> command, GDB will wait until completion of the function before going on. Otherwise, with <code>stepi</code>, GDB would step you through every instruction within every called function.</p>
+<p>The program we entered in the last section had an infinite loop, and could be easily stopped using <code>control-c</code>. Other programs may simply abort or finish with errors. In these cases, <code>control-c</code> doesn't help, because by the time you press <code>control-c</code>, the program is already finished. To fix this, you need to set <em>breakpoints</em>. A breakpoint is a place in the source code that you have marked to indicate to the debugger that it should stop the program when it hits that point.</p>
+<p>To set breakpoints you have to set them up before you run the program. Before issuing the <code>run</code> command, you can set up breakpoints using the <code>break</code> command. For example, to break on line 25, issue the command <code>break 25</code>. Then, when the program crosses line 25, it will stop running, and print out the current line and instruction. You can then step through the program from that point and examine registers and memory. To look at the lines and line numbers of your program, you can simply use the command <code>l</code>. This will print out your program with line numbers a screen at a time.</p>
+<pre><code>GNU gdb (GDB) 10.1
+For help, type &quot;help&quot;.
+Reading symbols from ./maximum...
+
+(gdb) break 25
+Breakpoint 1 at 0x401005: file maximum.s, line 25.
+
+(gdb) run
+Starting program: /home/johnnyb/maximum
+Breakpoint 1, _start () at maximum.s:25
+warning: Source file is more recent than executable.
+25          movl data_items(,%edi,4), %eax   # Load the first byte of data.
+
+(gdb) l
+20          .section .text
+21              .globl _start
+22
+23      _start:
+24          movl $0, %edi       # Move 0 into the index register.
+25          movl data_items(,%edi,4), %eax  # Load first byte of data.
+26          movl %eax, %ebx     # Since this is the first item,
+27                              # %eax is the biggest.
+28      start_loop:             # Start loop.
+29          cmpl $0, %eax       # Check to see if we&#39;ve hit the end.</code></pre>
+<p>When dealing with functions, you can also break on the function names. For example, in the factorial program in <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>, we could set a breakpoint for the factorial function by typing in <code>break factorial</code>. This will cause the debugger to break immediately after the function call and the function setup (it skips the pushing of <em>%ebp</em> and the copying of <em>%esp</em>). To send arguments through the GDB is necessary to type <code>set args</code> and the arguments same as we usually do in the command line.</p>
+<!-- TODO: Personal. Looks like this is not a good example for the command nexti vs stepi. -->
+<div class="sourceCode" id="cb240"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o factorial.o  --gstabs factorial.s</span>
+<span id="cb240-2"><a href="#cb240-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o factorial    factorial.o</span></code></pre></div>
+<pre><code>$ gdb ./factorial 
+GNU gdb (GDB) 10.1
+For help, type &quot;help&quot;.
+
+(gdb) set args 55
+
+(gdb) break factorial
+Breakpoint 1 at 0x401013: file factorial.s, line 34.</code></pre>
+<p>When stepping through code, you often don't want to have to step through every instruction of every function. Well-tested functions are usually a waste of time to step through except on rare occasion. Therefore, if you use the <code>nexti</code> command instead of the <code>stepi</code> command, GDB will wait until completion of the function before going on. Otherwise, with <code>stepi</code>, GDB would step you through every instruction within every called function.</p>
+<pre><code>(gdb) run
+Starting program: /home/johnnyb/factorial 
+Breakpoint 1, factorial () at factorial.s:34
+34          pushl %ebp
+
+(gdb) nexti
+37          movl  %esp, %ebp
+
+(gdb) nexti
+40          movl  8(%ebp), %eax
+
+(gdb) nexti
+Program received signal SIGSEGV, Segmentation fault.
+factorial () at factorial.s:40
+40          movl  8(%ebp), %eax
+
+(gdb) nexti
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.</code></pre>
+<p>Let’s see the differences between <code>stepi</code>:</p>
+<pre><code>$ gdb ./factorial 
+GNU gdb (GDB) 10.1
+Reading symbols from ./factorial...
+
+(gdb) break factorial
+Breakpoint 1 at 0x401013: file factorial.s, line 34.
+
+(gdb) set args 55
+
+(gdb) run
+Starting program: /home/johnnyb/factorial 
+Breakpoint 1, factorial () at factorial.s:34
+34          pushl %ebp
+
+(gdb) stepi
+37          movl  %esp, %ebp
+
+(gdb) stepi
+40          movl  8(%ebp), %eax
+
+(gdb) stepi
+Program received signal SIGSEGV, Segmentation fault.
+factorial () at factorial.s:40
+40          movl  8(%ebp), %eax
+
+(gdb) stepi
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.</code></pre>
 <hr />
-<p>One problem that GDB has is with handling interruptsinterrupts. Often times GDB will miss the instruction that immediately follows an interrupt. The instruction is actually executed, but GDB doesn't step through it. This should not be a problem - just be aware that it may happen.</p>
+<blockquote>
+<p><strong>Warning!</strong></p>
+<p>One problem that GDB has is with handling interrupts. Often times GDB will miss the instruction that immediately follows an interrupt. The instruction is actually executed, but GDB doesn't step through it. This should not be a problem - just be aware that it may happen.</p>
+</blockquote>
 <hr />
 <h2 id="gdb-quick-reference">GDB Quick-Reference</h2>
-<p>This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and is used by permission in this book. Parameters listed in brackets are optional.</p>
-<table>
-<caption>Common GDB Debugging Commands</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Miscellaneous</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">quitquit</td>
-<td>Exit GDB</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">helphelp [cmd]</td>
-<td>Print description of debugger command <code>cmd</code>. Without <code>cmd</code>, prints a list of topics.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">directorydirectory [dir1] [dir2] ...</td>
-<td>Add directories <code>dir1</code>, <code>dir2</code>, etc. to the list of directories searched for source files.</td>
-</tr>
-</tbody>
-</table>
+<p>This <a href="https://www.cs.princeton.edu/courses/archive/spring05/cos217/precepthandouts/18/gdb4assembly.pdf">quick-reference table</a> is copyright 2002 <a href="https://www.cs.princeton.edu/~rdondero/">Robert M. Dondero, Jr.</a>, and is used by permission in this book. Parameters listed in brackets are optional. Here is another <a href="https://www.cs.princeton.edu/courses/archive/fall16/cos432/hw2/gdb-refcard.pdf">GDB quick reference</a> created by <a href="https://www.fsf.org/">Free Software Foundation</a>.</p>
+<p>Table F-1. Common GDB Debugging Commands</p>
+<h3 id="miscellaneous">Miscellaneous</h3>
+<p>quit</p>
+<blockquote>
+<p>Exit GDB.</p>
+</blockquote>
+<p>help [cmd]</p>
+<blockquote>
+<p>Print description of debugger command <code>cmd</code>. Without <code>cmd</code>, prints a list of topics.</p>
+</blockquote>
+<p>directory [dir1] [dir2]…</p>
+<blockquote>
+<p>Add directories <code>dir1</code>, <code>dir2</code>, etc. to the list of directories searched for source files.</p>
+</blockquote>
+<h3 id="running-the-program">Running the Program</h3>
+<p>run [arg1] [arg2]…</p>
+<blockquote>
+<p>Run the program with command line arguments <code>arg1</code>, <code>arg2</code>, etc.</p>
+</blockquote>
+<p>set args arg1 [arg2]…</p>
+<blockquote>
+<p>Set the program's command-line arguments to <code>arg1</code>, <code>arg2</code>, etc.</p>
+</blockquote>
+<p>show args</p>
+<blockquote>
+<p>Print the program's command-line arguments.</p>
+</blockquote>
+<h3 id="using-breakpoints">Using Breakpoints</h3>
+<p>info breakpoints</p>
+<blockquote>
+<p>Print a list of all breakpoints and their numbers (breakpoint numbers are used for other breakpoint commands).</p>
+</blockquote>
+<p>break <em>linenum</em></p>
+<blockquote>
+<p>Set a breakpoint at line number <em>linenum</em>.</p>
+</blockquote>
+<p>break *<em>addr</em></p>
+<blockquote>
+<p>Set a breakpoint at memory address <em>addr</em>.</p>
+</blockquote>
+<p>break <em>fn</em></p>
+<blockquote>
+<p>Set a breakpoint at the beginning of function <em>fn</em>.</p>
+</blockquote>
+<p>condition <em>bpnum</em> <em>expr</em></p>
+<blockquote>
+<p>Break at breakpoint <em>bpnum</em> only if expression <em>expr</em> is non-zero.</p>
+</blockquote>
+<p>command [<em>bpnum</em>] <em>cmd1</em> [<em>cmd2</em>]…</p>
+<blockquote>
+<p>Execute commands <code>cmd1</code>, <code>cmd2</code>, etc. whenever breakpoint <em>bpnum</em> (or the current breakpoint) is hit.</p>
+</blockquote>
+<p>continue</p>
+<blockquote>
+<p>Continue executing the program.</p>
+</blockquote>
+<p>kill</p>
+<blockquote>
+<p>Stop executing the program.</p>
+</blockquote>
+<p>delete [<em>bpnum1</em>] [<em>bpnum2</em>]…</p>
+<blockquote>
+<p>Delete breakpoints <em>bpnum1</em>, <em>bpnum2</em>, etc., or all breakpoints if none specified.</p>
+</blockquote>
+<p>clear *<em>addr</em></p>
+<blockquote>
+<p>Clear the breakpoint at memory address <em>addr</em>.</p>
+</blockquote>
+<p>clear [<em>fn</em>]</p>
+<blockquote>
+<p>Clear the breakpoint at function <em>fn</em>, or the current breakpoint.</p>
+</blockquote>
+<p>clear <em>linenum</em></p>
+<blockquote>
+<p>Clear the breakpoint at line number <em>linenum</em>.</p>
+</blockquote>
+<p>disable [<em>bpnum1</em>] [<em>bpnum2</em>]…</p>
+<blockquote>
+<p>Disable breakpoints <em>bpnum1</em>, <em>bpnum2</em>, etc., or all breakpoints if none specified.</p>
+</blockquote>
+<p>enable [<em>bpnum1</em>] [<em>bpnum2</em>]…</p>
+<blockquote>
+<p>Enable breakpoints <em>bpnum1</em>, <em>bpnum2</em>, etc., or all breakpoints if none specified.</p>
+</blockquote>
+<h3 id="stepping-through-the-program">Stepping through the Program</h3>
+<p>nexti</p>
+<blockquote>
+<p>"Step over" the next instruction (doesn't follow function calls).</p>
+</blockquote>
+<p>stepi</p>
+<blockquote>
+<p>"Step into" the next instruction (follows function calls).</p>
+</blockquote>
+<p>finish</p>
+<blockquote>
+<p>"Step out" of the current function.</p>
+</blockquote>
+<h3 id="examining-registers-and-memory">Examining Registers and Memory</h3>
+<p>info registers</p>
+<blockquote>
+<p>Print the contents of all registers.</p>
+</blockquote>
+<p>print/<em>f</em> <em>$reg</em></p>
+<blockquote>
+<p>Print the contents of register <em>$reg</em> using format <em>f</em>.The format can be <em>x</em> (hexadecimal), <em>u</em> (unsigned decimal), <em>o</em> (octal), <em>a</em> (address), <em>c</em> (character), <em>s</em> (string), or <em>f</em> (floating point).</p>
+</blockquote>
+<p>x/<em>rsf</em> <em>addr</em></p>
+<blockquote>
+<p>Print the contents of memory address <em>addr</em> using repeat count <em>r</em>, size <em>s</em>, and format <em>f</em>. Repeat count defaults to 1 if not specified. Size can be <em>b</em> (byte), <em>h</em> (halfword), <em>w</em> (word), or <em>g</em> (double word). Size defaults to word if not specified. Format is the same as for print, with the additions of <em>s</em> (string) and <em>i</em> (instruction). For example <code>x/5i $eip</code> should display 5 instructions or <code>x/4bs 0x56559004</code> it will be display four bits in this specific memory address.</p>
+</blockquote>
+<p>info display</p>
+<blockquote>
+<p>Shows a numbered list of expressions set up to display automatically at each break.</p>
+</blockquote>
+<p>display/<em>f</em> <em>$reg</em></p>
+<blockquote>
+<p>At each break, print the contents of register <em>reg</em> using format <em>f</em>.</p>
+</blockquote>
+<p>display/<em>si</em> <em>addr</em></p>
+<blockquote>
+<p>At each break, print the contents of memory address <em>addr</em> using size <em>s</em> (same options as for the x command).</p>
+</blockquote>
+<p>display/<em>ss</em> <em>addr</em></p>
+<blockquote>
+<p>At each break, print the string of size <em>s</em> that begins in memory address <em>addr</em>.</p>
+</blockquote>
+<p>undisplay <em>displaynum</em></p>
+<blockquote>
+<p>Remove <em>displaynum</em> from the display list.</p>
+</blockquote>
+<h3 id="examining-the-call-stack">Examining the Call Stack</h3>
+<p>where</p>
+<blockquote>
+<p>Print the call stack.</p>
+</blockquote>
+<p>backtrace</p>
+<blockquote>
+<p>Print the call stack.</p>
+</blockquote>
+<p>frame</p>
+<blockquote>
+<p>Print the top of the call stack.</p>
+</blockquote>
+<p>up</p>
+<blockquote>
+<p>Move the context toward the bottom of the call stack.</p>
+</blockquote>
+<p>down</p>
+<blockquote>
+<p>Move the context toward the top of the call stack.</p>
+</blockquote>
 <h1 id="appendix-g.-document-history">Appendix G. Document History</h1>
 <ul>
 <li><p>12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook to a Pandoc’s Markdown then it will export to ePUB, PDF, HTML and Github Markdown, could be extended to other types to documents. This version fixed some minimal details and update others like the links from some broken web sites, a lots of minor updates was done.</p></li>
