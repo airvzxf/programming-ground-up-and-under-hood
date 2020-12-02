@@ -9,7 +9,7 @@ This is a 3% of the WIP (work in progress) project.
 Goals:
 
 - [ ] Programming from the ground up.
-  - [ ] Convert the original _DocBook_ to a _Markdown_ then with [pandoc](https://pandoc.org/) convert it to _ePUB_, _MOBI_ and _PDF_.
+  - [x] Convert the original _DocBook_ to a _Markdown_ then with [pandoc](https://pandoc.org/) convert it to _ePUB_, _MOBI_ and _PDF_.
   - [ ] Try to fix the [bugs](https://savannah.nongnu.org/bugs/?group=pgubook) and [support tickets](https://savannah.nongnu.org/support/?group=pgubook), since 2004 is not updated this [book](https://savannah.nongnu.org/projects/pgubook).
   - [ ] Improve and update the sections where I am missing.
 - [ ] Programming under hood.
@@ -28,19 +28,19 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
 - Deep thanks to the men and companies who inspired me to be better and thanks to the Open Source: [Linus Torvalds](https://github.com/torvalds), [Richard Stallman](https://stallman.org/), [Linux](https://www.linux.org/), [GNU](https://www.gnu.org/), [GitHub](https://github.com/).
 
 ### First steps: Programming from the ground up.
-- [x] ~~Download the original source code.~~
-- [x] ~~Figured out how to compile the source code.~~
+- [x] Download the original source code.
+- [x] Figured out how to compile the source code.
   - [x] It's not easy and needs to install some packages also I couldn't compile the book. Other reason is that the DSSSL is an old technology.
-- [x] ~~Make decisions if keeps this format or use other tools/format.~~
+- [x] Make decisions if keeps this format or use other tools/format.
   - [x] Use `pandoc` ([official project](https://pandoc.org/)) to convert the original DocBook to Markdown format.
     - [ ] Fix all the conversions failures.
-      - [ ] Footnotes needs to create a new numeration.
-      - [ ] Internal broken links for references.
-      - [ ] Styles and formats.
+      - [x] Footnotes needs to create a new numeration.
+      - [x] Internal broken links for references.
+      - [x] Styles and formats.
       - [ ] Create a ToC (Table of contents).
-    - [ ] Export to the final version to ePUB.
+    - [x] Export to the final version to ePUB.
     - [ ] Export to the final version to MOBI for Kindle.
-- [ ] Start with the [TO-DO's file](TODO.md).
+- [x] Start with the [TO-DO's file](TODO.md).
 
 ## About the original books.
 
