@@ -5128,8 +5128,8 @@ Rotate left 10010111 = 00101111</code></pre>
 <h2 id="an-example-debugging-session">An Example Debugging Session</h2>
 <p>The best way to explain how a debugger works is by using it. The program we will be using the debugger on is the <code>maximum</code> program used in <a href="#chapter-3-your-first-programs">Chapter 3. Your First Programs</a>. Let's say that you entered the program perfectly, except that you left out the line:</p>
 <div class="sourceCode" id="cb229"><pre class="sourceCode gnuassembler"><code class="sourceCode gnuassembler"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a>incl %edi</span></code></pre></div>
-<p>When you run the program, it just goes in an infinite loop - it never exits. To determine the cause, you need to run the program under GDB. However, to do this, you need to have the assembler include debugging information in the executable. All you need to do to enable this is to add the <code>--gstabs</code> option to the <code>as</code> command. So, you would assemble it like this:</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb230-1"><a href="#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o maximum.o  --gstabs maximum.s</span>
+<p>When you run the program, it just goes in an infinite loop - it never exits. To determine the cause, you need to run the program under GDB. However, to do this, you need to have the assembler include debugging information in the executable. All you need to do to enable this is to add the <code>--gstabs+</code> option to the <code>as</code> command. So, you would assemble it like this:</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb230-1"><a href="#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o maximum.o  maximum.s --gstabs+</span>
 <span id="cb230-2"><a href="#cb230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o maximum    maximum.o</span></code></pre></div>
 <p>Linking would be the same as normal. "stabs" is the debugging format used by GDB. Now, to run the program under the debugger, you would type in <code>gdb ./maximum</code>. Be sure that the source files are in the current directory. The output should look similar to this:</p>
 <pre><code>GNU gdb (GDB) 10.1
@@ -5239,7 +5239,7 @@ warning: Source file is more recent than executable.
 29          cmpl $0, %eax       # Check to see if we&#39;ve hit the end.</code></pre>
 <p>When dealing with functions, you can also break on the function names. For example, in the factorial program in <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>, we could set a breakpoint for the factorial function by typing in <code>break factorial</code>. This will cause the debugger to break immediately after the function call and the function setup (it skips the pushing of <em>%ebp</em> and the copying of <em>%esp</em>). To send arguments through the GDB is necessary to type <code>set args</code> and the arguments same as we usually do in the command line.</p>
 <!-- TODO: Personal. Looks like this is not a good example for the command nexti vs stepi. -->
-<div class="sourceCode" id="cb240"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o factorial.o  --gstabs factorial.s</span>
+<div class="sourceCode" id="cb240"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as</span> -o factorial.o  factorial.s --gstabs+</span>
 <span id="cb240-2"><a href="#cb240-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ld</span> -o factorial    factorial.o</span></code></pre></div>
 <pre><code>$ gdb ./factorial 
 GNU gdb (GDB) 10.1
