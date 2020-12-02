@@ -8906,11 +8906,11 @@ When you run the program, it just goes in an infinite loop - it never
 exits. To determine the cause, you need to run the program under GDB.
 However, to do this, you need to have the assembler include debugging
 information in the executable. All you need to do to enable this is to
-add the `--gstabs` option to the `as` command. So, you would assemble it
+add the `--gstabs+` option to the `as` command. So, you would assemble it
 like this:
 
 ```{.bash}
-as -o maximum.o  --gstabs maximum.s
+as -o maximum.o  maximum.s --gstabs+
 ld -o maximum    maximum.o
 ```
 
@@ -9139,7 +9139,7 @@ the command line.
 <!-- TODO: Personal. Looks like this is not a good example for the command nexti vs stepi. -->
 
 ```{.bash}
-as -o factorial.o  --gstabs factorial.s
+as -o factorial.o  factorial.s --gstabs+
 ld -o factorial    factorial.o
 ```
 
