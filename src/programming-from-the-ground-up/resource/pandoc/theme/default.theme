@@ -1,0 +1,228 @@
+{
+    "text-color": "#000000",
+    "background-color": "#eeeeee",
+    "line-number-color": "#ff0000",
+    "line-number-background-color": "#0000ff",
+
+    "text-styles": {
+        "Alert": {
+            "_comment": "----- NOTE",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": true,
+            "italic": false,
+            "underline": false
+        },
+        "Annotation": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Attribute": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "BaseN": {
+            "_comment": "----- 0x80",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "BuiltIn": {
+            "_comment": "----- echo, export",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Char": {
+            "_comment": "----- All characters.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Comment": {
+            "_comment": "----- Comments in Asssembler and C, pending check in Bash.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": true,
+            "underline": false
+        },
+        "CommentVar": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Constant": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "ControlFlow": {
+            "_comment": "----- if, else, while, return, for.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": true,
+            "italic": false,
+            "underline": false
+        },
+        "DataType": {
+            "_comment": "----- char, int, void, const, size_t, FILE.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "DecVal": {
+            "_comment": "----- All decimal numbers.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Documentation": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Error": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Extension": {
+            "_comment": "----- Different types of text.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Float": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Function": {
+            "_comment": "----- as, gcc, ldd, ld, perl",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Import": {
+            "_comment": "----- <stdio.h>, 'stdio.h'",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Information": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Keyword": {
+            "_comment": "----- A lot of results, Assembler in general and Struct from C.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": true,
+            "italic": false,
+            "underline": false
+        },
+        "Operator": {
+            "_comment": "----- *, +, ,, [, ]",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Other": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Preprocessor": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "SpecialChar": {
+            "_comment": "----- \\0",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "SpecialString": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "String": {
+            "_comment": "----- All strings.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Variable": {
+            "_comment": "----- $?, LD_LIBRARY_PATH.",
+            "text-color": "#000000",
+            "background-color": "#cccccc",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "VerbatimString": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        },
+        "Warning": {
+            "text-color": "#000000",
+            "background-color": "#eeeeee",
+            "bold": false,
+            "italic": false,
+            "underline": false
+        }
+    }
+}
