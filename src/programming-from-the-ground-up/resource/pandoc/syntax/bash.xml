@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd"
+[
+  <!ENTITY variable  "(?:\$\?)">
+]>
+
+<language name="Bash" version="1" kateversion="5" section="Scripts" extensions="*.sh;*.bash;" mimetype="application/x-shellscript" casesensitive="1" author="Israel Roldan (israel.alberto.rv@gmail.com)" license="GPL-3.0">
+
+  <highlighting>
+    <list name="commands">
+      <item>as</item>
+      <item>echo</item>
+      <item>gcc</item>
+      <item>ldd</item>
+      <item>ld</item>
+      <item>perl</item>
+      <item>python</item>
+    </list>
+    <list name="environment_variables">
+      <item>export</item>
+      <item>setenv</item>
+    </list>
+    <list name="parameters">
+      <item>--cflags</item>
+      <item>-dynamic-linker</item>
+      <item>--gstabs+</item>
+      <item>-lc</item>
+      <item>--libs</item>
+      <item>-L</item>
+      <item>-lrecord</item>
+      <item>-o</item>
+      <item>-shared</item>
+      <item>-S</item>
+    </list>
+
+    <contexts>
+      <context attribute="Normal Text"   name="Normal"      lineEndContext="#stay">
+        <DetectChar attribute="Comment"  context="comment"  char="#"                       />
+        <keyword attribute="Attribute"   context="#stay"    String="parameters"            />
+        <keyword attribute="Keyword"     context="#stay"    String="commands"              />
+        <keyword attribute="Keyword"     context="#stay"    String="environment_variables" />
+        <RegExpr attribute="Variable"    context="#stay"    String="&variable;"            />
+      </context>
+
+      <context attribute="Comment"       name="comment"     lineEndContext="#pop"/>
+    </contexts>
+
+    <itemDatas>
+      <itemData defStyleNum="dsAttribute"  name="Attribute"  />
+      <itemData defStyleNum="dsComment"    name="Comment"    />
+      <itemData defStyleNum="dsKeyword"    name="Keyword"    />
+      <itemData defStyleNum="dsVariable"   name="Variable"   />
+    </itemDatas>
+  </highlighting>
+
+  <general>
+    <comments>
+      <comment name="singleLine" start="#"/>
+    </comments>
+    <keywords casesensitive="1" weakDeliminator="^%#[]$._{}:-/+" additionalDeliminator="`"/>
+  </general>
+</language>

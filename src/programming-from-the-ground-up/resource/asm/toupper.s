@@ -216,6 +216,7 @@ convert_loop:
     addb  $UPPER_CONVERSION, %cl       # Otherwise convert the byte to
                                        # uppercase and store it back.
     movb  %cl, (%eax,%edi,1)
+
 next_byte:
     incl  %edi                         # Next byte.
     cmpl  %edi, %ebx                   # Continue unless we've reached the

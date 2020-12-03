@@ -2,68 +2,37 @@
 
 RELEASE_PATH="../../release/"
 VERSION="v"$(date "+%Y.%m.%d")
-HIGHLIGHT_STYLE="default.theme"               # default.theme | pygments tango kate haddock
-
+HIGHLIGHT_STYLE="default.theme"
 
 mkdir -p "${RELEASE_PATH}"
 rm -f "${RELEASE_PATH}"ProgrammingGroundUp*
 rm -fR "${RELEASE_PATH}"resource
 cp -R resource "${RELEASE_PATH}"resource
 
+# ====== Create the release versions. ====== #
 
-# Create the release versions.
+OUTPUTS=(html5 epub3 markdown_strict commonmark gfm pdf)
+EXTENSIONS=(html epub strict.md common.md github.md pdf)
 
-#  --lua-filter \
-#        resource/pandoc/lua/include-code-files.lua \
+INDEX=0
+for OUTPUT in ${OUTPUTS[*]}; do
+  echo "OUTPUT: ${OUTPUT} = ${EXTENSIONS[${INDEX}]}"
 
-#  --highlight-style \
-#        pygments \
+  #  --lua-filter \
+  #        resource/pandoc/lua/include-code-files.lua \
 
-pandoc -f markdown -t html5 --standalone \
-  --highlight-style \
-        ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
-  -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.html" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md \
-  &
+  pandoc -f markdown -t "${OUTPUT}" --standalone \
+    --highlight-style \
+    ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
+    --syntax-definition \
+    ./resource/pandoc/syntax/gnuassembler.xml \
+    --syntax-definition \
+    ./resource/pandoc/syntax/c.xml \
+    --syntax-definition \
+    ./resource/pandoc/syntax/bash.xml \
+    -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.${EXTENSIONS[${INDEX}]}" \
+    001-ProgrammingGroundUp.txt \
+    002-Book.md &
 
-
-pandoc -f markdown -t epub3 --standalone \
-  --highlight-style \
-        ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
-  -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.epub" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md \
-  &
-
-pandoc -f markdown -t markdown_strict --standalone \
-  --highlight-style \
-        ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
-  -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_markdown_strict.md" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md \
-  &
-
-pandoc -f markdown -t commonmark --standalone \
-  --highlight-style \
-        ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
-  -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_commonmark.md" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md \
-  &
-
-pandoc -f markdown -t gfm --standalone \
-  --highlight-style \
-        ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
-  -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}_github.md" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md \
-  &
-
-pandoc -f markdown -t pdf --standalone \
-  --highlight-style \
-        ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
-  -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.pdf" \
-  001-ProgrammingGroundUp.txt \
-  002-Book.md \
-  &
+  INDEX=$((INDEX + 1))
+done
