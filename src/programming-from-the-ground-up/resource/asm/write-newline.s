@@ -1,8 +1,8 @@
-    .code32                             # Generate 32-bit code.
-    .include "linux.s"                  # Common Linux Definitions.
+    .code32                 # Generate 32-bit code.
+    .include "linux.s"      # Common Linux Definitions.
 
-    .globl write_newline
-    .type  write_newline,  @function
+        .globl _write_newline
+        .type  _write_newline,  @function
 
     .section .data
         newline:
@@ -11,7 +11,7 @@
     .section .text
         .equ ST_FILEDES,  8
 
-write_newline:
+_write_newline:
     pushl %ebp
     movl  %esp, %ebp
 

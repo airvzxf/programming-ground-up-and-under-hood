@@ -18,18 +18,18 @@ INDEX=0
 for OUTPUT in ${OUTPUTS[*]}; do
   echo "OUTPUT: ${OUTPUT} = ${EXTENSIONS[${INDEX}]}"
 
-  #  --lua-filter \
-  #        resource/pandoc/lua/include-code-files.lua \
 
   pandoc -f markdown -t "${OUTPUT}" --standalone \
     --highlight-style \
-    ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
+      ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
     --syntax-definition \
-    ./resource/pandoc/syntax/gnuassembler.xml \
+      ./resource/pandoc/syntax/gnuassembler.xml \
     --syntax-definition \
-    ./resource/pandoc/syntax/c.xml \
+      ./resource/pandoc/syntax/c.xml \
     --syntax-definition \
-    ./resource/pandoc/syntax/bash.xml \
+      ./resource/pandoc/syntax/bash.xml \
+    --lua-filter \
+      resource/pandoc/lua/include-code-files.lua \
     -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.${EXTENSIONS[${INDEX}]}" \
     001-ProgrammingGroundUp.txt \
     002-Book.md &

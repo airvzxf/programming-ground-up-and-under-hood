@@ -748,7 +748,7 @@ deals with typing it in and running it. In
 [Outline of an Assembly Language Program](#outline-of-an-assembly-language-program)
 we will describe how it works.
 
-```{.gnuassembler include=resource/asm/exit.s}
+```{.gnuassembler .numberLines include=resource/asm/exit.s}
 ```
 
 What you have typed in is called the *source code*. Source
@@ -838,7 +838,7 @@ the following in your comments:
 
 After the comments, the next line says:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .section .data
 ```
 
@@ -855,7 +855,7 @@ program you write in the future will have data.
 
 Right after this you have:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .section .text
 ```
 
@@ -864,7 +864,7 @@ program is where the program instructions live.
 
 The next instruction is:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .globl _start
 ```
 
@@ -890,7 +890,7 @@ know where to begin running your program*.
 
 The next line:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 _start:
 ```
 
@@ -906,7 +906,7 @@ the symbol automatically gets the new value.
 Now we get into actual computer instructions. The first such instruction
 is this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $1, %eax
 ```
 
@@ -1001,7 +1001,7 @@ loaded in _%ebx_. This value is then returned to the system. This
 is the value you retrieved when you typed `echo $?`. So, we load _%ebx_
 with `0` by typing the following:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $0, %ebx
 ```
 
@@ -1020,7 +1020,7 @@ calls and what is required to be in each register, see
 
 The next instruction is the \"magic\" one. It looks like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 int $0x80
 ```
 
@@ -1184,7 +1184,7 @@ Finding a Maximum Value {#finding-a-maximum-value}
 
 Enter the following program as `maximum.s`:
 
-```{.gnuassembler include=resource/asm/maximum.s}
+```{.gnuassembler .numberLines include=resource/asm/maximum.s}
 ```
 
 Now, assemble and link it with these commands:
@@ -1208,7 +1208,7 @@ wonderful!). You may also notice that in this program we actually have
 something in the data section. These lines are the data
 section:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 data_items:                         # These are the data items.
     .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
 ```
@@ -1326,7 +1326,7 @@ then the third (data item number 2), and so on. The data item number is
 the *index* of `data_items`. You\'ll notice that the first
 instruction we give to the computer is:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $0, %edi
 ```
 
@@ -1334,7 +1334,7 @@ Since we are using `%edi` as our index, and we want to start looking at
 the first item, we load `%edi` with 0. Now, the next instruction is
 tricky, but crucial to what we\'re doing. It says:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl data_items(,%edi,4), %eax
 ```
 
@@ -1354,7 +1354,7 @@ stores that number in `%eax`. This is how you write indexed addressing
 mode instructions in assembly language. The instruction in a general
 form is this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
 ```
 
@@ -1372,7 +1372,7 @@ For more information about this, see [Addressing Modes](#addressing-modes).
 
 Let\'s look at the next line:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl %eax, %ebx
 ```
 
@@ -1412,7 +1412,7 @@ Okay, so now lets go to the code. We have the beginning of the loop
 marked with `start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 cmpl $0, %eax
 je loop_exit
 ```
@@ -1464,7 +1464,7 @@ and we go to `loop_exit`.[^3-13]
 If the last loaded element was not zero, we go on to the next
 instructions:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 incl %edi
 movl data_items(,%edi,4), %eax
 ```
@@ -1476,7 +1476,7 @@ beforehand. However, since we already incremented _%edi_, _%eax_ is getting
 the next value from the list. Now _%eax_ has the next value to be tested.
 So, let\'s test it!
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 cmpl %ebx, %eax
 jle start_loop
 ```
@@ -1487,7 +1487,7 @@ value so far, we don\'t care about it, so we just jump back to the
 beginning of the loop. Otherwise, we need to record that value as the
 largest one:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl %eax, %ebx
 jmp start_loop
 ```
@@ -1506,7 +1506,7 @@ status there since we are using _%ebx_ as our largest number, so all we
 have to do is load _%eax_ with the number one and call the kernel to exit.
 Like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $1, %eax
 int  $0x80
 ```
@@ -1532,14 +1532,14 @@ in assembly language instructions.
 
 The general form of memory address references is this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
 ```
 
 All of the fields are optional. To calculate the address, simply perform
 the following calculation:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
 ```
 
@@ -1557,7 +1557,7 @@ except immediate-mode can be represented in this fashion.
 
     This loads _%eax_ with the value at memory address `ADDRESS`.
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl ADDRESS, %eax
 ```
 
@@ -1576,7 +1576,7 @@ movl ADDRESS, %eax
     This starts at `string_start`, and adds `1 * %ecx` to that address,
     and loads the value into _%eax_.
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl string_start(,%ecx,1), %eax
 ```
 
@@ -1586,7 +1586,7 @@ movl string_start(,%ecx,1), %eax
     a register. For example, if _%eax_ held an address, we could move the
     value at that address to _%ebx_ by doing the following:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl (%eax), %ebx
 ```
 
@@ -1598,7 +1598,7 @@ movl (%eax), %ebx
     the record, and you have the address of the record in _%eax_, you can
     retrieve the age into _%ebx_ by issuing the following instruction:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl 4(%eax), %ebx
 ```
 
@@ -1614,7 +1614,7 @@ movl 4(%eax), %ebx
     mode, in which case the value located at memory location 12 would be
     loaded into _%eax_ rather than the number 12 itself.
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $12, %eax
 ```
 
@@ -2028,13 +2028,13 @@ removing it, we can simply use the _%esp_ register in indirect
 addressing mode. For example, the following code
 moves whatever is at the top of the stack into _%eax_:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl (%esp), %eax
 ```
 
 If we were to just do this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl %esp, %eax
 ```
 
@@ -2044,7 +2044,7 @@ go to indirect addressing mode, and therefore we
 get the value pointed to by _%esp_. If we want to access the value
 right below the top of the stack, we can simply issue this instruction:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl 4(%esp), %eax
 ```
 
@@ -2118,7 +2118,7 @@ to need two words of memory to run a function. We can simply move the
 stack pointer down two words to reserve the space. This is done like
 this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 subl $8, %esp
 ```
 
@@ -2178,7 +2178,7 @@ base pointer _%ebp_ to what they were when the function began.
 
 Therefore to return from the function you have to do the following:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl %ebp, %esp
 popl %ebp
 ret
@@ -2256,7 +2256,7 @@ make this program simple, we will only allow numbers 1 and greater.
 The following is the code for the complete program. As usual, an
 explanation follows. Name the file `power.s`.
 
-```{.gnuassembler include=resource/asm/power.s}
+```{.gnuassembler .numberLines include=resource/asm/power.s}
 ```
 
 Type in the program, assemble it, and run it. Try calling power for
@@ -2282,7 +2282,7 @@ stack, and what will be in _%eax_ at the end.
 
 We then have the following line:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .type power,@function
 ```
 
@@ -2293,7 +2293,7 @@ practice.
 
 After that, we define the value of the `power` label:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 power:
 ```
 
@@ -2306,7 +2306,7 @@ return, while the `jmp` does not.
 
 Next, we have our instructions to set up our function:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl %ebp
 movl  %esp, %ebp
 subl  $4, %esp
@@ -2391,7 +2391,7 @@ gets its own stack frame, we are okay.
 
 Let\'s look at the code to see how this works:
 
-```{.gnuassembler include=resource/asm/factorial.s}
+```{.gnuassembler .numberLines include=resource/asm/factorial.s}
 ```
 
 Assemble, link, and run it with these commands:
@@ -2409,7 +2409,7 @@ test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
 I\'m guessing you didn\'t understand the whole code listing. Let\'s go
 through it a line at a time to see what is happening.
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 _start:
     pushl $4
     call factorial
@@ -2428,7 +2428,7 @@ stack. The `call` instruction then makes the function call.
 
 Next we have these lines:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 addl  $4, %esp
 movl  %eax, %ebx
 movl  $1, %eax
@@ -2472,7 +2472,7 @@ implemented.
 
 Before the function starts, we have this directive:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
     .type factorial,@function
 factorial:
 ```
@@ -2486,7 +2486,7 @@ next instruction. That\'s how `call` knew where to go when we said
 
 The first real instructions of the function are:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl %ebp
 movl  %esp, %ebp
 ```
@@ -2496,7 +2496,7 @@ function. These two lines will be the way you should start every function.
 
 The next instruction is this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  8(%ebp), %eax
 ```
 
@@ -2515,7 +2515,7 @@ will be returned. It\'s already in _%eax_ which we mentioned earlier is
 where you put return values. That is accomplished by these
 lines:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 cmpl $1, %eax
 je end_factorial
 ```
@@ -2524,7 +2524,7 @@ If it\'s not our base case, what did we say we would do? We would call
 the `factorial` function again with our parameter minus one. So, first
 we decrease _%eax_ by one:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 decl %eax
 ```
 
@@ -2534,7 +2534,7 @@ adds 1. After decrementing _%eax_ we push it onto the stack since it\'s
 going to be the parameter of the next function call. And then we call
 `factorial` again!
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl %eax
 call factorial
 ```
@@ -2546,7 +2546,7 @@ and `%ebp`). So even though we had the value we were called with in
 stack from the same place we got it the first time (at `8(%ebp)`). So,
 we do this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl 8(%ebp), %ebx
 ```
 
@@ -2555,7 +2555,7 @@ function. If you remember our previous discussion, the result of
 functions are left in _%eax_. So, we need to multiply _%ebx_ with _%eax_. This is
 done with this instruction:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 imull %ebx, %eax
 ```
 
@@ -2566,7 +2566,7 @@ start of the function we pushed _%ebp_, and moved _%esp_ into _%ebp_ to create
 the current stack frame. Now we reverse the operation to destroy the
 current stack frame and reactivate the last one:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 end_factorial:
     movl %ebp, %esp
     popl %ebp
@@ -2574,7 +2574,7 @@ end_factorial:
 
 Now we\'re already to return, so we issue the following command
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 ret
 ```
 
@@ -2812,7 +2812,7 @@ This is useful for buffers because we don\'t need to initialize them
 anyway, we just need to reserve storage. In order to do this, we do the
 following commands:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .section .bss
     .lcomm my_buffer, 500
 ```
@@ -2822,7 +2822,7 @@ refers to a 500-byte storage location that we can use as a buffer. We
 can then do the following, assuming we have opened a file for reading
 and have placed the file descriptor in _%ebx_:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $my_buffer, %ecx
 movl 500, %edx
 movl 3, %eax
@@ -2922,7 +2922,7 @@ numbers. For example, if you did `.equ LINUX_SYSCALL, 0x80`, any
 time after that you wrote `LINUX_SYSCALL`, the assembler would substitue
 `0x80` for that. So now, you can write:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 int $LINUX_SYSCALL
 ```
 
@@ -2935,7 +2935,7 @@ actually use for jumps, because some of them are just there for clarity.
 Try to trace through the program and see what happens in various cases.
 An in-depth explanation of the program will follow.
 
-```{.gnuassembler include=resource/asm/toupper.s}
+```{.gnuassembler .numberLines include=resource/asm/toupper.s}
 ```
 
 Type in this program as `toupper.s`, and then enter in the
@@ -2987,7 +2987,7 @@ This section begins with a list of constants that we will use The reason
 these are put here rather than at the top is that they only deal with
 this one function. We have these definitions:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .equ  LOWERCASE_A,       'a'
 .equ  LOWERCASE_Z,       'z'
 .equ  UPPER_CONVERSION,  'A' - 'a' 
@@ -3023,7 +3023,7 @@ Next comes the label `convert_to_upper`. This is the entry point of the
 function. The first two lines are our standard function lines to save
 the stack pointer. The next two lines:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  ST_BUFFER(%ebp), %eax
 movl  ST_BUFFER_LEN(%ebp), %ebx
 ```
@@ -3034,7 +3034,7 @@ each byte of the buffer by loading from the location _%eax_ + _%edi_,
 incrementing _%edi_, and repeating until _%edi_ is equal to the buffer length
 stored in _%ebx_. The lines:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 cmpl  $0, %ebx
 je    end_convert_loop
 ```
@@ -3049,7 +3049,7 @@ and have a reliable exit plan if it happens.
 Now we start our loop. First, it moves a byte into _%cl_. The code for this
 is:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movb  (%eax,%edi,1), %cl
 ```
 
@@ -3295,7 +3295,7 @@ addressing mode. The following constants describe
 the offsets to the above structure. Put them in a file named
 `record-def.s`:
 
-```{.gnuassembler include=resource/asm/record-def.s}
+```{.gnuassembler .numberLines include=resource/asm/record-def.s}
 ```
 
 In addition, there are several constants that we have been defining over
@@ -3303,7 +3303,7 @@ and over in our programs, and it is useful to put them in a file, so
 that we don\'t have to keep entering them. Put the following
 constants in a file called `linux.s`:
 
-```{.gnuassembler include=resource/asm/linux.s}
+```{.gnuassembler .numberLines include=resource/asm/linux.s}
 ```
 
 We will write three programs in this chapter using the structure defined
@@ -3326,14 +3326,14 @@ basically need:
 
 Let\'s look at our reading function first in `read-records.s`:
 
-```{.gnuassembler include=resource/asm/read-record.s}
+```{.gnuassembler .numberLines include=resource/asm/read-record.s}
 ```
 
 It\'s a pretty simple function. It just reads data the size of our
 structure into an appropriately sized buffer from the given file
 descriptor. The writing one is similar in `write-record.s`:
 
-```{.gnuassembler include=resource/asm/write-record.s}
+```{.gnuassembler .numberLines include=resource/asm/write-record.s}
 ```
 
 Now that we have our basic definitions down, we are ready to write our
@@ -3353,7 +3353,7 @@ This program will simply write some hardcoded records to disk. It will:
 Type the following code into a file called `write-records.s`: .rept
 .endr padding null
 
-```{.gnuassembler include=resource/asm/write-records.s}
+```{.gnuassembler .numberLines include=resource/asm/write-records.s}
 ```
 
 <!-- TODO: Need to add info on how to use a hexdump to read the values -->
@@ -3366,7 +3366,7 @@ of the system calls used, see
 
 You may have noticed the lines:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .include "linux.s"                  # Common Linux Definitions.
 .include "record-def.s"             # Record definitions.
 ```
@@ -3421,7 +3421,7 @@ records must contain at least one null character each.
 
 Here is the code. Put it in a file called `count-chars.s`:
 
-```{.gnuassembler include=resource/asm/count-chars.s}
+```{.gnuassembler .numberLines include=resource/asm/count-chars.s}
 ```
 
 As you can see, it\'s a fairly straightforward function. It simply loops
@@ -3449,13 +3449,13 @@ To write this, we need one more simple function - a function to write
 out a newline to `STDOUT`. Put the following code into
 `write-newline.s`:
 
-```{.gnuassembler include=resource/asm/write-newline.s}
+```{.gnuassembler .numberLines include=resource/asm/write-newline.s}
 ```
 
 Now we are ready to write the main program. Here is the code to
 `read-records.s`:
 
-```{.gnuassembler include=resource/asm/read-records.s}
+```{.gnuassembler .numberLines include=resource/asm/read-records.s}
 ```
 
 To build this program, we need to assemble all of the parts and link
@@ -3477,7 +3477,7 @@ As you can see, this program opens the file and then runs a loop of
 reading, checking for the end of file, and writing the firstname. The
 one construct that might be new is the line that says:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl  $RECORD_FIRSTNAME + record_buffer
 ```
 
@@ -3514,7 +3514,7 @@ In this section, we will write a program that:
 Like most programs we\'ve encountered recently, this program `add-year.s`
 is pretty straightforward.[^6-3]
 
-```{.gnuassembler include=resource/asm/add-year.s}
+```{.gnuassembler .numberLines include=resource/asm/add-year.s}
 ```
 
 You can type it in as `add-year.s`. To build it, type the following[^6-4]:
@@ -3891,7 +3891,7 @@ single recovery point that covers the whole program. The only thing we
 will do to recover is to print the error and exit. The code to do that
 is pretty simple:
 
-```{.gnuassembler include=resource/asm/error-exit.s}
+```{.gnuassembler .numberLines include=resource/asm/error-exit.s}
 ```
 
 Enter it in a file called `error-exit.s`. To call it, you just need to
@@ -3903,7 +3903,7 @@ First of all, we don\'t check to see if either of our `open` system
 calls actually complete properly. Linux returns its status code in
 _%eax_, so we need to check and see if there is an error.
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
     movl  $SYS_OPEN, %eax               # Open file for reading.
     movl  $input_file_name, %ebx
     movl  $0, %ecx
@@ -4077,13 +4077,13 @@ The program we will examine here is simple - it writes the characters
 `hello world` to the screen and exits. The regular program,
 `helloworld-nolib.s`, looks like this:
 
-```{.gnuassembler include=resource/asm/helloworld-nolib.s}
+```{.gnuassembler .numberLines include=resource/asm/helloworld-nolib.s}
 ```
 
 That\'s not too long. However, take a look at how short `helloworld-lib`
 is which uses a library:
 
-```{.gnuassembler include=resource/asm/helloworld-lib.s}
+```{.gnuassembler .numberLines include=resource/asm/helloworld-lib.s}
 ```
 
 It\'s even shorter!
@@ -4209,7 +4209,7 @@ programmers describe functions to each other in their documentation?
 Let\'s take a look at the function `printf`. Its calling
 interface (usually referred to as a *prototype*) looks like this:
 
-```{.c}
+```{.c .numberLines}
 int printf(char *string, ...);
 ```
 
@@ -4230,7 +4230,7 @@ the address of a character or sequence of characters. If you look back
 at our `helloworld program`, you will notice that the function call
 looked like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl $hello
 call  printf
 ```
@@ -4251,7 +4251,7 @@ look into the `string` parameter, and everywhere it sees the characters
 everywhere it sees `%d` it will look for a number from the stack to
 insert. This is best described using an example:
 
-```{.gnuassembler include=resource/asm/printf-example.s}
+```{.gnuassembler .numberLines include=resource/asm/printf-example.s}
 ```
 
 Type it in with the filename `printf-example.s`, and then do the
@@ -4358,7 +4358,7 @@ reading functions. Here are the main ones:
     This is because passing structs to functions is fairly complicated,
     since they can take up so many storage locations.
 
-```{.c}
+```{.c .numberLines}
 struct teststruct {
     int a;
     char *b;
@@ -4689,7 +4689,7 @@ instructions take up one or two storage locations for the instruction
 itself, and then storage locations for the instruction\'s arguments. For
 example, the instruction:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl data_items(,%edi,4), %ebx
 ```
 
@@ -4731,7 +4731,7 @@ Address:
     Now, any time in the program that `my_data` is used, it will be
     replaced by the address of the first value of the `.long` directive.
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .section .data
     my_data:
         .long 2, 3, 4
@@ -4778,26 +4778,26 @@ number of arguments that were used. When the program begins, this is
 where the stack pointer, _%esp_, is pointing. Further pushes on the
 stack move _%esp_ down in memory. For example, the instruction:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl %eax
 ```
 
 is equivalent to
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl %eax, (%esp)
 subl $4, %esp
 ```
 
 Likewise, the instruction:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 popl %eax
 ```
 
 is the same as
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl (%esp), %eax
 addl $4, %esp
 ```
@@ -5019,7 +5019,7 @@ it shows the principles quite well. As usual, I will give you the
 program first for you to look through. Afterwards will follow an
 in-depth explanation. It looks long, but it is mostly comments.
 
-```{.gnuassembler include=resource/asm/alloc.s}
+```{.gnuassembler .numberLines include=resource/asm/alloc.s}
 ```
 
 The first thing to notice is that there is no `_start` symbol. The
@@ -5039,7 +5039,7 @@ Okay, now let\'s look at the code.
 
 At the beginning of the program, we have two locations set up:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 heap_begin:
     .long 0
 
@@ -5064,7 +5064,7 @@ lets us know both whether or not this region is big enough for an
 allocation request, as well as the location of the next memory region.
 The following constants describe this record:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .equ HEADER_SIZE,       8
 .equ HDR_AVAIL_OFFSET,  0
 .equ HDR_SIZE_OFFSET,   4
@@ -5080,14 +5080,14 @@ The values that we will use for our `available` field are either 0 for
 unavailable, or 1 for available. To make this easier to read, we have
 the following definitions:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .equ UNAVAILABLE,  0
 .equ AVAILABLE,    1
 ```
 
 Finally, we have our Linux system call definitions:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .equ BRK,            45
 .equ LINUX_SYSCALL,  0x80
 ```
@@ -5099,7 +5099,7 @@ and `current_break` variables we discussed earlier. So, if you remember
 the discussion earlier, the current break can be found using the
 `brk` system call. So, the function starts like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl %ebp
 movl  %esp, %ebp
 
@@ -5114,7 +5114,7 @@ address, so we just increment `%eax`. Then we move that value to the
 `heap_begin` and `current_break` locations. Then we leave the function.
 The code looks like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 incl  %eax
 movl  %eax, current_break
 movl  %eax, heap_begin
@@ -5156,7 +5156,7 @@ comments so you\'ll know which register holds which value.
 Now that you\'ve looked back through the code, let\'s examine it one
 line at a time. We start off like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl %ebp
 movl  %esp, %ebp
 movl  ST_MEM_SIZE(%ebp), %ecx
@@ -5175,7 +5175,7 @@ to examine memory regions until we either find an open memory region or
 determine that we need more memory. Our first instructions check to see
 if we need more memory:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 cmpl %ebx, %eax
 je   move_break
 ```
@@ -5186,7 +5186,7 @@ examined is past the end of the heap, it means we need more memory to
 allocate a region of this size. Let\'s skip down to `move_break` and see
 what happens there:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 move_break:
     addl  $HEADER_SIZE, %ebx
     addl  %ecx, %ebx
@@ -5203,7 +5203,7 @@ _%ebx_, and that\'s where we want the system break to be. We then push all
 the registers we want to save on the stack, and call the `brk` system
 call. After that we check for errors:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 cmpl  $0, %eax
 je    error
 ```
@@ -5212,7 +5212,7 @@ If there were no errors we pop the registers back off the stack, mark
 the memory as unavailable, record the size of the memory, and make sure
 _%eax_ points to the start of usable memory (which is *after* the header).
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 popl  %ebx
 popl  %ecx
 popl  %eax
@@ -5224,7 +5224,7 @@ addl  $HEADER_SIZE, %eax
 Then we store the new program break and return the pointer to the
 allocated memory.
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  %ebx, current_break
 movl  %ebp, %esp
 popl  %ebp
@@ -5237,7 +5237,7 @@ Let\'s go back look at the rest of the loop. What happens if the current
 memory being looked at isn\'t past the end of the heap? Well, let\'s
 look.
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl HDR_SIZE_OFFSET(%eax), %edx
 cmpl $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
 je   next_location
@@ -5254,7 +5254,7 @@ Let\'s say that the space was available, and so we keep going. Then we
 check to see if this space is big enough to hold the requested amount of
 memory. The size of this region is being held in _%edx_, so we do this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 cmpl  %edx, %ecx
 jle   allocate_here
 ```
@@ -5264,7 +5264,7 @@ size, we can use this block. It doesn\'t matter if the current region is
 larger than requested, because the extra space will just be unused. So,
 let\'s jump down to `allocate_here` and see what happens:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
 addl  $HEADER_SIZE, %eax
 movl  %ebp, %esp
@@ -5287,7 +5287,7 @@ Remember that _%edx_ is holding the size of the current memory region, and
 `HEADER_SIZE` is the symbol for the size of the memory region\'s header.
 So this code will move us to the next memory region:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 addl  $HEADER_SIZE, %eax
 addl  %edx, %eax
 jmp   alloc_loop_begin
@@ -5319,7 +5319,7 @@ That\'s because it doesn\'t have to do any searching at all. It can just
 mark the current memory region as `AVAILABLE`, and `allocate` will find
 it next time it is called. So we have:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  ST_MEMORY_SEG(%esp), %eax
 subl  $HEADER_SIZE, %eax
 movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
@@ -5405,7 +5405,7 @@ section.
 The first change we need to make is in the declaration. Currently it
 looks like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .section .bss
 .lcomm, record_buffer, RECORD_SIZE
 ```
@@ -5415,7 +5415,7 @@ from being an actual buffer to being a pointer to a buffer. In addition,
 it now only needs to be one word big (enough to hold a pointer). The new
 declaration will stay in the `.data` section and look like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 record_buffer_ptr:
     .long 0
 ```
@@ -5424,7 +5424,7 @@ Our next change is we need to initialize our memory manager immediately
 after we start our program. Therefore, right after the stack is set up,
 the following call needs to be added:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 call allocate_init
 ```
 
@@ -5434,7 +5434,7 @@ records that we are reading. Therefore, we will call `allocate` to
 allocate this memory, and then save the pointer it returns into
 `record_buffer_ptr`. Like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl $RECORD_SIZE
 call  allocate
 movl  %eax, record_buffer_ptr
@@ -5446,13 +5446,13 @@ In the old code, the pointer was the immediate-mode reference to
 than the buffer itself. Therefore, we must do a direct mode load to get
 the value in `record_buffer_ptr`. We need to remove this line:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl $record_buffer
 ```
 
 And put this line in its place:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl record_buffer_ptr
 ```
 
@@ -5465,13 +5465,13 @@ we will need to move the pointer into a register, and then add
 `$RECORD_FIRSTNAME` to it to get the pointer. So where we have the
 following code:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl $RECORD_FIRSTNAME + record_buffer
 ```
 
 We need to replace it with this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  record_buffer_ptr, %eax
 addl  $RECORD_FIRSTNAME, %eax
 pushl %eax
@@ -5479,13 +5479,13 @@ pushl %eax
 
 Similarly, we need to change the line that says
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  $RECORD_FIRSTNAME + record_buffer, %ecx
 ```
 
 so that it reads like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  record_buffer_ptr, %ecx
 addl  $RECORD_FIRSTNAME, %ecx
 ```
@@ -5495,7 +5495,7 @@ once we are done with it (in this program it\'s not necessary, but it\'s
 a good practice anyway). To do that, we just send `record_buffer_ptr` to
 the `deallocate` function right before exitting:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 pushl record_buffer_ptr
 call  deallocate
 ```
@@ -5959,13 +5959,13 @@ produces 0. Well, the XOR operation is faster than the loading
 operation, so many programmers use it to load a register with
 zero. For example, the code:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  $0, %eax
 ```
 
 Is often replaced by:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 xorl  %eax, %eax
 ```
 
@@ -6098,7 +6098,7 @@ This will make the value of the register 1 if my Dad likes dressy
 clothes, and 0 if he doesn\'t. Then we can do a comparison to 1 and
 print the results. The code would look like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 # NOTE: Assume that the register %ebx holds.
 #
 # My Dad's preferences
@@ -6384,20 +6384,20 @@ only a quarter as many digits. The most important number to remember in
 hexadecimal is `f`, which means that all bits are set. So, if I want to
 set all of the bits of a register to 1, I can just do:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  $0xFFFFFFFF, %eax
 ```
 
 Which is considerably easier and less error-prone than writing:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl  $0b11111111111111111111111111111111, %eax
 ```
 
 Note also that hexadecimal numbers are prefixed with `0x`.
 So, when we do
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 int   $0x80
 ```
 
@@ -6498,7 +6498,7 @@ pushed them on.
 The code for the function should be put in a file called
 `integer-to-string.s` and should be entered as follows:
 
-```{.gnuassembler include=resource/asm/integer-to-string.s}
+```{.gnuassembler .numberLines include=resource/asm/integer-to-string.s}
 ```
 
 To show this used in a full program, use the following code, along with
@@ -6506,7 +6506,7 @@ the `count_chars` and `write_newline` functions written about in
 previous chapters. The code should be in a file called
 `conversion-program.s`.
 
-```{.gnuassembler include=resource/asm/conversion-program.s}
+```{.gnuassembler .numberLines include=resource/asm/conversion-program.s}
 ```
 
 To build the program, issue the following commands:
@@ -6711,7 +6711,7 @@ Here is your first C program, which prints
 \"Hello world\" to the screen and exits. Type it in, and give it the
 name `hello-world.c`:
 
-```{.c include=resource/asm/hello-world.c}
+```{.c .numberLines include=resource/asm/hello-world.c}
 ```
 
 As you can see, it\'s a pretty simple program. To compile it, run the
@@ -7576,7 +7576,7 @@ application. When that button is clicked it will ask you if you are
 sure, and if you click yes it will close the application. To run this
 program, type in the following as `gnome-example.s`:
 
-```{.gnuassembler include=resource/asm/gnome-example.s}
+```{.gnuassembler .numberLines include=resource/asm/gnome-example.s}
 ```
 
 To build this application, execute the following commands:
@@ -7678,7 +7678,7 @@ gnome_dialog_run_and_close:
 The following is the same program written in the C language. Type it in
 as `gnome-example-c.c`:
 
-```{.c include=resource/asm/gnome-example-c.c}
+```{.c .numberLines include=resource/asm/gnome-example-c.c}
 ```
 
 To compile it, type
@@ -7798,7 +7798,7 @@ mostly used for moving data from one place to another.
 An example of this table is the `movl` instruction which could read
 like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl   I/R/M,  I/R/M      # eFlags affected: O/S/Z/A/C
 movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
 movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
@@ -8200,7 +8200,7 @@ but it looks different. Some of the differences include:
 Other differences exist, but they are small in comparison. To show some
 of the differences, consider the following instruction:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $5, %eax               # 1
 movl 12(%ebx), %eax         # 2
 movl (%ebx,%edi), %ecx      # 3
@@ -8448,7 +8448,7 @@ brancht, and the false branch. However, since assembly language is not a
 block structured language, you have to work a little to implement the
 block-like nature of C. For example, look at the following C code:
 
-```{.c}
+```{.c .numberLines}
 if(a == b)
 {
     /* True Branch Code Here */
@@ -8463,7 +8463,7 @@ else
 
 In assembly language, this can be rendered as:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
     movl a, %eax                        # Move a and b into registers for
     movl b, %ebx                        # comparison.
 
@@ -8497,13 +8497,13 @@ pushing the arguments to the function onto the stack in *reverse* order,
 and issuing a `call` instruction. After calling, the arguments are
 then popped back off of the stack. For example, consider the C code:
 
-```{.c}
+```{.c .numberLines}
 printf("The number is %d", 88);
 ```
 
 In assembly language, this would be rendered as:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .section .data
     text_string:
         .ascii "The number is %d\0"
@@ -8533,7 +8533,7 @@ variables in assembly language. Global variables are accessed using direct
 addressing mode, while local variables are accessed using base pointer
 addressing mode. For example, consider the following C code:
 
-```{.c}
+```{.c .numberLines}
 int my_global_var;
 
 int foo()
@@ -8549,7 +8549,7 @@ int foo()
 
 This would be rendered in assembly language as:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
     .section .data
         .lcomm my_global_var, 4
 
@@ -8601,7 +8601,7 @@ while loop.
 
 In C, a while loop looks like this:
 
-```{.c}
+```{.c .numberLines}
 while(a < b)
 {
     /* Do stuff here */
@@ -8612,7 +8612,7 @@ while(a < b)
 
 This can be rendered in assembly language like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 loop_begin:
     movl  a, %eax
     movl  b, %ebx
@@ -8632,7 +8632,7 @@ The `loop` instruction will decrement _%ecx_ and jump to a specified
 address unless _%ecx_ is zero. For example, if you wanted to execute a
 statement 100 times, you would do this in C:
 
-```{.c}
+```{.c .numberLines}
 for(i=0; i < 100; i++)
 {
     /* Do process here */
@@ -8641,7 +8641,7 @@ for(i=0; i < 100; i++)
 
 In assembly language it would be written like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 loop_initialize:
     movl $100, %ecx
 
@@ -8667,7 +8667,7 @@ Structs
 Structs are simply descriptions of memory blocks. For example, in
 C you can say:
 
-```{.c}
+```{.c .numberLines}
 struct person {
     char firstname[40];
     char lastname[40];
@@ -8679,7 +8679,7 @@ This doesn\'t do anything by itself, except give you ways of
 intelligently using 84 bytes of data. You can do basically the same
 thing using `.equ` directives in assembly language. Like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .equ PERSON_FIRSTNAME_OFFSET,  0
 .equ PERSON_LASTNAME_OFFSET,   40
 .equ PERSON_AGE_OFFSET,        80
@@ -8689,7 +8689,7 @@ thing using `.equ` directives in assembly language. Like this:
 When you declare a variable of this type, all you are doing is reserving
 84 bytes of space. So, if you have this in C:
 
-```{.c}
+```{.c .numberLines}
 void foo()
 {
     struct person p;
@@ -8700,7 +8700,7 @@ void foo()
 
 In assembly language you would have:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 foo:                                    # Standard header beginning.
     pushl %ebp
     movl %esp, %ebp
@@ -8719,13 +8719,13 @@ To access structure members, you just have to use base pointer addressing
 mode with the offsets defined above. For example, in C you could set the
 person\'s age like this:
 
-```{.c}
+```{.c .numberLines}
 p.age = 30;
 ```
 
 In assembly language it would look like this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
 ```
 
@@ -8736,13 +8736,13 @@ Pointers are very easy. Remember, pointers are simply the
 address that a value resides at. Let\'s start by taking a look at
 global variables. For example:
 
-```{.c}
+```{.c .numberLines}
 int global_data = 30;
 ```
 
 In assembly language, this would be:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 .section .data
     global_data:
         .long 30
@@ -8750,13 +8750,13 @@ In assembly language, this would be:
 
 Taking the address of this data in C:
 
-```{.c}
+```{.c .numberLines}
 a = &global_data;
 ```
 
 Taking the address of this data in assembly language:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl $global_data, %eax
 ```
 
@@ -8767,7 +8767,7 @@ itself, you just have to go with immediate mode addressing.
 Local variables are a little more difficult, but not much. Here is how you
 take the address of a local variable in C:
 
-```{.c}
+```{.c .numberLines}
 void foo()
 {
     int a;
@@ -8783,7 +8783,7 @@ void foo()
 
 The same code in assembly language:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 foo:
     pushl %ebp                          # Standard opening.
     movl  %esp, %ebp
@@ -8812,7 +8812,7 @@ instruction `leal`, which stands for \"load effective address\". This lets
 the computer compute the address, and then load it wherever you want.
 So, we could just say:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 leal A_VAR(%ebp), %eax                  # b = &a.
 movl %eax, B_VAR(%ebp)
 ```
@@ -8847,7 +8847,7 @@ Finally, at the end of functions, we usually do the following
 instructions to clean up the stack before issuing a `ret`
 instruction:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl %ebp, %esp
 popl %ebp
 ```
@@ -8901,7 +8901,7 @@ we will be using the debugger on is the `maximum` program used in
 Let\'s say that you entered the program perfectly,
 except that you left out the line:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 incl %edi
 ```
 
@@ -8988,7 +8988,7 @@ it to loop. However, the problem is that it is *never stopping*.
 Therefore, to find out what the problem is, let\'s look at the point in
 our code where we should be exitting the loop:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 cmpl  $0, %eax
 je    loop_exit
 ```
@@ -9042,7 +9042,7 @@ Okay, now we know that _%eax_ is being loaded with the same value over and
 over again. Let\'s search to see where _%eax_ is being loaded from. The
 line of code is this:
 
-```{.gnuassembler}
+```{.gnuassembler .numberLines}
 movl data_items(,%edi,4), %eax
 ```
 

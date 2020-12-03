@@ -1,6 +1,6 @@
-    .code32                             # Generate 32-bit code.
-    .include "linux.s"                  # Common Linux Definitions.
-    .include "record-def.s"             # Record definitions.
+    .code32                 # Generate 32-bit code.
+    .include "linux.s"      # Common Linux Definitions.
+    .include "record-def.s" # Record definitions.
 
     .section .data
         input_file_name:
@@ -12,18 +12,20 @@
     .section .bss
         .lcomm record_buffer,  RECORD_SIZE
 
-        # ----- Stack offsets of local variables ----- #
+        # --- Stack offsets of local variables --- #
         #
         .equ ST_INPUT_DESCRIPTOR,  -4
         .equ ST_OUTPUT_DESCRIPTOR, -8
 
     .section .text
-    .globl _start
-_start:
-    movl  %esp, %ebp                    # Copy stack pointer and make room
-    subl  $8, %esp                      # for local variables.
+        .globl _start
 
-    movl  $SYS_OPEN, %eax               # Open file for reading.
+_start:
+    movl  %esp, %ebp        # Copy stack pointer and
+    subl  $8, %esp          # make room for local
+                            # variables.
+
+    movl  $SYS_OPEN, %eax   # Open file for reading.
     movl  $input_file_name, %ebx
     movl  $0, %ecx
     movl  $0666, %edx
@@ -31,7 +33,7 @@ _start:
 
     movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
-    movl  $SYS_OPEN, %eax               # Open file for writing.
+    movl  $SYS_OPEN, %eax   # Open file for writing.
     movl  $output_file_name, %ebx
     movl  $0101, %ecx
     movl  $0666, %edx
@@ -39,29 +41,31 @@ _start:
 
     movl  %eax, ST_OUTPUT_DESCRIPTOR(%ebp)
 
-loop_begin:
+_loop_begin:
     pushl ST_INPUT_DESCRIPTOR(%ebp)
     pushl $record_buffer
     call  read_record
     addl  $8, %esp
 
-    # Returns the number of bytes read. If it isn't the same number we
-    # requested, then it's either an end-of-file, or an error, so we're
-    # quitting.
+    # Returns the number of bytes read. If it is not
+    # the same number we requested, then it is either
+    # an end-of-file, or an error, so we are quitting.
     #
     cmpl  $RECORD_SIZE, %eax
-    jne   loop_end
+    jne   _loop_end
 
-    incl  record_buffer + RECORD_AGE    # Increment the age.
+                            # Increment the age.
+    incl  record_buffer + RECORD_AGE
 
-    pushl ST_OUTPUT_DESCRIPTOR(%ebp)    # Write the record out.
+                            # Write the record out.
+    pushl ST_OUTPUT_DESCRIPTOR(%ebp)
     pushl $record_buffer
     call  write_record
     addl  $8, %esp
 
-    jmp   loop_begin
+    jmp   _loop_begin
 
-loop_end:
+_loop_end:
     movl  $SYS_EXIT, %eax
     movl  $0, %ebx
     int   $LINUX_SYSCALL

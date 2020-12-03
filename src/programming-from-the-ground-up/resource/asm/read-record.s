@@ -1,24 +1,28 @@
-    .code32                             # Generate 32-bit code.
-    .include "linux.s"                  # Common Linux Definitions.
-    .include "record-def.s"             # Record definitions.
+    .code32                 # Generate 32-bit code.
+    .include "linux.s"      # Common Linux Definitions.
+    .include "record-def.s" # Record definitions.
 
-    # PURPOSE:  This function reads a record from the file descriptor.
+    # PURPOSE:
+    #     This function reads a record from the file
+    #     descriptor.
     #
-    # INPUT:    The file descriptor and a buffer.
+    # INPUT:
+    #     The file descriptor and a buffer.
     #
-    # OUTPUT:   This function writes the data to the buffer and returns
-    #           a status code.
+    # OUTPUT:
+    #     This function writes the data to the buffer
+    #     and returns a status code.
     #
     # ----- STACK LOCAL VARIABLES ----- #
     #
-    .equ ST_READ_BUFFER,  8
-    .equ ST_FILEDES,      12
+        .equ ST_READ_BUFFER,  8
+        .equ ST_FILEDES,      12
 
     .section .text
-        .globl read_record
-        .type  read_record,  @function
+        .globl _read_record
+        .type  _read_record,  @function
 
-read_record:
+_read_record:
     pushl %ebp
     movl  %esp, %ebp
 
@@ -29,9 +33,9 @@ read_record:
     movl  $SYS_READ, %eax
     int   $LINUX_SYSCALL
 
-    popl  %ebx                          # NOTE - %eax has the return value,
-                                        # which we will give back to our
-                                        # calling program.
+    popl  %ebx          # NOTE - %eax has the return
+                        # value, which we will give
+                        # back to our calling program.
 
     movl  %ebp, %esp
     popl  %ebp

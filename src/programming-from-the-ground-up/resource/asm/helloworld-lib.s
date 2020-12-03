@@ -1,14 +1,16 @@
-    .code32                             # Generate 32-bit code.
+    .code32                 # Generate 32-bit code.
 
-    # PURPOSE:  This program writes the message "hello world" and exits.
+    # PURPOSE:
+    #     This program writes the message "hello world"
+    #     and exits.
     #
     .section .data
         helloworld:
             .ascii "hello world\n\0"
 
     .section .text
+        .globl _start
 
-    .globl _start
 _start:
     pushl $helloworld
     call  printf

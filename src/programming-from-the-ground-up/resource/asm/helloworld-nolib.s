@@ -1,14 +1,16 @@
-    .code32                             # Generate 32-bit code.
-    .include "linux.s"                  # Common Linux Definitions.
+    .code32                 # Generate 32-bit code.
+    .include "linux.s"      # Common Linux Definitions.
 
-    # PURPOSE:  This program writes the message "hello world" and exits.
+    # PURPOSE:
+    #     This program writes the message
+    #     "hello world" and exits.
     #
     .section .data
         helloworld:
             .ascii "hello world\n"
 
         helloworld_end:
-            .equ helloworld_len, helloworld_end - helloworld
+            .equ lenght, helloworld_end - helloworld
 
     .section .text
 
@@ -16,7 +18,7 @@
 _start:
     movl  $STDOUT, %ebx
     movl  $helloworld, %ecx
-    movl  $helloworld_len, %edx
+    movl  $lenght, %edx
     movl  $SYS_WRITE, %eax
     int   $LINUX_SYSCALL
 

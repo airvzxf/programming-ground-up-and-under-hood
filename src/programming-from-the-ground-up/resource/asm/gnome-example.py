@@ -1,5 +1,7 @@
-# PURPOSE:  This program is meant to be an example of what GUI programs
-#           look like written with the GNOME libraries.
+# PURPOSE:
+#     This program is meant to be an example of what
+#     GUI programs look like written with the GNOME
+#     libraries.
 #
 
 # Import GNOME libraries.
@@ -9,8 +11,9 @@ import gnome.ui
 
 #### DEFINE CALLBACK FUNCTIONS FIRST ####
 
-# In Python, functions have to be defined before they are used, so we have
-# to define our callback functions first.
+# In Python, functions have to be defined before they
+# are used, so we have to define our callback
+# functions first.
 #
 def destroy_handler(event):
     gtk.mainquit()
@@ -32,8 +35,9 @@ def click_handler(event):
 
     result = msgbox.run_and_close()
 
-    # Button 0 is the Yes button.  If this is the button they clicked on,
-    # tell GNOME to quit it's event loop.  Otherwise, do nothing.
+    # Button 0 is the Yes button.  If this is the
+    # button they clicked on, tell GNOME to quit it's
+    # event loop.  Otherwise, do nothing.
     #
     if (result == 0):
         gtk.mainquit()

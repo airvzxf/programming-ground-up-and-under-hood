@@ -1,17 +1,18 @@
-    .code32                             # Generate 32-bit code.
-    .include "linux.s"                  # Common Linux Definitions.
+    .code32                 # Generate 32-bit code.
+    .include "linux.s"      # Common Linux Definitions.
 
-    .equ ST_ERROR_CODE,  8
-    .equ ST_ERROR_MSG,   12
+        .equ ST_ERROR_CODE,  8
+        .equ ST_ERROR_MSG,   12
 
-    .globl error_exit
-    .type  error_exit,   @function
+        .globl _error_exit
+        .type  _error_exit,   @function
 
-error_exit:
+_error_exit:
     pushl %ebp
     movl  %esp, %ebp
 
-    movl  ST_ERROR_CODE(%ebp), %ecx     # Write out error code.
+                            # Write out error code.
+    movl  ST_ERROR_CODE(%ebp), %ecx
     pushl %ecx
     call  count_chars
     popl  %ecx
@@ -20,7 +21,8 @@ error_exit:
     movl  $SYS_WRITE, %eax
     int   $LINUX_SYSCALL
 
-    movl  ST_ERROR_MSG(%ebp), %ecx      # Write out error message.
+                            # Write out error message.
+    movl  ST_ERROR_MSG(%ebp), %ecx
     pushl %ecx
     call  count_chars
     popl  %ecx
@@ -32,6 +34,7 @@ error_exit:
     pushl $STDERR
     call  write_newline
 
-    movl  $SYS_EXIT, %eax               # Exit with status 1.
+                            # Exit with status 1.
+    movl  $SYS_EXIT, %eax
     movl  $1, %ebx
     int   $LINUX_SYSCALL
