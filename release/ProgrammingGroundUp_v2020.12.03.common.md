@@ -748,7 +748,9 @@ right. If everything was okay, it returns 0. UNIX programs return
 numbers other than zero to indicate failure or other errors, warnings,
 or statuses. The programmer determines what each number means. You can
 view this code by typing in `echo $?`. In the following section we will
-look at what each part of the code does.
+look at what each part of the code does. More Information in [GNU
+Automatic
+variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html).
 
 Outline of an Assembly Language Program
 ---------------------------------------
