@@ -4,7 +4,7 @@
 ## Programming from the ground up
 
 
-### Me.
+### Me
 
 #### Technical
 

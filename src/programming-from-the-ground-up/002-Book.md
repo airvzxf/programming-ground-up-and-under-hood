@@ -775,7 +775,7 @@ file is code that is in the machine\'s language, but has not been
 completely put together. In most large programs, you will have several
 source files, and you will convert each one into an object file.
 The `--gstabs+` option, adds debugging information in the
-executable file, review more information in the 
+executable file, review more information in the
 [Appendix F. Using the GDB Debugger](#appendix-f-using-the-gdb-debugger).
 
 The *linker* is the program that is responsible for putting the object
@@ -2996,7 +2996,7 @@ this one function. We have these definitions:
 ```{.gnuassembler .numberLines}
 .equ  LOWERCASE_A,       'a'
 .equ  LOWERCASE_Z,       'z'
-.equ  UPPER_CONVERSION,  'A' - 'a' 
+.equ  UPPER_CONVERSION,  'A' - 'a'
 ```
 
 The first two simply define the letters that are the boundaries of what
@@ -4482,7 +4482,7 @@ in the file named `librecord.so`.
 Now the `write-records` program is built, but it will not run. If we try
 it, we will get an error like the following:
 
-    ./write-records: error while loading shared libraries: 
+    ./write-records: error while loading shared libraries:
     librecord.so: cannot open shared object file: No such file or directory
 
 This is because, by default, the dynamic linker only searches `/lib`,
@@ -5755,7 +5755,7 @@ it is in decimal, we take it apart like this:
 And then we add all of the pieces together, like this:
 
     1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 =
-    128 + 16 + 4 + 1 = 
+    128 + 16 + 4 + 1 =
     149
 
 So 10010101 in binary is 149 in decimal. Let\'s look at 1100101. It can
@@ -5768,8 +5768,8 @@ be written as:
 So we see that 1100101 in binary is 101 in decimal. Let\'s look at one
 more number, 11101011001001. You can convert it to decimal by doing:
 
-    1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256 
-           + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4 
+    1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256
+           + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4
            + 0*2 + 1*1 =
 
     8192 + 4096 + 2048 + 512 + 128 + 64 + 8 + 1 =
@@ -5828,8 +5828,8 @@ yourself if you convert binary 11111111 into decimal:
 
     11111111 =
 
-    (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3) 
-              + (1 * 2^2) + (1 * 2^1) + (1 * 2^0) = 
+    (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3)
+              + (1 * 2^2) + (1 * 2^1) + (1 * 2^0) =
 
     128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 =
 
@@ -5925,7 +5925,7 @@ You\'ll see that the resulting set of bits only has a one where *both*
 numbers had a one, and in every other position it has a zero. Let\'s
 look at what an OR looks like:
 
-    10100010101010010101101100101010 OR 
+    10100010101010010101101100101010 OR
     10001000010101010101010101111010
     --------------------------------
     10101010111111010101111101111010
@@ -5940,7 +5940,7 @@ in the given position. Let\'s look at the NOT operation:
 This just reverses each digit. Finally, we have XOR, which is like an
 OR, except if *both* digits are 1, it returns 0.
 
-    10100010101010010101101100101010 XOR 
+    10100010101010010101101100101010 XOR
     10001000010101010101010101111010
     --------------------------------
     00101010111111000000111001010000
@@ -5949,7 +5949,7 @@ This is the same two numbers used in the OR operation, so you can
 compare how they work. Also, if you XOR a number with itself, you will
 always get 0, like this:
 
-    10100010101010010101101100101010 XOR 
+    10100010101010010101101100101010 XOR
     10100010101010010101101100101010
     --------------------------------
     00000000000000000000000000000000
@@ -6123,12 +6123,12 @@ shrl  $1, %eax      # This is the shift operator.
                     # to shift.
 
                             # This does the masking.
-andl  $0b00000000000000000000000000000001, %eax   
+andl  $0b00000000000000000000000000000001, %eax
 
                             # Check to see if the
                             # result is 1 or 0.
-cmpl  $0b00000000000000000000000000000001, %eax   
-                                                  
+cmpl  $0b00000000000000000000000000000001, %eax
+
 
 je    yes_he_likes_dressy_clothes
 
@@ -6763,7 +6763,7 @@ declarations for the standard input and output functions and variables.
 These declarations tell the compiler what functions are available for
 input and output. The next few lines are simply comments about the
 program.
- 
+
 Then there is the line `int main(int argc, char **argv)`. This is the
 start of a function. C Functions are declared with their name, arguments
 and return type. This declaration says that the function\'s name is
@@ -8482,7 +8482,7 @@ In assembly language, this can be rendered as:
 
     je true_branch      # If True, go to true branch.
 
-false_branch:           # This label is unnecessary, 
+false_branch:           # This label is unnecessary,
                         # only here for documentation.
                         # False branch code here.
 
@@ -8490,7 +8490,7 @@ false_branch:           # This label is unnecessary,
 
 true_branch:            # True branch code here.
 
-reconverge:             # Both branches recoverge to 
+reconverge:             # Both branches recoverge to
                         # this point.
 ```
 
@@ -8526,7 +8526,7 @@ In assembly language, this would be rendered as:
     popl  %eax
     popl  %eax      # %eax is just a dummy variable,
                     # nothing is actually being done
-                    # with the value.  You can also 
+                    # with the value.  You can also
                     # directly re-adjust %esp to the
                     # proper location.
 ```
@@ -8579,7 +8579,7 @@ foo:
     movl  $1, my_local_var(%ebp)
     movl  $2, my_global_var
 
-    movl  %ebp, %esp        # Clean up function and 
+    movl  %ebp, %esp        # Clean up function and
     popl  %ebp              # return.
     ret
 ```
@@ -8634,7 +8634,7 @@ loop_begin:
     jge   loop_end
 
 loop_body:                  # Do stuff here.
-    
+
     jmp loop_begin
 
 loop_end:                   # Finished looping.
@@ -8721,7 +8721,7 @@ foo:                        # Standard header beginning
 
     subl $PERSON_SIZE, %esp     # Reserve our local
                                 # variable.
-    .equ P_VAR, 0 - PERSON_SIZE # This is the 
+    .equ P_VAR, 0 - PERSON_SIZE # This is the
                                 # variable's offset
                                 # from %ebp.
 
@@ -9165,7 +9165,7 @@ as -o factorial.o  factorial.s --gstabs+
 ld -o factorial    factorial.o
 ```
 
-    $ gdb ./factorial 
+    $ gdb ./factorial
     GNU gdb (GDB) 10.1
     For help, type "help".
 
@@ -9183,7 +9183,7 @@ before going on. Otherwise, with `stepi`, GDB would step you through
 every instruction within every called function.
 
     (gdb) run
-    Starting program: /home/johnnyb/factorial 
+    Starting program: /home/johnnyb/factorial
     Breakpoint 1, factorial () at factorial.s:34
     34          pushl %ebp
 
@@ -9204,7 +9204,7 @@ every instruction within every called function.
 
 Let's see the differences between `stepi`:
 
-    $ gdb ./factorial 
+    $ gdb ./factorial
     GNU gdb (GDB) 10.1
     Reading symbols from ./factorial...
 
@@ -9214,7 +9214,7 @@ Let's see the differences between `stepi`:
     (gdb) set args 55
 
     (gdb) run
-    Starting program: /home/johnnyb/factorial 
+    Starting program: /home/johnnyb/factorial
     Breakpoint 1, factorial () at factorial.s:34
     34          pushl %ebp
 
