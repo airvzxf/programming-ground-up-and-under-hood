@@ -18,7 +18,6 @@ INDEX=0
 for OUTPUT in ${OUTPUTS[*]}; do
   echo "OUTPUT: ${OUTPUT} = ${EXTENSIONS[${INDEX}]}"
 
-
   pandoc -f markdown -t "${OUTPUT}" --standalone \
     --highlight-style \
       ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \

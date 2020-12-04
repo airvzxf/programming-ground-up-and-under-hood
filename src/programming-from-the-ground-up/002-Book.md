@@ -773,8 +773,12 @@ file, and `-o exit.o` tells the assemble to put its output in
 the file `exit.o`. `exit.o` is an *object file*. An object
 file is code that is in the machine\'s language, but has not been
 completely put together. In most large programs, you will have several
-source files, and you will convert each one into an object file. The
-*linker* is the program that is responsible for putting the object
+source files, and you will convert each one into an object file.
+The `--gstabs+` option, adds debugging information in the
+executable file, review more information in the 
+[Appendix F. Using the GDB Debugger](#appendix-f-using-the-gdb-debugger).
+
+The *linker* is the program that is responsible for putting the object
 files together and adding information to it so that the kernel knows how
 to load and run it. In our case, we only have one object file, so the
 linker is only adding the information to enable it to run. To *link*
@@ -1650,7 +1654,7 @@ them). Similarly, loading a value into either _%al_ or _%ah_ will corrupt any
 value that was formerly in _%eax_. Basically, it\'s wise to only use a
 register for either a byte or a word, but never both at the same time.
 
-    Layout of the 32-bit registers
+    Layout of the 32-bit registers.
     |=======================================|
     |-----------------%eax------------------| ===> 32-bit = 4-byte.
     |-------------------|--------%ax--------| ===> 16-bit = 2-byte.
@@ -3104,7 +3108,7 @@ parameters:
 After making the system call, the file descriptor of the
 newly-opened file is stored in _%eax_.
 
-<!-- TODO: Persoanl -> check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct -->
+<!-- TODO: Persoanl -> Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct. -->
 
 So, what files are we opening? In this example, we will be opening the
 files specified on the command-line. Fortunately,
@@ -5684,7 +5688,7 @@ The nice thing about base two is that the basic math tables are very
 short. In base ten, the multiplication tables are ten columns wide, and
 ten columns tall. In base two, it is very simple:
 
-<!-- TODO: These need to be converted to tables -->
+<!-- TODO: These need to be converted to tables. -->
 
     Table of binary addition
 
@@ -6740,7 +6744,7 @@ Comments in C are started with `/*` and ended with `*/`. Comments can
 span multiple lines, but many people prefer to start and end comments on
 the same line so they don\'t get confused.
 
-`#include <stdio.h>`{.c} is the first part of the program. This is a
+`#include <stdio.h>` is the first part of the program. This is a
 *preprocessor directive*. C compiling is split into two stages - the
 preprocessor and the main compiler. This directive tells the
 preprocessor to look for the file `stdio.h` and paste it into your
@@ -6753,14 +6757,14 @@ Now, everything in `stdio.h` is now in your program just as if you typed
 it there yourself. The angle brackets around the filename tell the
 compiler to look in its standard paths for the file
 (`/usr/include` and `/usr/local/include`,
-usually). If it was in quotes, like `#include "stdio.h"`{.c} it would look
+usually). If it was in quotes, like `#include "stdio.h"` it would look
 in the current directory for the file. Anyway, `stdio.h` contains the
 declarations for the standard input and output functions and variables.
 These declarations tell the compiler what functions are available for
 input and output. The next few lines are simply comments about the
 program.
  
-Then there is the line `int main(int argc, char **argv)`{.c}. This is the
+Then there is the line `int main(int argc, char **argv)`. This is the
 start of a function. C Functions are declared with their name, arguments
 and return type. This declaration says that the function\'s name is
 `main`, it returns an `int` (integer - 4 bytes long on the x86
@@ -6813,7 +6817,7 @@ most often on Linux and UNIX-based ones. Anyway, here is the Perl
 version of the program, which should be typed into a file named
 `hello-world.pl`:
 
-```{.perl include=resource/asm/hello-world.pl}
+```{.perl .numberLines include=resource/asm/hello-world.pl}
 ```
 
 Since Perl is interpreted, you don\'t need to compile or link it. Just
@@ -6861,7 +6865,7 @@ Perl one. However, Python is really a very different language than Perl,
 even if it doesn\'t seem so from this trivial example. Type the program
 into a file named `hello-world.py`. The program follows:
 
-```{.python include=resource/asm/hello-world.py}
+```{.python .numberLines include=resource/asm/hello-world.py}
 ```
 
 Since Python is interpreted, you don\'t need to compile or link it. Just
@@ -7699,7 +7703,7 @@ Run it by typing `./gnome-example-c`.
 
 Finally, we have a version in Python. Type it in as `gnome-example.py`:
 
-```{.python include=resource/asm/gnome-example.py}
+```{.python .numberLines include=resource/asm/gnome-example.py}
 ```
 
 To run it type `python gnome-example.py`.
@@ -8931,7 +8935,9 @@ ld -o maximum    maximum.o
 ```
 
 Linking would be the same as normal. \"stabs\" is the debugging format
-used by GDB. Now, to run the program under the debugger, you would type
+used by GDB. The `plus(+)` means that it provides the GNU extension
+which is the location of the current working directory.
+Now, to run the program under the debugger, you would type
 in `gdb ./maximum`. Be sure that the source files are in the current
 directory. The output should look similar to this:
 
@@ -9152,7 +9158,7 @@ _%ebp_ and the copying of _%esp_). To send arguments through the GDB is
 necessary to type `set args` and the arguments same as we usually do in
 the command line.
 
-<!-- TODO: Personal. Looks like this is not a good example for the command nexti vs stepi. -->
+<!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
 
 ```{.bash}
 as -o factorial.o  factorial.s --gstabs+
