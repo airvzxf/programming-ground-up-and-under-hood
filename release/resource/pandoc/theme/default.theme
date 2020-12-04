@@ -1,8 +1,8 @@
 {
     "text-color": "#000000",
     "background-color": "#eeeeee",
-    "line-number-color": "#ff0000",
-    "line-number-background-color": "#0000ff",
+    "line-number-color": "#333333",
+    "line-number-background-color": null,
 
     "text-styles": {
         "Alert": {

@@ -1,5 +1,7 @@
-/* PURPOSE:  This program is meant to be an example of what GUI programs
-             look like written with the GNOME libraries.
+/* PURPOSE:
+ *     This program is meant to be an example of what
+ *     GUI programs look like written with the GNOME
+ *     libraries.
  */
 
 #include <gnome.h>;
@@ -8,8 +10,8 @@
 #define MY_APP_TITLE "Gnome Example Program"
 #define MY_APP_ID "gnome-example"
 #define MY_APP_VERSION "1.000"
-#define MY_BUTTON_TEXT "I Want to Quit the Example Program"
-#define MY_QUIT_QUESTION "Are you sure you want to quit?"
+#define MY_BUTTON_TEXT "I Want to Quit this Program"
+#define MY_QUIT_QUESTION "Are you sure? Quit?"
 
 /* Must declare functions before they are used. */
 int destroy_handler(gpointer window,
@@ -34,9 +36,11 @@ int main(int argc, char **argv)
     appPtr = gnome_app_new(MY_APP_ID, MY_APP_TITLE);
 
     /* Create new button. */
-    btnQuit = gtk_button_new_with_label(MY_BUTTON_TEXT);
+    btnQuit = gtk_button_new_with_label(
+                                    MY_BUTTON_TEXT);
 
-    /* Make the button show up inside the application window. */
+    /* Make the button show up inside the */
+    /* application window. */
     gnome_app_set_contents(appPtr, btnQuit);
 
     /* Makes the button show up. */
@@ -99,8 +103,10 @@ int click_handler(gpointer window,
     /* Run dialog box. */
     buttonClicked = gnome_dialog_run_and_close(msgbox);
 
-    /* Button 0 is the Yes button.  If this is the button they clicked
-       on, tell GNOME to quit it's event loop.  Otherwise, do nothing. */
+    /* Button 0 is the Yes button.  If this is the
+     * button they clicked
+     * on, tell GNOME to quit it's event loop.
+     * Otherwise, do nothing. */
     if(buttonClicked == 0)
     {
         gtk_main_quit();
