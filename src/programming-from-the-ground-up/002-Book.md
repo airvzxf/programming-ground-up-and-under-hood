@@ -765,7 +765,7 @@ human-readable file into a machine-readable one. To assembly the program
 type in the command:
 
 ```{.bash}
-as -o exit.o  exit.s
+as -o exit.o  exit.s --gstabs+
 ```
 
 `as` is the command which runs the assembler, `exit.s` is the source
@@ -1190,7 +1190,7 @@ Enter the following program as `maximum.s`:
 Now, assemble and link it with these commands:
 
 ```{.bash}
-as -o maximum.o  maximum.s
+as -o maximum.o  maximum.s --gstabs+
 ld -o maximum    maximum.o
 ```
 
@@ -1540,7 +1540,9 @@ All of the fields are optional. To calculate the address, simply perform
 the following calculation:
 
 ```{.gnuassembler .numberLines}
-FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
+FINAL ADDRESS =
+    ADDRESS_OR_OFFSET + %BASE_OR_OFFSET +
+    MULTIPLIER * %INDEX
 ```
 
 `ADDRESS_OR_OFFSET` and `MULTIPLIER` must both be constants, while the
@@ -1652,19 +1654,19 @@ register for either a byte or a word, but never both at the same time.
     |=======================================|
     |-----------------%eax------------------| ===> 32-bit = 4-byte.
     |-------------------|--------%ax--------| ===> 16-bit = 2-byte.
-    |-------------------|---%ah---|---%al---| ===>  8-bit = 1-byte each one.
+    |-------------------|---%ah---|---%al---| ===>  8-bit = 1-byte.
     |=======================================|
     |-----------------%ebx------------------| ===> 32-bit = 4-byte.
     |-------------------|--------%bx--------| ===> 16-bit = 2-byte.
-    |-------------------|---%bh---|---%bl---| ===>  8-bit = 1-byte each one.
+    |-------------------|---%bh---|---%bl---| ===>  8-bit = 1-byte.
     |=======================================|
     |-----------------%ecx------------------| ===> 32-bit = 4-byte.
     |-------------------|--------%cx--------| ===> 16-bit = 2-byte.
-    |-------------------|---%ch---|---%cl---| ===>  8-bit = 1-byte each one.
+    |-------------------|---%ch---|---%cl---| ===>  8-bit = 1-byte.
     |=======================================|
     |-----------------%edx------------------| ===> 32-bit = 4-byte.
     |-------------------|--------%dx--------| ===> 16-bit = 2-byte.
-    |-------------------|---%dh---|---%dl---| ===>  8-bit = 1-byte each one.
+    |-------------------|---%dh---|---%dl---| ===>  8-bit = 1-byte.
     |=======================================|
 
 For a more comprehensive list of instructions, see
@@ -2397,7 +2399,7 @@ Let\'s look at the code to see how this works:
 Assemble, link, and run it with these commands:
 
 ```{.bash}
-as -o factorial.o  factorial.s
+as -o factorial.o  factorial.s --gstabs+
 ld -o factorial    factorial.o
 ./factorial
 echo $?
@@ -2942,7 +2944,7 @@ Type in this program as `toupper.s`, and then enter in the
 following commands:
 
 ```{.bash}
-as -o toupper.o  toupper.s
+as -o toupper.o  toupper.s --gstabs+
 ld -o toupper    toupper.o
 ```
 
@@ -3388,8 +3390,8 @@ their defined lengths.
 To build the application, run the commands:
 
 ```{.bash}
-as -o write-records.o  write-records.s
-as -o write-record.o   write-record.s
+as -o write-records.o  write-records.s --gstabs+
+as -o write-record.o   write-record.s  --gstabs+
 ld -o write-records    write-record.o write-records.o
 ```
 
@@ -3462,10 +3464,10 @@ To build this program, we need to assemble all of the parts and link
 them together:
 
 ```{.bash}
-as -o read-record.o    read-record.s
-as -o count-chars.o    count-chars.s
-as -o write-newline.o  write-newline.s
-as -o read-records.o   read-records.s
+as -o read-record.o    read-record.s   --gstabs+
+as -o count-chars.o    count-chars.s   --gstabs+
+as -o write-newline.o  write-newline.s --gstabs+
+as -o read-records.o   read-records.s  --gstabs+
 ld -o read-records     read-record.o count-chars.o \
                        write-newline.o read-records.o
 ```
@@ -3520,7 +3522,7 @@ is pretty straightforward.[^6-3]
 You can type it in as `add-year.s`. To build it, type the following[^6-4]:
 
 ```{.bash}
-as -o add-year.o  add-year.s
+as -o add-year.o  add-year.s --gstabs+
 ld -o add-year    add-year.o read-record.o write-record.o
 ```
 
@@ -3948,8 +3950,8 @@ error checking and handling code.
 To assemble and link the files, do:
 
 ```{.bash}
-as -o add-year.o    add-year.s
-as -o error-exit.o  error-exit.s
+as -o add-year.o    add-year.s   --gstabs+
+as -o error-exit.o  error-exit.s --gstabs+
 ld -o add-year      add-year.o write-newline.o error-exit.o \
                     read-record.o write-record.o count-chars.o
 ```
@@ -4093,14 +4095,14 @@ little different than normal. You can build the first program normally
 by doing this:
 
 ```{.bash}
-as -o helloworld-nolib.o  helloworld-nolib.s
+as -o helloworld-nolib.o  helloworld-nolib.s --gstabs+
 ld -o helloworld-nolib    helloworld-nolib.o
 ```
 
 However, in order to build the second program, you have to do this:
 
 ```{.bash}
-as -o helloworld-lib.o  helloworld-lib.s
+as -o helloworld-lib.o  helloworld-lib.s --gstabs+
 ld -o helloworld-lib    helloworld-lib.o \
                         -lc -dynamic-linker /lib/ld-linux.so.2
 ```
@@ -4258,7 +4260,7 @@ Type it in with the filename `printf-example.s`, and then do the
 following commands:
 
 ```{.bash}
-as -o printf-example.o  printf-example.s
+as -o printf-example.o  printf-example.s --gstabs+
 ld -o printf-example    printf-example.o \
                         -lc -dynamic-linker /lib/ld-linux.so.2
 ```
@@ -4438,8 +4440,8 @@ use in our programs. The first thing we would do is assemble them like
 normal:
 
 ```{.bash}
-as -o write-record.o  write-record.s
-as -o read-record.o   read-record.s
+as -o write-record.o  write-record.s --gstabs+
+as -o read-record.o   read-record.s  --gstabs+
 ```
 
 Now, instead of linking them into a program, we want to link them into a
@@ -4459,7 +4461,7 @@ Let\'s look at how we would link against this library. To link the
 `write-records` program, we would do the following:
 
 ```{.bash}
-as -o write-records.o  write-records.s
+as -o write-records.o  write-records.s --gstabs+
 ld -o write-records    write-records.o \
                        -lrecord \
                        -L . \
@@ -4813,6 +4815,8 @@ program, 0x08048000. The last accessible memory address to your program
 is called the *system break* (also called the *current
 break* or just the *break*).
 
+<!-- TODO: Personal -> Convert the image into the text table. -->
+
 ![*Memory Layout of a Linux Program at Startup*](resource/image/memorylayout.png)
 
 Every Memory Address is a Lie
@@ -5030,7 +5034,7 @@ utility to be used by other programs.
 To assemble the program, do the following:
 
 ```{.bash}
-as -o alloc.o  alloc.s
+as -o alloc.o  alloc.s --gstabs+
 ```
 
 Okay, now let\'s look at the code.
@@ -5503,7 +5507,7 @@ call  deallocate
 Now you can build your program with the following commands:
 
 ```{.bash}
-as -o read-records.o  read-records.s
+as -o read-records.o  read-records.s --gstabs+
 ld -o read-records    alloc.o read-record.o read-records.o \
                       write-newline.o count-chars.o
 ```
@@ -6103,21 +6107,24 @@ print the results. The code would look like this:
 #
 # My Dad's preferences
 #
-movl  %ebx, %eax                        # This copies the information into
-                                        # %eax so we don't lose the
-                                        # original data.
+movl  %ebx, %eax    # This copies the information into
+                    # %eax so we don't lose the
+                    # original data.
 
-shrl  $1, %eax                          # This is the shift operator.
-                                        # It stands for Shift Right Long.
-                                        # This first number is the number
-                                        # of positions to shift,
-                                        # and the second is the register
-                                        # to shift.
+shrl  $1, %eax      # This is the shift operator.
+                    # It stands for Shift Right Long.
+                    # This first number is the number
+                    # of positions to shift,
+                    # and the second is the register
+                    # to shift.
 
-andl  $0b00000000000000000000000000000001, %eax   # This does the masking.
+                            # This does the masking.
+andl  $0b00000000000000000000000000000001, %eax   
 
-cmpl  $0b00000000000000000000000000000001, %eax   # Check to see if the
-                                                  # result is 1 or 0.
+                            # Check to see if the
+                            # result is 1 or 0.
+cmpl  $0b00000000000000000000000000000001, %eax   
+                                                  
 
 je    yes_he_likes_dressy_clothes
 
@@ -6512,10 +6519,10 @@ previous chapters. The code should be in a file called
 To build the program, issue the following commands:
 
 ```{.bash}
-as -o integer-to-number.o   integer-to-string.s
-as -o count-chars.o         count-chars.s
-as -o write-newline.o       write-newline.s
-as -o conversion-program.o  conversion-program.s
+as -o integer-to-number.o   integer-to-string.s  --gstabs+
+as -o count-chars.o         count-chars.s        --gstabs+
+as -o write-newline.o       write-newline.s      --gstabs+
+as -o conversion-program.o  conversion-program.s --gstabs+
 ld -o conversion-program    integer-to-number.o count-chars.o \
                             write-newline.o conversion-program.o
 ```
@@ -7582,7 +7589,7 @@ program, type in the following as `gnome-example.s`:
 To build this application, execute the following commands:
 
 ```{.bash}
-as  -o gnome-example.o  gnome-example.s
+as  -o gnome-example.o  gnome-example.s --gstabs+
 gcc -o gnome-example    gnome-example.o `gnome-config --libs gnomeui`
 ```
 
@@ -7798,7 +7805,7 @@ mostly used for moving data from one place to another.
 An example of this table is the `movl` instruction which could read
 like this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl   I/R/M,  I/R/M      # eFlags affected: O/S/Z/A/C
 movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
 movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
@@ -8201,23 +8208,23 @@ Other differences exist, but they are small in comparison. To show some
 of the differences, consider the following instruction:
 
 ```{.gnuassembler .numberLines}
-movl $5, %eax               # 1
-movl 12(%ebx), %eax         # 2
-movl (%ebx,%edi), %ecx      # 3
-movl 8(%ebx,%edi), %eax     # 4
-movl (%ebx,%edi,4), %eax    # 5
-movl 8(%ebx,%edi,4), %eax   # 6
+movl $5, %eax
+movl 12(%ebx), %eax
+movl (%ebx,%edi), %ecx
+movl 8(%ebx,%edi), %eax
+movl (%ebx,%edi,4), %eax
+movl 8(%ebx,%edi,4), %eax
 ```
 
 In Intel syntax, this would be written as:
 
-```{.nasm}
-mov  eax, 5                 ; 1
-mov  eax, [ebx+12]          ; 2
-mov  ecx, [ebx+edi]         ; 3
-mov  eax, [ebx+edi+8]       ; 4
-mov  eax, [ebx+edi*4]       ; 5
-mov  eax, [ebx+edi*4+8]     ; 6
+```{.nasm .numberLines}
+mov  eax, 5
+mov  eax, [ebx+12]
+mov  ecx, [ebx+edi]
+mov  eax, [ebx+edi+8]
+mov  eax, [ebx+edi*4]
+mov  eax, [ebx+edi*4+8]
 ```
 
 The memory reference is a bit easier to read than its AT&T counterpart
@@ -8464,23 +8471,23 @@ else
 In assembly language, this can be rendered as:
 
 ```{.gnuassembler .numberLines}
-    movl a, %eax                        # Move a and b into registers for
-    movl b, %ebx                        # comparison.
+    movl a, %eax        # Move a and b into registers
+    movl b, %ebx        # for comparison.
 
-    cmpl %eax, %ebx                     # Compare.
+    cmpl %eax, %ebx     # Compare.
 
-    je true_branch                      # If True, go to true branch.
+    je true_branch      # If True, go to true branch.
 
-false_branch:                           # This label is unnecessary, 
-                                        # only here for documentation.
-                                        # False branch code here.
+false_branch:           # This label is unnecessary, 
+                        # only here for documentation.
+                        # False branch code here.
 
-    jmp reconverge                      # Jump to recovergence point.
+    jmp reconverge      # Jump to recovergence point.
 
-true_branch:                            # True branch code here.
+true_branch:            # True branch code here.
 
-reconverge:                             # Both branches recoverge to this
-                                        # point.
+reconverge:             # Both branches recoverge to 
+                        # this point.
 ```
 
 As you can see, since assembly language is linear, the blocks have to
@@ -8513,11 +8520,11 @@ In assembly language, this would be rendered as:
     pushl $text_string
     call  printf
     popl  %eax
-    popl  %eax                          # %eax is just a dummy variable,
-                                        # nothing is actually being done 
-                                        # with the value.  You can also 
-                                        # directly re-adjust %esp to the
-                                        # proper location.
+    popl  %eax      # %eax is just a dummy variable,
+                    # nothing is actually being done
+                    # with the value.  You can also 
+                    # directly re-adjust %esp to the
+                    # proper location.
 ```
 
 Variables and Assignment
@@ -8556,17 +8563,20 @@ This would be rendered in assembly language as:
     .type  foo,  @function
 
 foo:
-    pushl %ebp                          # Save old base pointer.
-    movl  %esp, $ebp                    # make stack pointer base pointer.
-    subl  $4, %esp                      # Make room for my_local_var.
-    .equ my_local_var, -4               # Can now use my_local_var to 
-                                        # find the local variable.
+    pushl %ebp              # Save old base pointer.
+    movl  %esp, $ebp        # Make stack pointer base
+                            # pointer.
+    subl  $4, %esp          # Make room for
+                            # my_local_var.
+    .equ my_local_var, -4   # Can now use my_local_var
+                            # to find the local
+                            # variable.
 
     movl  $1, my_local_var(%ebp)
     movl  $2, my_global_var
 
-    movl  %ebp, %esp                    # Clean up function and return.
-    popl  %ebp
+    movl  %ebp, %esp        # Clean up function and 
+    popl  %ebp              # return.
     ret
 ```
 
@@ -8619,11 +8629,11 @@ loop_begin:
     cmpl  %eax, %ebx
     jge   loop_end
 
-loop_body:                              # Do stuff here.
+loop_body:                  # Do stuff here.
     
     jmp loop_begin
 
-loop_end:                               # Finished looping.
+loop_end:                   # Finished looping.
 ```
 
 The x86 assembly language has some direct support for looping as well.
@@ -8645,11 +8655,11 @@ In assembly language it would be written like this:
 loop_initialize:
     movl $100, %ecx
 
-loop_begin:                             # Do Process Here.
-    loop loop_begin                     # Decrement %ecx and loops if not
-                                        # zero.
+loop_begin:                 # Do Process Here.
+    loop loop_begin         # Decrement %ecx and loops
+                            # if not zero.
 
-rest_of_program:                        # Continues on to here.
+rest_of_program:            # Continues on to here.
 ```
 
 One thing to notice is that the `loop` instruction *requires you to be
@@ -8701,16 +8711,19 @@ void foo()
 In assembly language you would have:
 
 ```{.gnuassembler .numberLines}
-foo:                                    # Standard header beginning.
+foo:                        # Standard header beginning
     pushl %ebp
     movl %esp, %ebp
 
-    subl $PERSON_SIZE, %esp             # Reserve our local variable.
-    .equ P_VAR, 0 - PERSON_SIZE         # This is the variable's offset
-                                        # from %ebp.
-                                        # Do stuff here.
+    subl $PERSON_SIZE, %esp     # Reserve our local
+                                # variable.
+    .equ P_VAR, 0 - PERSON_SIZE # This is the 
+                                # variable's offset
+                                # from %ebp.
 
-    movl %ebp, %esp                     # Standard function ending.
+                            # Do stuff here.
+
+    movl %ebp, %esp         # Standard function ending.
     popl %ebp
     ret
 ```
@@ -8785,22 +8798,22 @@ The same code in assembly language:
 
 ```{.gnuassembler .numberLines}
 foo:
-    pushl %ebp                          # Standard opening.
+    pushl %ebp              # Standard opening.
     movl  %esp, %ebp
 
-    subl  $8, $esp                      # Reserve two words of memory.
-    .equ A_VAR, -4
+    subl  $8, $esp          # Reserve two words of
+    .equ A_VAR, -4          # memory.
     .equ B_VAR, -8
 
-    movl $30, A_VAR(%ebp)               # a = 30.
+    movl $30, A_VAR(%ebp)           # a = 30.
 
-    movl $A_VAR, B_VAR(%ebp)            # b = &a.
+    movl $A_VAR, B_VAR(%ebp)        # b = &a.
     addl %ebp, B_VAR(%ebp)
 
-    movl B_VAR(%ebp), %eax              # *b = 30.
+    movl B_VAR(%ebp), %eax          # *b = 30.
     movl $30, (%eax)
 
-    movl %ebp, %esp                     # Standard closing.
+    movl %ebp, %esp         # Standard closing.
     popl %ebp
     ret
 ```
@@ -8813,7 +8826,7 @@ the computer compute the address, and then load it wherever you want.
 So, we could just say:
 
 ```{.gnuassembler .numberLines}
-leal A_VAR(%ebp), %eax                  # b = &a.
+leal A_VAR(%ebp), %eax              # b = &a.
 movl %eax, B_VAR(%ebp)
 ```
 
