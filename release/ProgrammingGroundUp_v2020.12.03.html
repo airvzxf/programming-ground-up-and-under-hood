@@ -1542,7 +1542,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>This section begins with a list of constants that we will use The reason these are put here rather than at the top is that they only deal with this one function. We have these definitions:</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb70-1"><a href="#cb70-1"></a><span class="cn">.equ</span>  LOWERCASE_A,       <span class="ch">&#39;a&#39;</span></span>
 <span id="cb70-2"><a href="#cb70-2"></a><span class="cn">.equ</span>  LOWERCASE_Z,       <span class="ch">&#39;z&#39;</span></span>
-<span id="cb70-3"><a href="#cb70-3"></a><span class="cn">.equ</span>  UPPER_CONVERSION,  <span class="ch">&#39;A&#39;</span> - <span class="ch">&#39;a&#39;</span> </span></code></pre></div>
+<span id="cb70-3"><a href="#cb70-3"></a><span class="cn">.equ</span>  UPPER_CONVERSION,  <span class="ch">&#39;A&#39;</span> - <span class="ch">&#39;a&#39;</span></span></code></pre></div>
 <p>The first two simply define the letters that are the boundaries of what we are searching for. Remember that in the computer, letters are represented as numbers. Therefore, we can use <code>LOWERCASE_A</code> in comparisons, additions, subtractions, or anything else we can use numbers in. Also, notice we define the constant <code>UPPER_CONVERSION</code>. Since letters are represented as numbers, we can subtract them. Subtracting an upper-case letter from the same lower-case letter gives us how much we need to add to a lower-case letter to make it upper case. If that doesn't make sense, look at the ASCII code tables themselves (see the <a href="#appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</a>). You'll notice that the number for the character <code>A</code> is 65 and the character <code>a</code> is 97. The conversion factor is then -32. For any lowercase letter if you add -32, you will get its capital equivalent.</p>
 <p>After this, we have some constants labelled <code>STACK POSITIONS</code>. Remember that function parameters are pushed onto the stack before function calls. These constants (prefixed with <code>ST</code> for clarity) define where in the stack we should expect to find each piece of data. The return address is at position 4 + <em>%esp</em>, the length of the buffer is at position 8 + <em>%esp</em>, and the address of the buffer is at position 12 + <em>%esp</em>. Using symbols for these numbers instead of the numbers themselves makes it easier to see what data is being used and moved.</p>
 <p>Next comes the label <code>convert_to_upper</code>. This is the entry point of the function. The first two lines are our standard function lines to save the stack pointer. The next two lines:</p>
@@ -2575,7 +2575,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">-dynamic-linker</span> /lib/ld-linux.so.2</span></code></pre></div>
 <p>In this command, <code>-L .</code> told the linker to look for libraries in the current directory (it usually only searches <code>/lib</code> directory, <code>/usr/lib</code> directory, and a few others). As we've seen, the option <code>-dynamic-linker /lib/ld-linux.so.2</code> specified the dynamic linker. The option <code>-lrecord</code> tells the linker to search for functions in the file named <code>librecord.so</code>.</p>
 <p>Now the <code>write-records</code> program is built, but it will not run. If we try it, we will get an error like the following:</p>
-<pre><code>./write-records: error while loading shared libraries: 
+<pre><code>./write-records: error while loading shared libraries:
 librecord.so: cannot open shared object file: No such file or directory</code></pre>
 <p>This is because, by default, the dynamic linker only searches <code>/lib</code>, <code>/usr/lib</code>, and whatever directories are listed in <code>/etc/ld.so.conf</code> for libraries. In order to run the program, you either need to move the library to one of these directories, or execute the following command:</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>LD_LIBRARY_PATH=.</span>
@@ -3338,15 +3338,15 @@ Table of binary multiplication
  1 group of 128 (2^7)</code></pre>
 <p>And then we add all of the pieces together, like this:</p>
 <pre><code>1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 =
-128 + 16 + 4 + 1 = 
+128 + 16 + 4 + 1 =
 149</code></pre>
 <p>So 10010101 in binary is 149 in decimal. Let's look at 1100101. It can be written as:</p>
 <pre><code>1*64 + 1*32 + 0 * 16 + 0*8 + 1*4 + 0*2 + 1*1 =
 64 + 32 + 4 + 1 =
 101</code></pre>
 <p>So we see that 1100101 in binary is 101 in decimal. Let's look at one more number, 11101011001001. You can convert it to decimal by doing:</p>
-<pre><code>1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256 
-       + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4 
+<pre><code>1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256
+       + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4
        + 0*2 + 1*1 =
 
 8192 + 4096 + 2048 + 512 + 128 + 64 + 8 + 1 =
@@ -3373,8 +3373,8 @@ Table of binary multiplication
 <p>Each digit in a binary number is called a <em>bit</em>, which stands for <em>binary digit</em>. Remember, computers divide up their memory into storage locations called bytes. Each storage location on an x86 processor (and most others) is 8 bits long. Earlier we said that a byte can hold any number between 0 and 255. The reason for this is that the largest number you can fit into 8 bits is 255. You can see this for yourself if you convert binary 11111111 into decimal:</p>
 <pre><code>11111111 =
 
-(1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3) 
-          + (1 * 2^2) + (1 * 2^1) + (1 * 2^0) = 
+(1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3)
+          + (1 * 2^2) + (1 * 2^1) + (1 * 2^0) =
 
 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 =
 
@@ -3409,7 +3409,7 @@ Table of binary multiplication
 --------------------------------
 10000000000000010101000100101010</code></pre>
 <p>You'll see that the resulting set of bits only has a one where <em>both</em> numbers had a one, and in every other position it has a zero. Let's look at what an OR looks like:</p>
-<pre><code>10100010101010010101101100101010 OR 
+<pre><code>10100010101010010101101100101010 OR
 10001000010101010101010101111010
 --------------------------------
 10101010111111010101111101111010</code></pre>
@@ -3418,12 +3418,12 @@ Table of binary multiplication
 ------------------------------------
 01011101010101101010010011010101</code></pre>
 <p>This just reverses each digit. Finally, we have XOR, which is like an OR, except if <em>both</em> digits are 1, it returns 0.</p>
-<pre><code>10100010101010010101101100101010 XOR 
+<pre><code>10100010101010010101101100101010 XOR
 10001000010101010101010101111010
 --------------------------------
 00101010111111000000111001010000</code></pre>
 <p>This is the same two numbers used in the OR operation, so you can compare how they work. Also, if you XOR a number with itself, you will always get 0, like this:</p>
-<pre><code>10100010101010010101101100101010 XOR 
+<pre><code>10100010101010010101101100101010 XOR
 10100010101010010101101100101010
 --------------------------------
 00000000000000000000000000000000</code></pre>
@@ -3511,12 +3511,12 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb182-14"><a href="#cb182-14"></a>                    <span class="co"># to shift.</span></span>
 <span id="cb182-15"><a href="#cb182-15"></a></span>
 <span id="cb182-16"><a href="#cb182-16"></a>                            <span class="co"># This does the masking.</span></span>
-<span id="cb182-17"><a href="#cb182-17"></a><span class="op">andl</span>  $<span class="bn">0b00000000000000000000000000000001</span>, <span class="va">%eax</span>   </span>
+<span id="cb182-17"><a href="#cb182-17"></a><span class="op">andl</span>  $<span class="bn">0b00000000000000000000000000000001</span>, <span class="va">%eax</span></span>
 <span id="cb182-18"><a href="#cb182-18"></a></span>
 <span id="cb182-19"><a href="#cb182-19"></a>                            <span class="co"># Check to see if the</span></span>
 <span id="cb182-20"><a href="#cb182-20"></a>                            <span class="co"># result is 1 or 0.</span></span>
-<span id="cb182-21"><a href="#cb182-21"></a><span class="op">cmpl</span>  $<span class="bn">0b00000000000000000000000000000001</span>, <span class="va">%eax</span>   </span>
-<span id="cb182-22"><a href="#cb182-22"></a>                                                  </span>
+<span id="cb182-21"><a href="#cb182-21"></a><span class="op">cmpl</span>  $<span class="bn">0b00000000000000000000000000000001</span>, <span class="va">%eax</span></span>
+<span id="cb182-22"><a href="#cb182-22"></a></span>
 <span id="cb182-23"><a href="#cb182-23"></a></span>
 <span id="cb182-24"><a href="#cb182-24"></a><span class="cf">je</span>    yes_he_likes_dressy_clothes</span>
 <span id="cb182-25"><a href="#cb182-25"></a></span>
@@ -5231,7 +5231,7 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb205-5"><a href="#cb205-5"></a></span>
 <span id="cb205-6"><a href="#cb205-6"></a>    <span class="cf">je</span> true_branch      <span class="co"># If True, go to true branch.</span></span>
 <span id="cb205-7"><a href="#cb205-7"></a></span>
-<span id="cb205-8"><a href="#cb205-8"></a>false_branch:           <span class="co"># This label is unnecessary, </span></span>
+<span id="cb205-8"><a href="#cb205-8"></a>false_branch:           <span class="co"># This label is unnecessary,</span></span>
 <span id="cb205-9"><a href="#cb205-9"></a>                        <span class="co"># only here for documentation.</span></span>
 <span id="cb205-10"><a href="#cb205-10"></a>                        <span class="co"># False branch code here.</span></span>
 <span id="cb205-11"><a href="#cb205-11"></a></span>
@@ -5239,7 +5239,7 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb205-13"><a href="#cb205-13"></a></span>
 <span id="cb205-14"><a href="#cb205-14"></a>true_branch:            <span class="co"># True branch code here.</span></span>
 <span id="cb205-15"><a href="#cb205-15"></a></span>
-<span id="cb205-16"><a href="#cb205-16"></a>reconverge:             <span class="co"># Both branches recoverge to </span></span>
+<span id="cb205-16"><a href="#cb205-16"></a>reconverge:             <span class="co"># Both branches recoverge to</span></span>
 <span id="cb205-17"><a href="#cb205-17"></a>                        <span class="co"># this point.</span></span></code></pre></div>
 <p>As you can see, since assembly language is linear, the blocks have to jump around each other. Recovergence is handled by the programmer, not the system.</p>
 <p>A case statement is written just like a sequence of if statements.</p>
@@ -5258,7 +5258,7 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb207-9"><a href="#cb207-9"></a>    <span class="kw">popl</span>  <span class="va">%eax</span></span>
 <span id="cb207-10"><a href="#cb207-10"></a>    <span class="kw">popl</span>  <span class="va">%eax</span>      <span class="co"># %eax is just a dummy variable,</span></span>
 <span id="cb207-11"><a href="#cb207-11"></a>                    <span class="co"># nothing is actually being done</span></span>
-<span id="cb207-12"><a href="#cb207-12"></a>                    <span class="co"># with the value.  You can also </span></span>
+<span id="cb207-12"><a href="#cb207-12"></a>                    <span class="co"># with the value.  You can also</span></span>
 <span id="cb207-13"><a href="#cb207-13"></a>                    <span class="co"># directly re-adjust %esp to the</span></span>
 <span id="cb207-14"><a href="#cb207-14"></a>                    <span class="co"># proper location.</span></span></code></pre></div>
 <h2 id="variables-and-assignment">Variables and Assignment</h2>
@@ -5294,7 +5294,7 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb209-16"><a href="#cb209-16"></a>    <span class="kw">movl</span>  $<span class="dv">1</span>, my_local_var(<span class="va">%ebp</span>)</span>
 <span id="cb209-17"><a href="#cb209-17"></a>    <span class="kw">movl</span>  $<span class="dv">2</span>, my_global_var</span>
 <span id="cb209-18"><a href="#cb209-18"></a></span>
-<span id="cb209-19"><a href="#cb209-19"></a>    <span class="kw">movl</span>  <span class="va">%ebp</span>, <span class="va">%esp</span>        <span class="co"># Clean up function and </span></span>
+<span id="cb209-19"><a href="#cb209-19"></a>    <span class="kw">movl</span>  <span class="va">%ebp</span>, <span class="va">%esp</span>        <span class="co"># Clean up function and</span></span>
 <span id="cb209-20"><a href="#cb209-20"></a>    <span class="kw">popl</span>  <span class="va">%ebp</span>              <span class="co"># return.</span></span>
 <span id="cb209-21"><a href="#cb209-21"></a>    <span class="cf">ret</span></span></code></pre></div>
 <p>What may not be obvious is that accessing the global variable takes fewer machine cycles than accessing the local variable. However, that may not matter because the stack is more likely to be in physical memory (instead of swap) than the global variable is.</p>
@@ -5316,7 +5316,7 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb211-5"><a href="#cb211-5"></a>    <span class="cf">jge</span>   loop_end</span>
 <span id="cb211-6"><a href="#cb211-6"></a></span>
 <span id="cb211-7"><a href="#cb211-7"></a>loop_body:                  <span class="co"># Do stuff here.</span></span>
-<span id="cb211-8"><a href="#cb211-8"></a>    </span>
+<span id="cb211-8"><a href="#cb211-8"></a></span>
 <span id="cb211-9"><a href="#cb211-9"></a>    <span class="cf">jmp</span> loop_begin</span>
 <span id="cb211-10"><a href="#cb211-10"></a></span>
 <span id="cb211-11"><a href="#cb211-11"></a>loop_end:                   <span class="co"># Finished looping.</span></span></code></pre></div>
@@ -5362,7 +5362,7 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb217-4"><a href="#cb217-4"></a></span>
 <span id="cb217-5"><a href="#cb217-5"></a>    <span class="op">subl</span> $PERSON_SIZE, <span class="va">%esp</span>     <span class="co"># Reserve our local</span></span>
 <span id="cb217-6"><a href="#cb217-6"></a>                                <span class="co"># variable.</span></span>
-<span id="cb217-7"><a href="#cb217-7"></a>    <span class="cn">.equ</span> P_VAR, <span class="dv">0</span> - PERSON_SIZE <span class="co"># This is the </span></span>
+<span id="cb217-7"><a href="#cb217-7"></a>    <span class="cn">.equ</span> P_VAR, <span class="dv">0</span> - PERSON_SIZE <span class="co"># This is the</span></span>
 <span id="cb217-8"><a href="#cb217-8"></a>                                <span class="co"># variable&#39;s offset</span></span>
 <span id="cb217-9"><a href="#cb217-9"></a>                                <span class="co"># from %ebp.</span></span>
 <span id="cb217-10"><a href="#cb217-10"></a></span>
@@ -5553,7 +5553,7 @@ warning: Source file is more recent than executable.
 <!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
 <div class="sourceCode" id="cb240"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> factorial.o  factorial.s <span class="at">--gstabs+</span></span>
 <span id="cb240-2"><a href="#cb240-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> factorial    factorial.o</span></code></pre></div>
-<pre><code>$ gdb ./factorial 
+<pre><code>$ gdb ./factorial
 GNU gdb (GDB) 10.1
 For help, type &quot;help&quot;.
 
@@ -5563,7 +5563,7 @@ For help, type &quot;help&quot;.
 Breakpoint 1 at 0x401013: file factorial.s, line 34.</code></pre>
 <p>When stepping through code, you often don't want to have to step through every instruction of every function. Well-tested functions are usually a waste of time to step through except on rare occasion. Therefore, if you use the <code>nexti</code> command instead of the <code>stepi</code> command, GDB will wait until completion of the function before going on. Otherwise, with <code>stepi</code>, GDB would step you through every instruction within every called function.</p>
 <pre><code>(gdb) run
-Starting program: /home/johnnyb/factorial 
+Starting program: /home/johnnyb/factorial
 Breakpoint 1, factorial () at factorial.s:34
 34          pushl %ebp
 
@@ -5582,7 +5582,7 @@ factorial () at factorial.s:40
 Program terminated with signal SIGSEGV, Segmentation fault.
 The program no longer exists.</code></pre>
 <p>Let’s see the differences between <code>stepi</code>:</p>
-<pre><code>$ gdb ./factorial 
+<pre><code>$ gdb ./factorial
 GNU gdb (GDB) 10.1
 Reading symbols from ./factorial...
 
@@ -5592,7 +5592,7 @@ Breakpoint 1 at 0x401013: file factorial.s, line 34.
 (gdb) set args 55
 
 (gdb) run
-Starting program: /home/johnnyb/factorial 
+Starting program: /home/johnnyb/factorial
 Breakpoint 1, factorial () at factorial.s:34
 34          pushl %ebp
 
