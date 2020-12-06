@@ -742,13 +742,13 @@ Entering in the Program
 Okay, this first program is simple. In fact, it\'s not going to do
 anything but exit! It\'s short, but it shows some basics about assembly
 language and Linux programming. You need to enter the program in an
-editor exactly as written, with the filename `exit.s`. The program
+editor exactly as written, with the filename `003-01-exit.s`. The program
 follows. Don\'t worry about not understanding it. This section only
 deals with typing it in and running it. In
 [Outline of an Assembly Language Program](#outline-of-an-assembly-language-program)
 we will describe how it works.
 
-```{.gnuassembler .numberLines include=resource/asm/exit.s}
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s}
 ```
 
 What you have typed in is called the *source code*. Source
@@ -765,12 +765,12 @@ human-readable file into a machine-readable one. To assembly the program
 type in the command:
 
 ```{.bash}
-as -o exit.o  exit.s --gstabs+
+as -o 003-01-exit.o  003-01-exit.s --gstabs+
 ```
 
-`as` is the command which runs the assembler, `exit.s` is the source
-file, and `-o exit.o` tells the assemble to put its output in
-the file `exit.o`. `exit.o` is an *object file*. An object
+`as` is the command which runs the assembler, `003-01-exit.s` is the source
+file, and `-o 003-01-exit.o` tells the assemble to put its output in
+the file `003-01-exit.o`. `003-01-exit.o` is an *object file*. An object
 file is code that is in the machine\'s language, but has not been
 completely put together. In most large programs, you will have several
 source files, and you will convert each one into an object file.
@@ -785,20 +785,20 @@ linker is only adding the information to enable it to run. To *link*
 the file, enter the command:
 
 ```{.bash}
-ld -o exit  exit.o
+ld -o 003-01-exit  003-01-exit.o
 ```
 
-`ld` is the command to run the linker, `exit.o` is the object file we
-want to link, and `-o exit` instructs the linker to output the new
-program into a file called `exit`.[^3-1] If any of these commands reported
+`ld` is the command to run the linker, `003-01-exit.o` is the object file we
+want to link, and `-o 003-01-exit` instructs the linker to output the new
+program into a file called `003-01-exit`.[^3-1] If any of these commands reported
 errors, you have either mistyped your program or the command. After
 correcting the program, you have to re-run all the commands. *You must
 always re-assemble and re-link programs after you modify the source file
-for the changes to occur in the program*. You can run `exit` by typing
+for the changes to occur in the program*. You can run `003-01-exit` by typing
 in the command:
 
 ```{.bash}
-./exit
+./003-01-exit
 ```
 
 The `./` is used to tell the computer that the program isn\'t in one
@@ -842,8 +842,7 @@ the following in your comments:
 
 After the comments, the next line says:
 
-```{.gnuassembler .numberLines}
-.section .data
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=17 endLine=17}
 ```
 
 Anything starting with a period isn\'t directly translated into a
@@ -859,8 +858,7 @@ program you write in the future will have data.
 
 Right after this you have:
 
-```{.gnuassembler .numberLines}
-.section .text
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=19 endLine=19}
 ```
 
 `.text` which starts the text section. The text sectiontext section of a
@@ -868,9 +866,9 @@ program is where the program instructions live.
 
 The next instruction is:
 
-```{.gnuassembler .numberLines}
-.globl _start
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=20 endLine=20}
 ```
+
 
 This instructs the assembler that `_start` is important to
 remember. `_start` is a *symbol*, which means that it is going to
@@ -894,9 +892,9 @@ know where to begin running your program*.
 
 The next line:
 
-```{.gnuassembler .numberLines}
-_start:
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=22 endLine=22}
 ```
+
 
 *defines* the value of the `_start` label. A *label* is a
 symbol followed by a colon. Labels define a symbol\'s value. When
@@ -910,9 +908,9 @@ the symbol automatically gets the new value.
 Now we get into actual computer instructions. The first such instruction
 is this:
 
-```{.gnuassembler .numberLines}
-movl $1, %eax
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=23 endLine=25}
 ```
+
 
 When the program runs, this instruction transfers the number `1` into
 the _%eax_ register. In assembly language, many instructions have
@@ -1005,8 +1003,7 @@ loaded in _%ebx_. This value is then returned to the system. This
 is the value you retrieved when you typed `echo $?`. So, we load _%ebx_
 with `0` by typing the following:
 
-```{.gnuassembler .numberLines}
-movl $0, %ebx
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=27 endLine=31}
 ```
 
 Now, loading registers with these numbers doesn\'t do anything
@@ -1024,8 +1021,7 @@ calls and what is required to be in each register, see
 
 The next instruction is the \"magic\" one. It looks like this:
 
-```{.gnuassembler .numberLines}
-int $0x80
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=33 endLine=34}
 ```
 
 The `int` stands for *interrupt*. The `0x80` is the
