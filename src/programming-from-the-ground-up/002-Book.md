@@ -2371,17 +2371,17 @@ the same time, all of them needing their own copies of the data![^4-6]
 Since local variables exist on the stack frame, and each function call
 gets its own stack frame, we are okay.
 
-Let\'s look at the code to see how this works:
+Let\'s look at the `004-02-factorial.s` code to see how this works:
 
-```{.gnuassembler .numberLines include=resource/asm/factorial.s}
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s}
 ```
 
 Assemble, link, and run it with these commands:
 
 ```{.bash}
-as -o factorial.o  factorial.s --gstabs+
-ld -o factorial    factorial.o
-./factorial
+as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
+ld -o 004-02-factorial    004-02-factorial.o
+./004-02-factorial
 echo $?
 ```
 
@@ -2391,10 +2391,7 @@ test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
 I\'m guessing you didn\'t understand the whole code listing. Let\'s go
 through it a line at a time to see what is happening.
 
-```{.gnuassembler .numberLines}
-_start:
-    pushl $4
-    call factorial
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=20 endLine=24}
 ```
 
 Okay, this program is intended to compute the factorial of the number 4.
@@ -2410,11 +2407,7 @@ stack. The `call` instruction then makes the function call.
 
 Next we have these lines:
 
-```{.gnuassembler .numberLines}
-addl  $4, %esp
-movl  %eax, %ebx
-movl  $1, %eax
-int   $0x80
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=25 endLine=34}
 ```
 
 This takes place after `factorial` has finished and computed the
@@ -2454,9 +2447,7 @@ implemented.
 
 Before the function starts, we have this directive:
 
-```{.gnuassembler .numberLines}
-    .type factorial,@function
-factorial:
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=39 endLine=40}
 ```
 
 The `.type` directive tells the linker that `factorial` is a
@@ -2468,9 +2459,7 @@ next instruction. That\'s how `call` knew where to go when we said
 
 The first real instructions of the function are:
 
-```{.gnuassembler .numberLines}
-pushl %ebp
-movl  %esp, %ebp
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=41 endLine=48}
 ```
 
 As shown in the previous program, this creates the stack frame for this
@@ -2478,8 +2467,7 @@ function. These two lines will be the way you should start every function.
 
 The next instruction is this:
 
-```{.gnuassembler .numberLines}
-movl  8(%ebp), %eax
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=50 endLine=54}
 ```
 
 This uses base pointer addressing mode to move
@@ -2497,17 +2485,14 @@ will be returned. It\'s already in _%eax_ which we mentioned earlier is
 where you put return values. That is accomplished by these
 lines:
 
-```{.gnuassembler .numberLines}
-cmpl $1, %eax
-je end_factorial
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=55 endLine=60}
 ```
 
 If it\'s not our base case, what did we say we would do? We would call
 the `factorial` function again with our parameter minus one. So, first
 we decrease _%eax_ by one:
 
-```{.gnuassembler .numberLines}
-decl %eax
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=61 endLine=62}
 ```
 
 `decl` stands for decrement. It subtracts 1 from the given register
@@ -2516,9 +2501,7 @@ adds 1. After decrementing _%eax_ we push it onto the stack since it\'s
 going to be the parameter of the next function call. And then we call
 `factorial` again!
 
-```{.gnuassembler .numberLines}
-pushl %eax
-call factorial
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=63 endLine=65}
 ```
 
 Okay, now we\'ve called `factorial`. One thing to remember is that after
@@ -2528,8 +2511,7 @@ and `%ebp`). So even though we had the value we were called with in
 stack from the same place we got it the first time (at `8(%ebp)`). So,
 we do this:
 
-```{.gnuassembler .numberLines}
-movl 8(%ebp), %ebx
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=66 endLine=68}
 ```
 
 Now, we want to multiply that number with the result of the factorial
@@ -2537,8 +2519,7 @@ function. If you remember our previous discussion, the result of
 functions are left in _%eax_. So, we need to multiply _%ebx_ with _%eax_. This is
 done with this instruction:
 
-```{.gnuassembler .numberLines}
-imull %ebx, %eax
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=69 endLine=75}
 ```
 
 This also stores the result in _%eax_, which is exactly where we want the
@@ -2548,15 +2529,12 @@ start of the function we pushed _%ebp_, and moved _%esp_ into _%ebp_ to create
 the current stack frame. Now we reverse the operation to destroy the
 current stack frame and reactivate the last one:
 
-```{.gnuassembler .numberLines}
-end_factorial:
-    movl %ebp, %esp
-    popl %ebp
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=76 endLine=79}
 ```
 
 Now we\'re already to return, so we issue the following command
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=80 endLine=84}
 ret
 ```
 
@@ -9137,18 +9115,18 @@ the command line.
 <!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
 
 ```{.bash}
-as -o factorial.o  factorial.s --gstabs+
-ld -o factorial    factorial.o
+as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
+ld -o 004-02-factorial    004-02-factorial.o
 ```
 
-    $ gdb ./factorial
+    $ gdb ./004-02-factorial
     GNU gdb (GDB) 10.1
     For help, type "help".
 
     (gdb) set args 55
 
     (gdb) break factorial
-    Breakpoint 1 at 0x401013: file factorial.s, line 34.
+    Breakpoint 1 at 0x401013: file 004-02-factorial.s, line 34.
 
 When stepping through code, you often don\'t want to have to step
 through every instruction of every function. Well-tested functions are
@@ -9159,8 +9137,8 @@ before going on. Otherwise, with `stepi`, GDB would step you through
 every instruction within every called function.
 
     (gdb) run
-    Starting program: /home/johnnyb/factorial
-    Breakpoint 1, factorial () at factorial.s:34
+    Starting program: /home/johnnyb/004-02-factorial
+    Breakpoint 1, factorial () at 004-02-factorial.s:34
     34          pushl %ebp
 
     (gdb) nexti
@@ -9171,7 +9149,7 @@ every instruction within every called function.
 
     (gdb) nexti
     Program received signal SIGSEGV, Segmentation fault.
-    factorial () at factorial.s:40
+    factorial () at 004-02-factorial.s:40
     40          movl  8(%ebp), %eax
 
     (gdb) nexti
@@ -9180,18 +9158,18 @@ every instruction within every called function.
 
 Let's see the differences between `stepi`:
 
-    $ gdb ./factorial
+    $ gdb ./004-02-factorial
     GNU gdb (GDB) 10.1
-    Reading symbols from ./factorial...
+    Reading symbols from ./004-02-factorial...
 
     (gdb) break factorial
-    Breakpoint 1 at 0x401013: file factorial.s, line 34.
+    Breakpoint 1 at 0x401013: file 004-02-factorial.s, line 34.
 
     (gdb) set args 55
 
     (gdb) run
-    Starting program: /home/johnnyb/factorial
-    Breakpoint 1, factorial () at factorial.s:34
+    Starting program: /home/johnnyb/004-02-factorial
+    Breakpoint 1, factorial () at 004-02-factorial.s:34
     34          pushl %ebp
 
     (gdb) stepi
@@ -9202,7 +9180,7 @@ Let's see the differences between `stepi`:
 
     (gdb) stepi
     Program received signal SIGSEGV, Segmentation fault.
-    factorial () at factorial.s:40
+    factorial () at 004-02-factorial.s:40
     40          movl  8(%ebp), %eax
 
     (gdb) stepi
