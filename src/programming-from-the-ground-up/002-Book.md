@@ -2015,13 +2015,13 @@ removing it, we can simply use the _%esp_ register in indirect
 addressing mode. For example, the following code
 moves whatever is at the top of the stack into _%eax_:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl (%esp), %eax
 ```
 
 If we were to just do this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl %esp, %eax
 ```
 
@@ -2031,7 +2031,7 @@ go to indirect addressing mode, and therefore we
 get the value pointed to by _%esp_. If we want to access the value
 right below the top of the stack, we can simply issue this instruction:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl 4(%esp), %eax
 ```
 
@@ -2105,7 +2105,7 @@ to need two words of memory to run a function. We can simply move the
 stack pointer down two words to reserve the space. This is done like
 this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 subl $8, %esp
 ```
 
@@ -2165,7 +2165,7 @@ base pointer _%ebp_ to what they were when the function began.
 
 Therefore to return from the function you have to do the following:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl %ebp, %esp
 popl %ebp
 ret
@@ -2241,9 +2241,9 @@ we want to raise it to. For example, if we gave it the parameters 2 and
 make this program simple, we will only allow numbers 1 and greater.
 
 The following is the code for the complete program. As usual, an
-explanation follows. Name the file `power.s`.
+explanation follows. Name the file `004-01-power.s`.
 
-```{.gnuassembler .numberLines include=resource/asm/power.s}
+```{.gnuassembler .numberLines include=resource/asm/004-01-power.s}
 ```
 
 Type in the program, assemble it, and run it. Try calling power for
@@ -2269,8 +2269,7 @@ stack, and what will be in _%eax_ at the end.
 
 We then have the following line:
 
-```{.gnuassembler .numberLines}
-.type power,@function
+```{.gnuassembler .numberLines include=resource/asm/004-01-power.s startLine=67 endLine=67}
 ```
 
 This tells the linker that the symbol `power` should
@@ -2280,8 +2279,7 @@ practice.
 
 After that, we define the value of the `power` label:
 
-```{.gnuassembler .numberLines}
-power:
+```{.gnuassembler .numberLines include=resource/asm/004-01-power.s startLine=69 endLine=69}
 ```
 
 As mentioned previously, this defines the symbol `power` to be the
@@ -2293,10 +2291,7 @@ return, while the `jmp` does not.
 
 Next, we have our instructions to set up our function:
 
-```{.gnuassembler .numberLines}
-pushl %ebp
-movl  %esp, %ebp
-subl  $4, %esp
+```{.gnuassembler .numberLines include=resource/asm/004-01-power.s startLine=70 endLine=74}
 ```
 
 At this point, our stack looks like this:
