@@ -2772,7 +2772,7 @@ This is useful for buffers because we don\'t need to initialize them
 anyway, we just need to reserve storage. In order to do this, we do the
 following commands:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 .section .bss
     .lcomm my_buffer, 500
 ```
@@ -2782,7 +2782,7 @@ refers to a 500-byte storage location that we can use as a buffer. We
 can then do the following, assuming we have opened a file for reading
 and have placed the file descriptor in _%ebx_:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl $my_buffer, %ecx
 movl 500, %edx
 movl 3, %eax
@@ -2882,7 +2882,7 @@ numbers. For example, if you did `.equ LINUX_SYSCALL, 0x80`, any
 time after that you wrote `LINUX_SYSCALL`, the assembler would substitue
 `0x80` for that. So now, you can write:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 int $LINUX_SYSCALL
 ```
 
@@ -2890,31 +2890,31 @@ Which is much easier to read, and much easier to remember. Coding is
 complex, but there are a lot of things we can do like this to make it
 easier.
 
-Here is the program. Note that we have more labels than we
+Here is the `005-01-toupper.s` program. Note that we have more labels than we
 actually use for jumps, because some of them are just there for clarity.
 Try to trace through the program and see what happens in various cases.
 An in-depth explanation of the program will follow.
 
-```{.gnuassembler .numberLines include=resource/asm/toupper.s}
+```{.gnuassembler .numberLines include=resource/asm/005-01-toupper.s}
 ```
 
-Type in this program as `toupper.s`, and then enter in the
+Type in this program as `005-01-toupper.s`, and then enter in the
 following commands:
 
 ```{.bash}
-as -o toupper.o  toupper.s --gstabs+
-ld -o toupper    toupper.o
+as -o 005-01-toupper.o  005-01-toupper.s --gstabs+
+ld -o 005-01-toupper    005-01-toupper.o
 ```
 
-This builds a program called `toupper`, which converts all
+This builds a program called `005-01-toupper`, which converts all
 of the lowercase characters in a file to uppercase. For example, to convert
-the file `toupper.s` to uppercase, type in the following command:
+the file `005-01-toupper.s` to uppercase, type in the following command:
 
 ```{.bash}
-./toupper toupper.s toupper.uppercase
+./005-01-toupper 005-01-toupper.s 005-01-toupper.uppercase
 ```
 
-You will now find in the file `toupper.uppercase` an uppercase version
+You will now find in the file `005-01-toupper.uppercase` an uppercase version
 of your original file.
 
 Let\'s examine how the program works.
@@ -2940,17 +2940,14 @@ this value, rather than having to go through the entire program and
 changing all of the values individually.
 
 Instead of going on to the `_start` section of the program, go to the
-end where we define the `convert_to_upper` function. This is the part
+end where we define the `_convert_to_upper` function. This is the part
 that actually does the conversion.
 
 This section begins with a list of constants that we will use The reason
 these are put here rather than at the top is that they only deal with
 this one function. We have these definitions:
 
-```{.gnuassembler .numberLines}
-.equ  LOWERCASE_A,       'a'
-.equ  LOWERCASE_Z,       'z'
-.equ  UPPER_CONVERSION,  'A' - 'a'
+```{.gnuassembler .numberLines include=resource/asm/005-01-toupper.s startLine=223 endLine=231}
 ```
 
 The first two simply define the letters that are the boundaries of what
@@ -2979,13 +2976,11 @@ position 12 + _%esp_. Using symbols for these numbers instead of the
 numbers themselves makes it easier to see what data is being used and
 moved.
 
-Next comes the label `convert_to_upper`. This is the entry point of the
+Next comes the label `_convert_to_upper`. This is the entry point of the
 function. The first two lines are our standard function lines to save
 the stack pointer. The next two lines:
 
-```{.gnuassembler .numberLines}
-movl  ST_BUFFER(%ebp), %eax
-movl  ST_BUFFER_LEN(%ebp), %ebx
+```{.gnuassembler .numberLines include=resource/asm/005-01-toupper.s startLine=244 endLine=245}
 ```
 
 Move the function parameters into the appropriate registers for use.
@@ -2994,9 +2989,7 @@ each byte of the buffer by loading from the location _%eax_ + _%edi_,
 incrementing _%edi_, and repeating until _%edi_ is equal to the buffer length
 stored in _%ebx_. The lines:
 
-```{.gnuassembler .numberLines}
-cmpl  $0, %ebx
-je    end_convert_loop
+```{.gnuassembler .numberLines include=resource/asm/005-01-toupper.s startLine=248 endLine=251}
 ```
 
 They are just a sanity check to make sure that noone gave us a buffer of zero
@@ -3009,8 +3002,7 @@ and have a reliable exit plan if it happens.
 Now we start our loop. First, it moves a byte into _%cl_. The code for this
 is:
 
-```{.gnuassembler .numberLines}
-movb  (%eax,%edi,1), %cl
+```{.gnuassembler .numberLines include=resource/asm/005-01-toupper.s startLine=254 endLine=255}
 ```
 
 It is using an indexed indirect addressing mode. It says to start at
@@ -3026,11 +3018,11 @@ stores it back into the buffer.
 
 Either way, it then goes to the next value by incrementing %cl;. Next it
 checks to see if we are at the end of the buffer. If we are not at the
-end, we jump back to the beginning of the loop (the `convert_loop`
+end, we jump back to the beginning of the loop (the `_convert_loop`
 label). If we are at the end, it simply continues on to the end of the
 function. Because we are modifying the buffer directly, we don\'t need
 to return anything to the calling program - the changes are already in
-the buffer. The label `end_convert_loop` is not needed, but it\'s there
+the buffer. The label `_end_convert_loop` is not needed, but it\'s there
 so it\'s easy to see where the parts of the program are.
 
 Now we know how the conversion process works. Now we need to figure out
@@ -3145,7 +3137,7 @@ Review
 
 ### Use the Concepts
 
--   Modify the `toupper` program so that it reads from `STDIN` and
+-   Modify the `005-01-toupper` program so that it reads from `STDIN` and
     writes to `STDOUT` instead of using the files on the command-line.
 
 -   Change the size of the buffer.
@@ -3214,7 +3206,7 @@ program by being stored on disk in files. You can shut down the program
 and open it back up, and you are back where you started. Now, there are
 two basic kinds of persistent data - structured and unstructured.
 Unstructured data is like what we dealt with in the
-`toupper` program. It just dealt with text files that were entered by a
+`005-01-toupper` program. It just dealt with text files that were entered by a
 person. The contents of the files weren\'t usable by a program because a
 program can\'t interpret what the user is trying to say in random text.
 
@@ -3635,7 +3627,7 @@ usually guess, including experienced programmers. Programmers get so
 focused on simply solving the problem at hand that they fail to look at
 the possible side issues.
 
-In the `toupper` program, we do not have any course of action if the
+In the `005-01-toupper` program, we do not have any course of action if the
 file the user selects does not exist. The program will go ahead and try
 to work anyway. It doesn\'t report any error message so the user won\'t
 even know that they typed in the name wrong. Let\'s say that the
@@ -4555,7 +4547,7 @@ Review
     library. Use the \'C\' library\'s `printf` function to display the
     result of the `factorial` call.
 
--   Rewrite the `toupper` program so that it uses the `C` library
+-   Rewrite the `005-01-toupper` program so that it uses the `C` library
     functions for files rather than system calls.
 
 ### Going Further
