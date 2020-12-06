@@ -1,0 +1,4 @@
+*.o
+*-bin
+.gdb_history
+peda*.txt
