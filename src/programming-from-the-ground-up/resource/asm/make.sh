@@ -3,17 +3,13 @@
 rm -f ./*.o
 rm -f ./*-bin
 
-#as --statistics --warn -ag -L -o 01-exit.o 01-exit.s
-#as --warn -al -L -o 01-exit.o 01-exit.s
-#as -L -o 01-exit.o 01-exit.s
-
 FILES=(
-  003-01-exit
+  003-01-exit 003-02-maximum 004-01-power 004-02-factorial 005-01-toupper
 )
 
 for FILE in "${FILES[@]}"
 do
     echo "Assembling: ${FILE}"
-    as -o "${FILE}".o   "${FILE}".s  -gstabs+
-    ld -o "${FILE}"-bin "${FILE}".o
+    as -o "${FILE}".o   "${FILE}".s  -gstabs+ --32
+    ld -o "${FILE}"-bin "${FILE}".o  -m elf_i386
 done

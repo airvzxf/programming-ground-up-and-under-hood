@@ -1021,7 +1021,7 @@ calls and what is required to be in each register, see
 
 The next instruction is the \"magic\" one. It looks like this:
 
-```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=33 endLine=34}
+```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=33 endLine=35}
 ```
 
 The `int` stands for *interrupt*. The `0x80` is the
@@ -1208,7 +1208,7 @@ wonderful!). You may also notice that in this program we actually have
 something in the data section. These lines are the data
 section:
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=19 endLine=21}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=19 endLine=20}
 ```
 
 Lets look at this. `data_items` is a label that refers to the
@@ -1324,14 +1324,14 @@ then the third (data item number 2), and so on. The data item number is
 the *index* of `data_items`. You\'ll notice that the first
 instruction we give to the computer is:
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=27 endLine=28}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=26 endLine=27}
 ```
 
 Since we are using `%edi` as our index, and we want to start looking at
 the first item, we load `%edi` with 0. Now, the next instruction is
 tricky, but crucial to what we\'re doing. It says:
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=29 endLine=30}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=28 endLine=29}
 ```
 
 Now to understand this line, you need to keep several things in mind:
@@ -1368,7 +1368,7 @@ For more information about this, see [Addressing Modes](#addressing-modes).
 
 Let\'s look at the next line:
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=31 endLine=32}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=30 endLine=31}
 ```
 
 We have the first item to look at stored in `%eax`. Since it is the
@@ -1379,7 +1379,7 @@ value, so `%eax` and `%ebx` both contain the starting value.[^3-11]
 
 Now we move into a *loop*. A loop is a segment of your program that
 might run more than once. We have marked the starting location of the
-loop in the symbol `start_loop`. The reason we are doing a loop is
+loop in the symbol `_start_loop`. The reason we are doing a loop is
 because we don\'t know how many data items we have to process, but the
 procedure will be the same no matter how many there are. We don\'t want
 to have to rewrite our program for every list length possible. In fact,
@@ -1404,10 +1404,10 @@ review:
 -   Now we need to go back to the beginning of the loop.
 
 Okay, so now lets go to the code. We have the beginning of the loop
-marked with `start_loop`. That is so we know where to go back to at the
+marked with `_start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=35 endLine=36}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=34 endLine=35}
 ```
 
 The `cmpl` instruction compares the two values. Here, we are
@@ -1417,7 +1417,7 @@ _%eflags_ register. This is also known as the status register, and
 has many uses which we will discuss later. Just be aware
 that the result of the comparison is stored in the status register. The
 next line is a flow control instruction which says to *jump*
-to the `loop_exit` location if the values that were just compared are
+to the `_loop_exit` location if the values that were just compared are
 equal (that\'s what the `e` of `je` means). It uses the status register
 to hold the value of the last comparison. We used `je`, but there are
 many jump statements that you can use:
@@ -1452,12 +1452,12 @@ The complete list is documented in
 [Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
 In this
 case, we are jumping if _%eax_ holds the value of zero. If so, we are done
-and we go to `loop_exit`.[^3-13]
+and we go to `_loop_exit`.[^3-13]
 
 If the last loaded element was not zero, we go on to the next
 instructions:
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=37 endLine=38}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=36 endLine=37}
 ```
 
 If you remember from our previous discussion, _%edi_ contains the
@@ -1467,7 +1467,7 @@ beforehand. However, since we already incremented _%edi_, _%eax_ is getting
 the next value from the list. Now _%eax_ has the next value to be tested.
 So, let\'s test it!
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=39 endLine=41}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=38 endLine=40}
 ```
 
 Here we compare our current value, stored in _%eax_ to our biggest value so
@@ -1476,14 +1476,14 @@ value so far, we don\'t care about it, so we just jump back to the
 beginning of the loop. Otherwise, we need to record that value as the
 largest one:
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=42 endLine=44}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=41 endLine=43}
 ```
 
 which moves the current value into _%ebx_, which we are using to store the
 current largest value, and starts the loop over again.
 
 Okay, so the loop executes until it reaches a 0, when it jumps to
-`loop_exit`. This part of the program calls the Linux kernel to exit. If
+`_loop_exit`. This part of the program calls the Linux kernel to exit. If
 you remember from the last program, when you call the operating system
 (remember it\'s like signaling Batman), you store the system call
 number in _%eax_ (1 for the `exit` call), and store the other
@@ -1493,7 +1493,7 @@ status there since we are using _%ebx_ as our largest number, so all we
 have to do is load _%eax_ with the number one and call the kernel to exit.
 Like this:
 
-```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=47 endLine=51}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=46 endLine=50}
 ```
 
 Okay, that was a lot of work and explanation, especially for such a
@@ -2234,7 +2234,7 @@ A Function Example
 ------------------
 
 Let\'s take a look at how a function call works in a real
-program. The function we are going to write is the `power` function. We
+program. The function we are going to write is the `_power` function. We
 will give the power function two parameters - the number and the power
 we want to raise it to. For example, if we gave it the parameters 2 and
 3, it would raise 2 to the power of 3, or 2\*2\*2, giving 8. In order to
@@ -2249,12 +2249,12 @@ explanation follows. Name the file `004-01-power.s`.
 Type in the program, assemble it, and run it. Try calling power for
 different values, but remember that the result has to be less than 256
 when it is passed back to the operating system. Also try subtracting the
-results of the two computations. Try adding a third call to the `power`
+results of the two computations. Try adding a third call to the `_power`
 function, and add its result back in.
 
 The main program code is pretty simple. You push the arguments onto the
 stack, call the function, and then move the stack pointer back. The
-result is stored in _%eax_. Note that between the two calls to `power`, we
+result is stored in _%eax_. Note that between the two calls to `_power`, we
 save the first value onto the stack. This is because the only register
 that is guaranteed to be saved is _%ebp_. Therefore we push the
 value onto the stack, and pop the value back off after the second
@@ -2272,19 +2272,19 @@ We then have the following line:
 ```{.gnuassembler .numberLines include=resource/asm/004-01-power.s startLine=67 endLine=67}
 ```
 
-This tells the linker that the symbol `power` should
+This tells the linker that the symbol `_power` should
 be treated as a function. Since this program is only in one file, it
 would work just the same with this left out. However, it is good
 practice.
 
-After that, we define the value of the `power` label:
+After that, we define the value of the `_power` label:
 
 ```{.gnuassembler .numberLines include=resource/asm/004-01-power.s startLine=69 endLine=69}
 ```
 
-As mentioned previously, this defines the symbol `power` to be the
+As mentioned previously, this defines the symbol `_power` to be the
 address where the instructions following the label begin. This is how
-`call power` works. It transfers control to this spot of the program.
+`call _power` works. It transfers control to this spot of the program.
 The difference between `call` and `jmp` is that `call` also
 pushes the return address onto the stack so that the function can
 return, while the `jmp` does not.
@@ -2410,14 +2410,14 @@ Next we have these lines:
 ```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=25 endLine=34}
 ```
 
-This takes place after `factorial` has finished and computed the
+This takes place after `_factorial` has finished and computed the
 factorial of 4 for us. Now we have to clean up the stack. The `addl`
 instruction moves the stack pointer back to where it was before we
 pushed the `$4` onto the stack. You should always clean up your stack
 parameters after a function call returns.
 
 The next instruction moves _%eax_ to _%ebx_. What\'s in _%eax_? It is
-`factorial`\'s return value. In our case, it is the value of
+`_factorial`\'s return value. In our case, it is the value of
 the factorial function. With 4 as our parameter, 24 should be our return
 value. Remember, return values are always stored in _%eax_. We want
 to return this value as the status code to the operating system.
@@ -2442,7 +2442,7 @@ functions to break down complex pieces of code into smaller, simpler
 ones. In fact, almost all of programming is writing and calling
 functions.
 
-Let\'s now take a look at how the `factorial` function itself is
+Let\'s now take a look at how the `_factorial` function itself is
 implemented.
 
 Before the function starts, we have this directive:
@@ -2450,12 +2450,12 @@ Before the function starts, we have this directive:
 ```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=39 endLine=40}
 ```
 
-The `.type` directive tells the linker that `factorial` is a
-function. This isn\'t really needed unless we were using `factorial` in
+The `.type` directive tells the linker that `_factorial` is a
+function. This isn\'t really needed unless we were using `_factorial` in
 other programs. We have included it for completeness. The line that says
-`factorial:` gives the symbol `factorial` the storage location of the
+`_factorial:` gives the symbol `_factorial` the storage location of the
 next instruction. That\'s how `call` knew where to go when we said
-`call factorial`.
+`call _factorial`.
 
 The first real instructions of the function are:
 
@@ -2480,7 +2480,7 @@ what we pushed on the stack before calling the function the first time
 values, too.
 
 Next, we check to see if we\'ve hit our base case (a parameter of 1). If
-so, we jump to the instruction at the label `end_factorial`, where it
+so, we jump to the instruction at the label `_end_factorial`, where it
 will be returned. It\'s already in _%eax_ which we mentioned earlier is
 where you put return values. That is accomplished by these
 lines:
@@ -2489,7 +2489,7 @@ lines:
 ```
 
 If it\'s not our base case, what did we say we would do? We would call
-the `factorial` function again with our parameter minus one. So, first
+the `_factorial` function again with our parameter minus one. So, first
 we decrease _%eax_ by one:
 
 ```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=61 endLine=62}
@@ -2499,12 +2499,12 @@ we decrease _%eax_ by one:
 or memory location (_%eax_ in our case). `incl` is the inverse - it
 adds 1. After decrementing _%eax_ we push it onto the stack since it\'s
 going to be the parameter of the next function call. And then we call
-`factorial` again!
+`_factorial` again!
 
 ```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=63 endLine=65}
 ```
 
-Okay, now we\'ve called `factorial`. One thing to remember is that after
+Okay, now we\'ve called `_factorial`. One thing to remember is that after
 a function call, we can never know what the registers are (except `%esp`
 and `%ebp`). So even though we had the value we were called with in
 `%eax`, it\'s not there any more. Therefore, we need pull it off the
@@ -3247,7 +3247,7 @@ addressing mode. The following constants describe
 the offsets to the above structure. Put them in a file named
 `record-def.s`:
 
-```{.gnuassembler .numberLines include=resource/asm/record-def.s}
+```{.gnuassembler .numberLines include=resource/asm/record-def.s startLine=3}
 ```
 
 In addition, there are several constants that we have been defining over
@@ -3255,7 +3255,7 @@ and over in our programs, and it is useful to put them in a file, so
 that we don\'t have to keep entering them. Put the following
 constants in a file called `linux.s`:
 
-```{.gnuassembler .numberLines include=resource/asm/linux.s}
+```{.gnuassembler .numberLines include=resource/asm/linux.s startLine=3}
 ```
 
 We will write three programs in this chapter using the structure defined
@@ -4538,14 +4538,14 @@ Review
     returning the result as the exit status code. Also, make the exit
     status code be 0.
 
--   Use the `factorial` function you developed in
+-   Use the `_factorial` function you developed in
     [Recursive Functions](#recursive-functions) to make a shared library.
     Then re-write the main program so that it links with the library
     dynamically.
 
 -   Rewrite the program above so that it also links with the \'C\'
     library. Use the \'C\' library\'s `printf` function to display the
-    result of the `factorial` call.
+    result of the `_factorial` call.
 
 -   Rewrite the `005-01-toupper` program so that it uses the `C` library
     functions for files rather than system calls.
@@ -8909,13 +8909,13 @@ then say this:
     Starting program: /home/johnnyb/003-02-maximum
     ^C
     Program received signal SIGINT, Interrupt.
-    start_loop () at 003-02-maximum.s:31
+    _start_loop () at 003-02-maximum.s:31
     31          cmpl %ebx, %eax
     (gdb)
 
 This tells you that the program was interrupted by the SIGINT
 signal (from your `control-c`), and was within the section labelled
-`start_loop`, and was executing on line 31 when it stopped. It gives you
+`_start_loop`, and was executing on line 31 when it stopped. It gives you
 the code that it is about to execute. Depending on exactly when you hit
 `control-c`, it may have stopped on a different line or a different
 instruction than the example.
@@ -8929,7 +8929,7 @@ do this several times, your output will look something like this:
     27          cmpl $0, %eax
 
     (gdb) stepi
-    28          je loop_exit
+    28          je _loop_exit
 
     (gdb) stepi
     29          incl %edi
@@ -8941,7 +8941,7 @@ do this several times, your output will look something like this:
     31          cmpl %ebx, %eax
 
     (gdb) stepi
-    32          jle start_loop
+    32          jle _start_loop
 
     (gdb) stepi
     27          cmpl $0, %eax
@@ -8955,14 +8955,14 @@ our code where we should be exitting the loop:
 
 ```{.gnuassembler .numberLines}
 cmpl  $0, %eax
-je    loop_exit
+je    _loop_exit
 ```
 
 Basically, it is checking to see if _%eax_ hits zero. If so, it should exit
 the loop. There are several things to check here. First of all, you may
 have left this piece out altogether. It is not uncommon for a programmer
 to forget to include a way to exit a loop. However, this is not the case
-here. Second, you should make sure that `loop_exit` actually is outside
+here. Second, you should make sure that `_loop_exit` actually is outside
 the loop. If we put the label in the wrong place, strange things would
 happen. However, again, this is not the case.
 
@@ -9091,7 +9091,7 @@ numbers a screen at a time.
     25          movl data_items(,%edi,4), %eax  # Load first byte of data.
     26          movl %eax, %ebx     # Since this is the first item,
     27                              # %eax is the biggest.
-    28      start_loop:             # Start loop.
+    28      _start_loop:            # Start loop.
     29          cmpl $0, %eax       # Check to see if we've hit the end.
 
 When dealing with functions, you can also break on the function names.

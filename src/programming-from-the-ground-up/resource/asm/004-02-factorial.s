@@ -1,5 +1,5 @@
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     Given a number, this program computes the
     #     factorial.  For example, the factorial of
