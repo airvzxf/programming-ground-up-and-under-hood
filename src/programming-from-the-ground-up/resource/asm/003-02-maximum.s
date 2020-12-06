@@ -33,7 +33,7 @@ _start:
 
 _start_loop:                # Start loop.
     cmpl $0, %eax           # Check to see if we have
-    je _loop_exit           #  hit the end.
+    je _loop_exit           # hit the end.
     incl %edi               # Increment %edi by 1.
     movl data_items(,%edi,4), %eax   # Load next value.
     cmpl %ebx, %eax         # Compare values.

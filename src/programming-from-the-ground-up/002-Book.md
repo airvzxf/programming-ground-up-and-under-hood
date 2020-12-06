@@ -1182,22 +1182,22 @@ you. Just have patience.
 Finding a Maximum Value {#finding-a-maximum-value}
 -----------------------
 
-Enter the following program as `maximum.s`:
+Enter the following program as `003-02-maximum.s`:
 
-```{.gnuassembler .numberLines include=resource/asm/maximum.s}
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s}
 ```
 
 Now, assemble and link it with these commands:
 
 ```{.bash}
-as -o maximum.o  maximum.s --gstabs+
-ld -o maximum    maximum.o
+as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
+ld -o 003-02-maximum    003-02-maximum.o
 ```
 
 Now run it, and check its status.
 
 ```{.bash}
-./maximum
+./003-02-maximum
 echo $?
 ```
 
@@ -1208,9 +1208,7 @@ wonderful!). You may also notice that in this program we actually have
 something in the data section. These lines are the data
 section:
 
-```{.gnuassembler .numberLines}
-data_items:                         # These are the data items.
-    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=19 endLine=21}
 ```
 
 Lets look at this. `data_items` is a label that refers to the
@@ -1326,16 +1324,14 @@ then the third (data item number 2), and so on. The data item number is
 the *index* of `data_items`. You\'ll notice that the first
 instruction we give to the computer is:
 
-```{.gnuassembler .numberLines}
-movl $0, %edi
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=27 endLine=28}
 ```
 
 Since we are using `%edi` as our index, and we want to start looking at
 the first item, we load `%edi` with 0. Now, the next instruction is
 tricky, but crucial to what we\'re doing. It says:
 
-```{.gnuassembler .numberLines}
-movl data_items(,%edi,4), %eax
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=29 endLine=30}
 ```
 
 Now to understand this line, you need to keep several things in mind:
@@ -1354,7 +1350,7 @@ stores that number in `%eax`. This is how you write indexed addressing
 mode instructions in assembly language. The instruction in a general
 form is this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
 ```
 
@@ -1372,8 +1368,7 @@ For more information about this, see [Addressing Modes](#addressing-modes).
 
 Let\'s look at the next line:
 
-```{.gnuassembler .numberLines}
-movl %eax, %ebx
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=31 endLine=32}
 ```
 
 We have the first item to look at stored in `%eax`. Since it is the
@@ -1412,9 +1407,7 @@ Okay, so now lets go to the code. We have the beginning of the loop
 marked with `start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
-```{.gnuassembler .numberLines}
-cmpl $0, %eax
-je loop_exit
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=35 endLine=36}
 ```
 
 The `cmpl` instruction compares the two values. Here, we are
@@ -1464,9 +1457,7 @@ and we go to `loop_exit`.[^3-13]
 If the last loaded element was not zero, we go on to the next
 instructions:
 
-```{.gnuassembler .numberLines}
-incl %edi
-movl data_items(,%edi,4), %eax
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=37 endLine=38}
 ```
 
 If you remember from our previous discussion, _%edi_ contains the
@@ -1476,9 +1467,7 @@ beforehand. However, since we already incremented _%edi_, _%eax_ is getting
 the next value from the list. Now _%eax_ has the next value to be tested.
 So, let\'s test it!
 
-```{.gnuassembler .numberLines}
-cmpl %ebx, %eax
-jle start_loop
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=39 endLine=41}
 ```
 
 Here we compare our current value, stored in _%eax_ to our biggest value so
@@ -1487,9 +1476,7 @@ value so far, we don\'t care about it, so we just jump back to the
 beginning of the loop. Otherwise, we need to record that value as the
 largest one:
 
-```{.gnuassembler .numberLines}
-movl %eax, %ebx
-jmp start_loop
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=42 endLine=44}
 ```
 
 which moves the current value into _%ebx_, which we are using to store the
@@ -1506,9 +1493,7 @@ status there since we are using _%ebx_ as our largest number, so all we
 have to do is load _%eax_ with the number one and call the kernel to exit.
 Like this:
 
-```{.gnuassembler .numberLines}
-movl $1, %eax
-int  $0x80
+```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=47 endLine=51}
 ```
 
 Okay, that was a lot of work and explanation, especially for such a
@@ -1532,14 +1517,14 @@ in assembly language instructions.
 
 The general form of memory address references is this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
 ```
 
 All of the fields are optional. To calculate the address, simply perform
 the following calculation:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 FINAL ADDRESS =
     ADDRESS_OR_OFFSET + %BASE_OR_OFFSET +
     MULTIPLIER * %INDEX
@@ -1559,7 +1544,7 @@ except immediate-mode can be represented in this fashion.
 
     This loads _%eax_ with the value at memory address `ADDRESS`.
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl ADDRESS, %eax
 ```
 
@@ -1578,7 +1563,7 @@ movl ADDRESS, %eax
     This starts at `string_start`, and adds `1 * %ecx` to that address,
     and loads the value into _%eax_.
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl string_start(,%ecx,1), %eax
 ```
 
@@ -1588,7 +1573,7 @@ movl string_start(,%ecx,1), %eax
     a register. For example, if _%eax_ held an address, we could move the
     value at that address to _%ebx_ by doing the following:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl (%eax), %ebx
 ```
 
@@ -1600,7 +1585,7 @@ movl (%eax), %ebx
     the record, and you have the address of the record in _%eax_, you can
     retrieve the age into _%ebx_ by issuing the following instruction:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl 4(%eax), %ebx
 ```
 
@@ -1616,7 +1601,7 @@ movl 4(%eax), %ebx
     mode, in which case the value located at memory location 12 would be
     loaded into _%eax_ rather than the number 12 itself.
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl $12, %eax
 ```
 
@@ -1716,15 +1701,15 @@ Review
 
 -   Modify the first program to return the value 3.
 
--   Modify the `maximum` program to find the minimum instead.
+-   Modify the `003-02-maximum` program to find the minimum instead.
 
--   Modify the `maximum` program to use the number 255 to end the list
+-   Modify the `003-02-maximum` program to use the number 255 to end the list
     rather than the number 0.
 
--   Modify the `maximum` program to use an ending address rather than
+-   Modify the `003-02-maximum` program to use an ending address rather than
     the number 0 to know when to stop.
 
--   Modify the `maximum` program to use a length count rather than the
+-   Modify the `003-02-maximum` program to use a length count rather than the
     number 0 to know when to stop.
 
 -   What would the instruction `movl _start, %eax` do? Be specific,
@@ -8909,7 +8894,7 @@ An Example Debugging Session
 ----------------------------
 
 The best way to explain how a debugger works is by using it. The program
-we will be using the debugger on is the `maximum` program used in
+we will be using the debugger on is the `003-02-maximum` program used in
 [Chapter 3. Your First Programs](#chapter-3-your-first-programs).
 Let\'s say that you entered the program perfectly,
 except that you left out the line:
@@ -8926,15 +8911,15 @@ add the `--gstabs+` option to the `as` command. So, you would assemble it
 like this:
 
 ```{.bash}
-as -o maximum.o  maximum.s --gstabs+
-ld -o maximum    maximum.o
+as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
+ld -o 003-02-maximum    003-02-maximum.o
 ```
 
 Linking would be the same as normal. \"stabs\" is the debugging format
 used by GDB. The `plus(+)` means that it provides the GNU extension
 which is the location of the current working directory.
 Now, to run the program under the debugger, you would type
-in `gdb ./maximum`. Be sure that the source files are in the current
+in `gdb ./003-02-maximum`. Be sure that the source files are in the current
 directory. The output should look similar to this:
 
     GNU gdb (GDB) 10.1
@@ -8946,7 +8931,7 @@ directory. The output should look similar to this:
     Type "apropos word" to search for commands related to "word".
     Debugger response to a program call of fork or vfork is "parent".
     Whether gdb will detach the child of a fork is off.
-    Reading symbols from ./maximum...
+    Reading symbols from `./003-02-maximum`...
     (gdb)
 
 Depending on which version of GDB you are running, this output may
@@ -8956,10 +8941,10 @@ type in `run`. This will not return, because the program is running
 in an infinite loop. To stop the program, hit `control-c`. The screen will
 then say this:
 
-    Starting program: /home/johnnyb/maximum
+    Starting program: /home/johnnyb/003-02-maximum
     ^C
     Program received signal SIGINT, Interrupt.
-    start_loop () at maximum.s:31
+    start_loop () at 003-02-maximum.s:31
     31          cmpl %ebx, %eax
     (gdb)
 
@@ -9121,14 +9106,14 @@ numbers a screen at a time.
 
     GNU gdb (GDB) 10.1
     For help, type "help".
-    Reading symbols from ./maximum...
+    Reading symbols from ./003-02-maximum...
 
     (gdb) break 25
-    Breakpoint 1 at 0x401005: file maximum.s, line 25.
+    Breakpoint 1 at 0x401005: file 003-02-maximum.s, line 25.
 
     (gdb) run
-    Starting program: /home/johnnyb/maximum
-    Breakpoint 1, _start () at maximum.s:25
+    Starting program: /home/johnnyb/003-02-maximum
+    Breakpoint 1, _start () at 003-02-maximum.s:25
     warning: Source file is more recent than executable.
     25          movl data_items(,%edi,4), %eax   # Load the first byte of data.
 
