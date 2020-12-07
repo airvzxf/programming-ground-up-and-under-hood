@@ -11,6 +11,7 @@
 - [x] Generate my theme of GNU Assembler and apply to the fenced code blocks. [Pandoc: Syntax highlighting](https://pandoc.org/MANUAL.html#syntax-highlighting).
 - [x] Fix the missing include files with the source code.
 - [x] Reduce the text columns for every assembly source file which is broken in the ePUB version, the limit is 55 characters.
+- [ ] Upgrade all the code blocks with bash where assemble/link with the 32-bit and i386 emulation.
 - [ ] Rename the assembly source files with the prefix chapters and appendixes `001-`, `012`, `AA-` and `AF-`.
 - [ ] Execute and fix all the assembly source files.
 - [ ] Create bash script to compile and link all the assembler files.
@@ -79,11 +80,13 @@
   - [x] Chapter 3. Your First Programs.
     - [x] Convert the "Layout of the 32-bit registers" image to a text format.
     - [x] Refer the GDB debug in the review sections for chapter 3.
+  - [ ] Chapter 4.All About Functions Dealing with Complexity
+    - [ ] Create a better example about the Stack software and hardware.
   - [ ] Chapter 5. Dealing with Files
     - [ ] Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct.
-  - [ ] Chapter 8. Sharing Functions with Code Libraries
-    - [ ] Added output from the above command.
-    - [ ] Test this ldd section, what is the real result?
+  - [x] Chapter 8. Sharing Functions with Code Libraries
+    - [x] Added output from the above command.
+    - [x] Test this ldd section, what is the real result?
   - [ ] Chapter 9. Intermediate Memory Topics How a Computer Views Memory
     - [ ] Convert the image into the text table.
   - [ ] Appendix F. Using the GDB Debugger.
