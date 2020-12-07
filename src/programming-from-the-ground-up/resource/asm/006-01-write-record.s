@@ -1,7 +1,7 @@
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
-    .include "record-def.s" # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
     # PURPOSE:
     #     This function writes a record to the given

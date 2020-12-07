@@ -1,6 +1,6 @@
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
 
         .equ ST_ERROR_CODE,  8
         .equ ST_ERROR_MSG,   12
@@ -15,7 +15,7 @@ _error_exit:
                             # Write out error code.
     movl  ST_ERROR_CODE(%ebp), %ecx
     pushl %ecx
-    call  count_chars
+    call  _count_chars
     popl  %ecx
     movl  %eax, %edx
     movl  $STDERR, %ebx
@@ -25,7 +25,7 @@ _error_exit:
                             # Write out error message.
     movl  ST_ERROR_MSG(%ebp), %ecx
     pushl %ecx
-    call  count_chars
+    call  _count_chars
     popl  %ecx
     movl  %eax, %edx
     movl  $STDERR, %ebx
@@ -33,7 +33,7 @@ _error_exit:
     int   $LINUX_SYSCALL
 
     pushl $STDERR
-    call  write_newline
+    call  _write_newline
 
                             # Exit with status 1.
     movl  $SYS_EXIT, %eax

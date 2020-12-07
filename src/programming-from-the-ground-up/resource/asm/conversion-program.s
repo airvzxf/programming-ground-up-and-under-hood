@@ -1,6 +1,6 @@
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
 
     .section .data          # This is where it will be
         tmp_buffer:         # stored.
@@ -19,7 +19,7 @@ _start:
 
     pushl $tmp_buffer       # Get the character count
                             # for our system call.
-    call  count_chars
+    call  _count_chars
     addl  $4, %esp
 
     movl  %eax, %edx        # The count goes in %edx
@@ -32,7 +32,7 @@ _start:
     int   $LINUX_SYSCALL
 
     pushl $STDOUT           # Write a carriage return.
-    call  write_newline
+    call  _write_newline
 
     movl  $SYS_EXIT, %eax   # Exit.
     movl  $0, %ebx
