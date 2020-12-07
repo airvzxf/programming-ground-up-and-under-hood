@@ -3604,7 +3604,7 @@ next programs we will need to access the different parts of the record
 above. This means we need to know the offsets of each field from the
 beginning of the record in order to access them using base pointer
 addressing mode. The following constants describe the offsets to the
-above structure. Put them in a file named `record-def.s`:
+above structure. Put them in a file named `006-01-record-def.s`:
 
 ``` gnuassembler
         .equ RECORD_FIRSTNAME,  0
@@ -3617,7 +3617,7 @@ above structure. Put them in a file named `record-def.s`:
 In addition, there are several constants that we have been defining over
 and over in our programs, and it is useful to put them in a file, so
 that we don't have to keep entering them. Put the following constants in
-a file called `linux.s`:
+a file called `006-01-linux.s`:
 
 ``` gnuassembler
     # ----- Common Linux Definitions ----- #
@@ -3647,7 +3647,7 @@ a file called `linux.s`:
 ```
 
 We will write three programs in this chapter using the structure defined
-in `record-def.s`. The first program will build a file containing
+in `006-01-record-def.s`. The first program will build a file containing
 several records as defined above. The second program will display the
 records in the file. The third program will add 1 year to the age of
 every record.
@@ -3664,13 +3664,13 @@ basically need:
 
 -   The file descriptor that we want to read from or write to.
 
-Let's look at our reading function first in `read-records.s`:
+Let's look at our reading function first in `006-01-read-record.s`:
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
-    .include "record-def.s" # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
     # PURPOSE:
     #     This function reads a record from the file
@@ -3714,13 +3714,13 @@ _read_record:
 
 It's a pretty simple function. It just reads data the size of our
 structure into an appropriately sized buffer from the given file
-descriptor. The writing one is similar in `write-record.s`:
+descriptor. The writing one is similar in `006-01-write-record.s`:
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
-    .include "record-def.s" # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
     # PURPOSE:
     #     This function writes a record to the given
@@ -3775,14 +3775,13 @@ This program will simply write some hardcoded records to disk. It will:
 
 -   Close the file.
 
-Type the following code into a file called `write-records.s`: .rept
-.endr padding null
+Type the following code into a file called `006-01-write-records.s`:
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
-    .include "record-def.s" # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
     .section .data
         # ----- CONSTANTS ----- #
@@ -3883,19 +3882,19 @@ _start:
                             # Write the first record.
     pushl ST_FILE_DESCRIPTOR(%ebp)
     pushl $record1
-    call  write_record
+    call  _write_record
     addl  $8, %esp
 
                             # Write the second record.
     pushl ST_FILE_DESCRIPTOR(%ebp)
     pushl $record2
-    call  write_record
+    call  _write_record
     addl  $8, %esp
 
                             # Write the third record.
     pushl ST_FILE_DESCRIPTOR(%ebp)
     pushl $record3
-    call  write_record
+    call  _write_record
     addl  $8, %esp
 
                             # Close the file descriptor
@@ -3920,8 +3919,8 @@ Calls](#appendix-c-important-system-calls).
 You may have noticed the lines:
 
 ``` gnuassembler
-.include "linux.s"                  # Common Linux Definitions.
-.include "record-def.s"             # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 ```
 
 These statements cause the given files to basically be pasted right
@@ -3940,16 +3939,18 @@ of each field until they are their defined lengths.
 To build the application, run the commands:
 
 ``` bash
-as -o write-records.o  write-records.s --gstabs+
-as -o write-record.o   write-record.s  --gstabs+
-ld -o write-records    write-record.o write-records.o
+as -o 006-01-write-record.o   006-01-write-record.s  --gstabs+
+as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
+
+ld -o 006-01-write-records    006-01-write-record.o \
+                              006-01-write-records.o
 ```
 
 Here we are assembling two files separately, and then combining them
 together using the linker. To run the program, just type the following:
 
 ``` bash
-./write-records
+./006-01-write-records
 ```
 
 This will cause a file called `test.dat` to be created containing the
@@ -3970,7 +3971,7 @@ field with null characters, we can simply count characters until we
 reach a null character.[35] Note that this means our records must
 contain at least one null character each.
 
-Here is the code. Put it in a file called `count-chars.s`:
+Here is the code. Put it in a file called `006-01-count-chars.s`:
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
@@ -4052,12 +4053,12 @@ do the following:
 
 To write this, we need one more simple function - a function to write
 out a newline to `STDOUT`. Put the following code into
-`write-newline.s`:
+`006-01-write-newline.s`:
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
 
         .globl _write_newline
         .type  _write_newline,  @function
@@ -4085,13 +4086,13 @@ _write_newline:
 ```
 
 Now we are ready to write the main program. Here is the code to
-`read-records.s`:
+`006-01-read-records.s`:
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
-    .include "record-def.s" # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
     .section .data
         file_name:
@@ -4140,7 +4141,7 @@ _start:
 _record_read_loop:
     pushl ST_INPUT_DESCRIPTOR(%ebp)
     pushl $record_buffer
-    call  read_record
+    call  _read_record
     addl  $8, %esp
 
     # Returns the number of bytes read. If it is not
@@ -4154,7 +4155,7 @@ _record_read_loop:
     # know the size.
     #
     pushl  $RECORD_FIRSTNAME + record_buffer
-    call   count_chars
+    call   _count_chars
     addl   $4, %esp
 
     movl   %eax, %edx
@@ -4164,7 +4165,7 @@ _record_read_loop:
     int    $LINUX_SYSCALL
 
     pushl  ST_OUTPUT_DESCRIPTOR(%ebp)
-    call   write_newline
+    call   _write_newline
     addl   $4, %esp
 
     jmp    _record_read_loop
@@ -4179,23 +4180,27 @@ To build this program, we need to assemble all of the parts and link
 them together:
 
 ``` bash
-as -o read-record.o    read-record.s   --gstabs+
-as -o count-chars.o    count-chars.s   --gstabs+
-as -o write-newline.o  write-newline.s --gstabs+
-as -o read-records.o   read-records.s  --gstabs+
-ld -o read-records     read-record.o count-chars.o \
-                       write-newline.o read-records.o
+as -o 006-01-count-chars.o    006-01-count-chars.s   --gstabs+
+as -o 006-01-read-record.o    006-01-read-record.s   --gstabs+
+as -o 006-01-read-records.o   006-01-read-records.s  --gstabs+
+as -o 006-01-write-newline.o  006-01-write-newline.s --gstabs+
+
+ld -o 006-01-read-records     006-01-count-chars.o \
+                              006-01-read-record.o \
+                              006-01-read-records.o \
+                              006-01-write-newline.o
 ```
 
 The backslash in the first line simply means that the command continues
-on the next line. You can run your program by doing `./read-records`.
+on the next line. You can run your program by doing
+`./006-01-read-records`.
 
 As you can see, this program opens the file and then runs a loop of
 reading, checking for the end of file, and writing the firstname. The
 one construct that might be new is the line that says:
 
 ``` gnuassembler
-pushl  $RECORD_FIRSTNAME + record_buffer
+    pushl  $RECORD_FIRSTNAME + record_buffer
 ```
 
 It looks like we are combining and add instruction with a push
@@ -4227,14 +4232,14 @@ In this section, we will write a program that:
 
 -   Writes the new record to the output file.
 
-Like most programs we've encountered recently, this program `add-year.s`
-is pretty straightforward.[36]
+Like most programs we've encountered recently, this program
+`006-01-add-year.s` is pretty straightforward.[36]
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
-    .include "record-def.s" # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
     .section .data
         input_file_name:
@@ -4278,7 +4283,7 @@ _start:
 _loop_begin:
     pushl ST_INPUT_DESCRIPTOR(%ebp)
     pushl $record_buffer
-    call  read_record
+    call  _read_record
     addl  $8, %esp
 
     # Returns the number of bytes read. If it is not
@@ -4294,7 +4299,7 @@ _loop_begin:
                             # Write the record out.
     pushl ST_OUTPUT_DESCRIPTOR(%ebp)
     pushl $record_buffer
-    call  write_record
+    call  _write_record
     addl  $8, %esp
 
     jmp   _loop_begin
@@ -4305,17 +4310,21 @@ _loop_end:
     int   $LINUX_SYSCALL
 ```
 
-You can type it in as `add-year.s`. To build it, type the following[37]:
+You can type it in as `006-01-add-year.s`. To build it, type the
+following[37]:
 
 ``` bash
-as -o add-year.o  add-year.s --gstabs+
-ld -o add-year    add-year.o read-record.o write-record.o
+as -o 006-01-add-year.o  006-01-add-year.s --gstabs+
+
+ld -o 006-01-add-year    006-01-add-year.o \
+                         006-01-read-record.o \
+                         006-01-write-record.o
 ```
 
 To run the program, just type in the following[38]:
 
 ``` bash
-./add-year
+./006-01-add-year
 ```
 
 This will add a year to every record listed in `test.dat` and write the
@@ -4372,10 +4381,10 @@ Review
 -   Rewrite the programs in this chapter to use command-line arguments
     to specify the filesnames.
 
--   Research the `lseek` system call. Rewrite the `add-year` program to
-    open the source file for both reading and writing (use $2 for the
-    read/write mode), and write the modified records back to the same
-    file they were read from.
+-   Research the `lseek` system call. Rewrite the `006-01-add-year`
+    program to open the source file for both reading and writing (use $2
+    for the read/write mode), and write the modified records back to the
+    same file they were read from.
 
 -   Research the various error codes that can be returned by the system
     calls made in these programs. Pick one to rewrite, and add code that
@@ -4641,7 +4650,7 @@ is a good fall-back, last resort mechanism.
 Making Our Program More Robust
 ------------------------------
 
-This section will go through making the `add-year.s` program from
+This section will go through making the `006-01-add-year.s` program from
 [Chapter 6. Reading and Writing Simple
 Records](#chapter-6-reading-and-writing-simple-records) a little more
 robust.
@@ -4654,7 +4663,7 @@ is pretty simple:
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
 
         .equ ST_ERROR_CODE,  8
         .equ ST_ERROR_MSG,   12
@@ -4669,7 +4678,7 @@ _error_exit:
                             # Write out error code.
     movl  ST_ERROR_CODE(%ebp), %ecx
     pushl %ecx
-    call  count_chars
+    call  _count_chars
     popl  %ecx
     movl  %eax, %edx
     movl  $STDERR, %ebx
@@ -4679,7 +4688,7 @@ _error_exit:
                             # Write out error message.
     movl  ST_ERROR_MSG(%ebp), %ecx
     pushl %ecx
-    call  count_chars
+    call  _count_chars
     popl  %ecx
     movl  %eax, %edx
     movl  $STDERR, %ebx
@@ -4687,7 +4696,7 @@ _error_exit:
     int   $LINUX_SYSCALL
 
     pushl $STDERR
-    call  write_newline
+    call  _write_newline
 
                             # Exit with status 1.
     movl  $SYS_EXIT, %eax
@@ -4699,10 +4708,10 @@ Enter it in a file called `error-exit.s`. To call it, you just need to
 push the address of an error message, and then an error code onto the
 stack, and call the function.
 
-Now let's look for potential error spots in our `add-year` program.
-First of all, we don't check to see if either of our `open` system calls
-actually complete properly. Linux returns its status code in *%eax*, so
-we need to check and see if there is an error.
+Now let's look for potential error spots in our `006-01-add-year`
+program. First of all, we don't check to see if either of our `open`
+system calls actually complete properly. Linux returns its status code
+in *%eax*, so we need to check and see if there is an error.
 
 ``` gnuassembler
     movl  $SYS_OPEN, %eax               # Open file for reading.
@@ -4748,10 +4757,15 @@ erroneous results you should add error checking and handling code.
 To assemble and link the files, do:
 
 ``` bash
-as -o add-year.o    add-year.s   --gstabs+
+as -o 006-01-add-year.o    006-01-add-year.s   --gstabs+
 as -o error-exit.o  error-exit.s --gstabs+
-ld -o add-year      add-year.o write-newline.o error-exit.o \
-                    read-record.o write-record.o count-chars.o
+
+ld -o 006-01-add-year      006-01-add-year.o \
+                           006-01-count-chars.o \
+                           006-01-read-record.o \
+                           006-01-write-newline.o \
+                           006-01-write-record.o \
+                           error-exit.o
 ```
 
 Now try to run it without the necessary files. It now exits cleanly and
@@ -4783,14 +4797,14 @@ Review
 
 ### Use the Concepts
 
--   Go through the `add-year.s` program and add error-checking code
-    after every system call.
+-   Go through the `006-01-add-year.s` program and add error-checking
+    code after every system call.
 
 -   Find one other program we have done so far, and add error-checking
     to that program.
 
--   Add a recovery mechanism for `add-year.s` that allows it to read
-    from STDIN if it cannot open the standard file.
+-   Add a recovery mechanism for `006-01-add-year.s` that allows it to
+    read from STDIN if it cannot open the standard file.
 
 ### Going Further
 
@@ -4876,7 +4890,7 @@ The program we will examine here is simple - it writes the characters
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
 
     # PURPOSE:
     #     This program writes the message
@@ -5311,8 +5325,8 @@ into a dynamic library to use in our programs. The first thing we would
 do is assemble them like normal:
 
 ``` bash
-as -o write-record.o  write-record.s --gstabs+
-as -o read-record.o   read-record.s  --gstabs+
+as -o 006-01-write-record.o  006-01-write-record.s --gstabs+
+as -o 006-01-read-record.o   006-01-read-record.s  --gstabs+
 ```
 
 Now, instead of linking them into a program, we want to link them into a
@@ -5328,14 +5342,14 @@ need to update the functions contained within it, we can just update
 this one file and not have to worry about which programs use it.
 
 Let's look at how we would link against this library. To link the
-`write-records` program, we would do the following:
+`006-01-write-records` program, we would do the following:
 
 ``` bash
-as -o write-records.o  write-records.s --gstabs+
-ld -o write-records    write-records.o \
-                       -lrecord \
-                       -L . \
-                       -dynamic-linker /lib/ld-linux.so.2
+as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
+ld -o 006-01-write-records    006-01-write-records.o \
+                              -lrecord \
+                              -L . \
+                              -dynamic-linker /lib/ld-linux.so.2
 ```
 
 In this command, `-L .` told the linker to look for libraries in the
@@ -5345,10 +5359,10 @@ directory, and a few others). As we've seen, the option
 option `-lrecord` tells the linker to search for functions in the file
 named `librecord.so`.
 
-Now the `write-records` program is built, but it will not run. If we try
-it, we will get an error like the following:
+Now the `006-01-write-records` program is built, but it will not run. If
+we try it, we will get an error like the following:
 
-    ./write-records: error while loading shared libraries:
+    `./006-01-write-records`: error while loading shared libraries:
     librecord.so: cannot open shared object file: No such file or directory
 
 This is because, by default, the dynamic linker only searches `/lib`,
@@ -5367,22 +5381,23 @@ Alternatively, if that gives you an error, do this instead:
 setenv LD_LIBRARY_PATH .
 ```
 
-Now, you can run `write-records` normally by typing `./write-records`.
-Setting `LD_LIBRARY_PATH` tells the linker to add whatever paths you
-give it to the library search path for dynamic libraries.
+Now, you can run `write-records` normally by typing
+`./006-01-write-records`. Setting `LD_LIBRARY_PATH` tells the linker to
+add whatever paths you give it to the library search path for dynamic
+libraries.
 
 <!-- TODO: Personal -> Test this ldd section, what is the real result? --->
 
 **TODO:** Personal -&gt; Test this ldd section. What is the real result?
 Maybe it is not working because itself is a library. Otherwise add a
-complete example where `read-records` use this dynamic library. Improve
-the text below when I know the real result.
+complete example where `006-01-read-records` use this dynamic library.
+Improve the text below when I know the real result.
 
 Let's print the shared object dependencies for `./write-recors`. It is a
 shared library. Try this:
 
 ``` bash
-ldd ./write-records
+ldd ./006-01-write-records
 ```
 
 It will report back something like:
@@ -6592,7 +6607,7 @@ a memory manager. Therefore, we will just use our memory manager to
 allocate a buffer for one of our file reading/writing programs instead
 of assigning it in the `.bss`.
 
-The program we will demonstrate this on is `read-records.s` from
+The program we will demonstrate this on is `006-01-read-records.s` from
 [Chapter 6. Reading and Writing Simple
 Records](#chapter-6-reading-and-writing-simple-records). This program
 uses a buffer named `record_buffer` to handle its input/output needs. We
@@ -6702,12 +6717,12 @@ call  deallocate
 Now you can build your program with the following commands:
 
 ``` bash
-as -o read-records.o  read-records.s --gstabs+
-ld -o read-records    alloc.o read-record.o read-records.o \
+as -o 006-01-read-records.o  006-01-read-records.s --gstabs+
+ld -o 006-01-read-records    alloc.o read-record.o 006-01-read-records.o \
                       write-newline.o count-chars.o
 ```
 
-You can then run your program by doing `./read-records`.
+You can then run your program by doing `./006-01-read-records`.
 
 The uses of dynamic memory allocation may not be apparent to you at this
 point, but as you go from academic exercises to real-life programs you
@@ -7791,14 +7806,14 @@ _end_copy_reversing_loop:
 ```
 
 To show this used in a full program, use the following code, along with
-the `count_chars` and `write_newline` functions written about in
+the `_count_chars` and `_write_newline` functions written about in
 previous chapters. The code should be in a file called
 `conversion-program.s`.
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
 
     .section .data          # This is where it will be
         tmp_buffer:         # stored.
@@ -7817,7 +7832,7 @@ _start:
 
     pushl $tmp_buffer       # Get the character count
                             # for our system call.
-    call  count_chars
+    call  _count_chars
     addl  $4, %esp
 
     movl  %eax, %edx        # The count goes in %edx
@@ -7830,7 +7845,7 @@ _start:
     int   $LINUX_SYSCALL
 
     pushl $STDOUT           # Write a carriage return.
-    call  write_newline
+    call  _write_newline
 
     movl  $SYS_EXIT, %eax   # Exit.
     movl  $0, %ebx
@@ -7840,12 +7855,12 @@ _start:
 To build the program, issue the following commands:
 
 ``` bash
-as -o integer-to-number.o   integer-to-string.s  --gstabs+
-as -o count-chars.o         count-chars.s        --gstabs+
-as -o write-newline.o       write-newline.s      --gstabs+
-as -o conversion-program.o  conversion-program.s --gstabs+
-ld -o conversion-program    integer-to-number.o count-chars.o \
-                            write-newline.o conversion-program.o
+as -o integer-to-number.o     integer-to-string.s  --gstabs+
+as -o 006-01-count-chars.o    006-01-count-chars.s        --gstabs+
+as -o 006-01-write-newline.o  006-01-write-newline.s      --gstabs+
+as -o conversion-program.o    conversion-program.s --gstabs+
+ld -o conversion-program      integer-to-number.o count-chars.o \
+                              write-newline.o conversion-program.o
 ```
 
 To run just type `./conversion-program` and the output should say `824`.
@@ -11800,12 +11815,12 @@ is you want to do. Most of them initialize data, do some processing in a
 loop, and then clean everything up.
 
 [37] This assumes that you have already built the object files
-`read-record.o` and `write-record.o` in the previous examples. If not,
-you will have to do so.
+`006-01-read-record.o` and `006-01-write-record.o` in the previous
+examples. If not, you will have to do so.
 
 [38] This is assuming you created the file in a previous run of
-`write-records`. If not, you need to run `write-records` first before
-running this program.
+`006-01-write-records`. If not, you need to run `006-01-write-records`
+first before running this program.
 
 [39] Each of these terms have slightly different meanings, but most
 people use them interchangeably anyway. Specifically, this chapter will

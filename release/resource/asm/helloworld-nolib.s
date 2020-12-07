@@ -1,6 +1,6 @@
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
 
     # PURPOSE:
     #     This program writes the message

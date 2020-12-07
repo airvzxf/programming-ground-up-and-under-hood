@@ -1,7 +1,7 @@
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
-    .include "record-def.s" # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
     .section .data
         input_file_name:
@@ -45,7 +45,7 @@ _start:
 _loop_begin:
     pushl ST_INPUT_DESCRIPTOR(%ebp)
     pushl $record_buffer
-    call  read_record
+    call  _read_record
     addl  $8, %esp
 
     # Returns the number of bytes read. If it is not
@@ -61,7 +61,7 @@ _loop_begin:
                             # Write the record out.
     pushl ST_OUTPUT_DESCRIPTOR(%ebp)
     pushl $record_buffer
-    call  write_record
+    call  _write_record
     addl  $8, %esp
 
     jmp   _loop_begin

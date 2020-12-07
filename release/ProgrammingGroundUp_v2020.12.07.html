@@ -1675,13 +1675,13 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>Age - 4 bytes.</p></li>
 </ul>
 <p>In this, everything is character data except for the age, which is simply a numeric field, using a standard 4-byte word (we could just use a single byte for this, but keeping it at a word makes it easier to process).</p>
-<p>In programming, you often have certain definitions that you will use over and over again within the program, or perhaps within several programs. It is good to separate these out into files that are simply included into the assembly language files as needed. For example, in our next programs we will need to access the different parts of the record above. This means we need to know the offsets of each field from the beginning of the record in order to access them using base pointer addressing mode. The following constants describe the offsets to the above structure. Put them in a file named <code>record-def.s</code>:</p>
+<p>In programming, you often have certain definitions that you will use over and over again within the program, or perhaps within several programs. It is good to separate these out into files that are simply included into the assembly language files as needed. For example, in our next programs we will need to access the different parts of the record above. This means we need to know the offsets of each field from the beginning of the record in order to access them using base pointer addressing mode. The following constants describe the offsets to the above structure. Put them in a file named <code>006-01-record-def.s</code>:</p>
 <div class="sourceCode" id="cb74" data-startFrom="3"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler" style="counter-reset: source-line 2;"><span id="cb74-3"><a href="#cb74-3"></a>        <span class="cn">.equ</span> RECORD_FIRSTNAME,  <span class="dv">0</span></span>
 <span id="cb74-4"><a href="#cb74-4"></a>        <span class="cn">.equ</span> RECORD_LASTNAME,   <span class="dv">40</span></span>
 <span id="cb74-5"><a href="#cb74-5"></a>        <span class="cn">.equ</span> RECORD_ADDRESS,    <span class="dv">80</span></span>
 <span id="cb74-6"><a href="#cb74-6"></a>        <span class="cn">.equ</span> RECORD_AGE,        <span class="dv">320</span></span>
 <span id="cb74-7"><a href="#cb74-7"></a>        <span class="cn">.equ</span> RECORD_SIZE,       <span class="dv">324</span></span></code></pre></div>
-<p>In addition, there are several constants that we have been defining over and over in our programs, and it is useful to put them in a file, so that we don't have to keep entering them. Put the following constants in a file called <code>linux.s</code>:</p>
+<p>In addition, there are several constants that we have been defining over and over in our programs, and it is useful to put them in a file, so that we don't have to keep entering them. Put the following constants in a file called <code>006-01-linux.s</code>:</p>
 <div class="sourceCode" id="cb75" data-startFrom="3"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler" style="counter-reset: source-line 2;"><span id="cb75-3"><a href="#cb75-3"></a>    <span class="co"># ----- Common Linux Definitions ----- #</span></span>
 <span id="cb75-4"><a href="#cb75-4"></a>    <span class="co">#</span></span>
 <span id="cb75-5"><a href="#cb75-5"></a>    <span class="co"># System Call Numbers.</span></span>
@@ -1706,18 +1706,18 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb75-24"><a href="#cb75-24"></a>    <span class="co"># Common Status Codes.</span></span>
 <span id="cb75-25"><a href="#cb75-25"></a>    <span class="co">#</span></span>
 <span id="cb75-26"><a href="#cb75-26"></a>        <span class="cn">.equ</span> END_OF_FILE,    <span class="dv">0</span></span></code></pre></div>
-<p>We will write three programs in this chapter using the structure defined in <code>record-def.s</code>. The first program will build a file containing several records as defined above. The second program will display the records in the file. The third program will add 1 year to the age of every record.</p>
+<p>We will write three programs in this chapter using the structure defined in <code>006-01-record-def.s</code>. The first program will build a file containing several records as defined above. The second program will display the records in the file. The third program will add 1 year to the age of every record.</p>
 <p>In addition to the standard constants we will be using throughout the programs, there are also two functions that we will be using in several of the programs - one which reads a record and one which writes a record.</p>
 <p>What parameters do these functions need in order to operate? We basically need:</p>
 <ul>
 <li><p>The location of a buffer that we can read a record into.</p></li>
 <li><p>The file descriptor that we want to read from or write to.</p></li>
 </ul>
-<p>Let's look at our reading function first in <code>read-records.s</code>:</p>
+<p>Let's look at our reading function first in <code>006-01-read-record.s</code>:</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb76-1"><a href="#cb76-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb76-2"><a href="#cb76-2"></a>    <span class="co">#</span></span>
-<span id="cb76-3"><a href="#cb76-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
-<span id="cb76-4"><a href="#cb76-4"></a>    <span class="im">.include</span> <span class="st">&quot;record-def.s&quot;</span> <span class="co"># Record definitions.</span></span>
+<span id="cb76-3"><a href="#cb76-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
+<span id="cb76-4"><a href="#cb76-4"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-record-def.s&quot;</span> <span class="co"># Record definitions</span></span>
 <span id="cb76-5"><a href="#cb76-5"></a></span>
 <span id="cb76-6"><a href="#cb76-6"></a>    <span class="co"># PURPOSE:</span></span>
 <span id="cb76-7"><a href="#cb76-7"></a>    <span class="co">#     This function reads a record from the file</span></span>
@@ -1757,11 +1757,11 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb76-41"><a href="#cb76-41"></a>    <span class="kw">movl</span>  <span class="va">%ebp</span>, <span class="va">%esp</span></span>
 <span id="cb76-42"><a href="#cb76-42"></a>    <span class="kw">popl</span>  <span class="va">%ebp</span></span>
 <span id="cb76-43"><a href="#cb76-43"></a>    <span class="cf">ret</span></span></code></pre></div>
-<p>It's a pretty simple function. It just reads data the size of our structure into an appropriately sized buffer from the given file descriptor. The writing one is similar in <code>write-record.s</code>:</p>
+<p>It's a pretty simple function. It just reads data the size of our structure into an appropriately sized buffer from the given file descriptor. The writing one is similar in <code>006-01-write-record.s</code>:</p>
 <div class="sourceCode" id="cb77"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb77-1"><a href="#cb77-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb77-2"><a href="#cb77-2"></a>    <span class="co">#</span></span>
-<span id="cb77-3"><a href="#cb77-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
-<span id="cb77-4"><a href="#cb77-4"></a>    <span class="im">.include</span> <span class="st">&quot;record-def.s&quot;</span> <span class="co"># Record definitions.</span></span>
+<span id="cb77-3"><a href="#cb77-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
+<span id="cb77-4"><a href="#cb77-4"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-record-def.s&quot;</span> <span class="co"># Record definitions</span></span>
 <span id="cb77-5"><a href="#cb77-5"></a></span>
 <span id="cb77-6"><a href="#cb77-6"></a>    <span class="co"># PURPOSE:</span></span>
 <span id="cb77-7"><a href="#cb77-7"></a>    <span class="co">#     This function writes a record to the given</span></span>
@@ -1808,11 +1808,11 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>Write three records.</p></li>
 <li><p>Close the file.</p></li>
 </ul>
-<p>Type the following code into a file called <code>write-records.s</code>: .rept .endr padding null</p>
+<p>Type the following code into a file called <code>006-01-write-records.s</code>:</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb78-1"><a href="#cb78-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb78-2"><a href="#cb78-2"></a>    <span class="co">#</span></span>
-<span id="cb78-3"><a href="#cb78-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
-<span id="cb78-4"><a href="#cb78-4"></a>    <span class="im">.include</span> <span class="st">&quot;record-def.s&quot;</span> <span class="co"># Record definitions.</span></span>
+<span id="cb78-3"><a href="#cb78-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
+<span id="cb78-4"><a href="#cb78-4"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-record-def.s&quot;</span> <span class="co"># Record definitions</span></span>
 <span id="cb78-5"><a href="#cb78-5"></a></span>
 <span id="cb78-6"><a href="#cb78-6"></a>    <span class="pp">.section</span> <span class="an">.data</span></span>
 <span id="cb78-7"><a href="#cb78-7"></a>        <span class="co"># ----- CONSTANTS ----- #</span></span>
@@ -1913,19 +1913,19 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb78-102"><a href="#cb78-102"></a>                            <span class="co"># Write the first record.</span></span>
 <span id="cb78-103"><a href="#cb78-103"></a>    <span class="kw">pushl</span> ST_FILE_DESCRIPTOR(<span class="va">%ebp</span>)</span>
 <span id="cb78-104"><a href="#cb78-104"></a>    <span class="kw">pushl</span> $record1</span>
-<span id="cb78-105"><a href="#cb78-105"></a>    <span class="cf">call</span>  write_record</span>
+<span id="cb78-105"><a href="#cb78-105"></a>    <span class="cf">call</span>  <span class="fu">_write_record</span></span>
 <span id="cb78-106"><a href="#cb78-106"></a>    <span class="op">addl</span>  $<span class="dv">8</span>, <span class="va">%esp</span></span>
 <span id="cb78-107"><a href="#cb78-107"></a></span>
 <span id="cb78-108"><a href="#cb78-108"></a>                            <span class="co"># Write the second record.</span></span>
 <span id="cb78-109"><a href="#cb78-109"></a>    <span class="kw">pushl</span> ST_FILE_DESCRIPTOR(<span class="va">%ebp</span>)</span>
 <span id="cb78-110"><a href="#cb78-110"></a>    <span class="kw">pushl</span> $record2</span>
-<span id="cb78-111"><a href="#cb78-111"></a>    <span class="cf">call</span>  write_record</span>
+<span id="cb78-111"><a href="#cb78-111"></a>    <span class="cf">call</span>  <span class="fu">_write_record</span></span>
 <span id="cb78-112"><a href="#cb78-112"></a>    <span class="op">addl</span>  $<span class="dv">8</span>, <span class="va">%esp</span></span>
 <span id="cb78-113"><a href="#cb78-113"></a></span>
 <span id="cb78-114"><a href="#cb78-114"></a>                            <span class="co"># Write the third record.</span></span>
 <span id="cb78-115"><a href="#cb78-115"></a>    <span class="kw">pushl</span> ST_FILE_DESCRIPTOR(<span class="va">%ebp</span>)</span>
 <span id="cb78-116"><a href="#cb78-116"></a>    <span class="kw">pushl</span> $record3</span>
-<span id="cb78-117"><a href="#cb78-117"></a>    <span class="cf">call</span>  write_record</span>
+<span id="cb78-117"><a href="#cb78-117"></a>    <span class="cf">call</span>  <span class="fu">_write_record</span></span>
 <span id="cb78-118"><a href="#cb78-118"></a>    <span class="op">addl</span>  $<span class="dv">8</span>, <span class="va">%esp</span></span>
 <span id="cb78-119"><a href="#cb78-119"></a></span>
 <span id="cb78-120"><a href="#cb78-120"></a>                            <span class="co"># Close the file descriptor</span></span>
@@ -1940,21 +1940,23 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <!-- TODO: Need to add info on how to use a hexdump to read the values -->
 <p>This is a fairly simple program. It merely consists of defining the data we want to write in the <code>.data</code> section, and then calling the right system calls and function calls to accomplish it. For a refresher of all of the system calls used, see <a href="#appendix-c-important-system-calls">Appendix C. Important System Calls</a>.</p>
 <p>You may have noticed the lines:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb79-1"><a href="#cb79-1"></a><span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>                  <span class="co"># Common Linux Definitions.</span></span>
-<span id="cb79-2"><a href="#cb79-2"></a><span class="im">.include</span> <span class="st">&quot;record-def.s&quot;</span>             <span class="co"># Record definitions.</span></span></code></pre></div>
+<div class="sourceCode" id="cb79" data-startFrom="3"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler" style="counter-reset: source-line 2;"><span id="cb79-3"><a href="#cb79-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
+<span id="cb79-4"><a href="#cb79-4"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-record-def.s&quot;</span> <span class="co"># Record definitions</span></span></code></pre></div>
 <p>These statements cause the given files to basically be pasted right there in the code. You don't need to do this with functions, because the linker can take care of combining functions exported with <code>.globl</code>. However, constants defined in another file do need to be imported in this way.</p>
 <p>Also, you may have noticed the use of a new assembler directive, <code>.rept</code>. This directive repeats the contents of the file between the <code>.rept</code> and the <code>.endr</code> directives the number of times specified after <code>.rept</code>. This is usually used the way we used it - to pad values in the <code>.data</code> section. In our case, we are adding null characters to the end of each field until they are their defined lengths.</p>
 <p>To build the application, run the commands:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> write-records.o  write-records.s <span class="at">--gstabs+</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> write-record.o   write-record.s  <span class="at">--gstabs+</span></span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> write-records    write-record.o write-records.o</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-record.o   006-01-write-record.s  <span class="at">--gstabs+</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-records.o  006-01-write-records.s <span class="at">--gstabs+</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-write-records    006-01-write-record.o \</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>                              006-01-write-records.o</span></code></pre></div>
 <p>Here we are assembling two files separately, and then combining them together using the linker. To run the program, just type the following:</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>./write-records</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>./006-01-write-records</span></code></pre></div>
 <p>This will cause a file called <code>test.dat</code> to be created containing the records. However, since they contain non-printable characters (the null character, specifically), they may not be viewable by a text editor. Therefore we need the next program to read them for us.</p>
 <h2 id="reading-records">Reading Records</h2>
 <p>Now we will consider the process of reading records. In this program, we will read each record and display the first name listed with each record.</p>
 <p>Since each person's name is a different length, we will need a function to count the number of characters we want to write. Since we pad each field with null characters, we can simply count characters until we reach a null character.<a href="#fn35" class="footnote-ref" id="fnref35" role="doc-noteref"><sup>35</sup></a> Note that this means our records must contain at least one null character each.</p>
-<p>Here is the code. Put it in a file called <code>count-chars.s</code>:</p>
+<p>Here is the code. Put it in a file called <code>006-01-count-chars.s</code>:</p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb82-1"><a href="#cb82-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb82-2"><a href="#cb82-2"></a>    <span class="co">#</span></span>
 <span id="cb82-3"><a href="#cb82-3"></a>    <span class="co"># PURPOSE:</span></span>
@@ -2020,10 +2022,10 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>Write a newline to <code>STDOUT</code>.</p></li>
 <li><p>Go back to read another record.</p></li>
 </ul>
-<p>To write this, we need one more simple function - a function to write out a newline to <code>STDOUT</code>. Put the following code into <code>write-newline.s</code>:</p>
+<p>To write this, we need one more simple function - a function to write out a newline to <code>STDOUT</code>. Put the following code into <code>006-01-write-newline.s</code>:</p>
 <div class="sourceCode" id="cb83"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb83-1"><a href="#cb83-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb83-2"><a href="#cb83-2"></a>    <span class="co">#</span></span>
-<span id="cb83-3"><a href="#cb83-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
+<span id="cb83-3"><a href="#cb83-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
 <span id="cb83-4"><a href="#cb83-4"></a></span>
 <span id="cb83-5"><a href="#cb83-5"></a>        <span class="an">.globl</span> <span class="fu">_write_newline</span></span>
 <span id="cb83-6"><a href="#cb83-6"></a>        <span class="an">.type</span>  <span class="fu">_write_newline</span>,  <span class="fu">@function</span></span>
@@ -2048,11 +2050,11 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb83-25"><a href="#cb83-25"></a>    <span class="kw">movl</span>  <span class="va">%ebp</span>, <span class="va">%esp</span></span>
 <span id="cb83-26"><a href="#cb83-26"></a>    <span class="kw">popl</span>  <span class="va">%ebp</span></span>
 <span id="cb83-27"><a href="#cb83-27"></a>    <span class="cf">ret</span></span></code></pre></div>
-<p>Now we are ready to write the main program. Here is the code to <code>read-records.s</code>:</p>
+<p>Now we are ready to write the main program. Here is the code to <code>006-01-read-records.s</code>:</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb84-1"><a href="#cb84-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb84-2"><a href="#cb84-2"></a>    <span class="co">#</span></span>
-<span id="cb84-3"><a href="#cb84-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
-<span id="cb84-4"><a href="#cb84-4"></a>    <span class="im">.include</span> <span class="st">&quot;record-def.s&quot;</span> <span class="co"># Record definitions.</span></span>
+<span id="cb84-3"><a href="#cb84-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
+<span id="cb84-4"><a href="#cb84-4"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-record-def.s&quot;</span> <span class="co"># Record definitions</span></span>
 <span id="cb84-5"><a href="#cb84-5"></a></span>
 <span id="cb84-6"><a href="#cb84-6"></a>    <span class="pp">.section</span> <span class="an">.data</span></span>
 <span id="cb84-7"><a href="#cb84-7"></a>        file_name:</span>
@@ -2101,7 +2103,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-50"><a href="#cb84-50"></a><span class="fu">_record_read_loop:</span></span>
 <span id="cb84-51"><a href="#cb84-51"></a>    <span class="kw">pushl</span> ST_INPUT_DESCRIPTOR(<span class="va">%ebp</span>)</span>
 <span id="cb84-52"><a href="#cb84-52"></a>    <span class="kw">pushl</span> $record_buffer</span>
-<span id="cb84-53"><a href="#cb84-53"></a>    <span class="cf">call</span>  read_record</span>
+<span id="cb84-53"><a href="#cb84-53"></a>    <span class="cf">call</span>  <span class="fu">_read_record</span></span>
 <span id="cb84-54"><a href="#cb84-54"></a>    <span class="op">addl</span>  $<span class="dv">8</span>, <span class="va">%esp</span></span>
 <span id="cb84-55"><a href="#cb84-55"></a></span>
 <span id="cb84-56"><a href="#cb84-56"></a>    <span class="co"># Returns the number of bytes read. If it is not</span></span>
@@ -2115,7 +2117,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-64"><a href="#cb84-64"></a>    <span class="co"># know the size.</span></span>
 <span id="cb84-65"><a href="#cb84-65"></a>    <span class="co">#</span></span>
 <span id="cb84-66"><a href="#cb84-66"></a>    <span class="kw">pushl</span>  $RECORD_FIRSTNAME + record_buffer</span>
-<span id="cb84-67"><a href="#cb84-67"></a>    <span class="cf">call</span>   count_chars</span>
+<span id="cb84-67"><a href="#cb84-67"></a>    <span class="cf">call</span>   <span class="fu">_count_chars</span></span>
 <span id="cb84-68"><a href="#cb84-68"></a>    <span class="op">addl</span>   $<span class="dv">4</span>, <span class="va">%esp</span></span>
 <span id="cb84-69"><a href="#cb84-69"></a></span>
 <span id="cb84-70"><a href="#cb84-70"></a>    <span class="kw">movl</span>   <span class="va">%eax</span>, <span class="va">%edx</span></span>
@@ -2125,7 +2127,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-74"><a href="#cb84-74"></a>    <span class="ot">int</span>    $LINUX_SYSCALL</span>
 <span id="cb84-75"><a href="#cb84-75"></a></span>
 <span id="cb84-76"><a href="#cb84-76"></a>    <span class="kw">pushl</span>  ST_OUTPUT_DESCRIPTOR(<span class="va">%ebp</span>)</span>
-<span id="cb84-77"><a href="#cb84-77"></a>    <span class="cf">call</span>   write_newline</span>
+<span id="cb84-77"><a href="#cb84-77"></a>    <span class="cf">call</span>   <span class="fu">_write_newline</span></span>
 <span id="cb84-78"><a href="#cb84-78"></a>    <span class="op">addl</span>   $<span class="dv">4</span>, <span class="va">%esp</span></span>
 <span id="cb84-79"><a href="#cb84-79"></a></span>
 <span id="cb84-80"><a href="#cb84-80"></a>    <span class="cf">jmp</span>    <span class="fu">_record_read_loop</span></span>
@@ -2135,15 +2137,18 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-84"><a href="#cb84-84"></a>    <span class="kw">movl</span>   $<span class="dv">0</span>, <span class="va">%ebx</span></span>
 <span id="cb84-85"><a href="#cb84-85"></a>    <span class="ot">int</span>    $LINUX_SYSCALL</span></code></pre></div>
 <p>To build this program, we need to assemble all of the parts and link them together:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> read-record.o    read-record.s   <span class="at">--gstabs+</span></span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> count-chars.o    count-chars.s   <span class="at">--gstabs+</span></span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> write-newline.o  write-newline.s <span class="at">--gstabs+</span></span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> read-records.o   read-records.s  <span class="at">--gstabs+</span></span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> read-records     read-record.o count-chars.o \</span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>                       write-newline.o read-records.o</span></code></pre></div>
-<p>The backslash in the first line simply means that the command continues on the next line. You can run your program by doing <code>./read-records</code>.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-count-chars.o    006-01-count-chars.s   <span class="at">--gstabs+</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-record.o    006-01-read-record.s   <span class="at">--gstabs+</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-records.o   006-01-read-records.s  <span class="at">--gstabs+</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-newline.o  006-01-write-newline.s <span class="at">--gstabs+</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-read-records     006-01-count-chars.o \</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>                              006-01-read-record.o \</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>                              006-01-read-records.o \</span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>                              006-01-write-newline.o</span></code></pre></div>
+<p>The backslash in the first line simply means that the command continues on the next line. You can run your program by doing <code>./006-01-read-records</code>.</p>
 <p>As you can see, this program opens the file and then runs a loop of reading, checking for the end of file, and writing the firstname. The one construct that might be new is the line that says:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb86-1"><a href="#cb86-1"></a><span class="kw">pushl</span>  $RECORD_FIRSTNAME + record_buffer</span></code></pre></div>
+<div class="sourceCode" id="cb86" data-startFrom="66"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler" style="counter-reset: source-line 65;"><span id="cb86-66"><a href="#cb86-66"></a>    <span class="kw">pushl</span>  $RECORD_FIRSTNAME + record_buffer</span></code></pre></div>
 <p>It looks like we are combining and add instruction with a push instruction, but we are not. You see, both <code>RECORD_FIRSTNAME</code> and <code>record_buffer</code> are constants. The first is a direct constant, created through the use of a <code>.equ</code> directive, while the latter is defined automatically by the assembler through its use as a label (it's value being the address that the data that follows it will start at). Since they are both constants that the assembler knows, it is able to add them together while it is assembling your program, so the whole instruction is a single immediate mode addressing push of a single constant.</p>
 <p>The <code>RECORD_FIRSTNAME</code> constant is the number of bytes after the beginning of a record before we hit the first name. <code>record_buffer</code> is the name of our buffer for holding records. Adding them together gets us the address of the first name member of the record stored in <code>record_buffer</code>.</p>
 <h2 id="modifying-the-records">Modifying the Records</h2>
@@ -2154,11 +2159,11 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <li><p>Increments the age.</p></li>
 <li><p>Writes the new record to the output file.</p></li>
 </ul>
-<p>Like most programs we've encountered recently, this program <code>add-year.s</code> is pretty straightforward.<a href="#fn36" class="footnote-ref" id="fnref36" role="doc-noteref"><sup>36</sup></a></p>
+<p>Like most programs we've encountered recently, this program <code>006-01-add-year.s</code> is pretty straightforward.<a href="#fn36" class="footnote-ref" id="fnref36" role="doc-noteref"><sup>36</sup></a></p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb87-1"><a href="#cb87-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb87-2"><a href="#cb87-2"></a>    <span class="co">#</span></span>
-<span id="cb87-3"><a href="#cb87-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
-<span id="cb87-4"><a href="#cb87-4"></a>    <span class="im">.include</span> <span class="st">&quot;record-def.s&quot;</span> <span class="co"># Record definitions.</span></span>
+<span id="cb87-3"><a href="#cb87-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
+<span id="cb87-4"><a href="#cb87-4"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-record-def.s&quot;</span> <span class="co"># Record definitions</span></span>
 <span id="cb87-5"><a href="#cb87-5"></a></span>
 <span id="cb87-6"><a href="#cb87-6"></a>    <span class="pp">.section</span> <span class="an">.data</span></span>
 <span id="cb87-7"><a href="#cb87-7"></a>        input_file_name:</span>
@@ -2202,7 +2207,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb87-45"><a href="#cb87-45"></a><span class="fu">_loop_begin:</span></span>
 <span id="cb87-46"><a href="#cb87-46"></a>    <span class="kw">pushl</span> ST_INPUT_DESCRIPTOR(<span class="va">%ebp</span>)</span>
 <span id="cb87-47"><a href="#cb87-47"></a>    <span class="kw">pushl</span> $record_buffer</span>
-<span id="cb87-48"><a href="#cb87-48"></a>    <span class="cf">call</span>  read_record</span>
+<span id="cb87-48"><a href="#cb87-48"></a>    <span class="cf">call</span>  <span class="fu">_read_record</span></span>
 <span id="cb87-49"><a href="#cb87-49"></a>    <span class="op">addl</span>  $<span class="dv">8</span>, <span class="va">%esp</span></span>
 <span id="cb87-50"><a href="#cb87-50"></a></span>
 <span id="cb87-51"><a href="#cb87-51"></a>    <span class="co"># Returns the number of bytes read. If it is not</span></span>
@@ -2218,7 +2223,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb87-61"><a href="#cb87-61"></a>                            <span class="co"># Write the record out.</span></span>
 <span id="cb87-62"><a href="#cb87-62"></a>    <span class="kw">pushl</span> ST_OUTPUT_DESCRIPTOR(<span class="va">%ebp</span>)</span>
 <span id="cb87-63"><a href="#cb87-63"></a>    <span class="kw">pushl</span> $record_buffer</span>
-<span id="cb87-64"><a href="#cb87-64"></a>    <span class="cf">call</span>  write_record</span>
+<span id="cb87-64"><a href="#cb87-64"></a>    <span class="cf">call</span>  <span class="fu">_write_record</span></span>
 <span id="cb87-65"><a href="#cb87-65"></a>    <span class="op">addl</span>  $<span class="dv">8</span>, <span class="va">%esp</span></span>
 <span id="cb87-66"><a href="#cb87-66"></a></span>
 <span id="cb87-67"><a href="#cb87-67"></a>    <span class="cf">jmp</span>   <span class="fu">_loop_begin</span></span>
@@ -2227,11 +2232,14 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb87-70"><a href="#cb87-70"></a>    <span class="kw">movl</span>  $SYS_EXIT, <span class="va">%eax</span></span>
 <span id="cb87-71"><a href="#cb87-71"></a>    <span class="kw">movl</span>  $<span class="dv">0</span>, <span class="va">%ebx</span></span>
 <span id="cb87-72"><a href="#cb87-72"></a>    <span class="ot">int</span>   $LINUX_SYSCALL</span></code></pre></div>
-<p>You can type it in as <code>add-year.s</code>. To build it, type the following<a href="#fn37" class="footnote-ref" id="fnref37" role="doc-noteref"><sup>37</sup></a>:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> add-year.o  add-year.s <span class="at">--gstabs+</span></span>
-<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> add-year    add-year.o read-record.o write-record.o</span></code></pre></div>
+<p>You can type it in as <code>006-01-add-year.s</code>. To build it, type the following<a href="#fn37" class="footnote-ref" id="fnref37" role="doc-noteref"><sup>37</sup></a>:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-add-year.o  006-01-add-year.s <span class="at">--gstabs+</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-add-year    006-01-add-year.o \</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>                         006-01-read-record.o \</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>                         006-01-write-record.o</span></code></pre></div>
 <p>To run the program, just type in the following<a href="#fn38" class="footnote-ref" id="fnref38" role="doc-noteref"><sup>38</sup></a>:</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>./add-year</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>./006-01-add-year</span></code></pre></div>
 <p>This will add a year to every record listed in <code>test.dat</code> and write the new records to the file <code>testout.dat</code>.</p>
 <p>As you can see, writing fixed-length records is pretty simple. You only have to read in blocks of data to a buffer, process them, and write them back out. Unfortunately, this program doesn't write the new ages out to the screen so you can verify your program's effectiveness. This is because we won't get to displaying numbers until <a href="#chapter-8-sharing-functions-with-code-libraries">Sharing Functions with Code Libraries</a> and <a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>. After reading those you may want to come back and rewrite this program to display the numeric data that we are modifying.</p>
 <h2 id="review-4">Review</h2>
@@ -2253,7 +2261,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <h3 id="going-further-4">Going Further</h3>
 <ul>
 <li><p>Rewrite the programs in this chapter to use command-line arguments to specify the filesnames.</p></li>
-<li><p>Research the <code>lseek</code> system call. Rewrite the <code>add-year</code> program to open the source file for both reading and writing (use $2 for the read/write mode), and write the modified records back to the same file they were read from.</p></li>
+<li><p>Research the <code>lseek</code> system call. Rewrite the <code>006-01-add-year</code> program to open the source file for both reading and writing (use $2 for the read/write mode), and write the modified records back to the same file they were read from.</p></li>
 <li><p>Research the various error codes that can be returned by the system calls made in these programs. Pick one to rewrite, and add code that checks <em>%eax</em> for error conditions, and, if one is found, writes a message about it to <code>STDERR</code> and exit.</p></li>
 <li><p>Write a program that will add a single record to the file by reading the data from the keyboard. Remember, you will have to make sure that the data has at least one null character at the end, and you need to have a way for the user to indicate they are done typing. Because we have not gotten into characters to numbers conversion, you will not be able to read the age in from the keyboard, so you'll have to have a default age.</p></li>
 <li><p>Write a function called <code>compare-strings</code> that will compare two strings up to 5 characters. Then write a program that allows the user to enter 5 characters, and have the program return all records whose first name starts with those 5 characters.</p></li>
@@ -2308,11 +2316,11 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>When using recovery points, you often need to include cleanup code to handle different contingencies. For example, in our configuration file example, the recovery function would need to include code to check and see if the configuration file was still open. Depending on where the error occurred, the file may have been left open. The recovery function needs to check for this condition, and any other condition that might lead to system instability, and return the program to a consistent state.</p>
 <p>The simplest way to handle recovery points is to wrap the whole program into a single recovery point. You would just have a simple error-reporting function that you can call with an error code and a message. The function would print them and and simply exit the program. This is not usually the best solution for real-world situations, but it is a good fall-back, last resort mechanism.</p>
 <h2 id="making-our-program-more-robust">Making Our Program More Robust</h2>
-<p>This section will go through making the <code>add-year.s</code> program from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a> a little more robust.</p>
+<p>This section will go through making the <code>006-01-add-year.s</code> program from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a> a little more robust.</p>
 <p>Since this is a pretty simple program, we will limit ourselves to a single recovery point that covers the whole program. The only thing we will do to recover is to print the error and exit. The code to do that is pretty simple:</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb90-1"><a href="#cb90-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb90-2"><a href="#cb90-2"></a>    <span class="co">#</span></span>
-<span id="cb90-3"><a href="#cb90-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
+<span id="cb90-3"><a href="#cb90-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
 <span id="cb90-4"><a href="#cb90-4"></a></span>
 <span id="cb90-5"><a href="#cb90-5"></a>        <span class="cn">.equ</span> ST_ERROR_CODE,  <span class="dv">8</span></span>
 <span id="cb90-6"><a href="#cb90-6"></a>        <span class="cn">.equ</span> ST_ERROR_MSG,   <span class="dv">12</span></span>
@@ -2327,7 +2335,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb90-15"><a href="#cb90-15"></a>                            <span class="co"># Write out error code.</span></span>
 <span id="cb90-16"><a href="#cb90-16"></a>    <span class="kw">movl</span>  ST_ERROR_CODE(<span class="va">%ebp</span>), <span class="va">%ecx</span></span>
 <span id="cb90-17"><a href="#cb90-17"></a>    <span class="kw">pushl</span> <span class="va">%ecx</span></span>
-<span id="cb90-18"><a href="#cb90-18"></a>    <span class="cf">call</span>  count_chars</span>
+<span id="cb90-18"><a href="#cb90-18"></a>    <span class="cf">call</span>  <span class="fu">_count_chars</span></span>
 <span id="cb90-19"><a href="#cb90-19"></a>    <span class="kw">popl</span>  <span class="va">%ecx</span></span>
 <span id="cb90-20"><a href="#cb90-20"></a>    <span class="kw">movl</span>  <span class="va">%eax</span>, <span class="va">%edx</span></span>
 <span id="cb90-21"><a href="#cb90-21"></a>    <span class="kw">movl</span>  $STDERR, <span class="va">%ebx</span></span>
@@ -2337,7 +2345,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb90-25"><a href="#cb90-25"></a>                            <span class="co"># Write out error message.</span></span>
 <span id="cb90-26"><a href="#cb90-26"></a>    <span class="kw">movl</span>  ST_ERROR_MSG(<span class="va">%ebp</span>), <span class="va">%ecx</span></span>
 <span id="cb90-27"><a href="#cb90-27"></a>    <span class="kw">pushl</span> <span class="va">%ecx</span></span>
-<span id="cb90-28"><a href="#cb90-28"></a>    <span class="cf">call</span>  count_chars</span>
+<span id="cb90-28"><a href="#cb90-28"></a>    <span class="cf">call</span>  <span class="fu">_count_chars</span></span>
 <span id="cb90-29"><a href="#cb90-29"></a>    <span class="kw">popl</span>  <span class="va">%ecx</span></span>
 <span id="cb90-30"><a href="#cb90-30"></a>    <span class="kw">movl</span>  <span class="va">%eax</span>, <span class="va">%edx</span></span>
 <span id="cb90-31"><a href="#cb90-31"></a>    <span class="kw">movl</span>  $STDERR, <span class="va">%ebx</span></span>
@@ -2345,14 +2353,14 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb90-33"><a href="#cb90-33"></a>    <span class="ot">int</span>   $LINUX_SYSCALL</span>
 <span id="cb90-34"><a href="#cb90-34"></a></span>
 <span id="cb90-35"><a href="#cb90-35"></a>    <span class="kw">pushl</span> $STDERR</span>
-<span id="cb90-36"><a href="#cb90-36"></a>    <span class="cf">call</span>  write_newline</span>
+<span id="cb90-36"><a href="#cb90-36"></a>    <span class="cf">call</span>  <span class="fu">_write_newline</span></span>
 <span id="cb90-37"><a href="#cb90-37"></a></span>
 <span id="cb90-38"><a href="#cb90-38"></a>                            <span class="co"># Exit with status 1.</span></span>
 <span id="cb90-39"><a href="#cb90-39"></a>    <span class="kw">movl</span>  $SYS_EXIT, <span class="va">%eax</span></span>
 <span id="cb90-40"><a href="#cb90-40"></a>    <span class="kw">movl</span>  $<span class="dv">1</span>, <span class="va">%ebx</span></span>
 <span id="cb90-41"><a href="#cb90-41"></a>    <span class="ot">int</span>   $LINUX_SYSCALL</span></code></pre></div>
 <p>Enter it in a file called <code>error-exit.s</code>. To call it, you just need to push the address of an error message, and then an error code onto the stack, and call the function.</p>
-<p>Now let's look for potential error spots in our <code>add-year</code> program. First of all, we don't check to see if either of our <code>open</code> system calls actually complete properly. Linux returns its status code in <em>%eax</em>, so we need to check and see if there is an error.</p>
+<p>Now let's look for potential error spots in our <code>006-01-add-year</code> program. First of all, we don't check to see if either of our <code>open</code> system calls actually complete properly. Linux returns its status code in <em>%eax</em>, so we need to check and see if there is an error.</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb91-1"><a href="#cb91-1"></a>    <span class="kw">movl</span>  $SYS_OPEN, <span class="va">%eax</span>               <span class="co"># Open file for reading.</span></span>
 <span id="cb91-2"><a href="#cb91-2"></a>    <span class="kw">movl</span>  $input_file_name, <span class="va">%ebx</span></span>
 <span id="cb91-3"><a href="#cb91-3"></a>    <span class="kw">movl</span>  $<span class="dv">0</span>, <span class="va">%ecx</span></span>
@@ -2387,10 +2395,15 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>So, after calling the system call, we check and see if we have an error by checking to see if the result of the system call is less than zero. If so, we call our error reporting and exit routine.</p>
 <p>After every system call, function call, or instruction which can have erroneous results you should add error checking and handling code.</p>
 <p>To assemble and link the files, do:</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> add-year.o    add-year.s   <span class="at">--gstabs+</span></span>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-add-year.o    006-01-add-year.s   <span class="at">--gstabs+</span></span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> error-exit.o  error-exit.s <span class="at">--gstabs+</span></span>
-<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> add-year      add-year.o write-newline.o error-exit.o \</span>
-<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>                    read-record.o write-record.o count-chars.o</span></code></pre></div>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-add-year      006-01-add-year.o \</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>                           006-01-count-chars.o \</span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>                           006-01-read-record.o \</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>                           006-01-write-newline.o \</span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>                           006-01-write-record.o \</span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a>                           error-exit.o</span></code></pre></div>
 <p>Now try to run it without the necessary files. It now exits cleanly and gracefully!</p>
 <h2 id="review-5">Review</h2>
 <h3 id="know-the-concepts-5">Know the Concepts</h3>
@@ -2405,9 +2418,9 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 </ul>
 <h3 id="use-the-concepts-5">Use the Concepts</h3>
 <ul>
-<li><p>Go through the <code>add-year.s</code> program and add error-checking code after every system call.</p></li>
+<li><p>Go through the <code>006-01-add-year.s</code> program and add error-checking code after every system call.</p></li>
 <li><p>Find one other program we have done so far, and add error-checking to that program.</p></li>
-<li><p>Add a recovery mechanism for <code>add-year.s</code> that allows it to read from STDIN if it cannot open the standard file.</p></li>
+<li><p>Add a recovery mechanism for <code>006-01-add-year.s</code> that allows it to read from STDIN if it cannot open the standard file.</p></li>
 </ul>
 <h3 id="going-further-5">Going Further</h3>
 <ul>
@@ -2439,7 +2452,7 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>The program we will examine here is simple - it writes the characters <code>hello world</code> to the screen and exits. The regular program, <code>helloworld-nolib.s</code>, looks like this:</p>
 <div class="sourceCode" id="cb93"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb93-1"><a href="#cb93-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb93-2"><a href="#cb93-2"></a>    <span class="co">#</span></span>
-<span id="cb93-3"><a href="#cb93-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
+<span id="cb93-3"><a href="#cb93-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
 <span id="cb93-4"><a href="#cb93-4"></a></span>
 <span id="cb93-5"><a href="#cb93-5"></a>    <span class="co"># PURPOSE:</span></span>
 <span id="cb93-6"><a href="#cb93-6"></a>    <span class="co">#     This program writes the message</span></span>
@@ -2632,31 +2645,31 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>You can find the complete manual on this library by going to <a href="http://www.gnu.org/software/libc/manual/">The GNU C Library manual</a></p>
 <h2 id="building-a-dynamic-library">Building a Dynamic Library</h2>
 <p>Let's say that we wanted to take all of our shared code from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a> and build it into a dynamic library to use in our programs. The first thing we would do is assemble them like normal:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> write-record.o  write-record.s <span class="at">--gstabs+</span></span>
-<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> read-record.o   read-record.s  <span class="at">--gstabs+</span></span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-record.o  006-01-write-record.s <span class="at">--gstabs+</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-record.o   006-01-read-record.s  <span class="at">--gstabs+</span></span></code></pre></div>
 <p>Now, instead of linking them into a program, we want to link them into a dynamic library. This changes our linker command to this:</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> librecord.so  <span class="at">-shared</span> write-record.o read-record.o</span></code></pre></div>
 <p>This links both of these files together into a dynamic library called <code>librecord.so</code>. This file can now be used for multiple programs. If we need to update the functions contained within it, we can just update this one file and not have to worry about which programs use it.</p>
-<p>Let's look at how we would link against this library. To link the <code>write-records</code> program, we would do the following:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> write-records.o  write-records.s <span class="at">--gstabs+</span></span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> write-records    write-records.o \</span>
-<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">-lrecord</span> \</span>
-<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">-L</span> . \</span>
-<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">-dynamic-linker</span> /lib/ld-linux.so.2</span></code></pre></div>
+<p>Let's look at how we would link against this library. To link the <code>006-01-write-records</code> program, we would do the following:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-records.o  006-01-write-records.s <span class="at">--gstabs+</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-write-records    006-01-write-records.o \</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">-lrecord</span> \</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">-L</span> . \</span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">-dynamic-linker</span> /lib/ld-linux.so.2</span></code></pre></div>
 <p>In this command, <code>-L .</code> told the linker to look for libraries in the current directory (it usually only searches <code>/lib</code> directory, <code>/usr/lib</code> directory, and a few others). As we've seen, the option <code>-dynamic-linker /lib/ld-linux.so.2</code> specified the dynamic linker. The option <code>-lrecord</code> tells the linker to search for functions in the file named <code>librecord.so</code>.</p>
-<p>Now the <code>write-records</code> program is built, but it will not run. If we try it, we will get an error like the following:</p>
-<pre><code>./write-records: error while loading shared libraries:
+<p>Now the <code>006-01-write-records</code> program is built, but it will not run. If we try it, we will get an error like the following:</p>
+<pre><code>`./006-01-write-records`: error while loading shared libraries:
 librecord.so: cannot open shared object file: No such file or directory</code></pre>
 <p>This is because, by default, the dynamic linker only searches <code>/lib</code>, <code>/usr/lib</code>, and whatever directories are listed in <code>/etc/ld.so.conf</code> for libraries. In order to run the program, you either need to move the library to one of these directories, or execute the following command:</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>LD_LIBRARY_PATH=.</span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="kw">export</span> LD_LIBRARY_PATH</span></code></pre></div>
 <p>Alternatively, if that gives you an error, do this instead:</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="kw">setenv</span> LD_LIBRARY_PATH .</span></code></pre></div>
-<p>Now, you can run <code>write-records</code> normally by typing <code>./write-records</code>. Setting <code>LD_LIBRARY_PATH</code> tells the linker to add whatever paths you give it to the library search path for dynamic libraries.</p>
+<p>Now, you can run <code>write-records</code> normally by typing <code>./006-01-write-records</code>. Setting <code>LD_LIBRARY_PATH</code> tells the linker to add whatever paths you give it to the library search path for dynamic libraries.</p>
 <!-- TODO: Personal -> Test this ldd section, what is the real result? --->
-<p><strong>TODO:</strong> Personal -&gt; Test this ldd section. What is the real result? Maybe it is not working because itself is a library. Otherwise add a complete example where <code>read-records</code> use this dynamic library. Improve the text below when I know the real result.</p>
+<p><strong>TODO:</strong> Personal -&gt; Test this ldd section. What is the real result? Maybe it is not working because itself is a library. Otherwise add a complete example where <code>006-01-read-records</code> use this dynamic library. Improve the text below when I know the real result.</p>
 <p>Let's print the shared object dependencies for <code>./write-recors</code>. It is a shared library. Try this:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ldd</span> ./write-records</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ldd</span> ./006-01-write-records</span></code></pre></div>
 <p>It will report back something like:</p>
 <pre><code>libc.so.6 =&gt; /lib/libc.so.6 (0x4001d000)
 /???/write-recors.so.? =&gt; /???/write-recors.so.? (0x??0000000)</code></pre>
@@ -3276,7 +3289,7 @@ librecord.so: cannot open shared object file: No such file or directory</code></
 <p>Another problem we have is that if we are looking for a 5-byte region of memory, and the first open one we come to is 1000 bytes, we will simply mark the whole thing as allocated and return it. This leaves 995 bytes of unused, but allocated, memory. It would be nice in such situations to break it apart so the other 995 bytes can be used later. It would also be nice to combine consecutive free spaces when looking for large allocations.</p>
 <h2 id="using-our-allocator">Using our Allocator</h2>
 <p>The programs we do in this book aren't complicated enough to necessitate a memory manager. Therefore, we will just use our memory manager to allocate a buffer for one of our file reading/writing programs instead of assigning it in the <code>.bss</code>.</p>
-<p>The program we will demonstrate this on is <code>read-records.s</code> from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a>. This program uses a buffer named <code>record_buffer</code> to handle its input/output needs. We will simply change this from being a buffer defined in <code>.bss</code> to being a pointer to a dynamically-allocated buffer using our memory manager. You will need to have the code from that program handy as we will only be discussing the changes in this section.</p>
+<p>The program we will demonstrate this on is <code>006-01-read-records.s</code> from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a>. This program uses a buffer named <code>record_buffer</code> to handle its input/output needs. We will simply change this from being a buffer defined in <code>.bss</code> to being a pointer to a dynamically-allocated buffer using our memory manager. You will need to have the code from that program handy as we will only be discussing the changes in this section.</p>
 <p>The first change we need to make is in the declaration. Currently it looks like this:</p>
 <div class="sourceCode" id="cb139"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb139-1"><a href="#cb139-1"></a><span class="pp">.section</span> <span class="an">.bss</span></span>
 <span id="cb139-2"><a href="#cb139-2"></a><span class="cn">.lcomm</span>, record_buffer, RECORD_SIZE</span></code></pre></div>
@@ -3308,10 +3321,10 @@ librecord.so: cannot open shared object file: No such file or directory</code></
 <div class="sourceCode" id="cb149"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb149-1"><a href="#cb149-1"></a><span class="kw">pushl</span> record_buffer_ptr</span>
 <span id="cb149-2"><a href="#cb149-2"></a><span class="cf">call</span>  deallocate</span></code></pre></div>
 <p>Now you can build your program with the following commands:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> read-records.o  read-records.s <span class="at">--gstabs+</span></span>
-<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> read-records    alloc.o read-record.o read-records.o \</span>
+<div class="sourceCode" id="cb150"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-records.o  006-01-read-records.s <span class="at">--gstabs+</span></span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-read-records    alloc.o read-record.o 006-01-read-records.o \</span>
 <span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a>                      write-newline.o count-chars.o</span></code></pre></div>
-<p>You can then run your program by doing <code>./read-records</code>.</p>
+<p>You can then run your program by doing <code>./006-01-read-records</code>.</p>
 <p>The uses of dynamic memory allocation may not be apparent to you at this point, but as you go from academic exercises to real-life programs you will use it continually.</p>
 <h2 id="more-information">More Information</h2>
 <p>More information on memory handling in Linux and other operating systems can be found at the following locations:</p>
@@ -3804,10 +3817,10 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb186-123"><a href="#cb186-123"></a>    <span class="kw">movl</span>  <span class="va">%ebp</span>, <span class="va">%esp</span></span>
 <span id="cb186-124"><a href="#cb186-124"></a>    <span class="kw">popl</span>  <span class="va">%ebp</span></span>
 <span id="cb186-125"><a href="#cb186-125"></a>    <span class="cf">ret</span></span></code></pre></div>
-<p>To show this used in a full program, use the following code, along with the <code>count_chars</code> and <code>write_newline</code> functions written about in previous chapters. The code should be in a file called <code>conversion-program.s</code>.</p>
+<p>To show this used in a full program, use the following code, along with the <code>_count_chars</code> and <code>_write_newline</code> functions written about in previous chapters. The code should be in a file called <code>conversion-program.s</code>.</p>
 <div class="sourceCode" id="cb187"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb187-1"><a href="#cb187-1"></a>    <span class="co"># Assemble with `as --32` and `ld -m elf_i386`.</span></span>
 <span id="cb187-2"><a href="#cb187-2"></a>    <span class="co">#</span></span>
-<span id="cb187-3"><a href="#cb187-3"></a>    <span class="im">.include</span> <span class="st">&quot;linux.s&quot;</span>      <span class="co"># Common Linux Definitions.</span></span>
+<span id="cb187-3"><a href="#cb187-3"></a>    <span class="im">.include</span> <span class="st">&quot;006-01-linux.s&quot;</span>      <span class="co"># Linux Definitions.</span></span>
 <span id="cb187-4"><a href="#cb187-4"></a></span>
 <span id="cb187-5"><a href="#cb187-5"></a>    <span class="pp">.section</span> <span class="an">.data</span>          <span class="co"># This is where it will be</span></span>
 <span id="cb187-6"><a href="#cb187-6"></a>        tmp_buffer:         <span class="co"># stored.</span></span>
@@ -3826,7 +3839,7 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb187-19"><a href="#cb187-19"></a></span>
 <span id="cb187-20"><a href="#cb187-20"></a>    <span class="kw">pushl</span> $tmp_buffer       <span class="co"># Get the character count</span></span>
 <span id="cb187-21"><a href="#cb187-21"></a>                            <span class="co"># for our system call.</span></span>
-<span id="cb187-22"><a href="#cb187-22"></a>    <span class="cf">call</span>  count_chars</span>
+<span id="cb187-22"><a href="#cb187-22"></a>    <span class="cf">call</span>  <span class="fu">_count_chars</span></span>
 <span id="cb187-23"><a href="#cb187-23"></a>    <span class="op">addl</span>  $<span class="dv">4</span>, <span class="va">%esp</span></span>
 <span id="cb187-24"><a href="#cb187-24"></a></span>
 <span id="cb187-25"><a href="#cb187-25"></a>    <span class="kw">movl</span>  <span class="va">%eax</span>, <span class="va">%edx</span>        <span class="co"># The count goes in %edx</span></span>
@@ -3839,18 +3852,18 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb187-32"><a href="#cb187-32"></a>    <span class="ot">int</span>   $LINUX_SYSCALL</span>
 <span id="cb187-33"><a href="#cb187-33"></a></span>
 <span id="cb187-34"><a href="#cb187-34"></a>    <span class="kw">pushl</span> $STDOUT           <span class="co"># Write a carriage return.</span></span>
-<span id="cb187-35"><a href="#cb187-35"></a>    <span class="cf">call</span>  write_newline</span>
+<span id="cb187-35"><a href="#cb187-35"></a>    <span class="cf">call</span>  <span class="fu">_write_newline</span></span>
 <span id="cb187-36"><a href="#cb187-36"></a></span>
 <span id="cb187-37"><a href="#cb187-37"></a>    <span class="kw">movl</span>  $SYS_EXIT, <span class="va">%eax</span>   <span class="co"># Exit.</span></span>
 <span id="cb187-38"><a href="#cb187-38"></a>    <span class="kw">movl</span>  $<span class="dv">0</span>, <span class="va">%ebx</span></span>
 <span id="cb187-39"><a href="#cb187-39"></a>    <span class="ot">int</span>   $LINUX_SYSCALL</span></code></pre></div>
 <p>To build the program, issue the following commands:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> integer-to-number.o   integer-to-string.s  <span class="at">--gstabs+</span></span>
-<span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> count-chars.o         count-chars.s        <span class="at">--gstabs+</span></span>
-<span id="cb188-3"><a href="#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> write-newline.o       write-newline.s      <span class="at">--gstabs+</span></span>
-<span id="cb188-4"><a href="#cb188-4" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> conversion-program.o  conversion-program.s <span class="at">--gstabs+</span></span>
-<span id="cb188-5"><a href="#cb188-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> conversion-program    integer-to-number.o count-chars.o \</span>
-<span id="cb188-6"><a href="#cb188-6" aria-hidden="true" tabindex="-1"></a>                            write-newline.o conversion-program.o</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> integer-to-number.o     integer-to-string.s  <span class="at">--gstabs+</span></span>
+<span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-count-chars.o    006-01-count-chars.s        <span class="at">--gstabs+</span></span>
+<span id="cb188-3"><a href="#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-newline.o  006-01-write-newline.s      <span class="at">--gstabs+</span></span>
+<span id="cb188-4"><a href="#cb188-4" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> conversion-program.o    conversion-program.s <span class="at">--gstabs+</span></span>
+<span id="cb188-5"><a href="#cb188-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> conversion-program      integer-to-number.o count-chars.o \</span>
+<span id="cb188-6"><a href="#cb188-6" aria-hidden="true" tabindex="-1"></a>                              write-newline.o conversion-program.o</span></code></pre></div>
 <p>To run just type <code>./conversion-program</code> and the output should say <code>824</code>.</p>
 <h2 id="review-8">Review</h2>
 <h3 id="know-the-concepts-8">Know the Concepts</h3>
@@ -5981,8 +5994,8 @@ The program no longer exists.</code></pre>
 <li id="fn34" role="doc-endnote"><p>A database is a program which handles persistent structured data for you. You don't have to write the programs to read and write the data to disk, to do lookups, or even to do basic processing. It is a very high-level interface to structured data which, although it adds some overhead and additional complexity, is very useful for complex data processing tasks. References for learning how databases work are listed in <a href="#chapter-13-moving-on-from-here">Chapter 13. Moving On from Here</a>.<a href="#fnref34" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn35" role="doc-endnote"><p>If you have used C, this is what the <code>strlen</code> function does.<a href="#fnref35" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn36" role="doc-endnote"><p>You will find that after learning the mechanics of programming, most programs are pretty straightforward once you know exactly what it is you want to do. Most of them initialize data, do some processing in a loop, and then clean everything up.<a href="#fnref36" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn37" role="doc-endnote"><p>This assumes that you have already built the object files <code>read-record.o</code> and <code>write-record.o</code> in the previous examples. If not, you will have to do so.<a href="#fnref37" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn38" role="doc-endnote"><p>This is assuming you created the file in a previous run of <code>write-records</code>. If not, you need to run <code>write-records</code> first before running this program.<a href="#fnref38" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn37" role="doc-endnote"><p>This assumes that you have already built the object files <code>006-01-read-record.o</code> and <code>006-01-write-record.o</code> in the previous examples. If not, you will have to do so.<a href="#fnref37" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn38" role="doc-endnote"><p>This is assuming you created the file in a previous run of <code>006-01-write-records</code>. If not, you need to run <code>006-01-write-records</code> first before running this program.<a href="#fnref38" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn39" role="doc-endnote"><p>Each of these terms have slightly different meanings, but most people use them interchangeably anyway. Specifically, this chapter will cover dynamic libraries, but not shared libraries. Shared libraries are dynamic libraries which are built using <em>position-independent code</em> (often abbreviated PIC) which is outside the scope of this book. However, shared libraries and dynamic libraries are used in the same way by users and programs; the linker just links them differently.<a href="#fnref39" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn40" role="doc-endnote"><p>The reason that parameters are pushed in the reverse order is because of functions which take a variable number of parameters like <code>printf</code>. The parameters pushed in last will be in a known position relative to the top of the stack. The program can then use these parameters to determine where on the stack the additional arguments are, and what type they are. For example, <code>printf</code> uses the format string to determine how many other parameters are being sent. If we pushed the known arguments first, you wouldn't be able to tell where they were on the stack.<a href="#fnref40" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn41" role="doc-endnote"><p><code>stdin</code>, <code>stdout</code>, and <code>stderr</code> (all lower case) can be used in these programs to refer to the files of their corresponding file descriptors.<a href="#fnref41" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

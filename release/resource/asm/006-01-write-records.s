@@ -1,7 +1,7 @@
     # Assemble with `as --32` and `ld -m elf_i386`.
     #
-    .include "linux.s"      # Common Linux Definitions.
-    .include "record-def.s" # Record definitions.
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
     .section .data
         # ----- CONSTANTS ----- #
@@ -102,19 +102,19 @@ _start:
                             # Write the first record.
     pushl ST_FILE_DESCRIPTOR(%ebp)
     pushl $record1
-    call  write_record
+    call  _write_record
     addl  $8, %esp
 
                             # Write the second record.
     pushl ST_FILE_DESCRIPTOR(%ebp)
     pushl $record2
-    call  write_record
+    call  _write_record
     addl  $8, %esp
 
                             # Write the third record.
     pushl ST_FILE_DESCRIPTOR(%ebp)
     pushl $record3
-    call  write_record
+    call  _write_record
     addl  $8, %esp
 
                             # Close the file descriptor
