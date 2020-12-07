@@ -2391,7 +2391,7 @@ test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
 I\'m guessing you didn\'t understand the whole code listing. Let\'s go
 through it a line at a time to see what is happening.
 
-```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=20 endLine=24}
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=20 endLine=26}
 ```
 
 Okay, this program is intended to compute the factorial of the number 4.
@@ -2407,7 +2407,7 @@ stack. The `call` instruction then makes the function call.
 
 Next we have these lines:
 
-```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=25 endLine=34}
+```{.gnuassembler .numberLines include=resource/asm/004-02-factorial.s startLine=27 endLine=34}
 ```
 
 This takes place after `_factorial` has finished and computed the
