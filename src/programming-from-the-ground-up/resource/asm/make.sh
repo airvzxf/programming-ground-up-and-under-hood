@@ -15,9 +15,11 @@ FILES=(
   005-01-toupper
   006-01-add-year
   006-01-count-chars
-  006-01-read-record 006-01-read-records
+  006-01-read-record
+  006-01-read-records
   006-01-write-newline
-  006-01-write-record 006-01-write-records
+  006-01-write-record
+  006-01-write-records
 )
 
 for FILE in "${FILES[@]}"
