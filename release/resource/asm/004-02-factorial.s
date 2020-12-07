@@ -1,5 +1,5 @@
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     Given a number, this program computes the
     #     factorial.  For example, the factorial of
@@ -21,17 +21,17 @@ _start:
     pushl $4                # The factorial takes one
                             # argument - the number we
                             # want a factorial of.  So,
-    call  _factorial        # it gets pushed. Run the
-    addl  $4, %esp          # factorial function.
-                            # Scrubs the parameter that
+                            # it gets pushed.
+    call  _factorial        # Run the factorial
+                            # function.
+    addl  $4, %esp          # Scrubs the parameter that
                             # was pushed on the stack.
     movl  %eax, %ebx        # Factorial returns the
                             # answer in %eax, but we
                             # want it in %ebx to send
                             # it as our exit status.
     movl  $1, %eax          # Call the kernel exit
-                            # function.
-    int   $0x80
+    int   $0x80             # function.
 
 
     # This is the actual function definition.

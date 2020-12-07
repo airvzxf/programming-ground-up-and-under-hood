@@ -679,15 +679,15 @@ Entering in the Program
 Okay, this first program is simple. In fact, it's not going to do
 anything but exit! It's short, but it shows some basics about assembly
 language and Linux programming. You need to enter the program in an
-editor exactly as written, with the filename `exit.s`. The program
-follows. Don't worry about not understanding it. This section only deals
-with typing it in and running it. In [Outline of an Assembly Language
-Program](#outline-of-an-assembly-language-program) we will describe how
-it works.
+editor exactly as written, with the filename `003-01-exit.s`. The
+program follows. Don't worry about not understanding it. This section
+only deals with typing it in and running it. In [Outline of an Assembly
+Language Program](#outline-of-an-assembly-language-program) we will
+describe how it works.
 
 ``` gnuassembler
-    .code32            # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:    Simple program that exits and returns
     #             a status code back to the Linux
     #             kernel.
@@ -734,17 +734,17 @@ understands. Assembling transforms the human-readable file into a
 machine-readable one. To assembly the program type in the command:
 
 ``` bash
-as -o exit.o  exit.s --gstabs+
+as -o 003-01-exit.o  003-01-exit.s --gstabs+
 ```
 
-`as` is the command which runs the assembler, `exit.s` is the source
-file, and `-o exit.o` tells the assemble to put its output in the file
-`exit.o`. `exit.o` is an *object file*. An object file is code that is
-in the machine's language, but has not been completely put together. In
-most large programs, you will have several source files, and you will
-convert each one into an object file. The `--gstabs+` option, adds
-debugging information in the executable file, review more information in
-the [Appendix F. Using the GDB
+`as` is the command which runs the assembler, `003-01-exit.s` is the
+source file, and `-o 003-01-exit.o` tells the assemble to put its output
+in the file `003-01-exit.o`. `003-01-exit.o` is an *object file*. An
+object file is code that is in the machine's language, but has not been
+completely put together. In most large programs, you will have several
+source files, and you will convert each one into an object file. The
+`--gstabs+` option, adds debugging information in the executable file,
+review more information in the [Appendix F. Using the GDB
 Debugger](#appendix-f-using-the-gdb-debugger).
 
 The *linker* is the program that is responsible for putting the object
@@ -754,20 +754,20 @@ linker is only adding the information to enable it to run. To *link* the
 file, enter the command:
 
 ``` bash
-ld -o exit  exit.o
+ld -o 003-01-exit  003-01-exit.o
 ```
 
-`ld` is the command to run the linker, `exit.o` is the object file we
-want to link, and `-o exit` instructs the linker to output the new
-program into a file called `exit`.[7] If any of these commands reported
-errors, you have either mistyped your program or the command. After
-correcting the program, you have to re-run all the commands. *You must
-always re-assemble and re-link programs after you modify the source file
-for the changes to occur in the program*. You can run `exit` by typing
-in the command:
+`ld` is the command to run the linker, `003-01-exit.o` is the object
+file we want to link, and `-o 003-01-exit` instructs the linker to
+output the new program into a file called `003-01-exit`.[7] If any of
+these commands reported errors, you have either mistyped your program or
+the command. After correcting the program, you have to re-run all the
+commands. *You must always re-assemble and re-link programs after you
+modify the source file for the changes to occur in the program*. You can
+run `003-01-exit` by typing in the command:
 
 ``` bash
-./exit
+./003-01-exit
 ```
 
 The `./` is used to tell the computer that the program isn't in one of
@@ -814,7 +814,7 @@ your comments:
 After the comments, the next line says:
 
 ``` gnuassembler
-.section .data
+    .section .data
 ```
 
 Anything starting with a period isn't directly translated into a machine
@@ -830,7 +830,7 @@ in the future will have data.
 Right after this you have:
 
 ``` gnuassembler
-.section .text
+    .section .text
 ```
 
 `.text` which starts the text section. The text sectiontext section of a
@@ -839,7 +839,7 @@ program is where the program instructions live.
 The next instruction is:
 
 ``` gnuassembler
-.globl _start
+        .globl _start
 ```
 
 This instructs the assembler that `_start` is important to remember.
@@ -881,7 +881,9 @@ Now we get into actual computer instructions. The first such instruction
 is this:
 
 ``` gnuassembler
-movl $1, %eax
+    movl $1, %eax      # This is the Linux kernel
+                       # command number (system call)
+                       # for exiting a program.
 ```
 
 When the program runs, this instruction transfers the number `1` into
@@ -971,7 +973,11 @@ is then returned to the system. This is the value you retrieved when you
 typed `echo $?`. So, we load *%ebx* with `0` by typing the following:
 
 ``` gnuassembler
-movl $0, %ebx
+    movl $0, %ebx      # This is the status number we
+                       # will return to the operating
+                       # system. Change this around and
+                       # it will return different
+                       # things to `echo $?`.
 ```
 
 Now, loading registers with these numbers doesn't do anything itself.
@@ -990,7 +996,8 @@ Calls](#appendix-c-important-system-calls).
 The next instruction is the "magic" one. It looks like this:
 
 ``` gnuassembler
-int $0x80
+    int $0x80          # This wakes up the kernel to
+                       # run the exit command.
 ```
 
 The `int` stands for *interrupt*. The `0x80` is the interrupt number to
@@ -1148,11 +1155,11 @@ have patience.
 Finding a Maximum Value
 -----------------------
 
-Enter the following program as `maximum.s`:
+Enter the following program as `003-02-maximum.s`:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     This program finds the maximum number of a
     #     set of data items.
@@ -1170,8 +1177,7 @@ Enter the following program as `maximum.s`:
     #
     .section .data
         data_items:         # These are the data items.
-            .long 3, 67, 34, 222, 45, 75, 54, 34,
-                  44, 33, 22, 11, 66, 0
+            .long 3, 67, 34, 222, 45, 22, 11, 125, 0
 
     .section .text
         .globl _start
@@ -1186,7 +1192,7 @@ _start:
 
 _start_loop:                # Start loop.
     cmpl $0, %eax           # Check to see if we have
-    je _loop_exit           #  hit the end.
+    je _loop_exit           # hit the end.
     incl %edi               # Increment %edi by 1.
     movl data_items(,%edi,4), %eax   # Load next value.
     cmpl %ebx, %eax         # Compare values.
@@ -1207,14 +1213,14 @@ _loop_exit:
 Now, assemble and link it with these commands:
 
 ``` bash
-as -o maximum.o  maximum.s --gstabs+
-ld -o maximum    maximum.o
+as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
+ld -o 003-02-maximum    003-02-maximum.o
 ```
 
 Now run it, and check its status.
 
 ``` bash
-./maximum
+./003-02-maximum
 echo $?
 ```
 
@@ -1225,8 +1231,8 @@ wonderful!). You may also notice that in this program we actually have
 something in the data section. These lines are the data section:
 
 ``` gnuassembler
-data_items:                         # These are the data items.
-    .long 3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
+        data_items:         # These are the data items.
+            .long 3, 67, 34, 222, 45, 22, 11, 125, 0
 ```
 
 Lets look at this. `data_items` is a label that refers to the location
@@ -1335,7 +1341,8 @@ the *index* of `data_items`. You'll notice that the first instruction we
 give to the computer is:
 
 ``` gnuassembler
-movl $0, %edi
+    movl $0, %edi           # Move 0 into the index
+                            # register.
 ```
 
 Since we are using `%edi` as our index, and we want to start looking at
@@ -1343,7 +1350,8 @@ the first item, we load `%edi` with 0. Now, the next instruction is
 tricky, but crucial to what we're doing. It says:
 
 ``` gnuassembler
-movl data_items(,%edi,4), %eax
+    movl data_items(,%edi,4), %eax  # Load the first
+                                    # byte of data.
 ```
 
 Now to understand this line, you need to keep several things in mind:
@@ -1382,7 +1390,8 @@ Modes](#addressing-modes).
 Let's look at the next line:
 
 ``` gnuassembler
-movl %eax, %ebx
+    movl %eax, %ebx         # Since this is the first
+                            # item, %eax is the biggest
 ```
 
 We have the first item to look at stored in `%eax`. Since it is the
@@ -1393,7 +1402,7 @@ value, so `%eax` and `%ebx` both contain the starting value.[17]
 
 Now we move into a *loop*. A loop is a segment of your program that
 might run more than once. We have marked the starting location of the
-loop in the symbol `start_loop`. The reason we are doing a loop is
+loop in the symbol `_start_loop`. The reason we are doing a loop is
 because we don't know how many data items we have to process, but the
 procedure will be the same no matter how many there are. We don't want
 to have to rewrite our program for every list length possible. In fact,
@@ -1418,12 +1427,12 @@ review:
 -   Now we need to go back to the beginning of the loop.
 
 Okay, so now lets go to the code. We have the beginning of the loop
-marked with `start_loop`. That is so we know where to go back to at the
+marked with `_start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
 ``` gnuassembler
-cmpl $0, %eax
-je loop_exit
+    cmpl $0, %eax           # Check to see if we have
+    je _loop_exit           # hit the end.
 ```
 
 The `cmpl` instruction compares the two values. Here, we are comparing
@@ -1432,10 +1441,10 @@ also affects a register not mentioned here, the *%eflags* register. This
 is also known as the status register, and has many uses which we will
 discuss later. Just be aware that the result of the comparison is stored
 in the status register. The next line is a flow control instruction
-which says to *jump* to the `loop_exit` location if the values that were
-just compared are equal (that's what the `e` of `je` means). It uses the
-status register to hold the value of the last comparison. We used `je`,
-but there are many jump statements that you can use:
+which says to *jump* to the `_loop_exit` location if the values that
+were just compared are equal (that's what the `e` of `je` means). It
+uses the status register to hold the value of the last comparison. We
+used `je`, but there are many jump statements that you can use:
 
 `je`:  
 Jump if the values were equal.
@@ -1458,14 +1467,14 @@ Jump no matter what. This does not need to be preceeded by a comparison.
 The complete list is documented in [Appendix B. Common x86
 Instructions](#appendix-b-common-x86-instructions). In this case, we are
 jumping if *%eax* holds the value of zero. If so, we are done and we go
-to `loop_exit`.[19]
+to `_loop_exit`.[19]
 
 If the last loaded element was not zero, we go on to the next
 instructions:
 
 ``` gnuassembler
-incl %edi
-movl data_items(,%edi,4), %eax
+    incl %edi               # Increment %edi by 1.
+    movl data_items(,%edi,4), %eax   # Load next value.
 ```
 
 If you remember from our previous discussion, *%edi* contains the index
@@ -1476,8 +1485,9 @@ value from the list. Now *%eax* has the next value to be tested. So,
 let's test it!
 
 ``` gnuassembler
-cmpl %ebx, %eax
-jle start_loop
+    cmpl %ebx, %eax         # Compare values.
+    jle _start_loop         # Jump to loop beginning if
+                            # the new one is not bigger
 ```
 
 Here we compare our current value, stored in *%eax* to our biggest value
@@ -1487,26 +1497,30 @@ the beginning of the loop. Otherwise, we need to record that value as
 the largest one:
 
 ``` gnuassembler
-movl %eax, %ebx
-jmp start_loop
+    movl %eax, %ebx         # Move the value as the
+                            # largest.
+    jmp _start_loop         # Jump to loop beginning.
 ```
 
 which moves the current value into *%ebx*, which we are using to store
 the current largest value, and starts the loop over again.
 
 Okay, so the loop executes until it reaches a 0, when it jumps to
-`loop_exit`. This part of the program calls the Linux kernel to exit. If
-you remember from the last program, when you call the operating system
-(remember it's like signaling Batman), you store the system call number
-in *%eax* (1 for the `exit` call), and store the other values in the
-other registers. The exit call requires that we put our exit status code
-in *%ebx*. We already have the exit status there since we are using
+`_loop_exit`. This part of the program calls the Linux kernel to exit.
+If you remember from the last program, when you call the operating
+system (remember it's like signaling Batman), you store the system call
+number in *%eax* (1 for the `exit` call), and store the other values in
+the other registers. The exit call requires that we put our exit status
+code in *%ebx*. We already have the exit status there since we are using
 *%ebx* as our largest number, so all we have to do is load *%eax* with
 the number one and call the kernel to exit. Like this:
 
 ``` gnuassembler
-movl $1, %eax
-int  $0x80
+                            # %ebx is the status code
+                            # for the exit systemcall
+        movl $1, %eax       # and it already has the
+        int  $0x80          # maximum number 1 is the
+                            # exit() syscall.
 ```
 
 Okay, that was a lot of work and explanation, especially for such a
@@ -1707,16 +1721,16 @@ Review
 
 -   Modify the first program to return the value 3.
 
--   Modify the `maximum` program to find the minimum instead.
+-   Modify the `003-02-maximum` program to find the minimum instead.
 
--   Modify the `maximum` program to use the number 255 to end the list
-    rather than the number 0.
+-   Modify the `003-02-maximum` program to use the number 255 to end the
+    list rather than the number 0.
 
--   Modify the `maximum` program to use an ending address rather than
-    the number 0 to know when to stop.
+-   Modify the `003-02-maximum` program to use an ending address rather
+    than the number 0 to know when to stop.
 
--   Modify the `maximum` program to use a length count rather than the
-    number 0 to know when to stop.
+-   Modify the `003-02-maximum` program to use a length count rather
+    than the number 0 to know when to stop.
 
 -   What would the instruction `movl _start, %eax` do? Be specific,
     based on your knowledge of both addressing modes and the meaning of
@@ -2123,18 +2137,18 @@ A Function Example
 ------------------
 
 Let's take a look at how a function call works in a real program. The
-function we are going to write is the `power` function. We will give the
-power function two parameters - the number and the power we want to
+function we are going to write is the `_power` function. We will give
+the power function two parameters - the number and the power we want to
 raise it to. For example, if we gave it the parameters 2 and 3, it would
 raise 2 to the power of 3, or 2\*2\*2, giving 8. In order to make this
 program simple, we will only allow numbers 1 and greater.
 
 The following is the code for the complete program. As usual, an
-explanation follows. Name the file `power.s`.
+explanation follows. Name the file `004-01-power.s`.
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     Program to illustrate how functions work.
     #     This program will compute the value of
@@ -2243,12 +2257,12 @@ _end_power:
 Type in the program, assemble it, and run it. Try calling power for
 different values, but remember that the result has to be less than 256
 when it is passed back to the operating system. Also try subtracting the
-results of the two computations. Try adding a third call to the `power`
+results of the two computations. Try adding a third call to the `_power`
 function, and add its result back in.
 
 The main program code is pretty simple. You push the arguments onto the
 stack, call the function, and then move the stack pointer back. The
-result is stored in *%eax*. Note that between the two calls to `power`,
+result is stored in *%eax*. Note that between the two calls to `_power`,
 we save the first value onto the stack. This is because the only
 register that is guaranteed to be saved is *%ebp*. Therefore we push the
 value onto the stack, and pop the value back off after the second
@@ -2264,22 +2278,22 @@ what will be in *%eax* at the end.
 We then have the following line:
 
 ``` gnuassembler
-.type power,@function
+        .type  _power,  @function
 ```
 
-This tells the linker that the symbol `power` should be treated as a
+This tells the linker that the symbol `_power` should be treated as a
 function. Since this program is only in one file, it would work just the
 same with this left out. However, it is good practice.
 
-After that, we define the value of the `power` label:
+After that, we define the value of the `_power` label:
 
 ``` gnuassembler
-power:
+_power:
 ```
 
-As mentioned previously, this defines the symbol `power` to be the
+As mentioned previously, this defines the symbol `_power` to be the
 address where the instructions following the label begin. This is how
-`call power` works. It transfers control to this spot of the program.
+`call _power` works. It transfers control to this spot of the program.
 The difference between `call` and `jmp` is that `call` also pushes the
 return address onto the stack so that the function can return, while the
 `jmp` does not.
@@ -2287,9 +2301,11 @@ return address onto the stack so that the function can return, while the
 Next, we have our instructions to set up our function:
 
 ``` gnuassembler
-pushl %ebp
-movl  %esp, %ebp
-subl  $4, %esp
+    pushl %ebp                # Save old base pointer.
+    movl  %esp, %ebp          # Make stack pointer the
+                              # base pointer.
+    subl  $4, %esp            # Get room for our local
+                              # storage.
 ```
 
 At this point, our stack looks like this:
@@ -2368,11 +2384,11 @@ same time, all of them needing their own copies of the data![26] Since
 local variables exist on the stack frame, and each function call gets
 its own stack frame, we are okay.
 
-Let's look at the code to see how this works:
+Let's look at the `004-02-factorial.s` code to see how this works:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     Given a number, this program computes the
     #     factorial.  For example, the factorial of
@@ -2394,17 +2410,17 @@ _start:
     pushl $4                # The factorial takes one
                             # argument - the number we
                             # want a factorial of.  So,
-    call  _factorial        # it gets pushed. Run the
-    addl  $4, %esp          # factorial function.
-                            # Scrubs the parameter that
+                            # it gets pushed.
+    call  _factorial        # Run the factorial
+                            # function.
+    addl  $4, %esp          # Scrubs the parameter that
                             # was pushed on the stack.
     movl  %eax, %ebx        # Factorial returns the
                             # answer in %eax, but we
                             # want it in %ebx to send
                             # it as our exit status.
     movl  $1, %eax          # Call the kernel exit
-                            # function.
-    int   $0x80
+    int   $0x80             # function.
 
 
     # This is the actual function definition.
@@ -2460,9 +2476,9 @@ _end_factorial:
 Assemble, link, and run it with these commands:
 
 ``` bash
-as -o factorial.o  factorial.s --gstabs+
-ld -o factorial    factorial.o
-./factorial
+as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
+ld -o 004-02-factorial    004-02-factorial.o
+./004-02-factorial
 echo $?
 ```
 
@@ -2474,8 +2490,12 @@ through it a line at a time to see what is happening.
 
 ``` gnuassembler
 _start:
-    pushl $4
-    call factorial
+    pushl $4                # The factorial takes one
+                            # argument - the number we
+                            # want a factorial of.  So,
+                            # it gets pushed.
+    call  _factorial        # Run the factorial
+                            # function.
 ```
 
 Okay, this program is intended to compute the factorial of the number 4.
@@ -2491,20 +2511,24 @@ The `call` instruction then makes the function call.
 Next we have these lines:
 
 ``` gnuassembler
-addl  $4, %esp
-movl  %eax, %ebx
-movl  $1, %eax
-int   $0x80
+    addl  $4, %esp          # Scrubs the parameter that
+                            # was pushed on the stack.
+    movl  %eax, %ebx        # Factorial returns the
+                            # answer in %eax, but we
+                            # want it in %ebx to send
+                            # it as our exit status.
+    movl  $1, %eax          # Call the kernel exit
+    int   $0x80             # function.
 ```
 
-This takes place after `factorial` has finished and computed the
+This takes place after `_factorial` has finished and computed the
 factorial of 4 for us. Now we have to clean up the stack. The `addl`
 instruction moves the stack pointer back to where it was before we
 pushed the `$4` onto the stack. You should always clean up your stack
 parameters after a function call returns.
 
 The next instruction moves *%eax* to *%ebx*. What's in *%eax*? It is
-`factorial`'s return value. In our case, it is the value of the
+`_factorial`'s return value. In our case, it is the value of the
 factorial function. With 4 as our parameter, 24 should be our return
 value. Remember, return values are always stored in *%eax*. We want to
 return this value as the status code to the operating system. However,
@@ -2528,28 +2552,34 @@ functions to break down complex pieces of code into smaller, simpler
 ones. In fact, almost all of programming is writing and calling
 functions.
 
-Let's now take a look at how the `factorial` function itself is
+Let's now take a look at how the `_factorial` function itself is
 implemented.
 
 Before the function starts, we have this directive:
 
 ``` gnuassembler
-    .type factorial,@function
-factorial:
+    .type  _factorial,  @function
+_factorial:
 ```
 
-The `.type` directive tells the linker that `factorial` is a function.
-This isn't really needed unless we were using `factorial` in other
+The `.type` directive tells the linker that `_factorial` is a function.
+This isn't really needed unless we were using `_factorial` in other
 programs. We have included it for completeness. The line that says
-`factorial:` gives the symbol `factorial` the storage location of the
+`_factorial:` gives the symbol `_factorial` the storage location of the
 next instruction. That's how `call` knew where to go when we said
-`call factorial`.
+`call _factorial`.
 
 The first real instructions of the function are:
 
 ``` gnuassembler
-pushl %ebp
-movl  %esp, %ebp
+    pushl %ebp              # Atandard function stuff -
+                            # we have to restore %ebp
+                            # to its prior state before
+                            # returning, so we have to
+                            # push it.
+    movl  %esp, %ebp        # This is because we do not
+                            # want to modify the stack
+                            # pointer, so we use %ebp.
 ```
 
 As shown in the previous program, this creates the stack frame for this
@@ -2559,7 +2589,11 @@ function.
 The next instruction is this:
 
 ``` gnuassembler
-movl  8(%ebp), %eax
+    movl  8(%ebp), %eax     # This moves the first
+                            # argument to %eax 4(%ebp)
+                            # holds the return address,
+                            # and 8(%ebp) holds the
+                            # first parameter.
 ```
 
 This uses base pointer addressing mode to move the first parameter of
@@ -2571,35 +2605,41 @@ before calling the function the first time (with `pushl $4`). As this
 function calls itself, it will have other values, too.
 
 Next, we check to see if we've hit our base case (a parameter of 1). If
-so, we jump to the instruction at the label `end_factorial`, where it
+so, we jump to the instruction at the label `_end_factorial`, where it
 will be returned. It's already in *%eax* which we mentioned earlier is
 where you put return values. That is accomplished by these lines:
 
 ``` gnuassembler
-cmpl $1, %eax
-je end_factorial
+    cmpl  $1, %eax          # If the number is 1, that
+                            # is our base case, and we
+                            # simply return (1 is
+                            # already in %eax as the
+                            # return value).
+    je _end_factorial
 ```
 
 If it's not our base case, what did we say we would do? We would call
-the `factorial` function again with our parameter minus one. So, first
+the `_factorial` function again with our parameter minus one. So, first
 we decrease *%eax* by one:
 
 ``` gnuassembler
-decl %eax
+    decl  %eax              # Otherwise, decrease the
+                            # value.
 ```
 
 `decl` stands for decrement. It subtracts 1 from the given register or
 memory location (*%eax* in our case). `incl` is the inverse - it adds 1.
 After decrementing *%eax* we push it onto the stack since it's going to
-be the parameter of the next function call. And then we call `factorial`
-again!
+be the parameter of the next function call. And then we call
+`_factorial` again!
 
 ``` gnuassembler
-pushl %eax
-call factorial
+    pushl %eax              # Push it for our call to
+                            # factorial.
+    call  _factorial        # Call factorial.
 ```
 
-Okay, now we've called `factorial`. One thing to remember is that after
+Okay, now we've called `_factorial`. One thing to remember is that after
 a function call, we can never know what the registers are (except `%esp`
 and `%ebp`). So even though we had the value we were called with in
 `%eax`, it's not there any more. Therefore, we need pull it off the
@@ -2607,7 +2647,9 @@ stack from the same place we got it the first time (at `8(%ebp)`). So,
 we do this:
 
 ``` gnuassembler
-movl 8(%ebp), %ebx
+    movl  8(%ebp), %ebx     # %eax has the return
+                            # value, so we reload our
+                            # parameter into %ebx.
 ```
 
 Now, we want to multiply that number with the result of the factorial
@@ -2616,7 +2658,13 @@ functions are left in *%eax*. So, we need to multiply *%ebx* with
 *%eax*. This is done with this instruction:
 
 ``` gnuassembler
-imull %ebx, %eax
+    imull %ebx, %eax        # Multiply that by the
+                            # result of the last call
+                            # to factorial (in %eax)
+                            # the answer is stored in
+                            # %eax, which is good since
+                            # that is where return
+                            # values go.
 ```
 
 This also stores the result in *%eax*, which is exactly where we want
@@ -2627,15 +2675,20 @@ the current stack frame. Now we reverse the operation to destroy the
 current stack frame and reactivate the last one:
 
 ``` gnuassembler
-end_factorial:
-    movl %ebp, %esp
-    popl %ebp
+_end_factorial:
+    movl  %ebp, %esp        # Standard function return
+    popl  %ebp              # stuff - we have to
+                            # restore %ebp and %esp to
 ```
 
 Now we're already to return, so we issue the following command
 
 ``` gnuassembler
-ret
+    ret                     # where they were before
+                            # the function started
+                            # return from the function
+                            # (this pops the return
+                            # value, too).
 ```
 
 This pops the top value off of the stack, and then jumps to it. If you
@@ -2936,14 +2989,14 @@ Which is much easier to read, and much easier to remember. Coding is
 complex, but there are a lot of things we can do like this to make it
 easier.
 
-Here is the program. Note that we have more labels than we actually use
-for jumps, because some of them are just there for clarity. Try to trace
-through the program and see what happens in various cases. An in-depth
-explanation of the program will follow.
+Here is the `005-01-toupper.s` program. Note that we have more labels
+than we actually use for jumps, because some of them are just there for
+clarity. Try to trace through the program and see what happens in
+various cases. An in-depth explanation of the program will follow.
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     This program converts an input file to an
     #     output file with all letters converted to
@@ -3095,7 +3148,7 @@ _read_loop_begin:
     jle   _lower_case       # If found or on error, go
                             # to the end.
 
-_continue_read_loop_:
+__continue_read_loop:
     # ----- CONVERT THE BLOCK TO UPPER CASE ----- #
     #
     pushl $BUFFER_DATA      # Location of buffer.
@@ -3226,24 +3279,24 @@ _end_convert_loop:
     ret
 ```
 
-Type in this program as `toupper.s`, and then enter in the following
-commands:
+Type in this program as `005-01-toupper.s`, and then enter in the
+following commands:
 
 ``` bash
-as -o toupper.o  toupper.s --gstabs+
-ld -o toupper    toupper.o
+as -o 005-01-toupper.o  005-01-toupper.s --gstabs+
+ld -o 005-01-toupper    005-01-toupper.o
 ```
 
-This builds a program called `toupper`, which converts all of the
+This builds a program called `005-01-toupper`, which converts all of the
 lowercase characters in a file to uppercase. For example, to convert the
-file `toupper.s` to uppercase, type in the following command:
+file `005-01-toupper.s` to uppercase, type in the following command:
 
 ``` bash
-./toupper toupper.s toupper.uppercase
+./005-01-toupper 005-01-toupper.s 005-01-toupper.uppercase
 ```
 
-You will now find in the file `toupper.uppercase` an uppercase version
-of your original file.
+You will now find in the file `005-01-toupper.uppercase` an uppercase
+version of your original file.
 
 Let's examine how the program works.
 
@@ -3268,7 +3321,7 @@ this value, rather than having to go through the entire program and
 changing all of the values individually.
 
 Instead of going on to the `_start` section of the program, go to the
-end where we define the `convert_to_upper` function. This is the part
+end where we define the `_convert_to_upper` function. This is the part
 that actually does the conversion.
 
 This section begins with a list of constants that we will use The reason
@@ -3276,9 +3329,15 @@ these are put here rather than at the top is that they only deal with
 this one function. We have these definitions:
 
 ``` gnuassembler
-.equ  LOWERCASE_A,       'a'
-.equ  LOWERCASE_Z,       'z'
-.equ  UPPER_CONVERSION,  'A' - 'a'
+                            # The lower boundary of our
+                            # search.
+        .equ  LOWERCASE_A,       'a'
+                            # The upper boundary of our
+                            # search.
+        .equ  LOWERCASE_Z,       'z'
+                            # Conversion between upper
+                            # lower case.
+        .equ  UPPER_CONVERSION,  'A' - 'a'
 ```
 
 The first two simply define the letters that are the boundaries of what
@@ -3305,13 +3364,13 @@ position 8 + *%esp*, and the address of the buffer is at position 12 +
 *%esp*. Using symbols for these numbers instead of the numbers
 themselves makes it easier to see what data is being used and moved.
 
-Next comes the label `convert_to_upper`. This is the entry point of the
+Next comes the label `_convert_to_upper`. This is the entry point of the
 function. The first two lines are our standard function lines to save
 the stack pointer. The next two lines:
 
 ``` gnuassembler
-movl  ST_BUFFER(%ebp), %eax
-movl  ST_BUFFER_LEN(%ebp), %ebx
+    movl  ST_BUFFER(%ebp), %eax
+    movl  ST_BUFFER_LEN(%ebp), %ebx
 ```
 
 Move the function parameters into the appropriate registers for use.
@@ -3321,8 +3380,10 @@ through each byte of the buffer by loading from the location *%eax* +
 buffer length stored in *%ebx*. The lines:
 
 ``` gnuassembler
-cmpl  $0, %ebx
-je    end_convert_loop
+    cmpl  $0, %ebx          # If a buffer with zero
+                            # length was given to us,
+                            # just leave.
+    je    _end_convert_loop
 ```
 
 They are just a sanity check to make sure that noone gave us a buffer of
@@ -3336,7 +3397,8 @@ Now we start our loop. First, it moves a byte into *%cl*. The code for
 this is:
 
 ``` gnuassembler
-movb  (%eax,%edi,1), %cl
+                            # Get the current byte.
+    movb  (%eax,%edi,1), %cl
 ```
 
 It is using an indexed indirect addressing mode. It says to start at
@@ -3352,11 +3414,11 @@ the buffer.
 
 Either way, it then goes to the next value by incrementing %cl;. Next it
 checks to see if we are at the end of the buffer. If we are not at the
-end, we jump back to the beginning of the loop (the `convert_loop`
+end, we jump back to the beginning of the loop (the `_convert_loop`
 label). If we are at the end, it simply continues on to the end of the
 function. Because we are modifying the buffer directly, we don't need to
 return anything to the calling program - the changes are already in the
-buffer. The label `end_convert_loop` is not needed, but it's there so
+buffer. The label `_end_convert_loop` is not needed, but it's there so
 it's easy to see where the parts of the program are.
 
 Now we know how the conversion process works. Now we need to figure out
@@ -3469,8 +3531,9 @@ Review
 
 ### Use the Concepts
 
--   Modify the `toupper` program so that it reads from `STDIN` and
-    writes to `STDOUT` instead of using the files on the command-line.
+-   Modify the `005-01-toupper` program so that it reads from `STDIN`
+    and writes to `STDOUT` instead of using the files on the
+    command-line.
 
 -   Change the size of the buffer.
 
@@ -3502,9 +3565,9 @@ that is *persistent* - meaning that the data lives longer than the
 program by being stored on disk in files. You can shut down the program
 and open it back up, and you are back where you started. Now, there are
 two basic kinds of persistent data - structured and unstructured.
-Unstructured data is like what we dealt with in the `toupper` program.
-It just dealt with text files that were entered by a person. The
-contents of the files weren't usable by a program because a program
+Unstructured data is like what we dealt with in the `005-01-toupper`
+program. It just dealt with text files that were entered by a person.
+The contents of the files weren't usable by a program because a program
 can't interpret what the user is trying to say in random text.
 
 Structured data, on the other hand, is what computers excel at handling.
@@ -3604,7 +3667,8 @@ basically need:
 Let's look at our reading function first in `read-records.s`:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
     .include "record-def.s" # Record definitions.
 
@@ -3653,7 +3717,8 @@ structure into an appropriately sized buffer from the given file
 descriptor. The writing one is similar in `write-record.s`:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
     .include "record-def.s" # Record definitions.
 
@@ -3714,7 +3779,8 @@ Type the following code into a file called `write-records.s`: .rept
 .endr padding null
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
     .include "record-def.s" # Record definitions.
 
@@ -3907,8 +3973,8 @@ contain at least one null character each.
 Here is the code. Put it in a file called `count-chars.s`:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     Count the characters until a null byte is
     #     reached.
@@ -3989,7 +4055,8 @@ out a newline to `STDOUT`. Put the following code into
 `write-newline.s`:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
 
         .globl _write_newline
@@ -4021,7 +4088,8 @@ Now we are ready to write the main program. Here is the code to
 `read-records.s`:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
     .include "record-def.s" # Record definitions.
 
@@ -4163,7 +4231,8 @@ Like most programs we've encountered recently, this program `add-year.s`
 is pretty straightforward.[36]
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
     .include "record-def.s" # Record definitions.
 
@@ -4367,10 +4436,10 @@ guess, including experienced programmers. Programmers get so focused on
 simply solving the problem at hand that they fail to look at the
 possible side issues.
 
-In the `toupper` program, we do not have any course of action if the
-file the user selects does not exist. The program will go ahead and try
-to work anyway. It doesn't report any error message so the user won't
-even know that they typed in the name wrong. Let's say that the
+In the `005-01-toupper` program, we do not have any course of action if
+the file the user selects does not exist. The program will go ahead and
+try to work anyway. It doesn't report any error message so the user
+won't even know that they typed in the name wrong. Let's say that the
 destination file is on a network drive, and the network temporarily
 fails. The operating system is returning a status code to us in *%eax*,
 but we aren't checking it. Therefore, if a failure occurs, the user is
@@ -4583,7 +4652,8 @@ will do to recover is to print the error and exit. The code to do that
 is pretty simple:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
 
         .equ ST_ERROR_CODE,  8
@@ -4804,7 +4874,8 @@ The program we will examine here is simple - it writes the characters
 `helloworld-nolib.s`, looks like this:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
 
     # PURPOSE:
@@ -4837,8 +4908,8 @@ That's not too long. However, take a look at how short `helloworld-lib`
 is which uses a library:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     This program writes the message "hello world"
     #     and exits.
@@ -5021,8 +5092,8 @@ will look for a number from the stack to insert. This is best described
 using an example:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #    This program is to demonstrate how to call
     #    printf.
@@ -5396,16 +5467,16 @@ Review
     returning the result as the exit status code. Also, make the exit
     status code be 0.
 
--   Use the `factorial` function you developed in [Recursive
+-   Use the `_factorial` function you developed in [Recursive
     Functions](#recursive-functions) to make a shared library. Then
     re-write the main program so that it links with the library
     dynamically.
 
 -   Rewrite the program above so that it also links with the 'C'
     library. Use the 'C' library's `printf` function to display the
-    result of the `factorial` call.
+    result of the `_factorial` call.
 
--   Rewrite the `toupper` program so that it uses the `C` library
+-   Rewrite the `005-01-toupper` program so that it uses the `C` library
     functions for files rather than system calls.
 
 ### Going Further
@@ -5776,8 +5847,8 @@ program first for you to look through. Afterwards will follow an
 in-depth explanation. It looks long, but it is mostly comments.
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     Program to manage memory usage - allocates
     #     and deallocates memory as requested.
@@ -7592,8 +7663,8 @@ The code for the function should be put in a file called
 `integer-to-string.s` and should be entered as follows:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     Convert an integer number to a decimal string
     #     for display.
@@ -7725,7 +7796,8 @@ previous chapters. The code should be in a file called
 `conversion-program.s`.
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     .include "linux.s"      # Common Linux Definitions.
 
     .section .data          # This is where it will be
@@ -8809,8 +8881,8 @@ sure, and if you click yes it will close the application. To run this
 program, type in the following as `gnome-example.s`:
 
 ``` gnuassembler
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     This program is meant to be an example of
     #     what GUI programs look like written with the
@@ -10720,7 +10792,7 @@ An Example Debugging Session
 ----------------------------
 
 The best way to explain how a debugger works is by using it. The program
-we will be using the debugger on is the `maximum` program used in
+we will be using the debugger on is the `003-02-maximum` program used in
 [Chapter 3. Your First Programs](#chapter-3-your-first-programs). Let's
 say that you entered the program perfectly, except that you left out the
 line:
@@ -10737,16 +10809,16 @@ add the `--gstabs+` option to the `as` command. So, you would assemble
 it like this:
 
 ``` bash
-as -o maximum.o  maximum.s --gstabs+
-ld -o maximum    maximum.o
+as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
+ld -o 003-02-maximum    003-02-maximum.o
 ```
 
 Linking would be the same as normal. "stabs" is the debugging format
 used by GDB. The `plus(+)` means that it provides the GNU extension
 which is the location of the current working directory. Now, to run the
-program under the debugger, you would type in `gdb ./maximum`. Be sure
-that the source files are in the current directory. The output should
-look similar to this:
+program under the debugger, you would type in `gdb ./003-02-maximum`. Be
+sure that the source files are in the current directory. The output
+should look similar to this:
 
     GNU gdb (GDB) 10.1
     Copyright (C) 2020 Free Software Foundation, Inc.
@@ -10757,7 +10829,7 @@ look similar to this:
     Type "apropos word" to search for commands related to "word".
     Debugger response to a program call of fork or vfork is "parent".
     Whether gdb will detach the child of a fork is off.
-    Reading symbols from ./maximum...
+    Reading symbols from `./003-02-maximum`...
     (gdb)
 
 Depending on which version of GDB you are running, this output may vary
@@ -10767,18 +10839,18 @@ The debugger is waiting your command. To run your program, just type in
 infinite loop. To stop the program, hit `control-c`. The screen will
 then say this:
 
-    Starting program: /home/johnnyb/maximum
+    Starting program: /home/johnnyb/003-02-maximum
     ^C
     Program received signal SIGINT, Interrupt.
-    start_loop () at maximum.s:31
+    _start_loop () at 003-02-maximum.s:31
     31          cmpl %ebx, %eax
     (gdb)
 
 This tells you that the program was interrupted by the SIGINT signal
 (from your `control-c`), and was within the section labelled
-`start_loop`, and was executing on line 31 when it stopped. It gives you
-the code that it is about to execute. Depending on exactly when you hit
-`control-c`, it may have stopped on a different line or a different
+`_start_loop`, and was executing on line 31 when it stopped. It gives
+you the code that it is about to execute. Depending on exactly when you
+hit `control-c`, it may have stopped on a different line or a different
 instruction than the example.
 
 One of the best ways to find bugs in a program is to follow the flow of
@@ -10790,7 +10862,7 @@ you do this several times, your output will look something like this:
     27          cmpl $0, %eax
 
     (gdb) stepi
-    28          je loop_exit
+    28          je _loop_exit
 
     (gdb) stepi
     29          incl %edi
@@ -10802,7 +10874,7 @@ you do this several times, your output will look something like this:
     31          cmpl %ebx, %eax
 
     (gdb) stepi
-    32          jle start_loop
+    32          jle _start_loop
 
     (gdb) stepi
     27          cmpl $0, %eax
@@ -10816,14 +10888,14 @@ our code where we should be exitting the loop:
 
 ``` gnuassembler
 cmpl  $0, %eax
-je    loop_exit
+je    _loop_exit
 ```
 
 Basically, it is checking to see if *%eax* hits zero. If so, it should
 exit the loop. There are several things to check here. First of all, you
 may have left this piece out altogether. It is not uncommon for a
 programmer to forget to include a way to exit a loop. However, this is
-not the case here. Second, you should make sure that `loop_exit`
+not the case here. Second, you should make sure that `_loop_exit`
 actually is outside the loop. If we put the label in the wrong place,
 strange things would happen. However, again, this is not the case.
 
@@ -10932,14 +11004,14 @@ numbers a screen at a time.
 
     GNU gdb (GDB) 10.1
     For help, type "help".
-    Reading symbols from ./maximum...
+    Reading symbols from ./003-02-maximum...
 
     (gdb) break 25
-    Breakpoint 1 at 0x401005: file maximum.s, line 25.
+    Breakpoint 1 at 0x401005: file 003-02-maximum.s, line 25.
 
     (gdb) run
-    Starting program: /home/johnnyb/maximum
-    Breakpoint 1, _start () at maximum.s:25
+    Starting program: /home/johnnyb/003-02-maximum
+    Breakpoint 1, _start () at 003-02-maximum.s:25
     warning: Source file is more recent than executable.
     25          movl data_items(,%edi,4), %eax   # Load the first byte of data.
 
@@ -10952,7 +11024,7 @@ numbers a screen at a time.
     25          movl data_items(,%edi,4), %eax  # Load first byte of data.
     26          movl %eax, %ebx     # Since this is the first item,
     27                              # %eax is the biggest.
-    28      start_loop:             # Start loop.
+    28      _start_loop:            # Start loop.
     29          cmpl $0, %eax       # Check to see if we've hit the end.
 
 When dealing with functions, you can also break on the function names.
@@ -10967,18 +11039,18 @@ function setup (it skips the pushing of *%ebp* and the copying of
 <!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
 
 ``` bash
-as -o factorial.o  factorial.s --gstabs+
-ld -o factorial    factorial.o
+as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
+ld -o 004-02-factorial    004-02-factorial.o
 ```
 
-    $ gdb ./factorial
+    $ gdb ./004-02-factorial
     GNU gdb (GDB) 10.1
     For help, type "help".
 
     (gdb) set args 55
 
     (gdb) break factorial
-    Breakpoint 1 at 0x401013: file factorial.s, line 34.
+    Breakpoint 1 at 0x401013: file 004-02-factorial.s, line 34.
 
 When stepping through code, you often don't want to have to step through
 every instruction of every function. Well-tested functions are usually a
@@ -10989,8 +11061,8 @@ until completion of the function before going on. Otherwise, with
 called function.
 
     (gdb) run
-    Starting program: /home/johnnyb/factorial
-    Breakpoint 1, factorial () at factorial.s:34
+    Starting program: /home/johnnyb/004-02-factorial
+    Breakpoint 1, factorial () at 004-02-factorial.s:34
     34          pushl %ebp
 
     (gdb) nexti
@@ -11001,7 +11073,7 @@ called function.
 
     (gdb) nexti
     Program received signal SIGSEGV, Segmentation fault.
-    factorial () at factorial.s:40
+    factorial () at 004-02-factorial.s:40
     40          movl  8(%ebp), %eax
 
     (gdb) nexti
@@ -11010,18 +11082,18 @@ called function.
 
 Let’s see the differences between `stepi`:
 
-    $ gdb ./factorial
+    $ gdb ./004-02-factorial
     GNU gdb (GDB) 10.1
-    Reading symbols from ./factorial...
+    Reading symbols from ./004-02-factorial...
 
     (gdb) break factorial
-    Breakpoint 1 at 0x401013: file factorial.s, line 34.
+    Breakpoint 1 at 0x401013: file 004-02-factorial.s, line 34.
 
     (gdb) set args 55
 
     (gdb) run
-    Starting program: /home/johnnyb/factorial
-    Breakpoint 1, factorial () at factorial.s:34
+    Starting program: /home/johnnyb/004-02-factorial
+    Breakpoint 1, factorial () at 004-02-factorial.s:34
     34          pushl %ebp
 
     (gdb) stepi
@@ -11032,7 +11104,7 @@ Let’s see the differences between `stepi`:
 
     (gdb) stepi
     Program received signal SIGSEGV, Segmentation fault.
-    factorial () at factorial.s:40
+    factorial () at 004-02-factorial.s:40
     40          movl  8(%ebp), %eax
 
     (gdb) stepi

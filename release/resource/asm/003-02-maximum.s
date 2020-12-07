@@ -1,5 +1,5 @@
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     This program finds the maximum number of a
     #     set of data items.
@@ -17,8 +17,7 @@
     #
     .section .data
         data_items:         # These are the data items.
-            .long 3, 67, 34, 222, 45, 75, 54, 34,
-                  44, 33, 22, 11, 66, 0
+            .long 3, 67, 34, 222, 45, 22, 11, 125, 0
 
     .section .text
         .globl _start
@@ -33,7 +32,7 @@ _start:
 
 _start_loop:                # Start loop.
     cmpl $0, %eax           # Check to see if we have
-    je _loop_exit           #  hit the end.
+    je _loop_exit           # hit the end.
     incl %edi               # Increment %edi by 1.
     movl data_items(,%edi,4), %eax   # Load next value.
     cmpl %ebx, %eax         # Compare values.

@@ -1,5 +1,5 @@
-    .code32                 # Generate 32-bit code.
-
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
     # PURPOSE:
     #     This program converts an input file to an
     #     output file with all letters converted to
@@ -151,7 +151,7 @@ _read_loop_begin:
     jle   _lower_case       # If found or on error, go
                             # to the end.
 
-_continue_read_loop_:
+__continue_read_loop:
     # ----- CONVERT THE BLOCK TO UPPER CASE ----- #
     #
     pushl $BUFFER_DATA      # Location of buffer.
