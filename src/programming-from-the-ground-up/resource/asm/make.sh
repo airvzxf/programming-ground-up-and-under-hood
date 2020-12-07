@@ -20,6 +20,8 @@ FILES=(
   006-01-write-newline
   006-01-write-record
   006-01-write-records
+  007-01-error-exit
+  007-01-add-year
 )
 
 for FILE in "${FILES[@]}"
@@ -67,3 +69,12 @@ ld -o "006-01-add-year"-bin  -m elf_i386 \
                                   "006-01-add-year".o \
                                   "006-01-read-record".o \
                                   "006-01-write-record".o
+
+echo "Linking: 007-01-add-year"
+ld -o "007-01-add-year"-bin  -m elf_i386 \
+                                  "006-01-count-chars".o \
+                                  "006-01-read-record".o \
+                                  "006-01-write-newline".o \
+                                  "006-01-write-record".o \
+                                  "007-01-add-year".o \
+                                  "007-01-error-exit".o

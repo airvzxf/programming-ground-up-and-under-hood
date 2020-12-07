@@ -3844,53 +3844,23 @@ a little more robust.
 
 Since this is a pretty simple program, we will limit ourselves to a
 single recovery point that covers the whole program. The only thing we
-will do to recover is to print the error and exit. The code to do that
-is pretty simple:
+will do to recover is to print the error and exit. The code
+(`007-01-error-exit.s`) to do that is pretty simple:
 
-```{.gnuassembler .numberLines include=resource/asm/error-exit.s}
+```{.gnuassembler .numberLines include=resource/asm/007-01-error-exit.s}
 ```
 
-Enter it in a file called `error-exit.s`. To call it, you just need to
+Enter it in a file called `007-01-error-exit.s`. To call it, you just need to
 push the address of an error message, and then an error code onto the
 stack, and call the function.
 
 Now let\'s look for potential error spots in our `006-01-add-year` program.
 First of all, we don\'t check to see if either of our `open` system
 calls actually complete properly. Linux returns its status code in
-_%eax_, so we need to check and see if there is an error.
+_%eax_, so we need to check and see if there is an error. This new version
+is called `007-01-add-year.s`:
 
-```{.gnuassembler .numberLines}
-    movl  $SYS_OPEN, %eax               # Open file for reading.
-    movl  $input_file_name, %ebx
-    movl  $0, %ecx
-    movl  $0666, %edx
-    int   $LINUX_SYSCALL
-
-    movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
-
-    # This will test and see if %eax is negative.  If it is not negative,
-    # it will jump to continue_processing. Otherwise it will handle the
-    # error condition that the negative number represents.
-    #
-    cmpl  $0, %eax
-    jl    continue_processing
-
-
-    # ----- SEND THE ERROR ----- #
-    #
-    .section .data
-        no_open_file_code:
-            .ascii "0001: \0"
-        no_open_file_msg:
-            .ascii "Can't Open Input File.\0"
-
-    .section .text
-    pushl $no_open_file_msg
-    pushl $no_open_file_code
-    call  error_exit
-
-continue_processing:
-    ### Rest of program.
+```{.gnuassembler .numberLines include=resource/asm/007-01-add-year.s startLine=29 endLine=67}
 ```
 
 So, after calling the system call, we check and see if we have an error
@@ -3904,15 +3874,15 @@ error checking and handling code.
 To assemble and link the files, do:
 
 ```{.bash}
-as -o 006-01-add-year.o    006-01-add-year.s   --gstabs+
-as -o error-exit.o  error-exit.s --gstabs+
+as -o 007-01-add-year.o    007-01-add-year.s   --gstabs+
+as -o 007-01-error-exit.o  007-01-error-exit.s --gstabs+
 
-ld -o 006-01-add-year      006-01-add-year.o \
-                           006-01-count-chars.o \
+ld -o 007-01-add-year      006-01-count-chars.o \
                            006-01-read-record.o \
                            006-01-write-newline.o \
                            006-01-write-record.o \
-                           error-exit.o
+                           007-01-add-year.o \
+                           007-01-error-exit.o
 ```
 
 Now try to run it without the necessary files. It now exits cleanly and
@@ -3944,13 +3914,13 @@ Review
 
 ### Use the Concepts
 
--   Go through the `006-01-add-year.s` program and add error-checking code
+-   Go through the `007-01-add-year.s` program and add error-checking code
     after every system call.
 
 -   Find one other program we have done so far, and add error-checking
     to that program.
 
--   Add a recovery mechanism for `006-01-add-year.s` that allows it to read
+-   Add a recovery mechanism for `007-01-add-year.s` that allows it to read
     from STDIN if it cannot open the standard file.
 
 ### Going Further
