@@ -10,21 +10,20 @@
         # find out how many parameters it was given,
         # and what kind they are.
         #
-        firststring:
-            .ascii
-       "Hello! %s is a %s who loves the number %d.\n\0"
+        first_string:
+            .ascii "Hi! %s is the %s number #%d.\n\0"
 
-        namestring:
+        name_string:
             .ascii "Jonathan\0"
 
-        personstring:
+        person_string:
             .ascii "person\0"
 
         # This could also have been an .equ, but we
         # decided to give it a real memory location
         # just for kicks.
         #
-        numberloved:
+        number_loved:
             .long 3
 
     .section .text
@@ -35,10 +34,10 @@ _start:
     # reverse order that they are listed in the
     # function prototype.
     #
-    pushl numberloved       # This is the %d.
-    pushl $personstring     # This is the second %s.
-    pushl $namestring       # This is the first %s.
-    pushl $firststring      # This is the format string
+    pushl number_loved      # This is the %d.
+    pushl $person_string    # This is the second %s.
+    pushl $name_string      # This is the first %s.
+    pushl $first_string     # This is the format string
                             # in the prototype.
     call  printf
 

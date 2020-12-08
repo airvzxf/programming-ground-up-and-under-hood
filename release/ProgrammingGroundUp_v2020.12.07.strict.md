@@ -1826,6 +1826,8 @@ because it is the standard for Linux platforms.
 Assembly-Language Functions using the C Calling Convention
 ----------------------------------------------------------
 
+<!-- TODO: Create a better example about the Stack software and hardware. -->
+
 You cannot write assembly-language functions without understanding how
 the computer's *stack* works. Each computer program that runs uses a
 region of memory called the stack to enable functions to work properly.
@@ -4505,8 +4507,8 @@ robust.
 
 Since this is a pretty simple program, we will limit ourselves to a
 single recovery point that covers the whole program. The only thing we
-will do to recover is to print the error and exit. The code to do that
-is pretty simple:
+will do to recover is to print the error and exit. The code
+(`007-01-error-exit.s`) to do that is pretty simple:
 
         # Assemble with `as --32` and `ld -m elf_i386`.
         #
@@ -4550,16 +4552,17 @@ is pretty simple:
         movl  $1, %ebx
         int   $LINUX_SYSCALL
 
-Enter it in a file called `error-exit.s`. To call it, you just need to
-push the address of an error message, and then an error code onto the
-stack, and call the function.
+Enter it in a file called `007-01-error-exit.s`. To call it, you just
+need to push the address of an error message, and then an error code
+onto the stack, and call the function.
 
 Now let's look for potential error spots in our `006-01-add-year`
 program. First of all, we don't check to see if either of our `open`
 system calls actually complete properly. Linux returns its status code
-in *%eax*, so we need to check and see if there is an error.
+in *%eax*, so we need to check and see if there is an error. This new
+version is called `007-01-add-year.s`:
 
-        movl  $SYS_OPEN, %eax               # Open file for reading.
+        movl  $SYS_OPEN, %eax   # Open file for reading.
         movl  $input_file_name, %ebx
         movl  $0, %ecx
         movl  $0666, %edx
@@ -4567,13 +4570,16 @@ in *%eax*, so we need to check and see if there is an error.
 
         movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
-        # This will test and see if %eax is negative.  If it is not negative,
-        # it will jump to continue_processing. Otherwise it will handle the
-        # error condition that the negative number represents.
-        #
+                        # This will test and see if %eax is
+                        # negative.  If it is not negative,
+                        # it will jump to
+                        # _continue_processing. Otherwise
+                        # it will handle the error
+                        # condition that the negative
+                        # number represents.
+                        #
         cmpl  $0, %eax
-        jl    continue_processing
-
+        jge   _continue_processing
 
         # ----- SEND THE ERROR ----- #
         #
@@ -4586,10 +4592,15 @@ in *%eax*, so we need to check and see if there is an error.
         .section .text
         pushl $no_open_file_msg
         pushl $no_open_file_code
-        call  error_exit
+        call  _error_exit
 
-    continue_processing:
-        ### Rest of program.
+    _continue_processing:
+
+        movl  $SYS_OPEN, %eax   # Open file for writing.
+        movl  $output_file_name, %ebx
+        movl  $0101, %ecx
+        movl  $0666, %edx
+        int   $LINUX_SYSCALL
 
 So, after calling the system call, we check and see if we have an error
 by checking to see if the result of the system call is less than zero.
@@ -4600,15 +4611,15 @@ erroneous results you should add error checking and handling code.
 
 To assemble and link the files, do:
 
-    as -o 006-01-add-year.o    006-01-add-year.s   --gstabs+
-    as -o error-exit.o  error-exit.s --gstabs+
+    as -o 007-01-add-year.o    007-01-add-year.s   --gstabs+
+    as -o 007-01-error-exit.o  007-01-error-exit.s --gstabs+
 
-    ld -o 006-01-add-year      006-01-add-year.o \
-                               006-01-count-chars.o \
+    ld -o 007-01-add-year      006-01-count-chars.o \
                                006-01-read-record.o \
                                006-01-write-newline.o \
                                006-01-write-record.o \
-                               error-exit.o
+                               007-01-add-year.o \
+                               007-01-error-exit.o
 
 Now try to run it without the necessary files. It now exits cleanly and
 gracefully!
@@ -4639,13 +4650,13 @@ Review
 
 ### Use the Concepts
 
--   Go through the `006-01-add-year.s` program and add error-checking
+-   Go through the `007-01-add-year.s` program and add error-checking
     code after every system call.
 
 -   Find one other program we have done so far, and add error-checking
     to that program.
 
--   Add a recovery mechanism for `006-01-add-year.s` that allows it to
+-   Add a recovery mechanism for `007-01-add-year.s` that allows it to
     read from STDIN if it cannot open the standard file.
 
 ### Going Further
@@ -4727,7 +4738,7 @@ Using a Dynamic Library
 
 The program we will examine here is simple - it writes the characters
 `hello world` to the screen and exits. The regular program,
-`helloworld-nolib.s`, looks like this:
+`008-01-helloworld-nolib.s`, looks like this:
 
         # Assemble with `as --32` and `ld -m elf_i386`.
         #
@@ -4745,8 +4756,8 @@ The program we will examine here is simple - it writes the characters
                 .equ lenght, helloworld_end - helloworld
 
         .section .text
+            .globl _start
 
-        .globl _start
     _start:
         movl  $STDOUT, %ebx
         movl  $helloworld, %ecx
@@ -4758,8 +4769,8 @@ The program we will examine here is simple - it writes the characters
         movl  $SYS_EXIT, %eax
         int   $LINUX_SYSCALL
 
-That's not too long. However, take a look at how short `helloworld-lib`
-is which uses a library:
+That's not too long. However, take a look at how short
+`008-01-helloworld-lib` is which uses a library:
 
         # Assemble with `as --32` and `ld -m elf_i386`.
         #
@@ -4786,31 +4797,39 @@ It's even shorter!
 Now, building programs which use dynamic libraries is a little different
 than normal. You can build the first program normally by doing this:
 
-    as -o helloworld-nolib.o  helloworld-nolib.s --gstabs+
-    ld -o helloworld-nolib    helloworld-nolib.o
+    as -o 008-01-helloworld-nolib.o  008-01-helloworld-nolib.s --gstabs+
+    ld -o 008-01-helloworld-nolib    008-01-helloworld-nolib.o
 
 However, in order to build the second program, you have to do this:
 
-    as -o helloworld-lib.o  helloworld-lib.s --gstabs+
-    ld -o helloworld-lib    helloworld-lib.o \
-                            -lc -dynamic-linker /lib/ld-linux.so.2
+    as -o 008-01-helloworld-lib.o  008-01-helloworld-lib.s --gstabs+
+    ld -o 008-01-helloworld-lib    008-01-helloworld-lib.o \
+        --library        c \
+        --library-path   /usr/lib32/ \
+        -dynamic-linker  /usr/lib32/ld-linux.so.2
+
+Run both programs and you will get the classic message:
+
+    ./008-01-helloworld-lib
+
+    ./008-01-helloworld-nolib
 
 Remember, the backslash in the first line simply means that the command
 continues on the next line. The option
-`-dynamic-linker  /lib/ld-linux.so.2` allows our program to be linked to
-libraries. This builds the executable so that before executing, the
-operating system will load the program `/lib/ld-linux.so.2` to load in
-external libraries and link them with the program. This program is known
-as a *dynamic linker*.
+`-dynamic-linker  /usr/lib32/ld-linux.so.2` allows our program to be
+linked to libraries. This builds the executable so that before
+executing, the operating system will load the program
+`/usr/lib32/ld-linux.so.2` to load in external libraries and link them
+with the program. This program is known as a *dynamic linker*.
 
-The `-lc` option says to link to the `C` library, named `libc.so` on
-GNU/Linux systems. Given a library name, `c` in this case (usually
-library names are longer than a single letter), the GNU/Linux linker
-prepends the string `lib` to the beginning of the library name and
-appends `.so` to the end of it to form the library's filename. This
-library contains many functions to automate all types of tasks. The two
-we are using are `printf`, which prints strings, and `exit`, which exits
-the program.
+The `-l c` or `--library c` option says to link to the `C` library,
+named `libc.so` on GNU/Linux systems. Given a library name, `c` in this
+case (usually library names are longer than a single letter), the
+GNU/Linux linker prepends the string `lib` to the beginning of the
+library name and appends `.so` to the end of it to form the library's
+filename. This library contains many functions to automate all types of
+tasks. The two we are using are `printf`, which prints strings, and
+`exit`, which exits the program.
 
 Notice that the symbols `printf` and `exit` are simply referred to by
 name within the program. In previous chapters, the linker would resolve
@@ -4838,50 +4857,51 @@ Records](#chapter-6-reading-and-writing-simple-records), we used both
 our main program file and files containing routines used by multiple
 programs. In these cases, we combined all of the code together using the
 linker at link-time, so it was still statically-linked. However, in the
-`helloworld-lib` program, we started using dynamic libraries. When you
-use dynamic libraries, your program is then *dynamically-linked*, which
-means that not all of the code needed to run the program is actually
-contained within the program file itself, but in external libraries.
+`008-01-helloworld-lib` program, we started using dynamic libraries.
+When you use dynamic libraries, your program is then
+*dynamically-linked*, which means that not all of the code needed to run
+the program is actually contained within the program file itself, but in
+external libraries.
 
-When we put the `-lc` on the command to link the `helloworld` program,
-it told the linker to use the `C` library (`libc.so`) to look up any
-symbolssymbols that weren't already defined in `helloworld.o`. However,
-it doesn't actually add any code to our program, it just notes in the
-program where to look. When the `helloworld` program begins, the file
-`/lib/ld-linux.so.2` is loaded first. This is the dynamic linker. This
-looks at our `helloworld` program and sees that it needs the `C` library
-to run. So, it searches for a file called `libc.so` in the standard
-places (listed in `/etc/ld.so.conf` and in the contents of the
-`LD_LIBRARY_PATH` environment variable), then looks in it for all the
-needed symbols (`printf` and `exit` in this case), and then loads the
-library into the program's virtual memory. Finally, it replaces all
+When we put the `--library c` on the command to link the
+`008-01-helloworld-lib` program, it told the linker to use the `C`
+library (`libc.so`) to look up any symbols that weren't already defined
+in `008-01-helloworld-lib.o`. However, it doesn't actually add any code
+to our program, it just notes in the program where to look. When the
+`008-01-helloworld-lib` program begins, the file
+`/usr/lib32/ld-linux.so.2` is loaded first. This is the dynamic linker.
+This looks at our `008-01-helloworld-lib` program and sees that it needs
+the `C` library to run. So, it searches for a file called `libc.so` in
+the standard places (listed in `/etc/ld.so.conf` and in the contents of
+the `LD_LIBRARY_PATH` environment variable), then looks in it for all
+the needed symbols (`printf` and `exit` in this case), and then loads
+the library into the program's virtual memory. Finally, it replaces all
 instances of `printf` in the program with the actual location of
 `printf` in the library.
 
 Run the following command:
 
-    ldd ./helloworld-nolib
-
-<!-- TODO: Personal -> Added output from the above command. -->
+    ldd ./008-01-helloworld-nolib
 
 It should report back `not a dynamic executable`. This is just like we
-said - `helloworld-nolib` is a statically-linked executable. However,
-try this:
+said - `008-01-helloworld-nolib` is a statically-linked executable.
+However, try this:
 
-    ldd ./helloworld-lib
+    ldd ./008-01-helloworld-lib
 
 It will report back something like:
 
-    libc.so.6 => /lib/libc.so.6 (0x4001d000)
-    /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x400000000)
+    linux-gate.so.1 (0xf7f17000)
+    libc.so.6 => /usr/lib32/libc.so.6 (0xf7ce5000)
+    /usr/lib32/ld-linux.so.2 => /usr/lib/ld-linux.so.2 (0xf7f19000)
 
 The numbers in parenthesis may be different on your system. This means
-that the program `helloworld` is linked to `libc.so.6` (the `.6` is the
-version number), which is found at `/lib/libc.so.6`, and
-`/lib/ld-linux.so.2` is found at `/lib/ld-linux.so.2`. These libraries
-have to be loaded before the program can be run. If you are interested,
-run the `ldd` program on various programs that are on your Linux
-distribution, and see what libraries they rely on.
+that the program `008-01-helloworld-lib` is linked to `libc.so.6` (the
+`.6` is the version number), which is found at `/usr/lib32/`, and
+`ld-linux.so.2` is found at `/usr/lib32/`. These libraries have to be
+loaded before the program can be run. If you are interested, run the
+`ldd` program on various programs that are on your Linux distribution,
+and see what libraries they rely on.
 
 Finding Information about Libraries
 -----------------------------------
@@ -4909,11 +4929,11 @@ about it), which has a type `char *`. `char` means that it wants a
 single-byte character. The `*` after it means that it doesn't actually
 want a character as an argument, but instead it wants the address of a
 character or sequence of characters. If you look back at our
-`helloworld program`, you will notice that the function call looked like
-this:
+`008-01-helloworld-lib` program, you will notice that the function call
+looked like this:
 
-    pushl $hello
-    call  printf
+        pushl $helloworld
+        call  printf
 
 So, we pushed the address of the `hello` string, rather than the actual
 characters. You might notice that we didn't push the length of the
@@ -4929,7 +4949,7 @@ string. Most functions can only take a specified number of arguments.
 parameter, and everywhere it sees the characters `%s`, it will look for
 another string from the stack to insert, and everywhere it sees `%d` it
 will look for a number from the stack to insert. This is best described
-using an example:
+using an example `008-02-printf-example.s`:
 
         # Assemble with `as --32` and `ld -m elf_i386`.
         #
@@ -4943,21 +4963,20 @@ using an example:
             # find out how many parameters it was given,
             # and what kind they are.
             #
-            firststring:
-                .ascii
-           "Hello! %s is a %s who loves the number %d.\n\0"
+            first_string:
+                .ascii "Hi! %s is the %s number #%d.\n\0"
 
-            namestring:
+            name_string:
                 .ascii "Jonathan\0"
 
-            personstring:
+            person_string:
                 .ascii "person\0"
 
             # This could also have been an .equ, but we
             # decided to give it a real memory location
             # just for kicks.
             #
-            numberloved:
+            number_loved:
                 .long 3
 
         .section .text
@@ -4968,26 +4987,29 @@ using an example:
         # reverse order that they are listed in the
         # function prototype.
         #
-        pushl numberloved       # This is the %d.
-        pushl $personstring     # This is the second %s.
-        pushl $namestring       # This is the first %s.
-        pushl $firststring      # This is the format string
+        pushl number_loved      # This is the %d.
+        pushl $person_string    # This is the second %s.
+        pushl $name_string      # This is the first %s.
+        pushl $first_string     # This is the format string
                                 # in the prototype.
         call  printf
 
         pushl $0
         call  exit
 
-Type it in with the filename `printf-example.s`, and then do the
+Type it in with the filename `008-02-printf-example.s`, and then do the
 following commands:
 
-    as -o printf-example.o  printf-example.s --gstabs+
-    ld -o printf-example    printf-example.o \
-                            -lc -dynamic-linker /lib/ld-linux.so.2
+    as -o 008-02-printf-example.o  008-02-printf-example.s --gstabs+
+    ld -o 008-02-printf-example    008-02-printf-example.o \
+        --library-path   /usr/lib32/ \
+        --library        c \
+        -dynamic-linker  /usr/lib32/ld-linux.so.2
 
-Then run the program with `./printf-example`, and it should say this:
+Then run the program with `./008-02-printf-example`, and it should say
+this:
 
-    Hello! Jonathan is a person who loves the number 3.
+    Hi! Jonathan is the person number #3.
 
 Now, if you look at the code, you'll see that we actually push the
 format string last, even though it's the first parameter listed. You
@@ -5011,31 +5033,40 @@ several more of the possible data types for reading functions. Here are
 the main ones:
 
 `int`:  
-An `int` is an integer number (4 bytes on x86 processor).
+An `int` is an integer number. The size of 4 bytes (32 bits ~ 2^32) on
+x86 processor provide a maximum value of *4,294,967,295*; negative
+values between *-2,147,483,648* and *2,147,483,647*.
 
 `long`:  
-A `long` is also an integer number (4 bytes on an x86 processor).
+A `long` is also an integer number. The size of 4 bytes (32 bits ~ 2^32)
+on x86 processor provide a maximum value of *4,294,967,295*; negative
+values between *-2,147,483,648* and *2,147,483,647*.
 
 `long long`:  
-A `long long` is an integer number that's larger than a `long` (8 bytes
-on an x86 processor).
+A `long long` is an integer number that's larger than a `long`. The size
+of 8 bytes (64 bits ~ 2^64) on x86 processor provide a maximum value of
+*18,446,744,073,709,551,615*; negative values between
+*-9,223,372,036,854,775,808* and *9,223,372,036,854,775,807*.
 
 `short`:  
-A short is an integer number that's shorter than an `int` (2 bytes on an
-x86 processor).
+A short is an integer number that's shorter than an `int`. The size of 2
+bytes (16 bits ~ 2^16) on x86 processor provide a maximum value of
+*65,535*; negative values between *-32,768* and *32,767*.
 
 `char`:  
-A `char` is a single-byte integer number. This is mostly used for
-storing character data, since ASCII strings usually are represented with
-one byte per character.
+A `char` is a single-byte integer number. The size of 1 bytes (8 bits ~
+2^8) on x86 processor provide a maximum value of *255*; negative values
+between *-128* and *127*. This is mostly used for storing character
+data, since ASCII strings usually are represented with one byte per
+character.
 
 `float`:  
-A `float` is a floating-point number (4 bytes on an x86 processor).
+A `float` is a floating-point number. (4 bytes on an x86 processor).
 Floating-point numbers will be explained in more depth in
 [Floating-point Numbers](#floating-point-numbers).
 
 `double`:  
-A `double` is a floating-point number that is larger than a float (8
+A `double` is a floating-point number that is larger than a float. (8
 bytes on an x86 processor).
 
 `unsigned`:  
@@ -5103,6 +5134,19 @@ functions. The web is the best source of documentation for libraries.
 Most libraries from the GNU project also have info pages on them, which
 are a little more thorough than man pages.
 
+Let's see the `objdump` of the last progam:
+
+    objdump -R  008-02-printf-example-bin
+
+It should display something like this:
+
+    008-02-printf-example-bin:     file format elf32-i386
+
+    DYNAMIC RELOCATION RECORDS
+    OFFSET   TYPE              VALUE 
+    0804b00c R_386_JUMP_SLOT   printf@GLIBC_2.0
+    0804b010 R_386_JUMP_SLOT   exit@GLIBC_2.0
+
 Useful Functions
 ----------------
 
@@ -5152,7 +5196,9 @@ do is assemble them like normal:
 Now, instead of linking them into a program, we want to link them into a
 dynamic library. This changes our linker command to this:
 
-    ld -o librecord.so  -shared write-record.o read-record.o
+    ld -o librecord.so  -shared \
+                        006-01-write-record.o \
+                        006-01-read-record.o
 
 This links both of these files together into a dynamic library called
 `librecord.so`. This file can now be used for multiple programs. If we
@@ -5160,31 +5206,37 @@ need to update the functions contained within it, we can just update
 this one file and not have to worry about which programs use it.
 
 Let's look at how we would link against this library. To link the
-`006-01-write-records` program, we would do the following:
+`008-03-write-records` program, we would do the following:
 
     as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
-    ld -o 006-01-write-records    006-01-write-records.o \
-                                  -lrecord \
-                                  -L . \
-                                  -dynamic-linker /lib/ld-linux.so.2
 
-In this command, `-L .` told the linker to look for libraries in the
-current directory (it usually only searches `/lib` directory, `/usr/lib`
-directory, and a few others). As we've seen, the option
-`-dynamic-linker /lib/ld-linux.so.2` specified the dynamic linker. The
-option `-lrecord` tells the linker to search for functions in the file
-named `librecord.so`.
+    ld -o 008-03-write-records    006-01-write-records.o \
+        --library        record \
+        --library-path   . \
+        -dynamic-linker  /lib32/ld-linux.so.2
 
-Now the `006-01-write-records` program is built, but it will not run. If
+In this command, `-L .` or `--library-path .` told the linker to look
+for libraries in the current directory (it usually only searches `/lib`
+directory, `/usr/lib` directory, and a few others). As we've seen, the
+option `-dynamic-linker /usr/lib32/ld-linux.so.2` specified the dynamic
+linker. The option `--library record` tells the linker to search for
+functions in the file named `librecord.so`.
+
+Now the `008-03-write-records` program is built, but it will not run. If
 we try it, we will get an error like the following:
 
-    `./006-01-write-records`: error while loading shared libraries:
+    `./008-03-write-records`: error while loading shared libraries:
     librecord.so: cannot open shared object file: No such file or directory
 
 This is because, by default, the dynamic linker only searches `/lib`,
 `/usr/lib`, and whatever directories are listed in `/etc/ld.so.conf` for
 libraries. In order to run the program, you either need to move the
 library to one of these directories, or execute the following command:
+
+    LD_LIBRARY_PATH=.  ./008-03-write-records
+
+The next solution store the library directory in the session, it keeps
+alive until the session is done or the terminal/console is closed:
 
     LD_LIBRARY_PATH=.
     export LD_LIBRARY_PATH
@@ -5193,27 +5245,30 @@ Alternatively, if that gives you an error, do this instead:
 
     setenv LD_LIBRARY_PATH .
 
-Now, you can run `write-records` normally by typing
-`./006-01-write-records`. Setting `LD_LIBRARY_PATH` tells the linker to
+Now, you can run `008-03-write-records` normally by typing
+`./008-03-write-records`. Setting `LD_LIBRARY_PATH` tells the linker to
 add whatever paths you give it to the library search path for dynamic
 libraries.
 
-<!-- TODO: Personal -> Test this ldd section, what is the real result? --->
+Let's print the shared object dependencies for `./008-03-write-records`.
+It is a shared library. Try this:
 
-**TODO:** Personal -&gt; Test this ldd section. What is the real result?
-Maybe it is not working because itself is a library. Otherwise add a
-complete example where `006-01-read-records` use this dynamic library.
-Improve the text below when I know the real result.
-
-Let's print the shared object dependencies for `./write-recors`. It is a
-shared library. Try this:
-
-    ldd ./006-01-write-records
+    LD_LIBRARY_PATH=.  ldd ./008-03-write-records
 
 It will report back something like:
 
-    libc.so.6 => /lib/libc.so.6 (0x4001d000)
-    /???/write-recors.so.? => /???/write-recors.so.? (0x??0000000)
+        linux-gate.so.1 (0xf7fa9000)
+        librecord.so => ./librecord.so (0xf7fa0000)
+
+And it’s the `objdump` result:
+
+    LD_LIBRARY_PATH=.  objdump -R ./008-03-write-records
+
+    ./008-03-write-records-bin:     file format elf32-i386
+
+    DYNAMIC RELOCATION RECORDS
+    OFFSET   TYPE              VALUE 
+    0804b00c R_386_JUMP_SLOT   _write_record
 
 For further information about dynamic linking, see the following sources
 on the Internet:
