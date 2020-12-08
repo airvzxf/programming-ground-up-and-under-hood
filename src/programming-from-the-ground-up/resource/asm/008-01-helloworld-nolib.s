@@ -14,8 +14,8 @@
             .equ lenght, helloworld_end - helloworld
 
     .section .text
+        .globl _start
 
-    .globl _start
 _start:
     movl  $STDOUT, %ebx
     movl  $helloworld, %ecx
