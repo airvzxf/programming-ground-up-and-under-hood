@@ -49,10 +49,10 @@ _fine:
     pushl %ebp              # Save old base pointer.
     movl  %esp, %ebp        # Make ST the BP.
 
-    subl  $12, %esp         # Add local variables.
+    subl  $12, %esp         # Add local space for
+                            # variables.
 
-                # It is the same as %esp storage but
-                # using %ebp we need negative numbers.
+                # Using %ebp, needs negative numbers.
     movl  $age, 4(%esp)       # Store at 1nd space.
     movl  $author, -8(%ebp)   # Store at 1rd space.
 
@@ -60,15 +60,17 @@ _fine:
     movl  $comment, -4(%ebp)  # Store at 2nd space.
 
                 # Remember the rule: Positive numbers
-                # take old stored values, negative
-                # numbers take the new stored values.
+                # or operations take old stored values,
+                # negative numbers or operations take
+                # the new stored values.
 
     pushl age               # Push the age.
     popl  %eax              # Remove the age.
 
-                # It is not necessary since the next
-                # line restore the %esp to the %ebp.
     addl  $12, %esp         # Remove local variables.
+                # It is not necessary since the next
+                # instrucition restore the %esp from
+                # the %ebp.
 
     movl %ebp, %esp         # Restore the ST.
     popl %ebp               # Restore the BP.

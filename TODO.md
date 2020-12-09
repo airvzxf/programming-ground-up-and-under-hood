@@ -20,7 +20,7 @@
 - [ ] Fix the cover and pages for PDF and ePUB also fixed the error in the HTML5 version.
 - [ ] Add my own page in the book talking about the project and refer the GitHub Repository link.
 - [ ] Create a ToC (Table of contents).
-- [ ] Complete all my peronsal To-Do's which are hardcoded in the book.
+- [x] Complete all my peronsal To-Do's which are hardcoded in the book.
 - [ ] Create releases as `./releases/v2020.12.01/ProgrammingGroundUp.epub`. Create commands in the `./make` script to replace the version (`text: x86 v2020.12`) inside of the `001-ProgrammingGroundUp.txt` file.
 - [ ] Automate the release process with GitHub Actions.
 
@@ -67,8 +67,9 @@
     - [ ] Probably need to start with a "hello world" program
   - [ ] Chapter 6. Reading and Writing Simple Records
     - [ ] Need to add info on how to use a hexdump to read the values
-  - [ ] Chapter 10. Counting Like a Computer Counting
-    - [ ] These need to be converted to tables.
+  - [x] Chapter 10. Counting Like a Computer Counting
+    - [x] These need to be converted to tables.
+      - In this new format, I'm replacing the table images with ASCII tables, this format is fine.
     - [ ] Need floating point reference. For more information on using floating point numbers in assembly language, `see:`.
   - [ ] Chapter 12. Optimization
     - [ ] Dominique suggestion - have an appendix with multiple versions of optimized code
@@ -80,10 +81,12 @@
   - [x] Chapter 3. Your First Programs.
     - [x] Convert the "Layout of the 32-bit registers" image to a text format.
     - [x] Refer the GDB debug in the review sections for chapter 3.
-  - [ ] Chapter 4.All About Functions Dealing with Complexity
-    - [ ] Create a better example about the Stack software and hardware.
-  - [ ] Chapter 5. Dealing with Files
-    - [ ] Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct.
+  - [x] Chapter 4.All About Functions Dealing with Complexity
+    - [x] Create a better example about the Stack software and hardware.
+      - Refered to the chapter 9, section: Table of the Physical Memory in the program.
+  - [x] Chapter 5. Dealing with Files
+    - [x] Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct.
+      - Yes, that's right.
   - [x] Chapter 8. Sharing Functions with Code Libraries
     - [x] Added output from the above command.
     - [x] Test this ldd section, what is the real result?

@@ -1977,8 +1977,6 @@ widely used, and because it is the standard for Linux platforms.
 Assembly-Language Functions using the C Calling Convention
 ----------------------------------------------------------
 
-<!-- TODO: Create a better example about the Stack software and hardware. -->
-
 You cannot write assembly-language functions without understanding how
 the computer\'s *stack* works. Each computer program that runs uses
 a region of memory called the stack to enable functions to work
@@ -2048,6 +2046,12 @@ This instruction uses the base pointer addressing mode (see
 [Data Accessing Methods](#data-accessing-methods)) which simply adds 4
 to _%esp_ before looking up the value being pointed to.
 
+> **NOTE:**
+>
+> Please, do a quick review of the tables which explain graphically, 
+> how the the memory and the stack works:
+> [Chapter 9 -> Table of the Physical Memory in the program](#chapter-9-table-of-the-physical-memory-in-the-program).
+
 In the C language calling convention, the
 stack is the key element for implementing a function\'s local variables,
 parameters, and return address.
@@ -2065,11 +2069,11 @@ at the bottom on this example):
 
 <!-- TODO: Dominique says "This part can be confusing until one gets to the sample illustration code and then it makes sense." -->
 
-    Parameter #N
+    0xffffff50: Parameter #N
     ...
-    Parameter 2
-    Parameter 1
-    Return Address <--- (%esp)
+    0xffffff2c: Parameter 2
+    0xffffff28: Parameter 1
+    0xffffff24: Return Address <--- (%esp)
 
 Each of the parameters of the function have been pushed onto the stack,
 and finally the return address is there. Now the function itself has
@@ -2097,12 +2101,12 @@ parameters, local variables, and the return address).
 
 At this point, the stack looks like this:
 
-    Parameter #N   <--- N*4+4(%ebp)
+    0xffffff50: Parameter #N   <--- N*4+4(%ebp)
     ...
-    Parameter 2    <--- 12(%ebp)
-    Parameter 1    <--- 8(%ebp)
-    Return Address <--- 4(%ebp)
-    Old %ebp       <--- (%esp) and (%ebp)
+    0xffffff2c: Parameter 2    <--- 12(%ebp)
+    0xffffff28: Parameter 1    <---  8(%ebp)
+    0xffffff24: Return Address <---  4(%ebp)
+    0xffffff20: Old %ebp       <---   (%esp) and (%ebp)
 
 As you can see, each parameter can be accessed using base pointer
 addressing mode using the _%ebp_ register.
@@ -2129,14 +2133,38 @@ called.
 
 Now we have two words for local storage. Our stack now looks like this:
 
-    Parameter #N     <--- N*4+4(%ebp)
+    0xffffff50: Parameter #N     <--- N*4+4(%ebp)
     ...
-    Parameter 2      <--- 12(%ebp)
-    Parameter 1      <--- 8(%ebp)
-    Return Address   <--- 4(%ebp)
-    Old %ebp         <--- (%ebp)
-    Local Variable 1 <--- -4(%ebp)
-    Local Variable 2 <--- -8(%ebp) and (%esp)
+    0xffffff2c: Parameter 2      <--- 12(%ebp)
+    0xffffff28: Parameter 1      <---  8(%ebp)
+    0xffffff24: Return Address   <---  4(%ebp)
+    0xffffff20: Old %ebp         <---   (%ebp)
+    0xffffff1c: Local Variable 1 <--- -4(%ebp)
+    0xffffff18: Local Variable 2 <--- -8(%ebp) and (%esp)
+
+> **The Rule:**
+>
+> The positive numbers or operations take the old stored values,
+> negative numbers or operations take the new stored values.
+
+Get the values before `%ebp` (old values):
+
+    0xffffff28: Parameter 1    <--- 8(%ebp)
+    0xffffff24: Return Address <--- 4(%ebp)
+    0xffffff20: Old %ebp       <---  (%ebp)
+
+Get the values after `%ebp` (new values):
+
+    0xffffff20: Old %ebp         <---    (%ebp)
+    0xffffff1c: Local Variable 1 <---  -4(%ebp)
+    0xffffff18: Local Variable 2 <---  -8(%ebp)
+
+Also this rule apply for the %esp, get the values before `%esp` (old values):
+
+    0xffffff20: Old %ebp         <---    (%ebp)
+    0xffffff1c: Local Variable 1 <---   8(%esp)
+    0xffffff18: Local Variable 2 <---   4(%esp)
+    0xffffff14: New %esp         <---    (%esp)
 
 So we can now access all of the data we need for this function by using
 base pointer addressing mode using different
@@ -3070,8 +3098,6 @@ parameters:
 
 After making the system call, the file descriptor of the
 newly-opened file is stored in _%eax_.
-
-<!-- TODO: Persoanl -> Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct. -->
 
 So, what files are we opening? In this example, we will be opening the
 files specified on the command-line. Fortunately,
@@ -4903,7 +4929,7 @@ run one program. So, the break is the beginning of the area that
 contains unmapped memory. With the stack, however, Linux will
 automatically map in memory that is accessed from stack pushes.
 
-Let\'s explain all this complex concepts using the Linux tools and
+Let\'s explain these complex concepts using the Linux tools and
 dynamic practices. The progam `009-01-memory-layout.s` helps with
 this:
 
@@ -4988,7 +5014,7 @@ gdb --args ./009-01-memory-layout 123 456
     0x0804a000 - 0x0804a00c is .data
     0x0804a010 - 0x0804a094 is .bss
 
-**Table of the Physical Memory in the program.**
+[**Table of the Physical Memory in the program.**]{#chapter-9-table-of-the-physical-memory-in-the-program}
 
 As we mentioned in this and other chapters the code is going
 fordward starting at memory 0x08048000 but the dynamic data
@@ -5137,7 +5163,7 @@ it goes insde of the `call`s. We want to use the recently created
 spaces for these variables, `%ebp` is recommended when you want to take
 arguments of the actual funcion, they always be around the base pointer:
 
-```{.gnuassembler .numberLines include=resource/asm/009-01-memory-layout.s startLine=48 endLine=75}
+```{.gnuassembler .numberLines include=resource/asm/009-01-memory-layout.s startLine=48 endLine=77}
 ```
 
 ```{.text}
@@ -5163,6 +5189,8 @@ arguments of the actual funcion, they always be around the base pointer:
     +-------------------+
     |                   |    > subl  $12, %esp
     |                   | ---> 0xffffd868  -> %ebp
+    |                   | ---> 0xffffd864
+    |                   | ---> 0xffffd860
     |         ↓         | ---> 0xffffd85c  -> %esp
     +-------------------+
     |                   |    > movl  $age, 4(%esp)
@@ -5699,7 +5727,7 @@ buffer using our memory manager. You will need to have the code from
 that program handy as we will only be discussing the changes in this
 section.
 
-```{.gnuassembler .numberLines include=resource/asm/006-01-read-records.s}
+```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s}
 ```
 
 The first change we need to make is in the declaration. Currently it
@@ -5968,27 +5996,25 @@ The nice thing about base two is that the basic math tables are very
 short. In base ten, the multiplication tables are ten columns wide, and
 ten columns tall. In base two, it is very simple:
 
-<!-- TODO: These need to be converted to tables. -->
+Table of binary addition
 
-    Table of binary addition
-
-    |----------------|
+    +----------------+
     | + ||  0  |  1  |
     |================|
-    | 0 ||  0  |  0  |
+    | 0 ||  0  |  1  |
     |----+-----+-----|
     | 1 ||  1  | 10  |
-    |----------------|
+    +----------------+
 
-    Table of binary multiplication
+Table of binary multiplication
 
-    |----------------|
+    +----------------+
     | * ||  0  |  1  |
     |================|
     | 0 ||  0  |  0  |
     |----+-----+-----|
     | 1 ||  0  |  1  |
-    |----------------|
+    +----------------+
 
 So, let\'s add the numbers 10010101 with 1100101:
 
