@@ -685,40 +685,42 @@ only deals with typing it in and running it. In [Outline of an Assembly
 Language Program](#outline-of-an-assembly-language-program) we will
 describe how it works.
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        # PURPOSE:    Simple program that exits and returns
-        #             a status code back to the Linux
-        #             kernel.
-        #
-        # INPUT:      None.
-        #
-        # OUTPUT:     Returns a status code.  This can be
-        #             viewed by typing `echo $?` after
-        #             running the program.
-        #
-        # VARIABLES:
-        #             %eax holds the system call number.
-        #             %ebx holds the return status .
-        #
-        .section .data
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:    Simple program that exits and returns
+    #             a status code back to the Linux
+    #             kernel.
+    #
+    # INPUT:      None.
+    #
+    # OUTPUT:     Returns a status code.  This can be
+    #             viewed by typing `echo $?` after
+    #             running the program.
+    #
+    # VARIABLES:
+    #             %eax holds the system call number.
+    #             %ebx holds the return status .
+    #
+    .section .data
 
-        .section .text
-            .globl _start
+    .section .text
+        .globl _start
 
-    _start:
-        movl $1, %eax      # This is the Linux kernel
-                           # command number (system call)
-                           # for exiting a program.
+_start:
+    movl $1, %eax      # This is the Linux kernel
+                       # command number (system call)
+                       # for exiting a program.
 
-        movl $0, %ebx      # This is the status number we
-                           # will return to the operating
-                           # system. Change this around and
-                           # it will return different
-                           # things to `echo $?`.
+    movl $0, %ebx      # This is the status number we
+                       # will return to the operating
+                       # system. Change this around and
+                       # it will return different
+                       # things to `echo $?`.
 
-        int $0x80          # This wakes up the kernel to
-                           # run the exit command.
+    int $0x80          # This wakes up the kernel to
+                       # run the exit command.
+```
 
 What you have typed in is called the *source code*. Source code is the
 human-readable form of a program. In order to transform it into a
@@ -731,7 +733,9 @@ language* is a more human-readable form of the instructions a computer
 understands. Assembling transforms the human-readable file into a
 machine-readable one. To assembly the program type in the command:
 
-    as -o 003-01-exit.o  003-01-exit.s --gstabs+
+``` bash
+as -o 003-01-exit.o  003-01-exit.s --gstabs+
+```
 
 `as` is the command which runs the assembler, `003-01-exit.s` is the
 source file, and `-o 003-01-exit.o` tells the assemble to put its output
@@ -749,7 +753,9 @@ to load and run it. In our case, we only have one object file, so the
 linker is only adding the information to enable it to run. To *link* the
 file, enter the command:
 
-    ld -o 003-01-exit  003-01-exit.o
+``` bash
+ld -o 003-01-exit  003-01-exit.o
+```
 
 `ld` is the command to run the linker, `003-01-exit.o` is the object
 file we want to link, and `-o 003-01-exit` instructs the linker to
@@ -760,7 +766,9 @@ commands. *You must always re-assemble and re-link programs after you
 modify the source file for the changes to occur in the program*. You can
 run `003-01-exit` by typing in the command:
 
-    ./003-01-exit
+``` bash
+./003-01-exit
+```
 
 The `./` is used to tell the computer that the program isn't in one of
 the normal program directories, but is the current directory instead[8].
@@ -769,7 +777,9 @@ that you'll go to the next line. That's because this program does
 nothing but exit. However, immediately after you run the program, if you
 type in:
 
-    echo $?
+``` bash
+echo $?
+```
 
 It will say `0`. What is happening is that every program when it exits
 gives Linux an *exit status code*, which tells it if everything went all
@@ -803,7 +813,9 @@ your comments:
 
 After the comments, the next line says:
 
-        .section .data
+``` gnuassembler
+    .section .data
+```
 
 Anything starting with a period isn't directly translated into a machine
 instruction. Instead, it's an instruction to the assembler itself. These
@@ -817,14 +829,18 @@ in the future will have data.
 
 Right after this you have:
 
-        .section .text
+``` gnuassembler
+    .section .text
+```
 
 `.text` which starts the text section. The text sectiontext section of a
 program is where the program instructions live.
 
 The next instruction is:
 
-            .globl _start
+``` gnuassembler
+        .globl _start
+```
 
 This instructs the assembler that `_start` is important to remember.
 `_start` is a *symbol*, which means that it is going to be replaced by
@@ -848,7 +864,9 @@ begin running your program*.
 
 The next line:
 
-    _start:
+``` gnuassembler
+_start:
+```
 
 *defines* the value of the `_start` label. A *label* is a symbol
 followed by a colon. Labels define a symbol's value. When the assembler
@@ -862,9 +880,11 @@ automatically gets the new value.
 Now we get into actual computer instructions. The first such instruction
 is this:
 
-        movl $1, %eax      # This is the Linux kernel
-                           # command number (system call)
-                           # for exiting a program.
+``` gnuassembler
+    movl $1, %eax      # This is the Linux kernel
+                       # command number (system call)
+                       # for exiting a program.
+```
 
 When the program runs, this instruction transfers the number `1` into
 the *%eax* register. In assembly language, many instructions have
@@ -952,11 +972,13 @@ operating system requires a status code be loaded in *%ebx*. This value
 is then returned to the system. This is the value you retrieved when you
 typed `echo $?`. So, we load *%ebx* with `0` by typing the following:
 
-        movl $0, %ebx      # This is the status number we
-                           # will return to the operating
-                           # system. Change this around and
-                           # it will return different
-                           # things to `echo $?`.
+``` gnuassembler
+    movl $0, %ebx      # This is the status number we
+                       # will return to the operating
+                       # system. Change this around and
+                       # it will return different
+                       # things to `echo $?`.
+```
 
 Now, loading registers with these numbers doesn't do anything itself.
 Registers are used for all sorts of things besides system calls. They
@@ -973,8 +995,10 @@ Calls](#appendix-c-important-system-calls).
 
 The next instruction is the "magic" one. It looks like this:
 
-        int $0x80          # This wakes up the kernel to
-                           # run the exit command.
+``` gnuassembler
+    int $0x80          # This wakes up the kernel to
+                       # run the exit command.
+```
 
 The `int` stands for *interrupt*. The `0x80` is the interrupt number to
 use.[12] An *interrupt* interrupts the normal program flow, and
@@ -1133,66 +1157,72 @@ Finding a Maximum Value
 
 Enter the following program as `003-02-maximum.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        # PURPOSE:
-        #     This program finds the maximum number of a
-        #     set of data items.
-        #
-        # VARIABLES:
-        #     The registers have the following uses:
-        #       %edi - Holds the index of the data item
-        #       being examined.
-        #       %ebx - Largest data item found.
-        #       %eax - Current data item.
-        #
-        # The following memory locations are used:
-        #     data_items - contains the item data.  A 0 is
-        #                  usedto terminate the data.
-        #
-        .section .data
-            data_items:         # These are the data items.
-                .long 3, 67, 34, 222, 45, 22, 11, 125, 0
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     This program finds the maximum number of a
+    #     set of data items.
+    #
+    # VARIABLES:
+    #     The registers have the following uses:
+    #       %edi - Holds the index of the data item
+    #       being examined.
+    #       %ebx - Largest data item found.
+    #       %eax - Current data item.
+    #
+    # The following memory locations are used:
+    #     data_items - contains the item data.  A 0 is
+    #                  usedto terminate the data.
+    #
+    .section .data
+        data_items:         # These are the data items.
+            .long 3, 67, 34, 222, 45, 22, 11, 125, 0
 
-        .section .text
-            .globl _start
+    .section .text
+        .globl _start
 
-    _start:
-        movl $0, %edi           # Move 0 into the index
-                                # register.
-        movl data_items(,%edi,4), %eax  # Load the first
-                                        # byte of data.
-        movl %eax, %ebx         # Since this is the first
-                                # item, %eax is the biggest
+_start:
+    movl $0, %edi           # Move 0 into the index
+                            # register.
+    movl data_items(,%edi,4), %eax  # Load the first
+                                    # byte of data.
+    movl %eax, %ebx         # Since this is the first
+                            # item, %eax is the biggest
 
-    _start_loop:                # Start loop.
-        cmpl $0, %eax           # Check to see if we have
-        je _loop_exit           # hit the end.
-        incl %edi               # Increment %edi by 1.
-        movl data_items(,%edi,4), %eax   # Load next value.
-        cmpl %ebx, %eax         # Compare values.
-        jle _start_loop         # Jump to loop beginning if
-                                # the new one is not bigger
-        movl %eax, %ebx         # Move the value as the
-                                # largest.
-        jmp _start_loop         # Jump to loop beginning.
+_start_loop:                # Start loop.
+    cmpl $0, %eax           # Check to see if we have
+    je _loop_exit           # hit the end.
+    incl %edi               # Increment %edi by 1.
+    movl data_items(,%edi,4), %eax   # Load next value.
+    cmpl %ebx, %eax         # Compare values.
+    jle _start_loop         # Jump to loop beginning if
+                            # the new one is not bigger
+    movl %eax, %ebx         # Move the value as the
+                            # largest.
+    jmp _start_loop         # Jump to loop beginning.
 
-    _loop_exit:
-                                # %ebx is the status code
-                                # for the exit systemcall
-            movl $1, %eax       # and it already has the
-            int  $0x80          # maximum number 1 is the
-                                # exit() syscall.
+_loop_exit:
+                            # %ebx is the status code
+                            # for the exit systemcall
+        movl $1, %eax       # and it already has the
+        int  $0x80          # maximum number 1 is the
+                            # exit() syscall.
+```
 
 Now, assemble and link it with these commands:
 
-    as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
-    ld -o 003-02-maximum    003-02-maximum.o
+``` bash
+as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
+ld -o 003-02-maximum    003-02-maximum.o
+```
 
 Now run it, and check its status.
 
-    ./003-02-maximum
-    echo $?
+``` bash
+./003-02-maximum
+echo $?
+```
 
 You'll notice it returns the value `222`. Let's take a look at the
 program and what it does. If you look in the comments, you'll see that
@@ -1200,8 +1230,10 @@ the program finds the maximum of a set of numbers (aren't comments
 wonderful!). You may also notice that in this program we actually have
 something in the data section. These lines are the data section:
 
-            data_items:         # These are the data items.
-                .long 3, 67, 34, 222, 45, 22, 11, 125, 0
+``` gnuassembler
+        data_items:         # These are the data items.
+            .long 3, 67, 34, 222, 45, 22, 11, 125, 0
+```
 
 Lets look at this. `data_items` is a label that refers to the location
 that follows it. Then, there is a directive that starts with `.long`.
@@ -1308,15 +1340,19 @@ then the third (data item number 2), and so on. The data item number is
 the *index* of `data_items`. You'll notice that the first instruction we
 give to the computer is:
 
-        movl $0, %edi           # Move 0 into the index
-                                # register.
+``` gnuassembler
+    movl $0, %edi           # Move 0 into the index
+                            # register.
+```
 
 Since we are using `%edi` as our index, and we want to start looking at
 the first item, we load `%edi` with 0. Now, the next instruction is
 tricky, but crucial to what we're doing. It says:
 
-        movl data_items(,%edi,4), %eax  # Load the first
-                                        # byte of data.
+``` gnuassembler
+    movl data_items(,%edi,4), %eax  # Load the first
+                                    # byte of data.
+```
 
 Now to understand this line, you need to keep several things in mind:
 
@@ -1334,7 +1370,9 @@ stores that number in `%eax`. This is how you write indexed addressing
 mode instructions in assembly language. The instruction in a general
 form is this:
 
-    movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
+``` gnuassembler
+movl BEGINNINGADDRESS(, %INDEXREGISTER, WORDSIZE)
+```
 
 In our case `data_items` was our beginning address, *%edi* was our index
 register, and 4 was our word size. This topic is discussed further in
@@ -1351,8 +1389,10 @@ Modes](#addressing-modes).
 
 Let's look at the next line:
 
-        movl %eax, %ebx         # Since this is the first
-                                # item, %eax is the biggest
+``` gnuassembler
+    movl %eax, %ebx         # Since this is the first
+                            # item, %eax is the biggest
+```
 
 We have the first item to look at stored in `%eax`. Since it is the
 first item, we know it's the biggest one we've looked at. We store it in
@@ -1390,8 +1430,10 @@ Okay, so now lets go to the code. We have the beginning of the loop
 marked with `_start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
-        cmpl $0, %eax           # Check to see if we have
-        je _loop_exit           # hit the end.
+``` gnuassembler
+    cmpl $0, %eax           # Check to see if we have
+    je _loop_exit           # hit the end.
+```
 
 The `cmpl` instruction compares the two values. Here, we are comparing
 the number 0 to the number stored in *%eax*. This compare instruction
@@ -1430,8 +1472,10 @@ to `_loop_exit`.[19]
 If the last loaded element was not zero, we go on to the next
 instructions:
 
-        incl %edi               # Increment %edi by 1.
-        movl data_items(,%edi,4), %eax   # Load next value.
+``` gnuassembler
+    incl %edi               # Increment %edi by 1.
+    movl data_items(,%edi,4), %eax   # Load next value.
+```
 
 If you remember from our previous discussion, *%edi* contains the index
 to our list of values in `data_items`. `incl` increments the value of
@@ -1440,9 +1484,11 @@ However, since we already incremented *%edi*, *%eax* is getting the next
 value from the list. Now *%eax* has the next value to be tested. So,
 let's test it!
 
-        cmpl %ebx, %eax         # Compare values.
-        jle _start_loop         # Jump to loop beginning if
-                                # the new one is not bigger
+``` gnuassembler
+    cmpl %ebx, %eax         # Compare values.
+    jle _start_loop         # Jump to loop beginning if
+                            # the new one is not bigger
+```
 
 Here we compare our current value, stored in *%eax* to our biggest value
 so far, stored in *%ebx*. If the current value is less or equal to our
@@ -1450,9 +1496,11 @@ biggest value so far, we don't care about it, so we just jump back to
 the beginning of the loop. Otherwise, we need to record that value as
 the largest one:
 
-        movl %eax, %ebx         # Move the value as the
-                                # largest.
-        jmp _start_loop         # Jump to loop beginning.
+``` gnuassembler
+    movl %eax, %ebx         # Move the value as the
+                            # largest.
+    jmp _start_loop         # Jump to loop beginning.
+```
 
 which moves the current value into *%ebx*, which we are using to store
 the current largest value, and starts the loop over again.
@@ -1467,11 +1515,13 @@ code in *%ebx*. We already have the exit status there since we are using
 *%ebx* as our largest number, so all we have to do is load *%eax* with
 the number one and call the kernel to exit. Like this:
 
-                                # %ebx is the status code
-                                # for the exit systemcall
-            movl $1, %eax       # and it already has the
-            int  $0x80          # maximum number 1 is the
-                                # exit() syscall.
+``` gnuassembler
+                            # %ebx is the status code
+                            # for the exit systemcall
+        movl $1, %eax       # and it already has the
+        int  $0x80          # maximum number 1 is the
+                            # exit() syscall.
+```
 
 Okay, that was a lot of work and explanation, especially for such a
 small program. But hey, you're learning a lot! Now, read through the
@@ -1494,14 +1544,18 @@ represented in assembly language instructions.
 
 The general form of memory address references is this:
 
-    ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
+``` gnuassembler
+ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
+```
 
 All of the fields are optional. To calculate the address, simply perform
 the following calculation:
 
-    FINAL ADDRESS =
-        ADDRESS_OR_OFFSET + %BASE_OR_OFFSET +
-        MULTIPLIER * %INDEX
+``` gnuassembler
+FINAL ADDRESS =
+    ADDRESS_OR_OFFSET + %BASE_OR_OFFSET +
+    MULTIPLIER * %INDEX
+```
 
 `ADDRESS_OR_OFFSET` and `MULTIPLIER` must both be constants, while the
 other two must be registers. If any of the pieces is left out, it is
@@ -1516,9 +1570,9 @@ This is done by only using the `ADDRESS_OR_OFFSET` portion. Example:
 
 This loads *%eax* with the value at memory address `ADDRESS`.
 
-<!-- -->
-
-    movl ADDRESS, %eax
+``` gnuassembler
+movl ADDRESS, %eax
+```
 
 **Indexed addressing mode:**  
 This is done by using the `ADDRESS_OR_OFFSET` and the `%INDEX` portion.
@@ -1533,18 +1587,18 @@ you could do the following:
 This starts at `string_start`, and adds `1 * %ecx` to that address, and
 loads the value into *%eax*.
 
-<!-- -->
-
-    movl string_start(,%ecx,1), %eax
+``` gnuassembler
+movl string_start(,%ecx,1), %eax
+```
 
 **Indirect addressing mode:**  
 Indirect addressing mode loads a value from the address indicated by a
 register. For example, if *%eax* held an address, we could move the
 value at that address to *%ebx* by doing the following:
 
-<!-- -->
-
-    movl (%eax), %ebx
+``` gnuassembler
+movl (%eax), %ebx
+```
 
 **Base pointer addressing mode:**  
 Base-pointer addressing is similar to indirect addressing, except that
@@ -1553,9 +1607,9 @@ you have a record where the age value is 4 bytes into the record, and
 you have the address of the record in *%eax*, you can retrieve the age
 into *%ebx* by issuing the following instruction:
 
-<!-- -->
-
-    movl 4(%eax), %ebx
+``` gnuassembler
+movl 4(%eax), %ebx
+```
 
 **Immediate mode addressing:**  
 Immediate mode is very simple. It does not follow the general form we
@@ -1568,9 +1622,9 @@ of the number. If we did not, it would be direct addressing mode, in
 which case the value located at memory location 12 would be loaded into
 *%eax* rather than the number 12 itself.
 
-<!-- -->
-
-    movl $12, %eax
+``` gnuassembler
+movl $12, %eax
+```
 
 **Register addressing mode:**  
 Register mode simply moves data in or out of a register. In all of our
@@ -1836,20 +1890,19 @@ indefinitely. You generally keep the things that you are working on
 toward the top, and you take things off as you are finished working with
 them.
 
-Your computer has a stack, too. The computer's stackstack lives at the
-very top addresses of memory. You can push values onto the top of the
-stack through an instruction called `pushl`, which pushes either a
-register or memory value onto the top of the stack. Well, we say it's
-the top, but the "top" of the stack is actually the bottom of the
-stack's memory. Although this is confusing, the reason for it is that
-when we think of a stack of anything - dishes, papers, etc. - we think
-of adding and removing to the top of it. However, in memory the stack
-starts at the top of memory and grows downward due to architectural
-considerations. Therefore, when we refer to the "top of the stack"
-remember it's at the bottom of the stack's memory. You can also pop
-values off the top using an instruction called `popl`. This removes the
-top value from the stack and places it into a register or memory
-location of your choosing.
+Your computer has a stack, too. The computer's stack lives at the very
+top addresses of memory. You can push values onto the top of the stack
+through an instruction called `pushl`, which pushes either a register or
+memory value onto the top of the stack. Well, we say it's the top, but
+the "top" of the stack is actually the bottom of the stack's memory.
+Although this is confusing, the reason for it is that when we think of a
+stack of anything - dishes, papers, etc. - we think of adding and
+removing to the top of it. However, in memory the stack starts at the
+top of memory and grows downward due to architectural considerations.
+Therefore, when we refer to the "top of the stack" remember it's at the
+bottom of the stack's memory. You can also pop values off the top using
+an instruction called `popl`. This removes the top value from the stack
+and places it into a register or memory location of your choosing.
 
 When we push a value onto the stack, the top of the stack moves to
 accomodate the additional value. We can actually continually push values
@@ -1872,11 +1925,15 @@ removing it, we can simply use the *%esp* register in indirect
 addressing mode. For example, the following code moves whatever is at
 the top of the stack into *%eax*:
 
-    movl (%esp), %eax
+``` gnuassembler
+movl (%esp), %eax
+```
 
 If we were to just do this:
 
-    movl %esp, %eax
+``` gnuassembler
+movl %esp, %eax
+```
 
 then *%eax* would just hold the pointer to the top of the stack rather
 than the value at the top. Putting *%esp* in parenthesis causes the
@@ -1884,7 +1941,9 @@ computer to go to indirect addressing mode, and therefore we get the
 value pointed to by *%esp*. If we want to access the value right below
 the top of the stack, we can simply issue this instruction:
 
-    movl 4(%esp), %eax
+``` gnuassembler
+movl 4(%esp), %eax
+```
 
 This instruction uses the base pointer addressing mode (see [Data
 Accessing Methods](#data-accessing-methods)) which simply adds 4 to
@@ -1952,7 +2011,9 @@ way. Let's say that we are going to need two words of memory to run a
 function. We can simply move the stack pointer down two words to reserve
 the space. This is done like this:
 
-    subl $8, %esp
+``` gnuassembler
+subl $8, %esp
+```
 
 This subtracts 8 from *%esp* (remember, a word is four bytes long).[24]
 This way, we can use the stack for variable storage without worring
@@ -2010,9 +2071,11 @@ return, we have to reset the stack pointer *%esp* and base pointer
 
 Therefore to return from the function you have to do the following:
 
-    movl %ebp, %esp
-    popl %ebp
-    ret
+``` gnuassembler
+movl %ebp, %esp
+popl %ebp
+ret
+```
 
 *At this point, you should consider all local variables to be disposed
 of.* The reason is that after you move the stack pointer back, future
@@ -2084,111 +2147,113 @@ program simple, we will only allow numbers 1 and greater.
 The following is the code for the complete program. As usual, an
 explanation follows. Name the file `004-01-power.s`.
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        # PURPOSE:
-        #     Program to illustrate how functions work.
-        #     This program will compute the value of
-        #     2^3 + 5^2
-        #
-        # Everything in the main program is stored in
-        # registers, so the data section does not have
-        # anything.
-        #
-        .section .data
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     Program to illustrate how functions work.
+    #     This program will compute the value of
+    #     2^3 + 5^2
+    #
+    # Everything in the main program is stored in
+    # registers, so the data section does not have
+    # anything.
+    #
+    .section .data
 
-        .section .text
-            .globl _start
+    .section .text
+        .globl _start
 
-    _start:
-        pushl $3                # Push second argument.
-        pushl $2                # Push first argument.
-        call  _power            # Call the function.
-        addl  $8, %esp          # Move the stack pointer
-                                # back.
+_start:
+    pushl $3                # Push second argument.
+    pushl $2                # Push first argument.
+    call  _power            # Call the function.
+    addl  $8, %esp          # Move the stack pointer
+                            # back.
 
-        pushl %eax              # Save the first answer
-                                # before calling the next
-                                # function.
+    pushl %eax              # Save the first answer
+                            # before calling the next
+                            # function.
 
-        pushl $2                # Push second argument.
-        pushl $5                # Push first argument.
-        call  _power            # Call the function.
-        addl  $8, %esp          # Move the stack pointer
-                                # back.
+    pushl $2                # Push second argument.
+    pushl $5                # Push first argument.
+    call  _power            # Call the function.
+    addl  $8, %esp          # Move the stack pointer
+                            # back.
 
-        popl  %ebx              # The second answer is
-                                # already in %eax.  We
-                                # saved the first answer
-                                # onto the stack, so now we
-                                # can just pop it out into
-                                # %ebx.
+    popl  %ebx              # The second answer is
+                            # already in %eax.  We
+                            # saved the first answer
+                            # onto the stack, so now we
+                            # can just pop it out into
+                            # %ebx.
 
-        addl  %eax, %ebx        # Add them together
-                                # the result is in %ebx.
+    addl  %eax, %ebx        # Add them together
+                            # the result is in %ebx.
 
-        movl  $1, %eax          # Exit (%ebx is returned).
-        int   $0x80
+    movl  $1, %eax          # Exit (%ebx is returned).
+    int   $0x80
 
-        # PURPOSE:
-        #     This function is used to compute the value of
-        #     a number raised to a power.
-        #
-        # INPUT:
-        #     First argument -  the base number.
-        #     Second argument - the power to raise it to.
-        #
-        # OUTPUT:
-        #     Will give the result as a return value.
-        #
-        # NOTES:
-        #     The power must be 1 or greater.
-        #
-        # VARIABLES:
-        #     %ebx - holds the base number.
-        #     %ecx - holds the power.
-        #     -4(%ebp) - holds the current result.
-        #     %eax is used for temporary storage.
-        #
-            .type  _power,  @function
+    # PURPOSE:
+    #     This function is used to compute the value of
+    #     a number raised to a power.
+    #
+    # INPUT:
+    #     First argument -  the base number.
+    #     Second argument - the power to raise it to.
+    #
+    # OUTPUT:
+    #     Will give the result as a return value.
+    #
+    # NOTES:
+    #     The power must be 1 or greater.
+    #
+    # VARIABLES:
+    #     %ebx - holds the base number.
+    #     %ecx - holds the power.
+    #     -4(%ebp) - holds the current result.
+    #     %eax is used for temporary storage.
+    #
+        .type  _power,  @function
 
-    _power:
-        pushl %ebp                # Save old base pointer.
-        movl  %esp, %ebp          # Make stack pointer the
-                                  # base pointer.
-        subl  $4, %esp            # Get room for our local
-                                  # storage.
+_power:
+    pushl %ebp                # Save old base pointer.
+    movl  %esp, %ebp          # Make stack pointer the
+                              # base pointer.
+    subl  $4, %esp            # Get room for our local
+                              # storage.
 
-        movl  8(%ebp), %ebx       # Put first argument in
-                                  # %ebx.
-        movl  12(%ebp), %ecx      # Put second argument in
-                                  # %ecx.
+    movl  8(%ebp), %ebx       # Put first argument in
+                              # %ebx.
+    movl  12(%ebp), %ecx      # Put second argument in
+                              # %ecx.
 
-        movl  %ebx, -4(%ebp)      # Store current result.
+    movl  %ebx, -4(%ebp)      # Store current result.
 
-    _power_loop_start:
-        cmpl  $1, %ecx            # If the power is 1, we
-                                  # are done.
-        je    _end_power
-        movl  -4(%ebp), %eax      # Move the current result
-                                  # into %eax.
-        imull %ebx, %eax          # Multiply the current
-                                  # result by the base
-                                  # number.
-        movl  %eax, -4(%ebp)      # Store the current
-                                  # result.
+_power_loop_start:
+    cmpl  $1, %ecx            # If the power is 1, we
+                              # are done.
+    je    _end_power
+    movl  -4(%ebp), %eax      # Move the current result
+                              # into %eax.
+    imull %ebx, %eax          # Multiply the current
+                              # result by the base
+                              # number.
+    movl  %eax, -4(%ebp)      # Store the current
+                              # result.
 
-        decl  %ecx                # Decrease the power.
-        jmp   _power_loop_start   # Run for the next power.
+    decl  %ecx                # Decrease the power.
+    jmp   _power_loop_start   # Run for the next power.
 
-    _end_power:
-        movl -4(%ebp), %eax       # Return value goes in
-                                  # %eax.
-        movl %ebp, %esp           # Restore the stack
-                                  # pointer.
-        popl %ebp                 # Restore the base
-                                  # pointer.
-        ret
+_end_power:
+    movl -4(%ebp), %eax       # Return value goes in
+                              # %eax.
+    movl %ebp, %esp           # Restore the stack
+                              # pointer.
+    popl %ebp                 # Restore the base
+                              # pointer.
+    ret
+```
 
 Type in the program, assemble it, and run it. Try calling power for
 different values, but remember that the result has to be less than 256
@@ -2213,7 +2278,9 @@ what will be in *%eax* at the end.
 
 We then have the following line:
 
-            .type  _power,  @function
+``` gnuassembler
+        .type  _power,  @function
+```
 
 This tells the linker that the symbol `_power` should be treated as a
 function. Since this program is only in one file, it would work just the
@@ -2221,7 +2288,9 @@ same with this left out. However, it is good practice.
 
 After that, we define the value of the `_power` label:
 
-    _power:
+``` gnuassembler
+_power:
+```
 
 As mentioned previously, this defines the symbol `_power` to be the
 address where the instructions following the label begin. This is how
@@ -2232,11 +2301,13 @@ return address onto the stack so that the function can return, while the
 
 Next, we have our instructions to set up our function:
 
-        pushl %ebp                # Save old base pointer.
-        movl  %esp, %ebp          # Make stack pointer the
-                                  # base pointer.
-        subl  $4, %esp            # Get room for our local
-                                  # storage.
+``` gnuassembler
+    pushl %ebp                # Save old base pointer.
+    movl  %esp, %ebp          # Make stack pointer the
+                              # base pointer.
+    subl  $4, %esp            # Get room for our local
+                              # storage.
+```
 
 At this point, our stack looks like this:
 
@@ -2316,97 +2387,101 @@ its own stack frame, we are okay.
 
 Let's look at the `004-02-factorial.s` code to see how this works:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        # PURPOSE:
-        #     Given a number, this program computes the
-        #     factorial.  For example, the factorial of
-        #     3 is 3 * 2 * 1, or 6.  The factorial of
-        #     4 is 4 * 3 * 2 * 1, or 24, and so on.
-        #
-        # This program shows how to call a function
-        # recursively. This program has no global data.
-        #
-        .section .data
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     Given a number, this program computes the
+    #     factorial.  For example, the factorial of
+    #     3 is 3 * 2 * 1, or 6.  The factorial of
+    #     4 is 4 * 3 * 2 * 1, or 24, and so on.
+    #
+    # This program shows how to call a function
+    # recursively. This program has no global data.
+    #
+    .section .data
 
-        .section .text
-            .globl _start
-            .globl _factorial   # This is unneeded unless
-                                # we want to share this
-                                # function among other
-                                # programs.
-    _start:
-        pushl $4                # The factorial takes one
-                                # argument - the number we
-                                # want a factorial of.  So,
-                                # it gets pushed.
-        call  _factorial        # Run the factorial
-                                # function.
-        addl  $4, %esp          # Scrubs the parameter that
-                                # was pushed on the stack.
-        movl  %eax, %ebx        # Factorial returns the
-                                # answer in %eax, but we
-                                # want it in %ebx to send
-                                # it as our exit status.
-        movl  $1, %eax          # Call the kernel exit
-        int   $0x80             # function.
+    .section .text
+        .globl _start
+        .globl _factorial   # This is unneeded unless
+                            # we want to share this
+                            # function among other
+                            # programs.
+_start:
+    pushl $4                # The factorial takes one
+                            # argument - the number we
+                            # want a factorial of.  So,
+                            # it gets pushed.
+    call  _factorial        # Run the factorial
+                            # function.
+    addl  $4, %esp          # Scrubs the parameter that
+                            # was pushed on the stack.
+    movl  %eax, %ebx        # Factorial returns the
+                            # answer in %eax, but we
+                            # want it in %ebx to send
+                            # it as our exit status.
+    movl  $1, %eax          # Call the kernel exit
+    int   $0x80             # function.
 
 
-        # This is the actual function definition.
-        #
-        .type  _factorial,  @function
-    _factorial:
-        pushl %ebp              # Atandard function stuff -
-                                # we have to restore %ebp
-                                # to its prior state before
-                                # returning, so we have to
-                                # push it.
-        movl  %esp, %ebp        # This is because we do not
-                                # want to modify the stack
-                                # pointer, so we use %ebp.
+    # This is the actual function definition.
+    #
+    .type  _factorial,  @function
+_factorial:
+    pushl %ebp              # Atandard function stuff -
+                            # we have to restore %ebp
+                            # to its prior state before
+                            # returning, so we have to
+                            # push it.
+    movl  %esp, %ebp        # This is because we do not
+                            # want to modify the stack
+                            # pointer, so we use %ebp.
 
-        movl  8(%ebp), %eax     # This moves the first
-                                # argument to %eax 4(%ebp)
-                                # holds the return address,
-                                # and 8(%ebp) holds the
-                                # first parameter.
-        cmpl  $1, %eax          # If the number is 1, that
-                                # is our base case, and we
-                                # simply return (1 is
-                                # already in %eax as the
-                                # return value).
-        je _end_factorial
-        decl  %eax              # Otherwise, decrease the
-                                # value.
-        pushl %eax              # Push it for our call to
-                                # factorial.
-        call  _factorial        # Call factorial.
-        movl  8(%ebp), %ebx     # %eax has the return
-                                # value, so we reload our
-                                # parameter into %ebx.
-        imull %ebx, %eax        # Multiply that by the
-                                # result of the last call
-                                # to factorial (in %eax)
-                                # the answer is stored in
-                                # %eax, which is good since
-                                # that is where return
-                                # values go.
-    _end_factorial:
-        movl  %ebp, %esp        # Standard function return
-        popl  %ebp              # stuff - we have to
-                                # restore %ebp and %esp to
-        ret                     # where they were before
-                                # the function started
-                                # return from the function
-                                # (this pops the return
-                                # value, too).
+    movl  8(%ebp), %eax     # This moves the first
+                            # argument to %eax 4(%ebp)
+                            # holds the return address,
+                            # and 8(%ebp) holds the
+                            # first parameter.
+    cmpl  $1, %eax          # If the number is 1, that
+                            # is our base case, and we
+                            # simply return (1 is
+                            # already in %eax as the
+                            # return value).
+    je _end_factorial
+    decl  %eax              # Otherwise, decrease the
+                            # value.
+    pushl %eax              # Push it for our call to
+                            # factorial.
+    call  _factorial        # Call factorial.
+    movl  8(%ebp), %ebx     # %eax has the return
+                            # value, so we reload our
+                            # parameter into %ebx.
+    imull %ebx, %eax        # Multiply that by the
+                            # result of the last call
+                            # to factorial (in %eax)
+                            # the answer is stored in
+                            # %eax, which is good since
+                            # that is where return
+                            # values go.
+_end_factorial:
+    movl  %ebp, %esp        # Standard function return
+    popl  %ebp              # stuff - we have to
+                            # restore %ebp and %esp to
+    ret                     # where they were before
+                            # the function started
+                            # return from the function
+                            # (this pops the return
+                            # value, too).
+```
 
 Assemble, link, and run it with these commands:
 
-    as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
-    ld -o 004-02-factorial    004-02-factorial.o
-    ./004-02-factorial
-    echo $?
+``` bash
+as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
+ld -o 004-02-factorial    004-02-factorial.o
+./004-02-factorial
+echo $?
+```
 
 This should give you the value 24. 24 is the factorial of 4, you can
 test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
@@ -2414,13 +2489,15 @@ test it out yourself with a calculator: 4 \* 3 \* 2 \* 1 = 24.
 I'm guessing you didn't understand the whole code listing. Let's go
 through it a line at a time to see what is happening.
 
-    _start:
-        pushl $4                # The factorial takes one
-                                # argument - the number we
-                                # want a factorial of.  So,
-                                # it gets pushed.
-        call  _factorial        # Run the factorial
-                                # function.
+``` gnuassembler
+_start:
+    pushl $4                # The factorial takes one
+                            # argument - the number we
+                            # want a factorial of.  So,
+                            # it gets pushed.
+    call  _factorial        # Run the factorial
+                            # function.
+```
 
 Okay, this program is intended to compute the factorial of the number 4.
 When programming functions, you are supposed to put the parameters of
@@ -2434,14 +2511,16 @@ The `call` instruction then makes the function call.
 
 Next we have these lines:
 
-        addl  $4, %esp          # Scrubs the parameter that
-                                # was pushed on the stack.
-        movl  %eax, %ebx        # Factorial returns the
-                                # answer in %eax, but we
-                                # want it in %ebx to send
-                                # it as our exit status.
-        movl  $1, %eax          # Call the kernel exit
-        int   $0x80             # function.
+``` gnuassembler
+    addl  $4, %esp          # Scrubs the parameter that
+                            # was pushed on the stack.
+    movl  %eax, %ebx        # Factorial returns the
+                            # answer in %eax, but we
+                            # want it in %ebx to send
+                            # it as our exit status.
+    movl  $1, %eax          # Call the kernel exit
+    int   $0x80             # function.
+```
 
 This takes place after `_factorial` has finished and computed the
 factorial of 4 for us. Now we have to clean up the stack. The `addl`
@@ -2479,8 +2558,10 @@ implemented.
 
 Before the function starts, we have this directive:
 
-        .type  _factorial,  @function
-    _factorial:
+``` gnuassembler
+    .type  _factorial,  @function
+_factorial:
+```
 
 The `.type` directive tells the linker that `_factorial` is a function.
 This isn't really needed unless we were using `_factorial` in other
@@ -2491,14 +2572,16 @@ next instruction. That's how `call` knew where to go when we said
 
 The first real instructions of the function are:
 
-        pushl %ebp              # Atandard function stuff -
-                                # we have to restore %ebp
-                                # to its prior state before
-                                # returning, so we have to
-                                # push it.
-        movl  %esp, %ebp        # This is because we do not
-                                # want to modify the stack
-                                # pointer, so we use %ebp.
+``` gnuassembler
+    pushl %ebp              # Atandard function stuff -
+                            # we have to restore %ebp
+                            # to its prior state before
+                            # returning, so we have to
+                            # push it.
+    movl  %esp, %ebp        # This is because we do not
+                            # want to modify the stack
+                            # pointer, so we use %ebp.
+```
 
 As shown in the previous program, this creates the stack frame for this
 function. These two lines will be the way you should start every
@@ -2506,11 +2589,13 @@ function.
 
 The next instruction is this:
 
-        movl  8(%ebp), %eax     # This moves the first
-                                # argument to %eax 4(%ebp)
-                                # holds the return address,
-                                # and 8(%ebp) holds the
-                                # first parameter.
+``` gnuassembler
+    movl  8(%ebp), %eax     # This moves the first
+                            # argument to %eax 4(%ebp)
+                            # holds the return address,
+                            # and 8(%ebp) holds the
+                            # first parameter.
+```
 
 This uses base pointer addressing mode to move the first parameter of
 the function into *%eax*. Remember, `(%ebp)` has the old *%ebp*,
@@ -2525,19 +2610,23 @@ so, we jump to the instruction at the label `_end_factorial`, where it
 will be returned. It's already in *%eax* which we mentioned earlier is
 where you put return values. That is accomplished by these lines:
 
-        cmpl  $1, %eax          # If the number is 1, that
-                                # is our base case, and we
-                                # simply return (1 is
-                                # already in %eax as the
-                                # return value).
-        je _end_factorial
+``` gnuassembler
+    cmpl  $1, %eax          # If the number is 1, that
+                            # is our base case, and we
+                            # simply return (1 is
+                            # already in %eax as the
+                            # return value).
+    je _end_factorial
+```
 
 If it's not our base case, what did we say we would do? We would call
 the `_factorial` function again with our parameter minus one. So, first
 we decrease *%eax* by one:
 
-        decl  %eax              # Otherwise, decrease the
-                                # value.
+``` gnuassembler
+    decl  %eax              # Otherwise, decrease the
+                            # value.
+```
 
 `decl` stands for decrement. It subtracts 1 from the given register or
 memory location (*%eax* in our case). `incl` is the inverse - it adds 1.
@@ -2545,9 +2634,11 @@ After decrementing *%eax* we push it onto the stack since it's going to
 be the parameter of the next function call. And then we call
 `_factorial` again!
 
-        pushl %eax              # Push it for our call to
-                                # factorial.
-        call  _factorial        # Call factorial.
+``` gnuassembler
+    pushl %eax              # Push it for our call to
+                            # factorial.
+    call  _factorial        # Call factorial.
+```
 
 Okay, now we've called `_factorial`. One thing to remember is that after
 a function call, we can never know what the registers are (except `%esp`
@@ -2556,22 +2647,26 @@ and `%ebp`). So even though we had the value we were called with in
 stack from the same place we got it the first time (at `8(%ebp)`). So,
 we do this:
 
-        movl  8(%ebp), %ebx     # %eax has the return
-                                # value, so we reload our
-                                # parameter into %ebx.
+``` gnuassembler
+    movl  8(%ebp), %ebx     # %eax has the return
+                            # value, so we reload our
+                            # parameter into %ebx.
+```
 
 Now, we want to multiply that number with the result of the factorial
 function. If you remember our previous discussion, the result of
 functions are left in *%eax*. So, we need to multiply *%ebx* with
 *%eax*. This is done with this instruction:
 
-        imull %ebx, %eax        # Multiply that by the
-                                # result of the last call
-                                # to factorial (in %eax)
-                                # the answer is stored in
-                                # %eax, which is good since
-                                # that is where return
-                                # values go.
+``` gnuassembler
+    imull %ebx, %eax        # Multiply that by the
+                            # result of the last call
+                            # to factorial (in %eax)
+                            # the answer is stored in
+                            # %eax, which is good since
+                            # that is where return
+                            # values go.
+```
 
 This also stores the result in *%eax*, which is exactly where we want
 the return value for the function to be! Since the return value is in
@@ -2580,18 +2675,22 @@ of the function we pushed *%ebp*, and moved *%esp* into *%ebp* to create
 the current stack frame. Now we reverse the operation to destroy the
 current stack frame and reactivate the last one:
 
-    _end_factorial:
-        movl  %ebp, %esp        # Standard function return
-        popl  %ebp              # stuff - we have to
-                                # restore %ebp and %esp to
+``` gnuassembler
+_end_factorial:
+    movl  %ebp, %esp        # Standard function return
+    popl  %ebp              # stuff - we have to
+                            # restore %ebp and %esp to
+```
 
 Now we're already to return, so we issue the following command
 
-        ret                     # where they were before
-                                # the function started
-                                # return from the function
-                                # (this pops the return
-                                # value, too).
+``` gnuassembler
+    ret                     # where they were before
+                            # the function started
+                            # return from the function
+                            # (this pops the return
+                            # value, too).
+```
 
 This pops the top value off of the stack, and then jumps to it. If you
 remember our discussion about `call`, we said that `call` first pushed
@@ -2781,18 +2880,22 @@ value. This is useful for buffers because we don't need to initialize
 them anyway, we just need to reserve storage. In order to do this, we do
 the following commands:
 
-    .section .bss
-        .lcomm my_buffer, 500
+``` gnuassembler
+.section .bss
+    .lcomm my_buffer, 500
+```
 
 This directive, `.lcomm`, will create a symbol, `my_buffer`, that refers
 to a 500-byte storage location that we can use as a buffer. We can then
 do the following, assuming we have opened a file for reading and have
 placed the file descriptor in *%ebx*:
 
-    movl $my_buffer, %ecx
-    movl 500, %edx
-    movl 3, %eax
-    int  $0x80
+``` gnuassembler
+movl $my_buffer, %ecx
+movl 500, %edx
+movl 3, %eax
+int  $0x80
+```
 
 This will read up to 500 bytes into our buffer. In this example, I
 placed a dollar sign in front of `my_buffer`. Remember that the reason
@@ -2879,7 +2982,9 @@ numbers. For example, if you did `.equ LINUX_SYSCALL, 0x80`, any time
 after that you wrote `LINUX_SYSCALL`, the assembler would substitue
 `0x80` for that. So now, you can write:
 
-    int $LINUX_SYSCALL
+``` gnuassembler
+int $LINUX_SYSCALL
+```
 
 Which is much easier to read, and much easier to remember. Coding is
 complex, but there are a lot of things we can do like this to make it
@@ -2890,300 +2995,306 @@ than we actually use for jumps, because some of them are just there for
 clarity. Try to trace through the program and see what happens in
 various cases. An in-depth explanation of the program will follow.
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        # PURPOSE:
-        #     This program converts an input file to an
-        #     output file with all letters converted to
-        #     uppercase.
-        #
-        # PROCESSING:
-        #     1) Open the input file.
-        #     2) Open the output file.
-        #     3) While we are not at the end of the input
-        #        file.
-        #        a) Read part of file into our memory
-        #           buffer.
-        #        b) Go through each byte of memory if the
-        #           byte is a lower-case letter, convert it
-        #           to uppercase.
-        #        c) Write the memory buffer to output file.
-        #
-        .section .data
-            # ----- CONSTANTS ----- #
-            #
-            # System call numbers.
-            #
-            .equ SYS_OPEN,   5
-            .equ SYS_WRITE,  4
-            .equ SYS_READ,   3
-            .equ SYS_CLOSE,  6
-            .equ SYS_EXIT,   1
-
-            # Options for open:
-            # Look at /usr/include/asm-generic/fcntl.h or
-            # /usr/include/asm/fcntl.h for various values.
-            # You can combine them by adding them or ORing
-            # them). It is discussed at greater length in
-            # "Counting Like a Computer".
-            #
-            .equ O_RDONLY,              0
-            .equ O_CREAT_WRONLY_TRUNC,  03101
-
-            # Standard file descriptors.
-            #
-            .equ STDIN,   0
-            .equ STDOUT,  1
-            .equ STDERR,  2
-
-            # System call interrupt.
-            #
-            .equ LINUX_SYSCALL,     0x80
-                                # This is the return value
-                                # of read which means we
-                                # have hit the end of the
-                                # file.
-            .equ END_OF_FILE,       0
-
-
-            .equ NUMBER_ARGUMENTS,  2
-
-        .section .bss
-            # Buffer:
-            #     This is where the data is loaded into
-            #     from the data file and written from into
-            #     the output file.  This should never
-            #     exceed 16,000 for various reasons.
-            #
-            .equ   BUFFER_SIZE,     500
-            .lcomm BUFFER_DATA,     BUFFER_SIZE
-
-        .section .text
-            .globl _start
-
-            # ----- STACK POSITIONS ----- #
-            #
-            .equ ST_SIZE_RESERVE,   8
-            .equ ST_FD_IN,         -4
-            .equ ST_FD_OUT,        -8
-            .equ ST_ARGC,           0  # Number of args
-            .equ ST_ARGV_0,         4  # Name of program.
-            .equ ST_ARGV_1,         8  # Input file name.
-            .equ ST_ARGV_2,         12 # Output file name.
-
-    _start:
-        # ----- INITIALIZE PROGRAM ----- #
-        #
-        movl  %esp, %ebp        # Save the stack pointer.
-                                # Allocate space for our
-                                # file descriptors on the
-                                # stack.
-        subl  $ST_SIZE_RESERVE, %esp
-
-    __open_files:
-
-    __open_fd_in:
-        # ----- OPEN INPUT FILE ----- #
-        #
-        movl  $SYS_OPEN, %eax   # Open syscall.
-        movl  ST_ARGV_1(%ebp), %ebx     # Input filename
-                                        # into %ebx.
-        movl  $O_RDONLY, %ecx   # Read-only flag.
-        movl  $0666, %edx       # This does not matter for
-                                # reading.
-        int   $LINUX_SYSCALL    # Call Linux.
-
-    __store_fd_in:
-        # ----- STORE INPUT FILE DESCRIPTION ----- #
-        #
-        movl  %eax, ST_FD_IN(%ebp)      # Save the given
-                                        # file descriptor.
-
-    __open_fd_out:
-        # ----- OPEN OUTPUT FILE ----- #
-        #
-        movl  $SYS_OPEN, %eax   # Open the file.
-                                # Output filename into %ebx
-        movl  ST_ARGV_2(%ebp), %ebx
-                                # Flags for writing to the
-                                # file.
-        movl  $O_CREAT_WRONLY_TRUNC, %ecx
-        movl  $0666, %edx       # Permission set for new
-                                # file (if it is created).
-        int   $LINUX_SYSCALL    # Call Linux.
-
-    __store_fd_out:
-        # ----- STORE OUTPUT FILE DESCRIPTION ----- #
-        #
-                                # Store the file descriptor
-                                # here.
-        movl  %eax, ST_FD_OUT(%ebp)
-
-        # ----- BEGIN MAIN LOOP ----- #
-        #
-    _read_loop_begin:
-        # ----- READ IN A BLOCK FROM THE INPUT FILE ----- #
-        #
-        movl  $SYS_READ, %eax
-                                # Get the input file
-                                # descriptor.
-        movl  ST_FD_IN(%ebp), %ebx
-                                # The location to read into
-        movl  $BUFFER_DATA, %ecx
-                                # The size of the buffer.
-        movl  $BUFFER_SIZE, %edx
-        int   $LINUX_SYSCALL    # Size of buffer read is
-                                # returned in %eax.
-
-        # ----- EXIT IF WE HAVE REACHED THE END ----- #
-        #
-                                # Check for end of file
-                                # marker.
-        cmpl  $END_OF_FILE, %eax
-        jle   _lower_case       # If found or on error, go
-                                # to the end.
-
-    __continue_read_loop:
-        # ----- CONVERT THE BLOCK TO UPPER CASE ----- #
-        #
-        pushl $BUFFER_DATA      # Location of buffer.
-        pushl %eax              # Size of the buffer.
-        call  _convert_to_upper
-        popl  %eax              # Get the size back.
-        addl  $4, %esp          # Restore %esp.
-
-        # --- WRITE THE BLOCK OUT TO THE OUTPUT FILE --- #
-        #
-        movl  %eax, %edx        # Size of the buffer.
-        movl  $SYS_WRITE, %eax
-                                # File to use.
-        movl  ST_FD_OUT(%ebp), %ebx
-                                # Location of the buffer.
-        movl  $BUFFER_DATA, %ecx
-        int   $LINUX_SYSCALL
-
-        # ----- CONTINUE THE LOOP ----- #
-        #
-        jmp   _read_loop_begin
-
-    _lower_case:
-        # ----- CLOSE THE FILES ----- #
-        # NOTE:
-        #     We do not need to do error checking on
-        #     these, because error conditions do not
-        #     signify anything special here.
-        #
-        movl  $SYS_CLOSE, %eax
-        movl  ST_FD_OUT(%ebp), %ebx
-        int   $LINUX_SYSCALL
-
-        movl  $SYS_CLOSE, %eax
-        movl  ST_FD_IN(%ebp), %ebx
-        int   $LINUX_SYSCALL
-
-        # ----- EXIT ----- #
-        #
-        movl  $SYS_EXIT, %eax
-        movl  $0, %ebx
-        int   $LINUX_SYSCALL
-
-
-        # PURPOSE:
-        #     This function actually does the
-        #     conversion to upper case for a block.
-        #
-        # INPUT:
-        #     The first parameter is the length of
-        #     the block of memory to convert.
-        #
-        #     The second parameter is the starting
-        #     address of that block of memory.
-        #
-        # OUTPUT:
-        #     This function overwrites the current
-        #     buffer with the upper-casified version.
-        #
-        # VARIABLES:
-        #     %eax - beginning of buffer.
-        #     %ebx - length of buffer.
-        #     %edi - current buffer offset.
-        #     %cl -  current byte being examined (first
-        #            part of %ecx).
-        #
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     This program converts an input file to an
+    #     output file with all letters converted to
+    #     uppercase.
+    #
+    # PROCESSING:
+    #     1) Open the input file.
+    #     2) Open the output file.
+    #     3) While we are not at the end of the input
+    #        file.
+    #        a) Read part of file into our memory
+    #           buffer.
+    #        b) Go through each byte of memory if the
+    #           byte is a lower-case letter, convert it
+    #           to uppercase.
+    #        c) Write the memory buffer to output file.
+    #
+    .section .data
         # ----- CONSTANTS ----- #
         #
-                                # The lower boundary of our
-                                # search.
-            .equ  LOWERCASE_A,       'a'
-                                # The upper boundary of our
-                                # search.
-            .equ  LOWERCASE_Z,       'z'
-                                # Conversion between upper
-                                # lower case.
-            .equ  UPPER_CONVERSION,  'A' - 'a'
-
-        # ----- STACK STUFF ----- #
+        # System call numbers.
         #
-            .equ  ST_BUFFER,      12    # Actual buffer.
-            .equ  ST_BUFFER_LEN,  8     # Length of buffer.
+        .equ SYS_OPEN,   5
+        .equ SYS_WRITE,  4
+        .equ SYS_READ,   3
+        .equ SYS_CLOSE,  6
+        .equ SYS_EXIT,   1
 
-    _convert_to_upper:
-        pushl %ebp
-        movl  %esp, %ebp
-
-        # ----- SET UP VARIABLES ----- #
+        # Options for open:
+        # Look at /usr/include/asm-generic/fcntl.h or
+        # /usr/include/asm/fcntl.h for various values.
+        # You can combine them by adding them or ORing
+        # them). It is discussed at greater length in
+        # "Counting Like a Computer".
         #
-        movl  ST_BUFFER(%ebp), %eax
-        movl  ST_BUFFER_LEN(%ebp), %ebx
-        movl  $0, %edi
+        .equ O_RDONLY,              0
+        .equ O_CREAT_WRONLY_TRUNC,  03101
 
-        cmpl  $0, %ebx          # If a buffer with zero
-                                # length was given to us,
-                                # just leave.
-        je    _end_convert_loop
+        # Standard file descriptors.
+        #
+        .equ STDIN,   0
+        .equ STDOUT,  1
+        .equ STDERR,  2
 
-    _convert_loop:
-                                # Get the current byte.
-        movb  (%eax,%edi,1), %cl
+        # System call interrupt.
+        #
+        .equ LINUX_SYSCALL,     0x80
+                            # This is the return value
+                            # of read which means we
+                            # have hit the end of the
+                            # file.
+        .equ END_OF_FILE,       0
 
-                                # Go to the next byte
-                                # unless it is between 'a'
-                                # and 'z'.
-        cmpb  $LOWERCASE_A, %cl
 
-        jl    _next_byte
-        cmpb  $LOWERCASE_Z, %cl
-        jg    _next_byte
+        .equ NUMBER_ARGUMENTS,  2
 
-                                # Otherwise convert the
-                                # byte to uppercase and
-                                # store it back.
-        addb  $UPPER_CONVERSION, %cl
+    .section .bss
+        # Buffer:
+        #     This is where the data is loaded into
+        #     from the data file and written from into
+        #     the output file.  This should never
+        #     exceed 16,000 for various reasons.
+        #
+        .equ   BUFFER_SIZE,     500
+        .lcomm BUFFER_DATA,     BUFFER_SIZE
 
-        movb  %cl, (%eax,%edi,1)
+    .section .text
+        .globl _start
 
-    _next_byte:
-        incl  %edi              # Next byte.
-        cmpl  %edi, %ebx        # Continue unless we have
-                                # reached the end.
-        jne   _convert_loop
+        # ----- STACK POSITIONS ----- #
+        #
+        .equ ST_SIZE_RESERVE,   8
+        .equ ST_FD_IN,         -4
+        .equ ST_FD_OUT,        -8
+        .equ ST_ARGC,           0  # Number of args
+        .equ ST_ARGV_0,         4  # Name of program.
+        .equ ST_ARGV_1,         8  # Input file name.
+        .equ ST_ARGV_2,         12 # Output file name.
 
-    _end_convert_loop:
-        movl  %ebp, %esp        # No return value, just
-        popl  %ebp              # leave.
-        ret
+_start:
+    # ----- INITIALIZE PROGRAM ----- #
+    #
+    movl  %esp, %ebp        # Save the stack pointer.
+                            # Allocate space for our
+                            # file descriptors on the
+                            # stack.
+    subl  $ST_SIZE_RESERVE, %esp
+
+__open_files:
+
+__open_fd_in:
+    # ----- OPEN INPUT FILE ----- #
+    #
+    movl  $SYS_OPEN, %eax   # Open syscall.
+    movl  ST_ARGV_1(%ebp), %ebx     # Input filename
+                                    # into %ebx.
+    movl  $O_RDONLY, %ecx   # Read-only flag.
+    movl  $0666, %edx       # This does not matter for
+                            # reading.
+    int   $LINUX_SYSCALL    # Call Linux.
+
+__store_fd_in:
+    # ----- STORE INPUT FILE DESCRIPTION ----- #
+    #
+    movl  %eax, ST_FD_IN(%ebp)      # Save the given
+                                    # file descriptor.
+
+__open_fd_out:
+    # ----- OPEN OUTPUT FILE ----- #
+    #
+    movl  $SYS_OPEN, %eax   # Open the file.
+                            # Output filename into %ebx
+    movl  ST_ARGV_2(%ebp), %ebx
+                            # Flags for writing to the
+                            # file.
+    movl  $O_CREAT_WRONLY_TRUNC, %ecx
+    movl  $0666, %edx       # Permission set for new
+                            # file (if it is created).
+    int   $LINUX_SYSCALL    # Call Linux.
+
+__store_fd_out:
+    # ----- STORE OUTPUT FILE DESCRIPTION ----- #
+    #
+                            # Store the file descriptor
+                            # here.
+    movl  %eax, ST_FD_OUT(%ebp)
+
+    # ----- BEGIN MAIN LOOP ----- #
+    #
+_read_loop_begin:
+    # ----- READ IN A BLOCK FROM THE INPUT FILE ----- #
+    #
+    movl  $SYS_READ, %eax
+                            # Get the input file
+                            # descriptor.
+    movl  ST_FD_IN(%ebp), %ebx
+                            # The location to read into
+    movl  $BUFFER_DATA, %ecx
+                            # The size of the buffer.
+    movl  $BUFFER_SIZE, %edx
+    int   $LINUX_SYSCALL    # Size of buffer read is
+                            # returned in %eax.
+
+    # ----- EXIT IF WE HAVE REACHED THE END ----- #
+    #
+                            # Check for end of file
+                            # marker.
+    cmpl  $END_OF_FILE, %eax
+    jle   _lower_case       # If found or on error, go
+                            # to the end.
+
+__continue_read_loop:
+    # ----- CONVERT THE BLOCK TO UPPER CASE ----- #
+    #
+    pushl $BUFFER_DATA      # Location of buffer.
+    pushl %eax              # Size of the buffer.
+    call  _convert_to_upper
+    popl  %eax              # Get the size back.
+    addl  $4, %esp          # Restore %esp.
+
+    # --- WRITE THE BLOCK OUT TO THE OUTPUT FILE --- #
+    #
+    movl  %eax, %edx        # Size of the buffer.
+    movl  $SYS_WRITE, %eax
+                            # File to use.
+    movl  ST_FD_OUT(%ebp), %ebx
+                            # Location of the buffer.
+    movl  $BUFFER_DATA, %ecx
+    int   $LINUX_SYSCALL
+
+    # ----- CONTINUE THE LOOP ----- #
+    #
+    jmp   _read_loop_begin
+
+_lower_case:
+    # ----- CLOSE THE FILES ----- #
+    # NOTE:
+    #     We do not need to do error checking on
+    #     these, because error conditions do not
+    #     signify anything special here.
+    #
+    movl  $SYS_CLOSE, %eax
+    movl  ST_FD_OUT(%ebp), %ebx
+    int   $LINUX_SYSCALL
+
+    movl  $SYS_CLOSE, %eax
+    movl  ST_FD_IN(%ebp), %ebx
+    int   $LINUX_SYSCALL
+
+    # ----- EXIT ----- #
+    #
+    movl  $SYS_EXIT, %eax
+    movl  $0, %ebx
+    int   $LINUX_SYSCALL
+
+
+    # PURPOSE:
+    #     This function actually does the
+    #     conversion to upper case for a block.
+    #
+    # INPUT:
+    #     The first parameter is the length of
+    #     the block of memory to convert.
+    #
+    #     The second parameter is the starting
+    #     address of that block of memory.
+    #
+    # OUTPUT:
+    #     This function overwrites the current
+    #     buffer with the upper-casified version.
+    #
+    # VARIABLES:
+    #     %eax - beginning of buffer.
+    #     %ebx - length of buffer.
+    #     %edi - current buffer offset.
+    #     %cl -  current byte being examined (first
+    #            part of %ecx).
+    #
+    # ----- CONSTANTS ----- #
+    #
+                            # The lower boundary of our
+                            # search.
+        .equ  LOWERCASE_A,       'a'
+                            # The upper boundary of our
+                            # search.
+        .equ  LOWERCASE_Z,       'z'
+                            # Conversion between upper
+                            # lower case.
+        .equ  UPPER_CONVERSION,  'A' - 'a'
+
+    # ----- STACK STUFF ----- #
+    #
+        .equ  ST_BUFFER,      12    # Actual buffer.
+        .equ  ST_BUFFER_LEN,  8     # Length of buffer.
+
+_convert_to_upper:
+    pushl %ebp
+    movl  %esp, %ebp
+
+    # ----- SET UP VARIABLES ----- #
+    #
+    movl  ST_BUFFER(%ebp), %eax
+    movl  ST_BUFFER_LEN(%ebp), %ebx
+    movl  $0, %edi
+
+    cmpl  $0, %ebx          # If a buffer with zero
+                            # length was given to us,
+                            # just leave.
+    je    _end_convert_loop
+
+_convert_loop:
+                            # Get the current byte.
+    movb  (%eax,%edi,1), %cl
+
+                            # Go to the next byte
+                            # unless it is between 'a'
+                            # and 'z'.
+    cmpb  $LOWERCASE_A, %cl
+
+    jl    _next_byte
+    cmpb  $LOWERCASE_Z, %cl
+    jg    _next_byte
+
+                            # Otherwise convert the
+                            # byte to uppercase and
+                            # store it back.
+    addb  $UPPER_CONVERSION, %cl
+
+    movb  %cl, (%eax,%edi,1)
+
+_next_byte:
+    incl  %edi              # Next byte.
+    cmpl  %edi, %ebx        # Continue unless we have
+                            # reached the end.
+    jne   _convert_loop
+
+_end_convert_loop:
+    movl  %ebp, %esp        # No return value, just
+    popl  %ebp              # leave.
+    ret
+```
 
 Type in this program as `005-01-toupper.s`, and then enter in the
 following commands:
 
-    as -o 005-01-toupper.o  005-01-toupper.s --gstabs+
-    ld -o 005-01-toupper    005-01-toupper.o
+``` bash
+as -o 005-01-toupper.o  005-01-toupper.s --gstabs+
+ld -o 005-01-toupper    005-01-toupper.o
+```
 
 This builds a program called `005-01-toupper`, which converts all of the
 lowercase characters in a file to uppercase. For example, to convert the
 file `005-01-toupper.s` to uppercase, type in the following command:
 
-    ./005-01-toupper 005-01-toupper.s 005-01-toupper.uppercase
+``` bash
+./005-01-toupper 005-01-toupper.s 005-01-toupper.uppercase
+```
 
 You will now find in the file `005-01-toupper.uppercase` an uppercase
 version of your original file.
@@ -3218,15 +3329,17 @@ This section begins with a list of constants that we will use The reason
 these are put here rather than at the top is that they only deal with
 this one function. We have these definitions:
 
-                                # The lower boundary of our
-                                # search.
-            .equ  LOWERCASE_A,       'a'
-                                # The upper boundary of our
-                                # search.
-            .equ  LOWERCASE_Z,       'z'
-                                # Conversion between upper
-                                # lower case.
-            .equ  UPPER_CONVERSION,  'A' - 'a'
+``` gnuassembler
+                            # The lower boundary of our
+                            # search.
+        .equ  LOWERCASE_A,       'a'
+                            # The upper boundary of our
+                            # search.
+        .equ  LOWERCASE_Z,       'z'
+                            # Conversion between upper
+                            # lower case.
+        .equ  UPPER_CONVERSION,  'A' - 'a'
+```
 
 The first two simply define the letters that are the boundaries of what
 we are searching for. Remember that in the computer, letters are
@@ -3256,8 +3369,10 @@ Next comes the label `_convert_to_upper`. This is the entry point of the
 function. The first two lines are our standard function lines to save
 the stack pointer. The next two lines:
 
-        movl  ST_BUFFER(%ebp), %eax
-        movl  ST_BUFFER_LEN(%ebp), %ebx
+``` gnuassembler
+    movl  ST_BUFFER(%ebp), %eax
+    movl  ST_BUFFER_LEN(%ebp), %ebx
+```
 
 Move the function parameters into the appropriate registers for use.
 Then, we load zero into *%edi*. What we are going to do is iterate
@@ -3265,10 +3380,12 @@ through each byte of the buffer by loading from the location *%eax* +
 *%edi*, incrementing *%edi*, and repeating until *%edi* is equal to the
 buffer length stored in *%ebx*. The lines:
 
-        cmpl  $0, %ebx          # If a buffer with zero
-                                # length was given to us,
-                                # just leave.
-        je    _end_convert_loop
+``` gnuassembler
+    cmpl  $0, %ebx          # If a buffer with zero
+                            # length was given to us,
+                            # just leave.
+    je    _end_convert_loop
+```
 
 They are just a sanity check to make sure that noone gave us a buffer of
 zero size. If they did, we just clean up and leave. Guarding against
@@ -3280,8 +3397,10 @@ have a reliable exit plan if it happens.
 Now we start our loop. First, it moves a byte into *%cl*. The code for
 this is:
 
-                                # Get the current byte.
-        movb  (%eax,%edi,1), %cl
+``` gnuassembler
+                            # Get the current byte.
+    movb  (%eax,%edi,1), %cl
+```
 
 It is using an indexed indirect addressing mode. It says to start at
 *%eax* and go *%edi* locations forward, with each location being 1 byte
@@ -3488,41 +3607,45 @@ beginning of the record in order to access them using base pointer
 addressing mode. The following constants describe the offsets to the
 above structure. Put them in a file named `006-01-record-def.s`:
 
-            .equ RECORD_FIRSTNAME,  0
-            .equ RECORD_LASTNAME,   40
-            .equ RECORD_ADDRESS,    80
-            .equ RECORD_AGE,        320
-            .equ RECORD_SIZE,       324
+``` gnuassembler
+        .equ RECORD_FIRSTNAME,  0
+        .equ RECORD_LASTNAME,   40
+        .equ RECORD_ADDRESS,    80
+        .equ RECORD_AGE,        320
+        .equ RECORD_SIZE,       324
+```
 
 In addition, there are several constants that we have been defining over
 and over in our programs, and it is useful to put them in a file, so
 that we don't have to keep entering them. Put the following constants in
 a file called `006-01-linux.s`:
 
-        # ----- Common Linux Definitions ----- #
-        #
-        # System Call Numbers.
-        #
-            .equ SYS_EXIT,       1
-            .equ SYS_READ,       3
-            .equ SYS_WRITE,      4
-            .equ SYS_OPEN,       5
-            .equ SYS_CLOSE,      6
-            .equ SYS_BRK,        45
+``` gnuassembler
+    # ----- Common Linux Definitions ----- #
+    #
+    # System Call Numbers.
+    #
+        .equ SYS_EXIT,       1
+        .equ SYS_READ,       3
+        .equ SYS_WRITE,      4
+        .equ SYS_OPEN,       5
+        .equ SYS_CLOSE,      6
+        .equ SYS_BRK,        45
 
-        # System Call Interrupt Number.
-        #
-            .equ LINUX_SYSCALL,  0x80
+    # System Call Interrupt Number.
+    #
+        .equ LINUX_SYSCALL,  0x80
 
-        # Standard File Descriptors.
-        #
-            .equ STDIN,          0
-            .equ STDOUT,         1
-            .equ STDERR,         2
+    # Standard File Descriptors.
+    #
+        .equ STDIN,          0
+        .equ STDOUT,         1
+        .equ STDERR,         2
 
-        # Common Status Codes.
-        #
-            .equ END_OF_FILE,    0
+    # Common Status Codes.
+    #
+        .equ END_OF_FILE,    0
+```
 
 We will write three programs in this chapter using the structure defined
 in `006-01-record-def.s`. The first program will build a file containing
@@ -3544,96 +3667,100 @@ basically need:
 
 Let's look at our reading function first in `006-01-read-record.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        .include "006-01-linux.s"      # Linux Definitions.
-        .include "006-01-record-def.s" # Record definitions
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
-        # PURPOSE:
-        #     This function reads a record from the file
-        #     descriptor.
-        #
-        # INPUT:
-        #     The file descriptor and a buffer.
-        #
-        # OUTPUT:
-        #     This function writes the data to the buffer
-        #     and returns a status code.
-        #
-        # ----- STACK LOCAL VARIABLES ----- #
-        #
-            .equ ST_READ_BUFFER,  8
-            .equ ST_FILEDES,      12
+    # PURPOSE:
+    #     This function reads a record from the file
+    #     descriptor.
+    #
+    # INPUT:
+    #     The file descriptor and a buffer.
+    #
+    # OUTPUT:
+    #     This function writes the data to the buffer
+    #     and returns a status code.
+    #
+    # ----- STACK LOCAL VARIABLES ----- #
+    #
+        .equ ST_READ_BUFFER,  8
+        .equ ST_FILEDES,      12
 
-        .section .text
-            .globl _read_record
-            .type  _read_record,  @function
+    .section .text
+        .globl _read_record
+        .type  _read_record,  @function
 
-    _read_record:
-        pushl %ebp
-        movl  %esp, %ebp
+_read_record:
+    pushl %ebp
+    movl  %esp, %ebp
 
-        pushl %ebx
-        movl  ST_FILEDES(%ebp), %ebx
-        movl  ST_READ_BUFFER(%ebp), %ecx
-        movl  $RECORD_SIZE, %edx
-        movl  $SYS_READ, %eax
-        int   $LINUX_SYSCALL
+    pushl %ebx
+    movl  ST_FILEDES(%ebp), %ebx
+    movl  ST_READ_BUFFER(%ebp), %ecx
+    movl  $RECORD_SIZE, %edx
+    movl  $SYS_READ, %eax
+    int   $LINUX_SYSCALL
 
-        popl  %ebx          # NOTE - %eax has the return
-                            # value, which we will give
-                            # back to our calling program.
+    popl  %ebx          # NOTE - %eax has the return
+                        # value, which we will give
+                        # back to our calling program.
 
-        movl  %ebp, %esp
-        popl  %ebp
-        ret
+    movl  %ebp, %esp
+    popl  %ebp
+    ret
+```
 
 It's a pretty simple function. It just reads data the size of our
 structure into an appropriately sized buffer from the given file
 descriptor. The writing one is similar in `006-01-write-record.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        .include "006-01-linux.s"      # Linux Definitions.
-        .include "006-01-record-def.s" # Record definitions
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
-        # PURPOSE:
-        #     This function writes a record to the given
-        #     file descriptor.
-        #
-        # INPUT:
-        #     The file descriptor and a buffer.
-        #
-        # OUTPUT:
-        #     This function produces a status code.
-        #
-        # ----- STACK LOCAL VARIABLES ----- #
-        #
-            .equ ST_WRITE_BUFFER,  8
-            .equ ST_FILEDES,       12
+    # PURPOSE:
+    #     This function writes a record to the given
+    #     file descriptor.
+    #
+    # INPUT:
+    #     The file descriptor and a buffer.
+    #
+    # OUTPUT:
+    #     This function produces a status code.
+    #
+    # ----- STACK LOCAL VARIABLES ----- #
+    #
+        .equ ST_WRITE_BUFFER,  8
+        .equ ST_FILEDES,       12
 
-        .section .text
-            .globl _write_record
-            .type  _write_record,  @function
+    .section .text
+        .globl _write_record
+        .type  _write_record,  @function
 
-    _write_record:
-        pushl %ebp
-        movl  %esp, %ebp
+_write_record:
+    pushl %ebp
+    movl  %esp, %ebp
 
-        pushl %ebx
-        movl  $SYS_WRITE, %eax
-        movl  ST_FILEDES(%ebp), %ebx
-        movl  ST_WRITE_BUFFER(%ebp), %ecx
-        movl  $RECORD_SIZE, %edx
-        int   $LINUX_SYSCALL
+    pushl %ebx
+    movl  $SYS_WRITE, %eax
+    movl  ST_FILEDES(%ebp), %ebx
+    movl  ST_WRITE_BUFFER(%ebp), %ecx
+    movl  $RECORD_SIZE, %edx
+    int   $LINUX_SYSCALL
 
-        popl  %ebx      # NOTE - %eax has the return value,
-                        # which we will give back to our
-                        # calling program.
+    popl  %ebx      # NOTE - %eax has the return value,
+                    # which we will give back to our
+                    # calling program.
 
-        movl  %ebp, %esp
-        popl  %ebp
-        ret
+    movl  %ebp, %esp
+    popl  %ebp
+    ret
+```
 
 Now that we have our basic definitions down, we are ready to write our
 programs.
@@ -3651,134 +3778,136 @@ This program will simply write some hardcoded records to disk. It will:
 
 Type the following code into a file called `006-01-write-records.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
+
+    .section .data
+        # ----- CONSTANTS ----- #
         #
-        .include "006-01-linux.s"      # Linux Definitions.
-        .include "006-01-record-def.s" # Record definitions
+        # Constant data of the records we want to
+        # write. Each text data item is padded to the
+        # proper length with null (i.e. 0) bytes.
+        #
+        # `.rept` is used to pad each item.  It tells
+        # the assembler to repeat the section between
+        # `.rept` and `.endr` the number of times
+        # specified. This is used in this program to
+        # add extra null characters at the end of each
+        # field to fill it up.
+        #
+        record1:
+            .ascii "Fredrick\0"
+            .rept 31            # Padding to 40 bytes.
+            .byte 0
+            .endr
 
-        .section .data
-            # ----- CONSTANTS ----- #
-            #
-            # Constant data of the records we want to
-            # write. Each text data item is padded to the
-            # proper length with null (i.e. 0) bytes.
-            #
-            # `.rept` is used to pad each item.  It tells
-            # the assembler to repeat the section between
-            # `.rept` and `.endr` the number of times
-            # specified. This is used in this program to
-            # add extra null characters at the end of each
-            # field to fill it up.
-            #
-            record1:
-                .ascii "Fredrick\0"
-                .rept 31            # Padding to 40 bytes.
-                .byte 0
-                .endr
+            .ascii "Bartlett\0"
+            .rept 31            # Padding to 40 bytes.
+            .byte 0
+            .endr
 
-                .ascii "Bartlett\0"
-                .rept 31            # Padding to 40 bytes.
-                .byte 0
-                .endr
+            .ascii "4242 S Prairie\nTulsa, OK 55555\0"
+            .rept 209           # Padding to 240 bytes.
+            .byte 0
+            .endr
 
-                .ascii "4242 S Prairie\nTulsa, OK 55555\0"
-                .rept 209           # Padding to 240 bytes.
-                .byte 0
-                .endr
+            .long 45
 
-                .long 45
+        record2:
+            .ascii "Marilyn\0"
+            .rept 32            # Padding to 40 bytes.
+            .byte 0
+            .endr
 
-            record2:
-                .ascii "Marilyn\0"
-                .rept 32            # Padding to 40 bytes.
-                .byte 0
-                .endr
+            .ascii "Taylor\0"
+            .rept 33            # Padding to 40 bytes.
+            .byte 0
+            .endr
 
-                .ascii "Taylor\0"
-                .rept 33            # Padding to 40 bytes.
-                .byte 0
-                .endr
+            .ascii "2224 S Johannan St\nChicago, IL\0"
+            .rept 203           # Padding to 240 bytes.
+            .byte 0
+            .endr
 
-                .ascii "2224 S Johannan St\nChicago, IL\0"
-                .rept 203           # Padding to 240 bytes.
-                .byte 0
-                .endr
+            .long 29
 
-                .long 29
+        record3:
+            .ascii "Derrick\0"
+            .rept 32            # Padding to 40 bytes.
+            .byte 0
+            .endr
 
-            record3:
-                .ascii "Derrick\0"
-                .rept 32            # Padding to 40 bytes.
-                .byte 0
-                .endr
+            .ascii "McIntire\0"
+            .rept 31            # Padding to 40 bytes.
+            .byte 0
+            .endr
 
-                .ascii "McIntire\0"
-                .rept 31            # Padding to 40 bytes.
-                .byte 0
-                .endr
+            .ascii "500 Oakland\nSan Diego, CA 54321\0"
+            .rept 206           # Padding to 240 bytes.
+            .byte 0
+            .endr
 
-                .ascii "500 Oakland\nSan Diego, CA 54321\0"
-                .rept 206           # Padding to 240 bytes.
-                .byte 0
-                .endr
+            .long 36
 
-                .long 36
-
-            file_name:
-                                # This is the name of the
-                                # file we will write to.
-                .ascii "test.dat\0"
+        file_name:
+                            # This is the name of the
+                            # file we will write to.
+            .ascii "test.dat\0"
 
 
-            .equ ST_FILE_DESCRIPTOR,  -4
+        .equ ST_FILE_DESCRIPTOR,  -4
 
-            .globl _start
+        .globl _start
 
-    _start:
-        movl  %esp, %ebp        # Copy the stack pointer to
-                                # %ebp.
-        subl  $4, %esp          # Allocate space to hold
-                                # the file descriptor.
+_start:
+    movl  %esp, %ebp        # Copy the stack pointer to
+                            # %ebp.
+    subl  $4, %esp          # Allocate space to hold
+                            # the file descriptor.
 
-        movl  $SYS_OPEN, %eax   # Open the file.
-        movl  $file_name, %ebx
-        movl  $0101, %ecx       # This says to create if it
-                                # does not exist, and open
-                                # for writing.
-        movl  $0666, %edx
-        int   $LINUX_SYSCALL
+    movl  $SYS_OPEN, %eax   # Open the file.
+    movl  $file_name, %ebx
+    movl  $0101, %ecx       # This says to create if it
+                            # does not exist, and open
+                            # for writing.
+    movl  $0666, %edx
+    int   $LINUX_SYSCALL
 
-                                # Store the file descriptor
-                                # away.
-        movl  %eax, ST_FILE_DESCRIPTOR(%ebp)
+                            # Store the file descriptor
+                            # away.
+    movl  %eax, ST_FILE_DESCRIPTOR(%ebp)
 
-                                # Write the first record.
-        pushl ST_FILE_DESCRIPTOR(%ebp)
-        pushl $record1
-        call  _write_record
-        addl  $8, %esp
+                            # Write the first record.
+    pushl ST_FILE_DESCRIPTOR(%ebp)
+    pushl $record1
+    call  _write_record
+    addl  $8, %esp
 
-                                # Write the second record.
-        pushl ST_FILE_DESCRIPTOR(%ebp)
-        pushl $record2
-        call  _write_record
-        addl  $8, %esp
+                            # Write the second record.
+    pushl ST_FILE_DESCRIPTOR(%ebp)
+    pushl $record2
+    call  _write_record
+    addl  $8, %esp
 
-                                # Write the third record.
-        pushl ST_FILE_DESCRIPTOR(%ebp)
-        pushl $record3
-        call  _write_record
-        addl  $8, %esp
+                            # Write the third record.
+    pushl ST_FILE_DESCRIPTOR(%ebp)
+    pushl $record3
+    call  _write_record
+    addl  $8, %esp
 
-                                # Close the file descriptor
-        movl  $SYS_CLOSE, %eax
-        movl  ST_FILE_DESCRIPTOR(%ebp), %ebx
-        int   $LINUX_SYSCALL
+                            # Close the file descriptor
+    movl  $SYS_CLOSE, %eax
+    movl  ST_FILE_DESCRIPTOR(%ebp), %ebx
+    int   $LINUX_SYSCALL
 
-                                # Exit the program.
-        movl  $SYS_EXIT, %eax
-        movl  $0, %ebx
-        int   $LINUX_SYSCALL
+                            # Exit the program.
+    movl  $SYS_EXIT, %eax
+    movl  $0, %ebx
+    int   $LINUX_SYSCALL
+```
 
 <!-- TODO: Need to add info on how to use a hexdump to read the values -->
 
@@ -3790,8 +3919,10 @@ Calls](#appendix-c-important-system-calls).
 
 You may have noticed the lines:
 
-        .include "006-01-linux.s"      # Linux Definitions.
-        .include "006-01-record-def.s" # Record definitions
+``` gnuassembler
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
+```
 
 These statements cause the given files to basically be pasted right
 there in the code. You don't need to do this with functions, because the
@@ -3808,16 +3939,20 @@ of each field until they are their defined lengths.
 
 To build the application, run the commands:
 
-    as -o 006-01-write-record.o   006-01-write-record.s  --gstabs+
-    as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
+``` bash
+as -o 006-01-write-record.o   006-01-write-record.s  --gstabs+
+as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
 
-    ld -o 006-01-write-records    006-01-write-record.o \
-                                  006-01-write-records.o
+ld -o 006-01-write-records    006-01-write-record.o \
+                              006-01-write-records.o
+```
 
 Here we are assembling two files separately, and then combining them
 together using the linker. To run the program, just type the following:
 
-    ./006-01-write-records
+``` bash
+./006-01-write-records
+```
 
 This will cause a file called `test.dat` to be created containing the
 records. However, since they contain non-printable characters (the null
@@ -3839,60 +3974,62 @@ contain at least one null character each.
 
 Here is the code. Put it in a file called `006-01-count-chars.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        # PURPOSE:
-        #     Count the characters until a null byte is
-        #     reached.
-        #
-        # INPUT:
-        #     The address of the character string.
-        #
-        # OUTPUT:
-        #     Returns the count in %eax.
-        #
-        # PROCESS:
-        #     Registers used:
-        #       %ecx - character count.
-        #       %al  - current character.
-        #       %edx - current character address.
-        #
-            .globl _count_chars
-            .type  _count_chars,  @function
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     Count the characters until a null byte is
+    #     reached.
+    #
+    # INPUT:
+    #     The address of the character string.
+    #
+    # OUTPUT:
+    #     Returns the count in %eax.
+    #
+    # PROCESS:
+    #     Registers used:
+    #       %ecx - character count.
+    #       %al  - current character.
+    #       %edx - current character address.
+    #
+        .globl _count_chars
+        .type  _count_chars,  @function
 
-                                # The parameter is on the
-                                # stack.
-            .equ ST_STRING_START_ADDRESS,  8
+                            # The parameter is on the
+                            # stack.
+        .equ ST_STRING_START_ADDRESS,  8
 
-    _count_chars:
-        pushl %ebp
-        movl  %esp, %ebp
+_count_chars:
+    pushl %ebp
+    movl  %esp, %ebp
 
-        movl  $0, %ecx          # Counter starts at zero.
+    movl  $0, %ecx          # Counter starts at zero.
 
-                                # Starting address of data.
-        movl  ST_STRING_START_ADDRESS(%ebp), %edx
+                            # Starting address of data.
+    movl  ST_STRING_START_ADDRESS(%ebp), %edx
 
-    _count_loop_begin:
-        movb  (%edx), %al       # Grab the current
-                                # character.
+_count_loop_begin:
+    movb  (%edx), %al       # Grab the current
+                            # character.
 
-        cmpb  $0, %al           # Is it null?
-        je    _count_loop_end   # If yes, we are done.
+    cmpb  $0, %al           # Is it null?
+    je    _count_loop_end   # If yes, we are done.
 
-        incl  %ecx              # Otherwise, increment the
-                                # counter and the pointer.
-        incl  %edx
-        jmp   _count_loop_begin # Go back to the beginning
-                                # of the loop.
+    incl  %ecx              # Otherwise, increment the
+                            # counter and the pointer.
+    incl  %edx
+    jmp   _count_loop_begin # Go back to the beginning
+                            # of the loop.
 
-    _count_loop_end:
-        movl  %ecx, %eax        # We are done.  Move the
-                                # count into %eax and
-                                # return.
+_count_loop_end:
+    movl  %ecx, %eax        # We are done.  Move the
+                            # count into %eax and
+                            # return.
 
-        popl  %ebp
-        ret
+    popl  %ebp
+    ret
+```
 
 As you can see, it's a fairly straightforward function. It simply loops
 through the bytes, counting as it goes, until it hits a null character.
@@ -3919,135 +4056,141 @@ To write this, we need one more simple function - a function to write
 out a newline to `STDOUT`. Put the following code into
 `006-01-write-newline.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        .include "006-01-linux.s"      # Linux Definitions.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
 
-            .globl _write_newline
-            .type  _write_newline,  @function
+        .globl _write_newline
+        .type  _write_newline,  @function
 
-        .section .data
-            newline:
-                .ascii "\n"
+    .section .data
+        newline:
+            .ascii "\n"
 
-        .section .text
-            .equ ST_FILEDES,  8
+    .section .text
+        .equ ST_FILEDES,  8
 
-    _write_newline:
-        pushl %ebp
-        movl  %esp, %ebp
+_write_newline:
+    pushl %ebp
+    movl  %esp, %ebp
 
-        movl  $SYS_WRITE, %eax
-        movl  ST_FILEDES(%ebp), %ebx
-        movl  $newline, %ecx
-        movl  $1, %edx
-        int   $LINUX_SYSCALL
+    movl  $SYS_WRITE, %eax
+    movl  ST_FILEDES(%ebp), %ebx
+    movl  $newline, %ecx
+    movl  $1, %edx
+    int   $LINUX_SYSCALL
 
-        movl  %ebp, %esp
-        popl  %ebp
-        ret
+    movl  %ebp, %esp
+    popl  %ebp
+    ret
+```
 
 Now we are ready to write the main program. Here is the code to
 `006-01-read-records.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        .include "006-01-linux.s"      # Linux Definitions.
-        .include "006-01-record-def.s" # Record definitions
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
 
-        .section .data
-            file_name:
-                .ascii "test.dat\0"
+    .section .data
+        file_name:
+            .ascii "test.dat\0"
 
-        .section .bss
-            .lcomm record_buffer,  RECORD_SIZE
+    .section .bss
+        .lcomm record_buffer,  RECORD_SIZE
 
-        .section .text
-            .globl _start
+    .section .text
+        .globl _start
 
-    _start:
-        # ----- Main Program ----- #
-        #
-        # These are the locations on the stack where we
-        # will store the input and output descriptors
-        # (FYI - we could have used memory addresses in a
-        # .data section instead).
-        #
-        .equ ST_INPUT_DESCRIPTOR,   -4
-        .equ ST_OUTPUT_DESCRIPTOR,  -8
+_start:
+    # ----- Main Program ----- #
+    #
+    # These are the locations on the stack where we
+    # will store the input and output descriptors
+    # (FYI - we could have used memory addresses in a
+    # .data section instead).
+    #
+    .equ ST_INPUT_DESCRIPTOR,   -4
+    .equ ST_OUTPUT_DESCRIPTOR,  -8
 
-        movl  %esp, %ebp        # Copy the stack pointer to
-                                # %ebp.
-        subl  $8, %esp          # Allocate space to hold
-                                # the file descriptors.
+    movl  %esp, %ebp        # Copy the stack pointer to
+                            # %ebp.
+    subl  $8, %esp          # Allocate space to hold
+                            # the file descriptors.
 
-        movl  $SYS_OPEN, %eax   # Open the file.
-        movl  $file_name, %ebx
-        movl  $0, %ecx          # This says to open
-                                # read-only.
-        movl  $0666, %edx
-        int   $LINUX_SYSCALL
+    movl  $SYS_OPEN, %eax   # Open the file.
+    movl  $file_name, %ebx
+    movl  $0, %ecx          # This says to open
+                            # read-only.
+    movl  $0666, %edx
+    int   $LINUX_SYSCALL
 
-        # ----- Save file descriptor ----- #
-        #
-        movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
+    # ----- Save file descriptor ----- #
+    #
+    movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
-        # Even though it is a constant, we are saving the
-        # output file descriptor in a local variable so
-        # that if we later decide that it is not always
-        # going to be STDOUT, we can change it easily.
-        #
-        movl  $STDOUT, ST_OUTPUT_DESCRIPTOR(%ebp)
+    # Even though it is a constant, we are saving the
+    # output file descriptor in a local variable so
+    # that if we later decide that it is not always
+    # going to be STDOUT, we can change it easily.
+    #
+    movl  $STDOUT, ST_OUTPUT_DESCRIPTOR(%ebp)
 
-    _record_read_loop:
-        pushl ST_INPUT_DESCRIPTOR(%ebp)
-        pushl $record_buffer
-        call  _read_record
-        addl  $8, %esp
+_record_read_loop:
+    pushl ST_INPUT_DESCRIPTOR(%ebp)
+    pushl $record_buffer
+    call  _read_record
+    addl  $8, %esp
 
-        # Returns the number of bytes read. If it is not
-        # the same number we requested, then it is either
-        # an end-of-file, or an error, so we are quitting.
-        #
-        cmpl  $RECORD_SIZE, %eax
-        jne   _finished_reading
+    # Returns the number of bytes read. If it is not
+    # the same number we requested, then it is either
+    # an end-of-file, or an error, so we are quitting.
+    #
+    cmpl  $RECORD_SIZE, %eax
+    jne   _finished_reading
 
-        # Otherwise, print out the first name but we must
-        # know the size.
-        #
-        pushl  $RECORD_FIRSTNAME + record_buffer
-        call   _count_chars
-        addl   $4, %esp
+    # Otherwise, print out the first name but we must
+    # know the size.
+    #
+    pushl  $RECORD_FIRSTNAME + record_buffer
+    call   _count_chars
+    addl   $4, %esp
 
-        movl   %eax, %edx
-        movl   ST_OUTPUT_DESCRIPTOR(%ebp), %ebx
-        movl   $SYS_WRITE, %eax
-        movl   $RECORD_FIRSTNAME + record_buffer, %ecx
-        int    $LINUX_SYSCALL
+    movl   %eax, %edx
+    movl   ST_OUTPUT_DESCRIPTOR(%ebp), %ebx
+    movl   $SYS_WRITE, %eax
+    movl   $RECORD_FIRSTNAME + record_buffer, %ecx
+    int    $LINUX_SYSCALL
 
-        pushl  ST_OUTPUT_DESCRIPTOR(%ebp)
-        call   _write_newline
-        addl   $4, %esp
+    pushl  ST_OUTPUT_DESCRIPTOR(%ebp)
+    call   _write_newline
+    addl   $4, %esp
 
-        jmp    _record_read_loop
+    jmp    _record_read_loop
 
-    _finished_reading:
-        movl   $SYS_EXIT, %eax
-        movl   $0, %ebx
-        int    $LINUX_SYSCALL
+_finished_reading:
+    movl   $SYS_EXIT, %eax
+    movl   $0, %ebx
+    int    $LINUX_SYSCALL
+```
 
 To build this program, we need to assemble all of the parts and link
 them together:
 
-    as -o 006-01-count-chars.o    006-01-count-chars.s   --gstabs+
-    as -o 006-01-read-record.o    006-01-read-record.s   --gstabs+
-    as -o 006-01-read-records.o   006-01-read-records.s  --gstabs+
-    as -o 006-01-write-newline.o  006-01-write-newline.s --gstabs+
+``` bash
+as -o 006-01-count-chars.o    006-01-count-chars.s   --gstabs+
+as -o 006-01-read-record.o    006-01-read-record.s   --gstabs+
+as -o 006-01-read-records.o   006-01-read-records.s  --gstabs+
+as -o 006-01-write-newline.o  006-01-write-newline.s --gstabs+
 
-    ld -o 006-01-read-records     006-01-count-chars.o \
-                                  006-01-read-record.o \
-                                  006-01-read-records.o \
-                                  006-01-write-newline.o
+ld -o 006-01-read-records     006-01-count-chars.o \
+                              006-01-read-record.o \
+                              006-01-read-records.o \
+                              006-01-write-newline.o
+```
 
 The backslash in the first line simply means that the command continues
 on the next line. You can run your program by doing
@@ -4057,7 +4200,9 @@ As you can see, this program opens the file and then runs a loop of
 reading, checking for the end of file, and writing the firstname. The
 one construct that might be new is the line that says:
 
-        pushl  $RECORD_FIRSTNAME + record_buffer
+``` gnuassembler
+    pushl  $RECORD_FIRSTNAME + record_buffer
+```
 
 It looks like we are combining and add instruction with a push
 instruction, but we are not. You see, both `RECORD_FIRSTNAME` and
@@ -4091,91 +4236,97 @@ In this section, we will write a program that:
 Like most programs we've encountered recently, this program
 `006-01-add-year.s` is pretty straightforward.[36]
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
+
+    .section .data
+        input_file_name:
+            .ascii "test.dat\0"
+
+        output_file_name:
+            .ascii "testout.dat\0"
+
+    .section .bss
+        .lcomm record_buffer,  RECORD_SIZE
+
+        # --- Stack offsets of local variables --- #
         #
-        .include "006-01-linux.s"      # Linux Definitions.
-        .include "006-01-record-def.s" # Record definitions
+        .equ ST_INPUT_DESCRIPTOR,  -4
+        .equ ST_OUTPUT_DESCRIPTOR, -8
 
-        .section .data
-            input_file_name:
-                .ascii "test.dat\0"
+    .section .text
+        .globl _start
 
-            output_file_name:
-                .ascii "testout.dat\0"
+_start:
+    movl  %esp, %ebp        # Copy stack pointer and
+    subl  $8, %esp          # make room for local
+                            # variables.
 
-        .section .bss
-            .lcomm record_buffer,  RECORD_SIZE
+    movl  $SYS_OPEN, %eax   # Open file for reading.
+    movl  $input_file_name, %ebx
+    movl  $0, %ecx
+    movl  $0666, %edx
+    int   $LINUX_SYSCALL
 
-            # --- Stack offsets of local variables --- #
-            #
-            .equ ST_INPUT_DESCRIPTOR,  -4
-            .equ ST_OUTPUT_DESCRIPTOR, -8
+    movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
-        .section .text
-            .globl _start
+    movl  $SYS_OPEN, %eax   # Open file for writing.
+    movl  $output_file_name, %ebx
+    movl  $0101, %ecx
+    movl  $0666, %edx
+    int   $LINUX_SYSCALL
 
-    _start:
-        movl  %esp, %ebp        # Copy stack pointer and
-        subl  $8, %esp          # make room for local
-                                # variables.
+    movl  %eax, ST_OUTPUT_DESCRIPTOR(%ebp)
 
-        movl  $SYS_OPEN, %eax   # Open file for reading.
-        movl  $input_file_name, %ebx
-        movl  $0, %ecx
-        movl  $0666, %edx
-        int   $LINUX_SYSCALL
+_loop_begin:
+    pushl ST_INPUT_DESCRIPTOR(%ebp)
+    pushl $record_buffer
+    call  _read_record
+    addl  $8, %esp
 
-        movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
+    # Returns the number of bytes read. If it is not
+    # the same number we requested, then it is either
+    # an end-of-file, or an error, so we are quitting.
+    #
+    cmpl  $RECORD_SIZE, %eax
+    jne   _loop_end
 
-        movl  $SYS_OPEN, %eax   # Open file for writing.
-        movl  $output_file_name, %ebx
-        movl  $0101, %ecx
-        movl  $0666, %edx
-        int   $LINUX_SYSCALL
+                            # Increment the age.
+    incl  record_buffer + RECORD_AGE
 
-        movl  %eax, ST_OUTPUT_DESCRIPTOR(%ebp)
+                            # Write the record out.
+    pushl ST_OUTPUT_DESCRIPTOR(%ebp)
+    pushl $record_buffer
+    call  _write_record
+    addl  $8, %esp
 
-    _loop_begin:
-        pushl ST_INPUT_DESCRIPTOR(%ebp)
-        pushl $record_buffer
-        call  _read_record
-        addl  $8, %esp
+    jmp   _loop_begin
 
-        # Returns the number of bytes read. If it is not
-        # the same number we requested, then it is either
-        # an end-of-file, or an error, so we are quitting.
-        #
-        cmpl  $RECORD_SIZE, %eax
-        jne   _loop_end
-
-                                # Increment the age.
-        incl  record_buffer + RECORD_AGE
-
-                                # Write the record out.
-        pushl ST_OUTPUT_DESCRIPTOR(%ebp)
-        pushl $record_buffer
-        call  _write_record
-        addl  $8, %esp
-
-        jmp   _loop_begin
-
-    _loop_end:
-        movl  $SYS_EXIT, %eax
-        movl  $0, %ebx
-        int   $LINUX_SYSCALL
+_loop_end:
+    movl  $SYS_EXIT, %eax
+    movl  $0, %ebx
+    int   $LINUX_SYSCALL
+```
 
 You can type it in as `006-01-add-year.s`. To build it, type the
 following[37]:
 
-    as -o 006-01-add-year.o  006-01-add-year.s --gstabs+
+``` bash
+as -o 006-01-add-year.o  006-01-add-year.s --gstabs+
 
-    ld -o 006-01-add-year    006-01-add-year.o \
-                             006-01-read-record.o \
-                             006-01-write-record.o
+ld -o 006-01-add-year    006-01-add-year.o \
+                         006-01-read-record.o \
+                         006-01-write-record.o
+```
 
 To run the program, just type in the following[38]:
 
-    ./006-01-add-year
+``` bash
+./006-01-add-year
+```
 
 This will add a year to every record listed in `test.dat` and write the
 new records to the file `testout.dat`.
@@ -4510,47 +4661,49 @@ single recovery point that covers the whole program. The only thing we
 will do to recover is to print the error and exit. The code
 (`007-01-error-exit.s`) to do that is pretty simple:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        .include "006-01-linux.s"      # Linux Definitions.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
 
-            .equ ST_ERROR_CODE,  8
-            .equ ST_ERROR_MSG,   12
+        .equ ST_ERROR_CODE,  8
+        .equ ST_ERROR_MSG,   12
 
-            .globl _error_exit
-            .type  _error_exit,   @function
+        .globl _error_exit
+        .type  _error_exit,   @function
 
-    _error_exit:
-        pushl %ebp
-        movl  %esp, %ebp
+_error_exit:
+    pushl %ebp
+    movl  %esp, %ebp
 
-                                # Write out error code.
-        movl  ST_ERROR_CODE(%ebp), %ecx
-        pushl %ecx
-        call  _count_chars
-        popl  %ecx
-        movl  %eax, %edx
-        movl  $STDERR, %ebx
-        movl  $SYS_WRITE, %eax
-        int   $LINUX_SYSCALL
+                            # Write out error code.
+    movl  ST_ERROR_CODE(%ebp), %ecx
+    pushl %ecx
+    call  _count_chars
+    popl  %ecx
+    movl  %eax, %edx
+    movl  $STDERR, %ebx
+    movl  $SYS_WRITE, %eax
+    int   $LINUX_SYSCALL
 
-                                # Write out error message.
-        movl  ST_ERROR_MSG(%ebp), %ecx
-        pushl %ecx
-        call  _count_chars
-        popl  %ecx
-        movl  %eax, %edx
-        movl  $STDERR, %ebx
-        movl  $SYS_WRITE, %eax
-        int   $LINUX_SYSCALL
+                            # Write out error message.
+    movl  ST_ERROR_MSG(%ebp), %ecx
+    pushl %ecx
+    call  _count_chars
+    popl  %ecx
+    movl  %eax, %edx
+    movl  $STDERR, %ebx
+    movl  $SYS_WRITE, %eax
+    int   $LINUX_SYSCALL
 
-        pushl $STDERR
-        call  _write_newline
+    pushl $STDERR
+    call  _write_newline
 
-                                # Exit with status 1.
-        movl  $SYS_EXIT, %eax
-        movl  $1, %ebx
-        int   $LINUX_SYSCALL
+                            # Exit with status 1.
+    movl  $SYS_EXIT, %eax
+    movl  $1, %ebx
+    int   $LINUX_SYSCALL
+```
 
 Enter it in a file called `007-01-error-exit.s`. To call it, you just
 need to push the address of an error message, and then an error code
@@ -4562,45 +4715,47 @@ system calls actually complete properly. Linux returns its status code
 in *%eax*, so we need to check and see if there is an error. This new
 version is called `007-01-add-year.s`:
 
-        movl  $SYS_OPEN, %eax   # Open file for reading.
-        movl  $input_file_name, %ebx
-        movl  $0, %ecx
-        movl  $0666, %edx
-        int   $LINUX_SYSCALL
+``` gnuassembler
+    movl  $SYS_OPEN, %eax   # Open file for reading.
+    movl  $input_file_name, %ebx
+    movl  $0, %ecx
+    movl  $0666, %edx
+    int   $LINUX_SYSCALL
 
-        movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
+    movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
-                        # This will test and see if %eax is
-                        # negative.  If it is not negative,
-                        # it will jump to
-                        # _continue_processing. Otherwise
-                        # it will handle the error
-                        # condition that the negative
-                        # number represents.
-                        #
-        cmpl  $0, %eax
-        jge   _continue_processing
+                    # This will test and see if %eax is
+                    # negative.  If it is not negative,
+                    # it will jump to
+                    # _continue_processing. Otherwise
+                    # it will handle the error
+                    # condition that the negative
+                    # number represents.
+                    #
+    cmpl  $0, %eax
+    jge   _continue_processing
 
-        # ----- SEND THE ERROR ----- #
-        #
-        .section .data
-            no_open_file_code:
-                .ascii "0001: \0"
-            no_open_file_msg:
-                .ascii "Can't Open Input File.\0"
+    # ----- SEND THE ERROR ----- #
+    #
+    .section .data
+        no_open_file_code:
+            .ascii "0001: \0"
+        no_open_file_msg:
+            .ascii "Can't Open Input File.\0"
 
-        .section .text
-        pushl $no_open_file_msg
-        pushl $no_open_file_code
-        call  _error_exit
+    .section .text
+    pushl $no_open_file_msg
+    pushl $no_open_file_code
+    call  _error_exit
 
-    _continue_processing:
+_continue_processing:
 
-        movl  $SYS_OPEN, %eax   # Open file for writing.
-        movl  $output_file_name, %ebx
-        movl  $0101, %ecx
-        movl  $0666, %edx
-        int   $LINUX_SYSCALL
+    movl  $SYS_OPEN, %eax   # Open file for writing.
+    movl  $output_file_name, %ebx
+    movl  $0101, %ecx
+    movl  $0666, %edx
+    int   $LINUX_SYSCALL
+```
 
 So, after calling the system call, we check and see if we have an error
 by checking to see if the result of the system call is less than zero.
@@ -4611,15 +4766,17 @@ erroneous results you should add error checking and handling code.
 
 To assemble and link the files, do:
 
-    as -o 007-01-add-year.o    007-01-add-year.s   --gstabs+
-    as -o 007-01-error-exit.o  007-01-error-exit.s --gstabs+
+``` bash
+as -o 007-01-add-year.o    007-01-add-year.s   --gstabs+
+as -o 007-01-error-exit.o  007-01-error-exit.s --gstabs+
 
-    ld -o 007-01-add-year      006-01-count-chars.o \
-                               006-01-read-record.o \
-                               006-01-write-newline.o \
-                               006-01-write-record.o \
-                               007-01-add-year.o \
-                               007-01-error-exit.o
+ld -o 007-01-add-year      006-01-count-chars.o \
+                           006-01-read-record.o \
+                           006-01-write-newline.o \
+                           006-01-write-record.o \
+                           007-01-add-year.o \
+                           007-01-error-exit.o
+```
 
 Now try to run it without the necessary files. It now exits cleanly and
 gracefully!
@@ -4740,79 +4897,91 @@ The program we will examine here is simple - it writes the characters
 `hello world` to the screen and exits. The regular program,
 `008-01-helloworld-nolib.s`, looks like this:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        .include "006-01-linux.s"      # Linux Definitions.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
 
-        # PURPOSE:
-        #     This program writes the message
-        #     "hello world" and exits.
-        #
-        .section .data
-            helloworld:
-                .ascii "hello world\n"
+    # PURPOSE:
+    #     This program writes the message
+    #     "hello world" and exits.
+    #
+    .section .data
+        helloworld:
+            .ascii "hello world\n"
 
-            helloworld_end:
-                .equ lenght, helloworld_end - helloworld
+        helloworld_end:
+            .equ lenght, helloworld_end - helloworld
 
-        .section .text
-            .globl _start
+    .section .text
+        .globl _start
 
-    _start:
-        movl  $STDOUT, %ebx
-        movl  $helloworld, %ecx
-        movl  $lenght, %edx
-        movl  $SYS_WRITE, %eax
-        int   $LINUX_SYSCALL
+_start:
+    movl  $STDOUT, %ebx
+    movl  $helloworld, %ecx
+    movl  $lenght, %edx
+    movl  $SYS_WRITE, %eax
+    int   $LINUX_SYSCALL
 
-        movl  $0, %ebx
-        movl  $SYS_EXIT, %eax
-        int   $LINUX_SYSCALL
+    movl  $0, %ebx
+    movl  $SYS_EXIT, %eax
+    int   $LINUX_SYSCALL
+```
 
 That's not too long. However, take a look at how short
 `008-01-helloworld-lib` is which uses a library:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        # PURPOSE:
-        #     This program writes the message "hello world"
-        #     and exits.
-        #
-        .section .data
-            helloworld:
-                .ascii "hello world\n\0"
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     This program writes the message "hello world"
+    #     and exits.
+    #
+    .section .data
+        helloworld:
+            .ascii "hello world\n\0"
 
-        .section .text
-            .globl _start
+    .section .text
+        .globl _start
 
-    _start:
-        pushl $helloworld
-        call  printf
+_start:
+    pushl $helloworld
+    call  printf
 
-        pushl $0
-        call  exit
+    pushl $0
+    call  exit
+```
 
 It's even shorter!
 
 Now, building programs which use dynamic libraries is a little different
 than normal. You can build the first program normally by doing this:
 
-    as -o 008-01-helloworld-nolib.o  008-01-helloworld-nolib.s --gstabs+
-    ld -o 008-01-helloworld-nolib    008-01-helloworld-nolib.o
+``` bash
+as -o 008-01-helloworld-nolib.o  008-01-helloworld-nolib.s --gstabs+
+ld -o 008-01-helloworld-nolib    008-01-helloworld-nolib.o
+```
 
 However, in order to build the second program, you have to do this:
 
-    as -o 008-01-helloworld-lib.o  008-01-helloworld-lib.s --gstabs+
-    ld -o 008-01-helloworld-lib    008-01-helloworld-lib.o \
-        --library        c \
-        --library-path   /usr/lib32/ \
-        -dynamic-linker  /usr/lib32/ld-linux.so.2
+``` bash
+as -o 008-01-helloworld-lib.o  008-01-helloworld-lib.s --gstabs+
+ld -o 008-01-helloworld-lib    008-01-helloworld-lib.o \
+    --library        c \
+    --library-path   /usr/lib32/ \
+    -dynamic-linker  /usr/lib32/ld-linux.so.2
+```
 
 Run both programs and you will get the classic message:
 
-    ./008-01-helloworld-lib
+``` bash
+./008-01-helloworld-lib
+```
 
-    ./008-01-helloworld-nolib
+``` bash
+./008-01-helloworld-nolib
+```
 
 Remember, the backslash in the first line simply means that the command
 continues on the next line. The option
@@ -4881,13 +5050,17 @@ instances of `printf` in the program with the actual location of
 
 Run the following command:
 
-    ldd ./008-01-helloworld-nolib
+``` bash
+ldd ./008-01-helloworld-nolib
+```
 
 It should report back `not a dynamic executable`. This is just like we
 said - `008-01-helloworld-nolib` is a statically-linked executable.
 However, try this:
 
-    ldd ./008-01-helloworld-lib
+``` bash
+ldd ./008-01-helloworld-lib
+```
 
 It will report back something like:
 
@@ -4913,7 +5086,9 @@ programmers describe functions to each other in their documentation?
 Let's take a look at the function `printf`. Its calling interface
 (usually referred to as a *prototype*) looks like this:
 
-    int printf(char *string, ...);
+``` c
+int printf(char *string, ...);
+```
 
 In Linux, functions are described in the C programming language. In
 fact, most Linux programs are written in C. That is why most
@@ -4932,8 +5107,10 @@ character or sequence of characters. If you look back at our
 `008-01-helloworld-lib` program, you will notice that the function call
 looked like this:
 
-        pushl $helloworld
-        call  printf
+``` gnuassembler
+    pushl $helloworld
+    call  printf
+```
 
 So, we pushed the address of the `hello` string, rather than the actual
 characters. You might notice that we didn't push the length of the
@@ -4951,60 +5128,64 @@ another string from the stack to insert, and everywhere it sees `%d` it
 will look for a number from the stack to insert. This is best described
 using an example `008-02-printf-example.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #    This program is to demonstrate how to call
+    #    printf.
+    #
+    .section .data
+        # This string is called the format string.  It
+        # is the first parameter, and printf uses it to
+        # find out how many parameters it was given,
+        # and what kind they are.
         #
-        # PURPOSE:
-        #    This program is to demonstrate how to call
-        #    printf.
+        first_string:
+            .ascii "Hi! %s is the %s number #%d.\n\0"
+
+        name_string:
+            .ascii "Jonathan\0"
+
+        person_string:
+            .ascii "person\0"
+
+        # This could also have been an .equ, but we
+        # decided to give it a real memory location
+        # just for kicks.
         #
-        .section .data
-            # This string is called the format string.  It
-            # is the first parameter, and printf uses it to
-            # find out how many parameters it was given,
-            # and what kind they are.
-            #
-            first_string:
-                .ascii "Hi! %s is the %s number #%d.\n\0"
+        number_loved:
+            .long 3
 
-            name_string:
-                .ascii "Jonathan\0"
+    .section .text
+        .globl _start
 
-            person_string:
-                .ascii "person\0"
+_start:
+    # Note that the parameters are passed in the
+    # reverse order that they are listed in the
+    # function prototype.
+    #
+    pushl number_loved      # This is the %d.
+    pushl $person_string    # This is the second %s.
+    pushl $name_string      # This is the first %s.
+    pushl $first_string     # This is the format string
+                            # in the prototype.
+    call  printf
 
-            # This could also have been an .equ, but we
-            # decided to give it a real memory location
-            # just for kicks.
-            #
-            number_loved:
-                .long 3
-
-        .section .text
-            .globl _start
-
-    _start:
-        # Note that the parameters are passed in the
-        # reverse order that they are listed in the
-        # function prototype.
-        #
-        pushl number_loved      # This is the %d.
-        pushl $person_string    # This is the second %s.
-        pushl $name_string      # This is the first %s.
-        pushl $first_string     # This is the format string
-                                # in the prototype.
-        call  printf
-
-        pushl $0
-        call  exit
+    pushl $0
+    call  exit
+```
 
 Type it in with the filename `008-02-printf-example.s`, and then do the
 following commands:
 
-    as -o 008-02-printf-example.o  008-02-printf-example.s --gstabs+
-    ld -o 008-02-printf-example    008-02-printf-example.o \
-        --library-path   /usr/lib32/ \
-        --library        c \
-        -dynamic-linker  /usr/lib32/ld-linux.so.2
+``` bash
+as -o 008-02-printf-example.o  008-02-printf-example.s --gstabs+
+ld -o 008-02-printf-example    008-02-printf-example.o \
+    --library-path   /usr/lib32/ \
+    --library        c \
+    -dynamic-linker  /usr/lib32/ld-linux.so.2
+```
 
 Then run the program with `./008-02-printf-example`, and it should say
 this:
@@ -5033,28 +5214,28 @@ several more of the possible data types for reading functions. Here are
 the main ones:
 
 `int`:  
-An `int` is an integer number. The size of 4 bytes (32 bits ~ 2^32) on
+An `int` is an integer number. The size of 4 bytes (32 bits \~ 2^32) on
 x86 processor provide a maximum value of *4,294,967,295*; negative
 values between *-2,147,483,648* and *2,147,483,647*.
 
 `long`:  
-A `long` is also an integer number. The size of 4 bytes (32 bits ~ 2^32)
-on x86 processor provide a maximum value of *4,294,967,295*; negative
-values between *-2,147,483,648* and *2,147,483,647*.
+A `long` is also an integer number. The size of 4 bytes (32 bits \~
+2^32) on x86 processor provide a maximum value of *4,294,967,295*;
+negative values between *-2,147,483,648* and *2,147,483,647*.
 
 `long long`:  
 A `long long` is an integer number that's larger than a `long`. The size
-of 8 bytes (64 bits ~ 2^64) on x86 processor provide a maximum value of
+of 8 bytes (64 bits \~ 2^64) on x86 processor provide a maximum value of
 *18,446,744,073,709,551,615*; negative values between
 *-9,223,372,036,854,775,808* and *9,223,372,036,854,775,807*.
 
 `short`:  
 A short is an integer number that's shorter than an `int`. The size of 2
-bytes (16 bits ~ 2^16) on x86 processor provide a maximum value of
+bytes (16 bits \~ 2^16) on x86 processor provide a maximum value of
 *65,535*; negative values between *-32,768* and *32,767*.
 
 `char`:  
-A `char` is a single-byte integer number. The size of 1 bytes (8 bits ~
+A `char` is a single-byte integer number. The size of 1 bytes (8 bits \~
 2^8) on x86 processor provide a maximum value of *255*; negative values
 between *-128* and *127*. This is mostly used for storing character
 data, since ASCII strings usually are represented with one byte per
@@ -5100,12 +5281,12 @@ see pointers to structs passed as arguments. This is because passing
 structs to functions is fairly complicated, since they can take up so
 many storage locations.
 
-<!-- -->
-
-    struct teststruct {
-        int a;
-        char *b;
-    };
+``` c
+struct teststruct {
+    int a;
+    char *b;
+};
+```
 
 `typedef`:  
 A `typedef` basically allows you to rename a type. For example, I can do
@@ -5136,7 +5317,9 @@ are a little more thorough than man pages.
 
 Let's see the `objdump` of the last progam:
 
-    objdump -R  008-02-printf-example-bin
+``` bash
+objdump -R  008-02-printf-example-bin
+```
 
 It should display something like this:
 
@@ -5190,15 +5373,19 @@ Records](#chapter-6-reading-and-writing-simple-records) and build it
 into a dynamic library to use in our programs. The first thing we would
 do is assemble them like normal:
 
-    as -o 006-01-write-record.o  006-01-write-record.s --gstabs+
-    as -o 006-01-read-record.o   006-01-read-record.s  --gstabs+
+``` bash
+as -o 006-01-write-record.o  006-01-write-record.s --gstabs+
+as -o 006-01-read-record.o   006-01-read-record.s  --gstabs+
+```
 
 Now, instead of linking them into a program, we want to link them into a
 dynamic library. This changes our linker command to this:
 
-    ld -o librecord.so  -shared \
-                        006-01-write-record.o \
-                        006-01-read-record.o
+``` bash
+ld -o librecord.so  -shared \
+                    006-01-write-record.o \
+                    006-01-read-record.o
+```
 
 This links both of these files together into a dynamic library called
 `librecord.so`. This file can now be used for multiple programs. If we
@@ -5208,12 +5395,14 @@ this one file and not have to worry about which programs use it.
 Let's look at how we would link against this library. To link the
 `008-03-write-records` program, we would do the following:
 
-    as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
+``` bash
+as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
 
-    ld -o 008-03-write-records    006-01-write-records.o \
-        --library        record \
-        --library-path   . \
-        -dynamic-linker  /lib32/ld-linux.so.2
+ld -o 008-03-write-records    006-01-write-records.o \
+    --library        record \
+    --library-path   . \
+    -dynamic-linker  /lib32/ld-linux.so.2
+```
 
 In this command, `-L .` or `--library-path .` told the linker to look
 for libraries in the current directory (it usually only searches `/lib`
@@ -5233,17 +5422,23 @@ This is because, by default, the dynamic linker only searches `/lib`,
 libraries. In order to run the program, you either need to move the
 library to one of these directories, or execute the following command:
 
-    LD_LIBRARY_PATH=.  ./008-03-write-records
+``` bash
+LD_LIBRARY_PATH=.  ./008-03-write-records
+```
 
 The next solution store the library directory in the session, it keeps
 alive until the session is done or the terminal/console is closed:
 
-    LD_LIBRARY_PATH=.
-    export LD_LIBRARY_PATH
+``` bash
+LD_LIBRARY_PATH=.
+export LD_LIBRARY_PATH
+```
 
 Alternatively, if that gives you an error, do this instead:
 
-    setenv LD_LIBRARY_PATH .
+``` bash
+setenv LD_LIBRARY_PATH .
+```
 
 Now, you can run `008-03-write-records` normally by typing
 `./008-03-write-records`. Setting `LD_LIBRARY_PATH` tells the linker to
@@ -5253,7 +5448,9 @@ libraries.
 Let's print the shared object dependencies for `./008-03-write-records`.
 It is a shared library. Try this:
 
-    LD_LIBRARY_PATH=.  ldd ./008-03-write-records
+``` bash
+LD_LIBRARY_PATH=.  ldd ./008-03-write-records
+```
 
 It will report back something like:
 
@@ -5262,7 +5459,9 @@ It will report back something like:
 
 And it’s the `objdump` result:
 
-    LD_LIBRARY_PATH=.  objdump -R ./008-03-write-records
+``` bash
+LD_LIBRARY_PATH=.  objdump -R ./008-03-write-records
+```
 
     ./008-03-write-records-bin:     file format elf32-i386
 
@@ -5404,7 +5603,9 @@ instructions take up one or two storage locations for the instruction
 itself, and then storage locations for the instruction's arguments. For
 example, the instruction:
 
-    movl data_items(,%edi,4), %ebx
+``` gnuassembler
+movl data_items(,%edi,4), %ebx
+```
 
 Takes up 7 storage locations. The first two hold the instruction, the
 third one tells which registers to use, and the next four hold the
@@ -5440,11 +5641,11 @@ use it in your program. For example, say you have the following code:
 Now, any time in the program that `my_data` is used, it will be replaced
 by the address of the first value of the `.long` directive.
 
-<!-- -->
-
-    .section .data
-        my_data:
-            .long 2, 3, 4
+``` gnuassembler
+.section .data
+    my_data:
+        .long 2, 3, 4
+```
 
 Pointer:  
 A pointer is a register or memory word whose value is an address. In our
@@ -5484,21 +5685,29 @@ were used. When the program begins, this is where the stack pointer,
 *%esp*, is pointing. Further pushes on the stack move *%esp* down in
 memory. For example, the instruction:
 
-    pushl %eax
+``` gnuassembler
+pushl %eax
+```
 
 is equivalent to
 
-    movl %eax, (%esp)
-    subl $4, %esp
+``` gnuassembler
+movl %eax, (%esp)
+subl $4, %esp
+```
 
 Likewise, the instruction:
 
-    popl %eax
+``` gnuassembler
+popl %eax
+```
 
 is the same as
 
-    movl (%esp), %eax
-    addl $4, %esp
+``` gnuassembler
+movl (%esp), %eax
+addl $4, %esp
+```
 
 Your program's data region starts at the bottom of memory and goes up.
 The stack starts at the top of memory, and moves downward with each
@@ -5510,11 +5719,6 @@ happen if you try to access data before the beginning of your program,
 0x08048000. The last accessible memory address to your program is called
 the *system break* (also called the *current break* or just the
 *break*).
-
-<!-- TODO: Personal -> Convert the image into the text table. -->
-
-![*Memory Layout of a Linux Program at
-Startup*](resource/image/memorylayout.png)
 
 Every Memory Address is a Lie
 -----------------------------
@@ -5558,22 +5762,450 @@ program. So, the break is the beginning of the area that contains
 unmapped memory. With the stack, however, Linux will automatically map
 in memory that is accessed from stack pushes.
 
-Of course, this is a very simplified view of virtual memory. The full
-concept is much more advanced. For example, Virtual memory can be mapped
-to more than just physical memory; it can be mapped to disk as well.
-Swap partitions on Linux allow Linux's virtual memory system to map
-memory not only to physical RAM, but also to disk blocks as well. For
-example, let's say you only have 16 Megabytes of physical memory. Let's
-also say that 8 Megabytes are being used by Linux and some basic
-applications, and you want to run a program that requires 20 Megabytes
-of memory. Can you? The answer is yes, but only if you have set up a
-swap partition. What happens is that after all of your remaining 8
-Megabytes of physical memory have been mapped into virtual memory, Linux
-starts mapping parts of your application's virtual memory to disk
-blocks. So, if you access a "memory" location in your program, that
-location may not actually be in memory at all, but on disk. As the
-programmer you won't know the difference, though, because it is all
-handled behind the scenes by Linux.
+Let's explain all this complex concepts using the Linux tools and
+dynamic practices. The progam `009-01-memory-layout.s` helps with this:
+
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
+
+    # PURPOSE:
+    #     Represent the memory layout.
+    #
+
+    .section .data
+        name:
+            .ascii "Leo\0"
+        age:
+            .int 31
+        id:
+            .long 89485
+
+    .section .bss
+        .lcomm  comment,  128
+        .lcomm  author,   3
+        .equ    items,    5
+
+    .section .text
+        .globl _start
+
+_start:
+    movl  $SYS_BRK, %eax
+    movl  $0, %ebx
+    int   $LINUX_SYSCALL    # Find out the break.
+
+    call  _hello
+
+    call  _fine
+
+    jmp   _bye
+
+_hello:
+    pushl %ebp              # Save old base pointer.
+    movl  %esp, %ebp        # Make ST the BP.
+
+    pushl %eax
+    movl  $name, %eax
+    popl  %eax
+
+    movl %ebp, %esp         # Restore the ST.
+    popl %ebp               # Restore the BP.
+    ret
+
+_fine:
+    pushl %ebp              # Save old base pointer.
+    movl  %esp, %ebp        # Make ST the BP.
+
+    subl  $12, %esp         # Add local variables.
+
+                # It is the same as %esp storage but
+                # using %ebp we need negative numbers.
+    movl  $age, 4(%esp)       # Store at 1nd space.
+    movl  $author, -8(%ebp)   # Store at 1rd space.
+
+    movl  $id, 8(%esp)        # Store at 2rd space.
+    movl  $comment, -4(%ebp)  # Store at 2nd space.
+
+                # Remember the rule: Positive numbers
+                # take old stored values, negative
+                # numbers take the new stored values.
+
+    pushl age               # Push the age.
+    popl  %eax              # Remove the age.
+
+                # It is not necessary since the next
+                # line restore the %esp to the %ebp.
+    addl  $12, %esp         # Remove local variables.
+
+    movl %ebp, %esp         # Restore the ST.
+    popl %ebp               # Restore the BP.
+    ret
+
+_bye:
+    movl   $SYS_EXIT, %eax
+    movl   $0, %ebx
+    int    $LINUX_SYSCALL
+```
+
+Time to assemble and link:
+
+``` bash
+as -o 009-01-memory-layout.o  009-01-memory-layout.s --gstabs+
+ld -o 009-01-memory-layout    009-01-memory-layout
+```
+
+How to get the begining of the memory address (0x08048000)? Search the
+private headres:
+
+``` bash
+objdump  009-01-memory-layout  --private-headers
+```
+
+It shows the `LOAD off    0x00000000 vaddr 0x08048000`:
+
+    Program Header:
+        LOAD off    0x00000000 vaddr 0x08048000 paddr 0x08048000 align 2**12
+             filesz 0x00000094 memsz 0x00000094 flags r--
+        LOAD off    0x00001000 vaddr 0x08049000 paddr 0x08049000 align 2**12
+             filesz 0x00000022 memsz 0x00000022 flags r-x
+        LOAD off    0x00002000 vaddr 0x0804a000 paddr 0x0804a000 align 2**12
+             filesz 0x0000000c memsz 0x0000000c flags rw-
+
+The symbols are the sections, variables, constans, labels, functions,
+and more. These are inside of the binary file:
+
+``` bash
+objdump 009-01-memory-layout --syms
+```
+
+``` text
+SYMBOL TABLE:
+08049000 l    d  .text  00000000 .text
+0804a000 l    d  .data  00000000 .data
+0804a010 l    d  .bss   00000000 .bss
+
+0804a000 l       .data  00000000 name
+0804a004 l       .data  00000000 age
+0804a008 l       .data  00000000 id
+
+0804a010 l     O .bss   00000080 comment
+0804a090 l     O .bss   00000003 author
+00000005 l       *ABS*  00000000 items
+
+08049017 l       .text  00000000 _hello
+08049026 l       .text  00000000 _fine
+08049039 l       .text  00000000 _bye
+
+08049000 g       .text  00000000 _start
+```
+
+Get the overall file header, it contains the `start address`:
+
+``` bash
+objdump 009-01-memory-layout --file-headers
+```
+
+    architecture: i386, flags 0x00000112:
+    EXEC_P,  HAS_SYMS,  D_PAGED
+    start address 0x08049000
+
+In `gdb` we are able to get these information, too:
+
+``` bash
+gdb --args ./009-01-memory-layout 123 456
+(gdb) info files
+```
+
+    Entry point: 0x8049000
+    0x08049000 - 0x080490b5 is .text
+    0x0804a000 - 0x0804a00c is .data
+    0x0804a010 - 0x0804a094 is .bss
+
+**Table of the Physical Memory in the program.**
+
+As we mentioned in this and other chapters the code is going fordward
+starting at memory 0x08048000 but the dynamic data is pushing backwards
+from the bottom of the memory 0xffffffff.
+
+``` text
+./009-01-memory-layout 123 456
+
+    +-------------------+ ---> 0x08048000
+    |   Program Code    |
+    |     and Data      |
+    |         ↓         |
+    +-------------------+
+    |       .text       | ---> 0x08049000
+    |      <_start>     | ---> 0x08049000 movl   $1, %eax
+    |     <_start+5>    | ---> 0x08049005 calll  _hello <_hello>
+    |    <_start+10>    | ---> 0x0804900a pushl  age <0x804a004>
+    |    <_start+16>    | ---> 0x08049010 calll  _fine <_fine>
+    |         ↓         |
+    +-------------------+
+    |       .data       | ---> 0x0804a000
+    |        name       | ---> 0x0804a000
+    |        age        | ---> 0x0804a004
+    |        id         | ---> 0x0804a008
+    |         ↓         |
+    +-------------------+
+    |       .bss        | ---> 0x0804a010
+    |       comment     | ---> 0x0804a010
+    |       author      | ---> 0x0804a090
+    |         ↓         |
+    +-------------------+ ---> 0x804b000 *** Break
+    |         ↓         |
+    |                   |
+    |  Unmapped Memory  |
+    |                   |
+    |         ↑         | ---> New pushes (pushl)
+    +-------------------+
+    |  # of arguments   | ---> 0xffffd870
+    +-------------------+
+    |   Program name    | ---> 0xffffd874
+    +-------------------+
+    |      Arg #1       | ---> 0xffffd878
+    +-------------------+
+    |      Arg #2       | ---> 0xffffd87c
+    +-------------------+
+    |     ... ↑ ...     |
+    +-------------------+
+    |         ↑         |
+    |    Environment    |
+    |     variables     |
+    +-------------------+ ---> 0xffffffff
+```
+
+Try to upside down the previous table to read from the memory stack
+during the execution of the first function `_hello`. This is the
+confused part because when we try to take the values from the base
+pointer (%ebp) or stack pointer (%esp) we need to add or sub in the
+inverse way that we are thinking, the reason is here:
+
+> **TIP:**
+>
+> Taking old variables pushed in the stack needs to use positive
+> numbers, the new variables pushed in the stack needs to use the
+> negative numbers. Because the positive numbers are going to the bottom
+> of the memory *0xffffffff*, means it’s going backwards.
+>
+> ``` gnuassembler
+> pushl %ebp                # Save old base pointer.
+> movl  %esp, %ebp          # Make ST the BP.
+> subl  $12, %ebp           # Reserve 3 new local variables.
+> movl  %eax, 8(%esp)       # Store in the new 2nd variable.
+> movl  %eax, -4(%ebp)      # Store in the new 2nd variable.
+> ```
+
+It shows how to the stack memory is decreassing when we `call` or `push`
+values, and decreassing when use `pop` or `ret`:
+
+``` gnuassembler
+_hello:
+    pushl %ebp              # Save old base pointer.
+    movl  %esp, %ebp        # Make ST the BP.
+
+    pushl %eax
+    movl  $name, %eax
+    popl  %eax
+
+    movl %ebp, %esp         # Restore the ST.
+    popl %ebp               # Restore the BP.
+    ret
+```
+
+``` text
+./009-01-memory-layout 123 456
+    +-------------------+ ---> 0xffffffff
+    |    Environment    |
+    |     variables     |
+    |         ↓         |
+    +-------------------+
+    |   Program name    | ---> 0xffffd874
+    +-------------------+
+    |  # of arguments   | ---> 0xffffd870
+    |         ↓         |
+    +-------------------+ ---> 0xffffd870  -> %esp
+    |                   |
+    |     _start+17     |    > call _hello
+    |         ↓         | ---> 0xffffd86c  -> %esp
+    +-------------------+
+    |       %ebp        |    > pushl %ebp
+    |         ↓         | ---> 0xffffd868  -> %esp
+    |                   |    > movl  %esp, %ebp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    +-------------------+
+    |        %eax       |    > pushl  %eax
+    |         ↓         | ---> 0xffffd864  -> %esp
+    +-------------------+
+    |        %eax       |    > popl   %eax
+    |         ↑         | ---> 0xffffd868  -> %ebp %esp
+    +-------------------+
+    |                   |    > movl   %ebp, %esp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    |       %ebp        |    > popl   %ebp
+    |         ↑         | ---> 0xffffd86c  -> %esp
+    +-------------------+
+    |        ret        |    > ret
+    |         ↑         | ---> 0xffffd870  -> %esp
+    |                   |
+    +-------------------+ ---> 0x804b000 *** Break
+    |         ↓         |
+    |  Unmapped Memory  |
+    |         ↑         |
+    +-------------------+
+    |         ↑         |
+    |   Code and Data   |
+    +-------------------+
+```
+
+The memory address is decreassing when `push` and `call` is executed:
+
+    0xffffd870  -> %esp
+    0xffffd86c  -> %esp
+    0xffffd868  -> %ebp %esp
+    0xffffd864  -> %esp
+
+It's increassing when `pop` and `ret` is executed:
+
+    0xffffd868  -> %ebp %esp
+    0xffffd86c  -> %esp
+    0xffffd870  -> %esp
+
+Now, checks the next example with the function `_fine`, it adds new
+local variables. This example also demostrate that use `%esp` or `%ebp`
+are the same because at the end it's a mark which indicate the
+positions, one for the base pointer and other for the stack pointer.
+Highly recommended to use `%esp` because the program is dinamyc and it
+goes insde of the `call`s. We want to use the recently created spaces
+for these variables, `%ebp` is recommended when you want to take
+arguments of the actual funcion, they always be around the base pointer:
+
+``` gnuassembler
+_fine:
+    pushl %ebp              # Save old base pointer.
+    movl  %esp, %ebp        # Make ST the BP.
+
+    subl  $12, %esp         # Add local variables.
+
+                # It is the same as %esp storage but
+                # using %ebp we need negative numbers.
+    movl  $age, 4(%esp)       # Store at 1nd space.
+    movl  $author, -8(%ebp)   # Store at 1rd space.
+
+    movl  $id, 8(%esp)        # Store at 2rd space.
+    movl  $comment, -4(%ebp)  # Store at 2nd space.
+
+                # Remember the rule: Positive numbers
+                # take old stored values, negative
+                # numbers take the new stored values.
+
+    pushl age               # Push the age.
+    popl  %eax              # Remove the age.
+
+                # It is not necessary since the next
+                # line restore the %esp to the %ebp.
+    addl  $12, %esp         # Remove local variables.
+
+    movl %ebp, %esp         # Restore the ST.
+    popl %ebp               # Restore the BP.
+    ret
+```
+
+``` text
+./009-01-memory-layout 123 456
+    +-------------------+ ---> 0xffffffff
+    |    Environment    |
+    |     variables     |
+    |         ↓         |
+    +-------------------+
+    |   Program name    | ---> 0xffffd874
+    +-------------------+
+    |  # of arguments   | ---> 0xffffd870
+    |         ↓         |
+    +-------------------+ ---> 0xffffd870  -> %esp
+    |                   |
+    |     _start+22     |    > call _fine
+    |         ↓         | ---> 0xffffd86c  -> %esp
+    +-------------------+
+    |       %ebp        |    > pushl %ebp
+    |         ↓         | ---> 0xffffd868  -> %esp
+    |                   |    > movl  %esp, %ebp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    +-------------------+
+    |                   |    > subl  $12, %esp
+    |                   | ---> 0xffffd868  -> %ebp
+    |         ↓         | ---> 0xffffd85c  -> %esp
+    +-------------------+
+    |                   |    > movl  $age, 4(%esp)
+    |  0x804a004 (age)  | ---> 0xffffd860
+    +-------------------+
+    |                   |    > movl  $author, -8(%ebp)
+    | 0x804a090 (auth)  | ---> 0xffffd860
+    +-------------------+
+    |                   |    > movl  $id, 8(%esp)
+    |  0x804a008 (id)   | ---> 0xffffd864
+    +-------------------+
+    |                   |    > movl  $comment, -4(%ebp)
+    | 0x804a010 (comm)  | ---> 0xffffd864
+    +-------------------+
+    |        %age       |    > pushl  %age
+    |         ↓         | ---> 0xffffd858  -> %esp
+    +-------------------+
+    |        %eax       |    > popl   %eax
+    |         ↑         | ---> 0xffffd85c  -> %esp
+    +-------------------+
+    |                   |    > addl  $12, %esp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    +-------------------+
+    |                   |    > movl   %ebp, %esp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    |       %ebp        |    > popl   %ebp
+    |         ↑         | ---> 0xffffd86c  -> %esp
+    +-------------------+
+    |        ret        |    > ret
+    |         ↑         | ---> 0xffffd870  -> %esp
+    |                   |
+    +-------------------+ ---> 0x804b000 *** Break
+    |         ↓         |
+    |  Unmapped Memory  |
+    |         ↑         |
+    +-------------------+
+    |         ↑         |
+    |   Code and Data   |
+    +-------------------+
+```
+
+Flow of the stack pointer:
+
+    0xffffd870  -> %esp
+    0xffffd86c  -> %esp
+    0xffffd868  -> %ebp %esp
+    0xffffd85c  -> %esp
+    0xffffd858  -> %esp
+
+    0xffffd85c  -> %esp
+    0xffffd868  -> %ebp %esp
+    0xffffd86c  -> %esp
+    0xffffd870  -> %esp
+
+Virtual Memory
+--------------
+
+Virtual memory can be mapped to more than just physical memory; it can
+be mapped to disk as well. Swap partitions on Linux allow Linux's
+virtual memory system to map memory not only to physical RAM, but also
+to disk blocks as well. For example, let's say you only have 16
+Megabytes of physical memory. Let's also say that 8 Megabytes are being
+used by Linux and some basic applications, and you want to run a program
+that requires 20 Megabytes of memory. Can you? The answer is yes, but
+only if you have set up a swap partition. What happens is that after all
+of your remaining 8 Megabytes of physical memory have been mapped into
+virtual memory, Linux starts mapping parts of your application's virtual
+memory to disk blocks. So, if you access a "memory" location in your
+program, that location may not actually be in memory at all, but on
+disk. As the programmer you won't know the difference, though, because
+it is all handled behind the scenes by Linux.
 
 Now, x86 processors cannot run instructions directly from disk, nor can
 they access data directly from disk. This requires the help of the
@@ -5711,384 +6343,425 @@ will look at building our own memory manager.
 A Simple Memory Manager
 -----------------------
 
-Here I will show you a simple memory manager. It is very primitive but
-it shows the principles quite well. As usual, I will give you the
-program first for you to look through. Afterwards will follow an
-in-depth explanation. It looks long, but it is mostly comments.
+Here I will show you a simple memory manager (`009-02-alloc.s`). It is
+very primitive but it shows the principles quite well. As usual, I will
+give you the program first for you to look through. Afterwards will
+follow an in-depth explanation. It looks long, but it is mostly
+comments.
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     Program to manage memory usage - allocates
+    #     and deallocates memory as requested.
+    #
+    # NOTES:
+    #     The programs using these routines will ask
+    #     for a certain size of memory.  We actually
+    #     use more than that size, but we put it at the
+    #     beginning, before the pointer we hand back.
+    #     We add a size field and an
+    #     AVAILABLE/UNAVAILABLE marker.  So, the memory
+    #     looks like this.
+    #
+    ###################################################
+    # - Available  -#-  Size of  -#-  Actual memory  -#
+    # -  Marker    -#-  memory   -#-   locations     -#
+    ###################################################
+    #                             ^--Returned pointer
+    #                                points here.
+    #
+    # The pointer we return only points to the actual
+    # locations requested to make it easier for the
+    # calling program.  It also allows us to change our
+    # structure without the calling program having to
+    # change at all.
+    #
+    .section .data
+        # ----- GLOBAL VARIABLES ----- #
         #
-        # PURPOSE:
-        #     Program to manage memory usage - allocates
-        #     and deallocates memory as requested.
+        heap_begin:         # This points to the
+            .long  0        # beginning of the memory
+                            # we are managing.
+
+        current_break:      # This points to one
+            .long  0        # location past the memory
+                            # we are managing.
+
+        # ----- STRUCTURE INFORMATION ----- #
         #
-        # NOTES:
-        #     The programs using these routines will ask
-        #     for a certain size of memory.  We actually
-        #     use more than that size, but we put it at the
-        #     beginning, before the pointer we hand back.
-        #     We add a size field and an
-        #     AVAILABLE/UNAVAILABLE marker.  So, the memory
-        #     looks like this.
+        .equ HEADER_SIZE,      8    # Size of space for
+                                    # memory region
+                                    # header.
+
+        .equ HDR_AVAIL_OFFSET, 0    # Location of the
+                                    # "available" flag
+                                    # in the header.
+
+        .equ HDR_SIZE_OFFSET,  4    # Location of the
+                                    # size field in the
+                                    # header.
+
+        # ----- CONSTANTS ----- #
         #
-        ###################################################
-        # - Available  -#-  Size of  -#-  Actual memory  -#
-        # -  Marker    -#-  memory   -#-   locations     -#
-        ###################################################
-        #                             ^--Returned pointer
-        #                                points here.
-        #
-        # The pointer we return only points to the actual
-        # locations requested to make it easier for the
-        # calling program.  It also allows us to change our
-        # structure without the calling program having to
-        # change at all.
-        #
-        .section .data
-            # ----- GLOBAL VARIABLES ----- #
-            #
-            heap_begin:         # This points to the
-                .long  0        # beginning of the memory
-                                # we are managing.
-
-            current_break:      # This points to one
-                .long  0        # location past the memory
-                                # we are managing.
-
-            # ----- STRUCTURE INFORMATION ----- #
-            #
-            .equ HEADER_SIZE,      8    # Size of space for
-                                        # memory region
-                                        # header.
-
-            .equ HDR_AVAIL_OFFSET, 0    # Location of the
-                                        # "available" flag
-                                        # in the header.
-
-            .equ HDR_SIZE_OFFSET,  4    # Location of the
-                                        # size field in the
-                                        # header.
-
-            # ----- CONSTANTS ----- #
-            #
-            .equ UNAVAILABLE,    0      # This is the
-                                        # number we will
-                                        # use to mark space
-                                        # that has been
-                                        # given out.
-
-            .equ AVAILABLE,      1      # This is the
-                                        # number we will
-                                        # use to mark space
-                                        # that has been
-                                        # returned, and is
-                                        # available for
-                                        # giving.
-
-            .equ SYS_BRK,        45     # System call
-                                        # number for the
-                                        # break system
-                                        # call.
-
-            .equ LINUX_SYSCALL,  0x80   # Make system calls
-                                        # easier to read.
-
-        .section .text
-        # ----- FUNCTIONS ----- #
-        #
-        # ----- FUNCTION: _allocate_init ----- #
-        #
-        # PURPOSE:
-        #     Call this function to initialize the
-        #     functions (specifically, this sets heap_begin
-        #     and current_break). This has no parameters
-        #     and no return value.
-        #
-            .globl _allocate_init
-            .type  _allocate_init,  @function
-
-    _allocate_init:
-        pushl %ebp              # Standard function stuff.
-        movl  %esp, %ebp
-
-        # If the brk system call is called with 0 in %ebx,
-        # it returns the last valid usable address.
-        #
-        movl  $SYS_BRK, %eax    # Find out where the
-        movl  $0, %ebx          # break is.
-        int   $LINUX_SYSCALL
-
-        incl  %eax              # %eax now has the last
-                                # valid address, and we
-                                # want the memory location
-                                # after that.
-
-                                # Store the current break.
-        movl  %eax, current_break
-
-        movl  %eax, heap_begin  # Store the current break
-                                # as our first address.
-                                # This will cause the
-                                # allocate function to get
-                                # more memory from Linux
-                                # the first time it is run.
-
-        movl  %ebp, %esp        # Exit the function.
-        popl  %ebp
-
-        ret
-        # ----- END OF FUNCTION: _allocate_init ----- #
-
-        # ----- FUNCTION: allocate ----- #
-        #
-        # PURPOSE:
-        #     This function is used to grab a section of
-        #     memory. It checks to  see if there are any
-        #     free blocks, and, if not, it asks Linux for
-        #     a new one.
-        #
-        # PARAMETERS:
-        #     This function has one parameter - the size
-        #     of the memory block we want to allocate.
-        #
-        # RETURN VALUE:
-        #     This function returns the address of the
-        #     allocated memory in %eax.  If there is no
-        #     memory available, it will return 0 in %eax.
-        #
-        # PROCESSING:
-        #     Variables used:
-        #       %ecx - hold the size of the requested
-        #       memory (first/only parameter).
-        #       %eax - current memory region being examined
-        #       %ebx - current break position.
-        #       %edx - size of current memory region.
-        #
-        # We scan through each memory region starting with
-        # heap_begin. We look at the size of each one, and
-        # if it has been allocated.  If it is big enough
-        # for the requested size, and its available, it
-        # grabs that one. If it does not find a region
-        # large enough, it asks Linux for more memory.  In
-        # that case, it moves current_break up.
-        #
-            .globl _allocate
-            .type  _allocate,   @function
-
-            .equ ST_MEM_SIZE,  8    # Stack position of the
-                                    # memory size to
-                                    # allocate.
-
-    _allocate:
-        pushl %ebp              # Standard function stuff.
-        movl  %esp, %ebp
-
-                                # %ecx will hold the size
-                                # we are looking for (which
-                                # is the first and only
-                                # parameter).
-        movl  ST_MEM_SIZE(%ebp), %ecx
-
-        movl  heap_begin, %eax  # %eax will hold the
-                                # current search location.
-
-                                # %ebx will hold the
-                                # current break.
-        movl  current_break, %ebx
-
-
-    _alloc_loop_begin:          # Here we iterate through
-                                # each memory region.
-
-        cmpl  %ebx, %eax        # Need more memory if these
-        je    _move_break       # are equal.
-
-                                # Grab the size of this
-                                # memory.
-        movl  HDR_SIZE_OFFSET(%eax), %edx
-
-                                # If the space is
-                                # unavailable, go to the
-                                # next one.
-        cmpl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-        je    _allocate_init
-
-
-        cmpl  %edx, %ecx        # If the space is
-        jle   _allocate_here    # available, compare the
-                                # size to the needed size.
-                                # If its big enough, go to
-                                # _allocate_here.
-
-    __next_location:
-                        # The total size of the memory
-                        # region is the sum of the size
-                        # requested (currently stored in
-                        # %edx), plus another 8 bytes for
-                        # the header (4 for the
-                        # AVAILABLE/UNAVAILABLE flag, and
-                        # 4 for the size of the region).
-                        # So, adding %edx and $8 to %eax
-                        # will get the address of the next
-                        # memory region.
-                        #
-        addl  $HEADER_SIZE, %eax
-        addl  %edx, %eax
-
-                        # Go look at the next location.
-        jmp   _alloc_loop_begin
-
-    _allocate_here:     # If we have made it here, that
-                        # means that the region header of
-                        # the region to allocate is in
-                        # %eax.
-
-                                # Mark space as unavailable
-        movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-
-                                # Move %eax past the header
-                                # to the usable memory
-                                # (since that is what we
-                                # return).
-        addl  $HEADER_SIZE, %eax
-
-
-
-        movl  %ebp, %esp        # Return from the function.
-        popl  %ebp
-        ret
-
-    _move_break:        # If we have made it here, that
-                        # means that we have exhausted all
-                        # addressable memory, and we need
-                        # to ask for more. %ebx holds the
-                        # current endpoint of the data,
-                        # and %ecx holds its size.
-
-                        # We need to increase %ebx to
-                        # where we _want_ memory to end,
-                        # so we add space for the headers
-                        # structure.
-        addl  $HEADER_SIZE, %ebx
-
-
-
-        addl  %ecx, %ebx        # Add space to the break
-                                # for the data requested.
-
-                                # Now its time to ask Linux
-                                # for more memory.
-
-        pushl %eax              # Save needed registers.
-        pushl %ecx
-        pushl %ebx
-
-        movl  $SYS_BRK, %eax    # Reset the break (%ebx has
-                                # the requested break
-                                # point).
-
-        int   $LINUX_SYSCALL    # Under normal conditions,
-                                # this should return the
-                                # new break in %eax, which
-                                # will be either 0 if it
-                                # fails, or it will be
-                                # equal to or larger than
-                                # we asked for. We do not
-                                # care in this program
-                                # where it actually sets
-                                # the break, so as long as
-                                # %eax is not 0, we do not
-                                # care what it is.
-
-        cmpl  $0, %eax          # Check for error
-        je    _error            # conditions.
-
-        popl  %ebx              # Restore saved registers.
-        popl  %ecx
-        popl  %eax
-
-                                # Set this memory as
-                                # unavailable, since we are
-                                # about to give it away.
-        movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-
-
-
-                                # Set the size of the
-                                # memory.
-        movl  %ecx, HDR_SIZE_OFFSET(%eax)
-
-                                # Move %eax to the actual
-                                # start of usable memory.
-                                # %eax now holds the return
-                                # value.
-        addl  $HEADER_SIZE, %eax
-
-        movl  %ebx, current_break   # Save the new break.
-
-        movl  %ebp, %esp        # Return the function.
-        popl  %ebp
-        ret
-
-    _error:
-        movl  $0, %eax          # On error, we return zero.
-        movl  %ebp, %esp
-        popl  %ebp
-        ret
-        # ----- END OF FUNCTION: allocate ----- #
-
-
-        # ----- FUNCTION: _deallocate ----- #
-        #
-        # PURPOSE:
-        #     The purpose of this function is to give back
-        #     a region of memory to the pool after we are
-        #     done using it.
-        #
-        # PARAMETERS:
-        #     The only parameter is the address of the
-        #     memory we want to return to the memory pool.
-        #
-        # RETURN VALUE:
-        #     There is no return value
-        #
-        # PROCESSING:
-        #     If you remember, we actually hand the program
-        #     the start of the memory that they can use,
-        #     which is 8 storage locations after the actual
-        #     start of the memory region.  All we have to
-        #     do is go back 8 locations and mark that
-        #     memory as available, so that the allocate
-        #     function knows it can use it.
-        #
-            .globl _deallocate
-            .type  _deallocate,   @function
-
-            .equ ST_MEMORY_SEG,  4  # Stack position of the
-                                    # memory region to free
-
-    _deallocate:        # Since the function is so simple,
-                        # we do not need any of the fancy
-                        # function stuff.
-
-                        # Get the address of the memory to
-                        # free (normally this is 8(%ebp),
-                        # but since we did not push %ebp or
-                        # move %esp to %ebp, we can just
-                        # do 4(%esp).
-        movl  ST_MEMORY_SEG(%esp), %eax
-
-
-                                # Get the pointer to the
-                                # real beginning of the
-                                # memory.
-        subl  $HEADER_SIZE, %eax
-
-                                # Mark it as available.
-        movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
-
-        ret
-        # ----- END OF FUNCTION: _deallocate ----- #
+        .equ UNAVAILABLE,    0      # This is the
+                                    # number we will
+                                    # use to mark space
+                                    # that has been
+                                    # given out.
+
+        .equ AVAILABLE,      1      # This is the
+                                    # number we will
+                                    # use to mark space
+                                    # that has been
+                                    # returned, and is
+                                    # available for
+                                    # giving.
+
+        .equ SYS_BRK,        45     # System call
+                                    # number for the
+                                    # break system
+                                    # call.
+
+        .equ LINUX_SYSCALL,  0x80   # Make system calls
+                                    # easier to read.
+
+    .section .text
+    # ----- FUNCTIONS ----- #
+    #
+    # ----- FUNCTION: _allocate_init ----- #
+    #
+    # PURPOSE:
+    #     Call this function to initialize the
+    #     functions (specifically, this sets heap_begin
+    #     and current_break). This has no parameters
+    #     and no return value.
+    #
+        .globl _allocate_init
+        .type  _allocate_init,  @function
+
+_allocate_init:
+    pushl %ebp              # Standard function stuff.
+    movl  %esp, %ebp
+
+    # If the brk system call is called with 0 in %ebx,
+    # it returns the last valid usable address.
+    #
+    movl  $SYS_BRK, %eax    # Find out where the
+    movl  $0, %ebx          # break is.
+    int   $LINUX_SYSCALL
+
+    incl  %eax              # %eax now has the last
+                            # valid address, and we
+                            # want the memory location
+                            # after that.
+
+                            # Store the current break.
+    movl  %eax, current_break
+
+    movl  %eax, heap_begin  # Store the current break
+                            # as our first address.
+                            # This will cause the
+                            # allocate function to get
+                            # more memory from Linux
+                            # the first time it is run.
+
+    movl  %ebp, %esp        # Exit the function.
+    popl  %ebp
+    ret
+
+    # ----- END OF FUNCTION: _allocate_init ----- #
+
+    # ----- FUNCTION: allocate ----- #
+    #
+    # PURPOSE:
+    #     This function is used to grab a section of
+    #     memory. It checks to  see if there are any
+    #     free blocks, and, if not, it asks Linux for
+    #     a new one.
+    #
+    # PARAMETERS:
+    #     This function has one parameter - the size
+    #     of the memory block we want to allocate.
+    #
+    # RETURN VALUE:
+    #     This function returns the address of the
+    #     allocated memory in %eax.  If there is no
+    #     memory available, it will return 0 in %eax.
+    #
+    # PROCESSING:
+    #     Variables used:
+    #       %ecx - hold the size of the requested
+    #       memory (first/only parameter).
+    #       %eax - current memory region being examined
+    #       %ebx - current break position.
+    #       %edx - size of current memory region.
+    #
+    # We scan through each memory region starting with
+    # heap_begin. We look at the size of each one, and
+    # if it has been allocated.  If it is big enough
+    # for the requested size, and its available, it
+    # grabs that one. If it does not find a region
+    # large enough, it asks Linux for more memory.  In
+    # that case, it moves current_break up.
+    #
+        .globl _allocate
+        .type  _allocate,   @function
+
+        .equ ST_MEM_SIZE,  8    # Stack position of the
+                                # memory size to
+                                # allocate.
+
+_allocate:
+    pushl %ebp              # Standard function stuff.
+    movl  %esp, %ebp
+
+                            # %ecx will hold the size
+                            # we are looking for (which
+                            # is the first and only
+                            # parameter).
+                # ST_MEM_SIZE = 8
+    movl  ST_MEM_SIZE(%ebp), %ecx
+                # %ecx <- RECORD_SIZE, 324
+
+    movl  heap_begin, %eax  # %eax will hold the
+                            # current search location.
+
+                            # %ebx will hold the
+                            # current break.
+    movl  current_break, %ebx
+
+
+_alloc_loop_begin:          # Here we iterate through
+                            # each memory region.
+
+                # %eax <- heap_begin
+                # %ebx <- current_break
+    cmpl  %ebx, %eax        # Need more memory if these
+    je    _move_break       # are equal.
+
+                            # Grab the size of this
+                            # memory.
+                # HDR_SIZE_OFFSET = 4
+                # %eax <- heap_begin
+    movl  HDR_SIZE_OFFSET(%eax), %edx
+                # %edx <- HDR_SIZE_OFFSET of heap_begin
+                #         ~ 324
+
+                            # If the space is
+                            # unavailable, go to the
+                            # next one.
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- heap_begin
+    cmpl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+    je    _allocate_init
+
+                # %ecx <- RECORD_SIZE, 324
+                # %edx <- HDR_SIZE_OFFSET of heap_begin
+                #         ~ 324
+    cmpl  %edx, %ecx        # If the space is
+    jle   _allocate_here    # available, compare the
+                            # size to the needed size.
+                            # If its big enough, go to
+                            # _allocate_here.
+
+__next_location:
+                    # The total size of the memory
+                    # region is the sum of the size
+                    # requested (currently stored in
+                    # %edx), plus another 8 bytes for
+                    # the header (4 for the
+                    # AVAILABLE/UNAVAILABLE flag, and
+                    # 4 for the size of the region).
+                    # So, adding %edx and $8 to %eax
+                    # will get the address of the next
+                    # memory region.
+                    #
+                # HEADER_SIZE = 8
+                # %eax <- heap_begin
+    addl  $HEADER_SIZE, %eax
+                # %eax <- heap_begin + HEADER_SIZE
+
+                # %eax <- heap_begin + HEADER_SIZE
+                # %edx <- HDR_SIZE_OFFSET(%eax)
+    addl  %edx, %eax
+                # %eax <- heap_begin + HEADER_SIZE
+                #         + HDR_SIZE_OFFSET
+
+                    # Go look at the next location.
+    jmp   _alloc_loop_begin
+
+_allocate_here:     # If we have made it here, that
+                    # means that the region header of
+                    # the region to allocate is in
+                    # %eax.
+
+                            # Mark space as unavailable
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- heap_begin
+    movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+
+                            # Move %eax past the header
+                            # to the usable memory
+                            # (since that is what we
+                            # return).
+                # HEADER_SIZE = 8
+                # %eax <- heap_begin
+    addl  $HEADER_SIZE, %eax
+                # %eax <- heap_begin + HEADER_SIZE
+
+    movl  %ebp, %esp        # Return from the function.
+    popl  %ebp
+    ret
+
+_move_break:        # If we have made it here, that
+                    # means that we have exhausted all
+                    # addressable memory, and we need
+                    # to ask for more. %ebx holds the
+                    # current endpoint of the data,
+                    # and %ecx holds its size.
+
+                    # We need to increase %ebx to
+                    # where we want memory to end, so
+                    # we add space for the headers
+                    # structure.
+                # HEADER_SIZE = 8
+                # %ebx <- current_break
+    addl  $HEADER_SIZE, %ebx
+                # %ebx <- current_break + HEADER_SIZE
+
+                # ST_MEM_SIZE = 8
+                # HEADER_SIZE = 8
+                # %ecx <- ST_MEM_SIZE(%ebp) ~ 324
+    addl  %ecx, %ebx        # Add space to the break
+                            # for the data requested.
+                # %ebx <- current_break + HEADER_SIZE
+                #         + ST_MEM_SIZE(%ebp) ~ 324
+                #      == 0x???????? + 8 + 324 = ~342
+
+                            # Now its time to ask Linux
+                            # for more memory.
+                # %eax <- heap_begin
+    pushl %eax              # Save needed registers.
+
+    movl  $SYS_BRK, %eax    # Reset the break (%ebx has
+                            # the requested break
+                            # point).
+
+    int   $LINUX_SYSCALL    # Under normal conditions,
+                            # this should return the
+                            # new break in %eax, which
+                            # will be either 0 if it
+                            # fails, or it will be
+                            # equal to or larger than
+                            # we asked for. We do not
+                            # care in this program
+                            # where it actually sets
+                            # the break, so as long as
+                            # %eax is not 0, we do not
+                            # care what it is.
+
+    cmpl  $0, %eax          # Check for error
+    je    _error            # conditions.
+
+                # %eax <- heap_begin
+    popl  %eax              # Restore saved registers.
+
+                            # Set this memory as
+                            # unavailable, since we are
+                            # about to give it away.
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- $heap_begin
+    movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+
+                            # Set the size of the
+                            # memory.
+                # ST_MEM_SIZE = 8
+                # HDR_SIZE_OFFSET = 4
+                # %eax <- $heap_begin
+                # %ecx <- ST_MEM_SIZE(%ebp) ~ 324
+    movl  %ecx, HDR_SIZE_OFFSET(%eax)
+
+                            # Move %eax to the actual
+                            # start of usable memory.
+                            # %eax now holds the return
+                            # value.
+                # %eax <- $heap_begin
+                # HEADER_SIZE = 8
+    addl  $HEADER_SIZE, %eax
+                # %eax <- $heap_begin + HEADER_SIZE
+
+                # %ebx <- current_break + HEADER_SIZE
+                #         + ST_MEM_SIZE(%ebp) ~ 342
+    movl  %ebx, current_break   # Save the new break.
+
+    movl  %ebp, %esp            # Return the function.
+    popl  %ebp
+    ret
+
+_error:
+    movl  $0, %eax          # On error, we return zero.
+    movl  %ebp, %esp
+    popl  %ebp
+    ret
+    # ----- END OF FUNCTION: allocate ----- #
+
+
+    # ----- FUNCTION: _deallocate ----- #
+    #
+    # PURPOSE:
+    #     The purpose of this function is to give back
+    #     a region of memory to the pool after we are
+    #     done using it.
+    #
+    # PARAMETERS:
+    #     The only parameter is the address of the
+    #     memory we want to return to the memory pool.
+    #
+    # RETURN VALUE:
+    #     There is no return value
+    #
+    # PROCESSING:
+    #     If you remember, we actually hand the program
+    #     the start of the memory that they can use,
+    #     which is 8 storage locations after the actual
+    #     start of the memory region.  All we have to
+    #     do is go back 8 locations and mark that
+    #     memory as available, so that the allocate
+    #     function knows it can use it.
+    #
+        .globl _deallocate
+        .type  _deallocate,   @function
+
+        .equ ST_MEMORY_SEG,  4  # Stack position of the
+                                # memory region to free
+
+_deallocate:        # Since the function is so simple,
+                    # we do not need any of the fancy
+                    # function stuff.
+
+                    # Get the address of the memory to
+                    # free (normally this is 8(%ebp),
+                    # but since we did not push %ebp or
+                    # move %esp to %ebp, we can just
+                    # do 4(%esp).
+    movl  ST_MEMORY_SEG(%esp), %eax
+
+                            # Get the pointer to the
+                            # real beginning of the
+                            # memory.
+    subl  $HEADER_SIZE, %eax
+
+                            # Mark it as available.
+    movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
+
+    ret
+    # ----- END OF FUNCTION: _deallocate ----- #
+```
 
 The first thing to notice is that there is no `_start` symbol. The
 reason is that this is just a set of functions. A memory manager by
@@ -6097,7 +6770,9 @@ utility to be used by other programs.
 
 To assemble the program, do the following:
 
-    as -o alloc.o  alloc.s --gstabs+
+``` bash
+as -o 009-02-alloc.o  009-02-alloc.s --gstabs+
+```
 
 Okay, now let's look at the code.
 
@@ -6105,11 +6780,15 @@ Okay, now let's look at the code.
 
 At the beginning of the program, we have two locations set up:
 
-    heap_begin:
-        .long 0
+``` gnuassembler
+        heap_begin:         # This points to the
+            .long  0        # beginning of the memory
+                            # we are managing.
 
-    current_break:
-        .long 0
+        current_break:      # This points to one
+            .long  0        # location past the memory
+                            # we are managing.
+```
 
 Remember, the section of memory being managed is commonly referred to as
 the *heap*. When we assemble the program, we have no idea where the
@@ -6128,9 +6807,19 @@ lets us know both whether or not this region is big enough for an
 allocation request, as well as the location of the next memory region.
 The following constants describe this record:
 
-    .equ HEADER_SIZE,       8
-    .equ HDR_AVAIL_OFFSET,  0
-    .equ HDR_SIZE_OFFSET,   4
+``` gnuassembler
+        .equ HEADER_SIZE,      8    # Size of space for
+                                    # memory region
+                                    # header.
+
+        .equ HDR_AVAIL_OFFSET, 0    # Location of the
+                                    # "available" flag
+                                    # in the header.
+
+        .equ HDR_SIZE_OFFSET,  4    # Location of the
+                                    # size field in the
+                                    # header.
+```
 
 This says that the header is 8 bytes total, the available flag is offset
 0 bytes from the beginning, and the size field is offset 4 bytes from
@@ -6142,27 +6831,53 @@ The values that we will use for our `available` field are either 0 for
 unavailable, or 1 for available. To make this easier to read, we have
 the following definitions:
 
-    .equ UNAVAILABLE,  0
-    .equ AVAILABLE,    1
+``` gnuassembler
+        .equ UNAVAILABLE,    0      # This is the
+                                    # number we will
+                                    # use to mark space
+                                    # that has been
+                                    # given out.
+
+        .equ AVAILABLE,      1      # This is the
+                                    # number we will
+                                    # use to mark space
+                                    # that has been
+                                    # returned, and is
+                                    # available for
+                                    # giving.
+```
 
 Finally, we have our Linux system call definitions:
 
-    .equ BRK,            45
-    .equ LINUX_SYSCALL,  0x80
+``` gnuassembler
+        .equ SYS_BRK,        45     # System call
+                                    # number for the
+                                    # break system
+                                    # call.
 
-### The `allocate_init` function
+        .equ LINUX_SYSCALL,  0x80   # Make system calls
+                                    # easier to read.
+```
+
+### The `_allocate_init` function
 
 Okay, this is a simple function. All it does is set up the `heap_begin`
 and `current_break` variables we discussed earlier. So, if you remember
 the discussion earlier, the current break can be found using the `brk`
 system call. So, the function starts like this:
 
-    pushl %ebp
+``` gnuassembler
+_allocate_init:
+    pushl %ebp              # Standard function stuff.
     movl  %esp, %ebp
 
-    movl  $SYS_BRK, %eax
-    movl  $0,  %ebx
+    # If the brk system call is called with 0 in %ebx,
+    # it returns the last valid usable address.
+    #
+    movl  $SYS_BRK, %eax    # Find out where the
+    movl  $0, %ebx          # break is.
     int   $LINUX_SYSCALL
+```
 
 Anyway, after `int $LINUX_SYSCALL`, `%eax` holds the last valid address.
 We actually want the first invalid address instead of the last valid
@@ -6170,19 +6885,33 @@ address, so we just increment `%eax`. Then we move that value to the
 `heap_begin` and `current_break` locations. Then we leave the function.
 The code looks like this:
 
-    incl  %eax
+``` gnuassembler
+    incl  %eax              # %eax now has the last
+                            # valid address, and we
+                            # want the memory location
+                            # after that.
+
+                            # Store the current break.
     movl  %eax, current_break
-    movl  %eax, heap_begin
-    movl  %ebp, %esp
+
+    movl  %eax, heap_begin  # Store the current break
+                            # as our first address.
+                            # This will cause the
+                            # allocate function to get
+                            # more memory from Linux
+                            # the first time it is run.
+
+    movl  %ebp, %esp        # Exit the function.
     popl  %ebp
     ret
+```
 
 The heap consists of the memory between `heap_begin` and
 `current_break`, so this says that we start off with a heap of zero
-bytes. Our `allocate` function will then extend the heap as much as it
+bytes. Our `_allocate` function will then extend the heap as much as it
 needs to when it is called.
 
-### The `allocate` function
+### The `_allocate` function
 
 This is the doozy function. Let's start by looking at an outline of the
 function:
@@ -6210,11 +6939,26 @@ comments so you'll know which register holds which value.
 Now that you've looked back through the code, let's examine it one line
 at a time. We start off like this:
 
-    pushl %ebp
+``` gnuassembler
+_allocate:
+    pushl %ebp              # Standard function stuff.
     movl  %esp, %ebp
+
+                            # %ecx will hold the size
+                            # we are looking for (which
+                            # is the first and only
+                            # parameter).
+                # ST_MEM_SIZE = 8
     movl  ST_MEM_SIZE(%ebp), %ecx
-    movl  heap_begin, %eax
+                # %ecx <- RECORD_SIZE, 324
+
+    movl  heap_begin, %eax  # %eax will hold the
+                            # current search location.
+
+                            # %ebx will hold the
+                            # current break.
     movl  current_break, %ebx
+```
 
 This part initializes all of our registers. The first two lines are
 standard function stuff. The next move pulls the size of the memory to
@@ -6222,28 +6966,75 @@ allocate off of the stack. This is our only function parameter. After
 that, it moves the beginning heap address and the end of the heap into
 registers. I am now ready to do processing.
 
-The next section is marked `alloc_loop_begin`. In this loop we are going
-to examine memory regions until we either find an open memory region or
-determine that we need more memory. Our first instructions check to see
-if we need more memory:
+The next section is marked `_alloc_loop_begin`. In this loop we are
+going to examine memory regions until we either find an open memory
+region or determine that we need more memory. Our first instructions
+check to see if we need more memory:
 
-    cmpl %ebx, %eax
-    je   move_break
+``` gnuassembler
+_alloc_loop_begin:          # Here we iterate through
+                            # each memory region.
+
+                # %eax <- heap_begin
+                # %ebx <- current_break
+    cmpl  %ebx, %eax        # Need more memory if these
+    je    _move_break       # are equal.
+```
 
 *%eax* holds the current memory region being examined and *%ebx* holds
 the location past the end of the heap. Therefore if the next region to
 be examined is past the end of the heap, it means we need more memory to
-allocate a region of this size. Let's skip down to `move_break` and see
+allocate a region of this size. Let's skip down to `_move_break` and see
 what happens there:
 
-    move_break:
-        addl  $HEADER_SIZE, %ebx
-        addl  %ecx, %ebx
-        pushl %eax
-        pushl %ecx
-        pushl %ebx
-        movl  $SYS_BRK, %eax
-        int   $LINUX_SYSCALL
+``` gnuassembler
+_move_break:        # If we have made it here, that
+                    # means that we have exhausted all
+                    # addressable memory, and we need
+                    # to ask for more. %ebx holds the
+                    # current endpoint of the data,
+                    # and %ecx holds its size.
+
+                    # We need to increase %ebx to
+                    # where we want memory to end, so
+                    # we add space for the headers
+                    # structure.
+                # HEADER_SIZE = 8
+                # %ebx <- current_break
+    addl  $HEADER_SIZE, %ebx
+                # %ebx <- current_break + HEADER_SIZE
+
+                # ST_MEM_SIZE = 8
+                # HEADER_SIZE = 8
+                # %ecx <- ST_MEM_SIZE(%ebp) ~ 324
+    addl  %ecx, %ebx        # Add space to the break
+                            # for the data requested.
+                # %ebx <- current_break + HEADER_SIZE
+                #         + ST_MEM_SIZE(%ebp) ~ 324
+                #      == 0x???????? + 8 + 324 = ~342
+
+                            # Now its time to ask Linux
+                            # for more memory.
+                # %eax <- heap_begin
+    pushl %eax              # Save needed registers.
+
+    movl  $SYS_BRK, %eax    # Reset the break (%ebx has
+                            # the requested break
+                            # point).
+
+    int   $LINUX_SYSCALL    # Under normal conditions,
+                            # this should return the
+                            # new break in %eax, which
+                            # will be either 0 if it
+                            # fails, or it will be
+                            # equal to or larger than
+                            # we asked for. We do not
+                            # care in this program
+                            # where it actually sets
+                            # the break, so as long as
+                            # %eax is not 0, we do not
+                            # care what it is.
+```
 
 When we reach this point in the code, *%ebx* holds where we want the
 next region of memory to be. So, we add our header size and region size
@@ -6251,37 +7042,82 @@ to *%ebx*, and that's where we want the system break to be. We then push
 all the registers we want to save on the stack, and call the `brk`
 system call. After that we check for errors:
 
-    cmpl  $0, %eax
-    je    error
+``` gnuassembler
+    cmpl  $0, %eax          # Check for error
+    je    _error            # conditions.
+```
 
 If there were no errors we pop the registers back off the stack, mark
 the memory as unavailable, record the size of the memory, and make sure
 *%eax* points to the start of usable memory (which is *after* the
 header).
 
-    popl  %ebx
-    popl  %ecx
-    popl  %eax
+``` gnuassembler
+                # %eax <- heap_begin
+    popl  %eax              # Restore saved registers.
+
+                            # Set this memory as
+                            # unavailable, since we are
+                            # about to give it away.
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- $heap_begin
     movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+
+                            # Set the size of the
+                            # memory.
+                # ST_MEM_SIZE = 8
+                # HDR_SIZE_OFFSET = 4
+                # %eax <- $heap_begin
+                # %ecx <- ST_MEM_SIZE(%ebp) ~ 324
     movl  %ecx, HDR_SIZE_OFFSET(%eax)
+
+                            # Move %eax to the actual
+                            # start of usable memory.
+                            # %eax now holds the return
+                            # value.
+                # %eax <- $heap_begin
+                # HEADER_SIZE = 8
     addl  $HEADER_SIZE, %eax
+                # %eax <- $heap_begin + HEADER_SIZE
+```
 
 Then we store the new program break and return the pointer to the
 allocated memory.
 
-    movl  %ebx, current_break
-    movl  %ebp, %esp
+``` gnuassembler
+                # %ebx <- current_break + HEADER_SIZE
+                #         + ST_MEM_SIZE(%ebp) ~ 342
+    movl  %ebx, current_break   # Save the new break.
+
+    movl  %ebp, %esp            # Return the function.
     popl  %ebp
     ret
+```
 
-The `error` code just returns 0 in *%eax*, so we won't discuss it.
+The `_error` code just returns 0 in *%eax*, so we won't discuss it.
 
 Let's go back look at the rest of the loop. What happens if the current
 memory being looked at isn't past the end of the heap? Well, let's look.
 
-    movl HDR_SIZE_OFFSET(%eax), %edx
-    cmpl $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-    je   next_location
+``` gnuassembler
+                            # Grab the size of this
+                            # memory.
+                # HDR_SIZE_OFFSET = 4
+                # %eax <- heap_begin
+    movl  HDR_SIZE_OFFSET(%eax), %edx
+                # %edx <- HDR_SIZE_OFFSET of heap_begin
+                #         ~ 324
+
+                            # If the space is
+                            # unavailable, go to the
+                            # next one.
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- heap_begin
+    cmpl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+    je    _allocate_init
+```
 
 This first grabs the size of the memory region and puts it in *%edx*.
 Then it looks at the available flag to see if it is set to
@@ -6294,19 +7130,47 @@ Let's say that the space was available, and so we keep going. Then we
 check to see if this space is big enough to hold the requested amount of
 memory. The size of this region is being held in *%edx*, so we do this:
 
-    cmpl  %edx, %ecx
-    jle   allocate_here
+``` gnuassembler
+                # %ecx <- RECORD_SIZE, 324
+                # %edx <- HDR_SIZE_OFFSET of heap_begin
+                #         ~ 324
+    cmpl  %edx, %ecx        # If the space is
+    jle   _allocate_here    # available, compare the
+                            # size to the needed size.
+                            # If its big enough, go to
+                            # _allocate_here.
+```
 
 If the requested size is less than or equal to the current region's
 size, we can use this block. It doesn't matter if the current region is
 larger than requested, because the extra space will just be unused. So,
-let's jump down to `allocate_here` and see what happens:
+let's jump down to `_allocate_here` and see what happens:
 
+``` gnuassembler
+_allocate_here:     # If we have made it here, that
+                    # means that the region header of
+                    # the region to allocate is in
+                    # %eax.
+
+                            # Mark space as unavailable
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- heap_begin
     movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+
+                            # Move %eax past the header
+                            # to the usable memory
+                            # (since that is what we
+                            # return).
+                # HEADER_SIZE = 8
+                # %eax <- heap_begin
     addl  $HEADER_SIZE, %eax
-    movl  %ebp, %esp
+                # %eax <- heap_begin + HEADER_SIZE
+
+    movl  %ebp, %esp        # Return from the function.
     popl  %ebp
     ret
+```
 
 It marks the memory as being unavailable. Then it moves the pointer
 *%eax* past the header, and uses it as the return value for the
@@ -6315,7 +7179,7 @@ know about our memory header record. They just need a pointer to usable
 memory.
 
 Okay, so let's say the region wasn't big enough. What then? Well, we
-would then be at the code labeled `next_location`. This section of code
+would then be at the code labeled `_next_location`. This section of code
 is used any time that we figure out that the current memory region won't
 work for allocating memory. All it does is advance *%eax* to the next
 possible memory region, and goes back to the beginning of the loop.
@@ -6323,9 +7187,33 @@ Remember that *%edx* is holding the size of the current memory region,
 and `HEADER_SIZE` is the symbol for the size of the memory region's
 header. So this code will move us to the next memory region:
 
+``` gnuassembler
+__next_location:
+                    # The total size of the memory
+                    # region is the sum of the size
+                    # requested (currently stored in
+                    # %edx), plus another 8 bytes for
+                    # the header (4 for the
+                    # AVAILABLE/UNAVAILABLE flag, and
+                    # 4 for the size of the region).
+                    # So, adding %edx and $8 to %eax
+                    # will get the address of the next
+                    # memory region.
+                    #
+                # HEADER_SIZE = 8
+                # %eax <- heap_begin
     addl  $HEADER_SIZE, %eax
+                # %eax <- heap_begin + HEADER_SIZE
+
+                # %eax <- heap_begin + HEADER_SIZE
+                # %edx <- HDR_SIZE_OFFSET(%eax)
     addl  %edx, %eax
-    jmp   alloc_loop_begin
+                # %eax <- heap_begin + HEADER_SIZE
+                #         + HDR_SIZE_OFFSET
+
+                    # Go look at the next location.
+    jmp   _alloc_loop_begin
+```
 
 And now the function runs another loop.
 
@@ -6346,17 +7234,35 @@ region, we will eventually reach the end of the heap, because it is a
 finite size. Therefore, we know that no matter which condition is true,
 the loop has to eventually hit a terminating condition.
 
-### The `deallocate` function
+### The `_deallocate` function
 
-The `deallocate` function is much easier than the `allocate` one. That's
-because it doesn't have to do any searching at all. It can just mark the
-current memory region as `AVAILABLE`, and `allocate` will find it next
-time it is called. So we have:
+The `_deallocate` function is much easier than the `_allocate` one.
+That's because it doesn't have to do any searching at all. It can just
+mark the current memory region as `AVAILABLE`, and `_allocate` will find
+it next time it is called. So we have:
 
+``` gnuassembler
+_deallocate:        # Since the function is so simple,
+                    # we do not need any of the fancy
+                    # function stuff.
+
+                    # Get the address of the memory to
+                    # free (normally this is 8(%ebp),
+                    # but since we did not push %ebp or
+                    # move %esp to %ebp, we can just
+                    # do 4(%esp).
     movl  ST_MEMORY_SEG(%esp), %eax
+
+                            # Get the pointer to the
+                            # real beginning of the
+                            # memory.
     subl  $HEADER_SIZE, %eax
+
+                            # Mark it as available.
     movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
+
     ret
+```
 
 In this function, we don't have to save *%ebp* or *%esp* since we're not
 changing them, nor do we have to restore them at the end. All we're
@@ -6384,10 +7290,10 @@ can see how this could get really, really slow.[48] This method is said
 to run in *linear* time, which means that every element you have to
 manage makes your program take longer. A program that runs in *constant*
 time takes the same amount of time no matter how many elements you are
-managing. Take the `deallocate` function, for instance. It only runs 4
+managing. Take the `_deallocate` function, for instance. It only runs 4
 instructions, no matter how many elements we are managing, or where they
-are in memory. In fact, although our `allocate` function is one of the
-slowest of all memory managers, the `deallocate` function is one of the
+are in memory. In fact, although our `_allocate` function is one of the
+slowest of all memory managers, the `_deallocate` function is one of the
 fastest.
 
 Another performance problem is the number of times we're calling the
@@ -6424,56 +7330,167 @@ a memory manager. Therefore, we will just use our memory manager to
 allocate a buffer for one of our file reading/writing programs instead
 of assigning it in the `.bss`.
 
-The program we will demonstrate this on is `006-01-read-records.s` from
+The program we will demonstrate this on is `009-02-read-records.s` from
 [Chapter 6. Reading and Writing Simple
 Records](#chapter-6-reading-and-writing-simple-records). This program
-uses a buffer named `record_buffer` to handle its input/output needs. We
-will simply change this from being a buffer defined in `.bss` to being a
-pointer to a dynamically-allocated buffer using our memory manager. You
-will need to have the code from that program handy as we will only be
-discussing the changes in this section.
+uses a buffer named `_record_buffer` to handle its input/output needs.
+We will simply change this from being a buffer defined in `.bss` to
+being a pointer to a dynamically-allocated buffer using our memory
+manager. You will need to have the code from that program handy as we
+will only be discussing the changes in this section.
+
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
+    .include "006-01-record-def.s" # Record definitions
+
+    .section .data
+        file_name:
+            .ascii "test.dat\0"
+
+    .section .bss
+        .lcomm record_buffer,  RECORD_SIZE
+
+    .section .text
+        .globl _start
+
+_start:
+    # ----- Main Program ----- #
+    #
+    # These are the locations on the stack where we
+    # will store the input and output descriptors
+    # (FYI - we could have used memory addresses in a
+    # .data section instead).
+    #
+    .equ ST_INPUT_DESCRIPTOR,   -4
+    .equ ST_OUTPUT_DESCRIPTOR,  -8
+
+    movl  %esp, %ebp        # Copy the stack pointer to
+                            # %ebp.
+    subl  $8, %esp          # Allocate space to hold
+                            # the file descriptors.
+
+    movl  $SYS_OPEN, %eax   # Open the file.
+    movl  $file_name, %ebx
+    movl  $0, %ecx          # This says to open
+                            # read-only.
+    movl  $0666, %edx
+    int   $LINUX_SYSCALL
+
+    # ----- Save file descriptor ----- #
+    #
+    movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
+
+    # Even though it is a constant, we are saving the
+    # output file descriptor in a local variable so
+    # that if we later decide that it is not always
+    # going to be STDOUT, we can change it easily.
+    #
+    movl  $STDOUT, ST_OUTPUT_DESCRIPTOR(%ebp)
+
+_record_read_loop:
+    pushl ST_INPUT_DESCRIPTOR(%ebp)
+    pushl $record_buffer
+    call  _read_record
+    addl  $8, %esp
+
+    # Returns the number of bytes read. If it is not
+    # the same number we requested, then it is either
+    # an end-of-file, or an error, so we are quitting.
+    #
+    cmpl  $RECORD_SIZE, %eax
+    jne   _finished_reading
+
+    # Otherwise, print out the first name but we must
+    # know the size.
+    #
+    pushl  $RECORD_FIRSTNAME + record_buffer
+    call   _count_chars
+    addl   $4, %esp
+
+    movl   %eax, %edx
+    movl   ST_OUTPUT_DESCRIPTOR(%ebp), %ebx
+    movl   $SYS_WRITE, %eax
+    movl   $RECORD_FIRSTNAME + record_buffer, %ecx
+    int    $LINUX_SYSCALL
+
+    pushl  ST_OUTPUT_DESCRIPTOR(%ebp)
+    call   _write_newline
+    addl   $4, %esp
+
+    jmp    _record_read_loop
+
+_finished_reading:
+    movl   $SYS_EXIT, %eax
+    movl   $0, %ebx
+    int    $LINUX_SYSCALL
+```
 
 The first change we need to make is in the declaration. Currently it
 looks like this:
 
+``` gnuassembler
+    .section .data
+        file_name:
+            .ascii "test.dat\0"
+
     .section .bss
-    .lcomm, record_buffer, RECORD_SIZE
+        .lcomm record_buffer,  RECORD_SIZE
+```
 
 It would be a misnomer to keep the same name, since we are switching it
 from being an actual buffer to being a pointer to a buffer. In addition,
 it now only needs to be one word big (enough to hold a pointer). The new
 declaration will stay in the `.data` section and look like this:
 
-    record_buffer_ptr:
-        .long 0
+``` gnuassembler
+    .section .data
+        file_name:
+            .ascii "test.dat\0"
+
+        record_buffer_ptr:
+            .long 0
+
+    .section .bss
+        .lcomm record_buffer,  RECORD_SIZE
+```
 
 Our next change is we need to initialize our memory manager immediately
 after we start our program. Therefore, right after the stack is set up,
 the following call needs to be added:
 
-    call allocate_init
+``` gnuassembler
+    call _allocate_init
+```
 
 After that, the memory manager is ready to start servicing memory
 allocation requests. We need to allocate enough memory to hold these
-records that we are reading. Therefore, we will call `allocate` to
+records that we are reading. Therefore, we will call `_allocate` to
 allocate this memory, and then save the pointer it returns into
 `record_buffer_ptr`. Like this:
 
+``` gnuassembler
     pushl $RECORD_SIZE
-    call  allocate
+    call  _allocate
     movl  %eax, record_buffer_ptr
+```
 
-Now, when we make the call to `read_record`, it is expecting a pointer.
+Now, when we make the call to `_read_record`, it is expecting a pointer.
 In the old code, the pointer was the immediate-mode reference to
-`record_buffer`. Now, `record_buffer_ptr` just holds the pointer rather
+`_record_buffer`. Now, `record_buffer_ptr` just holds the pointer rather
 than the buffer itself. Therefore, we must do a direct mode load to get
 the value in `record_buffer_ptr`. We need to remove this line:
 
+``` gnuassembler
     pushl $record_buffer
+```
 
 And put this line in its place:
 
+``` gnuassembler
     pushl record_buffer_ptr
+```
 
 The next change comes when we are trying to find the address of the
 firstname field of our record. In the old code, it was
@@ -6484,38 +7501,54 @@ we will need to move the pointer into a register, and then add
 `$RECORD_FIRSTNAME` to it to get the pointer. So where we have the
 following code:
 
-    pushl $RECORD_FIRSTNAME + record_buffer
+``` gnuassembler
+    pushl  $RECORD_FIRSTNAME + record_buffer
+```
 
 We need to replace it with this:
 
+``` gnuassembler
     movl  record_buffer_ptr, %eax
     addl  $RECORD_FIRSTNAME, %eax
     pushl %eax
+```
 
 Similarly, we need to change the line that says
 
-    movl  $RECORD_FIRSTNAME + record_buffer, %ecx
+``` gnuassembler
+    movl   $RECORD_FIRSTNAME + record_buffer, %ecx
+```
 
 so that it reads like this:
 
+``` gnuassembler
     movl  record_buffer_ptr, %ecx
     addl  $RECORD_FIRSTNAME, %ecx
+```
 
 Finally, one change that we need to make is to deallocate the memory
 once we are done with it (in this program it's not necessary, but it's a
 good practice anyway). To do that, we just send `record_buffer_ptr` to
-the `deallocate` function right before exitting:
+the `_deallocate` function right before exitting:
 
+``` gnuassembler
     pushl record_buffer_ptr
-    call  deallocate
+    call  _deallocate
+```
 
 Now you can build your program with the following commands:
 
-    as -o 006-01-read-records.o  006-01-read-records.s --gstabs+
-    ld -o 006-01-read-records    alloc.o read-record.o 006-01-read-records.o \
-                          write-newline.o count-chars.o
+``` bash
+as -o 009-02-read-records.o  009-02-read-records.s --gstabs+
 
-You can then run your program by doing `./006-01-read-records`.
+ld -o 009-02-read-records    006-01-count-chars.o \
+                             006-01-read-record.o \
+                             006-01-write-newline.o \
+                             009-02-alloc.o \
+                             009-02-read-records.o
+```
+
+You can then run your program by doing `./009-02-read-records`.
 
 The uses of dynamic memory allocation may not be apparent to you at this
 point, but as you go from academic exercises to real-life programs you
@@ -6575,7 +7608,7 @@ Review
 
 ### Use the Concepts
 
--   Modify the memory manager so that it calls `allocate_init`
+-   Modify the memory manager so that it calls `_allocate_init`
     automatically if it hasn't been initialized.
 
 -   Modify the memory manager so that if the requested size of memory is
@@ -6936,11 +7969,15 @@ produces 0. Well, the XOR operation is faster than the loading
 operation, so many programmers use it to load a register with zero. For
 example, the code:
 
-    movl  $0, %eax
+``` gnuassembler
+movl  $0, %eax
+```
 
 Is often replaced by:
 
-    xorl  %eax, %eax
+``` gnuassembler
+xorl  %eax, %eax
+```
 
 We'll discuss speed more in [Chapter 12.
 Optimization](#chapter-12-optimization), but I want you to see how
@@ -7069,32 +8106,34 @@ This will make the value of the register 1 if my Dad likes dressy
 clothes, and 0 if he doesn't. Then we can do a comparison to 1 and print
 the results. The code would look like this:
 
-    # NOTE: Assume that the register %ebx holds.
-    #
-    # My Dad's preferences
-    #
-    movl  %ebx, %eax    # This copies the information into
-                        # %eax so we don't lose the
-                        # original data.
+``` gnuassembler
+# NOTE: Assume that the register %ebx holds.
+#
+# My Dad's preferences
+#
+movl  %ebx, %eax    # This copies the information into
+                    # %eax so we don't lose the
+                    # original data.
 
-    shrl  $1, %eax      # This is the shift operator.
-                        # It stands for Shift Right Long.
-                        # This first number is the number
-                        # of positions to shift,
-                        # and the second is the register
-                        # to shift.
+shrl  $1, %eax      # This is the shift operator.
+                    # It stands for Shift Right Long.
+                    # This first number is the number
+                    # of positions to shift,
+                    # and the second is the register
+                    # to shift.
 
-                                # This does the masking.
-    andl  $0b00000000000000000000000000000001, %eax
+                            # This does the masking.
+andl  $0b00000000000000000000000000000001, %eax
 
-                                # Check to see if the
-                                # result is 1 or 0.
-    cmpl  $0b00000000000000000000000000000001, %eax
+                            # Check to see if the
+                            # result is 1 or 0.
+cmpl  $0b00000000000000000000000000000001, %eax
 
 
-    je    yes_he_likes_dressy_clothes
+je    yes_he_likes_dressy_clothes
 
-    jmp   no_he_doesnt_like_dressy_clothes
+jmp   no_he_doesnt_like_dressy_clothes
+```
 
 And then we would have two labels which printed something about whether
 or not he likes dressy clothes and then exits. The `0b` notation means
@@ -7347,16 +8386,22 @@ The most important number to remember in hexadecimal is `f`, which means
 that all bits are set. So, if I want to set all of the bits of a
 register to 1, I can just do:
 
-    movl  $0xFFFFFFFF, %eax
+``` gnuassembler
+movl  $0xFFFFFFFF, %eax
+```
 
 Which is considerably easier and less error-prone than writing:
 
-    movl  $0b11111111111111111111111111111111, %eax
+``` gnuassembler
+movl  $0b11111111111111111111111111111111, %eax
+```
 
 Note also that hexadecimal numbers are prefixed with `0x`. So, when we
 do
 
-    int   $0x80
+``` gnuassembler
+int   $0x80
+```
 
 We are calling interrupt number 128 (8 groups of 16), or interrupt
 number `0b00000000000000000000000010000000`.
@@ -7458,185 +8503,191 @@ pushed them on.
 The code for the function should be put in a file called
 `integer-to-string.s` and should be entered as follows:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        # PURPOSE:
-        #     Convert an integer number to a decimal string
-        #     for display.
-        #
-        # INPUT:
-        #     A buffer large enough to hold the largest
-        #     possible number an integer to convert.
-        #
-        # OUTPUT:
-        #     The buffer will be overwritten with the
-        #     decimal string.
-        #
-        # Variables:
-        #     %ecx will hold the count of characters
-        #     processed.
-        #     %eax will hold the current value.
-        #     %edi will hold the base (10).
-        #
-            .equ ST_VALUE,   8
-            .equ ST_BUFFER,  12
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     Convert an integer number to a decimal string
+    #     for display.
+    #
+    # INPUT:
+    #     A buffer large enough to hold the largest
+    #     possible number an integer to convert.
+    #
+    # OUTPUT:
+    #     The buffer will be overwritten with the
+    #     decimal string.
+    #
+    # Variables:
+    #     %ecx will hold the count of characters
+    #     processed.
+    #     %eax will hold the current value.
+    #     %edi will hold the base (10).
+    #
+        .equ ST_VALUE,   8
+        .equ ST_BUFFER,  12
 
-            .globl _integer2string
-            .type  _integer2string,  @function
+        .globl _integer2string
+        .type  _integer2string,  @function
 
-    _integer2string:
-        pushl %ebp              # Normal function beginning
-        movl  %esp, %ebp
+_integer2string:
+    pushl %ebp              # Normal function beginning
+    movl  %esp, %ebp
 
-        movl  $0, %ecx          # Current character count.
+    movl  $0, %ecx          # Current character count.
 
-                                # Move the value into
-                                # position.
-        movl  ST_VALUE(%ebp), %eax
+                            # Move the value into
+                            # position.
+    movl  ST_VALUE(%ebp), %eax
 
-        movl  $10, %edi         # When we divide by 10, the
-                                # 10 must be in a register
-                                # or memory location.
+    movl  $10, %edi         # When we divide by 10, the
+                            # 10 must be in a register
+                            # or memory location.
 
-    _conversion_loop:
-        # Division is actually performed on the combined
-        # %edx:%eax register, so first clear out %edx.
-        #
-        movl  $0, %edx
+_conversion_loop:
+    # Division is actually performed on the combined
+    # %edx:%eax register, so first clear out %edx.
+    #
+    movl  $0, %edx
 
-        # Divide %edx:%eax (which are implied) by 10. Store
-        # the quotient in %eax and the remainder in %edx
-        # (both of which are implied).
-        #
-        divl  %edi
+    # Divide %edx:%eax (which are implied) by 10. Store
+    # the quotient in %eax and the remainder in %edx
+    # (both of which are implied).
+    #
+    divl  %edi
 
-        # Quotient is in the right place.  %edx has the
-        # remainder, which now needs to be converted into a
-        # number.  So, %edx has a number that is 0 through
-        # 9.  You could also interpret this as an index on
-        # the ASCII table starting from the character '0'.
-        # The ascii code for '0' plus zero is still the
-        # ascii code for '0'.  The ascii code for '0' plus
-        # 1 is the ascii code for the character '1'.
-        # Therefore, the following instruction will give us
-        # the character for the number stored in %edx.
-        #
-        addl  $'0', %edx
+    # Quotient is in the right place.  %edx has the
+    # remainder, which now needs to be converted into a
+    # number.  So, %edx has a number that is 0 through
+    # 9.  You could also interpret this as an index on
+    # the ASCII table starting from the character '0'.
+    # The ascii code for '0' plus zero is still the
+    # ascii code for '0'.  The ascii code for '0' plus
+    # 1 is the ascii code for the character '1'.
+    # Therefore, the following instruction will give us
+    # the character for the number stored in %edx.
+    #
+    addl  $'0', %edx
 
-        # Now we will take this value and push it on the
-        # stack.  This way, when we are done, we can just
-        # pop off the characters one-by-one and they will
-        # be in the right order.  Note that we are pushing
-        # the whole register, but we only need the byte in
-        # %dl (the last byte of the %edx register) for the
-        # character.
-        #
-        pushl %edx
+    # Now we will take this value and push it on the
+    # stack.  This way, when we are done, we can just
+    # pop off the characters one-by-one and they will
+    # be in the right order.  Note that we are pushing
+    # the whole register, but we only need the byte in
+    # %dl (the last byte of the %edx register) for the
+    # character.
+    #
+    pushl %edx
 
-        incl  %ecx              # Increment the digit count
+    incl  %ecx              # Increment the digit count
 
-        cmpl  $0, %eax          # Check to see if %eax is
-                                # zero yet,
-        je    _end_conversion_loop  # go to next step if so
-                                # %eax already has its new
-                                # value.
+    cmpl  $0, %eax          # Check to see if %eax is
+                            # zero yet,
+    je    _end_conversion_loop  # go to next step if so
+                            # %eax already has its new
+                            # value.
 
-        jmp _conversion_loop
+    jmp _conversion_loop
 
-    _end_conversion_loop:
-        # The string is now on the stack, if we pop it off
-        # a character at a time we can copy it into the
-        # buffer and be done.
-        #
-        movl  ST_BUFFER(%ebp), %edx     # Get the pointer
-                                        # to the buffer in
-                                        # %edx.
+_end_conversion_loop:
+    # The string is now on the stack, if we pop it off
+    # a character at a time we can copy it into the
+    # buffer and be done.
+    #
+    movl  ST_BUFFER(%ebp), %edx     # Get the pointer
+                                    # to the buffer in
+                                    # %edx.
 
-    _copy_reversing_loop:
-        # We pushed a whole register, but we only need the
-        # last byte.  So we are going to pop off to the
-        # entire %eax register, but then only move the
-        # small part (%al) into the character string.
-        #
-        popl  %eax
-        movb  %al, (%edx)
+_copy_reversing_loop:
+    # We pushed a whole register, but we only need the
+    # last byte.  So we are going to pop off to the
+    # entire %eax register, but then only move the
+    # small part (%al) into the character string.
+    #
+    popl  %eax
+    movb  %al, (%edx)
 
-        decl  %ecx              # Decreasing %ecx so we
-                                # know when we are finished
+    decl  %ecx              # Decreasing %ecx so we
+                            # know when we are finished
 
-        incl  %edx              # Increasing %edx so that
-                                # it will be pointing to
-                                # the next byte.
+    incl  %edx              # Increasing %edx so that
+                            # it will be pointing to
+                            # the next byte.
 
-        cmpl  $0, %ecx          # Check to see if we are
-                                # finished.
-        je    _end_copy_reversing_loop  # If so, jump to
-                                        # the end of the
-                                        # function.
-        jmp   _copy_reversing_loop      # Otherwise, repeat
-                                        # the loop.
+    cmpl  $0, %ecx          # Check to see if we are
+                            # finished.
+    je    _end_copy_reversing_loop  # If so, jump to
+                                    # the end of the
+                                    # function.
+    jmp   _copy_reversing_loop      # Otherwise, repeat
+                                    # the loop.
 
-    _end_copy_reversing_loop:
-        movb  $0, (%edx)        # Done copying.  Now write
-                                # a null byte and return.
+_end_copy_reversing_loop:
+    movb  $0, (%edx)        # Done copying.  Now write
+                            # a null byte and return.
 
-        movl  %ebp, %esp
-        popl  %ebp
-        ret
+    movl  %ebp, %esp
+    popl  %ebp
+    ret
+```
 
 To show this used in a full program, use the following code, along with
 the `_count_chars` and `_write_newline` functions written about in
 previous chapters. The code should be in a file called
 `conversion-program.s`.
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
-        #
-        .include "006-01-linux.s"      # Linux Definitions.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    .include "006-01-linux.s"      # Linux Definitions.
 
-        .section .data          # This is where it will be
-            tmp_buffer:         # stored.
-                .ascii "\0\0\0\0\0\0\0\0\0\0\0"
+    .section .data          # This is where it will be
+        tmp_buffer:         # stored.
+            .ascii "\0\0\0\0\0\0\0\0\0\0\0"
 
-        .section .text
-            .globl _start
+    .section .text
+        .globl _start
 
-    _start:
-        movl  %esp, %ebp
+_start:
+    movl  %esp, %ebp
 
-        pushl $tmp_buffer       # Storage for the result.
-        pushl $824              # Number to convert.
-        call  integer2string
-        addl  $8, %esp
+    pushl $tmp_buffer       # Storage for the result.
+    pushl $824              # Number to convert.
+    call  integer2string
+    addl  $8, %esp
 
-        pushl $tmp_buffer       # Get the character count
-                                # for our system call.
-        call  _count_chars
-        addl  $4, %esp
+    pushl $tmp_buffer       # Get the character count
+                            # for our system call.
+    call  _count_chars
+    addl  $4, %esp
 
-        movl  %eax, %edx        # The count goes in %edx
-                                # for SYS_WRITE.
+    movl  %eax, %edx        # The count goes in %edx
+                            # for SYS_WRITE.
 
-        movl  $SYS_WRITE, %eax  # Make the system call.
-        movl  $STDOUT, %ebx
-        movl  $tmp_buffer, %ecx
+    movl  $SYS_WRITE, %eax  # Make the system call.
+    movl  $STDOUT, %ebx
+    movl  $tmp_buffer, %ecx
 
-        int   $LINUX_SYSCALL
+    int   $LINUX_SYSCALL
 
-        pushl $STDOUT           # Write a carriage return.
-        call  _write_newline
+    pushl $STDOUT           # Write a carriage return.
+    call  _write_newline
 
-        movl  $SYS_EXIT, %eax   # Exit.
-        movl  $0, %ebx
-        int   $LINUX_SYSCALL
+    movl  $SYS_EXIT, %eax   # Exit.
+    movl  $0, %ebx
+    int   $LINUX_SYSCALL
+```
 
 To build the program, issue the following commands:
 
-    as -o integer-to-number.o     integer-to-string.s  --gstabs+
-    as -o 006-01-count-chars.o    006-01-count-chars.s        --gstabs+
-    as -o 006-01-write-newline.o  006-01-write-newline.s      --gstabs+
-    as -o conversion-program.o    conversion-program.s --gstabs+
-    ld -o conversion-program      integer-to-number.o count-chars.o \
-                                  write-newline.o conversion-program.o
+``` bash
+as -o integer-to-number.o     integer-to-string.s  --gstabs+
+as -o 006-01-count-chars.o    006-01-count-chars.s        --gstabs+
+as -o 006-01-write-newline.o  006-01-write-newline.s      --gstabs+
+as -o conversion-program.o    conversion-program.s --gstabs+
+ld -o conversion-program      integer-to-number.o count-chars.o \
+                              write-newline.o conversion-program.o
+```
 
 To run just type `./conversion-program` and the output should say `824`.
 
@@ -7816,32 +8867,38 @@ Your First C Program
 Here is your first C program, which prints "Hello world" to the screen
 and exits. Type it in, and give it the name `hello-world.c`:
 
-    #include <stdio.h>
+``` c
+#include <stdio.h>
 
-    /* PURPOSE:
-     *     This program is mean to show a basic C program.
-     *     All it does is print "Hello World!" to the
-     *     screen and exit.
-     * /
+/* PURPOSE:
+ *     This program is mean to show a basic C program.
+ *     All it does is print "Hello World!" to the
+ *     screen and exit.
+ * /
 
-    /* Main Program */
-    int main(int argc, char **argv)
-    {
-        /* Print our string to standard output */
-        puts("Hello World!\n");
+/* Main Program */
+int main(int argc, char **argv)
+{
+    /* Print our string to standard output */
+    puts("Hello World!\n");
 
-        /* Exit with status 0 */
-        return 0;
-    }
+    /* Exit with status 0 */
+    return 0;
+}
+```
 
 As you can see, it's a pretty simple program. To compile it, run the
 command:
 
-    gcc -o hello-world-c  hello-world.c
+``` bash
+gcc -o hello-world-c  hello-world.c
+```
 
 To run the program, do:
 
-    ./hello-world-c
+``` bash
+./hello-world-c
+```
 
 Let's look at how this program was put together.
 
@@ -7922,14 +8979,18 @@ most often on Linux and UNIX-based ones. Anyway, here is the Perl
 version of the program, which should be typed into a file named
 `hello-world.pl`:
 
-    #!/usr/bin/perl
+``` perl
+#!/usr/bin/perl
 
-    print("Hello world!\n");
+print("Hello world!\n");
+```
 
 Since Perl is interpreted, you don't need to compile or link it. Just
 run in with the following command:
 
-    perl hello-world.pl
+``` bash
+perl hello-world.pl
+```
 
 As you can see, the Perl version is even shorter than the C version.
 With Perl you don't have to declare any functions or program entry
@@ -7969,14 +9030,18 @@ one. However, Python is really a very different language than Perl, even
 if it doesn't seem so from this trivial example. Type the program into a
 file named `hello-world.py`. The program follows:
 
-    #!/usr/bin/python
+``` python
+#!/usr/bin/python
 
-    print "Hello World"
+print "Hello World"
+```
 
 Since Python is interpreted, you don't need to compile or link it. Just
 run in with the following command:
 
-    python hello-world.py
+``` bash
+python hello-world.py
+```
 
 You should be able to tell what the different lines of the program do.
 
@@ -8656,276 +9721,280 @@ application. When that button is clicked it will ask you if you are
 sure, and if you click yes it will close the application. To run this
 program, type in the following as `gnome-example.s`:
 
-        # Assemble with `as --32` and `ld -m elf_i386`.
+``` gnuassembler
+    # Assemble with `as --32` and `ld -m elf_i386`.
+    #
+    # PURPOSE:
+    #     This program is meant to be an example of
+    #     what GUI programs look like written with the
+    #     GNOME libraries.
+    #
+    # INPUT:
+    #     The user can only click on the "Quit" button
+    #     or close the window.
+    #
+    # OUTPUT:
+    #     The application will close.
+    #
+    # PROCESS:
+    #     If the user clicks on the "Quit" button, the
+    #     program will display a dialog asking if they
+    #     are sure.  If they click Yes, it will close
+    #     the application.  Otherwise it will continue
+    #     running.
+    #
+    .section .data
+        # GNOME definitions:
+        #     These were found in the GNOME header
+        #     files for the C language and converted
+        #     into their assembly equivalents.
         #
-        # PURPOSE:
-        #     This program is meant to be an example of
-        #     what GUI programs look like written with the
-        #     GNOME libraries.
+        GNOME_STOCK_BUTTON_YES:   # GNOME Button Names.
+            .ascii "Button_Yes\0"
+
+        GNOME_STOCK_BUTTON_NO:
+            .ascii "Button_No\0"
+
+                            # Gnome MessageBox Types.
+        GNOME_MESSAGE_BOX_QUESTION:
+            .ascii "question\0"
+
+        .equ NULL, 0        # Standard definition of
+                            # NULL.
+
+        signal_destroy:     # GNOME signal definitions.
+            .ascii "destroy\0"
+
+        signal_delete_event:
+            .ascii "delete_event\0"
+
+        signal_clicked:
+            .ascii "clicked\0"
+
+        # --- Application-specific definitions --- #
         #
-        # INPUT:
-        #     The user can only click on the "Quit" button
-        #     or close the window.
-        #
-        # OUTPUT:
-        #     The application will close.
-        #
-        # PROCESS:
-        #     If the user clicks on the "Quit" button, the
-        #     program will display a dialog asking if they
-        #     are sure.  If they click Yes, it will close
-        #     the application.  Otherwise it will continue
-        #     running.
-        #
-        .section .data
-            # GNOME definitions:
-            #     These were found in the GNOME header
-            #     files for the C language and converted
-            #     into their assembly equivalents.
-            #
-            GNOME_STOCK_BUTTON_YES:   # GNOME Button Names.
-                .ascii "Button_Yes\0"
+        app_id:             # Application information.
+            .ascii "gnome-example\0"
 
-            GNOME_STOCK_BUTTON_NO:
-                .ascii "Button_No\0"
+        app_version:
+            .ascii "1.000\0"
 
-                                # Gnome MessageBox Types.
-            GNOME_MESSAGE_BOX_QUESTION:
-                .ascii "question\0"
+        app_title:
+            .ascii "Gnome Example Program\0"
 
-            .equ NULL, 0        # Standard definition of
-                                # NULL.
+                            # Text for Buttons and
+        button_quit_text:   # windows.
+            .ascii
+        "I Want to Quit the GNOME Example Program\0"
 
-            signal_destroy:     # GNOME signal definitions.
-                .ascii "destroy\0"
+        quit_question:
+            .ascii "Are you sure you want to quit?\0"
 
-            signal_delete_event:
-                .ascii "delete_event\0"
+    .section .bss
+        .equ   WORD_SIZE,  4            # Variables to
+        .lcomm appPtr,     WORD_SIZE    # save the
+        .lcomm btnQuit,    WORD_SIZE    # created
+                                        # widgets in.
 
-            signal_clicked:
-                .ascii "clicked\0"
+    .section .text
+        .globl main
+        .type  main,  @function
 
-            # --- Application-specific definitions --- #
-            #
-            app_id:             # Application information.
-                .ascii "gnome-example\0"
+main:
+    pushl %ebp
+    movl  %esp, %ebp
 
-            app_version:
-                .ascii "1.000\0"
+    # Initialize GNOME libraries.
+    #
+    pushl 12(%ebp)          # Argv.
+    pushl 8(%ebp)           # Argc.
+    pushl $app_version
+    pushl $app_id
+    call  gnome_init
+    addl  $16, %esp         # Recover the stack.
 
-            app_title:
-                .ascii "Gnome Example Program\0"
+    # Create new application window.
+    #
+    pushl $app_title        # Window title.
+    pushl $app_id           # Application ID.
+    call  gnome_app_new
+    addl  $8, %esp          # Recover the stack.
+    movl  %eax, appPtr      # Save the window pointer.
 
-                                # Text for Buttons and
-            button_quit_text:   # windows.
-                .ascii
-            "I Want to Quit the GNOME Example Program\0"
+    # Create new button.
+    #
+    pushl $button_quit_text     # Button text.
+    call  gtk_button_new_with_label
+    addl  $4, %esp              # Recover the stack.
+    movl  %eax, btnQuit         # Save the button
+                                # pointer.
 
-            quit_question:
-                .ascii "Are you sure you want to quit?\0"
+    # Make the button show up inside the application
+    # window.
+    #
+    pushl btnQuit
+    pushl appPtr
+    call  gnome_app_set_contents
+    addl  $8, %esp
 
-        .section .bss
-            .equ   WORD_SIZE,  4            # Variables to
-            .lcomm appPtr,     WORD_SIZE    # save the
-            .lcomm btnQuit,    WORD_SIZE    # created
-                                            # widgets in.
+    # Makes the button show up (only after it is window
+    # shows up, though).
+    #
+    pushl btnQuit
+    call  gtk_widget_show
+    addl  $4, %esp
 
-        .section .text
-            .globl main
-            .type  main,  @function
+    # Makes the application window show up.
+    #
+    pushl appPtr
+    call  gtk_widget_show
+    addl  $4, %esp
 
-    main:
-        pushl %ebp
-        movl  %esp, %ebp
+    # Have GNOME call our delete_handler function
+    # whenever a "delete" event occurs.
+    #
+    pushl $NULL             # Extra data to pass to our
+                            # function (we do not use
+                            # any).
+    pushl $_delete_handler  # Function address to call.
+    pushl $signal_delete_event  # Name of the signal.
+    pushl appPtr                # Widget to listen for
+    call  gtk_signal_connect    # events on.
+    addl  $16, %esp             # Recover stack.
 
-        # Initialize GNOME libraries.
-        #
-        pushl 12(%ebp)          # Argv.
-        pushl 8(%ebp)           # Argc.
-        pushl $app_version
-        pushl $app_id
-        call  gnome_init
-        addl  $16, %esp         # Recover the stack.
+    # Have GNOME call our destroy_handler function
+    # whenever a "destroy" event occurs.
+    #
+    pushl $NULL             # Extra data to pass to our
+                            # function (we do not use
+                            # any).
+    pushl $_destroy_handler # Function address to call.
+    pushl $signal_destroy   # Name of the signal.
+    pushl appPtr            # Widget to listen for
+                            # events on.
+    call  gtk_signal_connect
+    addl  $16, %esp         # Recover stack.
 
-        # Create new application window.
-        #
-        pushl $app_title        # Window title.
-        pushl $app_id           # Application ID.
-        call  gnome_app_new
-        addl  $8, %esp          # Recover the stack.
-        movl  %eax, appPtr      # Save the window pointer.
+    # Have GNOME call our click_handler function
+    # whenever a "click" event occurs.  Note that the
+    # previous signals were listening on the
+    # application window, while this one is only
+    # listening on the button.
+    #
+    pushl $NULL
+    pushl $_click_handler
+    pushl $signal_clicked
+    pushl btnQuit
+    call  gtk_signal_connect
+    addl  $16, %esp
 
-        # Create new button.
-        #
-        pushl $button_quit_text     # Button text.
-        call  gtk_button_new_with_label
-        addl  $4, %esp              # Recover the stack.
-        movl  %eax, btnQuit         # Save the button
-                                    # pointer.
+    # Transfer control to GNOME.  Everything that
+    # happens from here out is in reaction to user
+    # events, which call signal handlers.  This main
+    # function just sets up the main window and
+    # connects signal handlers, and the signal handlers
+    # take care of the rest.
+    #
+    call  gtk_main
 
-        # Make the button show up inside the application
-        # window.
-        #
-        pushl btnQuit
-        pushl appPtr
-        call  gnome_app_set_contents
-        addl  $8, %esp
+    # After the program is finished, leave.
+    #
+    movl  $0, %eax
+    leave
+    ret
 
-        # Makes the button show up (only after it is window
-        # shows up, though).
-        #
-        pushl btnQuit
-        call  gtk_widget_show
-        addl  $4, %esp
+_destroy_handler:
+    # A "destroy" event happens when the widget is
+    # being removed.  In this case, when the
+    # application window is being removed, we simply
+    # want the event loop to quit.
+    #
+    pushl %ebp
+    movl  %esp, %ebp
 
-        # Makes the application window show up.
-        #
-        pushl appPtr
-        call  gtk_widget_show
-        addl  $4, %esp
+    # This causes gtk to exit it is event loop as soon
+    # as it can.
+    #
+    call  gtk_main_quit
 
-        # Have GNOME call our delete_handler function
-        # whenever a "delete" event occurs.
-        #
-        pushl $NULL             # Extra data to pass to our
-                                # function (we do not use
-                                # any).
-        pushl $_delete_handler  # Function address to call.
-        pushl $signal_delete_event  # Name of the signal.
-        pushl appPtr                # Widget to listen for
-        call  gtk_signal_connect    # events on.
-        addl  $16, %esp             # Recover stack.
+    movl  $0, %eax
+    leave
+    ret
 
-        # Have GNOME call our destroy_handler function
-        # whenever a "destroy" event occurs.
-        #
-        pushl $NULL             # Extra data to pass to our
-                                # function (we do not use
-                                # any).
-        pushl $_destroy_handler # Function address to call.
-        pushl $signal_destroy   # Name of the signal.
-        pushl appPtr            # Widget to listen for
-                                # events on.
-        call  gtk_signal_connect
-        addl  $16, %esp         # Recover stack.
+    # A "delete" event happens when the application
+    # window gets clicked in the "x" that you normally
+    # use to close a window.
+    #
+_delete_handler:
+    movl  $1, %eax
+    ret
 
-        # Have GNOME call our click_handler function
-        # whenever a "click" event occurs.  Note that the
-        # previous signals were listening on the
-        # application window, while this one is only
-        # listening on the button.
-        #
-        pushl $NULL
-        pushl $_click_handler
-        pushl $signal_clicked
-        pushl btnQuit
-        call  gtk_signal_connect
-        addl  $16, %esp
+_click_handler:
+    # A "click" event happens when the widget gets
+    # clicked.
+    #
+    pushl %ebp
+    movl  %esp, %ebp
 
-        # Transfer control to GNOME.  Everything that
-        # happens from here out is in reaction to user
-        # events, which call signal handlers.  This main
-        # function just sets up the main window and
-        # connects signal handlers, and the signal handlers
-        # take care of the rest.
-        #
-        call  gtk_main
+    # Create the "Are you sure" dialog.
+    #
+    pushl $NULL                     # End of buttons.
+    pushl $GNOME_STOCK_BUTTON_NO    # Button 1.
+    pushl $GNOME_STOCK_BUTTON_YES   # Button 0.
+    pushl $GNOME_MESSAGE_BOX_QUESTION   # Dialog type.
+    pushl $quit_question            # Dialog mesasge.
+    call  gnome_message_box_new
+    addl  $16, %esp                 # Recover stack.
 
-        # After the program is finished, leave.
-        #
-        movl  $0, %eax
-        leave
-        ret
+    # %eax now holds the pointer to the dialog window.
 
-    _destroy_handler:
-        # A "destroy" event happens when the widget is
-        # being removed.  In this case, when the
-        # application window is being removed, we simply
-        # want the event loop to quit.
-        #
-        pushl %ebp
-        movl  %esp, %ebp
+    # Setting Modal to 1 prevents any other user
+    # interaction while the dialog is being shown.
+    #
+    pushl $1
+    pushl %eax
+    call  gtk_window_set_modal
+    popl  %eax
+    addl  $4, %esp
 
-        # This causes gtk to exit it is event loop as soon
-        # as it can.
-        #
-        call  gtk_main_quit
+    # Now we show the dialog.
+    #
+    pushl %eax
+    call  gtk_widget_show
+    popl  %eax
 
-        movl  $0, %eax
-        leave
-        ret
+    # This sets up all the necessary signal handlers in
+    # order to just show the dialog, close it when one
+    # of the buttons is clicked, and return the number
+    # of the button that the user clicked on.  The
+    # button number is based on the order the buttons
+    # were pushed on in the gnome_message_box_new
+    # function.
+    #
+    pushl %eax
+    call  gnome_dialog_run_and_close
+    addl  $4, %esp
 
-        # A "delete" event happens when the application
-        # window gets clicked in the "x" that you normally
-        # use to close a window.
-        #
-    _delete_handler:
-        movl  $1, %eax
-        ret
+    # Button 0 is the Yes button.  If this is the
+    # button they clicked on, tell GNOME to quit it is
+    # event loop.  Otherwise, do nothing.
+    #
+    cmpl  $0, %eax
+    jne   _click_handler_end
 
-    _click_handler:
-        # A "click" event happens when the widget gets
-        # clicked.
-        #
-        pushl %ebp
-        movl  %esp, %ebp
+    call  gtk_main_quit
 
-        # Create the "Are you sure" dialog.
-        #
-        pushl $NULL                     # End of buttons.
-        pushl $GNOME_STOCK_BUTTON_NO    # Button 1.
-        pushl $GNOME_STOCK_BUTTON_YES   # Button 0.
-        pushl $GNOME_MESSAGE_BOX_QUESTION   # Dialog type.
-        pushl $quit_question            # Dialog mesasge.
-        call  gnome_message_box_new
-        addl  $16, %esp                 # Recover stack.
-
-        # %eax now holds the pointer to the dialog window.
-
-        # Setting Modal to 1 prevents any other user
-        # interaction while the dialog is being shown.
-        #
-        pushl $1
-        pushl %eax
-        call  gtk_window_set_modal
-        popl  %eax
-        addl  $4, %esp
-
-        # Now we show the dialog.
-        #
-        pushl %eax
-        call  gtk_widget_show
-        popl  %eax
-
-        # This sets up all the necessary signal handlers in
-        # order to just show the dialog, close it when one
-        # of the buttons is clicked, and return the number
-        # of the button that the user clicked on.  The
-        # button number is based on the order the buttons
-        # were pushed on in the gnome_message_box_new
-        # function.
-        #
-        pushl %eax
-        call  gnome_dialog_run_and_close
-        addl  $4, %esp
-
-        # Button 0 is the Yes button.  If this is the
-        # button they clicked on, tell GNOME to quit it is
-        # event loop.  Otherwise, do nothing.
-        #
-        cmpl  $0, %eax
-        jne   _click_handler_end
-
-        call  gtk_main_quit
-
-    _click_handler_end:
-        leave
-        ret
+_click_handler_end:
+    leave
+    ret
+```
 
 To build this application, execute the following commands:
 
-    as  -o gnome-example.o  gnome-example.s --gstabs+
-    gcc -o gnome-example    gnome-example.o `gnome-config --libs gnomeui`
+``` bash
+as  -o gnome-example.o  gnome-example.s --gstabs+
+gcc -o gnome-example    gnome-example.o `gnome-config --libs gnomeui`
+```
 
 Then type in `./gnome-example` to run it.
 
@@ -9006,208 +10075,214 @@ buttons were set up in `gnome_message_box_new`.
 The following is the same program written in the C language. Type it in
 as `gnome-example-c.c`:
 
-    /* PURPOSE:
-     *     This program is meant to be an example of what
-     *     GUI programs look like written with the GNOME
-     *     libraries.
-     */
+``` c
+/* PURPOSE:
+ *     This program is meant to be an example of what
+ *     GUI programs look like written with the GNOME
+ *     libraries.
+ */
 
-    #include <gnome.h>;
+#include <gnome.h>;
 
-    /* Program definitions. */
-    #define MY_APP_TITLE "Gnome Example Program"
-    #define MY_APP_ID "gnome-example"
-    #define MY_APP_VERSION "1.000"
-    #define MY_BUTTON_TEXT "I Want to Quit this Program"
-    #define MY_QUIT_QUESTION "Are you sure? Quit?"
+/* Program definitions. */
+#define MY_APP_TITLE "Gnome Example Program"
+#define MY_APP_ID "gnome-example"
+#define MY_APP_VERSION "1.000"
+#define MY_BUTTON_TEXT "I Want to Quit this Program"
+#define MY_QUIT_QUESTION "Are you sure? Quit?"
 
-    /* Must declare functions before they are used. */
-    int destroy_handler(gpointer window,
-            GdkEventAny *e,
-            gpointer data);
-    int delete_handler(gpointer window,
-            GdkEventAny *e,
-            gpointer data);
-    int click_handler(gpointer window,
-            GdkEventAny *e,
-            gpointer data);
+/* Must declare functions before they are used. */
+int destroy_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data);
+int delete_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data);
+int click_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data);
 
-    int main(int argc, char **argv)
+int main(int argc, char **argv)
+{
+    gpointer appPtr;  /* Application window. */
+    gpointer btnQuit; /* Quit button. */
+
+    /* Initialize GNOME libraries. */
+    gnome_init(MY_APP_ID, MY_APP_VERSION, argc, argv);
+
+    /* Create new application window. */
+    appPtr = gnome_app_new(MY_APP_ID, MY_APP_TITLE);
+
+    /* Create new button. */
+    btnQuit = gtk_button_new_with_label(
+                                    MY_BUTTON_TEXT);
+
+    /* Make the button show up inside the */
+    /* application window. */
+    gnome_app_set_contents(appPtr, btnQuit);
+
+    /* Makes the button show up. */
+    gtk_widget_show(btnQuit);
+
+    /* Makes the application window show up. */
+    gtk_widget_show(appPtr);
+
+    /* Connect the signal handlers. */
+    gtk_signal_connect(appPtr, "delete_event",
+            GTK_SIGNAL_FUNC(delete_handler), NULL);
+    gtk_signal_connect(appPtr, "destroy",
+            GTK_SIGNAL_FUNC(destroy_handler), NULL);
+    gtk_signal_connect(btnQuit, "clicked",
+            GTK_SIGNAL_FUNC(click_handler), NULL);
+
+    /* Transfer control to GNOME. */
+    gtk_main();
+
+    return 0;
+}
+
+
+/* Function to receive the "destroy" signal. */
+int destroy_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data)
+{
+    /* Leave GNOME event loop. */
+    gtk_main_quit();
+    return 0;
+}
+
+/* Function to receive the "delete_event" signal. */
+int delete_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data)
+{
+    return 0;
+}
+
+/* Function to receive the "clicked" signal. */
+int click_handler(gpointer window,
+        GdkEventAny *e,
+        gpointer data)
+{
+    gpointer msgbox;
+    int buttonClicked;
+
+    /* Create the "Are you sure" dialog. */
+    msgbox = gnome_message_box_new(
+        MY_QUIT_QUESTION,
+        GNOME_MESSAGE_BOX_QUESTION,
+        GNOME_STOCK_BUTTON_YES,
+        GNOME_STOCK_BUTTON_NO,
+        NULL);
+    gtk_window_set_modal(msgbox, 1);
+    gtk_widget_show(msgbox);
+
+    /* Run dialog box. */
+    buttonClicked = gnome_dialog_run_and_close(msgbox);
+
+    /* Button 0 is the Yes button.  If this is the
+     * button they clicked
+     * on, tell GNOME to quit it's event loop.
+     * Otherwise, do nothing. */
+    if(buttonClicked == 0)
     {
-        gpointer appPtr;  /* Application window. */
-        gpointer btnQuit; /* Quit button. */
-
-        /* Initialize GNOME libraries. */
-        gnome_init(MY_APP_ID, MY_APP_VERSION, argc, argv);
-
-        /* Create new application window. */
-        appPtr = gnome_app_new(MY_APP_ID, MY_APP_TITLE);
-
-        /* Create new button. */
-        btnQuit = gtk_button_new_with_label(
-                                        MY_BUTTON_TEXT);
-
-        /* Make the button show up inside the */
-        /* application window. */
-        gnome_app_set_contents(appPtr, btnQuit);
-
-        /* Makes the button show up. */
-        gtk_widget_show(btnQuit);
-
-        /* Makes the application window show up. */
-        gtk_widget_show(appPtr);
-
-        /* Connect the signal handlers. */
-        gtk_signal_connect(appPtr, "delete_event",
-                GTK_SIGNAL_FUNC(delete_handler), NULL);
-        gtk_signal_connect(appPtr, "destroy",
-                GTK_SIGNAL_FUNC(destroy_handler), NULL);
-        gtk_signal_connect(btnQuit, "clicked",
-                GTK_SIGNAL_FUNC(click_handler), NULL);
-
-        /* Transfer control to GNOME. */
-        gtk_main();
-
-        return 0;
-    }
-
-
-    /* Function to receive the "destroy" signal. */
-    int destroy_handler(gpointer window,
-            GdkEventAny *e,
-            gpointer data)
-    {
-        /* Leave GNOME event loop. */
         gtk_main_quit();
-        return 0;
     }
 
-    /* Function to receive the "delete_event" signal. */
-    int delete_handler(gpointer window,
-            GdkEventAny *e,
-            gpointer data)
-    {
-        return 0;
-    }
-
-    /* Function to receive the "clicked" signal. */
-    int click_handler(gpointer window,
-            GdkEventAny *e,
-            gpointer data)
-    {
-        gpointer msgbox;
-        int buttonClicked;
-
-        /* Create the "Are you sure" dialog. */
-        msgbox = gnome_message_box_new(
-            MY_QUIT_QUESTION,
-            GNOME_MESSAGE_BOX_QUESTION,
-            GNOME_STOCK_BUTTON_YES,
-            GNOME_STOCK_BUTTON_NO,
-            NULL);
-        gtk_window_set_modal(msgbox, 1);
-        gtk_widget_show(msgbox);
-
-        /* Run dialog box. */
-        buttonClicked = gnome_dialog_run_and_close(msgbox);
-
-        /* Button 0 is the Yes button.  If this is the
-         * button they clicked
-         * on, tell GNOME to quit it's event loop.
-         * Otherwise, do nothing. */
-        if(buttonClicked == 0)
-        {
-            gtk_main_quit();
-        }
-
-        return 0;
-    }
+    return 0;
+}
+```
 
 To compile it, type
 
-    gcc -o gnome-example-c  gnome-example-c.c \
-                            `gnome-config --cflags --libs gnomeui`
+``` bash
+gcc -o gnome-example-c  gnome-example-c.c \
+                        `gnome-config --cflags --libs gnomeui`
+```
 
 Run it by typing `./gnome-example-c`.
 
 Finally, we have a version in Python. Type it in as `gnome-example.py`:
 
-    # PURPOSE:
-    #     This program is meant to be an example of what
-    #     GUI programs look like written with the GNOME
-    #     libraries.
-    #
+``` python
+# PURPOSE:
+#     This program is meant to be an example of what
+#     GUI programs look like written with the GNOME
+#     libraries.
+#
 
-    # Import GNOME libraries.
-    #
-    import gtk
-    import gnome.ui
+# Import GNOME libraries.
+#
+import gtk
+import gnome.ui
 
-    #### DEFINE CALLBACK FUNCTIONS FIRST ####
+#### DEFINE CALLBACK FUNCTIONS FIRST ####
 
-    # In Python, functions have to be defined before they
-    # are used, so we have to define our callback
-    # functions first.
+# In Python, functions have to be defined before they
+# are used, so we have to define our callback
+# functions first.
+#
+def destroy_handler(event):
+    gtk.mainquit()
+    return 0
+
+def delete_handler(window, event):
+    return 0
+
+def click_handler(event):
+    # Create the "Are you sure" dialog.
     #
-    def destroy_handler(event):
+    msgbox = gnome.ui.GnomeMessageBox(
+        "Are you sure you want to quit?",
+        gnome.ui.MESSAGE_BOX_QUESTION,
+        gnome.ui.STOCK_BUTTON_YES,
+        gnome.ui.STOCK_BUTTON_NO)
+    msgbox.set_modal(1)
+    msgbox.show()
+
+    result = msgbox.run_and_close()
+
+    # Button 0 is the Yes button.  If this is the
+    # button they clicked on, tell GNOME to quit it's
+    # event loop.  Otherwise, do nothing.
+    #
+    if (result == 0):
         gtk.mainquit()
-        return 0
 
-    def delete_handler(window, event):
-        return 0
+    return 0
 
-    def click_handler(event):
-        # Create the "Are you sure" dialog.
-        #
-        msgbox = gnome.ui.GnomeMessageBox(
-            "Are you sure you want to quit?",
-            gnome.ui.MESSAGE_BOX_QUESTION,
-            gnome.ui.STOCK_BUTTON_YES,
-            gnome.ui.STOCK_BUTTON_NO)
-        msgbox.set_modal(1)
-        msgbox.show()
+#### MAIN PROGRAM ####
 
-        result = msgbox.run_and_close()
+# Create new application window.
+#
+myapp = gnome.ui.GnomeApp(
+    "gnome-example", "Gnome Example Program")
 
-        # Button 0 is the Yes button.  If this is the
-        # button they clicked on, tell GNOME to quit it's
-        # event loop.  Otherwise, do nothing.
-        #
-        if (result == 0):
-            gtk.mainquit()
+# Create new button.
+#
+mybutton = gtk.GtkButton(
+    "I Want to Quit the GNOME Example program")
+myapp.set_contents(mybutton)
 
-        return 0
+# Makes the button show up.
+#
+mybutton.show()
 
-    #### MAIN PROGRAM ####
+# Makes the application window show up.
+#
+myapp.show()
 
-    # Create new application window.
-    #
-    myapp = gnome.ui.GnomeApp(
-        "gnome-example", "Gnome Example Program")
+# Connect signal handlers.
+#
+myapp.connect("delete_event", delete_handler)
+myapp.connect("destroy", destroy_handler)
+mybutton.connect("clicked", click_handler)
 
-    # Create new button.
-    #
-    mybutton = gtk.GtkButton(
-        "I Want to Quit the GNOME Example program")
-    myapp.set_contents(mybutton)
-
-    # Makes the button show up.
-    #
-    mybutton.show()
-
-    # Makes the application window show up.
-    #
-    myapp.show()
-
-    # Connect signal handlers.
-    #
-    myapp.connect("delete_event", delete_handler)
-    myapp.connect("destroy", destroy_handler)
-    mybutton.connect("clicked", click_handler)
-
-    # Transfer control to GNOME.
-    #
-    gtk.mainloop()
+# Transfer control to GNOME.
+#
+gtk.mainloop()
+```
 
 To run it type `python gnome-example.py`.
 
@@ -9300,9 +10375,11 @@ mostly used for moving data from one place to another.
 An example of this table is the `movl` instruction which could read like
 this:
 
-    movl   I/R/M,  I/R/M      # eFlags affected: O/S/Z/A/C
-    movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
-    movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
+``` gnuassembler
+movl   I/R/M,  I/R/M      # eFlags affected: O/S/Z/A/C
+movl   $5,     eax        # I, R -> eFlags that may affect: O/S/Z/A/C
+movl   edx,    (%ebp)     # R, M -> eFlags that may affect: O/S/Z/A/C
+```
 
 Table B-1. Data Transfer Instructions.
 
@@ -9703,21 +10780,25 @@ it looks different. Some of the differences include:
 Other differences exist, but they are small in comparison. To show some
 of the differences, consider the following instruction:
 
-    movl $5, %eax
-    movl 12(%ebx), %eax
-    movl (%ebx,%edi), %ecx
-    movl 8(%ebx,%edi), %eax
-    movl (%ebx,%edi,4), %eax
-    movl 8(%ebx,%edi,4), %eax
+``` gnuassembler
+movl $5, %eax
+movl 12(%ebx), %eax
+movl (%ebx,%edi), %ecx
+movl 8(%ebx,%edi), %eax
+movl (%ebx,%edi,4), %eax
+movl 8(%ebx,%edi,4), %eax
+```
 
 In Intel syntax, this would be written as:
 
-    mov  eax, 5
-    mov  eax, [ebx+12]
-    mov  ecx, [ebx+edi]
-    mov  eax, [ebx+edi+8]
-    mov  eax, [ebx+edi*4]
-    mov  eax, [ebx+edi*4+8]
+``` nasm
+mov  eax, 5
+mov  eax, [ebx+12]
+mov  ecx, [ebx+edi]
+mov  eax, [ebx+edi+8]
+mov  eax, [ebx+edi*4]
+mov  eax, [ebx+edi*4+8]
+```
 
 The memory reference is a bit easier to read than its AT&T counterpart
 because it spells out exactly how the address will be computed. However,
@@ -9876,199 +10957,24 @@ code for, and add the number on the left and the top.
 
 Table D-1. Table of ASCII codes in decimal.
 
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Num</th>
-<th style="text-align: left;">+0</th>
-<th style="text-align: left;">+1</th>
-<th style="text-align: left;">+2</th>
-<th style="text-align: left;">+3</th>
-<th style="text-align: left;">+4</th>
-<th style="text-align: left;">+5</th>
-<th style="text-align: left;">+6</th>
-<th style="text-align: left;">+7</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">NUL</td>
-<td style="text-align: left;">SOH</td>
-<td style="text-align: left;">STX</td>
-<td style="text-align: left;">ETX</td>
-<td style="text-align: left;">EOT</td>
-<td style="text-align: left;">ENQ</td>
-<td style="text-align: left;">ACK</td>
-<td style="text-align: left;">BEL</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">8</td>
-<td style="text-align: left;">BS</td>
-<td style="text-align: left;">HT</td>
-<td style="text-align: left;">LF</td>
-<td style="text-align: left;">VT</td>
-<td style="text-align: left;">FF</td>
-<td style="text-align: left;">CR</td>
-<td style="text-align: left;">SO</td>
-<td style="text-align: left;">SI</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">16</td>
-<td style="text-align: left;">DLE</td>
-<td style="text-align: left;">DC1</td>
-<td style="text-align: left;">DC2</td>
-<td style="text-align: left;">DC3</td>
-<td style="text-align: left;">DC4</td>
-<td style="text-align: left;">NAK</td>
-<td style="text-align: left;">SYN</td>
-<td style="text-align: left;">ETB</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">24</td>
-<td style="text-align: left;">CAN</td>
-<td style="text-align: left;">EM</td>
-<td style="text-align: left;">SUB</td>
-<td style="text-align: left;">ESC</td>
-<td style="text-align: left;">FS</td>
-<td style="text-align: left;">GS</td>
-<td style="text-align: left;">RS</td>
-<td style="text-align: left;">US</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">32</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">!</td>
-<td style="text-align: left;">"</td>
-<td style="text-align: left;">#</td>
-<td style="text-align: left;">$</td>
-<td style="text-align: left;">%</td>
-<td style="text-align: left;">&amp;</td>
-<td style="text-align: left;">'</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">40</td>
-<td style="text-align: left;">(</td>
-<td style="text-align: left;">)</td>
-<td style="text-align: left;">*</td>
-<td style="text-align: left;">+</td>
-<td style="text-align: left;">,</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">/</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">48</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">5</td>
-<td style="text-align: left;">6</td>
-<td style="text-align: left;">7</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">56</td>
-<td style="text-align: left;">8</td>
-<td style="text-align: left;">9</td>
-<td style="text-align: left;">:</td>
-<td style="text-align: left;">;</td>
-<td style="text-align: left;">&lt;</td>
-<td style="text-align: left;">=</td>
-<td style="text-align: left;">&gt;</td>
-<td style="text-align: left;">?</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">64</td>
-<td style="text-align: left;">@</td>
-<td style="text-align: left;">A</td>
-<td style="text-align: left;">B</td>
-<td style="text-align: left;">C</td>
-<td style="text-align: left;">D</td>
-<td style="text-align: left;">E</td>
-<td style="text-align: left;">F</td>
-<td style="text-align: left;">G</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">72</td>
-<td style="text-align: left;">H</td>
-<td style="text-align: left;">I</td>
-<td style="text-align: left;">J</td>
-<td style="text-align: left;">K</td>
-<td style="text-align: left;">L</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">N</td>
-<td style="text-align: left;">O</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">80</td>
-<td style="text-align: left;">P</td>
-<td style="text-align: left;">Q</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">S</td>
-<td style="text-align: left;">T</td>
-<td style="text-align: left;">U</td>
-<td style="text-align: left;">V</td>
-<td style="text-align: left;">W</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">88</td>
-<td style="text-align: left;">X</td>
-<td style="text-align: left;">Y</td>
-<td style="text-align: left;">Z</td>
-<td style="text-align: left;">[</td>
-<td style="text-align: left;">\</td>
-<td style="text-align: left;">]</td>
-<td style="text-align: left;">^</td>
-<td style="text-align: left;">_</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">96</td>
-<td style="text-align: left;">`</td>
-<td style="text-align: left;">a</td>
-<td style="text-align: left;">b</td>
-<td style="text-align: left;">c</td>
-<td style="text-align: left;">d</td>
-<td style="text-align: left;">e</td>
-<td style="text-align: left;">f</td>
-<td style="text-align: left;">g</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">104</td>
-<td style="text-align: left;">h</td>
-<td style="text-align: left;">i</td>
-<td style="text-align: left;">j</td>
-<td style="text-align: left;">k</td>
-<td style="text-align: left;">l</td>
-<td style="text-align: left;">m</td>
-<td style="text-align: left;">n</td>
-<td style="text-align: left;">o</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">112</td>
-<td style="text-align: left;">p</td>
-<td style="text-align: left;">q</td>
-<td style="text-align: left;">r</td>
-<td style="text-align: left;">s</td>
-<td style="text-align: left;">t</td>
-<td style="text-align: left;">u</td>
-<td style="text-align: left;">v</td>
-<td style="text-align: left;">w</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">120</td>
-<td style="text-align: left;">x</td>
-<td style="text-align: left;">y</td>
-<td style="text-align: left;">z</td>
-<td style="text-align: left;">{</td>
-<td style="text-align: left;">|</td>
-<td style="text-align: left;">}</td>
-<td style="text-align: left;">~</td>
-<td style="text-align: left;">DEL</td>
-</tr>
-</tbody>
-</table>
+| Num | +0  | +1  | +2  | +3  | +4   | +5  | +6   | +7  |
+|:----|:----|:----|:----|:----|:-----|:----|:-----|:----|
+| 0   | NUL | SOH | STX | ETX | EOT  | ENQ | ACK  | BEL |
+| 8   | BS  | HT  | LF  | VT  | FF   | CR  | SO   | SI  |
+| 16  | DLE | DC1 | DC2 | DC3 | DC4  | NAK | SYN  | ETB |
+| 24  | CAN | EM  | SUB | ESC | FS   | GS  | RS   | US  |
+| 32  |     | !   | "   | \#  | $    | %   | &    | '   |
+| 40  | (   | )   | \*  | \+  | ,    | \-  | .    | /   |
+| 48  | 0   | 1   | 2   | 3   | 4    | 5   | 6    | 7   |
+| 56  | 8   | 9   | :   | ;   | &lt; | =   | &gt; | ?   |
+| 64  | @   | A   | B   | C   | D    | E   | F    | G   |
+| 72  | H   | I   | J   | K   | L    | M   | N    | O   |
+| 80  | P   | Q   | R   | S   | T    | U   | V    | W   |
+| 88  | X   | Y   | Z   | \[  | \\   | \]  | ^    | \_  |
+| 96  | \`  | a   | b   | c   | d    | e   | f    | g   |
+| 104 | h   | i   | j   | k   | l    | m   | n    | o   |
+| 112 | p   | q   | r   | s   | t    | u   | v    | w   |
+| 120 | x   | y   | z   | {   | \|   | }   | \~   | DEL |
 
 ASCII is actually being phased out in favor of an international standard
 known as Unicode, which allows you to display any character from any
@@ -10105,36 +11011,40 @@ brancht, and the false branch. However, since assembly language is not a
 block structured language, you have to work a little to implement the
 block-like nature of C. For example, look at the following C code:
 
-    if(a == b)
-    {
-        /* True Branch Code Here */
-    }
-    else
-    {
-        /* False Branch Code Here */
-    }
+``` c
+if(a == b)
+{
+    /* True Branch Code Here */
+}
+else
+{
+    /* False Branch Code Here */
+}
 
-    /* At This Point, Reconverge */
+/* At This Point, Reconverge */
+```
 
 In assembly language, this can be rendered as:
 
-        movl a, %eax        # Move a and b into registers
-        movl b, %ebx        # for comparison.
+``` gnuassembler
+    movl a, %eax        # Move a and b into registers
+    movl b, %ebx        # for comparison.
 
-        cmpl %eax, %ebx     # Compare.
+    cmpl %eax, %ebx     # Compare.
 
-        je true_branch      # If True, go to true branch.
+    je true_branch      # If True, go to true branch.
 
-    false_branch:           # This label is unnecessary,
-                            # only here for documentation.
-                            # False branch code here.
+false_branch:           # This label is unnecessary,
+                        # only here for documentation.
+                        # False branch code here.
 
-        jmp reconverge      # Jump to recovergence point.
+    jmp reconverge      # Jump to recovergence point.
 
-    true_branch:            # True branch code here.
+true_branch:            # True branch code here.
 
-    reconverge:             # Both branches recoverge to
-                            # this point.
+reconverge:             # Both branches recoverge to
+                        # this point.
+```
 
 As you can see, since assembly language is linear, the blocks have to
 jump around each other. Recovergence is handled by the programmer, not
@@ -10150,24 +11060,28 @@ arguments to the function onto the stack in *reverse* order, and issuing
 a `call` instruction. After calling, the arguments are then popped back
 off of the stack. For example, consider the C code:
 
-    printf("The number is %d", 88);
+``` c
+printf("The number is %d", 88);
+```
 
 In assembly language, this would be rendered as:
 
-    .section .data
-        text_string:
-            .ascii "The number is %d\0"
+``` gnuassembler
+.section .data
+    text_string:
+        .ascii "The number is %d\0"
 
-    .section .text
-        pushl $88
-        pushl $text_string
-        call  printf
-        popl  %eax
-        popl  %eax      # %eax is just a dummy variable,
-                        # nothing is actually being done
-                        # with the value.  You can also
-                        # directly re-adjust %esp to the
-                        # proper location.
+.section .text
+    pushl $88
+    pushl $text_string
+    call  printf
+    popl  %eax
+    popl  %eax      # %eax is just a dummy variable,
+                    # nothing is actually being done
+                    # with the value.  You can also
+                    # directly re-adjust %esp to the
+                    # proper location.
+```
 
 Variables and Assignment
 ------------------------
@@ -10182,41 +11096,45 @@ variables in assembly language. Global variables are accessed using
 direct addressing mode, while local variables are accessed using base
 pointer addressing mode. For example, consider the following C code:
 
-    int my_global_var;
+``` c
+int my_global_var;
 
-    int foo()
-    {
-        int my_local_var;
+int foo()
+{
+    int my_local_var;
 
-        my_local_var = 1;
-        my_global_var = 2;
+    my_local_var = 1;
+    my_global_var = 2;
 
-        return 0;
-    }
+    return 0;
+}
+```
 
 This would be rendered in assembly language as:
 
-        .section .data
-            .lcomm my_global_var, 4
+``` gnuassembler
+    .section .data
+        .lcomm my_global_var, 4
 
-        .type  foo,  @function
+    .type  foo,  @function
 
-    foo:
-        pushl %ebp              # Save old base pointer.
-        movl  %esp, $ebp        # Make stack pointer base
-                                # pointer.
-        subl  $4, %esp          # Make room for
-                                # my_local_var.
-        .equ my_local_var, -4   # Can now use my_local_var
-                                # to find the local
-                                # variable.
+foo:
+    pushl %ebp              # Save old base pointer.
+    movl  %esp, $ebp        # Make stack pointer base
+                            # pointer.
+    subl  $4, %esp          # Make room for
+                            # my_local_var.
+    .equ my_local_var, -4   # Can now use my_local_var
+                            # to find the local
+                            # variable.
 
-        movl  $1, my_local_var(%ebp)
-        movl  $2, my_global_var
+    movl  $1, my_local_var(%ebp)
+    movl  $2, my_global_var
 
-        movl  %ebp, %esp        # Clean up function and
-        popl  %ebp              # return.
-        ret
+    movl  %ebp, %esp        # Clean up function and
+    popl  %ebp              # return.
+    ret
+```
 
 What may not be obvious is that accessing the global variable takes
 fewer machine cycles than accessing the local variable. However, that
@@ -10249,26 +11167,30 @@ while loop.
 
 In C, a while loop looks like this:
 
-    while(a < b)
-    {
-        /* Do stuff here */
-    }
+``` c
+while(a < b)
+{
+    /* Do stuff here */
+}
 
-    /* Finished Looping */
+/* Finished Looping */
+```
 
 This can be rendered in assembly language like this:
 
-    loop_begin:
-        movl  a, %eax
-        movl  b, %ebx
-        cmpl  %eax, %ebx
-        jge   loop_end
+``` gnuassembler
+loop_begin:
+    movl  a, %eax
+    movl  b, %ebx
+    cmpl  %eax, %ebx
+    jge   loop_end
 
-    loop_body:                  # Do stuff here.
+loop_body:                  # Do stuff here.
 
-        jmp loop_begin
+    jmp loop_begin
 
-    loop_end:                   # Finished looping.
+loop_end:                   # Finished looping.
+```
 
 The x86 assembly language has some direct support for looping as well.
 The *%ecx* register can be used as a counter that *ends* with zero. The
@@ -10276,21 +11198,25 @@ The *%ecx* register can be used as a counter that *ends* with zero. The
 unless *%ecx* is zero. For example, if you wanted to execute a statement
 100 times, you would do this in C:
 
-    for(i=0; i < 100; i++)
-    {
-        /* Do process here */
-    }
+``` c
+for(i=0; i < 100; i++)
+{
+    /* Do process here */
+}
+```
 
 In assembly language it would be written like this:
 
-    loop_initialize:
-        movl $100, %ecx
+``` gnuassembler
+loop_initialize:
+    movl $100, %ecx
 
-    loop_begin:                 # Do Process Here.
-        loop loop_begin         # Decrement %ecx and loops
-                                # if not zero.
+loop_begin:                 # Do Process Here.
+    loop loop_begin         # Decrement %ecx and loops
+                            # if not zero.
 
-    rest_of_program:            # Continues on to here.
+rest_of_program:            # Continues on to here.
+```
 
 One thing to notice is that the `loop` instruction *requires you to be
 counting backwards to zero*. If you need to count forwards or use
@@ -10307,58 +11233,70 @@ Structs
 Structs are simply descriptions of memory blocks. For example, in C you
 can say:
 
-    struct person {
-        char firstname[40];
-        char lastname[40];
-        int age;
-    };
+``` c
+struct person {
+    char firstname[40];
+    char lastname[40];
+    int age;
+};
+```
 
 This doesn't do anything by itself, except give you ways of
 intelligently using 84 bytes of data. You can do basically the same
 thing using `.equ` directives in assembly language. Like this:
 
-    .equ PERSON_FIRSTNAME_OFFSET,  0
-    .equ PERSON_LASTNAME_OFFSET,   40
-    .equ PERSON_AGE_OFFSET,        80
-    .equ PERSON_SIZE,              84
+``` gnuassembler
+.equ PERSON_FIRSTNAME_OFFSET,  0
+.equ PERSON_LASTNAME_OFFSET,   40
+.equ PERSON_AGE_OFFSET,        80
+.equ PERSON_SIZE,              84
+```
 
 When you declare a variable of this type, all you are doing is reserving
 84 bytes of space. So, if you have this in C:
 
-    void foo()
-    {
-        struct person p;
+``` c
+void foo()
+{
+    struct person p;
 
-        /* Do stuff here */
-    }
+    /* Do stuff here */
+}
+```
 
 In assembly language you would have:
 
-    foo:                        # Standard header beginning
-        pushl %ebp
-        movl %esp, %ebp
+``` gnuassembler
+foo:                        # Standard header beginning
+    pushl %ebp
+    movl %esp, %ebp
 
-        subl $PERSON_SIZE, %esp     # Reserve our local
-                                    # variable.
-        .equ P_VAR, 0 - PERSON_SIZE # This is the
-                                    # variable's offset
-                                    # from %ebp.
+    subl $PERSON_SIZE, %esp     # Reserve our local
+                                # variable.
+    .equ P_VAR, 0 - PERSON_SIZE # This is the
+                                # variable's offset
+                                # from %ebp.
 
-                                # Do stuff here.
+                            # Do stuff here.
 
-        movl %ebp, %esp         # Standard function ending.
-        popl %ebp
-        ret
+    movl %ebp, %esp         # Standard function ending.
+    popl %ebp
+    ret
+```
 
 To access structure members, you just have to use base pointer
 addressing mode with the offsets defined above. For example, in C you
 could set the person's age like this:
 
-    p.age = 30;
+``` c
+p.age = 30;
+```
 
 In assembly language it would look like this:
 
-    movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
+``` gnuassembler
+movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
+```
 
 Pointers
 --------
@@ -10367,21 +11305,29 @@ Pointers are very easy. Remember, pointers are simply the address that a
 value resides at. Let's start by taking a look at global variables. For
 example:
 
-    int global_data = 30;
+``` c
+int global_data = 30;
+```
 
 In assembly language, this would be:
 
-    .section .data
-        global_data:
-            .long 30
+``` gnuassembler
+.section .data
+    global_data:
+        .long 30
+```
 
 Taking the address of this data in C:
 
-    a = &global_data;
+``` c
+a = &global_data;
+```
 
 Taking the address of this data in assembly language:
 
-    movl $global_data, %eax
+``` gnuassembler
+movl $global_data, %eax
+```
 
 You see, with assembly language, you are almost always accessing memory
 through pointers. That's what direct addressing is. To get the pointer
@@ -10390,39 +11336,43 @@ itself, you just have to go with immediate mode addressing.
 Local variables are a little more difficult, but not much. Here is how
 you take the address of a local variable in C:
 
-    void foo()
-    {
-        int a;
-        int *b;
+``` c
+void foo()
+{
+    int a;
+    int *b;
 
-        a = 30;
+    a = 30;
 
-        b = &a;
+    b = &a;
 
-        *b = 44;
-    }
+    *b = 44;
+}
+```
 
 The same code in assembly language:
 
-    foo:
-        pushl %ebp              # Standard opening.
-        movl  %esp, %ebp
+``` gnuassembler
+foo:
+    pushl %ebp              # Standard opening.
+    movl  %esp, %ebp
 
-        subl  $8, $esp          # Reserve two words of
-        .equ A_VAR, -4          # memory.
-        .equ B_VAR, -8
+    subl  $8, $esp          # Reserve two words of
+    .equ A_VAR, -4          # memory.
+    .equ B_VAR, -8
 
-        movl $30, A_VAR(%ebp)           # a = 30.
+    movl $30, A_VAR(%ebp)           # a = 30.
 
-        movl $A_VAR, B_VAR(%ebp)        # b = &a.
-        addl %ebp, B_VAR(%ebp)
+    movl $A_VAR, B_VAR(%ebp)        # b = &a.
+    addl %ebp, B_VAR(%ebp)
 
-        movl B_VAR(%ebp), %eax          # *b = 30.
-        movl $30, (%eax)
+    movl B_VAR(%ebp), %eax          # *b = 30.
+    movl $30, (%eax)
 
-        movl %ebp, %esp         # Standard closing.
-        popl %ebp
-        ret
+    movl %ebp, %esp         # Standard closing.
+    popl %ebp
+    ret
+```
 
 As you can see, to take the address of a local variable, the address has
 to be computed the same way the computer computes the addresses in base
@@ -10431,8 +11381,10 @@ instruction `leal`, which stands for "load effective address". This lets
 the computer compute the address, and then load it wherever you want.
 So, we could just say:
 
-    leal A_VAR(%ebp), %eax              # b = &a.
-    movl %eax, B_VAR(%ebp)
+``` gnuassembler
+leal A_VAR(%ebp), %eax              # b = &a.
+movl %eax, B_VAR(%ebp)
+```
 
 It's the same number of lines, but a little cleaner. Then, to use this
 value, you simply have to move it to a general-purpose register and use
@@ -10445,7 +11397,9 @@ One of the nice things about GCC is its ability to spit out assembly
 language code. To convert a C language file to assembly, you can simply
 do:
 
-    gcc -S file.c
+``` bash
+gcc -S file.c
+```
 
 The output will be in `file.s`. It's not the most readable output - most
 of the variable names have been removed and replaced either with numeric
@@ -10460,8 +11414,10 @@ increase memory and cache efficiency by double-word aligning variables.
 Finally, at the end of functions, we usually do the following
 instructions to clean up the stack before issuing a `ret` instruction:
 
-    movl %ebp, %esp
-    popl %ebp
+``` gnuassembler
+movl %ebp, %esp
+popl %ebp
+```
 
 However, GCC output will usually just include the instruction `leave`.
 This instruction is simply the combination of the above two
@@ -10507,7 +11463,9 @@ we will be using the debugger on is the `003-02-maximum` program used in
 say that you entered the program perfectly, except that you left out the
 line:
 
-    incl %edi
+``` gnuassembler
+incl %edi
+```
 
 When you run the program, it just goes in an infinite loop - it never
 exits. To determine the cause, you need to run the program under GDB.
@@ -10516,8 +11474,10 @@ information in the executable. All you need to do to enable this is to
 add the `--gstabs+` option to the `as` command. So, you would assemble
 it like this:
 
-    as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
-    ld -o 003-02-maximum    003-02-maximum.o
+``` bash
+as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
+ld -o 003-02-maximum    003-02-maximum.o
+```
 
 Linking would be the same as normal. "stabs" is the debugging format
 used by GDB. The `plus(+)` means that it provides the GNU extension
@@ -10592,8 +11552,10 @@ it to loop. However, the problem is that it is *never stopping*.
 Therefore, to find out what the problem is, let's look at the point in
 our code where we should be exitting the loop:
 
-    cmpl  $0, %eax
-    je    _loop_exit
+``` gnuassembler
+cmpl  $0, %eax
+je    _loop_exit
+```
 
 Basically, it is checking to see if *%eax* hits zero. If so, it should
 exit the loop. There are several things to check here. First of all, you
@@ -10644,7 +11606,9 @@ Okay, now we know that *%eax* is being loaded with the same value over
 and over again. Let's search to see where *%eax* is being loaded from.
 The line of code is this:
 
-    movl data_items(,%edi,4), %eax
+``` gnuassembler
+movl data_items(,%edi,4), %eax
+```
 
 So, step until this line of code is ready to execute. Now, this code
 depends on two values - `data_items` and *%edi*. `data_items` is a
@@ -10740,8 +11704,10 @@ function setup (it skips the pushing of *%ebp* and the copying of
 
 <!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
 
-    as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
-    ld -o 004-02-factorial    004-02-factorial.o
+``` bash
+as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
+ld -o 004-02-factorial    004-02-factorial.o
+```
 
     $ gdb ./004-02-factorial
     GNU gdb (GDB) 10.1
@@ -11722,9 +12688,9 @@ doesn't grow that way. The way to grow that will be explained shortly.
 different physical address, it can also move those mappings around as
 needed.
 
-[47] The function names usually aren't `allocate` and `deallocate`, but
-the functionality will be the same. In the C programming language, for
-example, they are named `malloc` and `free`.
+[47] The function names usually aren't `_allocate` and `_deallocate`,
+but the functionality will be the same. In the C programming language,
+for example, they are named `malloc` and `free`.
 
 [48] This is why adding more memory to your computer makes it run
 faster. The more memory your computer has, the less it puts on disk, so
