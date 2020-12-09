@@ -428,10 +428,13 @@
 <span id="cb4-34"><a href="#cb4-34"></a>                       <span class="co"># run the exit command.</span></span></code></pre></div>
 <p>What you have typed in is called the <em>source code</em>. Source code is the human-readable form of a program. In order to transform it into a program that a computer can run, we need to <em>assemble</em> and <em>link</em> it.</p>
 <p>The first step is to <em>assemble</em> it. Assembling is the process that transforms what you typed into instructions for the machine. The machine itself only reads sets of numbers, but humans prefer words. An <em>assembly language</em> is a more human-readable form of the instructions a computer understands. Assembling transforms the human-readable file into a machine-readable one. To assembly the program type in the command:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 003-01-exit.o  003-01-exit.s <span class="at">--gstabs+</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 003-01-exit.o  <span class="at">--32</span> \</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--gstabs+</span> \</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                     003-01-exit.s </span></code></pre></div>
 <p><code>as</code> is the command which runs the assembler, <code>003-01-exit.s</code> is the source file, and <code>-o 003-01-exit.o</code> tells the assemble to put its output in the file <code>003-01-exit.o</code>. <code>003-01-exit.o</code> is an <em>object file</em>. An object file is code that is in the machine's language, but has not been completely put together. In most large programs, you will have several source files, and you will convert each one into an object file. The <code>--gstabs+</code> option, adds debugging information in the executable file, review more information in the <a href="#appendix-f-using-the-gdb-debugger">Appendix F. Using the GDB Debugger</a>.</p>
 <p>The <em>linker</em> is the program that is responsible for putting the object files together and adding information to it so that the kernel knows how to load and run it. In our case, we only have one object file, so the linker is only adding the information to enable it to run. To <em>link</em> the file, enter the command:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 003-01-exit  003-01-exit.o</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 003-01-exit  <span class="at">-m</span> elf_i386 \</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                   003-01-exit.o</span></code></pre></div>
 <p><code>ld</code> is the command to run the linker, <code>003-01-exit.o</code> is the object file we want to link, and <code>-o 003-01-exit</code> instructs the linker to output the new program into a file called <code>003-01-exit</code>.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> If any of these commands reported errors, you have either mistyped your program or the command. After correcting the program, you have to re-run all the commands. <em>You must always re-assemble and re-link programs after you modify the source file for the changes to occur in the program</em>. You can run <code>003-01-exit</code> by typing in the command:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>./003-01-exit</span></code></pre></div>
 <p>The <code>./</code> is used to tell the computer that the program isn't in one of the normal program directories, but is the current directory instead<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. You'll notice when you type this command, the only thing that happens is that you'll go to the next line. That's because this program does nothing but exit. However, immediately after you run the program, if you type in:</p>
@@ -584,8 +587,12 @@
 <span id="cb16-49"><a href="#cb16-49"></a>        <span class="ot">int</span>  $<span class="bn">0x80</span>          <span class="co"># maximum number 1 is the</span></span>
 <span id="cb16-50"><a href="#cb16-50"></a>                            <span class="co"># exit() syscall.</span></span></code></pre></div>
 <p>Now, assemble and link it with these commands:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 003-02-maximum.o  003-02-maximum.s <span class="at">--gstabs+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 003-02-maximum    003-02-maximum.o</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 003-02-maximum.o  <span class="at">--32</span> \</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--gstabs+</span> \</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                        003-02-maximum.s</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 003-02-maximum    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                        003-02-maximum.o</span></code></pre></div>
 <p>Now run it, and check its status.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>./003-02-maximum</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">echo</span> <span class="va">$?</span></span></code></pre></div>
@@ -1128,10 +1135,14 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb50-83"><a href="#cb50-83"></a>                            <span class="co"># (this pops the return</span></span>
 <span id="cb50-84"><a href="#cb50-84"></a>                            <span class="co"># value, too).</span></span></code></pre></div>
 <p>Assemble, link, and run it with these commands:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 004-02-factorial.o  004-02-factorial.s <span class="at">--gstabs+</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 004-02-factorial    004-02-factorial.o</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>./004-02-factorial</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="kw">echo</span> <span class="va">$?</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 004-02-factorial.o  <span class="at">--32</span> \</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">--gstabs+</span> \</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                          004-02-factorial.s</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 004-02-factorial    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>                          004-02-factorial.o</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>./004-02-factorial</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="kw">echo</span> <span class="va">$?</span></span></code></pre></div>
 <p>This should give you the value 24. 24 is the factorial of 4, you can test it out yourself with a calculator: 4 * 3 * 2 * 1 = 24.</p>
 <p>I'm guessing you didn't understand the whole code listing. Let's go through it a line at a time to see what is happening.</p>
 <div class="sourceCode" id="cb52" data-startFrom="20"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler" style="counter-reset: source-line 19;"><span id="cb52-20"><a href="#cb52-20"></a><span class="fu">_start:</span></span>
@@ -1584,8 +1595,12 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb67-281"><a href="#cb67-281"></a>    <span class="kw">popl</span>  <span class="va">%ebp</span>              <span class="co"># leave.</span></span>
 <span id="cb67-282"><a href="#cb67-282"></a>    <span class="cf">ret</span></span></code></pre></div>
 <p>Type in this program as <code>005-01-toupper.s</code>, and then enter in the following commands:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 005-01-toupper.o  005-01-toupper.s <span class="at">--gstabs+</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 005-01-toupper    005-01-toupper.o</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 005-01-toupper.o  <span class="at">--32</span> \</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--gstabs+</span> \</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>                        005-01-toupper.s</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 005-01-toupper    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>                        005-01-toupper.o</span></code></pre></div>
 <p>This builds a program called <code>005-01-toupper</code>, which converts all of the lowercase characters in a file to uppercase. For example, to convert the file <code>005-01-toupper.s</code> to uppercase, type in the following command:</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>./005-01-toupper 005-01-toupper.s 005-01-toupper.uppercase</span></code></pre></div>
 <p>You will now find in the file <code>005-01-toupper.uppercase</code> an uppercase version of your original file.</p>
@@ -1946,11 +1961,17 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>These statements cause the given files to basically be pasted right there in the code. You don't need to do this with functions, because the linker can take care of combining functions exported with <code>.globl</code>. However, constants defined in another file do need to be imported in this way.</p>
 <p>Also, you may have noticed the use of a new assembler directive, <code>.rept</code>. This directive repeats the contents of the file between the <code>.rept</code> and the <code>.endr</code> directives the number of times specified after <code>.rept</code>. This is usually used the way we used it - to pad values in the <code>.data</code> section. In our case, we are adding null characters to the end of each field until they are their defined lengths.</p>
 <p>To build the application, run the commands:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-record.o   006-01-write-record.s  <span class="at">--gstabs+</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-records.o  006-01-write-records.s <span class="at">--gstabs+</span></span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-write-records    006-01-write-record.o \</span>
-<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>                              006-01-write-records.o</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-record.o   <span class="at">--32</span> \</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>                              006-01-write-record.s</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-records.o  <span class="at">--32</span> \</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>                              006-01-write-records.s</span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-write-records    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a>                              006-01-write-record.o \</span>
+<span id="cb80-11"><a href="#cb80-11" aria-hidden="true" tabindex="-1"></a>                              006-01-write-records.o</span></code></pre></div>
 <p>Here we are assembling two files separately, and then combining them together using the linker. To run the program, just type the following:</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>./006-01-write-records</span></code></pre></div>
 <p>This will cause a file called <code>test.dat</code> to be created containing the records. However, since they contain non-printable characters (the null character, specifically), they may not be viewable by a text editor. Therefore we need the next program to read them for us.</p>
@@ -2138,15 +2159,27 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb84-84"><a href="#cb84-84"></a>    <span class="kw">movl</span>   $<span class="dv">0</span>, <span class="va">%ebx</span></span>
 <span id="cb84-85"><a href="#cb84-85"></a>    <span class="ot">int</span>    $LINUX_SYSCALL</span></code></pre></div>
 <p>To build this program, we need to assemble all of the parts and link them together:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-count-chars.o    006-01-count-chars.s   <span class="at">--gstabs+</span></span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-record.o    006-01-read-record.s   <span class="at">--gstabs+</span></span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-records.o   006-01-read-records.s  <span class="at">--gstabs+</span></span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-newline.o  006-01-write-newline.s <span class="at">--gstabs+</span></span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-read-records     006-01-count-chars.o \</span>
-<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>                              006-01-read-record.o \</span>
-<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>                              006-01-read-records.o \</span>
-<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>                              006-01-write-newline.o</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-count-chars.o    <span class="at">--32</span> \</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>                              006-01-count-chars.s</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-record.o    <span class="at">--32</span> \</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>                              006-01-read-record.s</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-records.o   <span class="at">--32</span> \</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>                              006-01-read-records.s</span>
+<span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-13"><a href="#cb85-13" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-newline.o  <span class="at">--32</span> \</span>
+<span id="cb85-14"><a href="#cb85-14" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a>                              006-01-write-newline.s</span>
+<span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-17"><a href="#cb85-17" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-read-records     <span class="at">-m</span> elf_i386 \</span>
+<span id="cb85-18"><a href="#cb85-18" aria-hidden="true" tabindex="-1"></a>                              006-01-count-chars.o \</span>
+<span id="cb85-19"><a href="#cb85-19" aria-hidden="true" tabindex="-1"></a>                              006-01-read-record.o \</span>
+<span id="cb85-20"><a href="#cb85-20" aria-hidden="true" tabindex="-1"></a>                              006-01-read-records.o \</span>
+<span id="cb85-21"><a href="#cb85-21" aria-hidden="true" tabindex="-1"></a>                              006-01-write-newline.o</span></code></pre></div>
 <p>The backslash in the first line simply means that the command continues on the next line. You can run your program by doing <code>./006-01-read-records</code>.</p>
 <p>As you can see, this program opens the file and then runs a loop of reading, checking for the end of file, and writing the firstname. The one construct that might be new is the line that says:</p>
 <div class="sourceCode" id="cb86" data-startFrom="66"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler" style="counter-reset: source-line 65;"><span id="cb86-66"><a href="#cb86-66"></a>    <span class="kw">pushl</span>  $RECORD_FIRSTNAME + record_buffer</span></code></pre></div>
@@ -2234,11 +2267,14 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb87-71"><a href="#cb87-71"></a>    <span class="kw">movl</span>  $<span class="dv">0</span>, <span class="va">%ebx</span></span>
 <span id="cb87-72"><a href="#cb87-72"></a>    <span class="ot">int</span>   $LINUX_SYSCALL</span></code></pre></div>
 <p>You can type it in as <code>006-01-add-year.s</code>. To build it, type the following<a href="#fn37" class="footnote-ref" id="fnref37" role="doc-noteref"><sup>37</sup></a>:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-add-year.o  006-01-add-year.s <span class="at">--gstabs+</span></span>
-<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-add-year    006-01-add-year.o \</span>
-<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>                         006-01-read-record.o \</span>
-<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>                         006-01-write-record.o</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-add-year.o  <span class="at">--32</span> \</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">--gstabs+</span> \</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>                         006-01-add-year.s</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 006-01-add-year    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a>                         006-01-add-year.o \</span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a>                         006-01-read-record.o \</span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a>                         006-01-write-record.o</span></code></pre></div>
 <p>To run the program, just type in the following<a href="#fn38" class="footnote-ref" id="fnref38" role="doc-noteref"><sup>38</sup></a>:</p>
 <div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>./006-01-add-year</span></code></pre></div>
 <p>This will add a year to every record listed in <code>test.dat</code> and write the new records to the file <code>testout.dat</code>.</p>
@@ -2404,15 +2440,21 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <p>So, after calling the system call, we check and see if we have an error by checking to see if the result of the system call is less than zero. If so, we call our error reporting and exit routine.</p>
 <p>After every system call, function call, or instruction which can have erroneous results you should add error checking and handling code.</p>
 <p>To assemble and link the files, do:</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 007-01-add-year.o    007-01-add-year.s   <span class="at">--gstabs+</span></span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 007-01-error-exit.o  007-01-error-exit.s <span class="at">--gstabs+</span></span>
-<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 007-01-add-year      006-01-count-chars.o \</span>
-<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>                           006-01-read-record.o \</span>
-<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>                           006-01-write-newline.o \</span>
-<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>                           006-01-write-record.o \</span>
-<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>                           007-01-add-year.o \</span>
-<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a>                           007-01-error-exit.o</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 007-01-add-year.o    <span class="at">--32</span> \</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">--gstabs+</span> \</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>                           007-01-add-year.s</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 007-01-error-exit.o  <span class="at">--32</span> \</span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">--gstabs+</span> \</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>                           007-01-error-exit.s</span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 007-01-add-year      <span class="at">-m</span> elf_i386 \</span>
+<span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a>                           006-01-count-chars.o \</span>
+<span id="cb92-11"><a href="#cb92-11" aria-hidden="true" tabindex="-1"></a>                           006-01-read-record.o \</span>
+<span id="cb92-12"><a href="#cb92-12" aria-hidden="true" tabindex="-1"></a>                           006-01-write-newline.o \</span>
+<span id="cb92-13"><a href="#cb92-13" aria-hidden="true" tabindex="-1"></a>                           006-01-write-record.o \</span>
+<span id="cb92-14"><a href="#cb92-14" aria-hidden="true" tabindex="-1"></a>                           007-01-add-year.o \</span>
+<span id="cb92-15"><a href="#cb92-15" aria-hidden="true" tabindex="-1"></a>                           007-01-error-exit.o</span></code></pre></div>
 <p>Now try to run it without the necessary files. It now exits cleanly and gracefully!</p>
 <h2 id="review-5">Review</h2>
 <h3 id="know-the-concepts-5">Know the Concepts</h3>
@@ -2509,14 +2551,22 @@ Current result &lt;--- -4(%ebp) and (%esp)</code></pre>
 <span id="cb94-19"><a href="#cb94-19"></a>    <span class="cf">call</span>  exit</span></code></pre></div>
 <p>It's even shorter!</p>
 <p>Now, building programs which use dynamic libraries is a little different than normal. You can build the first program normally by doing this:</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 008-01-helloworld-nolib.o  008-01-helloworld-nolib.s <span class="at">--gstabs+</span></span>
-<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 008-01-helloworld-nolib    008-01-helloworld-nolib.o</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 008-01-helloworld-nolib.o  <span class="at">--32</span> \</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">--gstabs+</span> \</span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>                                 008-01-helloworld-nolib.s</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 008-01-helloworld-nolib    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>                                 008-01-helloworld-nolib.o</span></code></pre></div>
 <p>However, in order to build the second program, you have to do this:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 008-01-helloworld-lib.o  008-01-helloworld-lib.s <span class="at">--gstabs+</span></span>
-<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 008-01-helloworld-lib    008-01-helloworld-lib.o \</span>
-<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--library</span>        c \</span>
-<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--library-path</span>   /usr/lib32/ \</span>
-<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-dynamic-linker</span>  /usr/lib32/ld-linux.so.2</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 008-01-helloworld-lib.o  <span class="at">--32</span> \</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">--gstabs+</span> \</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>                               008-01-helloworld-lib.s</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 008-01-helloworld-lib    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>                               008-01-helloworld-lib.o \</span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">--library</span>        c \</span>
+<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">--library-path</span>   /usr/lib32/ \</span>
+<span id="cb96-9"><a href="#cb96-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">-dynamic-linker</span>  /usr/lib32/ld-linux.so.2</span></code></pre></div>
 <p>Run both programs and you will get the classic message:</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>./008-01-helloworld-lib</span></code></pre></div>
 <div class="sourceCode" id="cb98"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>./008-01-helloworld-nolib</span></code></pre></div>
@@ -2589,11 +2639,15 @@ libc.so.6 =&gt; /usr/lib32/libc.so.6 (0xf7ce5000)
 <span id="cb104-44"><a href="#cb104-44"></a>    <span class="kw">pushl</span> $<span class="dv">0</span></span>
 <span id="cb104-45"><a href="#cb104-45"></a>    <span class="cf">call</span>  exit</span></code></pre></div>
 <p>Type it in with the filename <code>008-02-printf-example.s</code>, and then do the following commands:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 008-02-printf-example.o  008-02-printf-example.s <span class="at">--gstabs+</span></span>
-<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 008-02-printf-example    008-02-printf-example.o \</span>
-<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--library-path</span>   /usr/lib32/ \</span>
-<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--library</span>        c \</span>
-<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-dynamic-linker</span>  /usr/lib32/ld-linux.so.2</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 008-02-printf-example.o  <span class="at">--32</span> \</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">--gstabs+</span> \</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>                               008-02-printf-example.s</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 008-02-printf-example    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>                               008-02-printf-example.o \</span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">--library-path</span>   /usr/lib32/ \</span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">--library</span>        c \</span>
+<span id="cb105-9"><a href="#cb105-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">-dynamic-linker</span>  /usr/lib32/ld-linux.so.2</span></code></pre></div>
 <p>Then run the program with <code>./008-02-printf-example</code>, and it should say this:</p>
 <pre><code>Hi! Jonathan is the person number #3.</code></pre>
 <p>Now, if you look at the code, you'll see that we actually push the format string last, even though it's the first parameter listed. You always push a functions parameters in reverse order.<a href="#fn40" class="footnote-ref" id="fnref40" role="doc-noteref"><sup>40</sup></a> You may be wondering how the <code>printf</code> function knows how many parameters there are. Well, it searches through your string, and counts how many <code>%d</code>s and <code>%s</code>s it finds, and then grabs that number of parameters from the stack. If the parameter matches a <code>%d</code>, it treats it as a number, and if it matches a <code>%s</code>, it treats it as a pointer to a null-terminated string. <code>printf</code> has many more features than this, but these are the most-used ones. So, as you can see, <code>printf</code> can make output a lot easier, but it also has a lot of overhead, because it has to count the number of characters in the string, look through it for all of the control characters it needs to replace, pull them off the stack, convert them to a suitable representation (numbers have to be converted to strings, etc), and stick them all together appropriately.</p>
@@ -2669,20 +2723,29 @@ OFFSET   TYPE              VALUE
 <p>You can find the complete manual on this library by going to <a href="http://www.gnu.org/software/libc/manual/">The GNU C Library manual</a></p>
 <h2 id="building-a-dynamic-library">Building a Dynamic Library</h2>
 <p>Let's say that we wanted to take all of our shared code from <a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a> and build it into a dynamic library to use in our programs. The first thing we would do is assemble them like normal:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-record.o  006-01-write-record.s <span class="at">--gstabs+</span></span>
-<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-record.o   006-01-read-record.s  <span class="at">--gstabs+</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-record.o  <span class="at">--32</span> \</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">--gstabs+</span> \</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>                             006-01-write-record.s</span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-read-record.o   <span class="at">--32</span> \</span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">--gstabs+</span> \</span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a>                             006-01-read-record.s</span></code></pre></div>
 <p>Now, instead of linking them into a program, we want to link them into a dynamic library. This changes our linker command to this:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> librecord.so  <span class="at">-shared</span> \</span>
-<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>                    006-01-write-record.o \</span>
-<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>                    006-01-read-record.o</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> librecord.so  <span class="at">-m</span> elf_i386 \</span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">-shared</span> \</span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>                    006-01-write-record.o \</span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>                    006-01-read-record.o</span></code></pre></div>
 <p>This links both of these files together into a dynamic library called <code>librecord.so</code>. This file can now be used for multiple programs. If we need to update the functions contained within it, we can just update this one file and not have to worry about which programs use it.</p>
 <p>Let's look at how we would link against this library. To link the <code>008-03-write-records</code> program, we would do the following:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-records.o  006-01-write-records.s <span class="at">--gstabs+</span></span>
-<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 008-03-write-records    006-01-write-records.o \</span>
-<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--library</span>        record \</span>
-<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--library-path</span>   . \</span>
-<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">-dynamic-linker</span>  /lib32/ld-linux.so.2</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-records.o  <span class="at">--32</span> \</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>                              006-01-write-records.s</span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 008-03-write-records    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>                              006-01-write-records.o \</span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">--library</span>        record \</span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">--library-path</span>   . \</span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">-dynamic-linker</span>  /lib32/ld-linux.so.2</span></code></pre></div>
 <p>In this command, <code>-L .</code> or <code>--library-path .</code> told the linker to look for libraries in the current directory (it usually only searches <code>/lib</code> directory, <code>/usr/lib</code> directory, and a few others). As we've seen, the option <code>-dynamic-linker /usr/lib32/ld-linux.so.2</code> specified the dynamic linker. The option <code>--library record</code> tells the linker to search for functions in the file named <code>librecord.so</code>.</p>
 <p>Now the <code>008-03-write-records</code> program is built, but it will not run. If we try it, we will get an error like the following:</p>
 <pre><code>`./008-03-write-records`: error while loading shared libraries:
@@ -2872,10 +2935,14 @@ OFFSET   TYPE              VALUE
 <span id="cb127-79"><a href="#cb127-79"></a>    <span class="kw">movl</span>   $<span class="dv">0</span>, <span class="va">%ebx</span></span>
 <span id="cb127-80"><a href="#cb127-80"></a>    <span class="ot">int</span>    $LINUX_SYSCALL</span></code></pre></div>
 <p>Time to assemble and link:</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 009-01-memory-layout.o  009-01-memory-layout.s <span class="at">--gstabs+</span></span>
-<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 009-01-memory-layout    009-01-memory-layout</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 009-01-memory-layout.o  <span class="at">--32</span> \</span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>                              009-01-memory-layout.s</span>
+<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 009-01-memory-layout    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>                              009-01-memory-layout</span></code></pre></div>
 <p>How to get the begining of the memory address (0x08048000)? Search the private headres:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="kw">objdump</span>  009-01-memory-layout  --private-headers</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="kw">objdump</span>  009-01-memory-layout  <span class="at">--private-headers</span></span></code></pre></div>
 <p>It shows the <code>LOAD off    0x00000000 vaddr 0x08048000</code>:</p>
 <pre><code>Program Header:
     LOAD off    0x00000000 vaddr 0x08048000 paddr 0x08048000 align 2**12
@@ -2885,7 +2952,7 @@ OFFSET   TYPE              VALUE
     LOAD off    0x00002000 vaddr 0x0804a000 paddr 0x0804a000 align 2**12
          filesz 0x0000000c memsz 0x0000000c flags rw-</code></pre>
 <p>The symbols are the sections, variables, constans, labels, functions, and more. These are inside of the binary file:</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="kw">objdump</span> 009-01-memory-layout --syms</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="kw">objdump</span> 009-01-memory-layout <span class="at">--syms</span></span></code></pre></div>
 <pre class="text"><code>SYMBOL TABLE:
 08049000 l    d  .text  00000000 .text
 0804a000 l    d  .data  00000000 .data
@@ -2905,13 +2972,13 @@ OFFSET   TYPE              VALUE
 
 08049000 g       .text  00000000 _start</code></pre>
 <p>Get the overall file header, it contains the <code>start address</code>:</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="kw">objdump</span> 009-01-memory-layout --file-headers</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="kw">objdump</span> 009-01-memory-layout <span class="at">--file-headers</span></span></code></pre></div>
 <pre><code>architecture: i386, flags 0x00000112:
 EXEC_P,  HAS_SYMS,  D_PAGED
 start address 0x08049000</code></pre>
 <p>In <code>gdb</code> we are able to get these information, too:</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>gdb --args ./009-01-memory-layout 123 456</span>
-<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>(gdb) info files</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gdb</span> <span class="at">--args</span> ./009-01-memory-layout 123 456</span>
+<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>(<span class="kw">gdb</span>) info files</span></code></pre></div>
 <pre><code>Entry point: 0x8049000
 0x08049000 - 0x080490b5 is .text
 0x0804a000 - 0x0804a00c is .data
@@ -3580,7 +3647,9 @@ start address 0x08049000</code></pre>
 <span id="cb146-411"><a href="#cb146-411"></a>    <span class="co"># ----- END OF FUNCTION: _deallocate ----- #</span></span></code></pre></div>
 <p>The first thing to notice is that there is no <code>_start</code> symbol. The reason is that this is just a set of functions. A memory manager by itself is not a full program - it doesn't do anything. It is simply a utility to be used by other programs.</p>
 <p>To assemble the program, do the following:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 009-02-alloc.o  009-02-alloc.s <span class="at">--gstabs+</span></span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 009-02-alloc.o  <span class="at">--32</span> \</span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">--gstabs+</span> \</span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>                      009-02-alloc.s</span></code></pre></div>
 <p>Okay, now let's look at the code.</p>
 <h3 id="variables-and-constants">Variables and Constants</h3>
 <p>At the beginning of the program, we have two locations set up:</p>
@@ -4030,13 +4099,16 @@ start address 0x08049000</code></pre>
 <div class="sourceCode" id="cb176" data-startFrom="95"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler" style="counter-reset: source-line 94;"><span id="cb176-95"><a href="#cb176-95"></a>    <span class="kw">pushl</span> record_buffer_ptr</span>
 <span id="cb176-96"><a href="#cb176-96"></a>    <span class="cf">call</span>  <span class="fu">_deallocate</span></span></code></pre></div>
 <p>Now you can build your program with the following commands:</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 009-02-read-records.o  009-02-read-records.s <span class="at">--gstabs+</span></span>
-<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 009-02-read-records    006-01-count-chars.o \</span>
-<span id="cb177-4"><a href="#cb177-4" aria-hidden="true" tabindex="-1"></a>                             006-01-read-record.o \</span>
-<span id="cb177-5"><a href="#cb177-5" aria-hidden="true" tabindex="-1"></a>                             006-01-write-newline.o \</span>
-<span id="cb177-6"><a href="#cb177-6" aria-hidden="true" tabindex="-1"></a>                             009-02-alloc.o \</span>
-<span id="cb177-7"><a href="#cb177-7" aria-hidden="true" tabindex="-1"></a>                             009-02-read-records.o</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 009-02-read-records.o  <span class="at">--32</span> \</span>
+<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">--gstabs+</span> \</span>
+<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a>                             009-02-read-records.s</span>
+<span id="cb177-4"><a href="#cb177-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb177-5"><a href="#cb177-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 009-02-read-records    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb177-6"><a href="#cb177-6" aria-hidden="true" tabindex="-1"></a>                             006-01-count-chars.o \</span>
+<span id="cb177-7"><a href="#cb177-7" aria-hidden="true" tabindex="-1"></a>                             006-01-read-record.o \</span>
+<span id="cb177-8"><a href="#cb177-8" aria-hidden="true" tabindex="-1"></a>                             006-01-write-newline.o \</span>
+<span id="cb177-9"><a href="#cb177-9" aria-hidden="true" tabindex="-1"></a>                             009-02-alloc.o \</span>
+<span id="cb177-10"><a href="#cb177-10" aria-hidden="true" tabindex="-1"></a>                             009-02-read-records.o</span></code></pre></div>
 <p>You can then run your program by doing <code>./009-02-read-records</code>.</p>
 <p>The uses of dynamic memory allocation may not be apparent to you at this point, but as you go from academic exercises to real-life programs you will use it continually.</p>
 <h2 id="more-information">More Information</h2>
@@ -4571,12 +4643,27 @@ Rotate left 10010111 = 00101111</code></pre>
 <span id="cb214-38"><a href="#cb214-38"></a>    <span class="kw">movl</span>  $<span class="dv">0</span>, <span class="va">%ebx</span></span>
 <span id="cb214-39"><a href="#cb214-39"></a>    <span class="ot">int</span>   $LINUX_SYSCALL</span></code></pre></div>
 <p>To build the program, issue the following commands:</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> integer-to-number.o     integer-to-string.s  <span class="at">--gstabs+</span></span>
-<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-count-chars.o    006-01-count-chars.s        <span class="at">--gstabs+</span></span>
-<span id="cb215-3"><a href="#cb215-3" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-newline.o  006-01-write-newline.s      <span class="at">--gstabs+</span></span>
-<span id="cb215-4"><a href="#cb215-4" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> conversion-program.o    conversion-program.s <span class="at">--gstabs+</span></span>
-<span id="cb215-5"><a href="#cb215-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> conversion-program      integer-to-number.o count-chars.o \</span>
-<span id="cb215-6"><a href="#cb215-6" aria-hidden="true" tabindex="-1"></a>                              write-newline.o conversion-program.o</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> integer-to-number.o     <span class="at">--32</span> \</span>
+<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb215-3"><a href="#cb215-3" aria-hidden="true" tabindex="-1"></a>                              integer-to-string.s</span>
+<span id="cb215-4"><a href="#cb215-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb215-5"><a href="#cb215-5" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-count-chars.o    <span class="at">--32</span> \</span>
+<span id="cb215-6"><a href="#cb215-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb215-7"><a href="#cb215-7" aria-hidden="true" tabindex="-1"></a>                              006-01-count-chars.s</span>
+<span id="cb215-8"><a href="#cb215-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb215-9"><a href="#cb215-9" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 006-01-write-newline.o  <span class="at">--32</span> \</span>
+<span id="cb215-10"><a href="#cb215-10" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb215-11"><a href="#cb215-11" aria-hidden="true" tabindex="-1"></a>                              006-01-write-newline.s</span>
+<span id="cb215-12"><a href="#cb215-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb215-13"><a href="#cb215-13" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> conversion-program.o    <span class="at">--32</span> \</span>
+<span id="cb215-14"><a href="#cb215-14" aria-hidden="true" tabindex="-1"></a>                              <span class="at">--gstabs+</span> \</span>
+<span id="cb215-15"><a href="#cb215-15" aria-hidden="true" tabindex="-1"></a>                              conversion-program.s</span>
+<span id="cb215-16"><a href="#cb215-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb215-17"><a href="#cb215-17" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> conversion-program      <span class="at">-m</span> elf_i386 \</span>
+<span id="cb215-18"><a href="#cb215-18" aria-hidden="true" tabindex="-1"></a>                              integer-to-number.o \</span>
+<span id="cb215-19"><a href="#cb215-19" aria-hidden="true" tabindex="-1"></a>                              count-chars.o \</span>
+<span id="cb215-20"><a href="#cb215-20" aria-hidden="true" tabindex="-1"></a>                              write-newline.o \</span>
+<span id="cb215-21"><a href="#cb215-21" aria-hidden="true" tabindex="-1"></a>                              conversion-program.o</span></code></pre></div>
 <p>To run just type <code>./conversion-program</code> and the output should say <code>824</code>.</p>
 <h2 id="review-8">Review</h2>
 <h3 id="know-the-concepts-8">Know the Concepts</h3>
@@ -6238,8 +6325,12 @@ Rotate left 10010111 = 00101111</code></pre>
 <p>The best way to explain how a debugger works is by using it. The program we will be using the debugger on is the <code>003-02-maximum</code> program used in <a href="#chapter-3-your-first-programs">Chapter 3. Your First Programs</a>. Let's say that you entered the program perfectly, except that you left out the line:</p>
 <div class="sourceCode" id="cb256"><pre class="sourceCode numberSource gnuassembler numberLines"><code class="sourceCode gnuassembler"><span id="cb256-1"><a href="#cb256-1"></a><span class="op">incl</span> <span class="va">%edi</span></span></code></pre></div>
 <p>When you run the program, it just goes in an infinite loop - it never exits. To determine the cause, you need to run the program under GDB. However, to do this, you need to have the assembler include debugging information in the executable. All you need to do to enable this is to add the <code>--gstabs+</code> option to the <code>as</code> command. So, you would assemble it like this:</p>
-<div class="sourceCode" id="cb257"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb257-1"><a href="#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 003-02-maximum.o  003-02-maximum.s <span class="at">--gstabs+</span></span>
-<span id="cb257-2"><a href="#cb257-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 003-02-maximum    003-02-maximum.o</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb257-1"><a href="#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 003-02-maximum.o  <span class="at">--32</span> \</span>
+<span id="cb257-2"><a href="#cb257-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--gstabs+</span> \</span>
+<span id="cb257-3"><a href="#cb257-3" aria-hidden="true" tabindex="-1"></a>                        003-02-maximum.s</span>
+<span id="cb257-4"><a href="#cb257-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-5"><a href="#cb257-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 003-02-maximum    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb257-6"><a href="#cb257-6" aria-hidden="true" tabindex="-1"></a>                        003-02-maximum.o</span></code></pre></div>
 <p>Linking would be the same as normal. "stabs" is the debugging format used by GDB. The <code>plus(+)</code> means that it provides the GNU extension which is the location of the current working directory. Now, to run the program under the debugger, you would type in <code>gdb ./003-02-maximum</code>. Be sure that the source files are in the current directory. The output should look similar to this:</p>
 <pre><code>GNU gdb (GDB) 10.1
 Copyright (C) 2020 Free Software Foundation, Inc.
@@ -6348,8 +6439,12 @@ warning: Source file is more recent than executable.
 29          cmpl $0, %eax       # Check to see if we&#39;ve hit the end.</code></pre>
 <p>When dealing with functions, you can also break on the function names. For example, in the factorial program in <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>, we could set a breakpoint for the factorial function by typing in <code>break factorial</code>. This will cause the debugger to break immediately after the function call and the function setup (it skips the pushing of <em>%ebp</em> and the copying of <em>%esp</em>). To send arguments through the GDB is necessary to type <code>set args</code> and the arguments same as we usually do in the command line.</p>
 <!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
-<div class="sourceCode" id="cb267"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb267-1"><a href="#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 004-02-factorial.o  004-02-factorial.s <span class="at">--gstabs+</span></span>
-<span id="cb267-2"><a href="#cb267-2" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 004-02-factorial    004-02-factorial.o</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb267-1"><a href="#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 004-02-factorial.o  <span class="at">--32</span> \</span>
+<span id="cb267-2"><a href="#cb267-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">--gstabs+</span> \</span>
+<span id="cb267-3"><a href="#cb267-3" aria-hidden="true" tabindex="-1"></a>                          004-02-factorial.s</span>
+<span id="cb267-4"><a href="#cb267-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb267-5"><a href="#cb267-5" aria-hidden="true" tabindex="-1"></a><span class="kw">ld</span> <span class="at">-o</span> 004-02-factorial    <span class="at">-m</span> elf_i386 \</span>
+<span id="cb267-6"><a href="#cb267-6" aria-hidden="true" tabindex="-1"></a>                          004-02-factorial.o</span></code></pre></div>
 <pre><code>$ gdb ./004-02-factorial
 GNU gdb (GDB) 10.1
 For help, type &quot;help&quot;.

@@ -34,7 +34,7 @@ FILES=(
 for FILE in "${FILES[@]}"
 do
     echo "Assembling: ${FILE}"
-    as -o "${FILE}".o   "${FILE}".s  -gstabs+ --32
+    as -o "${FILE}".o   "${FILE}".s  --32 --gstabs+
 done
 
 echo""
