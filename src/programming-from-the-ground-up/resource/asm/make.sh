@@ -26,6 +26,9 @@ FILES=(
   008-01-helloworld-lib
   008-01-helloworld-nolib
   008-02-printf-example
+  009-01-memory-layout
+  009-02-alloc
+  009-02-read-records
 )
 
 for FILE in "${FILES[@]}"
@@ -47,6 +50,7 @@ FILES=(
   004-02-factorial
   005-01-toupper
   008-01-helloworld-nolib
+  009-01-memory-layout
 )
 
 for FILE in "${FILES[@]}"
@@ -114,3 +118,11 @@ ld -o "008-03-write-records"-bin  -m elf_i386 \
                                   --library        record \
                                   --library-path   . \
                                   -dynamic-linker  /usr/lib32/ld-linux.so.2
+
+echo "Linking #2: 009-02-read-records"
+ld -o "009-02-read-records"-bin  -m elf_i386 \
+                                 "006-01-count-chars".o \
+                                 "006-01-read-record".o \
+                                 "006-01-write-newline".o \
+                                 "009-02-alloc".o \
+                                 "009-02-read-records".o

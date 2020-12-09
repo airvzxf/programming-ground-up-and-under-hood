@@ -117,8 +117,8 @@ _allocate_init:
 
     movl  %ebp, %esp        # Exit the function.
     popl  %ebp
-
     ret
+
     # ----- END OF FUNCTION: _allocate_init ----- #
 
     # ----- FUNCTION: allocate ----- #
@@ -169,7 +169,9 @@ _allocate:
                             # we are looking for (which
                             # is the first and only
                             # parameter).
+                # ST_MEM_SIZE = 8
     movl  ST_MEM_SIZE(%ebp), %ecx
+                # %ecx <- RECORD_SIZE, 324
 
     movl  heap_begin, %eax  # %eax will hold the
                             # current search location.
@@ -182,20 +184,31 @@ _allocate:
 _alloc_loop_begin:          # Here we iterate through
                             # each memory region.
 
+                # %eax <- heap_begin
+                # %ebx <- current_break
     cmpl  %ebx, %eax        # Need more memory if these
     je    _move_break       # are equal.
 
                             # Grab the size of this
                             # memory.
+                # HDR_SIZE_OFFSET = 4
+                # %eax <- heap_begin
     movl  HDR_SIZE_OFFSET(%eax), %edx
+                # %edx <- HDR_SIZE_OFFSET of heap_begin
+                #         ~ 324
 
                             # If the space is
                             # unavailable, go to the
                             # next one.
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- heap_begin
     cmpl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
     je    _allocate_init
 
-
+                # %ecx <- RECORD_SIZE, 324
+                # %edx <- HDR_SIZE_OFFSET of heap_begin
+                #         ~ 324
     cmpl  %edx, %ecx        # If the space is
     jle   _allocate_here    # available, compare the
                             # size to the needed size.
@@ -214,8 +227,16 @@ __next_location:
                     # will get the address of the next
                     # memory region.
                     #
+                # HEADER_SIZE = 8
+                # %eax <- heap_begin
     addl  $HEADER_SIZE, %eax
+                # %eax <- heap_begin + HEADER_SIZE
+
+                # %eax <- heap_begin + HEADER_SIZE
+                # %edx <- HDR_SIZE_OFFSET(%eax)
     addl  %edx, %eax
+                # %eax <- heap_begin + HEADER_SIZE
+                #         + HDR_SIZE_OFFSET
 
                     # Go look at the next location.
     jmp   _alloc_loop_begin
@@ -226,15 +247,19 @@ _allocate_here:     # If we have made it here, that
                     # %eax.
 
                             # Mark space as unavailable
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- heap_begin
     movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
 
                             # Move %eax past the header
                             # to the usable memory
                             # (since that is what we
                             # return).
+                # HEADER_SIZE = 8
+                # %eax <- heap_begin
     addl  $HEADER_SIZE, %eax
-
-
+                # %eax <- heap_begin + HEADER_SIZE
 
     movl  %ebp, %esp        # Return from the function.
     popl  %ebp
@@ -248,22 +273,27 @@ _move_break:        # If we have made it here, that
                     # and %ecx holds its size.
 
                     # We need to increase %ebx to
-                    # where we _want_ memory to end,
-                    # so we add space for the headers
+                    # where we want memory to end, so
+                    # we add space for the headers
                     # structure.
+                # HEADER_SIZE = 8
+                # %ebx <- current_break
     addl  $HEADER_SIZE, %ebx
+                # %ebx <- current_break + HEADER_SIZE
 
-
-
+                # ST_MEM_SIZE = 8
+                # HEADER_SIZE = 8
+                # %ecx <- ST_MEM_SIZE(%ebp) ~ 324
     addl  %ecx, %ebx        # Add space to the break
                             # for the data requested.
+                # %ebx <- current_break + HEADER_SIZE
+                #         + ST_MEM_SIZE(%ebp) ~ 324
+                #      == 0x???????? + 8 + 324 = ~342
 
                             # Now its time to ask Linux
                             # for more memory.
-
+                # %eax <- heap_begin
     pushl %eax              # Save needed registers.
-    pushl %ecx
-    pushl %ebx
 
     movl  $SYS_BRK, %eax    # Reset the break (%ebx has
                             # the requested break
@@ -285,30 +315,39 @@ _move_break:        # If we have made it here, that
     cmpl  $0, %eax          # Check for error
     je    _error            # conditions.
 
-    popl  %ebx              # Restore saved registers.
-    popl  %ecx
-    popl  %eax
+                # %eax <- heap_begin
+    popl  %eax              # Restore saved registers.
 
                             # Set this memory as
                             # unavailable, since we are
                             # about to give it away.
+                # UNAVAILABLE = 0
+                # HDR_AVAIL_OFFSET = 0
+                # %eax <- $heap_begin
     movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-
-
 
                             # Set the size of the
                             # memory.
+                # ST_MEM_SIZE = 8
+                # HDR_SIZE_OFFSET = 4
+                # %eax <- $heap_begin
+                # %ecx <- ST_MEM_SIZE(%ebp) ~ 324
     movl  %ecx, HDR_SIZE_OFFSET(%eax)
 
                             # Move %eax to the actual
                             # start of usable memory.
                             # %eax now holds the return
                             # value.
+                # %eax <- $heap_begin
+                # HEADER_SIZE = 8
     addl  $HEADER_SIZE, %eax
+                # %eax <- $heap_begin + HEADER_SIZE
 
+                # %ebx <- current_break + HEADER_SIZE
+                #         + ST_MEM_SIZE(%ebp) ~ 342
     movl  %ebx, current_break   # Save the new break.
 
-    movl  %ebp, %esp        # Return the function.
+    movl  %ebp, %esp            # Return the function.
     popl  %ebp
     ret
 
@@ -359,7 +398,6 @@ _deallocate:        # Since the function is so simple,
                     # move %esp to %ebp, we can just
                     # do 4(%esp).
     movl  ST_MEMORY_SEG(%esp), %eax
-
 
                             # Get the pointer to the
                             # real beginning of the

@@ -87,8 +87,8 @@
   - [x] Chapter 8. Sharing Functions with Code Libraries
     - [x] Added output from the above command.
     - [x] Test this ldd section, what is the real result?
-  - [ ] Chapter 9. Intermediate Memory Topics How a Computer Views Memory
-    - [ ] Convert the image into the text table.
+  - [x] Chapter 9. Intermediate Memory Topics How a Computer Views Memory
+    - [x] Convert the image into the text table.
   - [ ] Appendix F. Using the GDB Debugger.
     - [x] Add the plus signal to the GStabs: `as --gstabs` vs `as --gstabs+`.
     - [ ] Looks like this is not a good example for the command nexti vs stepi.

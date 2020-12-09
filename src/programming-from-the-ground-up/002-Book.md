@@ -1980,7 +1980,7 @@ added to indefinitely. You generally keep the things that you are
 working on toward the top, and you take things off as you are finished
 working with them.
 
-Your computer has a stack, too. The computer\'s stackstack lives at the
+Your computer has a stack, too. The computer\'s stack lives at the
 very top addresses of memory. You can push values onto the top of the
 stack through an instruction called `pushl`, which pushes either a
 register or memory value onto the top of the stack. Well, we say it\'s
@@ -4672,7 +4672,7 @@ instructions take up one or two storage locations for the instruction
 itself, and then storage locations for the instruction\'s arguments. For
 example, the instruction:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl data_items(,%edi,4), %ebx
 ```
 
@@ -4714,7 +4714,7 @@ Address:
     Now, any time in the program that `my_data` is used, it will be
     replaced by the address of the first value of the `.long` directive.
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 .section .data
     my_data:
         .long 2, 3, 4
@@ -4761,26 +4761,26 @@ number of arguments that were used. When the program begins, this is
 where the stack pointer, _%esp_, is pointing. Further pushes on the
 stack move _%esp_ down in memory. For example, the instruction:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 pushl %eax
 ```
 
 is equivalent to
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl %eax, (%esp)
 subl $4, %esp
 ```
 
 Likewise, the instruction:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 popl %eax
 ```
 
 is the same as
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl (%esp), %eax
 addl $4, %esp
 ```
@@ -4796,9 +4796,6 @@ program, 0x08048000. The last accessible memory address to your program
 is called the *system break* (also called the *current
 break* or just the *break*).
 
-<!-- TODO: Personal -> Convert the image into the text table. -->
-
-![*Memory Layout of a Linux Program at Startup*](resource/image/memorylayout.png)
 
 Every Memory Address is a Lie
 -----------------------------
@@ -4843,8 +4840,321 @@ run one program. So, the break is the beginning of the area that
 contains unmapped memory. With the stack, however, Linux will
 automatically map in memory that is accessed from stack pushes.
 
-Of course, this is a very simplified view of virtual memory. The full
-concept is much more advanced. For example, Virtual memory can be mapped
+Let\'s explain all this complex concepts using the Linux tools and
+dynamic practices. The progam `009-01-memory-layout.s` helps with
+this:
+
+```{.gnuassembler .numberLines include=resource/asm/009-01-memory-layout.s}
+```
+
+Time to assemble and link:
+
+```{.bash}
+as -o 009-01-memory-layout.o  009-01-memory-layout.s --gstabs+
+ld -o 009-01-memory-layout    009-01-memory-layout
+```
+
+How to get the begining of the memory address (0x08048000)? Search the
+private headres:
+
+```{.bash}
+objdump  009-01-memory-layout  --private-headers
+```
+
+It shows the `LOAD off    0x00000000 vaddr 0x08048000`:
+
+    Program Header:
+        LOAD off    0x00000000 vaddr 0x08048000 paddr 0x08048000 align 2**12
+             filesz 0x00000094 memsz 0x00000094 flags r--
+        LOAD off    0x00001000 vaddr 0x08049000 paddr 0x08049000 align 2**12
+             filesz 0x00000022 memsz 0x00000022 flags r-x
+        LOAD off    0x00002000 vaddr 0x0804a000 paddr 0x0804a000 align 2**12
+             filesz 0x0000000c memsz 0x0000000c flags rw-
+
+The symbols are the sections, variables, constans, labels, functions, and more.
+These are inside of the binary file:
+
+```{.bash}
+objdump 009-01-memory-layout --syms
+```
+
+```{.text}
+SYMBOL TABLE:
+08049000 l    d  .text  00000000 .text
+0804a000 l    d  .data  00000000 .data
+0804a010 l    d  .bss   00000000 .bss
+
+0804a000 l       .data  00000000 name
+0804a004 l       .data  00000000 age
+0804a008 l       .data  00000000 id
+
+0804a010 l     O .bss   00000080 comment
+0804a090 l     O .bss   00000003 author
+00000005 l       *ABS*  00000000 items
+
+08049017 l       .text  00000000 _hello
+08049026 l       .text  00000000 _fine
+08049039 l       .text  00000000 _bye
+
+08049000 g       .text  00000000 _start
+```
+
+Get the overall file header, it contains the `start address`:
+
+```{.bash}
+objdump 009-01-memory-layout --file-headers
+```
+
+    architecture: i386, flags 0x00000112:
+    EXEC_P,  HAS_SYMS,  D_PAGED
+    start address 0x08049000
+
+In `gdb` we are able to get these information, too:
+
+```{.bash}
+gdb --args ./009-01-memory-layout 123 456
+(gdb) info files
+```
+
+    Entry point: 0x8049000
+    0x08049000 - 0x080490b5 is .text
+    0x0804a000 - 0x0804a00c is .data
+    0x0804a010 - 0x0804a094 is .bss
+
+**Table of the Physical Memory in the program.**
+
+As we mentioned in this and other chapters the code is going
+fordward starting at memory 0x08048000 but the dynamic data
+is pushing backwards from the bottom of the memory 0xffffffff.
+
+```{.text}
+./009-01-memory-layout 123 456
+
+    +-------------------+ ---> 0x08048000
+    |   Program Code    |
+    |     and Data      |
+    |         ↓         |
+    +-------------------+
+    |       .text       | ---> 0x08049000
+    |      <_start>     | ---> 0x08049000 movl   $1, %eax
+    |     <_start+5>    | ---> 0x08049005 calll  _hello <_hello>
+    |    <_start+10>    | ---> 0x0804900a pushl  age <0x804a004>
+    |    <_start+16>    | ---> 0x08049010 calll  _fine <_fine>
+    |         ↓         |
+    +-------------------+
+    |       .data       | ---> 0x0804a000
+    |        name       | ---> 0x0804a000
+    |        age        | ---> 0x0804a004
+    |        id         | ---> 0x0804a008
+    |         ↓         |
+    +-------------------+
+    |       .bss        | ---> 0x0804a010
+    |       comment     | ---> 0x0804a010
+    |       author      | ---> 0x0804a090
+    |         ↓         |
+    +-------------------+ ---> 0x804b000 *** Break
+    |         ↓         |
+    |                   |
+    |  Unmapped Memory  |
+    |                   |
+    |         ↑         | ---> New pushes (pushl)
+    +-------------------+
+    |  # of arguments   | ---> 0xffffd870
+    +-------------------+
+    |   Program name    | ---> 0xffffd874
+    +-------------------+
+    |      Arg #1       | ---> 0xffffd878
+    +-------------------+
+    |      Arg #2       | ---> 0xffffd87c
+    +-------------------+
+    |     ... ↑ ...     |
+    +-------------------+
+    |         ↑         |
+    |    Environment    |
+    |     variables     |
+    +-------------------+ ---> 0xffffffff
+```
+
+Try to upside down the previous table to read from the memory stack
+during the execution of the first function `_hello`. This is
+the confused part because when we try to take the values from
+the base pointer (%ebp) or stack pointer (%esp) we need to add
+or sub in the inverse way that we are thinking, the reason is here:
+
+> **TIP:**
+>
+> Taking old variables pushed in the stack needs to use positive numbers,
+> the new variables pushed  in the stack needs to use the negative numbers.
+> Because the positive numbers are going to the bottom of the memory
+> _0xffffffff_, means it's going backwards.
+>
+> ```{.gnuassembler}
+> pushl %ebp                # Save old base pointer.
+> movl  %esp, %ebp          # Make ST the BP.
+> subl  $12, %ebp           # Reserve 3 new local variables.
+> movl  %eax, 8(%esp)       # Store in the new 2nd variable.
+> movl  %eax, -4(%ebp)      # Store in the new 2nd variable.
+> ```
+
+It shows how to the stack memory is decreassing when we `call` or `push`
+values, and decreassing when use `pop` or `ret`:
+
+```{.gnuassembler .numberLines include=resource/asm/009-01-memory-layout.s startLine=36 endLine=46}
+```
+
+```{.text}
+./009-01-memory-layout 123 456
+    +-------------------+ ---> 0xffffffff
+    |    Environment    |
+    |     variables     |
+    |         ↓         |
+    +-------------------+
+    |   Program name    | ---> 0xffffd874
+    +-------------------+
+    |  # of arguments   | ---> 0xffffd870
+    |         ↓         |
+    +-------------------+ ---> 0xffffd870  -> %esp
+    |                   |
+    |     _start+17     |    > call _hello
+    |         ↓         | ---> 0xffffd86c  -> %esp
+    +-------------------+
+    |       %ebp        |    > pushl %ebp
+    |         ↓         | ---> 0xffffd868  -> %esp
+    |                   |    > movl  %esp, %ebp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    +-------------------+
+    |        %eax       |    > pushl  %eax
+    |         ↓         | ---> 0xffffd864  -> %esp
+    +-------------------+
+    |        %eax       |    > popl   %eax
+    |         ↑         | ---> 0xffffd868  -> %ebp %esp
+    +-------------------+
+    |                   |    > movl   %ebp, %esp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    |       %ebp        |    > popl   %ebp
+    |         ↑         | ---> 0xffffd86c  -> %esp
+    +-------------------+
+    |        ret        |    > ret
+    |         ↑         | ---> 0xffffd870  -> %esp
+    |                   |
+    +-------------------+ ---> 0x804b000 *** Break
+    |         ↓         |
+    |  Unmapped Memory  |
+    |         ↑         |
+    +-------------------+
+    |         ↑         |
+    |   Code and Data   |
+    +-------------------+
+```
+
+The memory address is decreassing when `push` and `call` is
+executed:
+
+    0xffffd870  -> %esp
+    0xffffd86c  -> %esp
+    0xffffd868  -> %ebp %esp
+    0xffffd864  -> %esp
+
+It\'s increassing when `pop` and `ret` is executed:
+
+    0xffffd868  -> %ebp %esp
+    0xffffd86c  -> %esp
+    0xffffd870  -> %esp
+
+Now, checks the next example with the function `_fine`, it adds
+new local variables. This example also demostrate that use `%esp` or
+`%ebp` are the same because at the end it\'s a mark which indicate the
+positions, one for the base pointer and other for the stack pointer.
+Highly recommended to use `%esp` because the program is dinamyc and
+it goes insde of the `call`s. We want to use the recently created
+spaces for these variables, `%ebp` is recommended when you want to take
+arguments of the actual funcion, they always be around the base pointer:
+
+```{.gnuassembler .numberLines include=resource/asm/009-01-memory-layout.s startLine=48 endLine=75}
+```
+
+```{.text}
+./009-01-memory-layout 123 456
+    +-------------------+ ---> 0xffffffff
+    |    Environment    |
+    |     variables     |
+    |         ↓         |
+    +-------------------+
+    |   Program name    | ---> 0xffffd874
+    +-------------------+
+    |  # of arguments   | ---> 0xffffd870
+    |         ↓         |
+    +-------------------+ ---> 0xffffd870  -> %esp
+    |                   |
+    |     _start+22     |    > call _fine
+    |         ↓         | ---> 0xffffd86c  -> %esp
+    +-------------------+
+    |       %ebp        |    > pushl %ebp
+    |         ↓         | ---> 0xffffd868  -> %esp
+    |                   |    > movl  %esp, %ebp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    +-------------------+
+    |                   |    > subl  $12, %esp
+    |                   | ---> 0xffffd868  -> %ebp
+    |         ↓         | ---> 0xffffd85c  -> %esp
+    +-------------------+
+    |                   |    > movl  $age, 4(%esp)
+    |  0x804a004 (age)  | ---> 0xffffd860
+    +-------------------+
+    |                   |    > movl  $author, -8(%ebp)
+    | 0x804a090 (auth)  | ---> 0xffffd860
+    +-------------------+
+    |                   |    > movl  $id, 8(%esp)
+    |  0x804a008 (id)   | ---> 0xffffd864
+    +-------------------+
+    |                   |    > movl  $comment, -4(%ebp)
+    | 0x804a010 (comm)  | ---> 0xffffd864
+    +-------------------+
+    |        %age       |    > pushl  %age
+    |         ↓         | ---> 0xffffd858  -> %esp
+    +-------------------+
+    |        %eax       |    > popl   %eax
+    |         ↑         | ---> 0xffffd85c  -> %esp
+    +-------------------+
+    |                   |    > addl  $12, %esp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    +-------------------+
+    |                   |    > movl   %ebp, %esp
+    |                   | ---> 0xffffd868  -> %ebp %esp
+    |       %ebp        |    > popl   %ebp
+    |         ↑         | ---> 0xffffd86c  -> %esp
+    +-------------------+
+    |        ret        |    > ret
+    |         ↑         | ---> 0xffffd870  -> %esp
+    |                   |
+    +-------------------+ ---> 0x804b000 *** Break
+    |         ↓         |
+    |  Unmapped Memory  |
+    |         ↑         |
+    +-------------------+
+    |         ↑         |
+    |   Code and Data   |
+    +-------------------+
+```
+
+Flow of the stack pointer:
+
+    0xffffd870  -> %esp
+    0xffffd86c  -> %esp
+    0xffffd868  -> %ebp %esp
+    0xffffd85c  -> %esp
+    0xffffd858  -> %esp
+
+    0xffffd85c  -> %esp
+    0xffffd868  -> %ebp %esp
+    0xffffd86c  -> %esp
+    0xffffd870  -> %esp
+
+
+Virtual Memory
+--------------
+
+Virtual memory can be mapped
 to more than just physical memory; it can be mapped to disk as well.
 Swap partitions on Linux allow Linux\'s virtual memory system to map
 memory not only to physical RAM, but also to disk blocks as well. For
@@ -4999,12 +5309,13 @@ will look at building our own memory manager.
 A Simple Memory Manager
 -----------------------
 
-Here I will show you a simple memory manager. It is very primitive but
+Here I will show you a simple memory manager (`009-02-alloc.s`).
+It is very primitive but
 it shows the principles quite well. As usual, I will give you the
 program first for you to look through. Afterwards will follow an
 in-depth explanation. It looks long, but it is mostly comments.
 
-```{.gnuassembler .numberLines include=resource/asm/alloc.s}
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s}
 ```
 
 The first thing to notice is that there is no `_start` symbol. The
@@ -5015,7 +5326,7 @@ utility to be used by other programs.
 To assemble the program, do the following:
 
 ```{.bash}
-as -o alloc.o  alloc.s --gstabs+
+as -o 009-02-alloc.o  009-02-alloc.s --gstabs+
 ```
 
 Okay, now let\'s look at the code.
@@ -5024,12 +5335,7 @@ Okay, now let\'s look at the code.
 
 At the beginning of the program, we have two locations set up:
 
-```{.gnuassembler .numberLines}
-heap_begin:
-    .long 0
-
-current_break:
-    .long 0
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=32 endLine=38}
 ```
 
 Remember, the section of memory being managed is commonly referred to as
@@ -5049,10 +5355,7 @@ lets us know both whether or not this region is big enough for an
 allocation request, as well as the location of the next memory region.
 The following constants describe this record:
 
-```{.gnuassembler .numberLines}
-.equ HEADER_SIZE,       8
-.equ HDR_AVAIL_OFFSET,  0
-.equ HDR_SIZE_OFFSET,   4
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=42 endLine=52}
 ```
 
 This says that the header is 8 bytes total, the available flag is offset
@@ -5065,32 +5368,22 @@ The values that we will use for our `available` field are either 0 for
 unavailable, or 1 for available. To make this easier to read, we have
 the following definitions:
 
-```{.gnuassembler .numberLines}
-.equ UNAVAILABLE,  0
-.equ AVAILABLE,    1
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=56 endLine=68}
 ```
 
 Finally, we have our Linux system call definitions:
 
-```{.gnuassembler .numberLines}
-.equ BRK,            45
-.equ LINUX_SYSCALL,  0x80
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=70 endLine=76}
 ```
 
-### The `allocate_init` function
+### The `_allocate_init` function
 
 Okay, this is a simple function. All it does is set up the `heap_begin`
 and `current_break` variables we discussed earlier. So, if you remember
 the discussion earlier, the current break can be found using the
 `brk` system call. So, the function starts like this:
 
-```{.gnuassembler .numberLines}
-pushl %ebp
-movl  %esp, %ebp
-
-movl  $SYS_BRK, %eax
-movl  $0,  %ebx
-int   $LINUX_SYSCALL
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=92 endLine=101}
 ```
 
 Anyway, after `int $LINUX_SYSCALL`, `%eax` holds the last valid address.
@@ -5099,21 +5392,15 @@ address, so we just increment `%eax`. Then we move that value to the
 `heap_begin` and `current_break` locations. Then we leave the function.
 The code looks like this:
 
-```{.gnuassembler .numberLines}
-incl  %eax
-movl  %eax, current_break
-movl  %eax, heap_begin
-movl  %ebp, %esp
-popl  %ebp
-ret
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=103 endLine=120}
 ```
 
 The heap consists of the memory between `heap_begin` and
 `current_break`, so this says that we start off with a heap of zero
-bytes. Our `allocate` function will then extend the heap as much as it
+bytes. Our `_allocate` function will then extend the heap as much as it
 needs to when it is called.
 
-### The `allocate` function
+### The `_allocate` function
 
 This is the doozy function. Let\'s start by looking at an outline of the
 function:
@@ -5141,12 +5428,7 @@ comments so you\'ll know which register holds which value.
 Now that you\'ve looked back through the code, let\'s examine it one
 line at a time. We start off like this:
 
-```{.gnuassembler .numberLines}
-pushl %ebp
-movl  %esp, %ebp
-movl  ST_MEM_SIZE(%ebp), %ecx
-movl  heap_begin, %eax
-movl  current_break, %ebx
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=164 endLine=181}
 ```
 
 This part initializes all of our registers. The first two lines are
@@ -5155,31 +5437,21 @@ allocate off of the stack. This is our only function parameter. After
 that, it moves the beginning heap address and the end of the heap into
 registers. I am now ready to do processing.
 
-The next section is marked `alloc_loop_begin`. In this loop we are going
+The next section is marked `_alloc_loop_begin`. In this loop we are going
 to examine memory regions until we either find an open memory region or
 determine that we need more memory. Our first instructions check to see
 if we need more memory:
 
-```{.gnuassembler .numberLines}
-cmpl %ebx, %eax
-je   move_break
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=184 endLine=190}
 ```
 
 _%eax_ holds the current memory region being examined and _%ebx_ holds the
 location past the end of the heap. Therefore if the next region to be
 examined is past the end of the heap, it means we need more memory to
-allocate a region of this size. Let\'s skip down to `move_break` and see
+allocate a region of this size. Let\'s skip down to `_move_break` and see
 what happens there:
 
-```{.gnuassembler .numberLines}
-move_break:
-    addl  $HEADER_SIZE, %ebx
-    addl  %ecx, %ebx
-    pushl %eax
-    pushl %ecx
-    pushl %ebx
-    movl  $SYS_BRK, %eax
-    int   $LINUX_SYSCALL
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=268 endLine=313}
 ```
 
 When we reach this point in the code, _%ebx_ holds where we want the next
@@ -5188,44 +5460,29 @@ _%ebx_, and that\'s where we want the system break to be. We then push all
 the registers we want to save on the stack, and call the `brk` system
 call. After that we check for errors:
 
-```{.gnuassembler .numberLines}
-cmpl  $0, %eax
-je    error
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=315 endLine=316}
 ```
 
 If there were no errors we pop the registers back off the stack, mark
 the memory as unavailable, record the size of the memory, and make sure
 _%eax_ points to the start of usable memory (which is *after* the header).
 
-```{.gnuassembler .numberLines}
-popl  %ebx
-popl  %ecx
-popl  %eax
-movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-movl  %ecx, HDR_SIZE_OFFSET(%eax)
-addl  $HEADER_SIZE, %eax
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=318 endLine=344}
 ```
 
 Then we store the new program break and return the pointer to the
 allocated memory.
 
-```{.gnuassembler .numberLines}
-movl  %ebx, current_break
-movl  %ebp, %esp
-popl  %ebp
-ret
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=346 endLine=352}
 ```
 
-The `error` code just returns 0 in _%eax_, so we won\'t discuss it.
+The `_error` code just returns 0 in _%eax_, so we won\'t discuss it.
 
 Let\'s go back look at the rest of the loop. What happens if the current
 memory being looked at isn\'t past the end of the heap? Well, let\'s
 look.
 
-```{.gnuassembler .numberLines}
-movl HDR_SIZE_OFFSET(%eax), %edx
-cmpl $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-je   next_location
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=192 endLine=207}
 ```
 
 This first grabs the size of the memory region and puts it in _%edx_. Then
@@ -5239,22 +5496,15 @@ Let\'s say that the space was available, and so we keep going. Then we
 check to see if this space is big enough to hold the requested amount of
 memory. The size of this region is being held in _%edx_, so we do this:
 
-```{.gnuassembler .numberLines}
-cmpl  %edx, %ecx
-jle   allocate_here
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=209 endLine=216}
 ```
 
 If the requested size is less than or equal to the current region\'s
 size, we can use this block. It doesn\'t matter if the current region is
 larger than requested, because the extra space will just be unused. So,
-let\'s jump down to `allocate_here` and see what happens:
+let\'s jump down to `_allocate_here` and see what happens:
 
-```{.gnuassembler .numberLines}
-movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-addl  $HEADER_SIZE, %eax
-movl  %ebp, %esp
-popl  %ebp
-ret
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=244 endLine=266}
 ```
 
 It marks the memory as being unavailable. Then it moves the pointer _%eax_
@@ -5264,7 +5514,7 @@ about our memory header record. They just need a pointer to usable
 memory.
 
 Okay, so let\'s say the region wasn\'t big enough. What then? Well, we
-would then be at the code labeled `next_location`. This section of code
+would then be at the code labeled `_next_location`. This section of code
 is used any time that we figure out that the current memory region
 won\'t work for allocating memory. All it does is advance _%eax_ to the
 next possible memory region, and goes back to the beginning of the loop.
@@ -5272,10 +5522,7 @@ Remember that _%edx_ is holding the size of the current memory region, and
 `HEADER_SIZE` is the symbol for the size of the memory region\'s header.
 So this code will move us to the next memory region:
 
-```{.gnuassembler .numberLines}
-addl  $HEADER_SIZE, %eax
-addl  %edx, %eax
-jmp   alloc_loop_begin
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=218 endLine=242}
 ```
 
 And now the function runs another loop.
@@ -5297,18 +5544,14 @@ region, we will eventually reach the end of the heap, because it is a
 finite size. Therefore, we know that no matter which condition is true,
 the loop has to eventually hit a terminating condition.
 
-### The `deallocate` function
+### The `_deallocate` function
 
-The `deallocate` function is much easier than the `allocate` one.
+The `_deallocate` function is much easier than the `_allocate` one.
 That\'s because it doesn\'t have to do any searching at all. It can just
-mark the current memory region as `AVAILABLE`, and `allocate` will find
+mark the current memory region as `AVAILABLE`, and `_allocate` will find
 it next time it is called. So we have:
 
-```{.gnuassembler .numberLines}
-movl  ST_MEMORY_SEG(%esp), %eax
-subl  $HEADER_SIZE, %eax
-movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
-ret
+```{.gnuassembler .numberLines include=resource/asm/009-02-alloc.s startLine=391 endLine=410}
 ```
 
 In this function, we don\'t have to save _%ebp_ or _%esp_
@@ -5337,10 +5580,10 @@ can see how this could get really, really slow.[^9-6] This method is said
 to run in *linear* time, which means that every element you have to
 manage makes your program take longer. A program that runs in *constant*
 time takes the same amount of time no matter how many elements you are
-managing. Take the `deallocate` function, for instance. It only runs 4
+managing. Take the `_deallocate` function, for instance. It only runs 4
 instructions, no matter how many elements we are managing, or where they
-are in memory. In fact, although our `allocate` function is one of the
-slowest of all memory managers, the `deallocate` function is one of the
+are in memory. In fact, although our `_allocate` function is one of the
+slowest of all memory managers, the `_deallocate` function is one of the
 fastest.
 
 Another performance problem is the number of times we\'re calling the
@@ -5378,21 +5621,22 @@ necessitate a memory manager. Therefore, we will just use our memory
 manager to allocate a buffer for one of our file reading/writing
 programs instead of assigning it in the `.bss`.
 
-The program we will demonstrate this on is `006-01-read-records.s` from
+The program we will demonstrate this on is `009-02-read-records.s` from
 [Chapter 6. Reading and Writing Simple Records](#chapter-6-reading-and-writing-simple-records).
-This program uses a buffer named `record_buffer` to
+This program uses a buffer named `_record_buffer` to
 handle its input/output needs. We will simply change this from being a
 buffer defined in `.bss` to being a pointer to a dynamically-allocated
 buffer using our memory manager. You will need to have the code from
 that program handy as we will only be discussing the changes in this
 section.
 
+```{.gnuassembler .numberLines include=resource/asm/006-01-read-records.s}
+```
+
 The first change we need to make is in the declaration. Currently it
 looks like this:
 
-```{.gnuassembler .numberLines}
-.section .bss
-.lcomm, record_buffer, RECORD_SIZE
+```{.gnuassembler .numberLines include=resource/asm/006-01-read-records.s startLine=6 endLine=11}
 ```
 
 It would be a misnomer to keep the same name, since we are switching it
@@ -5400,45 +5644,37 @@ from being an actual buffer to being a pointer to a buffer. In addition,
 it now only needs to be one word big (enough to hold a pointer). The new
 declaration will stay in the `.data` section and look like this:
 
-```{.gnuassembler .numberLines}
-record_buffer_ptr:
-    .long 0
+```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s startLine=6 endLine=14}
 ```
 
 Our next change is we need to initialize our memory manager immediately
 after we start our program. Therefore, right after the stack is set up,
 the following call needs to be added:
 
-```{.gnuassembler .numberLines}
-call allocate_init
+```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s startLine=30 endLine=30}
 ```
 
 After that, the memory manager is ready to start servicing memory
 allocation requests. We need to allocate enough memory to hold these
-records that we are reading. Therefore, we will call `allocate` to
+records that we are reading. Therefore, we will call `_allocate` to
 allocate this memory, and then save the pointer it returns into
 `record_buffer_ptr`. Like this:
 
-```{.gnuassembler .numberLines}
-pushl $RECORD_SIZE
-call  allocate
-movl  %eax, record_buffer_ptr
+```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s startLine=32 endLine=34}
 ```
 
-Now, when we make the call to `read_record`, it is expecting a pointer.
+Now, when we make the call to `_read_record`, it is expecting a pointer.
 In the old code, the pointer was the immediate-mode reference to
-`record_buffer`. Now, `record_buffer_ptr` just holds the pointer rather
+`_record_buffer`. Now, `record_buffer_ptr` just holds the pointer rather
 than the buffer itself. Therefore, we must do a direct mode load to get
 the value in `record_buffer_ptr`. We need to remove this line:
 
-```{.gnuassembler .numberLines}
-pushl $record_buffer
+```{.gnuassembler .numberLines include=resource/asm/006-01-read-records.s startLine=52 endLine=52}
 ```
 
 And put this line in its place:
 
-```{.gnuassembler .numberLines}
-pushl record_buffer_ptr
+```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s startLine=61 endLine=61}
 ```
 
 The next change comes when we are trying to find the address of the
@@ -5450,50 +5686,45 @@ we will need to move the pointer into a register, and then add
 `$RECORD_FIRSTNAME` to it to get the pointer. So where we have the
 following code:
 
-```{.gnuassembler .numberLines}
-pushl $RECORD_FIRSTNAME + record_buffer
+```{.gnuassembler .numberLines include=resource/asm/006-01-read-records.s startLine=66 endLine=66}
 ```
 
 We need to replace it with this:
 
-```{.gnuassembler .numberLines}
-movl  record_buffer_ptr, %eax
-addl  $RECORD_FIRSTNAME, %eax
-pushl %eax
+```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s startLine=75 endLine=77}
 ```
 
 Similarly, we need to change the line that says
 
-```{.gnuassembler .numberLines}
-movl  $RECORD_FIRSTNAME + record_buffer, %ecx
+```{.gnuassembler .numberLines include=resource/asm/006-01-read-records.s startLine=73 endLine=73}
 ```
 
 so that it reads like this:
 
-```{.gnuassembler .numberLines}
-movl  record_buffer_ptr, %ecx
-addl  $RECORD_FIRSTNAME, %ecx
+```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s startLine=84 endLine=85}
 ```
 
 Finally, one change that we need to make is to deallocate the memory
 once we are done with it (in this program it\'s not necessary, but it\'s
 a good practice anyway). To do that, we just send `record_buffer_ptr` to
-the `deallocate` function right before exitting:
+the `_deallocate` function right before exitting:
 
-```{.gnuassembler .numberLines}
-pushl record_buffer_ptr
-call  deallocate
+```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s startLine=95 endLine=96}
 ```
 
 Now you can build your program with the following commands:
 
 ```{.bash}
-as -o 006-01-read-records.o  006-01-read-records.s --gstabs+
-ld -o 006-01-read-records    alloc.o read-record.o 006-01-read-records.o \
-                      write-newline.o count-chars.o
+as -o 009-02-read-records.o  009-02-read-records.s --gstabs+
+
+ld -o 009-02-read-records    006-01-count-chars.o \
+                             006-01-read-record.o \
+                             006-01-write-newline.o \
+                             009-02-alloc.o \
+                             009-02-read-records.o
 ```
 
-You can then run your program by doing `./006-01-read-records`.
+You can then run your program by doing `./009-02-read-records`.
 
 The uses of dynamic memory allocation may not be apparent to you at this
 point, but as you go from academic exercises to real-life programs you
@@ -5548,7 +5779,7 @@ Review
 
 ### Use the Concepts
 
--   Modify the memory manager so that it calls `allocate_init`
+-   Modify the memory manager so that it calls `_allocate_init`
     automatically if it hasn\'t been initialized.
 
 -   Modify the memory manager so that if the requested size of memory is
@@ -5588,7 +5819,7 @@ Review
     different physical address, it can also move those mappings around
     as needed.
 
-[^9-5]: The function names usually aren\'t `allocate` and `deallocate`,
+[^9-5]: The function names usually aren\'t `_allocate` and `_deallocate`,
     but the functionality will be the same. In the C programming
     language, for example, they are named `malloc` and `free`.
 
