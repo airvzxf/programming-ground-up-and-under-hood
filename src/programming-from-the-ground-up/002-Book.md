@@ -765,7 +765,9 @@ human-readable file into a machine-readable one. To assembly the program
 type in the command:
 
 ```{.bash}
-as -o 003-01-exit.o  003-01-exit.s --gstabs+
+as -o 003-01-exit.o  --32 \
+                     --gstabs+ \
+                     003-01-exit.s 
 ```
 
 `as` is the command which runs the assembler, `003-01-exit.s` is the source
@@ -785,7 +787,8 @@ linker is only adding the information to enable it to run. To *link*
 the file, enter the command:
 
 ```{.bash}
-ld -o 003-01-exit  003-01-exit.o
+ld -o 003-01-exit  -m elf_i386 \
+                   003-01-exit.o
 ```
 
 `ld` is the command to run the linker, `003-01-exit.o` is the object file we
@@ -1190,8 +1193,12 @@ Enter the following program as `003-02-maximum.s`:
 Now, assemble and link it with these commands:
 
 ```{.bash}
-as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
-ld -o 003-02-maximum    003-02-maximum.o
+as -o 003-02-maximum.o  --32 \
+                        --gstabs+ \
+                        003-02-maximum.s
+
+ld -o 003-02-maximum    -m elf_i386 \
+                        003-02-maximum.o
 ```
 
 Now run it, and check its status.
@@ -2381,8 +2388,12 @@ Let\'s look at the `004-02-factorial.s` code to see how this works:
 Assemble, link, and run it with these commands:
 
 ```{.bash}
-as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
-ld -o 004-02-factorial    004-02-factorial.o
+as -o 004-02-factorial.o  --32 \
+                          --gstabs+ \
+                          004-02-factorial.s
+
+ld -o 004-02-factorial    -m elf_i386 \
+                          004-02-factorial.o
 ./004-02-factorial
 echo $?
 ```
@@ -2904,8 +2915,12 @@ Type in this program as `005-01-toupper.s`, and then enter in the
 following commands:
 
 ```{.bash}
-as -o 005-01-toupper.o  005-01-toupper.s --gstabs+
-ld -o 005-01-toupper    005-01-toupper.o
+as -o 005-01-toupper.o  --32 \
+                        --gstabs+ \
+                        005-01-toupper.s
+
+ld -o 005-01-toupper    -m elf_i386 \
+                        005-01-toupper.o
 ```
 
 This builds a program called `005-01-toupper`, which converts all
@@ -3339,10 +3354,16 @@ their defined lengths.
 To build the application, run the commands:
 
 ```{.bash}
-as -o 006-01-write-record.o   006-01-write-record.s  --gstabs+
-as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
+as -o 006-01-write-record.o   --32 \
+                              --gstabs+ \
+                              006-01-write-record.s
 
-ld -o 006-01-write-records    006-01-write-record.o \
+as -o 006-01-write-records.o  --32 \
+                              --gstabs+ \
+                              006-01-write-records.s
+
+ld -o 006-01-write-records    -m elf_i386 \
+                              006-01-write-record.o \
                               006-01-write-records.o
 ```
 
@@ -3415,12 +3436,24 @@ To build this program, we need to assemble all of the parts and link
 them together:
 
 ```{.bash}
-as -o 006-01-count-chars.o    006-01-count-chars.s   --gstabs+
-as -o 006-01-read-record.o    006-01-read-record.s   --gstabs+
-as -o 006-01-read-records.o   006-01-read-records.s  --gstabs+
-as -o 006-01-write-newline.o  006-01-write-newline.s --gstabs+
+as -o 006-01-count-chars.o    --32 \
+                              --gstabs+ \
+                              006-01-count-chars.s
 
-ld -o 006-01-read-records     006-01-count-chars.o \
+as -o 006-01-read-record.o    --32 \
+                              --gstabs+ \
+                              006-01-read-record.s
+
+as -o 006-01-read-records.o   --32 \
+                              --gstabs+ \
+                              006-01-read-records.s
+
+as -o 006-01-write-newline.o  --32 \
+                              --gstabs+ \
+                              006-01-write-newline.s
+
+ld -o 006-01-read-records     -m elf_i386 \
+                              006-01-count-chars.o \
                               006-01-read-record.o \
                               006-01-read-records.o \
                               006-01-write-newline.o
@@ -3475,9 +3508,12 @@ is pretty straightforward.[^6-3]
 You can type it in as `006-01-add-year.s`. To build it, type the following[^6-4]:
 
 ```{.bash}
-as -o 006-01-add-year.o  006-01-add-year.s --gstabs+
+as -o 006-01-add-year.o  --32 \
+                         --gstabs+ \
+                         006-01-add-year.s
 
-ld -o 006-01-add-year    006-01-add-year.o \
+ld -o 006-01-add-year    -m elf_i386 \
+                         006-01-add-year.o \
                          006-01-read-record.o \
                          006-01-write-record.o
 ```
@@ -3876,10 +3912,16 @@ error checking and handling code.
 To assemble and link the files, do:
 
 ```{.bash}
-as -o 007-01-add-year.o    007-01-add-year.s   --gstabs+
-as -o 007-01-error-exit.o  007-01-error-exit.s --gstabs+
+as -o 007-01-add-year.o    --32 \
+                           --gstabs+ \
+                           007-01-add-year.s
 
-ld -o 007-01-add-year      006-01-count-chars.o \
+as -o 007-01-error-exit.o  --32 \
+                           --gstabs+ \
+                           007-01-error-exit.s
+
+ld -o 007-01-add-year      -m elf_i386 \
+                           006-01-count-chars.o \
                            006-01-read-record.o \
                            006-01-write-newline.o \
                            006-01-write-record.o \
@@ -4026,18 +4068,26 @@ little different than normal. You can build the first program normally
 by doing this:
 
 ```{.bash}
-as -o 008-01-helloworld-nolib.o  008-01-helloworld-nolib.s --gstabs+
-ld -o 008-01-helloworld-nolib    008-01-helloworld-nolib.o
+as -o 008-01-helloworld-nolib.o  --32 \
+                                 --gstabs+ \
+                                 008-01-helloworld-nolib.s
+
+ld -o 008-01-helloworld-nolib    -m elf_i386 \
+                                 008-01-helloworld-nolib.o
 ```
 
 However, in order to build the second program, you have to do this:
 
 ```{.bash}
-as -o 008-01-helloworld-lib.o  008-01-helloworld-lib.s --gstabs+
-ld -o 008-01-helloworld-lib    008-01-helloworld-lib.o \
-    --library        c \
-    --library-path   /usr/lib32/ \
-    -dynamic-linker  /usr/lib32/ld-linux.so.2
+as -o 008-01-helloworld-lib.o  --32 \
+                               --gstabs+ \
+                               008-01-helloworld-lib.s
+
+ld -o 008-01-helloworld-lib    -m elf_i386 \
+                               008-01-helloworld-lib.o \
+            --library        c \
+            --library-path   /usr/lib32/ \
+            -dynamic-linker  /usr/lib32/ld-linux.so.2
 ```
 
 Run both programs and you will get the classic message:
@@ -4200,11 +4250,15 @@ Type it in with the filename `008-02-printf-example.s`, and then do the
 following commands:
 
 ```{.bash}
-as -o 008-02-printf-example.o  008-02-printf-example.s --gstabs+
-ld -o 008-02-printf-example    008-02-printf-example.o \
-    --library-path   /usr/lib32/ \
-    --library        c \
-    -dynamic-linker  /usr/lib32/ld-linux.so.2
+as -o 008-02-printf-example.o  --32 \
+                               --gstabs+ \
+                               008-02-printf-example.s
+
+ld -o 008-02-printf-example    -m elf_i386 \
+                               008-02-printf-example.o \
+            --library-path   /usr/lib32/ \
+            --library        c \
+            -dynamic-linker  /usr/lib32/ld-linux.so.2
 ```
 
 Then run the program with `./008-02-printf-example`, and it should say this:
@@ -4405,15 +4459,21 @@ use in our programs. The first thing we would do is assemble them like
 normal:
 
 ```{.bash}
-as -o 006-01-write-record.o  006-01-write-record.s --gstabs+
-as -o 006-01-read-record.o   006-01-read-record.s  --gstabs+
+as -o 006-01-write-record.o  --32 \
+                             --gstabs+ \
+                             006-01-write-record.s
+
+as -o 006-01-read-record.o   --32 \
+                             --gstabs+ \
+                             006-01-read-record.s
 ```
 
 Now, instead of linking them into a program, we want to link them into a
 dynamic library. This changes our linker command to this:
 
 ```{.bash}
-ld -o librecord.so  -shared \
+ld -o librecord.so  -m elf_i386 \
+                    -shared \
                     006-01-write-record.o \
                     006-01-read-record.o
 ```
@@ -4428,12 +4488,15 @@ Let\'s look at how we would link against this library. To link the
 `008-03-write-records` program, we would do the following:
 
 ```{.bash}
-as -o 006-01-write-records.o  006-01-write-records.s --gstabs+
+as -o 006-01-write-records.o  --32 \
+                              --gstabs+ \
+                              006-01-write-records.s
 
-ld -o 008-03-write-records    006-01-write-records.o \
-    --library        record \
-    --library-path   . \
-    -dynamic-linker  /lib32/ld-linux.so.2
+ld -o 008-03-write-records    -m elf_i386 \
+                              006-01-write-records.o \
+                --library        record \
+                --library-path   . \
+                -dynamic-linker  /lib32/ld-linux.so.2
 ```
 
 In this command, `-L .` or `--library-path .` told the linker to look
@@ -4850,8 +4913,12 @@ this:
 Time to assemble and link:
 
 ```{.bash}
-as -o 009-01-memory-layout.o  009-01-memory-layout.s --gstabs+
-ld -o 009-01-memory-layout    009-01-memory-layout
+as -o 009-01-memory-layout.o  --32 \
+                              --gstabs+ \
+                              009-01-memory-layout.s
+
+ld -o 009-01-memory-layout    -m elf_i386 \
+                              009-01-memory-layout
 ```
 
 How to get the begining of the memory address (0x08048000)? Search the
@@ -5326,7 +5393,9 @@ utility to be used by other programs.
 To assemble the program, do the following:
 
 ```{.bash}
-as -o 009-02-alloc.o  009-02-alloc.s --gstabs+
+as -o 009-02-alloc.o  --32 \
+                      --gstabs+ \
+                      009-02-alloc.s
 ```
 
 Okay, now let\'s look at the code.
@@ -5715,9 +5784,12 @@ the `_deallocate` function right before exitting:
 Now you can build your program with the following commands:
 
 ```{.bash}
-as -o 009-02-read-records.o  009-02-read-records.s --gstabs+
+as -o 009-02-read-records.o  --32 \
+                             --gstabs+ \
+                             009-02-read-records.s
 
-ld -o 009-02-read-records    006-01-count-chars.o \
+ld -o 009-02-read-records    -m elf_i386 \
+                             006-01-count-chars.o \
                              006-01-read-record.o \
                              006-01-write-newline.o \
                              009-02-alloc.o \
@@ -6731,12 +6803,27 @@ previous chapters. The code should be in a file called
 To build the program, issue the following commands:
 
 ```{.bash}
-as -o integer-to-number.o     integer-to-string.s  --gstabs+
-as -o 006-01-count-chars.o    006-01-count-chars.s        --gstabs+
-as -o 006-01-write-newline.o  006-01-write-newline.s      --gstabs+
-as -o conversion-program.o    conversion-program.s --gstabs+
-ld -o conversion-program      integer-to-number.o count-chars.o \
-                              write-newline.o conversion-program.o
+as -o integer-to-number.o     --32 \
+                              --gstabs+ \
+                              integer-to-string.s
+
+as -o 006-01-count-chars.o    --32 \
+                              --gstabs+ \
+                              006-01-count-chars.s
+
+as -o 006-01-write-newline.o  --32 \
+                              --gstabs+ \
+                              006-01-write-newline.s
+
+as -o conversion-program.o    --32 \
+                              --gstabs+ \
+                              conversion-program.s
+
+ld -o conversion-program      -m elf_i386 \
+                              integer-to-number.o \
+                              count-chars.o \
+                              write-newline.o \
+                              conversion-program.o
 ```
 
 To run just type `./conversion-program` and the output should say `824`.
@@ -9138,8 +9225,12 @@ add the `--gstabs+` option to the `as` command. So, you would assemble it
 like this:
 
 ```{.bash}
-as -o 003-02-maximum.o  003-02-maximum.s --gstabs+
-ld -o 003-02-maximum    003-02-maximum.o
+as -o 003-02-maximum.o  --32 \
+                        --gstabs+ \
+                        003-02-maximum.s
+
+ld -o 003-02-maximum    -m elf_i386 \
+                        003-02-maximum.o
 ```
 
 Linking would be the same as normal. \"stabs\" is the debugging format
@@ -9369,8 +9460,12 @@ the command line.
 <!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
 
 ```{.bash}
-as -o 004-02-factorial.o  004-02-factorial.s --gstabs+
-ld -o 004-02-factorial    004-02-factorial.o
+as -o 004-02-factorial.o  --32 \
+                          --gstabs+ \
+                          004-02-factorial.s
+
+ld -o 004-02-factorial    -m elf_i386 \
+                          004-02-factorial.o
 ```
 
     $ gdb ./004-02-factorial

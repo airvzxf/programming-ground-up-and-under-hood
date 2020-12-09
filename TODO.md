@@ -11,7 +11,7 @@
 - [x] Generate my theme of GNU Assembler and apply to the fenced code blocks. [Pandoc: Syntax highlighting](https://pandoc.org/MANUAL.html#syntax-highlighting).
 - [x] Fix the missing include files with the source code.
 - [x] Reduce the text columns for every assembly source file which is broken in the ePUB version, the limit is 55 characters.
-- [ ] Upgrade all the code blocks with bash where assemble/link with the 32-bit and i386 emulation.
+- [x] Upgrade all the code blocks of Bash. Assemble with 32-bit and link the i386 emulation.
 - [ ] Rename the assembly source files with the prefix chapters and appendixes `001-`, `012`, `AA-` and `AF-`.
 - [ ] Execute and fix all the assembly source files.
 - [ ] Create bash script to compile and link all the assembler files.

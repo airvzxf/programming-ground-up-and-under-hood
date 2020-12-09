@@ -12,6 +12,7 @@
       <item>echo</item>
       <item>export</item>
       <item>gcc</item>
+      <item>gdb</item>
       <item>ldd</item>
       <item>ld</item>
       <item>objdump</item>
@@ -23,8 +24,11 @@
       <item>LD_LIBRARY_PATH</item>
     </list>
     <list name="parameters">
+      <item>--32</item>
+      <item>--args</item>
       <item>--cflags</item>
       <item>-dynamic-linker</item>
+      <item>--file-headers</item>
       <item>--gstabs+</item>
       <item>--library</item>
       <item>--library-path</item>
@@ -32,10 +36,13 @@
       <item>-l</item>
       <item>-L</item>
       <item>-lrecord</item>
+      <item>-m</item>
       <item>-o</item>
+      <item>--private-headers</item>
       <item>-R</item>
       <item>-shared</item>
       <item>-S</item>
+      <item>--syms</item>
     </list>
 
     <contexts>
