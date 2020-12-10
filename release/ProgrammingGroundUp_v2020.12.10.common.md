@@ -1,3 +1,5 @@
+
+
 -   [Chapter 1. Introduction](#chapter-1.-introduction)
     -   [Welcome to Programming](#welcome-to-programming)
     -   [Your Tools](#your-tools)
@@ -139,6 +141,7 @@
 -   [Appendix H. GNU Free Documentation
     License](#appendix-h-gnu-free-documentation-license)
 -   [Appendix I. Personal Dedication](#appendix-i.-personal-dedication)
+-   [Appendix J. Updated by AirvZxf](#appendix-j.-updated-by-airvzxf)
 
 <!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
 <!-- TODO: Need to find places that need more filling out.  Reviews, definitely.  -->
@@ -186,7 +189,8 @@ Library of Congress Control Number: 2004091465
 
 Bartlett Publishing Cataloging-in-Publication Data
 
-This book can be purchased at http://www.bartlettpublishing.com/
+This book can be purchased at
+[http://www.bartlettpublishing.com](http://www.bartlettpublishing.com/)
 
 This book is not a reference book, it is an introductory book. It is
 therefore not suitable by itself to learn how to professionally program
@@ -12445,10 +12449,11 @@ down
 
 -   12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the
     DocBook to a Pandoc’s Markdown then it will export to ePUB, PDF,
-    HTML and Github Markdown, could be extended to other types to
-    documents. This version fixed some minimal details and update others
-    like the links from some broken web sites, a lots of minor updates
-    was done.
+    HTML and Github Markdown, could be extended to other types of
+    documents. This version fixed some minimal details, convert
+    grhapical tables to ASCII tables, update the links from some broken
+    web sites, minor updates was done also extended sub-topics to
+    clarify.
 
 -   04/18/2004 - Version 1.1 - Lots of minor updates based on reader
     comments. Made cleared distinction between dynamic and shared
@@ -12903,6 +12908,66 @@ by personal crises to even think about anything more than getting
 through a day, much less putting this book together. You have all been a
 great blessing to me, and I will keep you in my prayers always.
 
+# Appendix J. Updated by AirvZxf
+
+I'm [Israel Roldan](https://github.com/airvzxf) and I try to learn the
+GNU Assembler (`as` or `gas`) and I didn’t found many resources but this
+book is great.
+
+All the information is in my [GitHub
+repository](https://github.com/airvzxf/programming-ground-up-and-under-hood).
+To check the advance on this project and the pending reviews go to the
+[TO-DO's](https://github.com/airvzxf/programming-ground-up-and-under-hood/blob/main/src/programming-from-the-ground-up/TODO.md)
+list. I added some script to compile the [source
+files](https://github.com/airvzxf/programming-ground-up-and-under-hood/tree/main/src/programming-from-the-ground-up/resource/asm),
+emulating to i386/x86.
+
+### Motivations.
+
+-   I believe that Linux is the future, I dream with a world when
+    everyone is using Linux in our laptops, desktop computers, and all
+    the video game companies make perfect games for Linux.
+
+-   I was researching about GNU Assembler (“as” or “gas”) but
+    unfortunately, there are not many resources, these resources talk
+    about the most popular as “[NASM](https://nasm.us/)” and
+    “[FASM](https://flatassembler.net/)”.
+
+-   Why NOT focus on “NASM” or “FASM”? I started with “NASM” then I saw
+    a few years ago the active development stopped. I researched about
+    “FASM” and looks like it’s awesome but then I discovered some
+    curious detail. These assemblers can compile in many architectures
+    and it is powerful but trying to be very compatible they spend a lot
+    of effort to create the most generic binary source possible ([53]).
+    At this moment I start to consider the possibility to use the pure
+    Linux assembler because for me the idea to use a multi-architectural
+    assembler is only marketing. I have been software developer over 14
+    years and I never created a multi-architecture system neither in my
+    personal projects. Why am I living in a utopia? Wanted a tool to
+    convert to other architectures, if I always create programs for
+    Linux and very rarely for Windows. In these cases I usually use
+    Python or Java. Note: This is my personal point of view, haters
+    please hate more.
+
+-   Why use Assembler rather other languages programs? The benchmarks
+    that I did demonstrate that Assembler is the most powerful even tan
+    C which is the top language. [My
+    benchmarks](https://github.com/airvzxf/assembly/tree/master/linux/benchmark/fibonacci/without_print)
+    and the [C
+    benchmarks](https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/cpp.html).
+
+-   Why update this book? This book is one of the best that I found but
+    it has many areas of opportunity. I read until the chapter 3 and I
+    had three doubts in the final exercises but there are no answers.
+    The book said that we saw this subject and I reviewed all the
+    chapters and it didn’t.
+
+-   Deep thanks to the men and companies who inspired me to be better
+    and thanks to the Open Source: [Linus
+    Torvalds](https://github.com/torvalds), [Richard
+    Stallman](https://stallman.org/), [Linux](https://www.linux.org/),
+    [GNU](https://www.gnu.org/), [GitHub](https://github.com/).
+
 [1] This is quite a large document. You certainly don't need to know
 everything to get started with this book. You simply need to know how to
 navigate from the command line and how to use an editor like `pico`,
@@ -13173,3 +13238,9 @@ of times will exaggerate the time it takes to run enough to make
 calculations.
 
 [52] Note that different versions of GCC do this differently.
+
+[53] [FASM: Design Principles, or Why FASM Is
+Different](https://board.flatassembler.net/topic.php?t=3197) sections
+“4) Resolving The Code” and “5) Complex Solutions With Simple Features”.
+In general this document provides an overview of the complexity behind
+trying to do an assembler multi-architecture.

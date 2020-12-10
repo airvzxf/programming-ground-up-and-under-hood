@@ -213,6 +213,7 @@
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
+  
 </head>
 <body>
 <header id="title-block-header">
@@ -374,6 +375,7 @@
 <li><a href="#appendix-g.-document-history">Appendix G. Document History</a></li>
 <li><a href="#appendix-h-gnu-free-documentation-license">Appendix H. GNU Free Documentation License</a></li>
 <li><a href="#appendix-i.-personal-dedication">Appendix I. Personal Dedication</a></li>
+<li><a href="#appendix-j.-updated-by-airvzxf">Appendix J. Updated by AirvZxf</a></li>
 </ul>
 </nav>
 <!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
@@ -402,7 +404,7 @@
 <p>Published by Bartlett Publishing in Broken Arrow, Oklahom</p>
 <p>Library of Congress Control Number: 2004091465</p>
 <p>Bartlett Publishing Cataloging-in-Publication Data</p>
-<p>This book can be purchased at http://www.bartlettpublishing.com/</p>
+<p>This book can be purchased at <a href="http://www.bartlettpublishing.com/">http://www.bartlettpublishing.com</a></p>
 <p>This book is not a reference book, it is an introductory book. It is therefore not suitable by itself to learn how to professionally program in x86 assembly language, as some details have been left out to make the learning process smoother. The point of the book is to help the student understand how assembly language and computer programming works, not to be a reference to the subject. Reference information about a particular processor can be obtained by contacting the company which makes it.</p>
 <h1 id="chapter-1.-introduction">Chapter 1. Introduction</h1>
 <h2 id="welcome-to-programming">Welcome to Programming</h2>
@@ -6934,7 +6936,7 @@ _start () at 004-02-factorial.s:27
 </blockquote>
 <h1 id="appendix-g.-document-history">Appendix G. Document History</h1>
 <ul>
-<li><p>12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook to a Pandoc’s Markdown then it will export to ePUB, PDF, HTML and Github Markdown, could be extended to other types to documents. This version fixed some minimal details and update others like the links from some broken web sites, a lots of minor updates was done.</p></li>
+<li><p>12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook to a Pandoc’s Markdown then it will export to ePUB, PDF, HTML and Github Markdown, could be extended to other types of documents. This version fixed some minimal details, convert grhapical tables to ASCII tables, update the links from some broken web sites, minor updates was done also extended sub-topics to clarify.</p></li>
 <li><p>04/18/2004 - Version 1.1 - Lots of minor updates based on reader comments. Made cleared distinction between dynamic and shared libraries.</p></li>
 <li><p>01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots of minor corrections.</p></li>
 <li><p>01/29/2004 - Version 0.9 - Lots of editting of all chapters. Made code more consistent and made explanations clearer. Added some illustrations.</p></li>
@@ -7034,6 +7036,18 @@ _start () at 004-02-factorial.s:27
 <p>I also want to thanks the Little Light House school. My entire family is continually blessed by the help you give to our son.</p>
 <p>I also want to thank Joe and D.A. Thank you for taking a chance on me in ministry. Being able to be a part of God's ministry again has helped me in so many ways.</p>
 <p>You all have given me the strength I needed to write this book over the last few years. Without your support, I would have been too overwhelmed by personal crises to even think about anything more than getting through a day, much less putting this book together. You have all been a great blessing to me, and I will keep you in my prayers always.</p>
+<h1 id="appendix-j.-updated-by-airvzxf">Appendix J. Updated by AirvZxf</h1>
+<p>I'm <a href="https://github.com/airvzxf">Israel Roldan</a> and I try to learn the GNU Assembler (<code>as</code> or <code>gas</code>) and I didn’t found many resources but this book is great.</p>
+<p>All the information is in my <a href="https://github.com/airvzxf/programming-ground-up-and-under-hood">GitHub repository</a>. To check the advance on this project and the pending reviews go to the <a href="https://github.com/airvzxf/programming-ground-up-and-under-hood/blob/main/src/programming-from-the-ground-up/TODO.md">TO-DO's</a> list. I added some script to compile the <a href="https://github.com/airvzxf/programming-ground-up-and-under-hood/tree/main/src/programming-from-the-ground-up/resource/asm">source files</a>, emulating to i386/x86.</p>
+<h3 id="motivations.">Motivations.</h3>
+<ul>
+<li><p>I believe that Linux is the future, I dream with a world when everyone is using Linux in our laptops, desktop computers, and all the video game companies make perfect games for Linux.</p></li>
+<li><p>I was researching about GNU Assembler (“as” or “gas”) but unfortunately, there are not many resources, these resources talk about the most popular as “<a href="https://nasm.us/">NASM</a>” and “<a href="https://flatassembler.net/">FASM</a>”.</p></li>
+<li><p>Why NOT focus on “NASM” or “FASM”? I started with “NASM” then I saw a few years ago the active development stopped. I researched about “FASM” and looks like it’s awesome but then I discovered some curious detail. These assemblers can compile in many architectures and it is powerful but trying to be very compatible they spend a lot of effort to create the most generic binary source possible (<a href="#fn53" class="footnote-ref" id="fnref53" role="doc-noteref"><sup>53</sup></a>). At this moment I start to consider the possibility to use the pure Linux assembler because for me the idea to use a multi-architectural assembler is only marketing. I have been software developer over 14 years and I never created a multi-architecture system neither in my personal projects. Why am I living in a utopia? Wanted a tool to convert to other architectures, if I always create programs for Linux and very rarely for Windows. In these cases I usually use Python or Java. Note: This is my personal point of view, haters please hate more.</p></li>
+<li><p>Why use Assembler rather other languages programs? The benchmarks that I did demonstrate that Assembler is the most powerful even tan C which is the top language. <a href="https://github.com/airvzxf/assembly/tree/master/linux/benchmark/fibonacci/without_print">My benchmarks</a> and the <a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/cpp.html">C benchmarks</a>.</p></li>
+<li><p>Why update this book? This book is one of the best that I found but it has many areas of opportunity. I read until the chapter 3 and I had three doubts in the final exercises but there are no answers. The book said that we saw this subject and I reviewed all the chapters and it didn’t.</p></li>
+<li><p>Deep thanks to the men and companies who inspired me to be better and thanks to the Open Source: <a href="https://github.com/torvalds">Linus Torvalds</a>, <a href="https://stallman.org/">Richard Stallman</a>, <a href="https://www.linux.org/">Linux</a>, <a href="https://www.gnu.org/">GNU</a>, <a href="https://github.com/">GitHub</a>.</p></li>
+</ul>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
@@ -7089,6 +7103,7 @@ _start () at 004-02-factorial.s:27
 <li id="fn50" role="doc-endnote"><p>Many new projects often have a first code base which is completely rewritten as developers learn more about the problem they are trying to solve. Any optimization done on the first codebase is completely wasted.<a href="#fnref50" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn51" role="doc-endnote"><p>Since these programs are usually short enough not to have noticeable performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.<a href="#fnref51" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn52" role="doc-endnote"><p>Note that different versions of GCC do this differently.<a href="#fnref52" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn53" role="doc-endnote"><p><a href="https://board.flatassembler.net/topic.php?t=3197">FASM: Design Principles, or Why FASM Is Different</a> sections “4) Resolving The Code” and “5) Complex Solutions With Simple Features”. In general this document provides an overview of the complexity behind trying to do an assembler multi-architecture.<a href="#fnref53" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 </body>
