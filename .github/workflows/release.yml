@@ -23,4 +23,5 @@ jobs:
           pandoc -v && \
           cd ./src/programming-from-the-ground-up && \
           ./make.sh && \
+          ls -lhaR ../../release/ && \
           git diff
