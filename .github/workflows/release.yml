@@ -19,7 +19,7 @@ jobs:
           wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
           sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
           rm -f pandoc-2.11.2-1-amd64.deb && \
-          sudo apt-get install -y texlive-latex-recommended && \
+          sudo apt-get install -y texlive-latex-extra && \
           pandoc -v && \
           cd ./src/programming-from-the-ground-up && \
           ./make.sh && \
