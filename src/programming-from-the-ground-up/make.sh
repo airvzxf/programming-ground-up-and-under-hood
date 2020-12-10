@@ -4,12 +4,13 @@ VERSION="v"$(date "+%Y.%m.%d")
 DATE=$(date "+%Y-%m-%d")
 RELEASE_PATH="../../release/${VERSION}/"
 
+rm -fR "${RELEASE_PATH}"
 mkdir -p "${RELEASE_PATH}"
-rm -f "${RELEASE_PATH}"ProgrammingGroundUp*
-rm -fR "${RELEASE_PATH}"resource
 cp -R resource "${RELEASE_PATH}"resource
 
+
 # ====== Create the release versions ====== #
+
 OUTPUTS=(pdf epub3 html5 gfm)
 EXTENSIONS=(pdf epub html md)
 INDEX=0
