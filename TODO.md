@@ -12,11 +12,11 @@
 - [x] Fix the missing include files with the source code.
 - [x] Reduce the text columns for every assembly source file which is broken in the ePUB version, the limit is 55 characters.
 - [x] Upgrade all the code blocks of Bash. Assemble with 32-bit and link the i386 emulation.
-- [ ] Rename the assembly source files with the prefix chapters and appendixes `001-`, `012`, `AA-` and `AF-`.
-- [ ] Execute and fix all the assembly source files.
-- [ ] Create bash script to compile and link all the assembler files.
-- [ ] Add line numeration to the included source files and the small pieces of code.
-- [ ] Removed the folder repository "airvzxf/assembly/linux/gas/programmingGroundUp" and add in the README file the reference to this project.
+- [x] Rename the assembly source files with the prefix chapters and appendixes `001-`, `012`, `AA-` and `AF-`.
+- [x] Execute and fix all the assembly source files.
+- [x] Create bash script to compile and link all the assembler files.
+- [x] Add line numeration to the included source files and the small pieces of code.
+- [x] Removed the folder repository "airvzxf/assembly/linux/gas/programmingGroundUp", add a README to reference to this project.
 - [ ] Fix the cover and pages for PDF and ePUB also fixed the error in the HTML5 version.
 - [ ] Add my own page in the book talking about the project and refer the GitHub Repository link.
 - [ ] Create a ToC (Table of contents).

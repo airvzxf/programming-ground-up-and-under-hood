@@ -144,11 +144,11 @@ echo ""
 echo "Linking #3: 011-01-hello-world-c"
 gcc -o "011-01-hello-world-c"-bin  "011-01-hello-world".c
 
-#~ echo "Linking #3: 0AA-01-gnome-example"
-#~ gcc -o "0AA-01-gnome-example"-bin  -m32 \
-                                   #~ `gnome-config --libs gnomeui` \
-                                   #~ "0AA-01-gnome-example".o
+#echo "Linking #3: 0AA-01-gnome-example"
+#gcc -o "0AA-01-gnome-example"-bin  -m32 \
+#                                   `gnome-config --libs gnomeui` \
+#                                   "0AA-01-gnome-example".o
 
-#~ echo "Linking #3: 0AA-01-gnome-example-c"
-#~ gcc -o "0AA-01-gnome-example-c"-bin  `gnome-config --cflags --libs gnomeui` \
-                                     #~ "0AA-01-gnome-example-c".c
+#echo "Linking #3: 0AA-01-gnome-example-c"
+#gcc -o "0AA-01-gnome-example-c"-bin  `gnome-config --cflags --libs gnomeui` \
+#                                     "0AA-01-gnome-example-c".c

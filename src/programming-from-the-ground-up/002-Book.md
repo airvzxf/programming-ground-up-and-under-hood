@@ -8054,8 +8054,9 @@ as `0AA-01-gnome-example-c.c`:
 To compile it, type
 
 ```{.bash}
-gcc -o 0AA-01-gnome-example-c  `gnome-config --cflags --libs gnomeui` \
-                               0AA-01-gnome-example-c.c
+gcc -o 0AA-01-gnome-example-c  \
+            `gnome-config --cflags --libs gnomeui` \
+            0AA-01-gnome-example-c.c
 ```
 
 Run it by typing `./0AA-01-gnome-example-c`.
@@ -8818,7 +8819,7 @@ brancht, and the false branch. However, since assembly language is not a
 block structured language, you have to work a little to implement the
 block-like nature of C. For example, look at the following C code:
 
-```{.c .numberLines}
+```{.c}
 if(a == b)
 {
     /* True Branch Code Here */
@@ -8833,7 +8834,7 @@ else
 
 In assembly language, this can be rendered as:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
     movl a, %eax        # Move a and b into registers
     movl b, %ebx        # for comparison.
 
@@ -8867,13 +8868,13 @@ pushing the arguments to the function onto the stack in *reverse* order,
 and issuing a `call` instruction. After calling, the arguments are
 then popped back off of the stack. For example, consider the C code:
 
-```{.c .numberLines}
+```{.c}
 printf("The number is %d", 88);
 ```
 
 In assembly language, this would be rendered as:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 .section .data
     text_string:
         .ascii "The number is %d\0"
@@ -8903,7 +8904,7 @@ variables in assembly language. Global variables are accessed using direct
 addressing mode, while local variables are accessed using base pointer
 addressing mode. For example, consider the following C code:
 
-```{.c .numberLines}
+```{.c}
 int my_global_var;
 
 int foo()
@@ -8919,7 +8920,7 @@ int foo()
 
 This would be rendered in assembly language as:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
     .section .data
         .lcomm my_global_var, 4
 
@@ -8974,7 +8975,7 @@ while loop.
 
 In C, a while loop looks like this:
 
-```{.c .numberLines}
+```{.c}
 while(a < b)
 {
     /* Do stuff here */
@@ -8985,7 +8986,7 @@ while(a < b)
 
 This can be rendered in assembly language like this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 loop_begin:
     movl  a, %eax
     movl  b, %ebx
@@ -9005,7 +9006,7 @@ The `loop` instruction will decrement _%ecx_ and jump to a specified
 address unless _%ecx_ is zero. For example, if you wanted to execute a
 statement 100 times, you would do this in C:
 
-```{.c .numberLines}
+```{.c}
 for(i=0; i < 100; i++)
 {
     /* Do process here */
@@ -9014,7 +9015,7 @@ for(i=0; i < 100; i++)
 
 In assembly language it would be written like this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 loop_initialize:
     movl $100, %ecx
 
@@ -9040,7 +9041,7 @@ Structs
 Structs are simply descriptions of memory blocks. For example, in
 C you can say:
 
-```{.c .numberLines}
+```{.c}
 struct person {
     char firstname[40];
     char lastname[40];
@@ -9052,7 +9053,7 @@ This doesn\'t do anything by itself, except give you ways of
 intelligently using 84 bytes of data. You can do basically the same
 thing using `.equ` directives in assembly language. Like this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 .equ PERSON_FIRSTNAME_OFFSET,  0
 .equ PERSON_LASTNAME_OFFSET,   40
 .equ PERSON_AGE_OFFSET,        80
@@ -9062,7 +9063,7 @@ thing using `.equ` directives in assembly language. Like this:
 When you declare a variable of this type, all you are doing is reserving
 84 bytes of space. So, if you have this in C:
 
-```{.c .numberLines}
+```{.c}
 void foo()
 {
     struct person p;
@@ -9073,7 +9074,7 @@ void foo()
 
 In assembly language you would have:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 foo:                        # Standard header beginning
     pushl %ebp
     movl %esp, %ebp
@@ -9095,13 +9096,13 @@ To access structure members, you just have to use base pointer addressing
 mode with the offsets defined above. For example, in C you could set the
 person\'s age like this:
 
-```{.c .numberLines}
+```{.c}
 p.age = 30;
 ```
 
 In assembly language it would look like this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
 ```
 
@@ -9112,13 +9113,13 @@ Pointers are very easy. Remember, pointers are simply the
 address that a value resides at. Let\'s start by taking a look at
 global variables. For example:
 
-```{.c .numberLines}
+```{.c}
 int global_data = 30;
 ```
 
 In assembly language, this would be:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 .section .data
     global_data:
         .long 30
@@ -9126,13 +9127,13 @@ In assembly language, this would be:
 
 Taking the address of this data in C:
 
-```{.c .numberLines}
+```{.c}
 a = &global_data;
 ```
 
 Taking the address of this data in assembly language:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl $global_data, %eax
 ```
 
@@ -9143,7 +9144,7 @@ itself, you just have to go with immediate mode addressing.
 Local variables are a little more difficult, but not much. Here is how you
 take the address of a local variable in C:
 
-```{.c .numberLines}
+```{.c}
 void foo()
 {
     int a;
@@ -9159,7 +9160,7 @@ void foo()
 
 The same code in assembly language:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 foo:
     pushl %ebp              # Standard opening.
     movl  %esp, %ebp
@@ -9188,7 +9189,7 @@ instruction `leal`, which stands for \"load effective address\". This lets
 the computer compute the address, and then load it wherever you want.
 So, we could just say:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 leal A_VAR(%ebp), %eax              # b = &a.
 movl %eax, B_VAR(%ebp)
 ```
@@ -9223,7 +9224,7 @@ Finally, at the end of functions, we usually do the following
 instructions to clean up the stack before issuing a `ret`
 instruction:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl %ebp, %esp
 popl %ebp
 ```
@@ -9277,7 +9278,7 @@ we will be using the debugger on is the `003-02-maximum` program used in
 Let\'s say that you entered the program perfectly,
 except that you left out the line:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 incl %edi
 ```
 
@@ -9370,7 +9371,7 @@ it to loop. However, the problem is that it is *never stopping*.
 Therefore, to find out what the problem is, let\'s look at the point in
 our code where we should be exitting the loop:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 cmpl  $0, %eax
 je    _loop_exit
 ```
@@ -9424,7 +9425,7 @@ Okay, now we know that _%eax_ is being loaded with the same value over and
 over again. Let\'s search to see where _%eax_ is being loaded from. The
 line of code is this:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl data_items(,%edi,4), %eax
 ```
 
