@@ -23,5 +23,6 @@ jobs:
           cd ../../ && \
           git diff . && \
           git add . && \
+          git commit -m "Generated the release files." && \
           git status && \
-          ls -lha .
+          git push
