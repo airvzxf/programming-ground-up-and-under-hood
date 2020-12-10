@@ -6525,7 +6525,6 @@ warning: Source file is more recent than executable.
 28      _start_loop:            # Start loop.
 29          cmpl $0, %eax       # Check to see if we&#39;ve hit the end.</code></pre>
 <p>When dealing with functions, you can also break on the function names. For example, in the factorial program in <a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>, we could set a breakpoint for the factorial function by typing in <code>break factorial</code>. This will cause the debugger to break immediately after the function call and the function setup (it skips the pushing of <em>%ebp</em> and the copying of <em>%esp</em>). To send arguments through the GDB is necessary to type <code>set args</code> and the arguments same as we usually do in the command line.</p>
-<!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
 <div class="sourceCode" id="cb275"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb275-1"><a href="#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="at">-o</span> 004-02-factorial.o  <span class="at">--32</span> \</span>
 <span id="cb275-2"><a href="#cb275-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">--gstabs+</span> \</span>
 <span id="cb275-3"><a href="#cb275-3" aria-hidden="true" tabindex="-1"></a>                          004-02-factorial.s</span>
@@ -6560,41 +6559,67 @@ factorial () at 004-02-factorial.s:40
 (gdb) nexti
 Program terminated with signal SIGSEGV, Segmentation fault.
 The program no longer exists.</code></pre>
-<p>Let’s see the differences between <code>stepi</code>:</p>
-<pre><code>$ gdb ./004-02-factorial
-GNU gdb (GDB) 10.1
-Reading symbols from ./004-02-factorial...
-
-(gdb) break factorial
-Breakpoint 1 at 0x401013: file 004-02-factorial.s, line 34.
-
-(gdb) set args 55
-
-(gdb) run
-Starting program: /home/johnnyb/004-02-factorial
-Breakpoint 1, factorial () at 004-02-factorial.s:34
-34          pushl %ebp
-
-(gdb) stepi
-37          movl  %esp, %ebp
-
-(gdb) stepi
-40          movl  8(%ebp), %eax
-
-(gdb) stepi
-Program received signal SIGSEGV, Segmentation fault.
-factorial () at 004-02-factorial.s:40
-40          movl  8(%ebp), %eax
-
-(gdb) stepi
-Program terminated with signal SIGSEGV, Segmentation fault.
-The program no longer exists.</code></pre>
 <hr />
 <blockquote>
 <p><strong>Warning!</strong></p>
 <p>One problem that GDB has is with handling interrupts. Often times GDB will miss the instruction that immediately follows an interrupt. The instruction is actually executed, but GDB doesn't step through it. This should not be a problem - just be aware that it may happen.</p>
 </blockquote>
 <hr />
+<p>Let's see the differences between <code>step</code>, <code>next</code> and <code>until</code>. The intention is not show every output from the GDB. It shows the executed functions:</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb278-1"><a href="#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gdb</span> ./004-02-factorial</span></code></pre></div>
+<p><code>next</code>:</p>
+<pre><code>Breakpoint 1, _start () at 004-02-factorial.s:21
+_factorial () at 004-02-factorial.s:50
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:78
+_end_factorial () at 004-02-factorial.s:80
+_start () at 004-02-factorial.s:27
+[Inferior 1 (process 7536) exited with code 030]
+# Instructions executed: 18</code></pre>
+<p><code>until</code>:</p>
+<pre><code>Breakpoint 1, _start () at 004-02-factorial.s:21
+_factorial () at 004-02-factorial.s:50
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:80
+_factorial () at 004-02-factorial.s:66
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:78
+_end_factorial () at 004-02-factorial.s:80
+_factorial () at 004-02-factorial.s:66
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:78
+_end_factorial () at 004-02-factorial.s:80
+_factorial () at 004-02-factorial.s:66
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:78
+_end_factorial () at 004-02-factorial.s:80
+_start () at 004-02-factorial.s:27
+[Inferior 1 (process 7660) exited with code 030]
+# Instructions executed: 31</code></pre>
+<p><code>step</code>:</p>
+<pre><code>Breakpoint 1, _start () at 004-02-factorial.s:21
+_factorial () at 004-02-factorial.s:50
+_factorial () at 004-02-factorial.s:41
+_factorial () at 004-02-factorial.s:41
+_factorial () at 004-02-factorial.s:41
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:80
+_factorial () at 004-02-factorial.s:66
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:78
+_end_factorial () at 004-02-factorial.s:80
+_factorial () at 004-02-factorial.s:66
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:78
+_end_factorial () at 004-02-factorial.s:80
+_factorial () at 004-02-factorial.s:66
+_end_factorial () at 004-02-factorial.s:77
+_end_factorial () at 004-02-factorial.s:78
+_end_factorial () at 004-02-factorial.s:80
+_start () at 004-02-factorial.s:27
+[Inferior 1 (process 8304) exited with code 030]
+# Instructions executed: 52</code></pre>
+<p>The command <code>next</code> goes inside of the <code>_factorial</code> function only one time then it never goes inside, the total number of executed instructions was 18. The command <code>until</code> and <code>step</code> goes inside of every <code>_factorial</code> function, the difference is that <code>until</code> step program until past the current line or past a location, and the <code>step</code> until it reaches a different source line. The differences about instructions executed are 31 versus 52 respectively.</p>
 <h2 id="gdb-quick-reference">GDB Quick-Reference</h2>
 <p>This <a href="https://www.cs.princeton.edu/courses/archive/spring05/cos217/precepthandouts/18/gdb4assembly.pdf">quick-reference table</a> is copyright 2002 <a href="https://www.cs.princeton.edu/~rdondero/">Robert M. Dondero, Jr.</a>, and is used by permission in this book. Parameters listed in brackets are optional. Here is another <a href="https://www.cs.princeton.edu/courses/archive/fall16/cos432/hw2/gdb-refcard.pdf">GDB quick reference</a> created by <a href="https://www.fsf.org/">Free Software Foundation</a>.</p>
 <p>Table F-1. Common GDB Debugging Commands</p>

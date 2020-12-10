@@ -11982,8 +11982,6 @@ function setup (it skips the pushing of *%ebp* and the copying of
 *%esp*). To send arguments through the GDB is necessary to type
 `set args` and the arguments same as we usually do in the command line.
 
-<!-- TODO: Personal -> Looks like this is not a good example for the command nexti vs stepi. -->
-
 ``` bash
 as -o 004-02-factorial.o  --32 \
                           --gstabs+ \
@@ -12030,37 +12028,6 @@ called function.
     Program terminated with signal SIGSEGV, Segmentation fault.
     The program no longer exists.
 
-Let’s see the differences between `stepi`:
-
-    $ gdb ./004-02-factorial
-    GNU gdb (GDB) 10.1
-    Reading symbols from ./004-02-factorial...
-
-    (gdb) break factorial
-    Breakpoint 1 at 0x401013: file 004-02-factorial.s, line 34.
-
-    (gdb) set args 55
-
-    (gdb) run
-    Starting program: /home/johnnyb/004-02-factorial
-    Breakpoint 1, factorial () at 004-02-factorial.s:34
-    34          pushl %ebp
-
-    (gdb) stepi
-    37          movl  %esp, %ebp
-
-    (gdb) stepi
-    40          movl  8(%ebp), %eax
-
-    (gdb) stepi
-    Program received signal SIGSEGV, Segmentation fault.
-    factorial () at 004-02-factorial.s:40
-    40          movl  8(%ebp), %eax
-
-    (gdb) stepi
-    Program terminated with signal SIGSEGV, Segmentation fault.
-    The program no longer exists.
-
 ------------------------------------------------------------------------
 
 > **Warning!**
@@ -12071,6 +12038,80 @@ Let’s see the differences between `stepi`:
 > This should not be a problem - just be aware that it may happen.
 
 ------------------------------------------------------------------------
+
+Let's see the differences between `step`, `next` and `until`. The
+intention is not show every output from the GDB. It shows the executed
+functions:
+
+``` bash
+gdb ./004-02-factorial
+```
+
+`next`:
+
+    Breakpoint 1, _start () at 004-02-factorial.s:21
+    _factorial () at 004-02-factorial.s:50
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:78
+    _end_factorial () at 004-02-factorial.s:80
+    _start () at 004-02-factorial.s:27
+    [Inferior 1 (process 7536) exited with code 030]
+    # Instructions executed: 18
+
+`until`:
+
+    Breakpoint 1, _start () at 004-02-factorial.s:21
+    _factorial () at 004-02-factorial.s:50
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:80
+    _factorial () at 004-02-factorial.s:66
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:78
+    _end_factorial () at 004-02-factorial.s:80
+    _factorial () at 004-02-factorial.s:66
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:78
+    _end_factorial () at 004-02-factorial.s:80
+    _factorial () at 004-02-factorial.s:66
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:78
+    _end_factorial () at 004-02-factorial.s:80
+    _start () at 004-02-factorial.s:27
+    [Inferior 1 (process 7660) exited with code 030]
+    # Instructions executed: 31
+
+`step`:
+
+    Breakpoint 1, _start () at 004-02-factorial.s:21
+    _factorial () at 004-02-factorial.s:50
+    _factorial () at 004-02-factorial.s:41
+    _factorial () at 004-02-factorial.s:41
+    _factorial () at 004-02-factorial.s:41
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:80
+    _factorial () at 004-02-factorial.s:66
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:78
+    _end_factorial () at 004-02-factorial.s:80
+    _factorial () at 004-02-factorial.s:66
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:78
+    _end_factorial () at 004-02-factorial.s:80
+    _factorial () at 004-02-factorial.s:66
+    _end_factorial () at 004-02-factorial.s:77
+    _end_factorial () at 004-02-factorial.s:78
+    _end_factorial () at 004-02-factorial.s:80
+    _start () at 004-02-factorial.s:27
+    [Inferior 1 (process 8304) exited with code 030]
+    # Instructions executed: 52
+
+The command `next` goes inside of the `_factorial` function only one
+time then it never goes inside, the total number of executed
+instructions was 18. The command `until` and `step` goes inside of every
+`_factorial` function, the difference is that `until` step program until
+past the current line or past a location, and the `step` until it
+reaches a different source line. The differences about instructions
+executed are 31 versus 52 respectively.
 
 ## GDB Quick-Reference
 
