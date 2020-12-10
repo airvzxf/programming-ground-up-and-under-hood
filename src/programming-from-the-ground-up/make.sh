@@ -20,6 +20,8 @@ for OUTPUT in ${OUTPUTS[*]}; do
   pandoc -f markdown -t "${OUTPUT}" \
     --standalone \
     --toc \
+    --toc-depth 2 \
+    --dpi 300 \
     --highlight-style \
       ./resource/pandoc/theme/default.theme \
     --syntax-definition \
