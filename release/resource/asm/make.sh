@@ -137,3 +137,6 @@ ld -o "010-02-conversion-program"-bin  -m elf_i386 \
                                        "006-01-write-newline".o \
                                        "010-02-conversion-program".o \
                                        "010-02-integer-to-string".o
+
+echo "Linking #3: 011-01-hello-world-c"
+gcc -o 011-01-hello-world-c  011-01-hello-world.c
