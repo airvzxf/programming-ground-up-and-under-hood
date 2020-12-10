@@ -9980,8 +9980,9 @@ as `0AA-01-gnome-example-c.c`:
 
 To compile it, type
 
-    gcc -o 0AA-01-gnome-example-c  `gnome-config --cflags --libs gnomeui` \
-                                   0AA-01-gnome-example-c.c
+    gcc -o 0AA-01-gnome-example-c  \
+                `gnome-config --cflags --libs gnomeui` \
+                0AA-01-gnome-example-c.c
 
 Run it by typing `./0AA-01-gnome-example-c`.
 

@@ -10319,8 +10319,9 @@ int click_handler(gpointer window,
 To compile it, type
 
 ``` bash
-gcc -o 0AA-01-gnome-example-c  `gnome-config --cflags --libs gnomeui` \
-                               0AA-01-gnome-example-c.c
+gcc -o 0AA-01-gnome-example-c  \
+            `gnome-config --cflags --libs gnomeui` \
+            0AA-01-gnome-example-c.c
 ```
 
 Run it by typing `./0AA-01-gnome-example-c`.
