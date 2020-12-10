@@ -7075,22 +7075,22 @@ Your First C Program
 
 Here is your first C program, which prints
 \"Hello world\" to the screen and exits. Type it in, and give it the
-name `hello-world.c`:
+name `011-01-hello-world.c`:
 
-```{.c .numberLines include=resource/asm/hello-world.c}
+```{.c .numberLines include=resource/asm/011-01-hello-world.c}
 ```
 
 As you can see, it\'s a pretty simple program. To compile it, run the
 command:
 
 ```{.bash}
-gcc -o hello-world-c  hello-world.c
+gcc -o 011-01-hello-world-c  011-01-hello-world.c
 ```
 
 To run the program, do:
 
 ```{.bash}
-./hello-world-c
+./011-01-hello-world-c
 ```
 
 Let\'s look at how this program was put together.
@@ -7170,16 +7170,16 @@ Perl is an interpreted language, existing mostly on Linux and UNIX-based
 platforms. It actually runs on almost all platforms, but you find it
 most often on Linux and UNIX-based ones. Anyway, here is the Perl
 version of the program, which should be typed into a file named
-`hello-world.pl`:
+`011-01-hello-world.pl`:
 
-```{.perl .numberLines include=resource/asm/hello-world.pl}
+```{.perl .numberLines include=resource/asm/011-01-hello-world.pl}
 ```
 
 Since Perl is interpreted, you don\'t need to compile or link it. Just
 run in with the following command:
 
 ```{.bash}
-perl hello-world.pl
+perl 011-01-hello-world.pl
 ```
 
 As you can see, the Perl version is even shorter than the C version.
@@ -7192,7 +7192,7 @@ The first, optional line is used for UNIX machines to tell which
 interpreter to use to run the program. The `#!` tells the computer that
 this is an interpreted program, and the `/usr/bin/perl` tells the
 computer to use the program `/usr/bin/perl` to interpret the program.
-However, since we ran the program by typing in `perl hello-world.pl`, we
+However, since we ran the program by typing in `perl 011-01-hello-world.pl`, we
 had already specified that we were using the perl interpreter.
 
 The next line calls a Perl builtin function, print. This has one
@@ -7218,16 +7218,16 @@ Python
 The Python version of the program looks almost exactly like the
 Perl one. However, Python is really a very different language than Perl,
 even if it doesn\'t seem so from this trivial example. Type the program
-into a file named `hello-world.py`. The program follows:
+into a file named `011-01-hello-world.py`. The program follows:
 
-```{.python .numberLines include=resource/asm/hello-world.py}
+```{.python .numberLines include=resource/asm/011-01-hello-world.py}
 ```
 
 Since Python is interpreted, you don\'t need to compile or link it. Just
 run in with the following command:
 
 ```{.bash}
-python hello-world.py
+python 011-01-hello-world.py
 ```
 
 You should be able to tell what the different lines of the program do.
