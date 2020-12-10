@@ -29,6 +29,9 @@ FILES=(
   009-01-memory-layout
   009-02-alloc
   009-02-read-records
+  010-01-shift-bit
+  010-02-conversion-program
+  010-02-integer-to-string
 )
 
 for FILE in "${FILES[@]}"
@@ -51,6 +54,7 @@ FILES=(
   005-01-toupper
   008-01-helloworld-nolib
   009-01-memory-layout
+  010-01-shift-bit
 )
 
 for FILE in "${FILES[@]}"
@@ -126,3 +130,10 @@ ld -o "009-02-read-records"-bin  -m elf_i386 \
                                  "006-01-write-newline".o \
                                  "009-02-alloc".o \
                                  "009-02-read-records".o
+
+echo "Linking #2: 010-02-conversion-program"
+ld -o "010-02-conversion-program"-bin  -m elf_i386 \
+                                       "006-01-count-chars".o \
+                                       "006-01-write-newline".o \
+                                       "010-02-conversion-program".o \
+                                       "010-02-integer-to-string".o

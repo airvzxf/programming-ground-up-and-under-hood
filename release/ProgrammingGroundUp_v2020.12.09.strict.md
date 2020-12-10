@@ -55,11 +55,9 @@ understand how assembly language and computer programming works, not to
 be a reference to the subject. Reference information about a particular
 processor can be obtained by contacting the company which makes it.
 
-Chapter 1. Introduction
-=======================
+# Chapter 1. Introduction
 
-Welcome to Programming
-----------------------
+## Welcome to Programming
 
 I love programming. I enjoy the challenge to not only make a working
 program, but to do so with style. Programming is like poetry. It conveys
@@ -144,8 +142,7 @@ I highly suggest you try to find help from the K-12 Linux Project. Their
 website is at [K12 Linux](https://fedoraproject.org/wiki/K12Linux) and
 they have a helpful and responsive mailing list available.
 
-Your Tools
-----------
+## Your Tools
 
 This book teaches assembly language for x86 processors and the GNU/Linux
 operating system. Therefore we will be giving all of the examples using
@@ -255,8 +252,7 @@ bit of high-level languages. Hopefully by learning assembly language,
 your understanding of how programming and computers work will put you a
 step ahead.
 
-Chapter 2. Computer Architecture
-================================
+# Chapter 2. Computer Architecture
 
 Before learning how to program, you need to first understand how a
 computer interprets programs. You don't need a degree in electrical
@@ -269,8 +265,7 @@ main parts - the CPU (for Central Processing Unit) and the memory. This
 architecture is used in all modern computers, including personal
 computers, supercomputers, mainframes, and even cell phones.
 
-Structure of Computer Memory
-----------------------------
+## Structure of Computer Memory
 
 To understand how the computer views memory, imagine your local post
 office. They usually have a room filled with PO Boxes. These boxes are
@@ -317,8 +312,7 @@ computer, there is no difference between a program and a program's data
 except how it is used by the computer. They are both stored and accessed
 the same way.
 
-The CPU
--------
+## The CPU
 
 So how does the computer function? Obviously, simply storing data
 doesn't do much help - you need to be able to access, manipulate, and
@@ -387,8 +381,7 @@ optimizations. Don't worry if you don't know what those words mean, you
 can just use them as Internet search terms if you want to learn more
 about the CPU.
 
-Some Terms
-----------
+## Some Terms
 
 Computer memory is a numbered sequence of fixed-size storage locations.
 The number attached to each storage location is called its *address*.
@@ -466,8 +459,7 @@ memory word, it is loaded as an instruction. Other than that, the
 computer has no way of knowing the difference between programs and other
 types of data.[6]
 
-Interpreting Memory
--------------------
+## Interpreting Memory
 
 Computers are very exact. Because they are exact, programmers have to be
 equally exact. A computer has no idea what your program is supposed to
@@ -526,8 +518,7 @@ began. Therefore, almost all records are of fixed lengths.
 Variable-length data is usually stored separately from the rest of the
 record.
 
-Data Accessing Methods
-----------------------
+## Data Accessing Methods
 
 <!-- TODO: This would be a good section for diagrams -->
 
@@ -597,8 +588,7 @@ the pointer is constant.
 There are other forms of addressing, but these are the most important
 ones.
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -656,8 +646,7 @@ Review
 -   Research and then describe the tradeoffs between fixed-length
     instructions and variable-length instructions.
 
-Chapter 3. Your First Programs
-==============================
+# Chapter 3. Your First Programs
 
 In this chapter you will learn the process for writing and building
 Linux assembly-language programs. In addition, you will learn the
@@ -673,8 +662,7 @@ and you will have a solid foundation of knowledge to build on. Please
 tinker around with the programs as much as you can. Even if your
 tinkering does not work, every failure will help you learn.
 
-Entering in the Program
------------------------
+## Entering in the Program
 
 Okay, this first program is simple. In fact, it's not going to do
 anything but exit! It's short, but it shows some basics about assembly
@@ -733,7 +721,7 @@ machine-readable one. To assembly the program type in the command:
 
     as -o 003-01-exit.o  --32 \
                          --gstabs+ \
-                         003-01-exit.s 
+                         003-01-exit.s
 
 `as` is the command which runs the assembler, `003-01-exit.s` is the
 source file, and `-o 003-01-exit.o` tells the assemble to put its output
@@ -784,8 +772,7 @@ look at what each part of the code does. More Information in [GNU
 Automatic
 variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html).
 
-Outline of an Assembly Language Program
----------------------------------------
+## Outline of an Assembly Language Program
 
 Take a look at the program we just entered. At the beginning there are
 lots of lines that begin with hashes (`#`). These are *comments*.
@@ -1009,8 +996,7 @@ comments. Don't worry, the worse thing that would happen is that the
 program won't assemble or link, or will freeze your screen. That's just
 part of learning!
 
-Planning the Program
---------------------
+## Planning the Program
 
 In our next program we will try to find the maximum of a list of
 numbers. Computers are very detail-oriented, so in order to write the
@@ -1131,8 +1117,7 @@ that our minds are using to process problems. As you read and write
 programs, however, this will eventually become very natural to you. Just
 have patience.
 
-Finding a Maximum Value
------------------------
+## Finding a Maximum Value
 
 Enter the following program as `003-02-maximum.s`:
 
@@ -1491,8 +1476,7 @@ You might also grab a piece of paper, and go through the program
 step-by-step, recording every change to every register, so you can see
 more clearly what is going on.
 
-Addressing Modes
-----------------
+## Addressing Modes
 
 In [Data Accessing Methods](#data-accessing-methods) we learned the
 different types of addressing modes available for use in assembly
@@ -1630,8 +1614,7 @@ both at the same time.
 For a more comprehensive list of instructions, see [Appendix B. Common
 x86 Instructions](#appendix-b-common-x86-instructions).
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -1701,11 +1684,9 @@ Review
     the length count. Which approach do you think is best? Why? Which
     approach would you use if you knew that the list was sorted? Why?
 
-Chapter 4. All About Functions
-==============================
+# Chapter 4. All About Functions
 
-Dealing with Complexity
------------------------
+## Dealing with Complexity
 
 In [Chapter 3. Your First Programs](#chapter-3-your-first-programs), the
 programs we wrote only consisted of one section of code. However, if we
@@ -1756,8 +1737,7 @@ In assembly language, the primitives are usually the same thing as the
 system calls, even though system calls aren't true functions as we will
 talk about in this chapter.
 
-How Functions Work
-------------------
+## How Functions Work
 
 Functions are composed of several different pieces:
 
@@ -1830,8 +1810,7 @@ conventions. We will use the calling convention of the C programming
 language for our examples because it is the most widely used, and
 because it is the standard for Linux platforms.
 
-Assembly-Language Functions using the C Calling Convention
-----------------------------------------------------------
+## Assembly-Language Functions using the C Calling Convention
 
 You cannot write assembly-language functions without understanding how
 the computer's *stack* works. Each computer program that runs uses a
@@ -2107,8 +2086,7 @@ values of the parameters anymore).[25]
 > Intel386 Architecture Processor Supplement, Fourth
 > Edition](https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/programming-from-the-ground-up/resource/pdf/abi386-4.pdf).
 
-A Function Example
-------------------
+## A Function Example
 
 Let's take a look at how a function call works in a real program. The
 function we are going to write is the `_power` function. We will give
@@ -2310,8 +2288,7 @@ your program by hand with a scrap of paper, keeping track of where
 *%ebp* and *%esp* are pointing, what is on the stack, and what the
 values are in each register.
 
-Recursive Functions
--------------------
+## Recursive Functions
 
 The next program will stretch your brains even more. The program will
 compute the *factorial* of a number. A factorial is the product of a
@@ -2647,8 +2624,7 @@ step-by-step, keeping track of what the values of the registers are at
 each step, and what values are on the stack. Doing this should deepen
 your understanding of what is going on.
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -2711,8 +2687,7 @@ Review
 -   What test cases should we use in our example program to check to see
     if it is working properly?
 
-Chapter 5. Dealing with Files
-=============================
+# Chapter 5. Dealing with Files
 
 A lot of computer programming deals with files. After all, when we
 reboot our computers, the only thing that remains from previous sessions
@@ -2720,8 +2695,7 @@ are the things that have been put on disk. Data which is stored in files
 is called *persistent* data, because it persists in files that remain on
 the disk even when the program isn't running.
 
-The UNIX File Concept
----------------------
+## The UNIX File Concept
 
 Each operating system has its own way of dealing with files. However,
 the UNIX method, which is used on Linux, is the simplest and most
@@ -2774,8 +2748,7 @@ In our programs we will deal with files in the following ways:
     This is done using `close`, system call 6. The only parameter to
     `close` is the file descriptor, which is placed in *%ebx*.
 
-Buffers and `.bss`
-------------------
+## Buffers and `.bss`
 
 In the previous section we mentioned buffers without explaining what
 they were. A buffer is a continuous block of bytes used for bulk data
@@ -2842,8 +2815,7 @@ sign switches it to immediate mode addressing, which actually loads the
 number represented by `my_buffer` itself (i.e. - the address of the
 start of our buffer, which is the address of `my_buffer`) into *%ecx*.
 
-Standard and Special Files
---------------------------
+## Standard and Special Files
 
 You might think that programs start without any files open by default.
 This is not true. Linux programs usually have at least three open file
@@ -2880,8 +2852,7 @@ than regular files (i.e. - they don't use the `open` system call), but
 they can all be read from and written to using the standard `read` and
 `write` system calls.
 
-Using Files in a Program
-------------------------
+## Using Files in a Program
 
 We are going to write a simple program to illustrate these concepts. The
 program will take two files, and read from one, convert all of its
@@ -3437,8 +3408,7 @@ The program is then finished!
 <!-- TODO: Needs to be re-sectionalized and reviewed -->
 <!-- TODO: Probably need to start with a "hello world" program -->
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -3480,8 +3450,7 @@ Review
 -   Modify the program so that it checks the results of each system
     call, and prints out an error message to `STDOUT` when it occurs.
 
-Chapter 6. Reading and Writing Simple Records
-=============================================
+# Chapter 6. Reading and Writing Simple Records
 
 As mentioned in [Chapter 5. Dealing with
 Files](#chapter-5-dealing-with-files), many applications deal with data
@@ -3680,8 +3649,7 @@ descriptor. The writing one is similar in `006-01-write-record.s`:
 Now that we have our basic definitions down, we are ready to write our
 programs.
 
-Writing Records
----------------
+## Writing Records
 
 This program will simply write some hardcoded records to disk. It will:
 
@@ -3872,8 +3840,7 @@ records. However, since they contain non-printable characters (the null
 character, specifically), they may not be viewable by a text editor.
 Therefore we need the next program to read them for us.
 
-Reading Records
----------------
+## Reading Records
 
 Now we will consider the process of reading records. In this program, we
 will read each record and display the first name listed with each
@@ -4135,8 +4102,7 @@ the name of our buffer for holding records. Adding them together gets us
 the address of the first name member of the record stored in
 `record_buffer`.
 
-Modifying the Records
----------------------
+## Modifying the Records
 
 In this section, we will write a program that:
 
@@ -4254,8 +4220,7 @@ Computer](#chapter-10-counting-like-a-computer). After reading those you
 may want to come back and rewrite this program to display the numeric
 data that we are modifying.
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -4317,8 +4282,7 @@ Review
     user to enter 5 characters, and have the program return all records
     whose first name starts with those 5 characters.
 
-Chapter 7. Developing Robust Programs
-=====================================
+# Chapter 7. Developing Robust Programs
 
 This chapter deals with developing programs that are *robust*. Robust
 programs are able to handle error conditions gracefully. They are
@@ -4328,8 +4292,7 @@ programs takes discipline and work - it usually entails finding every
 possible problem that can occur, and coming up with an action plan for
 your program to take.
 
-Where Does the Time Go?
------------------------
+## Where Does the Time Go?
 
 Programmers schedule poorly. In almost every programming project,
 programmers will take two, four, or even eight times as long to develop
@@ -4378,8 +4341,7 @@ program, it will likely take at least two more to make it robust.
 Remember that every error message that pops up on your screen had to be
 programmed in by someone.
 
-Some Tips for Developing Robust Programs
-----------------------------------------
+## Some Tips for Developing Robust Programs
 
 ### User Testing
 
@@ -4491,8 +4453,7 @@ functions which relied on it would have an answer. This allowed me to
 test functions which relied on `is_ready_to_checkout` without the
 function being fully implemented.
 
-Handling Errors Effectively
----------------------------
+## Handling Errors Effectively
 
 Not only is it important to know how to test, but it is also important
 to know what to do when an error is detected.
@@ -4560,8 +4521,7 @@ message. The function would print them and and simply exit the program.
 This is not usually the best solution for real-world situations, but it
 is a good fall-back, last resort mechanism.
 
-Making Our Program More Robust
-------------------------------
+## Making Our Program More Robust
 
 This section will go through making the `006-01-add-year.s` program from
 [Chapter 6. Reading and Writing Simple
@@ -4693,8 +4653,7 @@ To assemble and link the files, do:
 Now try to run it without the necessary files. It now exits cleanly and
 gracefully!
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -4738,8 +4697,7 @@ Review
 
 -   Try to fix the bug you found in the previous exercise.
 
-Chapter 8. Sharing Functions with Code Libraries
-================================================
+# Chapter 8. Sharing Functions with Code Libraries
 
 By now you should realize that the computer has to do a lot of work even
 for simple tasks. Because of that, you have to do a lot of work to write
@@ -4802,8 +4760,7 @@ libraries*, *dynamic libraries*, *shared objects*, *dynamic-link
 libraries*, *DLLs*, or *.so files*.[39] We will refer to all of these as
 *dynamic libraries*.
 
-Using a Dynamic Library
------------------------
+## Using a Dynamic Library
 
 The program we will examine here is simple - it writes the characters
 `hello world` to the screen and exits. The regular program,
@@ -4922,8 +4879,7 @@ the addresses which they are loaded at. This sounds time-consuming. It
 is to a small degree, but it only happens once - at program startup
 time.
 
-How Dynamic Libraries Work
---------------------------
+## How Dynamic Libraries Work
 
 In our first programs, all of the code was contained within the source
 file. Such programs are called *statically-linked executables*, because
@@ -4980,8 +4936,7 @@ loaded before the program can be run. If you are interested, run the
 `ldd` program on various programs that are on your Linux distribution,
 and see what libraries they rely on.
 
-Finding Information about Libraries
------------------------------------
+## Finding Information about Libraries
 
 Okay, so now that you know about libraries, the question is, how do you
 find out what libraries you have on your system and what they do? Well,
@@ -5224,12 +5179,11 @@ It should display something like this:
     008-02-printf-example-bin:     file format elf32-i386
 
     DYNAMIC RELOCATION RECORDS
-    OFFSET   TYPE              VALUE 
+    OFFSET   TYPE              VALUE
     0804b00c R_386_JUMP_SLOT   printf@GLIBC_2.0
     0804b010 R_386_JUMP_SLOT   exit@GLIBC_2.0
 
-Useful Functions
-----------------
+## Useful Functions
 
 Several useful functions you will want to be aware of from the `C`
 library include:
@@ -5262,8 +5216,7 @@ library include:
 You can find the complete manual on this library by going to [The GNU C
 Library manual](http://www.gnu.org/software/libc/manual/)
 
-Building a Dynamic Library
---------------------------
+## Building a Dynamic Library
 
 Let's say that we wanted to take all of our shared code from [Chapter 6.
 Reading and Writing Simple
@@ -5357,7 +5310,7 @@ And it’s the `objdump` result:
     ./008-03-write-records-bin:     file format elf32-i386
 
     DYNAMIC RELOCATION RECORDS
-    OFFSET   TYPE              VALUE 
+    OFFSET   TYPE              VALUE
     0804b00c R_386_JUMP_SLOT   _write_record
 
 For further information about dynamic linking, see the following sources
@@ -5402,8 +5355,7 @@ on the Internet:
     contains a good introduction to programming position-independent
     code for shared libraries under Linux.
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -5467,11 +5419,9 @@ Review
     write a message to STDERR before exitting. Use `LD_PRELOAD` and run
     various programs with it. What are the results?
 
-Chapter 9. Intermediate Memory Topics
-=====================================
+# Chapter 9. Intermediate Memory Topics
 
-How a Computer Views Memory
----------------------------
+## How a Computer Views Memory
 
 Let's review how memory within a computer works. You may also want to
 re-read [Chapter 2. Computer
@@ -5542,8 +5492,7 @@ programs we use `%ebp` as a pointer to the current stack frame. All base
 pointer addressing involves pointers. Programming uses a lot of
 pointers, so it's an important concept to grasp.
 
-The Memory Layout of a Linux Program
-------------------------------------
+## The Memory Layout of a Linux Program
 
 When you program is loaded into memory, each `.section` is loaded into
 its own region of memory. All of the code and data declared in each
@@ -5601,8 +5550,7 @@ happen if you try to access data before the beginning of your program,
 the *system break* (also called the *current break* or just the
 *break*).
 
-Every Memory Address is a Lie
------------------------------
+## Every Memory Address is a Lie
 
 So, why does the computer not allow you to access memory in the break
 area? To answer this question, we will have to delve into the depths of
@@ -6055,8 +6003,7 @@ Flow of the stack pointer:
     0xffffd86c  -> %esp
     0xffffd870  -> %esp
 
-Virtual Memory
---------------
+## Virtual Memory
 
 Virtual memory can be mapped to more than just physical memory; it can
 be mapped to disk as well. Swap partitions on Linux allow Linux's
@@ -6145,8 +6092,7 @@ you start terminating your memory-hungry programs, but it's a pain.
 > can be viewed by using the program `top`. The resident set size is
 > listed under the column labelled "RSS".
 
-Getting More Memory
--------------------
+## Getting More Memory
 
 We now know that Linux maps all of our virtual memory into physical
 memory or swap. If you try to access a piece of virtual memory that
@@ -6206,8 +6152,7 @@ to request more memory. When you free memory it marks the block as
 unused so that future requests can retrieve it. In the next section we
 will look at building our own memory manager.
 
-A Simple Memory Manager
------------------------
+## A Simple Memory Manager
 
 Here I will show you a simple memory manager (`009-02-alloc.s`). It is
 very primitive but it shows the principles quite well. As usual, I will
@@ -7152,8 +7097,7 @@ break it apart so the other 995 bytes can be used later. It would also
 be nice to combine consecutive free spaces when looking for large
 allocations.
 
-Using our Allocator
--------------------
+## Using our Allocator
 
 The programs we do in this book aren't complicated enough to necessitate
 a memory manager. Therefore, we will just use our memory manager to
@@ -7376,8 +7320,7 @@ The uses of dynamic memory allocation may not be apparent to you at this
 point, but as you go from academic exercises to real-life programs you
 will use it continually.
 
-More Information
-----------------
+## More Information
 
 More information on memory handling in Linux and other operating systems
 can be found at the following locations:
@@ -7403,8 +7346,7 @@ can be found at the following locations:
     in modern Virtual Memory
     environments](http://docs.freebsd.org/44doc/papers/malloc.html).
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -7455,11 +7397,9 @@ Review
     `write` system calls to STDOUT to verify that your memory manager is
     being used instead of the default one.
 
-Chapter 10. Counting Like a Computer
-====================================
+# Chapter 10. Counting Like a Computer
 
-Counting
---------
+## Counting
 
 ### Counting Like a Human
 
@@ -7578,27 +7518,23 @@ apart like this:
 
 And then we add all of the pieces together, like this:
 
-    1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 =
-    128 + 16 + 4 + 1 =
-    149
+    1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1
+    128 + 16 + 4 + 1 = 149
 
 So 10010101 in binary is 149 in decimal. Let's look at 1100101. It can
 be written as:
 
-    1*64 + 1*32 + 0 * 16 + 0*8 + 1*4 + 0*2 + 1*1 =
-    64 + 32 + 4 + 1 =
-    101
+    1*64 + 1*32 + 0 * 16 + 0*8 + 1*4 + 0*2 + 1*1
+    64 + 32 + 4 + 1 = 101
 
 So we see that 1100101 in binary is 101 in decimal. Let's look at one
 more number, 11101011001001. You can convert it to decimal by doing:
 
     1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256
            + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4
-           + 0*2 + 1*1 =
+           + 0*2 + 1*1
 
-    8192 + 4096 + 2048 + 512 + 128 + 64 + 8 + 1 =
-
-    15049
+    8192 + 4096 + 2048 + 512 + 128 + 64 + 8 + 1 = 15049
 
 Now, if you've been paying attention, you have noticed that the numbers
 we just converted are the same ones we used to multiply with earlier.
@@ -7649,25 +7585,20 @@ number between 0 and 255. The reason for this is that the largest number
 you can fit into 8 bits is 255. You can see this for yourself if you
 convert binary 11111111 into decimal:
 
-    11111111 =
+    11111111 = (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4)
+               + (1 * 2^3)+ (1 * 2^2) + (1 * 2^1) + (1 * 2^0)
 
-    (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3)
-              + (1 * 2^2) + (1 * 2^1) + (1 * 2^0) =
+    128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255
 
-    128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 =
-
-    255
-
-The largest number that you can hold in 16 bits is 65535. The largest
-number you can hold in 32 bits is 4294967295 (4 billion). The largest
+The largest number that you can hold in 16 bits is 65,535. The largest
+number you can hold in 32 bits is 4,294,967,295 (4 billion). The largest
 number you can hold in 64 bits is 18,446,744,073,709,551,615. The
 largest number you can hold in 128 bits is
 340,282,366,920,938,463,463,374,607,431,768,211,456. Anyway, you see the
 picture. For x86 processors, most of the time you will deal with 4-byte
 numbers (32 bits), because that's the size of the registers.
 
-Truth, Falsehood, and Binary Numbers
-------------------------------------
+## Truth, Falsehood, and Binary Numbers
 
 Now we've seen that the computer stores everything as sequences of 1's
 and 0's. Let's look at some other uses of this. What if, instead of
@@ -7884,8 +7815,36 @@ puts a zero in the ones spot, and chops off the furthest digit to the
 left. A left rotate does the same thing, but takes the furthest digit to
 the left and puts it in the ones spot. For example:
 
-    Shift left  10010111 = 00101110
-    Rotate left 10010111 = 00101111
+**Shift left:**
+
+    # Logic and Arithmetic
+    Binary:       1 0 0 1 0 1 1 1       = 151 | -105 | 0x97
+                   / / / / / / /
+    Result:       0 0 1 0 1 1 1 0 <- 0  =  46 |   46 | 0x2e
+
+**Shift right:**
+
+    # Logic
+    Binary:       1 0 0 1 0 1 1 1       = 151 | -105 | 0x97
+                   \ \ \ \ \ \ \
+    Result:  0 -> 0 1 0 0 1 0 1 1       =  75 |   75 | 0x4b
+
+    # Arithmetic
+    Binary:       1 0 0 1 0 1 1 1       = 151 | -105 | 0x97
+                  |\ \ \ \ \ \ \
+    Result:       1 1 0 0 1 0 1 1       = 203 |  -53 | 0xcb
+
+**Rotate left:**
+
+    Binary:     ->1 0 0 1 0 1 1 1       = 151 | -105 | 0x97
+                   / / / / / / /
+    Result:       0 0 1 0 1 1 1 1<-     =  47 |   47 | 0x2f
+
+**Rotate right:**
+
+    Binary:       1 0 0 1 0 1 1 1<-     = 151 | -105 | 0x97
+                   \ \ \ \ \ \ \
+    Result:     ->1 1 0 0 1 0 1 1       = 203 |  -53 | 0xcb
 
 Notice that if you rotate a number for every digit it has (i.e. -
 rotating a 32-bit number 32 times), you wind up with the same number you
@@ -7911,7 +7870,7 @@ digit so it looks like this:
     00000000000000000000000000000101
 
 And then, we just want to look at that digit, so we mask it by ANDing it
-with 00000000000000000000000000000001.
+with `00000000000000000000000000000001`.
 
     00000000000000000000000000000101 AND
     00000000000000000000000000000001
@@ -7922,32 +7881,36 @@ This will make the value of the register 1 if my Dad likes dressy
 clothes, and 0 if he doesn't. Then we can do a comparison to 1 and print
 the results. The code would look like this:
 
-    # NOTE: Assume that the register %ebx holds.
-    #
-    # My Dad's preferences
-    #
-    movl  %ebx, %eax    # This copies the information into
-                        # %eax so we don't lose the
-                        # original data.
+        # Assemble with `as --32` and `ld -m elf_i386`.
+        #
+        .include "006-01-linux.s"      # Linux Definitions.
 
-    shrl  $1, %eax      # This is the shift operator.
-                        # It stands for Shift Right Long.
-                        # This first number is the number
-                        # of positions to shift,
-                        # and the second is the register
-                        # to shift.
+        .section .text
+            .globl _start
 
-                                # This does the masking.
-    andl  $0b00000000000000000000000000000001, %eax
+    _start:
+        movl   $0b00000000000000000000000000001011, %ebx
 
-                                # Check to see if the
-                                # result is 1 or 0.
-    cmpl  $0b00000000000000000000000000000001, %eax
+                    # This is the shift operator. It stands
+                    # for Shift Right Long. This first
+                    # number is the number of positions to
+                    # shift, and the second is the register
+                    # to shift.
+        shrl  $1, %ebx
 
+                    # This does the masking.
+        andl  $0b00000000000000000000000000000001, %ebx
 
-    je    yes_he_likes_dressy_clothes
+                    # Check to see if the result is 1 or 0.
+        cmpl  $0b00000000000000000000000000000001, %ebx
+        je    _yes_he_likes_dressy_clothes
+        jmp   _no_he_doesnt_like_dressy_clothes
 
-    jmp   no_he_doesnt_like_dressy_clothes
+    _yes_he_likes_dressy_clothes:
+    _no_he_doesnt_like_dressy_clothes:
+        movl   $SYS_EXIT, %eax
+        movl   $0, %ebx
+        int    $LINUX_SYSCALL
 
 And then we would have two labels which printed something about whether
 or not he likes dressy clothes and then exits. The `0b` notation means
@@ -7999,8 +7962,7 @@ Many functions and system calls use flags for options, as it allows a
 single word to hold up to 32 possible options if each option is
 represented by a single bit.
 
-The Program Status Register
----------------------------
+## The Program Status Register
 
 We've seen how bits on a register can be used to give the answers of
 yes/no and true/false statements. On your computer, there is a register
@@ -8034,8 +7996,7 @@ regularly.
 Additional program status register flags are examined in [Appendix B.
 Common x86 Instructions](#appendix-b-common-x86-instructions).
 
-Other Numbering Systems
------------------------
+## Other Numbering Systems
 
 What we have studied so far only applies to positive integers. However,
 real-world numbers are not always positive integers. Negative numbers
@@ -8081,10 +8042,57 @@ You should note that it takes most computers a lot longer to do
 floating-point arithmetic than it does integer arithmetic. So, for
 programs that really need speed, integers are mostly used.
 
-<!-- TODO: Need floating point reference.
-        For more information on using floating point numbers in assembly
-        language, see:
--->
+Short floating-point:
+
+-   The first bit is the sign bit: 0 for positive and 1 for negative.
+
+-   The next 8 bits are the exponent. Follow this formula
+    `2^(x - 127) = exponent`.
+
+-   The next 23 bits are the matissa: the first value is the decimal
+    unit and the other 22 bits are the fraction.
+
+Example:
+
+    0xC3478100
+    Binary:      1 10000110 1.0001111000000100000000
+    Sign bit:    1 -> -1
+    Exponent:    10000110 -> 134 -> 2^(134 - 127) -> 128
+    Mantissa:    1.10001111000000100000000 -> 1.558624267578125
+    Value:       -1 * 128 * 1.558624267578125
+                 = -199.503,906,25
+
+    0x43478100
+    Binary:      0 10000110 1.0001111000000100000000
+    Sign bit:    0 -> 1
+    Exponent:    10000110 -> 134 -> 2^(134 - 127) -> 128
+    Mantissa:    1.10001111000000100000000 -> 1.558624267578125
+    Value:       1 * 128 * 1.558624267578125
+                 = 199.503,906,25
+
+References to understand in deep how the computer handle the floating
+points.
+
+-   [Fixed Point and Floating
+    Point](https://www.tutorialspoint.com/fixed-point-and-floating-point-number-representations).
+
+-   [Floating Point
+    Tutorial](https://www.rfwireless-world.com/Tutorials/floating-point-tutorial.html).
+
+-   [IEEE Standard for Floating-Point Arithmetic
+    (IEEE 754)](https://en.wikipedia.org/wiki/IEEE_754).
+
+-   [Single-precision floating-point
+    format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format).
+
+For more information on using floating point numbers in assembly
+language, see:
+
+-   [Floating Point Assembly
+    Language](https://cs.fit.edu/~mmahoney/cse3101/float.html).
+
+-   [Floating-Point Instruction
+    Set](https://www3.physnet.uni-hamburg.de/physnet/Tru64-Unix/HTML/APS31DTE/DOCU_010.HTM).
 
 ### Negative Numbers
 
@@ -8150,8 +8158,7 @@ Instructions](#appendix-b-common-x86-instructions). For example, the x86
 processor has both a sign-preserving shift-right, `sarl`, and a
 shift-right which does not preserve the sign bit, `shrl`.
 
-Octal and Hexadecimal Numbers
------------------------------
+## Octal and Hexadecimal Numbers
 
 The numbering systems discussed so far have been decimal and binary.
 However, two others are used common in computing - octal and
@@ -8219,8 +8226,7 @@ heavily used in computer programming. It might be worthwhile to make up
 some numbers in hex and try to convert them back and forth to binary,
 decimal, and octal.
 
-Order of Bytes in a Word
-------------------------
+## Order of Bytes in a Word
 
 One thing that confuses many people when dealing with bits and bytes on
 a low level is that, when bytes are written from registers to memory,
@@ -8272,18 +8278,17 @@ FAQ](http://david.carybros.com/html/endian_faq.html), especially the
 article ["On Holy Wars and a Plea for Peace" by Daniel
 Cohen](https://dcc.ufrj.br/~gabriel/progpar/danny_co.pdf).
 
-Converting Numbers for Display
-------------------------------
+## Converting Numbers for Display
 
 So far, we have been unable to display any number stored to the user,
 except by the extremely limitted means of passing it through exit codes.
 In this section, we will discuss converting positive numbers into
 strings for display.
 
-The function will be called `integer2string`, and it will take two
+The function will be called `_integer2string`, and it will take two
 parameters - an integer to convert and a string buffer filled with null
 characters (zeroes). The buffer will be assumed to be big enough to
-store the entire number as a string.(at least 11 characters long, to
+store the entire number as a string (at least 11 characters long, to
 include a trailing null character).
 
 Remember that the way that we see numbers is in base 10. Therefore, to
@@ -8309,7 +8314,7 @@ back off to fill in the buffer, it will be in the reverse order that we
 pushed them on.
 
 The code for the function should be put in a file called
-`integer-to-string.s` and should be entered as follows:
+`010-02-integer-to-string.s` and should be entered as follows:
 
         # Assemble with `as --32` and `ld -m elf_i386`.
         #
@@ -8440,7 +8445,7 @@ The code for the function should be put in a file called
 To show this used in a full program, use the following code, along with
 the `_count_chars` and `_write_newline` functions written about in
 previous chapters. The code should be in a file called
-`conversion-program.s`.
+`010-02-conversion-program.s`.
 
         # Assemble with `as --32` and `ld -m elf_i386`.
         #
@@ -8458,7 +8463,7 @@ previous chapters. The code should be in a file called
 
         pushl $tmp_buffer       # Storage for the result.
         pushl $824              # Number to convert.
-        call  integer2string
+        call  _integer2string
         addl  $8, %esp
 
         pushl $tmp_buffer       # Get the character count
@@ -8484,32 +8489,32 @@ previous chapters. The code should be in a file called
 
 To build the program, issue the following commands:
 
-    as -o integer-to-number.o     --32 \
-                                  --gstabs+ \
-                                  integer-to-string.s
+    as -o 010-02-integer-to-number.o   --32 \
+                                       --gstabs+ \
+                                       010-02-integer-to-string.s
 
-    as -o 006-01-count-chars.o    --32 \
-                                  --gstabs+ \
-                                  006-01-count-chars.s
+    as -o 006-01-count-chars.o         --32 \
+                                       --gstabs+ \
+                                       006-01-count-chars.s
 
-    as -o 006-01-write-newline.o  --32 \
-                                  --gstabs+ \
-                                  006-01-write-newline.s
+    as -o 006-01-write-newline.o       --32 \
+                                       --gstabs+ \
+                                       006-01-write-newline.s
 
-    as -o conversion-program.o    --32 \
-                                  --gstabs+ \
-                                  conversion-program.s
+    as -o 010-02-conversion-program.o  --32 \
+                                       --gstabs+ \
+                                       010-02-conversion-program.s
 
-    ld -o conversion-program      -m elf_i386 \
-                                  integer-to-number.o \
-                                  count-chars.o \
-                                  write-newline.o \
-                                  conversion-program.o
+    ld -o 010-02-conversion-program    -m elf_i386 \
+                                       006-01-count-chars.o \
+                                       006-01-write-newline.o \
+                                       010-02-conversion-program.o \
+                                       010-02-integer-to-number.o
 
-To run just type `./conversion-program` and the output should say `824`.
+To run just type `./010-02-conversion-program` and the output should say
+`824`.
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -8545,26 +8550,26 @@ Review
     the exit status code, and rewrite them to print out the results
     instead using our integer to string conversion function.
 
--   Modify the `integer2string` code to return results in octal rather
+-   Modify the `_integer2string` code to return results in octal rather
     than decimal.
 
--   Modify the `integer2string` code so that the conversion base is a
+-   Modify the `_integer2string` code so that the conversion base is a
     parameter rather than hardcoded.
 
--   Write a function called `is_negative` that takes a single integer as
-    a parameter and returns 1 if the parameter is negative, and 0 if the
-    parameter is positive.
+-   Write a function called `_is_negative` that takes a single integer
+    as a parameter and returns 1 if the parameter is negative, and 0 if
+    the parameter is positive.
 
 ### Going Further
 
--   Modify the `integer2string` code so that the conversion base can be
+-   Modify the `_integer2string` code so that the conversion base can be
     greater than 10 (this requires you to use letters for numbers past
     9).
 
--   Create a function that does the reverse of `integer2string` called
-    `number2integer` which takes a character string and converts it to a
-    register-sized integer. Test it by running that integer back through
-    the `integer2string` function and displaying the results.
+-   Create a function that does the reverse of `_integer2string` called
+    `_number2integer` which takes a character string and converts it to
+    a register-sized integer. Test it by running that integer back
+    through the `_integer2string` function and displaying the results.
 
 -   Write a program that stores likes and dislikes into a single machine
     word, and then compares two sets of likes and dislikes for
@@ -8573,8 +8578,7 @@ Review
 -   Write a program that reads a string of characters from STDIN and
     converts them to a number.
 
-Chapter 11. High-Level Languages
-================================
+# Chapter 11. High-Level Languages
 
 In this chapter we will begin to look at our first "real-world"
 programming language. Assembly language is the language used at the
@@ -8604,8 +8608,7 @@ chapter will introduce you to a few of the languages available to you. I
 encourage you to explore as many languages as you are interested in. I
 personally try to learn a new language every few months.
 
-Compiled and Interpreted Languages
-----------------------------------
+## Compiled and Interpreted Languages
 
 Many languages are *compiled* languages. When you write assembly
 language, each instruction you write is translated into exactly one
@@ -8678,8 +8681,7 @@ language you are using, often they can be simulated. However, if you
 don't have a broad experience with languages, you won't know of all the
 possibilities you have to choose from.
 
-Your First C Program
---------------------
+## Your First C Program
 
 Here is your first C program, which prints "Hello world" to the screen
 and exits. Type it in, and give it the name `hello-world.c`:
@@ -8781,8 +8783,7 @@ Additional information on the C programming language can be found in
 [Appendix E. C Idioms in Assembly
 Language](#appendix-e-c-idioms-in-assembly-language).
 
-Perl
-----
+## Perl
 
 Perl is an interpreted language, existing mostly on Linux and UNIX-based
 platforms. It actually runs on almost all platforms, but you find it
@@ -8829,8 +8830,7 @@ directly as values, and thus hides the complication of manipulating them
 for you. In fact, one of Perl's main strengths is its ability and speed
 at manipulating text.
 
-Python
-------
+## Python
 
 The Python version of the program looks almost exactly like the Perl
 one. However, Python is really a very different language than Perl, even
@@ -8848,8 +8848,7 @@ run in with the following command:
 
 You should be able to tell what the different lines of the program do.
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -8890,8 +8889,7 @@ Review
     other? How are they similar? What approach to problem-solving does
     each take?
 
-Chapter 12. Optimization
-========================
+# Chapter 12. Optimization
 
 <!-- TODO: Dominique suggestion - have an appendix with multiple versions of optimized code -->
 
@@ -8900,8 +8898,7 @@ effectively. You can optimize for many things - speed, memory space
 usage, disk space usage, etc. This chapter, however, focuses on speed
 optimization.
 
-When to Optimize
-----------------
+## When to Optimize
 
 It is better to not optimize at all than to optimize too soon. When you
 optimize, your code generally becomes less clear, because it becomes
@@ -8960,8 +8957,7 @@ the bottlenecks, bringing the average processing time under a quarter of
 a second. By focusing on the correct order, I was able to finish a
 project that was both correct and efficient.
 
-Where to Optimize
------------------
+## Where to Optimize
 
 Once you have determined that you have a performance issue you need to
 determine where in the code the problems occur. You can do this by
@@ -8999,8 +8995,7 @@ to teleconference instead of meeting in person. Global optimization
 often involves restructuring code to avoid performance problems, rather
 than trying to find the best way through them.
 
-Local Optimizations
--------------------
+## Local Optimizations
 
 The following are some well-known methods of optimizing pieces of code.
 When using high level languages, some of these may be done automatically
@@ -9109,8 +9104,7 @@ optimizations possible. However, remember that the maintainability and
 readability of code is much more important except under extreme
 circumstances.
 
-Global Optimization
--------------------
+## Global Optimization
 
 Global optimization has two goals. The first one is to put your code in
 a form where it is easy to do local optimiztions. For example, if you
@@ -9164,8 +9158,7 @@ what doesn't. Deciding how to tackle optimization problems in code
 involves looking at all the issues, and knowing that fixing some issues
 may cause others.
 
-Review
-------
+## Review
 
 ### Know the Concepts
 
@@ -9208,8 +9201,7 @@ Review
 -   What kind of problems might a compiler run in to if it tried to
     optimize code across function call boundaries?
 
-Chapter 13. Moving On from Here
-===============================
+# Chapter 13. Moving On from Here
 
 Congratulations on getting this far. You should now have a basis for
 understanding the issues involved in many areas of programming. Even if
@@ -9257,8 +9249,7 @@ something unique. There are many books here. The best way to start would
 be to look through online reviews of several of the books, and find a
 starting point that interests you.
 
-From the Bottom Up
-------------------
+## From the Bottom Up
 
 This list is in the best reading order I could find. It's not
 necessarily easiest to hardest, but based on subject matter.
@@ -9291,8 +9282,7 @@ necessarily easiest to hardest, but based on subject matter.
     Interface](http://file.allitebooks.com/20160718/Computer%20Organization%20and%20Design,%20Fifth%20Edition.pdf)
     by David Patterson and John Hennessy.
 
-From the Top Down
------------------
+## From the Top Down
 
 These books are arranged from the simplest to the hardest. However, they
 can be read in any order you feel comfortable with.
@@ -9332,8 +9322,7 @@ can be read in any order you feel comfortable with.
     Languages](https://mitpress.mit.edu/books/essentials-programming-languages-third-edition)
     by Daniel P. Friedman, Mitchell Wand, and Christopher T. Haynes.
 
-From the Middle Out
--------------------
+## From the Middle Out
 
 Each of these is the best book on its subject. If you need to know these
 languages, these will tell you all you need to know.
@@ -9372,8 +9361,7 @@ languages, these will tell you all you need to know.
     Programming](https://www.oreilly.com/library/view/linux-assembly-language/0130879401/)
     by Bob Neveln.
 
-Specialized Topics
-------------------
+## Specialized Topics
 
 These books are the best books that cover their topic. They are thorough
 and authoritative. To get a broad base of knowledge, you should read
@@ -9443,8 +9431,7 @@ several outside of the areas you normally program in.
     Approach](https://archive.org/details/computerarchitectureaquantitativeapproach6thedition)
     by David Patterson and John Hennessy.
 
-Further Resources on Assembly Language
---------------------------------------
+## Further Resources on Assembly Language
 
 In assembly language, your best resources are on the web.
 
@@ -9471,11 +9458,9 @@ In assembly language, your best resources are on the web.
 -   Paul Hsieh's [x86 Assembly
     Page](http://www.azillionmonkeys.com/qed/asm.html).
 
-Appendix A. GUI Programming
-===========================
+# Appendix A. GUI Programming
 
-Introduction to GUI Programming
--------------------------------
+## Introduction to GUI Programming
 
 The purpose of this appendix is not to teach you how to do Graphical
 User Interfaces. It is simply meant to show how writing graphical
@@ -9484,8 +9469,7 @@ additional library to handle the graphical parts. As a programmer you
 need to get used to learning new libraries. Most of your time will be
 spent passing data from one library to another.
 
-The GNOME Libraries
--------------------
+## The GNOME Libraries
 
 The GNOME projects is one of several projects to provide a complete
 desktop to Linux users. The GNOME project includes a panel to hold
@@ -9516,8 +9500,7 @@ site](https://developer.gnome.org/). This site contains tutorials,
 mailing lists, API documentation, and everything else you need to start
 programming in the GNOME environment.
 
-A Simple GNOME Program in Several Languages
--------------------------------------------
+## A Simple GNOME Program in Several Languages
 
 This program will simply show a Window that has a button to quit the
 application. When that button is clicked it will ask you if you are
@@ -10079,8 +10062,7 @@ Finally, we have a version in Python. Type it in as `gnome-example.py`:
 
 To run it type `python gnome-example.py`.
 
-GUI Builders
-------------
+## GUI Builders
 
 In the previous example, you have created the user-interface for the
 application by calling the create functions for each widget and placing
@@ -10101,11 +10083,9 @@ There is a broad range of choices for developing graphical applications,
 but hopefully this appendix gave you a taste of what GUI programming is
 like.
 
-Appendix B. Common x86 Instructions
-===================================
+# Appendix B. Common x86 Instructions
 
-Reading the Tables
-------------------
+## Reading the Tables
 
 The tables of instructions presented in this appendix include:
 
@@ -10159,8 +10139,7 @@ it entirely).
 
 Other flags exist, but they are much less important.
 
-Data Transfer Instructions
---------------------------
+## Data Transfer Instructions
 
 These instructions perform little, if any computation. Instead they are
 mostly used for moving data from one place to another.
@@ -10214,8 +10193,7 @@ Table B-1. Data Transfer Instructions.
 
 ------------------------------------------------------------------------
 
-Integer Instructions
---------------------
+## Integer Instructions
 
 These are basic calculating instructions that operate on signed or
 unsigned integers.
@@ -10309,8 +10287,7 @@ Table B-2. Integer Instructions.
 
 ------------------------------------------------------------------------
 
-Logic Instructions
-------------------
+## Logic Instructions
 
 These instructions operate on memory as bits instead of words.
 
@@ -10400,8 +10377,7 @@ Table B-3. Logic Instructions.
 
 ------------------------------------------------------------------------
 
-Flow Control Instructions
--------------------------
+## Flow Control Instructions
 
 These instructions may alter the flow of the program.
 
@@ -10456,8 +10432,7 @@ Table B-4. Flow Control Instructions.
 > Pops a value off of the stack and then sets *%eip* to that value. Used
 > to return from function calls.
 
-Assembler Directives
---------------------
+## Assembler Directives
 
 These are instructions to the assembler and linker, instead of
 instructions to the processor. These are used to help the assembler put
@@ -10527,8 +10502,7 @@ Table B-5. Assembler Directives.
 
 ------------------------------------------------------------------------
 
-Differences in Other Syntaxes and Terminology
----------------------------------------------
+## Differences in Other Syntaxes and Terminology
 
 The syntax for assembly language used in this book is known at the
 *AT&T* syntax. It is the one supported by the GNU tool chain that comes
@@ -10595,8 +10569,7 @@ The tool [intel2gas](http://manpages.org/intel2gas) is a small text
 parser that can convert assembler source written in NASM syntax (Intel)
 to gas syntax (AT&T). And nowadays more often also the other way.
 
-Where to Go for More Information
---------------------------------
+## Where to Go for More Information
 
 Intel has a set of comprehensive guides to their processors. These are
 available at [Intel, Resource & Design
@@ -10612,8 +10585,7 @@ In addition, you can find a lot of information in the manual for the
 Similarly, the manual for the [GNU
 linker](https://sourceware.org/binutils/docs/ld/index.html).
 
-Appendix C. Important System Calls
-==================================
+# Appendix C. Important System Calls
 
 These are some of the more important system calls to use when dealing
 with Linux. For most cases, however, it is best to use library functions
@@ -10736,8 +10708,7 @@ For information on how system calls are implemented on Linux, see the
 [Linux Kernel 2.4 Internals section on how system calls are
 implemented](http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11).
 
-Appendix D. Table of ASCII Codes
-================================
+# Appendix D. Table of ASCII Codes
 
 To use this table, simply find the character or escape that you want the
 code for, and add the number on the left and the top.
@@ -10958,15 +10929,13 @@ Minimum Every Software Developer Absolutely, Positively Must Know About
 Unicode and Character Sets (No
 Excuses!)"](http://www.joelonsoftware.com/articles/Unicode.html).
 
-Appendix E. C Idioms in Assembly Language
-=========================================
+# Appendix E. C Idioms in Assembly Language
 
 This appendix is for C programmers learning assembly language. It is
 meant to give a general idea about how C constructs can be implemented
 in assembly language.
 
-If Statement
-------------
+## If Statement
 
 In C, an if statement consists of three parts - the condition, the true
 brancht, and the false branch. However, since assembly language is not a
@@ -11010,8 +10979,7 @@ the system.
 
 A case statement is written just like a sequence of if statements.
 
-Function Call
--------------
+## Function Call
 
 A function call in assembly language simply requires pushing the
 arguments to the function onto the stack in *reverse* order, and issuing
@@ -11037,8 +11005,7 @@ In assembly language, this would be rendered as:
                         # directly re-adjust %esp to the
                         # proper location.
 
-Variables and Assignment
-------------------------
+## Variables and Assignment
 
 Global and static variables are declared using `.data` or `.bss`
 entries. Local variables are declared by reserving space on the stack at
@@ -11105,8 +11072,7 @@ variable are done to the memory location itself, rather than a register
 copy of it, in case other processes, threads, or hardware may be
 modifying the value while your function is running.
 
-Loops
------
+## Loops
 
 Loops work a lot like if statements in assembly language - the blocks
 are formed by jumping around. In C, a while loop consists of a loop
@@ -11169,8 +11135,7 @@ For really tight loops of character string operations, there is also the
 `rep` instruction, but we will leave learning about that as an exercise
 to the reader.
 
-Structs
--------
+## Structs
 
 Structs are simply descriptions of memory blocks. For example, in C you
 can say:
@@ -11228,8 +11193,7 @@ In assembly language it would look like this:
 
     movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
 
-Pointers
---------
+## Pointers
 
 Pointers are very easy. Remember, pointers are simply the address that a
 value resides at. Let's start by taking a look at global variables. For
@@ -11306,8 +11270,7 @@ It's the same number of lines, but a little cleaner. Then, to use this
 value, you simply have to move it to a general-purpose register and use
 indirect addressing mode, as shown in the example above.
 
-Getting GCC to Help
--------------------
+## Getting GCC to Help
 
 One of the nice things about GCC is its ability to spit out assembly
 language code. To convert a C language file to assembly, you can simply
@@ -11342,8 +11305,7 @@ try again. See how the compiler chose to rearrange your program to be
 more optimized, and try to figure out why it chose the arrangement and
 instructions it did.
 
-Appendix F. Using the GDB Debugger
-==================================
+# Appendix F. Using the GDB Debugger
 
 By the time you read this appendix, you will likely have written at
 least one program with an error in it. In assembly language, even minor
@@ -11366,8 +11328,7 @@ application is present on almost all GNU/Linux distributions. It can
 debug programs in multiple programming languages, including assembly
 language.
 
-An Example Debugging Session
-----------------------------
+## An Example Debugging Session
 
 The best way to explain how a debugger works is by using it. The program
 we will be using the debugger on is the `003-02-maximum` program used in
@@ -11555,8 +11516,7 @@ exit properly, type `y` to kill and exit from GDB:
 Hopefully this exercise provided some insight into using GDB to help you
 find errors in your programs.
 
-Breakpoints and Other GDB Features
-----------------------------------
+## Breakpoints and Other GDB Features
 
 The program we entered in the last section had an infinite loop, and
 could be easily stopped using `control-c`. Other programs may simply
@@ -11698,8 +11658,7 @@ Let’s see the differences between `stepi`:
 
 ------------------------------------------------------------------------
 
-GDB Quick-Reference
--------------------
+## GDB Quick-Reference
 
 This [quick-reference
 table](https://www.cs.princeton.edu/courses/archive/spring05/cos217/precepthandouts/18/gdb4assembly.pdf)
@@ -11887,8 +11846,7 @@ down
 
 > Move the context toward the top of the call stack.
 
-Appendix G. Document History
-============================
+# Appendix G. Document History
 
 -   12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the
     DocBook to a Pandoc’s Markdown then it will export to ePUB, PDF,
@@ -11927,8 +11885,7 @@ Appendix G. Document History
 
 -   12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL
 
-Appendix H. GNU Free Documentation License
-==========================================
+# Appendix H. GNU Free Documentation License
 
 `0. PREAMBLE`
 
@@ -12304,8 +12261,7 @@ recommend releasing these examples in parallel under your choice of free
 software license, such as the GNU General Public License, to permit
 their use in free software.
 
-Appendix I. Personal Dedication
-===============================
+# Appendix I. Personal Dedication
 
 There are so many people I could thank. I will name here but a few of
 the people who have brought me to where I am today. The many family
