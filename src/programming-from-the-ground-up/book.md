@@ -1,7 +1,9 @@
 ---
 title: Programming from the Ground Up
 subtitle: Updated by AirvZxf | Architecture x86
-author: Jonathan Bartlett
+author:
+- Jonathan Bartlett
+- Israel Roldan
 rights: © 2003 by Jonathan Bartlett
 language: en-US
 date: 2020-12-10
@@ -36,6 +38,7 @@ identifier:
 
 
 
+\newpage
 by Jonathan Bartlett
 
 Edited by Dominick Bruno, Jr.
@@ -79,6 +82,7 @@ processor can be obtained by contacting the company which makes it.
 
 
 
+\newpage
 Chapter 1. Introduction
 =======================
 
@@ -106,6 +110,7 @@ taste, and teach your solution to future programmers. I hope that this
 book can teach at least some of the poetry and magic that makes
 computing exciting.
 
+\newpage
 Most introductory books on programming frustrate me to no end. At the
 end of them you can still ask \"how does the computer really work?\" and
 not have a good answer. They tend to pass over topics that are difficult
@@ -306,6 +311,7 @@ work will put you a step ahead.
 
 
 
+\newpage
 Chapter 2. Computer Architecture {#chapter-2-computer-architecture}
 ================================
 
@@ -654,6 +660,7 @@ the pointer is constant.
 There are other forms of addressing, but these are the most important
 ones.
 
+\newpage
 Review
 ------
 
@@ -734,6 +741,7 @@ Review
 
 
 
+\newpage
 Chapter 3. Your First Programs {#chapter-3-your-first-programs}
 ==============================
 
@@ -1679,6 +1687,7 @@ register for either a byte or a word, but never both at the same time.
 For a more comprehensive list of instructions, see
 [Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
 
+\newpage
 Review
 ------
 
@@ -1849,6 +1858,7 @@ Review
 
 
 
+\newpage
 Chapter 4. All About Functions {#chapter-4-all-about-functions}
 ==============================
 
@@ -2608,6 +2618,7 @@ step-by-step, keeping track of what the values of the registers are at
 each step, and what values are on the stack. Doing this should deepen
 your understanding of what is going on.
 
+\newpage
 Review
 ------
 
@@ -2713,6 +2724,7 @@ Review
 
 
 
+\newpage
 Chapter 5. Dealing with Files {#chapter-5-dealing-with-files}
 =============================
 
@@ -3177,6 +3189,7 @@ The program is then finished!
 <!-- TODO: Needs to be re-sectionalized and reviewed -->
 <!-- TODO: Probably need to start with a "hello world" program -->
 
+\newpage
 Review
 ------
 
@@ -3253,6 +3266,7 @@ Review
 
 
 
+\newpage
 Chapter 6. Reading and Writing Simple Records {#chapter-6-reading-and-writing-simple-records}
 =============================================
 
@@ -3580,6 +3594,7 @@ After reading those you may want to come back
 and rewrite this program to display the numeric data that we are
 modifying.
 
+\newpage
 Review
 ------
 
@@ -3669,6 +3684,7 @@ Review
 
 
 
+\newpage
 Chapter 7. Developing Robust Programs
 =====================================
 
@@ -3973,6 +3989,7 @@ ld -o 007-01-add-year      -m elf_i386 \
 Now try to run it without the necessary files. It now exits cleanly and
 gracefully!
 
+\newpage
 Review
 ------
 
@@ -4020,6 +4037,7 @@ Review
 
 
 
+\newpage
 Chapter 8. Sharing Functions with Code Libraries {#chapter-8-sharing-functions-with-code-libraries}
 ================================================
 
@@ -4637,6 +4655,7 @@ on the Internet:
     contains a good introduction to programming position-independent
     code for shared libraries under Linux.
 
+\newpage
 Review
 ------
 
@@ -4749,6 +4768,7 @@ Review
 
 
 
+\newpage
 Chapter 9. Intermediate Memory Topics
 =====================================
 
@@ -5867,6 +5887,7 @@ can be found at the following locations:
 -   A paper on the 4.4 BSD memory allocator is available at
     [Malloc(3) in modern Virtual Memory environments][9-Modern-VME].
 
+\newpage
 Review
 ------
 
@@ -5952,6 +5973,7 @@ Review
 
 
 
+\newpage
 Chapter 10. Counting Like a Computer {#chapter-10-counting-like-a-computer}
 ====================================
 
@@ -6903,6 +6925,7 @@ ld -o 010-02-conversion-program    -m elf_i386 \
 
 To run just type `./010-02-conversion-program` and the output should say `824`.
 
+\newpage
 Review
 ------
 
@@ -6979,6 +7002,7 @@ Review
 
 
 
+\newpage
 Chapter 11. High-Level Languages {#chapter-11-high-level-languages}
 ================================
 
@@ -7247,6 +7271,7 @@ python 011-01-hello-world.py
 
 You should be able to tell what the different lines of the program do.
 
+\newpage
 Review
 ------
 
@@ -7291,6 +7316,7 @@ Review
 
 
 
+\newpage
 Chapter 12. Optimization {#chapter-12-optimization}
 ========================
 
@@ -7588,6 +7614,7 @@ what doesn\'t. Deciding how to tackle optimization problems in code
 involves looking at all the issues, and knowing that fixing some issues
 may cause others.
 
+\newpage
 Review
 ------
 
@@ -7644,6 +7671,7 @@ Review
 
 
 
+\newpage
 Chapter 13. Moving On from Here {#chapter-13-moving-on-from-here}
 ===============================
 
@@ -7904,6 +7932,7 @@ In assembly language, your best resources are on the web.
 
 
 
+\newpage
 Appendix A. GUI Programming
 ===========================
 
@@ -8110,6 +8139,7 @@ like.
 
 
 
+\newpage
 Appendix B. Common x86 Instructions {#appendix-b-common-x86-instructions}
 ===================================
 
@@ -8638,6 +8668,7 @@ Similarly, the manual for the [GNU linker][AB-GNU-Linker].
 
 
 
+\newpage
 Appendix C. Important System Calls {#appendix-c-important-system-calls}
 ==================================
 
@@ -8768,6 +8799,7 @@ are implemented][AC-Linux-kernel].
 
 
 
+\newpage
 Appendix D. Table of ASCII Codes {#appendix-d-table-of-ascii-codes}
 ================================
 
@@ -8819,6 +8851,7 @@ Unicode and Character Sets (No Excuses!)\"][AD-The-absolute].
 
 
 
+\newpage
 Appendix E. C Idioms in Assembly Language {#appendix-e-c-idioms-in-assembly-language}
 =========================================
 
@@ -9260,6 +9293,7 @@ instructions it did.
 
 
 
+\newpage
 Appendix F. Using the GDB Debugger {#appendix-f-using-the-gdb-debugger}
 ==================================
 
@@ -9861,6 +9895,7 @@ down
 
 
 
+\newpage
 Appendix G. Document History
 ============================
 
@@ -9902,6 +9937,7 @@ Appendix G. Document History
 
 
 
+\newpage
 Appendix H. GNU Free Documentation License {#appendix-h-gnu-free-documentation-license}
 ==========================================
 
@@ -10281,6 +10317,7 @@ their use in free software.
 
 
 
+\newpage
 Appendix I. Personal Dedication
 ===============================
 

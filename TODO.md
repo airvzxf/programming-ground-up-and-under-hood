@@ -18,7 +18,7 @@
 - [x] Add line numeration to the included source files and the small pieces of code.
 - [x] Removed the folder repository "airvzxf/assembly/linux/gas/programmingGroundUp", add a README to reference to this project.
 - [x] Fix the cover and pages for PDF and ePUB also fixed the error in the HTML5 version.
-- [ ] Add page breaks for PDF.
+- [x] Add page breaks for PDF.
 - [ ] Add my own page in the book talking about the project and refer the GitHub Repository link.
 - [x] Create a ToC (Table of contents).
 - [x] Complete all my peronsal To-Do's which are hardcoded in the book.
