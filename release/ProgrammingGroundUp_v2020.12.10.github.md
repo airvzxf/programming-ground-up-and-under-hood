@@ -1,3 +1,145 @@
+-   [Chapter 1. Introduction](#chapter-1.-introduction)
+    -   [Welcome to Programming](#welcome-to-programming)
+    -   [Your Tools](#your-tools)
+-   [Chapter 2. Computer Architecture](#chapter-2-computer-architecture)
+    -   [Structure of Computer Memory](#structure-of-computer-memory)
+    -   [The CPU](#the-cpu)
+    -   [Some Terms](#some-terms)
+    -   [Interpreting Memory](#interpreting-memory)
+    -   [Data Accessing Methods](#data-accessing-methods)
+    -   [Review](#review)
+-   [Chapter 3. Your First Programs](#chapter-3-your-first-programs)
+    -   [Entering in the Program](#entering-in-the-program)
+    -   [Outline of an Assembly Language
+        Program](#outline-of-an-assembly-language-program)
+    -   [Planning the Program](#planning-the-program)
+    -   [Finding a Maximum Value](#finding-a-maximum-value)
+    -   [Addressing Modes](#addressing-modes)
+    -   [Review](#review-1)
+-   [Chapter 4. All About Functions](#chapter-4-all-about-functions)
+    -   [Dealing with Complexity](#dealing-with-complexity)
+    -   [How Functions Work](#how-functions-work)
+    -   [Assembly-Language Functions using the C Calling
+        Convention](#assembly-language-functions-using-the-c-calling-convention)
+    -   [A Function Example](#a-function-example)
+    -   [Recursive Functions](#recursive-functions)
+    -   [Review](#review-2)
+-   [Chapter 5. Dealing with Files](#chapter-5-dealing-with-files)
+    -   [The UNIX File Concept](#the-unix-file-concept)
+    -   [Buffers and `.bss`](#buffers-and-bss)
+    -   [Standard and Special Files](#standard-and-special-files)
+    -   [Using Files in a Program](#using-files-in-a-program)
+    -   [Review](#review-3)
+-   [Chapter 6. Reading and Writing Simple
+    Records](#chapter-6-reading-and-writing-simple-records)
+    -   [Writing Records](#writing-records)
+    -   [Reading Records](#reading-records)
+    -   [Modifying the Records](#modifying-the-records)
+    -   [Review](#review-4)
+-   [Chapter 7. Developing Robust
+    Programs](#chapter-7.-developing-robust-programs)
+    -   [Where Does the Time Go?](#where-does-the-time-go)
+    -   [Some Tips for Developing Robust
+        Programs](#some-tips-for-developing-robust-programs)
+    -   [Handling Errors Effectively](#handling-errors-effectively)
+    -   [Making Our Program More
+        Robust](#making-our-program-more-robust)
+    -   [Review](#review-5)
+-   [Chapter 8. Sharing Functions with Code
+    Libraries](#chapter-8-sharing-functions-with-code-libraries)
+    -   [Using a Dynamic Library](#using-a-dynamic-library)
+    -   [How Dynamic Libraries Work](#how-dynamic-libraries-work)
+    -   [Finding Information about
+        Libraries](#finding-information-about-libraries)
+    -   [Useful Functions](#useful-functions)
+    -   [Building a Dynamic Library](#building-a-dynamic-library)
+    -   [Review](#review-6)
+-   [Chapter 9. Intermediate Memory
+    Topics](#chapter-9.-intermediate-memory-topics)
+    -   [How a Computer Views Memory](#how-a-computer-views-memory)
+    -   [The Memory Layout of a Linux
+        Program](#the-memory-layout-of-a-linux-program)
+    -   [Every Memory Address is a Lie](#every-memory-address-is-a-lie)
+    -   [Virtual Memory](#virtual-memory)
+    -   [Getting More Memory](#getting-more-memory)
+    -   [A Simple Memory Manager](#a-simple-memory-manager)
+    -   [Using our Allocator](#using-our-allocator)
+    -   [More Information](#more-information)
+    -   [Review](#review-7)
+-   [Chapter 10. Counting Like a
+    Computer](#chapter-10-counting-like-a-computer)
+    -   [Counting](#counting)
+    -   [Truth, Falsehood, and Binary
+        Numbers](#truth-falsehood-and-binary-numbers)
+    -   [The Program Status Register](#the-program-status-register)
+    -   [Other Numbering Systems](#other-numbering-systems)
+    -   [Octal and Hexadecimal Numbers](#octal-and-hexadecimal-numbers)
+    -   [Order of Bytes in a Word](#order-of-bytes-in-a-word)
+    -   [Converting Numbers for
+        Display](#converting-numbers-for-display)
+    -   [Review](#review-8)
+-   [Chapter 11. High-Level Languages](#chapter-11-high-level-languages)
+    -   [Compiled and Interpreted
+        Languages](#compiled-and-interpreted-languages)
+    -   [Your First C Program](#your-first-c-program)
+    -   [Perl](#perl)
+    -   [Python](#python)
+    -   [Review](#review-9)
+-   [Chapter 12. Optimization](#chapter-12-optimization)
+    -   [When to Optimize](#when-to-optimize)
+    -   [Where to Optimize](#where-to-optimize)
+    -   [Local Optimizations](#local-optimizations)
+    -   [Global Optimization](#global-optimization)
+    -   [Review](#review-10)
+-   [Chapter 13. Moving On from Here](#chapter-13-moving-on-from-here)
+    -   [From the Bottom Up](#from-the-bottom-up)
+    -   [From the Top Down](#from-the-top-down)
+    -   [From the Middle Out](#from-the-middle-out)
+    -   [Specialized Topics](#specialized-topics)
+    -   [Further Resources on Assembly
+        Language](#further-resources-on-assembly-language)
+-   [Appendix A. GUI Programming](#appendix-a.-gui-programming)
+    -   [Introduction to GUI
+        Programming](#introduction-to-gui-programming)
+    -   [The GNOME Libraries](#the-gnome-libraries)
+    -   [A Simple GNOME Program in Several
+        Languages](#a-simple-gnome-program-in-several-languages)
+    -   [GUI Builders](#gui-builders)
+-   [Appendix B. Common x86
+    Instructions](#appendix-b-common-x86-instructions)
+    -   [Reading the Tables](#reading-the-tables)
+    -   [Data Transfer Instructions](#data-transfer-instructions)
+    -   [Integer Instructions](#integer-instructions)
+    -   [Logic Instructions](#logic-instructions)
+    -   [Flow Control Instructions](#flow-control-instructions)
+    -   [Assembler Directives](#assembler-directives)
+    -   [Differences in Other Syntaxes and
+        Terminology](#differences-in-other-syntaxes-and-terminology)
+    -   [Where to Go for More
+        Information](#where-to-go-for-more-information)
+-   [Appendix C. Important System
+    Calls](#appendix-c-important-system-calls)
+-   [Appendix D. Table of ASCII Codes](#appendix-d-table-of-ascii-codes)
+-   [Appendix E. C Idioms in Assembly
+    Language](#appendix-e-c-idioms-in-assembly-language)
+    -   [If Statement](#if-statement)
+    -   [Function Call](#function-call)
+    -   [Variables and Assignment](#variables-and-assignment)
+    -   [Loops](#loops)
+    -   [Structs](#structs)
+    -   [Pointers](#pointers)
+    -   [Getting GCC to Help](#getting-gcc-to-help)
+-   [Appendix F. Using the GDB
+    Debugger](#appendix-f-using-the-gdb-debugger)
+    -   [An Example Debugging Session](#an-example-debugging-session)
+    -   [Breakpoints and Other GDB
+        Features](#breakpoints-and-other-gdb-features)
+    -   [GDB Quick-Reference](#gdb-quick-reference)
+-   [Appendix G. Document History](#appendix-g.-document-history)
+-   [Appendix H. GNU Free Documentation
+    License](#appendix-h-gnu-free-documentation-license)
+-   [Appendix I. Personal Dedication](#appendix-i.-personal-dedication)
+
 <!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
 <!-- TODO: Need to find places that need more filling out.  Reviews, definitely.  -->
 <!-- TODO:
@@ -14,7 +156,6 @@
   * A complete examination of the fetch-execute cycle
   * A complete listing of registers and flags
 -->
-
 by Jonathan Bartlett
 
 Edited by Dominick Bruno, Jr.
@@ -3527,7 +3668,6 @@ The program is then finished!
 
 <!-- TODO: Needs to be re-sectionalized and reviewed -->
 <!-- TODO: Probably need to start with a "hello world" program -->
-
 ## Review
 
 ### Know the Concepts

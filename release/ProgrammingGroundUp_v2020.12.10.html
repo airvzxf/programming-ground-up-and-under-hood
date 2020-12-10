@@ -4,8 +4,10 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2004-07-01" />
-  <title>001-ProgrammingGroundUp</title>
+  <meta name="author" content="Jonathan Bartlett" />
+  <meta name="author" content="Israel Roldan" />
+  <meta name="dcterms.date" content="2020-12-10" />
+  <title>Programming from the Ground Up</title>
   <style>
     html {
       line-height: 1.5;
@@ -214,9 +216,166 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">truetruetrue</h1>
-<p class="date">2004-07-01</p>
+<h1 class="title">Programming from the Ground Up</h1>
+<p class="subtitle">Updated by AirvZxf | Architecture x86</p>
+<p class="author">Jonathan Bartlett</p>
+<p class="author">Israel Roldan</p>
+<p class="date">2020-12-10</p>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#chapter-1.-introduction">Chapter 1. Introduction</a>
+<ul>
+<li><a href="#welcome-to-programming">Welcome to Programming</a></li>
+<li><a href="#your-tools">Your Tools</a></li>
+</ul></li>
+<li><a href="#chapter-2-computer-architecture">Chapter 2. Computer Architecture</a>
+<ul>
+<li><a href="#structure-of-computer-memory">Structure of Computer Memory</a></li>
+<li><a href="#the-cpu">The CPU</a></li>
+<li><a href="#some-terms">Some Terms</a></li>
+<li><a href="#interpreting-memory">Interpreting Memory</a></li>
+<li><a href="#data-accessing-methods">Data Accessing Methods</a></li>
+<li><a href="#review">Review</a></li>
+</ul></li>
+<li><a href="#chapter-3-your-first-programs">Chapter 3. Your First Programs</a>
+<ul>
+<li><a href="#entering-in-the-program">Entering in the Program</a></li>
+<li><a href="#outline-of-an-assembly-language-program">Outline of an Assembly Language Program</a></li>
+<li><a href="#planning-the-program">Planning the Program</a></li>
+<li><a href="#finding-a-maximum-value">Finding a Maximum Value</a></li>
+<li><a href="#addressing-modes">Addressing Modes</a></li>
+<li><a href="#review-1">Review</a></li>
+</ul></li>
+<li><a href="#chapter-4-all-about-functions">Chapter 4. All About Functions</a>
+<ul>
+<li><a href="#dealing-with-complexity">Dealing with Complexity</a></li>
+<li><a href="#how-functions-work">How Functions Work</a></li>
+<li><a href="#assembly-language-functions-using-the-c-calling-convention">Assembly-Language Functions using the C Calling Convention</a></li>
+<li><a href="#a-function-example">A Function Example</a></li>
+<li><a href="#recursive-functions">Recursive Functions</a></li>
+<li><a href="#review-2">Review</a></li>
+</ul></li>
+<li><a href="#chapter-5-dealing-with-files">Chapter 5. Dealing with Files</a>
+<ul>
+<li><a href="#the-unix-file-concept">The UNIX File Concept</a></li>
+<li><a href="#buffers-and-bss">Buffers and <code>.bss</code></a></li>
+<li><a href="#standard-and-special-files">Standard and Special Files</a></li>
+<li><a href="#using-files-in-a-program">Using Files in a Program</a></li>
+<li><a href="#review-3">Review</a></li>
+</ul></li>
+<li><a href="#chapter-6-reading-and-writing-simple-records">Chapter 6. Reading and Writing Simple Records</a>
+<ul>
+<li><a href="#writing-records">Writing Records</a></li>
+<li><a href="#reading-records">Reading Records</a></li>
+<li><a href="#modifying-the-records">Modifying the Records</a></li>
+<li><a href="#review-4">Review</a></li>
+</ul></li>
+<li><a href="#chapter-7.-developing-robust-programs">Chapter 7. Developing Robust Programs</a>
+<ul>
+<li><a href="#where-does-the-time-go">Where Does the Time Go?</a></li>
+<li><a href="#some-tips-for-developing-robust-programs">Some Tips for Developing Robust Programs</a></li>
+<li><a href="#handling-errors-effectively">Handling Errors Effectively</a></li>
+<li><a href="#making-our-program-more-robust">Making Our Program More Robust</a></li>
+<li><a href="#review-5">Review</a></li>
+</ul></li>
+<li><a href="#chapter-8-sharing-functions-with-code-libraries">Chapter 8. Sharing Functions with Code Libraries</a>
+<ul>
+<li><a href="#using-a-dynamic-library">Using a Dynamic Library</a></li>
+<li><a href="#how-dynamic-libraries-work">How Dynamic Libraries Work</a></li>
+<li><a href="#finding-information-about-libraries">Finding Information about Libraries</a></li>
+<li><a href="#useful-functions">Useful Functions</a></li>
+<li><a href="#building-a-dynamic-library">Building a Dynamic Library</a></li>
+<li><a href="#review-6">Review</a></li>
+</ul></li>
+<li><a href="#chapter-9.-intermediate-memory-topics">Chapter 9. Intermediate Memory Topics</a>
+<ul>
+<li><a href="#how-a-computer-views-memory">How a Computer Views Memory</a></li>
+<li><a href="#the-memory-layout-of-a-linux-program">The Memory Layout of a Linux Program</a></li>
+<li><a href="#every-memory-address-is-a-lie">Every Memory Address is a Lie</a></li>
+<li><a href="#virtual-memory">Virtual Memory</a></li>
+<li><a href="#getting-more-memory">Getting More Memory</a></li>
+<li><a href="#a-simple-memory-manager">A Simple Memory Manager</a></li>
+<li><a href="#using-our-allocator">Using our Allocator</a></li>
+<li><a href="#more-information">More Information</a></li>
+<li><a href="#review-7">Review</a></li>
+</ul></li>
+<li><a href="#chapter-10-counting-like-a-computer">Chapter 10. Counting Like a Computer</a>
+<ul>
+<li><a href="#counting">Counting</a></li>
+<li><a href="#truth-falsehood-and-binary-numbers">Truth, Falsehood, and Binary Numbers</a></li>
+<li><a href="#the-program-status-register">The Program Status Register</a></li>
+<li><a href="#other-numbering-systems">Other Numbering Systems</a></li>
+<li><a href="#octal-and-hexadecimal-numbers">Octal and Hexadecimal Numbers</a></li>
+<li><a href="#order-of-bytes-in-a-word">Order of Bytes in a Word</a></li>
+<li><a href="#converting-numbers-for-display">Converting Numbers for Display</a></li>
+<li><a href="#review-8">Review</a></li>
+</ul></li>
+<li><a href="#chapter-11-high-level-languages">Chapter 11. High-Level Languages</a>
+<ul>
+<li><a href="#compiled-and-interpreted-languages">Compiled and Interpreted Languages</a></li>
+<li><a href="#your-first-c-program">Your First C Program</a></li>
+<li><a href="#perl">Perl</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#review-9">Review</a></li>
+</ul></li>
+<li><a href="#chapter-12-optimization">Chapter 12. Optimization</a>
+<ul>
+<li><a href="#when-to-optimize">When to Optimize</a></li>
+<li><a href="#where-to-optimize">Where to Optimize</a></li>
+<li><a href="#local-optimizations">Local Optimizations</a></li>
+<li><a href="#global-optimization">Global Optimization</a></li>
+<li><a href="#review-10">Review</a></li>
+</ul></li>
+<li><a href="#chapter-13-moving-on-from-here">Chapter 13. Moving On from Here</a>
+<ul>
+<li><a href="#from-the-bottom-up">From the Bottom Up</a></li>
+<li><a href="#from-the-top-down">From the Top Down</a></li>
+<li><a href="#from-the-middle-out">From the Middle Out</a></li>
+<li><a href="#specialized-topics">Specialized Topics</a></li>
+<li><a href="#further-resources-on-assembly-language">Further Resources on Assembly Language</a></li>
+</ul></li>
+<li><a href="#appendix-a.-gui-programming">Appendix A. GUI Programming</a>
+<ul>
+<li><a href="#introduction-to-gui-programming">Introduction to GUI Programming</a></li>
+<li><a href="#the-gnome-libraries">The GNOME Libraries</a></li>
+<li><a href="#a-simple-gnome-program-in-several-languages">A Simple GNOME Program in Several Languages</a></li>
+<li><a href="#gui-builders">GUI Builders</a></li>
+</ul></li>
+<li><a href="#appendix-b-common-x86-instructions">Appendix B. Common x86 Instructions</a>
+<ul>
+<li><a href="#reading-the-tables">Reading the Tables</a></li>
+<li><a href="#data-transfer-instructions">Data Transfer Instructions</a></li>
+<li><a href="#integer-instructions">Integer Instructions</a></li>
+<li><a href="#logic-instructions">Logic Instructions</a></li>
+<li><a href="#flow-control-instructions">Flow Control Instructions</a></li>
+<li><a href="#assembler-directives">Assembler Directives</a></li>
+<li><a href="#differences-in-other-syntaxes-and-terminology">Differences in Other Syntaxes and Terminology</a></li>
+<li><a href="#where-to-go-for-more-information">Where to Go for More Information</a></li>
+</ul></li>
+<li><a href="#appendix-c-important-system-calls">Appendix C. Important System Calls</a></li>
+<li><a href="#appendix-d-table-of-ascii-codes">Appendix D. Table of ASCII Codes</a></li>
+<li><a href="#appendix-e-c-idioms-in-assembly-language">Appendix E. C Idioms in Assembly Language</a>
+<ul>
+<li><a href="#if-statement">If Statement</a></li>
+<li><a href="#function-call">Function Call</a></li>
+<li><a href="#variables-and-assignment">Variables and Assignment</a></li>
+<li><a href="#loops">Loops</a></li>
+<li><a href="#structs">Structs</a></li>
+<li><a href="#pointers">Pointers</a></li>
+<li><a href="#getting-gcc-to-help">Getting GCC to Help</a></li>
+</ul></li>
+<li><a href="#appendix-f-using-the-gdb-debugger">Appendix F. Using the GDB Debugger</a>
+<ul>
+<li><a href="#an-example-debugging-session">An Example Debugging Session</a></li>
+<li><a href="#breakpoints-and-other-gdb-features">Breakpoints and Other GDB Features</a></li>
+<li><a href="#gdb-quick-reference">GDB Quick-Reference</a></li>
+</ul></li>
+<li><a href="#appendix-g.-document-history">Appendix G. Document History</a></li>
+<li><a href="#appendix-h-gnu-free-documentation-license">Appendix H. GNU Free Documentation License</a></li>
+<li><a href="#appendix-i.-personal-dedication">Appendix I. Personal Dedication</a></li>
+</ul>
+</nav>
 <!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
 <!-- TODO: Need to find places that need more filling out.  Reviews, definitely.  -->
 <!-- TODO:
