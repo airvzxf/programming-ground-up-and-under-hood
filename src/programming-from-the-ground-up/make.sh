@@ -9,16 +9,14 @@ rm -f "${RELEASE_PATH}"ProgrammingGroundUp*
 rm -fR "${RELEASE_PATH}"resource
 cp -R resource "${RELEASE_PATH}"resource
 
-# ====== Create the release versions. ====== #
-
+# ====== Create the release versions ====== #
 OUTPUTS=(pdf epub3 html5 gfm)
 EXTENSIONS=(pdf epub html md)
-
 INDEX=0
+
+sed -E -i "s/^date: [0-9\-]+$/date: ${DATE}/" book.md
+
 for OUTPUT in ${OUTPUTS[*]}; do
-
-  # sed s/date: // book.md
-
   pandoc -f markdown -t "${OUTPUT}" \
     --standalone \
     --toc \
