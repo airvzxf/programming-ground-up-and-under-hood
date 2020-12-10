@@ -21,7 +21,8 @@
 - [x] Add page breaks for PDF.
 - [x] Create a ToC (Table of contents).
 - [x] Complete all my peronsal To-Do's which are hardcoded in the book.
-- [ ] Add my own page in the book talking about the project and refer the GitHub Repository link.
+- [x] Added the documentation changes in the Appendix G.
+- [x] Add my own page in the book talking about the project and refer the GitHub Repository link.
 - [ ] Create releases as `./releases/v2020.12.01/ProgrammingGroundUp.epub`. Create commands in the `./make` script to replace the version (`text: x86 v2020.12`) inside of the `001-ProgrammingGroundUp.txt` file.
 - [ ] Automate the release process with GitHub Actions.
 
