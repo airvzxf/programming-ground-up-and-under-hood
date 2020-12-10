@@ -33,7 +33,7 @@ for OUTPUT in ${OUTPUTS[*]}; do
     --lua-filter \
       resource/pandoc/lua/include-code-files.lua \
     -o "${RELEASE_PATH}ProgrammingGroundUp.${EXTENSIONS[${INDEX}]}" \
-    book.md &
+    book.md
 
   INDEX=$((INDEX + 1))
 done
