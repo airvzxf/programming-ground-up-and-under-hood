@@ -7940,19 +7940,23 @@ A Simple GNOME Program in Several Languages
 This program will simply show a Window that has a button to quit the
 application. When that button is clicked it will ask you if you are
 sure, and if you click yes it will close the application. To run this
-program, type in the following as `gnome-example.s`:
+program, type in the following as `0AA-01-gnome-example.s`:
 
-```{.gnuassembler .numberLines include=resource/asm/gnome-example.s}
+```{.gnuassembler .numberLines include=resource/asm/0AA-01-gnome-example.s}
 ```
 
 To build this application, execute the following commands:
 
 ```{.bash}
-as  -o gnome-example.o  gnome-example.s --gstabs+
-gcc -o gnome-example    gnome-example.o `gnome-config --libs gnomeui`
+as -o 0AA-01-gnome-example.o   --32 \
+                               --gstabs+ \
+                               0AA-01-gnome-example.s
+
+gcc -o 0AA-01-gnome-example    `gnome-config --libs gnomeui` \
+                               0AA-01-gnome-example.o
 ```
 
-Then type in `./gnome-example` to run it.
+Then type in `./0AA-01-gnome-example` to run it.
 
 This program, like most GUI programs, makes heavy use of passing
 pointers to functions as parameters. In this program you create widgets
@@ -8042,26 +8046,26 @@ gnome_dialog_run_and_close:
     which the buttons were set up in `gnome_message_box_new`.
 
 The following is the same program written in the C language. Type it in
-as `gnome-example-c.c`:
+as `0AA-01-gnome-example-c.c`:
 
-```{.c .numberLines include=resource/asm/gnome-example-c.c}
+```{.c .numberLines include=resource/asm/0AA-01-gnome-example-c.c}
 ```
 
 To compile it, type
 
 ```{.bash}
-gcc -o gnome-example-c  gnome-example-c.c \
-                        `gnome-config --cflags --libs gnomeui`
+gcc -o 0AA-01-gnome-example-c  `gnome-config --cflags --libs gnomeui` \
+                               0AA-01-gnome-example-c.c
 ```
 
-Run it by typing `./gnome-example-c`.
+Run it by typing `./0AA-01-gnome-example-c`.
 
-Finally, we have a version in Python. Type it in as `gnome-example.py`:
+Finally, we have a version in Python. Type it in as `0AA-01-gnome-example.py`:
 
-```{.python .numberLines include=resource/asm/gnome-example.py}
+```{.python .numberLines include=resource/asm/0AA-01-gnome-example.py}
 ```
 
-To run it type `python gnome-example.py`.
+To run it type `python 0AA-01-gnome-example.py`.
 
 GUI Builders
 ------------
