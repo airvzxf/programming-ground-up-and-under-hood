@@ -60,8 +60,7 @@
 
                             # Text for Buttons and
         button_quit_text:   # windows.
-            .ascii
-        "I Want to Quit the GNOME Example Program\0"
+            .ascii "I Want to Quit the GNOME Example\0"
 
         quit_question:
             .ascii "Are you sure you want to quit?\0"
