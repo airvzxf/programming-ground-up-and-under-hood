@@ -10388,7 +10388,8 @@ I\'m [Israel Roldan][AJ-IsraelRoldan] and I try to learn the GNU Assembler (`as`
 
 All the information is in my [GitHub repository][AJ-MyGitHubRepository]. To check the advance on this project and the pending reviews go to the [TO-DO\'s][AJ-MyTodoList] list. I added some script to compile the [source files][AJ-AsmSourceCode], emulating to i386/x86.
 
-### Motivations.
+Motivations
+-----------
 
 - I believe that Linux is the future, I dream with a world when everyone is using Linux in our laptops, desktop computers, and all the video game companies make perfect games for Linux.
 

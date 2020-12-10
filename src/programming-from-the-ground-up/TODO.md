@@ -23,7 +23,8 @@
 - [x] Complete all my peronsal To-Do's which are hardcoded in the book.
 - [x] Added the documentation changes in the Appendix G.
 - [x] Add my own page in the book talking about the project and refer the GitHub Repository link.
-- [ ] Create releases as `./releases/v2020.12.01/ProgrammingGroundUp.epub`. Create commands in the `./make` script to replace the version (`text: x86 v2020.12`) inside of the `001-ProgrammingGroundUp.txt` file.
+- [x] Create releases as `./releases/v2020.12.01/ProgrammingGroundUp.epub`.
+- [ ] Release: create commands in the `./make.sh` script to replace the date (`date: 2020-12-10`) in the `book.md`.
 - [ ] Automate the release process with GitHub Actions.
 
 #### Knowledge

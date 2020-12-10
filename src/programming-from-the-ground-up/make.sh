@@ -1,7 +1,8 @@
 #!/bin/bash -ex
 
-RELEASE_PATH="../../release/"
 VERSION="v"$(date "+%Y.%m.%d")
+DATE=$(date "+%Y-%m-%d")
+RELEASE_PATH="../../release/${VERSION}/"
 
 mkdir -p "${RELEASE_PATH}"
 rm -f "${RELEASE_PATH}"ProgrammingGroundUp*
@@ -15,6 +16,9 @@ EXTENSIONS=(pdf epub html md)
 
 INDEX=0
 for OUTPUT in ${OUTPUTS[*]}; do
+
+  # sed s/date: // book.md
+
   pandoc -f markdown -t "${OUTPUT}" \
     --standalone \
     --toc \
@@ -30,7 +34,7 @@ for OUTPUT in ${OUTPUTS[*]}; do
       ./resource/pandoc/syntax/bash.xml \
     --lua-filter \
       resource/pandoc/lua/include-code-files.lua \
-    -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.${EXTENSIONS[${INDEX}]}" \
+    -o "${RELEASE_PATH}ProgrammingGroundUp.${EXTENSIONS[${INDEX}]}" \
     book.md &
 
   INDEX=$((INDEX + 1))
