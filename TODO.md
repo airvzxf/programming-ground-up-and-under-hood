@@ -70,7 +70,8 @@
   - [x] Chapter 10. Counting Like a Computer Counting
     - [x] These need to be converted to tables.
       - In this new format, I'm replacing the table images with ASCII tables, this format is fine.
-    - [ ] Need floating point reference. For more information on using floating point numbers in assembly language, `see:`.
+    - [x] Need floating point reference. For more information on using floating point numbers in assembly language, `see:`.
+      - Added references.
   - [ ] Chapter 12. Optimization
     - [ ] Dominique suggestion - have an appendix with multiple versions of optimized code
 

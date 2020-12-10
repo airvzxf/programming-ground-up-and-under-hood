@@ -14,7 +14,7 @@ _start:
 
     pushl $tmp_buffer       # Storage for the result.
     pushl $824              # Number to convert.
-    call  integer2string
+    call  _integer2string
     addl  $8, %esp
 
     pushl $tmp_buffer       # Get the character count

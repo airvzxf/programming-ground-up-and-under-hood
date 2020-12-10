@@ -767,7 +767,7 @@ type in the command:
 ```{.bash}
 as -o 003-01-exit.o  --32 \
                      --gstabs+ \
-                     003-01-exit.s 
+                     003-01-exit.s
 ```
 
 `as` is the command which runs the assembler, `003-01-exit.s` is the source
@@ -2048,7 +2048,7 @@ to _%esp_ before looking up the value being pointed to.
 
 > **NOTE:**
 >
-> Please, do a quick review of the tables which explain graphically, 
+> Please, do a quick review of the tables which explain graphically,
 > how the the memory and the stack works:
 > [Chapter 9 -> Table of the Physical Memory in the program](#chapter-9-table-of-the-physical-memory-in-the-program).
 
@@ -4342,7 +4342,7 @@ reading functions. Here are the main ones:
 :   A `char` is a single-byte integer number. The size of 1 bytes (8 bits ~ 2^8)
     on x86 processor provide a maximum value of _255_; negative  values
     between _-128_ and _127_. This is mostly used for storing character data,
-    since ASCII strings usually are represented with one byte per character. 
+    since ASCII strings usually are represented with one byte per character.
 
 `float`:
 
@@ -4436,7 +4436,7 @@ It should display something like this:
     008-02-printf-example-bin:     file format elf32-i386
 
     DYNAMIC RELOCATION RECORDS
-    OFFSET   TYPE              VALUE 
+    OFFSET   TYPE              VALUE
     0804b00c R_386_JUMP_SLOT   printf@GLIBC_2.0
     0804b010 R_386_JUMP_SLOT   exit@GLIBC_2.0
 
@@ -4587,7 +4587,7 @@ LD_LIBRARY_PATH=.  objdump -R ./008-03-write-records
     ./008-03-write-records-bin:     file format elf32-i386
 
     DYNAMIC RELOCATION RECORDS
-    OFFSET   TYPE              VALUE 
+    OFFSET   TYPE              VALUE
     0804b00c R_386_JUMP_SLOT   _write_record
 
 
@@ -6060,27 +6060,23 @@ it is in decimal, we take it apart like this:
 
 And then we add all of the pieces together, like this:
 
-    1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 =
-    128 + 16 + 4 + 1 =
-    149
+    1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1
+    128 + 16 + 4 + 1 = 149
 
 So 10010101 in binary is 149 in decimal. Let\'s look at 1100101. It can
 be written as:
 
-    1*64 + 1*32 + 0 * 16 + 0*8 + 1*4 + 0*2 + 1*1 =
-    64 + 32 + 4 + 1 =
-    101
+    1*64 + 1*32 + 0 * 16 + 0*8 + 1*4 + 0*2 + 1*1
+    64 + 32 + 4 + 1 = 101
 
 So we see that 1100101 in binary is 101 in decimal. Let\'s look at one
 more number, 11101011001001. You can convert it to decimal by doing:
 
     1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256
            + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4
-           + 0*2 + 1*1 =
+           + 0*2 + 1*1
 
-    8192 + 4096 + 2048 + 512 + 128 + 64 + 8 + 1 =
-
-    15049
+    8192 + 4096 + 2048 + 512 + 128 + 64 + 8 + 1 = 15049
 
 Now, if you\'ve been paying attention, you have noticed that the numbers
 we just converted are the same ones we used to multiply with earlier.
@@ -6132,17 +6128,14 @@ byte can hold any number between 0 and 255. The reason for this is that
 the largest number you can fit into 8 bits is 255. You can see this for
 yourself if you convert binary 11111111 into decimal:
 
-    11111111 =
 
-    (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3)
-              + (1 * 2^2) + (1 * 2^1) + (1 * 2^0) =
+    11111111 = (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4)
+               + (1 * 2^3)+ (1 * 2^2) + (1 * 2^1) + (1 * 2^0)
 
-    128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 =
+    128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255
 
-    255
-
-The largest number that you can hold in 16 bits is 65535. The largest
-number you can hold in 32 bits is 4294967295 (4 billion). The largest
+The largest number that you can hold in 16 bits is 65,535. The largest
+number you can hold in 32 bits is 4,294,967,295 (4 billion). The largest
 number you can hold in 64 bits is 18,446,744,073,709,551,615. The
 largest number you can hold in 128 bits is
 340,282,366,920,938,463,463,374,607,431,768,211,456. Anyway, you see the
@@ -6374,8 +6367,36 @@ chops off the furthest digit to the left. A left rotate does the same
 thing, but takes the furthest digit to the left and puts it in the ones
 spot. For example:
 
-    Shift left  10010111 = 00101110
-    Rotate left 10010111 = 00101111
+**Shift left:**
+
+    # Logic and Arithmetic
+    Binary:       1 0 0 1 0 1 1 1       = 151 | -105 | 0x97
+                   / / / / / / /
+    Result:       0 0 1 0 1 1 1 0 <- 0  =  46 |   46 | 0x2e
+
+**Shift right:**
+
+    # Logic
+    Binary:       1 0 0 1 0 1 1 1       = 151 | -105 | 0x97
+                   \ \ \ \ \ \ \
+    Result:  0 -> 0 1 0 0 1 0 1 1       =  75 |   75 | 0x4b
+
+    # Arithmetic
+    Binary:       1 0 0 1 0 1 1 1       = 151 | -105 | 0x97
+                  |\ \ \ \ \ \ \
+    Result:       1 1 0 0 1 0 1 1       = 203 |  -53 | 0xcb
+
+**Rotate left:**
+
+    Binary:     ->1 0 0 1 0 1 1 1       = 151 | -105 | 0x97
+                   / / / / / / /
+    Result:       0 0 1 0 1 1 1 1<-     =  47 |   47 | 0x2f
+
+**Rotate right:**
+
+    Binary:       1 0 0 1 0 1 1 1<-     = 151 | -105 | 0x97
+                   \ \ \ \ \ \ \
+    Result:     ->1 1 0 0 1 0 1 1       = 203 |  -53 | 0xcb
 
 Notice that if you rotate a number for every digit it has (i.e. -
 rotating a 32-bit number 32 times), you wind up with the same number you
@@ -6401,7 +6422,7 @@ we have to shift the number right 1 digit so it looks like this:
     00000000000000000000000000000101
 
 And then, we just want to look at that digit, so we mask it by ANDing it
-with 00000000000000000000000000000001.
+with `00000000000000000000000000000001`.
 
     00000000000000000000000000000101 AND
     00000000000000000000000000000001
@@ -6412,33 +6433,7 @@ This will make the value of the register 1 if my Dad likes dressy
 clothes, and 0 if he doesn\'t. Then we can do a comparison to 1 and
 print the results. The code would look like this:
 
-```{.gnuassembler .numberLines}
-# NOTE: Assume that the register %ebx holds.
-#
-# My Dad's preferences
-#
-movl  %ebx, %eax    # This copies the information into
-                    # %eax so we don't lose the
-                    # original data.
-
-shrl  $1, %eax      # This is the shift operator.
-                    # It stands for Shift Right Long.
-                    # This first number is the number
-                    # of positions to shift,
-                    # and the second is the register
-                    # to shift.
-
-                            # This does the masking.
-andl  $0b00000000000000000000000000000001, %eax
-
-                            # Check to see if the
-                            # result is 1 or 0.
-cmpl  $0b00000000000000000000000000000001, %eax
-
-
-je    yes_he_likes_dressy_clothes
-
-jmp   no_he_doesnt_like_dressy_clothes
+```{.gnuassembler .numberLines include=resource/asm/010-01-shift-bit.s}
 ```
 
 And then we would have two labels which printed something about whether
@@ -6581,10 +6576,49 @@ You should note that it takes most computers a lot longer to do
 floating-point arithmetic than it does integer arithmetic. So, for
 programs that really need speed, integers are mostly used.
 
-<!-- TODO: Need floating point reference.
-        For more information on using floating point numbers in assembly
-        language, see:
--->
+Short floating-point:
+
+- The first bit is the sign bit: 0 for positive and 1 for negative.
+
+- The next 8 bits are the exponent. Follow this formula
+  `2^(x - 127) = exponent`.
+
+- The next 23 bits are the matissa: the first value is the decimal
+  unit and the other 22 bits are the fraction.
+
+Example:
+
+    0xC3478100
+    Binary:      1 10000110 1.0001111000000100000000
+    Sign bit:    1 -> -1
+    Exponent:    10000110 -> 134 -> 2^(134 - 127) -> 128
+    Mantissa:    1.10001111000000100000000 -> 1.558624267578125
+    Value:       -1 * 128 * 1.558624267578125
+                 = -199.503,906,25
+
+    0x43478100
+    Binary:      0 10000110 1.0001111000000100000000
+    Sign bit:    0 -> 1
+    Exponent:    10000110 -> 134 -> 2^(134 - 127) -> 128
+    Mantissa:    1.10001111000000100000000 -> 1.558624267578125
+    Value:       1 * 128 * 1.558624267578125
+                 = 199.503,906,25
+
+References to understand in deep how the computer handle the floating points.
+
+- [Fixed Point and Floating Point](https://www.tutorialspoint.com/fixed-point-and-floating-point-number-representations).
+
+- [Floating Point Tutorial](https://www.rfwireless-world.com/Tutorials/floating-point-tutorial.html).
+
+- [IEEE Standard for Floating-Point Arithmetic (IEEE 754)](https://en.wikipedia.org/wiki/IEEE_754).
+
+- [Single-precision floating-point format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format).
+
+For more information on using floating point numbers in assembly language, see:
+
+- [Floating Point Assembly Language](https://cs.fit.edu/~mmahoney/cse3101/float.html).
+
+- [Floating-Point Instruction Set](https://www3.physnet.uni-hamburg.de/physnet/Tru64-Unix/HTML/APS31DTE/DOCU_010.HTM).
 
 ### Negative Numbers
 
@@ -6701,20 +6735,20 @@ only a quarter as many digits. The most important number to remember in
 hexadecimal is `f`, which means that all bits are set. So, if I want to
 set all of the bits of a register to 1, I can just do:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl  $0xFFFFFFFF, %eax
 ```
 
 Which is considerably easier and less error-prone than writing:
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 movl  $0b11111111111111111111111111111111, %eax
 ```
 
 Note also that hexadecimal numbers are prefixed with `0x`.
 So, when we do
 
-```{.gnuassembler .numberLines}
+```{.gnuassembler}
 int   $0x80
 ```
 
@@ -6784,10 +6818,10 @@ except by the extremely limitted means of passing it through exit codes.
 In this section, we will discuss converting positive numbers into
 strings for display.
 
-The function will be called `integer2string`, and it will take two
+The function will be called `_integer2string`, and it will take two
 parameters - an integer to convert and a string buffer filled with null
 characters (zeroes). The buffer will be assumed to be big enough to
-store the entire number as a string.(at least 11 characters long, to
+store the entire number as a string (at least 11 characters long, to
 include a trailing null character).
 
 Remember that the way that we see numbers is in base 10. Therefore, to
@@ -6813,46 +6847,46 @@ back off to fill in the buffer, it will be in the reverse order that we
 pushed them on.
 
 The code for the function should be put in a file called
-`integer-to-string.s` and should be entered as follows:
+`010-02-integer-to-string.s` and should be entered as follows:
 
-```{.gnuassembler .numberLines include=resource/asm/integer-to-string.s}
+```{.gnuassembler .numberLines include=resource/asm/010-02-integer-to-string.s}
 ```
 
 To show this used in a full program, use the following code, along with
 the `_count_chars` and `_write_newline` functions written about in
 previous chapters. The code should be in a file called
-`conversion-program.s`.
+`010-02-conversion-program.s`.
 
-```{.gnuassembler .numberLines include=resource/asm/conversion-program.s}
+```{.gnuassembler .numberLines include=resource/asm/010-02-conversion-program.s}
 ```
 
 To build the program, issue the following commands:
 
 ```{.bash}
-as -o integer-to-number.o     --32 \
-                              --gstabs+ \
-                              integer-to-string.s
+as -o 010-02-integer-to-number.o   --32 \
+                                   --gstabs+ \
+                                   010-02-integer-to-string.s
 
-as -o 006-01-count-chars.o    --32 \
-                              --gstabs+ \
-                              006-01-count-chars.s
+as -o 006-01-count-chars.o         --32 \
+                                   --gstabs+ \
+                                   006-01-count-chars.s
 
-as -o 006-01-write-newline.o  --32 \
-                              --gstabs+ \
-                              006-01-write-newline.s
+as -o 006-01-write-newline.o       --32 \
+                                   --gstabs+ \
+                                   006-01-write-newline.s
 
-as -o conversion-program.o    --32 \
-                              --gstabs+ \
-                              conversion-program.s
+as -o 010-02-conversion-program.o  --32 \
+                                   --gstabs+ \
+                                   010-02-conversion-program.s
 
-ld -o conversion-program      -m elf_i386 \
-                              integer-to-number.o \
-                              count-chars.o \
-                              write-newline.o \
-                              conversion-program.o
+ld -o 010-02-conversion-program    -m elf_i386 \
+                                   006-01-count-chars.o \
+                                   006-01-write-newline.o \
+                                   010-02-conversion-program.o \
+                                   010-02-integer-to-number.o
 ```
 
-To run just type `./conversion-program` and the output should say `824`.
+To run just type `./010-02-conversion-program` and the output should say `824`.
 
 Review
 ------
@@ -6891,26 +6925,26 @@ Review
     the exit status code, and rewrite them to print out the results
     instead using our integer to string conversion function.
 
--   Modify the `integer2string` code to return results in octal rather
+-   Modify the `_integer2string` code to return results in octal rather
     than decimal.
 
--   Modify the `integer2string` code so that the conversion base is a
+-   Modify the `_integer2string` code so that the conversion base is a
     parameter rather than hardcoded.
 
--   Write a function called `is_negative` that takes a single integer as
+-   Write a function called `_is_negative` that takes a single integer as
     a parameter and returns 1 if the parameter is negative, and 0 if the
     parameter is positive.
 
 ### Going Further
 
--   Modify the `integer2string` code so that the conversion base can be
+-   Modify the `_integer2string` code so that the conversion base can be
     greater than 10 (this requires you to use letters for numbers past
     9).
 
--   Create a function that does the reverse of `integer2string` called
-    `number2integer` which takes a character string and converts it to a
+-   Create a function that does the reverse of `_integer2string` called
+    `_number2integer` which takes a character string and converts it to a
     register-sized integer. Test it by running that integer back through
-    the `integer2string` function and displaying the results.
+    the `_integer2string` function and displaying the results.
 
 -   Write a program that stores likes and dislikes into a single machine
     word, and then compares two sets of likes and dislikes for
