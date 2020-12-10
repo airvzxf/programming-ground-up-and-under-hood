@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Execute the release script
-        run: echo Hello, world!
+        run: cd ./src/programming-from-the-ground-up && ./make.sh
 
       - name: Show directory
-        run: ls -lhaR ./
+        run: echo "All looks good!"
