@@ -3,9 +3,14 @@
 VERSION="v"$(date "+%Y.%m.%d")
 DATE=$(date "+%Y-%m-%d")
 RELEASE_PATH="../../release/${VERSION}/"
+RELEASE_LATEST_PATH="../../release/latest/"
 
 rm -fR "${RELEASE_PATH}"
+rm -fR "${RELEASE_LATEST_PATH}"
+
 mkdir -p "${RELEASE_PATH}"
+mkdir -p "${RELEASE_LATEST_PATH}"
+
 cp -R resource "${RELEASE_PATH}"resource
 
 
@@ -38,3 +43,5 @@ for OUTPUT in ${OUTPUTS[*]}; do
 
   INDEX=$((INDEX + 1))
 done
+
+cp -R "${RELEASE_PATH}"* "${RELEASE_LATEST_PATH}"
