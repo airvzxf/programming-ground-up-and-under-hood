@@ -10,13 +10,11 @@ cp -R resource "${RELEASE_PATH}"resource
 
 # ====== Create the release versions. ====== #
 
-OUTPUTS=(html5 epub3 markdown_strict commonmark gfm pdf)
-EXTENSIONS=(html epub strict.md common.md github.md pdf)
+OUTPUTS=(pdf epub3 html5 gfm)
+EXTENSIONS=(pdf epub html md)
 
 INDEX=0
 for OUTPUT in ${OUTPUTS[*]}; do
-  echo "OUTPUT: ${OUTPUT} = ${EXTENSIONS[${INDEX}]}"
-
   pandoc -f markdown -t "${OUTPUT}" \
     --standalone \
     --toc \
