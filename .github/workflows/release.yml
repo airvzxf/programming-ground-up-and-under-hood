@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Execute the release script
-        run: cd ./src/programming-from-the-ground-up && ./make.sh
+#      - name: Execute the release script
+#        run: cd ./src/programming-from-the-ground-up && ./make.sh
 
       - name: Show directory
-        run: echo "All looks good!"
+        run: sudo apt-get install pandoc && pandoc -v
