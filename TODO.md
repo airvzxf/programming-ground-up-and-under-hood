@@ -78,7 +78,7 @@
 
 ### My notes.
 
-- [ ] Chapters.
+- [x] Chapters.
   - [x] Chapter 3. Your First Programs.
     - [x] Convert the "Layout of the 32-bit registers" image to a text format.
     - [x] Refer the GDB debug in the review sections for chapter 3.
@@ -93,9 +93,9 @@
     - [x] Test this ldd section, what is the real result?
   - [x] Chapter 9. Intermediate Memory Topics How a Computer Views Memory
     - [x] Convert the image into the text table.
-  - [ ] Appendix F. Using the GDB Debugger.
+  - [x] Appendix F. Using the GDB Debugger.
     - [x] Add the plus signal to the GStabs: `as --gstabs` vs `as --gstabs+`.
-    - [ ] Looks like this is not a good example for the command nexti vs stepi.
+    - [x] Looks like this is not a good example for the command `next` vs `step` and `until`.
 
 
 ### Pending in the official website.
