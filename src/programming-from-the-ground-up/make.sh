@@ -2,7 +2,6 @@
 
 RELEASE_PATH="../../release/"
 VERSION="v"$(date "+%Y.%m.%d")
-HIGHLIGHT_STYLE="default.theme"
 
 mkdir -p "${RELEASE_PATH}"
 rm -f "${RELEASE_PATH}"ProgrammingGroundUp*
@@ -18,9 +17,11 @@ INDEX=0
 for OUTPUT in ${OUTPUTS[*]}; do
   echo "OUTPUT: ${OUTPUT} = ${EXTENSIONS[${INDEX}]}"
 
-  pandoc -f markdown -t "${OUTPUT}" --standalone \
+  pandoc -f markdown -t "${OUTPUT}" \
+    --standalone \
+    --toc \
     --highlight-style \
-      ./resource/pandoc/theme/"${HIGHLIGHT_STYLE}" \
+      ./resource/pandoc/theme/default.theme \
     --syntax-definition \
       ./resource/pandoc/syntax/gnuassembler.xml \
     --syntax-definition \
@@ -30,8 +31,7 @@ for OUTPUT in ${OUTPUTS[*]}; do
     --lua-filter \
       resource/pandoc/lua/include-code-files.lua \
     -o "${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.${EXTENSIONS[${INDEX}]}" \
-    001-ProgrammingGroundUp.txt \
-    002-Book.md &
+    book.md &
 
   INDEX=$((INDEX + 1))
 done

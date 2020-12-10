@@ -1,3 +1,18 @@
+---
+title: Programming from the Ground Up
+subtitle: Updated by AirvZxf | Architecture x86
+author: Jonathan Bartlett
+rights: © 2003 by Jonathan Bartlett
+language: en-US
+date: 2020-12-10
+publisher:  Bartlett Publishing in Broken Arrow, Oklahom
+identifier:
+- scheme: ISBN-10
+  text: 0975283847
+- scheme: ISBN-13
+  text: 978-0975283844
+---
+
 <!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
 
 <!-- TODO: Need to find places that need more filling out.  Reviews, definitely.  -->
