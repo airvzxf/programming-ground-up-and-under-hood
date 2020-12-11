@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-asdfkljasdf alksjdf
+asdfkljasdf alksjdf sadf
 
 VERSION="v"$(date "+%Y.%m.%d")
 DATE=$(date "+%Y-%m-%d")
