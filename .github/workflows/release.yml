@@ -26,8 +26,16 @@ jobs:
 
       - name: Use Prime Numbers
         run: |
+          pwd
           ls -lha prime-numbers
           cat prime-numbers
+          ls -lha "$HOME"
+          ls -lha "/root/"
+          ls -lha "/home/"
+          ls -lha "/home/runner/"
+          ls -lha "/home/runner/work/"
+          ls -lha "/home/runner/work/programming-ground-up-and-under-hood/"
+          ls -lha "/home/runner/work/programming-ground-up-and-under-hood/programming-ground-up-and-under-hood/"
 
       - name: Cache packages
         uses: actions/cache@v2
