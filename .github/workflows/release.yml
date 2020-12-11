@@ -23,21 +23,6 @@ jobs:
         env:
           CACHE_EXISTS: "${{steps.cache-packages.outputs.cache-hit}}"
         run: |
-          echo "--------------------------------------------------------"
-          echo "steps.cache-packages.outputs.cache-hit: ${{steps.cache-packages.outputs.cache-hit}}"
-          echo "--------------------------------------------------------"
-          echo "steps.cache-packages.outputs: ${{steps.cache-packages.outputs}}"
-          echo "--------------------------------------------------------"
-          echo "steps.cache-packages: ${{steps.cache-packages}}"
-          echo "--------------------------------------------------------"
-          echo "steps: ${{steps}}"
-          echo "--------------------------------------------------------"
-          echo "env.PACKAGES_HOME: ${{env.PACKAGES_HOME}}"
-          echo "--------------------------------------------------------"
-          echo "env: ${{env}}"
-          echo "--------------------------------------------------------"
-          ls -lhaR ${{env.PACKAGES_HOME}}"
-          echo "--------------------------------------------------------"
           if [[ "$CACHE_EXISTS" == 'true' ]]; then
             echo "Using Cached packages"
           else
@@ -47,6 +32,22 @@ jobs:
             sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
             rm -f pandoc-2.11.2-1-amd64.deb
           fi
+          echo "--------------------------------------------------------"
+          echo "steps.cache-packages.outputs.cache-hit: ${{steps.cache-packages.outputs.cache-hit}}"
+          echo "--------------------------------------------------------"
+#          echo "steps.cache-packages.outputs: ${{steps.cache-packages.outputs}}"
+#          echo "--------------------------------------------------------"
+#          echo "steps.cache-packages: ${{steps.cache-packages}}"
+#          echo "--------------------------------------------------------"
+#          echo "steps: ${{steps}}"
+#          echo "--------------------------------------------------------"
+#          echo "env.PACKAGES_HOME: ${{env.PACKAGES_HOME}}"
+#          echo "--------------------------------------------------------"
+#          echo "env: ${{env}}"
+#          echo "--------------------------------------------------------"
+#          ls -lhaR ${{env.PACKAGES_HOME}}"
+#          echo "--------------------------------------------------------"
+
 #          echo "::add-path::$PACKAGES_HOME/bin"
 
 #          sudo apt-get update
