@@ -1,4 +1,4 @@
-name: CI - Release books.
+name: CI - Release books
 
 on:
   push:
