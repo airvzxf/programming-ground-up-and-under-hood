@@ -29,18 +29,18 @@ jobs:
             echo "Using Cached packages"
           else
             echo "Install packages"
-#            sudo apt-get update
-#            curl -sSL "$VALGRIND_SOURCE" -o - | tar -xjv --one-top-level=packages --strip-components=1
-#            cd packages
-#            ./configure --prefix="$PACKAGES_HOME"
-#            make -j
-#            make install
             sudo apt-get install -y texlive-latex-extra && \
             wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
             sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
             rm -f pandoc-2.11.2-1-amd64.deb
           fi
           echo "::add-path::$PACKAGES_HOME/bin"
+#            sudo apt-get update
+#            curl -sSL "$VALGRIND_SOURCE" -o - | tar -xjv --one-top-level=packages --strip-components=1
+#            cd packages
+#            ./configure --prefix="$PACKAGES_HOME"
+#            make -j
+#            make install
 
 #      - name: Install packages
 #        if: steps.cache.outputs.cache-hit != 'true'
