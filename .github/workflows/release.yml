@@ -17,21 +17,21 @@ jobs:
         id: cache-primes
         uses: actions/cache@v2
         with:
-          path: "${{env.PACKAGES_HOME}}"
-          key: ${{ runner.os }}-primes-v1.5
+          path: /home/runner/cache-linux/
+          key: ${{ runner.os }}-primes-v1.6
 
       - name: Generate Prime Numbers
         if: steps.cache-primes.outputs.cache-hit != 'true'
         run: |
-          mkdir -p "${{env.PACKAGES_HOME}}"
-          echo "Hola" > "${{env.PACKAGES_HOME}}"prime-numbers
+          mkdir -p /home/runner/cache-linux/
+          echo "Hola" > /home/runner/cache-linux/prime-numbers
 
       - name: Use Prime Numbers
         run: |
           pwd
-          echo "${{env.PACKAGES_HOME}}"
-          ls -lha "${{env.PACKAGES_HOME}}"prime-numbers
-          cat "${{env.PACKAGES_HOME}}"prime-numbers
+          echo /home/runner/cache-linux/
+          ls -lha /home/runner/cache-linux/prime-numbers
+          cat /home/runner/cache-linux/prime-numbers
           ls -lha "/home/runner/"
           ls -lha "/home/runner/work/programming-ground-up-and-under-hood/programming-ground-up-and-under-hood/"
 
@@ -39,7 +39,7 @@ jobs:
 #        uses: actions/cache@v2
 #        id: cache-packages
 #        with:
-#          path: "${{env.PACKAGES_HOME}}"
+#          path: /home/runner/cache-linux/
 #          key: "v1.4"
 #
 #      - name: Install packages
@@ -50,8 +50,8 @@ jobs:
 #          if [[ "$CACHE_EXISTS" == 'true' ]]; then
 #            echo "# --------------------------------------------------------"
 #            echo "# Using Cached packages"
-#            ls -lha "${{env.PACKAGES_HOME}}"
-#            sudo cp --verbose --force --recursive "${{env.PACKAGES_HOME}}"* /
+#            ls -lha /home/runner/cache-linux/
+#            sudo cp --verbose --force --recursive /home/runner/cache-linux/* /
 #            echo "# --------------------------------------------------------"
 #          else
 #            echo "# --------------------------------------------------------"
@@ -60,11 +60,11 @@ jobs:
 #            wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
 #            sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
 #            rm -f pandoc-2.11.2-1-amd64.deb
-#            mkdir -p "${{env.PACKAGES_HOME}}"
+#            mkdir -p /home/runner/cache-linux/
 #            for package in texlive-latex-extra pandoc; do
-#              dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"
+#              dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory /home/runner/cache-linux/
 #            done
-#            ls -lha "${{env.PACKAGES_HOME}}"
+#            ls -lha /home/runner/cache-linux/
 #            echo "# --------------------------------------------------------"
 #          fi
 #
