@@ -47,7 +47,7 @@ jobs:
             echo "--------------------------------------------------------"
             sudo dpkg -L pandoc
             echo "--------------------------------------------------------"
-            sudo dpkg -L texlive-latex | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
+            sudo dpkg -L texlive-latex-extra | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
             echo "--------------------------------------------------------"
             sudo dpkg -L pandoc | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
             echo "--------------------------------------------------------"
