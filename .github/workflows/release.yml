@@ -18,7 +18,7 @@ jobs:
         id: cache-packages
         with:
           path: "${{env.PACKAGES_HOME}}"
-          key: "IsraelRoldan"
+          key: "v1.0"
 
       - name: Install packages
         env:
