@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd"
+[
+  <!ENTITY variable  "(?:\$\?)">
+]>
+
+<language name="Bash" version="1" kateversion="5" section="Scripts" extensions="*.sh;*.bash;" mimetype="application/x-shellscript" casesensitive="1" author="Israel Roldan (israel.alberto.rv@gmail.com)" license="GPL-3.0">
+
+  <highlighting>
+    <list name="commands">
+      <item>as</item>
+      <item>echo</item>
+      <item>export</item>
+      <item>gcc</item>
+      <item>gdb</item>
+      <item>ldd</item>
+      <item>ld</item>
+      <item>objdump</item>
+      <item>perl</item>
+      <item>python</item>
+      <item>setenv</item>
+    </list>
+    <list name="environment">
+      <item>LD_LIBRARY_PATH</item>
+    </list>
+    <list name="parameters">
+      <item>--32</item>
+      <item>--args</item>
+      <item>--cflags</item>
+      <item>-dynamic-linker</item>
+      <item>--file-headers</item>
+      <item>--gstabs+</item>
+      <item>--library</item>
+      <item>--library-path</item>
+      <item>--libs</item>
+      <item>-l</item>
+      <item>-L</item>
+      <item>-lrecord</item>
+      <item>-m</item>
+      <item>-o</item>
+      <item>--private-headers</item>
+      <item>-R</item>
+      <item>-shared</item>
+      <item>-S</item>
+      <item>--syms</item>
+    </list>
+
+    <contexts>
+      <context attribute="Normal Text"   name="Normal"      lineEndContext="#stay">
+        <DetectChar attribute="Comment"  context="comment"  char="#"               />
+        <keyword attribute="Attribute"   context="#stay"    String="parameters"    />
+        <keyword attribute="Constant"     context="#stay"    String="environment"  />
+        <keyword attribute="Keyword"     context="#stay"    String="commands"      />
+        <RegExpr attribute="Variable"    context="#stay"    String="&variable;"    />
+      </context>
+
+      <context attribute="Comment"       name="comment"     lineEndContext="#pop"/>
+    </contexts>
+
+    <itemDatas>
+      <itemData defStyleNum="dsAttribute"  name="Attribute"  />
+      <itemData defStyleNum="dsComment"    name="Comment"    />
+      <itemData defStyleNum="dsConstant"    name="Constant"  />
+      <itemData defStyleNum="dsKeyword"    name="Keyword"    />
+      <itemData defStyleNum="dsVariable"   name="Variable"   />
+    </itemDatas>
+  </highlighting>
+
+  <general>
+    <comments>
+      <comment name="singleLine" start="#"/>
+    </comments>
+    <keywords casesensitive="1" weakDeliminator="^%#[]$._{}:-/+" additionalDeliminator="`"/>
+  </general>
+</language>
