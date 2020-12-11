@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     env:
-      PACKAGES_HOME: "$HOME/cache-linux/"
+      PACKAGES_HOME: "/home/cache-linux/"
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "${{env.PACKAGES_HOME}}"
-          key: ${{ runner.os }}-primes-v1.4
+          key: ${{ runner.os }}-primes-v1.5
 
       - name: Generate Prime Numbers
         if: steps.cache-primes.outputs.cache-hit != 'true'
