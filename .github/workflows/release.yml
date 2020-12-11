@@ -30,15 +30,7 @@ jobs:
           echo "--------------------------------------------------------"
           echo "steps.cache-packages.outputs.cache-hit: ${{steps.cache-packages.outputs.cache-hit}}"
           echo "--------------------------------------------------------"
-          echo "steps.cache-packages.outputs: ${{steps.cache-packages.outputs}}"
-          echo "--------------------------------------------------------"
-          echo "steps.cache-packages: ${{steps.cache-packages}}"
-          echo "--------------------------------------------------------"
-          echo "steps: ${{steps}}"
-          echo "--------------------------------------------------------"
           echo "env.PACKAGES_HOME: ${{env.PACKAGES_HOME}}"
-          echo "--------------------------------------------------------"
-          echo "env: ${{env}}"
           echo "--------------------------------------------------------"
           ls -lhaR "${{env.PACKAGES_HOME}}"
           echo "--------------------------------------------------------"
@@ -50,6 +42,17 @@ jobs:
             wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
             sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
             rm -f pandoc-2.11.2-1-amd64.deb
+            echo "--------------------------------------------------------"
+            sudo dpkg -L texlive-latex
+            echo "--------------------------------------------------------"
+            sudo dpkg -L pandoc
+            echo "--------------------------------------------------------"
+            sudo dpkg -L texlive-latex | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
+            echo "--------------------------------------------------------"
+            sudo dpkg -L pandoc | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
+            echo "--------------------------------------------------------"
+            ls -lhaR "${{env.PACKAGES_HOME}}"
+            echo "--------------------------------------------------------"
           fi
 
 #          echo "::add-path::$PACKAGES_HOME/bin"
