@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 
+asdfkljasdf alksjdf
+
 VERSION="v"$(date "+%Y.%m.%d")
 DATE=$(date "+%Y-%m-%d")
 RELEASE_PATH="../../release/${VERSION}/"
@@ -45,5 +47,3 @@ for OUTPUT in ${OUTPUTS[*]}; do
 done
 
 cp -R "${RELEASE_PATH}"* "${RELEASE_LATEST_PATH}"
-
-asdfkljasdf alksjdf
