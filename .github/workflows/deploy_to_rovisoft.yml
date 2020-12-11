@@ -13,8 +13,8 @@ jobs:
 
       - name: Clean the uploaded files
         run: |
-          mv ./release/latest/ProgrammingGroundUp.html index.html && \
-          rm -f ProgrammingGroundUp*
+          mv ./release/latest/ProgrammingGroundUp.html ./release/latest/index.html && \
+          rm -f /release/latest/ProgrammingGroundUp*
 
       - name: Upload via FTP
         uses: airvzxf/ftp-deployment-action@latest
