@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     env:
-      PACKAGES_HOME: "/home/cache-linux/"
+      PACKAGES_HOME: "/home/runner/cache-linux/"
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
