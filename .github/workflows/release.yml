@@ -30,7 +30,6 @@ jobs:
           ls -lha prime-numbers
           cat prime-numbers
           ls -lha "$HOME"
-          ls -lha "/root/"
           ls -lha "/home/"
           ls -lha "/home/runner/"
           ls -lha "/home/runner/work/"
