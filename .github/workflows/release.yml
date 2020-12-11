@@ -17,18 +17,18 @@ jobs:
         id: cache-primes
         uses: actions/cache@v2
         with:
-          path: prime-numbers
-          key: ${{ runner.os }}-primes-v1.0
+          path: /home/runner/linux/
+          key: ${{ runner.os }}-primes-v1.1
 
       - name: Generate Prime Numbers
         if: steps.cache-primes.outputs.cache-hit != 'true'
-        run: echo "Hola" > prime-numbers
+        run: echo "Hola" > /home/runner/linux/prime-numbers
 
       - name: Use Prime Numbers
         run: |
           pwd
-          ls -lha prime-numbers
-          cat prime-numbers
+          ls -lha /home/runner/linux/prime-numbers
+          cat /home/runner/linux/prime-numbers
           ls -lha "$HOME"
           ls -lha "/home/"
           ls -lha "/home/runner/"
