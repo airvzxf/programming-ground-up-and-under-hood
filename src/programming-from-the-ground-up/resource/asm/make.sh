@@ -23,8 +23,8 @@ FILES=(
   006-01-write-records
   007-01-error-exit
   007-01-add-year
-  008-01-helloworld-lib
-  008-01-helloworld-nolib
+  008-01-hello-world-lib
+  008-01-hello-world-nolib
   008-02-printf-example
   009-01-memory-layout
   009-02-alloc
@@ -53,7 +53,7 @@ FILES=(
   004-01-power
   004-02-factorial
   005-01-toupper
-  008-01-helloworld-nolib
+  008-01-hello-world-nolib
   009-01-memory-layout
   010-01-shift-bit
 )
@@ -97,9 +97,9 @@ ld -o "007-01-add-year"-bin  -m elf_i386 \
                              "007-01-add-year".o \
                              "007-01-error-exit".o
 
-echo "Linking #2: 008-01-helloworld-lib"
-ld -o "008-01-helloworld-lib"-bin  -m elf_i386 \
-                                   "008-01-helloworld-lib".o \
+echo "Linking #2: 008-01-hello-world-lib"
+ld -o "008-01-hello-world-lib"-bin  -m elf_i386 \
+                                   "008-01-hello-world-lib".o \
                                    --library        c \
                                    --library-path   /usr/lib32/ \
                                    -dynamic-linker  /usr/lib32/ld-linux.so.2
