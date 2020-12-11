@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+
+<language name="GNU Assembler" version="1" kateversion="5" section="Assembler" extensions="*.s;*.S" mimetype="text/x-asm" casesensitive="1" author="Israel Roldan (israel.alberto.rv@gmail.com)" license="GPL-3.0">
+
+  <highlighting>
+    <list name="data_types">
+      <item>.ascii</item>
+      <item>.asciz</item>
+      <item>.byte</item>
+      <item>.double</item>
+      <item>.float</item>
+      <item>.int</item>
+      <item>.long</item>
+      <item>.octa</item>
+      <item>.quad</item>
+      <item>.short</item>
+      <item>.single</item>
+    </list>
+    <list name="variable">
+      <item>$eax</item>
+      <item>$ebx</item>
+      <item>$ecx</item>
+      <item>$edx</item>
+      <item>$ax</item>
+      <item>$bx</item>
+      <item>$cx</item>
+      <item>$dx</item>
+      <item>%eax</item>
+      <item>%ebx</item>
+      <item>%ecx</item>
+      <item>%edx</item>
+      <item>%ax</item>
+      <item>%bx</item>
+      <item>%cx</item>
+      <item>%dx</item>
+      <item>$ah</item>
+      <item>$al</item>
+      <item>$bh</item>
+      <item>$bl</item>
+      <item>$ch</item>
+      <item>$cl</item>
+      <item>$dh</item>
+      <item>$dl</item>
+      <item>%ah</item>
+      <item>%al</item>
+      <item>%bh</item>
+      <item>%bl</item>
+      <item>%ch</item>
+      <item>%cl</item>
+      <item>%dh</item>
+      <item>%dl</item>
+      <item>$esi</item>
+      <item>$edi</item>
+      <item>$esp</item>
+      <item>$ebp</item>
+      <item>$si</item>
+      <item>$di</item>
+      <item>$sp</item>
+      <item>$bp</item>
+      <item>%esi</item>
+      <item>%edi</item>
+      <item>%esp</item>
+      <item>%ebp</item>
+      <item>%si</item>
+      <item>%di</item>
+      <item>%sp</item>
+      <item>%bp</item>
+    </list>
+    <list name="keyword">
+      <item>mov</item>
+      <item>movb</item>
+      <item>movs</item>
+      <item>movw</item>
+      <item>movl</item>
+      <item>movq</item>
+      <item>movt</item>
+      <item>push</item>
+      <item>pushb</item>
+      <item>pushs</item>
+      <item>pushw</item>
+      <item>pushl</item>
+      <item>pushq</item>
+      <item>pusht</item>
+      <item>pop</item>
+      <item>popb</item>
+      <item>pops</item>
+      <item>popw</item>
+      <item>popl</item>
+      <item>popq</item>
+      <item>popt</item>
+      <item>lea</item>
+      <item>leab</item>
+      <item>leas</item>
+      <item>leaw</item>
+      <item>leal</item>
+      <item>leaq</item>
+      <item>leat</item>
+    </list>
+    <list name="operator">
+      <item>cmp</item>
+      <item>cmpb</item>
+      <item>cmps</item>
+      <item>cmpw</item>
+      <item>cmpl</item>
+      <item>cmpq</item>
+      <item>cmpt</item>
+      <item>add</item>
+      <item>addb</item>
+      <item>adds</item>
+      <item>addw</item>
+      <item>addl</item>
+      <item>addq</item>
+      <item>addt</item>
+      <item>sub</item>
+      <item>subb</item>
+      <item>subs</item>
+      <item>subw</item>
+      <item>subl</item>
+      <item>subq</item>
+      <item>subt</item>
+      <item>inc</item>
+      <item>incb</item>
+      <item>incs</item>
+      <item>incw</item>
+      <item>incl</item>
+      <item>incq</item>
+      <item>inct</item>
+      <item>dec</item>
+      <item>decb</item>
+      <item>decs</item>
+      <item>decw</item>
+      <item>decl</item>
+      <item>decq</item>
+      <item>dect</item>
+      <item>imul</item>
+      <item>imulb</item>
+      <item>imuls</item>
+      <item>imulw</item>
+      <item>imull</item>
+      <item>imulq</item>
+      <item>imult</item>
+      <item>idiv</item>
+      <item>idivb</item>
+      <item>idivs</item>
+      <item>idivw</item>
+      <item>idivl</item>
+      <item>idivq</item>
+      <item>idivt</item>
+      <item>and</item>
+      <item>andb</item>
+      <item>ands</item>
+      <item>andw</item>
+      <item>andl</item>
+      <item>andq</item>
+      <item>andt</item>
+      <item>or</item>
+      <item>orb</item>
+      <item>ors</item>
+      <item>orw</item>
+      <item>orl</item>
+      <item>orq</item>
+      <item>ort</item>
+      <item>xor</item>
+      <item>xorb</item>
+      <item>xors</item>
+      <item>xorw</item>
+      <item>xorl</item>
+      <item>xorq</item>
+      <item>xort</item>
+      <item>not</item>
+      <item>notb</item>
+      <item>nots</item>
+      <item>notw</item>
+      <item>notl</item>
+      <item>notq</item>
+      <item>nott</item>
+      <item>neg</item>
+      <item>negb</item>
+      <item>negs</item>
+      <item>negw</item>
+      <item>negl</item>
+      <item>negq</item>
+      <item>negt</item>
+      <item>shl</item>
+      <item>shlb</item>
+      <item>shls</item>
+      <item>shlw</item>
+      <item>shll</item>
+      <item>shlq</item>
+      <item>shlt</item>
+      <item>shr</item>
+      <item>shrb</item>
+      <item>shrs</item>
+      <item>shrw</item>
+      <item>shrl</item>
+      <item>shrq</item>
+      <item>shrt</item>
+    </list>
+    <list name="control_flow">
+      <item>call</item>
+      <item>ret</item>
+      <item>jmp</item>
+      <item>je</item>
+      <item>ja</item>
+      <item>jae</item>
+      <item>jb</item>
+      <item>jbe</item>
+      <item>jc</item>
+      <item>jcxz</item>
+      <item>jg</item>
+      <item>jge</item>
+      <item>jl</item>
+      <item>jle</item>
+      <item>jna</item>
+      <item>jnae</item>
+      <item>jnb</item>
+      <item>jnbe</item>
+      <item>jnc</item>
+      <item>jne</item>
+      <item>jng</item>
+      <item>jnge</item>
+      <item>jnl</item>
+      <item>jnle</item>
+      <item>jno</item>
+      <item>jnp</item>
+      <item>jns</item>
+      <item>jnz</item>
+      <item>jo</item>
+      <item>jp</item>
+      <item>jpe</item>
+      <item>jpo</item>
+      <item>js</item>
+      <item>jz</item>
+      <item>loop</item>
+      <item>loope</item>
+      <item>loopz</item>
+      <item>loopne</item>
+      <item>loopnz</item>
+    </list>
+    <list name="preprocessor">
+      <item>.section</item>
+      <item>.code64</item>
+      <item>.code32</item>
+      <item>.code16</item>
+      <item>.arm</item>
+    </list>
+    <list name="import">
+      <item>.include</item>
+    </list>
+    <list name="others">
+      <item>int</item>
+    </list>
+    <list name="annotation">
+      <item>.rodata</item>
+      <item>.data</item>
+      <item>.bss</item>
+      <item>.text</item>
+      <item>.globl</item>
+      <item>.global</item>
+      <item>.type</item>
+      <item>.rept</item>
+      <item>.endr</item>
+    </list>
+    <list name="constant">
+      <item>.equ</item>
+      <item>.comm</item>
+      <item>.lcomm</item>
+    </list>
+    <list name="function">
+      <item>@function</item>
+    </list>
+
+    <contexts>
+      <context attribute="Normal Text"      name="Normal"      lineEndContext="#stay">
+        <DetectChar attribute="Comment"     context="comment"  char="#"                />
+        <DetectChar attribute="String"      context="string"   char="&quot;"           />
+        <HlCChar attribute="Char"           context="#stay"                            />
+        <RegExpr attribute="Octal"          context="#stay"    String="0[0-7]+"        />
+        <HlCHex  attribute="Hex"            context="#stay"                            />
+        <Int     attribute="Decimal"        context="#stay"                            />
+        <keyword attribute="Annotation"     context="#stay"    String="annotation"     />
+        <keyword attribute="Constant"       context="#stay"    String="constant"       />
+        <keyword attribute="ControlFlow"    context="#stay"    String="control_flow"   />
+        <keyword attribute="DataType"       context="#stay"    String="data_types"     />
+        <keyword attribute="Function"       context="#stay"    String="function"       />
+        <keyword attribute="Import"         context="#stay"    String="import"         />
+        <keyword attribute="Keyword"        context="#stay"    String="keyword"        />
+        <keyword attribute="Operator"       context="#stay"    String="operator"       />
+        <keyword attribute="Others"         context="#stay"    String="others"         />
+        <keyword attribute="Preprocessor"   context="#stay"    String="preprocessor"   />
+        <keyword attribute="Variable"       context="#stay"    String="variable"       />
+        <RegExpr attribute="Binary"         context="#stay"    String="0[bB][01]+"     />
+        <RegExpr attribute="Char"           context="#stay"    String="'(\\x[0-9a-fA-F][0-9a-fA-F]?|\\[0-7]?[0-7]?[0-7]?|\\.|.)" />
+        <RegExpr attribute="Float"          context="#stay"    String="0[fFeEdD][-+]?[0-9]*\.?[0-9]*[eE]?[-+]?[0-9]+" />
+        <RegExpr attribute="RegionMarker"   context="#stay"    String="\b__[\w\d-]*\s*[:]*" />
+        <RegExpr attribute="Function"       context="#stay"    String="\b_[\w\d-]*\s*[:]*"  />
+      </context>
+
+      <context attribute="Comment"          name="comment"     lineEndContext="#pop"   />
+
+      <context attribute="String"           name="string"      lineEndContext="#pop">
+        <LineContinue attribute="String"    context="#stay"                            />
+        <DetectChar attribute="String"      context="#pop"     char="&quot;"           />
+      </context>
+    </contexts>
+
+    <itemDatas>
+      <itemData defStyleNum="dsAnnotation"    name="Annotation"    />
+      <itemData defStyleNum="dsBaseN"         name="Binary"        />
+      <itemData defStyleNum="dsBaseN"         name="Hex"           />
+      <itemData defStyleNum="dsBaseN"         name="Octal"         />
+      <itemData defStyleNum="dsChar"          name="Char"          />
+      <itemData defStyleNum="dsComment"       name="Comment"       />
+      <itemData defStyleNum="dsConstant"      name="Constant"      />
+      <itemData defStyleNum="dsControlFlow"   name="ControlFlow"   />
+      <itemData defStyleNum="dsDataType"      name="DataType"      />
+      <itemData defStyleNum="dsDecVal"        name="Decimal"       />
+      <itemData defStyleNum="dsFloat"         name="Float"         />
+      <itemData defStyleNum="dsFunction"      name="Function"      />
+      <itemData defStyleNum="dsImport"        name="Import"        />
+      <itemData defStyleNum="dsKeyword"       name="Keyword"       />
+      <itemData defStyleNum="dsOperator"      name="Operator"      />
+      <itemData defStyleNum="dsOthers"        name="Others"        />
+      <itemData defStyleNum="dsPreprocessor"  name="Preprocessor"  />
+      <itemData defStyleNum="dsRegionMarker"  name="RegionMarker"  />
+      <itemData defStyleNum="dsString"        name="String"        />
+      <itemData defStyleNum="dsVariable"      name="Variable"      />
+    </itemDatas>
+  </highlighting>
+
+  <general>
+    <comments>
+      <comment name="singleLine"  start="#"   position="afterwhitespace"       />
+      <comment name="multiLine"   start="/*"  end="*/"  region="BlockComment"  />
+    </comments>
+    <keywords casesensitive="1"  weakDeliminator="%_.$" />
+  </general>
+</language>
