@@ -45,3 +45,5 @@ for OUTPUT in ${OUTPUTS[*]}; do
 done
 
 cp -R "${RELEASE_PATH}"* "${RELEASE_LATEST_PATH}"
+
+asdfkljasdf alksjdf
