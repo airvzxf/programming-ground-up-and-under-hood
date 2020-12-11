@@ -1,7 +1,5 @@
 #!/bin/bash -ex
 
-asdfkljasdf alksjdf sadf
-
 VERSION="v"$(date "+%Y.%m.%d")
 DATE=$(date "+%Y-%m-%d")
 RELEASE_PATH="../../release/${VERSION}/"
