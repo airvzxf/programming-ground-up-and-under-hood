@@ -11,6 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Clean the uploaded files
+        run: |
+          mv ./release/latest/ProgrammingGroundUp.html index.html && \
+          rm -f ProgrammingGroundUp*
+
       - name: Upload via FTP
         uses: airvzxf/ftp-deployment-action@latest
         with:
@@ -19,9 +24,3 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local_dir: "./release/latest/"
           delete: "true"
-
-      - name: Clean the uploaded files
-        run: |
-          mv ./release/latest/ProgrammingGroundUp.html index.html && \
-          rm -f ProgrammingGroundUp* && \
-          ls -lhaR .
