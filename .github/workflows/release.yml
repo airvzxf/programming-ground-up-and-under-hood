@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/linux/
-          key: ${{ runner.os }}-primes-v1.2
+          key: ${{ runner.os }}-primes-v1.3
 
       - name: Generate Prime Numbers
         if: steps.cache-primes.outputs.cache-hit != 'true'
@@ -32,53 +32,49 @@ jobs:
           mkdir -p /home/runner/linux/
           ls -lha /home/runner/linux/prime-numbers
           cat /home/runner/linux/prime-numbers
-          ls -lha "$HOME"
-          ls -lha "/home/"
           ls -lha "/home/runner/"
-          ls -lha "/home/runner/work/"
-          ls -lha "/home/runner/work/programming-ground-up-and-under-hood/"
           ls -lha "/home/runner/work/programming-ground-up-and-under-hood/programming-ground-up-and-under-hood/"
 
-      - name: Cache packages
-        uses: actions/cache@v2
-        id: cache-packages
-        with:
-          path: "${{env.PACKAGES_HOME}}"
-          key: "v1.4"
-
-      - name: Install packages
-        env:
-          CACHE_EXISTS: "${{steps.cache-packages.outputs.cache-hit}}"
-        run: |
-          exit -1
-          if [[ "$CACHE_EXISTS" == 'true' ]]; then
-            echo "# --------------------------------------------------------"
-            echo "# Using Cached packages"
-            ls -lha "${{env.PACKAGES_HOME}}"
-            sudo cp --verbose --force --recursive "${{env.PACKAGES_HOME}}"* /
-            echo "# --------------------------------------------------------"
-          else
-            echo "# --------------------------------------------------------"
-            echo "# Install packages"
-            sudo apt-get install -y texlive-latex-extra && \
-            wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
-            sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
-            rm -f pandoc-2.11.2-1-amd64.deb
-            mkdir -p "${{env.PACKAGES_HOME}}"
-            for package in texlive-latex-extra pandoc; do
-              dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"
-            done
-            ls -lha "${{env.PACKAGES_HOME}}"
-            echo "# --------------------------------------------------------"
-          fi
-
-      - name: Generate release files and commit in GitHub
-        run: |
-          cd ./src/programming-from-the-ground-up && \
-          ./make.sh && \
-          cd ../../ && \
-          git config --global user.name 'Israel Roldan' && \
-          git config --global user.email 'israel.alberto.rv@gmail.com' && \
-          git add . && \
-          git commit -m "Automated Release." && \
-          git push
+#      - name: Cache packages
+#        uses: actions/cache@v2
+#        id: cache-packages
+#        with:
+#          path: "${{env.PACKAGES_HOME}}"
+#          key: "v1.4"
+#
+#      - name: Install packages
+#        env:
+#          CACHE_EXISTS: "${{steps.cache-packages.outputs.cache-hit}}"
+#        run: |
+#          exit -1
+#          if [[ "$CACHE_EXISTS" == 'true' ]]; then
+#            echo "# --------------------------------------------------------"
+#            echo "# Using Cached packages"
+#            ls -lha "${{env.PACKAGES_HOME}}"
+#            sudo cp --verbose --force --recursive "${{env.PACKAGES_HOME}}"* /
+#            echo "# --------------------------------------------------------"
+#          else
+#            echo "# --------------------------------------------------------"
+#            echo "# Install packages"
+#            sudo apt-get install -y texlive-latex-extra && \
+#            wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
+#            sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
+#            rm -f pandoc-2.11.2-1-amd64.deb
+#            mkdir -p "${{env.PACKAGES_HOME}}"
+#            for package in texlive-latex-extra pandoc; do
+#              dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"
+#            done
+#            ls -lha "${{env.PACKAGES_HOME}}"
+#            echo "# --------------------------------------------------------"
+#          fi
+#
+#      - name: Generate release files and commit in GitHub
+#        run: |
+#          cd ./src/programming-from-the-ground-up && \
+#          ./make.sh && \
+#          cd ../../ && \
+#          git config --global user.name 'Israel Roldan' && \
+#          git config --global user.email 'israel.alberto.rv@gmail.com' && \
+#          git add . && \
+#          git commit -m "Automated Release." && \
+#          git push
