@@ -7,13 +7,20 @@ on:
 
 jobs:
   build:
-    container: airvzxf/pandoc
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Execute the release script
+      - name: Install packages
         run: |
-          pandoc -v && \
+          wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
+          dpkg -i pandoc-2.11.2-1-amd64.deb && \
+          rm -f pandoc-2.11.2-1-amd64.deb && \
+          apt-get install -y texlive-latex-extra && \
+          pandoc -v
+
+      - name: Generate release files and commit in GitHub
+        run: |
           cd ./src/programming-from-the-ground-up && \
           ./make.sh && \
           cd ../../ && \
