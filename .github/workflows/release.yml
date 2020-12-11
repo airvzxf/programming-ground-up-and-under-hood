@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     env:
-      PACKAGES_HOME: "$HOME/packages"
+      PACKAGES_HOME: "$HOME/packages/"
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
         id: cache-packages
         with:
           path: "${{env.PACKAGES_HOME}}"
-          key: "v1.2"
+          key: "v1.3"
 
       - name: Install packages
         env:
@@ -28,7 +28,8 @@ jobs:
           if [[ "$CACHE_EXISTS" == 'true' ]]; then
             echo "# --------------------------------------------------------"
             echo "# Using Cached packages"
-            sudo cp --verbose --force --recursive "${{env.PACKAGES_HOME}}"/* /
+            ls -lha "${{env.PACKAGES_HOME}}"
+            sudo cp --verbose --force --recursive "${{env.PACKAGES_HOME}}"* /
             echo "# --------------------------------------------------------"
           else
             echo "# --------------------------------------------------------"
@@ -37,8 +38,10 @@ jobs:
             wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
             sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
             rm -f pandoc-2.11.2-1-amd64.deb
-            sudo dpkg -L texlive-latex-extra | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
-            sudo dpkg -L pandoc | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
+            for package in texlive-latex-extra pandoc; do
+              dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"
+            done
+            ls -lha "${{env.PACKAGES_HOME}}"
             echo "# --------------------------------------------------------"
           fi
 
