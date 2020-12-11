@@ -1,7 +1,8 @@
 name: CI - Deploy to RoviSoft
 
 on:
-  workflows: [ "CI - Release books" ]
+  workflow_run:
+    workflows: [ "CI - Release books" ]
     branches: [ main ]
     types:
       - completed
