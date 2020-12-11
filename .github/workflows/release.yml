@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     env:
-      PACKAGES_HOME: "$HOME/packages/"
+      PACKAGES_HOME: "$HOME/cache-linux/"
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -17,21 +17,21 @@ jobs:
         id: cache-primes
         uses: actions/cache@v2
         with:
-          path: /home/runner/linux/
-          key: ${{ runner.os }}-primes-v1.3
+          path: "${{env.PACKAGES_HOME}}"
+          key: ${{ runner.os }}-primes-v1.4
 
       - name: Generate Prime Numbers
         if: steps.cache-primes.outputs.cache-hit != 'true'
         run: |
-          mkdir -p /home/runner/linux/
-          echo "Hola" > /home/runner/linux/prime-numbers
+          mkdir -p "${{env.PACKAGES_HOME}}"
+          echo "Hola" > "${{env.PACKAGES_HOME}}"prime-numbers
 
       - name: Use Prime Numbers
         run: |
           pwd
-          mkdir -p /home/runner/linux/
-          ls -lha /home/runner/linux/prime-numbers
-          cat /home/runner/linux/prime-numbers
+          echo "${{env.PACKAGES_HOME}}"
+          ls -lha "${{env.PACKAGES_HOME}}"prime-numbers
+          cat "${{env.PACKAGES_HOME}}"prime-numbers
           ls -lha "/home/runner/"
           ls -lha "/home/runner/work/programming-ground-up-and-under-hood/programming-ground-up-and-under-hood/"
 
