@@ -5067,7 +5067,7 @@ libraries*, *DLLs*, or *.so files*.[39] We will refer to all of these as
 
 The program we will examine here is simple - it writes the characters
 `hello world` to the screen and exits. The regular program,
-`008-01-helloworld-nolib.s`, looks like this:
+`008-01-hello-world-nolib.s`, looks like this:
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
@@ -5101,7 +5101,7 @@ _start:
 ```
 
 That's not too long. However, take a look at how short
-`008-01-helloworld-lib` is which uses a library:
+`008-01-hello-world-lib` is which uses a library:
 
 ``` gnuassembler
     # Assemble with `as --32` and `ld -m elf_i386`.
@@ -5131,23 +5131,23 @@ Now, building programs which use dynamic libraries is a little different
 than normal. You can build the first program normally by doing this:
 
 ``` bash
-as -o 008-01-helloworld-nolib.o  --32 \
-                                 --gstabs+ \
-                                 008-01-helloworld-nolib.s
+as -o 008-01-hello-world-nolib.o  --32 \
+                                  --gstabs+ \
+                                  008-01-hello-world-nolib.s
 
-ld -o 008-01-helloworld-nolib    -m elf_i386 \
-                                 008-01-helloworld-nolib.o
+ld -o 008-01-hello-world-nolib    -m elf_i386 \
+                                  008-01-hello-world-nolib.o
 ```
 
 However, in order to build the second program, you have to do this:
 
 ``` bash
-as -o 008-01-helloworld-lib.o  --32 \
-                               --gstabs+ \
-                               008-01-helloworld-lib.s
+as -o 008-01-hello-world-lib.o  --32 \
+                                --gstabs+ \
+                                008-01-hello-world-lib.s
 
-ld -o 008-01-helloworld-lib    -m elf_i386 \
-                               008-01-helloworld-lib.o \
+ld -o 008-01-hello-world-lib    -m elf_i386 \
+                                008-01-hello-world-lib.o \
             --library        c \
             --library-path   /usr/lib32/ \
             -dynamic-linker  /usr/lib32/ld-linux.so.2
@@ -5156,11 +5156,11 @@ ld -o 008-01-helloworld-lib    -m elf_i386 \
 Run both programs and you will get the classic message:
 
 ``` bash
-./008-01-helloworld-lib
+./008-01-hello-world-lib
 ```
 
 ``` bash
-./008-01-helloworld-nolib
+./008-01-hello-world-nolib
 ```
 
 Remember, the backslash in the first line simply means that the command
@@ -5205,40 +5205,40 @@ Records](#chapter-6-reading-and-writing-simple-records), we used both
 our main program file and files containing routines used by multiple
 programs. In these cases, we combined all of the code together using the
 linker at link-time, so it was still statically-linked. However, in the
-`008-01-helloworld-lib` program, we started using dynamic libraries.
+`008-01-hello-world-lib` program, we started using dynamic libraries.
 When you use dynamic libraries, your program is then
 *dynamically-linked*, which means that not all of the code needed to run
 the program is actually contained within the program file itself, but in
 external libraries.
 
 When we put the `--library c` on the command to link the
-`008-01-helloworld-lib` program, it told the linker to use the `C`
+`008-01-hello-world-lib` program, it told the linker to use the `C`
 library (`libc.so`) to look up any symbols that weren't already defined
-in `008-01-helloworld-lib.o`. However, it doesn't actually add any code
+in `008-01-hello-world-lib.o`. However, it doesn't actually add any code
 to our program, it just notes in the program where to look. When the
-`008-01-helloworld-lib` program begins, the file
+`008-01-hello-world-lib` program begins, the file
 `/usr/lib32/ld-linux.so.2` is loaded first. This is the dynamic linker.
-This looks at our `008-01-helloworld-lib` program and sees that it needs
-the `C` library to run. So, it searches for a file called `libc.so` in
-the standard places (listed in `/etc/ld.so.conf` and in the contents of
-the `LD_LIBRARY_PATH` environment variable), then looks in it for all
-the needed symbols (`printf` and `exit` in this case), and then loads
-the library into the program's virtual memory. Finally, it replaces all
-instances of `printf` in the program with the actual location of
-`printf` in the library.
+This looks at our `008-01-hello-world-lib` program and sees that it
+needs the `C` library to run. So, it searches for a file called
+`libc.so` in the standard places (listed in `/etc/ld.so.conf` and in the
+contents of the `LD_LIBRARY_PATH` environment variable), then looks in
+it for all the needed symbols (`printf` and `exit` in this case), and
+then loads the library into the program's virtual memory. Finally, it
+replaces all instances of `printf` in the program with the actual
+location of `printf` in the library.
 
 Run the following command:
 
 ``` bash
-ldd ./008-01-helloworld-nolib
+ldd ./008-01-hello-world-nolib
 ```
 
 It should report back `not a dynamic executable`. This is just like we
-said - `008-01-helloworld-nolib` is a statically-linked executable.
+said - `008-01-hello-world-nolib` is a statically-linked executable.
 However, try this:
 
 ``` bash
-ldd ./008-01-helloworld-lib
+ldd ./008-01-hello-world-lib
 ```
 
 It will report back something like:
@@ -5248,7 +5248,7 @@ It will report back something like:
     /usr/lib32/ld-linux.so.2 => /usr/lib/ld-linux.so.2 (0xf7f19000)
 
 The numbers in parenthesis may be different on your system. This means
-that the program `008-01-helloworld-lib` is linked to `libc.so.6` (the
+that the program `008-01-hello-world-lib` is linked to `libc.so.6` (the
 `.6` is the version number), which is found at `/usr/lib32/`, and
 `ld-linux.so.2` is found at `/usr/lib32/`. These libraries have to be
 loaded before the program can be run. If you are interested, run the
@@ -5282,7 +5282,7 @@ about it), which has a type `char *`. `char` means that it wants a
 single-byte character. The `*` after it means that it doesn't actually
 want a character as an argument, but instead it wants the address of a
 character or sequence of characters. If you look back at our
-`008-01-helloworld-lib` program, you will notice that the function call
+`008-01-hello-world-lib` program, you will notice that the function call
 looked like this:
 
 ``` gnuassembler
