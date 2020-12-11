@@ -7,16 +7,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    container: airvzxf/pandoc
     steps:
       - uses: actions/checkout@v2
 
       - name: Execute the release script
         run: |
-          wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
-          sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
-          rm -f pandoc-2.11.2-1-amd64.deb && \
-          sudo apt-get install -y texlive-latex-extra && \
           pandoc -v && \
           cd ./src/programming-from-the-ground-up && \
           ./make.sh && \
