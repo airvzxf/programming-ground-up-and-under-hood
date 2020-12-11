@@ -7,11 +7,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
 
+    - uses: actions/cache@v2
+      id: cache
+      with:
+        path: path/to/dependencies
+        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+
       - name: Install packages
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           sudo apt-get install -y texlive-latex-extra && \
           wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
