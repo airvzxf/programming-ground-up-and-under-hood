@@ -24,6 +24,7 @@ jobs:
         env:
           CACHE_EXISTS: "${{steps.cache-packages.outputs.cache-hit}}"
         run: |
+          mkdir -p "${{env.PACKAGES_HOME}}"
           echo "--------------------------------------------------------"
           echo "CACHE_EXISTS: $CACHE_EXISTS"
           echo "--------------------------------------------------------"
