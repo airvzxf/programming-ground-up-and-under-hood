@@ -13,7 +13,6 @@ jobs:
 
       - name: Install packages
         run: |
-          sudo rm -f /var/lib/dpkg/lock-frontend && \
           sudo apt-get install -y texlive-latex-extra && \
           wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
           sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
