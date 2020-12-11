@@ -18,7 +18,7 @@ jobs:
         id: cache-packages
         with:
           path: "${{env.PACKAGES_HOME}}"
-          key: "v1.0"
+          key: "v1.1"
 
       - name: Install packages
         env:
@@ -43,7 +43,7 @@ jobs:
             sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
             rm -f pandoc-2.11.2-1-amd64.deb
             echo "--------------------------------------------------------"
-            sudo dpkg -L texlive-latex
+            sudo dpkg -L texlive-latex-extra
             echo "--------------------------------------------------------"
             sudo dpkg -L pandoc
             echo "--------------------------------------------------------"
