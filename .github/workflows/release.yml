@@ -18,59 +18,29 @@ jobs:
         id: cache-packages
         with:
           path: "${{env.PACKAGES_HOME}}"
-          key: "v1.1"
+          key: "v1.2"
 
       - name: Install packages
         env:
           CACHE_EXISTS: "${{steps.cache-packages.outputs.cache-hit}}"
         run: |
           mkdir -p "${{env.PACKAGES_HOME}}"
-          echo "--------------------------------------------------------"
-          echo "CACHE_EXISTS: $CACHE_EXISTS"
-          echo "--------------------------------------------------------"
-          echo "steps.cache-packages.outputs.cache-hit: ${{steps.cache-packages.outputs.cache-hit}}"
-          echo "--------------------------------------------------------"
-          echo "env.PACKAGES_HOME: ${{env.PACKAGES_HOME}}"
-          echo "--------------------------------------------------------"
-          ls -lhaR "${{env.PACKAGES_HOME}}"
-          echo "--------------------------------------------------------"
           if [[ "$CACHE_EXISTS" == 'true' ]]; then
-            echo "Using Cached packages"
+            echo "# --------------------------------------------------------"
+            echo "# Using Cached packages"
+            sudo cp --verbose --force --recursive "${{env.PACKAGES_HOME}}"/* /
+            echo "# --------------------------------------------------------"
           else
-            echo "Install packages"
+            echo "# --------------------------------------------------------"
+            echo "# Install packages"
             sudo apt-get install -y texlive-latex-extra && \
             wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
             sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
             rm -f pandoc-2.11.2-1-amd64.deb
-            echo "--------------------------------------------------------"
-            sudo dpkg -L texlive-latex-extra
-            echo "--------------------------------------------------------"
-            sudo dpkg -L pandoc
-            echo "--------------------------------------------------------"
             sudo dpkg -L texlive-latex-extra | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
-            echo "--------------------------------------------------------"
             sudo dpkg -L pandoc | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"/
-            echo "--------------------------------------------------------"
-            ls -lhaR "${{env.PACKAGES_HOME}}"
-            echo "--------------------------------------------------------"
+            echo "# --------------------------------------------------------"
           fi
-
-#          echo "::add-path::$PACKAGES_HOME/bin"
-
-#          sudo apt-get update
-#          curl -sSL "$VALGRIND_SOURCE" -o - | tar -xjv --one-top-level=packages --strip-components=1
-#          cd packages
-#          ./configure --prefix="$PACKAGES_HOME"
-#          make -j
-#          make install
-
-#      - name: Install packages
-#        if: steps.cache.outputs.cache-hit != 'true'
-#        run: |
-#          sudo apt-get install -y texlive-latex-extra && \
-#          wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
-#          sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
-#          rm -f pandoc-2.11.2-1-amd64.deb
 
       - name: Generate release files and commit in GitHub
         run: |
