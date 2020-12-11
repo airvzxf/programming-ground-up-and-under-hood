@@ -1,8 +1,8 @@
 name: CI - Release books
 
 on:
-  push:
-    branches: [ main ]
+  release:
+    types: [released]
   workflow_dispatch:
 
 jobs:

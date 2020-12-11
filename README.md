@@ -1,4 +1,4 @@
-# Programming from the ground up | <br> Programming under hood <br> Updated by AirvZxf <br> Arch: x86 <br>v2020.12
+# Programming from the ground up | <br> Programming under hood <br> Updated by AirvZxf
 
 ## About this project.
 

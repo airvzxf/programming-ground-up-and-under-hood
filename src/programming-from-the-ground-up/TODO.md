@@ -25,7 +25,7 @@
 - [x] Add my own page in the book talking about the project and refer the GitHub Repository link.
 - [x] Create releases as `./releases/v2020.12.01/ProgrammingGroundUp.epub`.
 - [x] Release: create commands in the `./make.sh` script to replace the date (`date: 2020-12-10`) in the `book.md`.
-- [ ] Automate the release process with GitHub Actions.
+- [x] Automate the release process with GitHub Actions.
 
 #### Knowledge
 
