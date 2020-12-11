@@ -25,8 +25,6 @@ jobs:
           cd ../../ && \
           git config --global user.name 'Israel Roldan' && \
           git config --global user.email 'israel.alberto.rv@gmail.com' && \
-          git diff . && \
           git add . && \
           git commit -m "Automated Release." && \
-          git status && \
           git push
