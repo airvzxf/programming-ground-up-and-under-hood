@@ -8,40 +8,39 @@ on:
 jobs:
   build:
     env:
-      VALGRIND_HOME: "$HOME/valgrind"
-      VALGRIND_LIB: "$HOME/valgrind/lib/valgrind"
+      PACKAGES_HOME: "$HOME/packages"
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache valgrind
+      - name: Cache packages
         uses: actions/cache@v1.0.3
-        id: cache-valgrind
+        id: cache-packages
         with:
-          path: "${{env.VALGRIND_HOME}}"
-          key: ${{secrets.VALGRIND_VERSION}}
+          path: "${{env.PACKAGES_HOME}}"
+          key: ${{secrets.PACKAGES_VERSION}}
 
-      - name: Install Valgrind
+      - name: Install packages
         env:
-          CACHE_EXISTS: "${{steps.cache-valgrind.outputs.cache-hit}}"
-          VALGRIND_SOURCE: "https://sourceware.org/ftp/valgrind/valgrind-${{secrets.VALGRIND_VERSION}}.tar.bz2"
+          CACHE_EXISTS: "${{steps.cache-packages.outputs.cache-hit}}"
+#          VALGRIND_SOURCE: "https://sourceware.org/ftp/packages/packages-${{secrets.PACKAGES_VERSION}}.tar.bz2"
         run: |
           if [[ "$CACHE_EXISTS" == 'true' ]]; then
-            echo "Using Cached version..."
+            echo "Using Cached packages"
           else
-            echo "Install from source..."
-            sudo apt-get update
-            curl -sSL "$VALGRIND_SOURCE" -o - | tar -xjv --one-top-level=valgrind --strip-components=1
-            cd valgrind
-            ./configure --prefix="$VALGRIND_HOME"
-            make -j
-            make install
+            echo "Install packages"
+#            sudo apt-get update
+#            curl -sSL "$VALGRIND_SOURCE" -o - | tar -xjv --one-top-level=packages --strip-components=1
+#            cd packages
+#            ./configure --prefix="$PACKAGES_HOME"
+#            make -j
+#            make install
             sudo apt-get install -y texlive-latex-extra && \
             wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
             sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
             rm -f pandoc-2.11.2-1-amd64.deb
           fi
-          echo "::add-path::$VALGRIND_HOME/bin"
+          echo "::add-path::$PACKAGES_HOME/bin"
 
 #      - name: Install packages
 #        if: steps.cache.outputs.cache-hit != 'true'
