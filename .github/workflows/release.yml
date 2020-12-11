@@ -13,18 +13,33 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache Primes
+        id: cache-primes
+        uses: actions/cache@v2
+        with:
+          path: prime-numbers
+          key: ${{ runner.os }}-primes-v1.0
+
+      - name: Generate Prime Numbers
+        if: steps.cache-primes.outputs.cache-hit != 'true'
+        run: echo "Hola" > prime-numbers
+
+      - name: Use Prime Numbers
+        run: |
+          ls -lha prime-numbers
+          cat prime-numbers
+
       - name: Cache packages
         uses: actions/cache@v2
         id: cache-packages
         with:
           path: "${{env.PACKAGES_HOME}}"
-          key: "v1.3"
+          key: "v1.4"
 
       - name: Install packages
         env:
           CACHE_EXISTS: "${{steps.cache-packages.outputs.cache-hit}}"
         run: |
-          mkdir -p "${{env.PACKAGES_HOME}}"
           if [[ "$CACHE_EXISTS" == 'true' ]]; then
             echo "# --------------------------------------------------------"
             echo "# Using Cached packages"
@@ -38,6 +53,7 @@ jobs:
             wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
             sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
             rm -f pandoc-2.11.2-1-amd64.deb
+            mkdir -p "${{env.PACKAGES_HOME}}"
             for package in texlive-latex-extra pandoc; do
               dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory "${{env.PACKAGES_HOME}}"
             done
