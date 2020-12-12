@@ -33,6 +33,7 @@ jobs:
           mkdir -p /home/runner/cache-linux/
           packages=( fonts-lmodern fonts-texgyre libkpathsea6 libpoppler73 libpotrace0 libptexenc1 libsynctex1 libtexlua52 libtexluajit2 libzzip-0-13 lmodern preview-latex-style t1utils tex-gyre texlive-base texlive-binaries texlive-fonts-recommended texlive-latex-base texlive-latex-recommended texlive-pictures texlive-plain-generic tipa perl-tk xpdf-reader pdf-viewer texlive-fonts-recommended-doc texlive-latex-base-doc icc-profiles libfile-which-perl libspreadsheet-parseexcel-perl texlive-latex-extra-doc texlive-latex-recommended-doc texlive-pstricks dot2tex prerex ruby-tcltk libtcltk-ruby texlive-pictures-doc vprerex fonts-lmodern fonts-texgyre libkpathsea6 libpoppler73 libpotrace0 libptexenc1 libsynctex1 libtexlua52 libtexluajit2 libzzip-0-13 lmodern preview-latex-style t1utils tex-gyre texlive-base texlive-binaries texlive-fonts-recommended texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-pictures texlive-plain-generic tipa pandoc )
           for package in $packages; do
+            echo "package: $package"
             dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory /home/runner/cache-linux/
           done
           ls -lha /home/runner/cache-linux/
