@@ -50,8 +50,6 @@ jobs:
         run: |
           pwd
           echo /home/runner/cache-linux/
-          ls -lha /home/runner/cache-linux/prime-numbers
-          cat /home/runner/cache-linux/prime-numbers
           ls -lha /home/runner/
           ls -lha /home/runner/work/programming-ground-up-and-under-hood/programming-ground-up-and-under-hood/
           pandoc -v
