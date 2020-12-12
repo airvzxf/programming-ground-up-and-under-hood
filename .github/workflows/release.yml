@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.9
+          key: ${{ runner.os }}-cache-packages-v1.10
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -26,9 +26,9 @@ jobs:
           mkdir -p /home/runner/cache-linux/
           echo "# --------------------------------------------------------"
           echo "# Install packages"
-          sudo apt-get install -y texlive-latex-extra && \
-          wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
-          sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
+          sudo apt-get install -y texlive-latex-extra
+          wget -q https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb
+          sudo dpkg -i pandoc-2.11.2-1-amd64.deb
           rm -f pandoc-2.11.2-1-amd64.deb
           mkdir -p /home/runner/cache-linux/
           packages=( fonts-lmodern fonts-texgyre libkpathsea6 libpoppler73 libpotrace0 libptexenc1 libsynctex1 libtexlua52 libtexluajit2 libzzip-0-13 lmodern preview-latex-style t1utils tex-gyre texlive-base texlive-binaries texlive-fonts-recommended texlive-latex-base texlive-latex-recommended texlive-pictures texlive-plain-generic tipa perl-tk xpdf-reader pdf-viewer texlive-fonts-recommended-doc texlive-latex-base-doc icc-profiles libfile-which-perl libspreadsheet-parseexcel-perl texlive-latex-extra-doc texlive-latex-recommended-doc texlive-pstricks dot2tex prerex ruby-tcltk libtcltk-ruby texlive-pictures-doc vprerex fonts-lmodern fonts-texgyre libkpathsea6 libpoppler73 libpotrace0 libptexenc1 libsynctex1 libtexlua52 libtexluajit2 libzzip-0-13 lmodern preview-latex-style t1utils tex-gyre texlive-base texlive-binaries texlive-fonts-recommended texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-pictures texlive-plain-generic tipa pandoc )
@@ -58,11 +58,11 @@ jobs:
           git add .
           git status
           ls -lha release/
-#          cd ./src/programming-from-the-ground-up && \
-#          ./make.sh && \
-#          cd ../../ && \
-#          git config --global user.name 'Israel Roldan' && \
-#          git config --global user.email 'israel.alberto.rv@gmail.com' && \
-#          git add . && \
-#          git commit -m "Automated Release." && \
+#          cd ./src/programming-from-the-ground-up
+#          ./make.sh
+#          cd ../../
+#          git config --global user.name 'Israel Roldan'
+#          git config --global user.email 'israel.alberto.rv@gmail.com'
+#          git add .
+#          git commit -m "Automated Release."
 #          git push
