@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.20
+          key: ${{ runner.os }}-cache-packages-v1.21
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -33,16 +33,21 @@ jobs:
           echo "# APT update"
           sudo apt update
           echo "# --------------------------------------------------------"
-          echo "# Install tools"
-          sudo rm -f /var/lib/apt/lists/lock
-          sudo apt install -y backintime-common wget vim
+          echo "# Setup the snapshot"
           mkdir -p "${HOME}"/.config/backintime/
+          < config grep profile1.snapshots.local_encfs.path
           cp config "${HOME}"/.config/backintime/
           mkdir -p "${HOME}"/.local/share/backintime/anacron/
           touch "${HOME}"/.local/share/backintime/anacron/1_Main_profile
           mkdir -p "${HOME}"/snapshots/
+          cat "${HOME}"/.config/backintime/config
+          exit -3
           echo "# --------------------------------------------------------"
-          echo "# Snapshots"
+          echo "# Install tools"
+          sudo rm -f /var/lib/apt/lists/lock
+          sudo apt install -y backintime-common wget vim
+          echo "# --------------------------------------------------------"
+          echo "# Snapshot"
           export PYTHONIOENCODING=utf8
           sudo backintime --debug check-config
           echo "# --------------------------------------------------------"
@@ -60,9 +65,11 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Makes the cache directory"
           rm -fR "${SOURCE}"
-          cp -a "${HOME}"/snapshots/backintime/MyHostName/root/1/last_snapshot/backup "${HOME}"
-          mv backup "${SOURCE}"
+          sudo cp -a "${HOME}"/snapshots/backintime/MyHostName/root/1/last_snapshot/backup "${HOME}"
+          sudo mv backup "${SOURCE}"
           ls -lha "${SOURCE}"
+          echo ""
+          du -sh "${SOURCE}"
           echo "# --------------------------------------------------------"
 
       - name: Copy cached packages
