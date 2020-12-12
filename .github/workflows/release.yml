@@ -17,7 +17,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.31
+          key: ${{ runner.os }}-cache-packages-v1.32
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -65,6 +65,9 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Take the second snapshot"
           sudo df -h
+          sudo ls -lha /
+          sudo ls -lha /usr/
+          sudo ls -lha /usr/bin/
           ls -lha "${HOME}"/snapshots/backintime/MyHostName/root/1/
           du "${HOME}"/snapshots/backintime/MyHostName/root/1/last_snapshot/backup
           sudo -i backintime --debug backup
