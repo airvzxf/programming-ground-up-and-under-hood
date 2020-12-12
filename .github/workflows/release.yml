@@ -18,46 +18,53 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.14
+          key: ${{ runner.os }}-cache-packages-v1.15
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
-          mkdir -p /home/runner/cache-linux/
+          SOURCE=${HOME}/cache-linux
+          #TZ=America/New_York
           echo "# --------------------------------------------------------"
+          echo "# Where am I?"
           pwd
-          sudo apt update
-          sudo apt install -y backintime-common
-          mkdir -p /home/runner/.config/backintime/
-          cp config /home/runner/.config/backintime/
-          mkdir -p /home/runner/.local/share/backintime/anacron/
-          touch /home/runner/.local/share/backintime/anacron/1_Main_profile
-          mkdir -p /home/runner/hello/
-          mkdir -p /home/runner/snapshots/
-          export PYTHONIOENCODING=utf8
-          sudo backintime --debug check-config
-          sudo backintime backup
-          cat /home/runner/.local/share/backintime/takesnapshot_.log
-          touch /home/runner/hello/test_01
-          touch /home/runner/hello/test_02
-          touch /home/runner/hello/test_03
-          touch /home/runner/hello/test_04
-          touch /home/runner/hello/test_05
+          echo "HOME: ${HOME}"
+          echo "SOURCE: ${SOURCE}"
           echo "# --------------------------------------------------------"
-          echo "# Install packages"
-          sudo apt-get install -y texlive-latex-extra
+          echo "# APT update"
+          apt update
+          echo "# --------------------------------------------------------"
+          echo "# Install tools"
+          apt install -y backintime-common wget vim
+          mkdir -p ${HOME}/.config/backintime/
+          cp config ${HOME}/.config/backintime/
+          mkdir -p ${HOME}/.local/share/backintime/anacron/
+          touch ${HOME}/.local/share/backintime/anacron/1_Main_profile
+          mkdir -p ${HOME}/snapshots/
+          echo "# --------------------------------------------------------"
+          echo "# Take a snapshot"
+          export PYTHONIOENCODING=utf8
+          backintime --debug check-config
+          echo "# --------------------------------------------------------"
+          echo "# Take a snapshot"
+          backintime backup
+          echo "# --------------------------------------------------------"
+          echo "# Install pandoc and dependencies"
+          #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+          #echo $TZ > /etc/timezone
+          apt-get install -y texlive-latex-extra
           wget -q https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb
-          sudo dpkg -i pandoc-2.11.2-1-amd64.deb
+          dpkg -i pandoc-2.11.2-1-amd64.deb
           rm -f pandoc-2.11.2-1-amd64.deb
-          sudo backintime backup
-          cat /home/runner/.local/share/backintime/takesnapshot_.log
-          mkdir -p /home/runner/cache-linux/
-          packages=( fonts-lmodern fonts-texgyre libkpathsea6 libpoppler73 libpotrace0 libptexenc1 libsynctex1 libtexlua52 libtexluajit2 libzzip-0-13 lmodern preview-latex-style t1utils tex-gyre texlive-base texlive-binaries texlive-fonts-recommended texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-pictures texlive-plain-generic tipa pandoc )
-          for package in ${packages[@]}; do
-            echo "package: $package"
-            dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory /home/runner/cache-linux/
-          done
-          ls -lha /home/runner/cache-linux/
+          echo "# --------------------------------------------------------"
+          echo "# Take a snapshot"
+          backintime backup
+          echo "# --------------------------------------------------------"
+          echo "# Makes the cache directory"
+          rm -fR ${SOURCE}
+          cp -a ${HOME}/snapshots/backintime/MyHostName/root/1/last_snapshot/backup ${HOME}
+          mv backup ${SOURCE}
+          ls -lha ${SOURCE}
           echo "# --------------------------------------------------------"
 
       - name: Copy cached packages
@@ -66,11 +73,13 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Using Cached packages"
           ls -lha /home/runner/cache-linux/
-          sudo cp --verbose --force --recursive /home/runner/cache-linux/* /
+          sudo cp --force --recursive /home/runner/cache-linux/. /
           echo "# --------------------------------------------------------"
 
       - name: Generate release files and commit in GitHub
         run: |
+          echo "# --------------------------------------------------------"
+          echo "# Generating release files"
           cd ./src/programming-from-the-ground-up
           ./make.sh
           cd ../../
@@ -79,6 +88,7 @@ jobs:
           git add .
           git status
           ls -lha release/
+          echo "# --------------------------------------------------------"
 #          cd ./src/programming-from-the-ground-up
 #          ./make.sh
 #          cd ../../
