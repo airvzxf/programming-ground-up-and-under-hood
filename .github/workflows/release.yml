@@ -13,12 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache packages
+      - uses: actions/cache@v2
         id: cache-packages
-        uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.25
+          key: ${{ runner.os }}-cache-packages-v1.26
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -31,7 +30,9 @@ jobs:
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
           echo "ROOT: ${ROOT}"
-          ls -lha /
+          ls -lha /root
+          cat /root/.profile
+          exit -3
           echo "# --------------------------------------------------------"
           echo "# APT update"
           sudo apt update
