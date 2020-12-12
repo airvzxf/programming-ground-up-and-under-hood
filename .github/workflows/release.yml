@@ -13,18 +13,38 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache Primes
-        id: cache-primes
+      - name: Cache packages
+        id: cache-packages
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-primes-v1.6
+          key: ${{ runner.os }}-cache-packages-v1.6
 
-      - name: Generate Prime Numbers
-        if: steps.cache-primes.outputs.cache-hit != 'true'
+      - name: Install packages
+        if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
           mkdir -p /home/runner/cache-linux/
-          echo "Hola" > /home/runner/cache-linux/prime-numbers
+          echo "# --------------------------------------------------------"
+          echo "# Install packages"
+          sudo apt-get install -y texlive-latex-extra && \
+          wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
+          sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
+          rm -f pandoc-2.11.2-1-amd64.deb
+          mkdir -p /home/runner/cache-linux/
+          for package in texlive-latex-extra pandoc; do
+            dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory /home/runner/cache-linux/
+          done
+          ls -lha /home/runner/cache-linux/
+          echo "# --------------------------------------------------------"
+
+      - name: Copy cached packages
+        if: steps.cache-packages.outputs.cache-hit == 'true'
+        run: |
+          echo "# --------------------------------------------------------"
+          echo "# Using Cached packages"
+          ls -lha /home/runner/cache-linux/
+          sudo cp --verbose --force --recursive /home/runner/cache-linux/* /
+          echo "# --------------------------------------------------------"
 
       - name: Use Prime Numbers
         run: |
@@ -32,19 +52,9 @@ jobs:
           echo /home/runner/cache-linux/
           ls -lha /home/runner/cache-linux/prime-numbers
           cat /home/runner/cache-linux/prime-numbers
-          ls -lha "/home/runner/"
-          ls -lha "/home/runner/work/programming-ground-up-and-under-hood/programming-ground-up-and-under-hood/"
-
-#      - name: Cache packages
-#        uses: actions/cache@v2
-#        id: cache-packages
-#        with:
-#          path: /home/runner/cache-linux/
-#          key: "v1.4"
-#
-#      - name: Install packages
-#        env:
-#          CACHE_EXISTS: "${{steps.cache-packages.outputs.cache-hit}}"
+          ls -lha /home/runner/
+          ls -lha /home/runner/work/programming-ground-up-and-under-hood/programming-ground-up-and-under-hood/
+          pandoc -v
 #        run: |
 #          exit -1
 #          if [[ "$CACHE_EXISTS" == 'true' ]]; then
