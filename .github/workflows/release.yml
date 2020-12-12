@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.6
+          key: ${{ runner.os }}-cache-packages-v1.7
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
