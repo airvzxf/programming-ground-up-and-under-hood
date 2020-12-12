@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.24
+          key: ${{ runner.os }}-cache-packages-v1.25
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -37,11 +37,11 @@ jobs:
           sudo apt update
           echo "# --------------------------------------------------------"
           echo "# Setup the snapshot"
-          mkdir -p "${ROOT}"/.config/backintime/
+          sudo mkdir -p "${ROOT}"/.config/backintime/
           < config grep profile1.snapshots.local_encfs.path
-          cp config "${ROOT}"/.config/backintime/
-          mkdir -p "${ROOT}"/.local/share/backintime/anacron/
-          touch "${ROOT}"/.local/share/backintime/anacron/1_Main_profile
+          sudo cp config "${ROOT}"/.config/backintime/
+          sudo mkdir -p "${ROOT}"/.local/share/backintime/anacron/
+          sudo touch "${ROOT}"/.local/share/backintime/anacron/1_Main_profile
           mkdir -p "${HOME}"/snapshots/
           echo "# --------------------------------------------------------"
           echo "# Install tools"
