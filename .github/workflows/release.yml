@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.21
+          key: ${{ runner.os }}-cache-packages-v1.22
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -40,8 +40,6 @@ jobs:
           mkdir -p "${HOME}"/.local/share/backintime/anacron/
           touch "${HOME}"/.local/share/backintime/anacron/1_Main_profile
           mkdir -p "${HOME}"/snapshots/
-          cat "${HOME}"/.config/backintime/config
-          exit -3
           echo "# --------------------------------------------------------"
           echo "# Install tools"
           sudo rm -f /var/lib/apt/lists/lock
@@ -51,6 +49,8 @@ jobs:
           export PYTHONIOENCODING=utf8
           sudo backintime --debug check-config
           echo "# --------------------------------------------------------"
+          ls -lha /
+          exit -3
           echo "# Take the first snapshot"
           sudo backintime --debug backup
           echo "# --------------------------------------------------------"
