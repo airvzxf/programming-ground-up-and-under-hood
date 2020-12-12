@@ -17,7 +17,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.27
+          key: ${{ runner.os }}-cache-packages-v1.28
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -32,7 +32,8 @@ jobs:
           echo "ROOT: ${ROOT}"
           sudo ls -lha /root
           sudo cat /root/.profile
-          exit -3
+          sudo sed -i "s/mesg n || true/test -t 0 \&\& mesg n || true/" /root/.profile
+          sudo cat /root/.profile
           echo "# --------------------------------------------------------"
           echo "# APT update"
           sudo apt update
