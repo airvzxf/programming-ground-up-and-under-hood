@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.23
+          key: ${{ runner.os }}-cache-packages-v1.24
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -29,6 +29,7 @@ jobs:
           pwd
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
+          ls -lha /
           echo "# --------------------------------------------------------"
           echo "# APT update"
           sudo apt update
@@ -49,8 +50,6 @@ jobs:
           export PYTHONIOENCODING=utf8
           sudo -i backintime --debug check-config
           echo "# --------------------------------------------------------"
-          ls -lha /
-          exit -3
           echo "# Take the first snapshot"
           sudo -i backintime --debug backup
           echo "# --------------------------------------------------------"
