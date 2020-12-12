@@ -17,7 +17,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.29
+          key: ${{ runner.os }}-cache-packages-v1.30
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -64,7 +64,9 @@ jobs:
           rm -f pandoc-2.11.2-1-amd64.deb
           echo "# --------------------------------------------------------"
           echo "# Take the second snapshot"
+          ls -lha "${HOME}"/snapshots/backintime/MyHostName/root/1/
           sudo -i backintime --debug backup
+          ls -lha "${HOME}"/snapshots/backintime/MyHostName/root/1/
           echo "# --------------------------------------------------------"
           echo "# Makes the cache directory"
           rm -fR "${SOURCE}"
