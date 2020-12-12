@@ -17,7 +17,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.28
+          key: ${{ runner.os }}-cache-packages-v1.29
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
