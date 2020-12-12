@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.22
+          key: ${{ runner.os }}-cache-packages-v1.23
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -47,12 +47,12 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Snapshot"
           export PYTHONIOENCODING=utf8
-          sudo backintime --debug check-config
+          sudo -i backintime --debug check-config
           echo "# --------------------------------------------------------"
           ls -lha /
           exit -3
           echo "# Take the first snapshot"
-          sudo backintime --debug backup
+          sudo -i backintime --debug backup
           echo "# --------------------------------------------------------"
           echo "# Install pandoc and dependencies"
           sudo apt install -y texlive-latex-extra
@@ -61,7 +61,7 @@ jobs:
           rm -f pandoc-2.11.2-1-amd64.deb
           echo "# --------------------------------------------------------"
           echo "# Take the second snapshot"
-          sudo backintime --debug backup
+          sudo -i backintime --debug backup
           echo "# --------------------------------------------------------"
           echo "# Makes the cache directory"
           rm -fR "${SOURCE}"
