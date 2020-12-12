@@ -24,22 +24,24 @@ jobs:
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
           SOURCE=${HOME}/cache-linux
+          ROOT=/root
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
+          echo "ROOT: ${ROOT}"
           ls -lha /
           echo "# --------------------------------------------------------"
           echo "# APT update"
           sudo apt update
           echo "# --------------------------------------------------------"
           echo "# Setup the snapshot"
-          mkdir -p "${HOME}"/.config/backintime/
+          mkdir -p "${ROOT}"/.config/backintime/
           < config grep profile1.snapshots.local_encfs.path
-          cp config "${HOME}"/.config/backintime/
-          mkdir -p "${HOME}"/.local/share/backintime/anacron/
-          touch "${HOME}"/.local/share/backintime/anacron/1_Main_profile
+          cp config "${ROOT}"/.config/backintime/
+          mkdir -p "${ROOT}"/.local/share/backintime/anacron/
+          touch "${ROOT}"/.local/share/backintime/anacron/1_Main_profile
           mkdir -p "${HOME}"/snapshots/
           echo "# --------------------------------------------------------"
           echo "# Install tools"
