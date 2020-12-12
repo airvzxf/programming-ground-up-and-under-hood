@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.19
+          key: ${{ runner.os }}-cache-packages-v1.20
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -36,18 +36,18 @@ jobs:
           echo "# Install tools"
           sudo rm -f /var/lib/apt/lists/lock
           sudo apt install -y backintime-common wget vim
-          mkdir -p ${HOME}/.config/backintime/
-          cp config ${HOME}/.config/backintime/
-          mkdir -p ${HOME}/.local/share/backintime/anacron/
-          touch ${HOME}/.local/share/backintime/anacron/1_Main_profile
-          mkdir -p ${HOME}/snapshots/
+          mkdir -p "${HOME}"/.config/backintime/
+          cp config "${HOME}"/.config/backintime/
+          mkdir -p "${HOME}"/.local/share/backintime/anacron/
+          touch "${HOME}"/.local/share/backintime/anacron/1_Main_profile
+          mkdir -p "${HOME}"/snapshots/
           echo "# --------------------------------------------------------"
-          echo "# Take a snapshot"
+          echo "# Snapshots"
           export PYTHONIOENCODING=utf8
           sudo backintime --debug check-config
           echo "# --------------------------------------------------------"
-          echo "# Take a snapshot"
-          sudo backintime backup
+          echo "# Take the first snapshot"
+          sudo backintime --debug backup
           echo "# --------------------------------------------------------"
           echo "# Install pandoc and dependencies"
           sudo apt install -y texlive-latex-extra
@@ -55,14 +55,14 @@ jobs:
           sudo dpkg -i pandoc-2.11.2-1-amd64.deb
           rm -f pandoc-2.11.2-1-amd64.deb
           echo "# --------------------------------------------------------"
-          echo "# Take a snapshot"
-          sudo backintime backup
+          echo "# Take the second snapshot"
+          sudo backintime --debug backup
           echo "# --------------------------------------------------------"
           echo "# Makes the cache directory"
-          rm -fR ${SOURCE}
-          cp -a ${HOME}/snapshots/backintime/MyHostName/root/1/last_snapshot/backup ${HOME}
-          mv backup ${SOURCE}
-          ls -lha ${SOURCE}
+          rm -fR "${SOURCE}"
+          cp -a "${HOME}"/snapshots/backintime/MyHostName/root/1/last_snapshot/backup "${HOME}"
+          mv backup "${SOURCE}"
+          ls -lha "${SOURCE}"
           echo "# --------------------------------------------------------"
 
       - name: Copy cached packages
