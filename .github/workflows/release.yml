@@ -18,18 +18,39 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.13
+          key: ${{ runner.os }}-cache-packages-v1.14
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
           mkdir -p /home/runner/cache-linux/
           echo "# --------------------------------------------------------"
+          pwd
+          sudo apt update
+          sudo apt install -y backintime-common
+          mkdir -p /home/runner/.config/backintime/
+          cp config /home/runner/.config/backintime/
+          mkdir -p /home/runner/.local/share/backintime/anacron/
+          touch /home/runner/.local/share/backintime/anacron/1_Main_profile
+          mkdir -p /home/runner/hello/
+          mkdir -p /home/runner/snapshots/
+          export PYTHONIOENCODING=utf8
+          sudo backintime --debug check-config
+          sudo backintime backup
+          cat /home/runner/.local/share/backintime/takesnapshot_.log
+          touch /home/runner/hello/test_01
+          touch /home/runner/hello/test_02
+          touch /home/runner/hello/test_03
+          touch /home/runner/hello/test_04
+          touch /home/runner/hello/test_05
+          echo "# --------------------------------------------------------"
           echo "# Install packages"
           sudo apt-get install -y texlive-latex-extra
           wget -q https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb
           sudo dpkg -i pandoc-2.11.2-1-amd64.deb
           rm -f pandoc-2.11.2-1-amd64.deb
+          sudo backintime backup
+          cat /home/runner/.local/share/backintime/takesnapshot_.log
           mkdir -p /home/runner/cache-linux/
           packages=( fonts-lmodern fonts-texgyre libkpathsea6 libpoppler73 libpotrace0 libptexenc1 libsynctex1 libtexlua52 libtexluajit2 libzzip-0-13 lmodern preview-latex-style t1utils tex-gyre texlive-base texlive-binaries texlive-fonts-recommended texlive-latex-base texlive-latex-extra texlive-latex-recommended texlive-pictures texlive-plain-generic tipa pandoc )
           for package in ${packages[@]}; do
