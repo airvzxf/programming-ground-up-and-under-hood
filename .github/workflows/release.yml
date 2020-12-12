@@ -17,7 +17,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.26
+          key: ${{ runner.os }}-cache-packages-v1.27
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -30,8 +30,8 @@ jobs:
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
           echo "ROOT: ${ROOT}"
-          ls -lha /root
-          cat /root/.profile
+          sudo ls -lha /root
+          sudo cat /root/.profile
           exit -3
           echo "# --------------------------------------------------------"
           echo "# APT update"
