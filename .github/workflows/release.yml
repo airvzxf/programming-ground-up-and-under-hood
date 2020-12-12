@@ -18,7 +18,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.15
+          key: ${{ runner.os }}-cache-packages-v1.16
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -30,11 +30,16 @@ jobs:
           pwd
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
+          echo "/etc/localtime: "
+          cat /etc/localtime
+          echo "/etc/timezone: "
+          cat /etc/timezone
           echo "# --------------------------------------------------------"
           echo "# APT update"
           apt update
           echo "# --------------------------------------------------------"
           echo "# Install tools"
+          rm -f /var/lib/apt/lists/lock
           apt install -y backintime-common wget vim
           mkdir -p ${HOME}/.config/backintime/
           cp config ${HOME}/.config/backintime/
