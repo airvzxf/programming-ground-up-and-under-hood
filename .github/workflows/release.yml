@@ -18,29 +18,24 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.17
+          key: ${{ runner.os }}-cache-packages-v1.18
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
           SOURCE=${HOME}/cache-linux
-          #TZ=America/New_York
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
-          echo "/etc/localtime: "
-          cat /etc/localtime
-          echo "/etc/timezone: "
-          cat /etc/timezone
           echo "# --------------------------------------------------------"
           echo "# APT update"
-          apt update
+          sudo apt update
           echo "# --------------------------------------------------------"
           echo "# Install tools"
           rm -f /var/lib/apt/lists/lock
-          apt install -y backintime-common wget vim
+          sudo apt install -y backintime-common wget vim
           mkdir -p ${HOME}/.config/backintime/
           cp config ${HOME}/.config/backintime/
           mkdir -p ${HOME}/.local/share/backintime/anacron/
@@ -49,21 +44,19 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Take a snapshot"
           export PYTHONIOENCODING=utf8
-          backintime --debug check-config
+          sudo backintime --debug check-config
           echo "# --------------------------------------------------------"
           echo "# Take a snapshot"
-          backintime backup
+          sudo backintime backup
           echo "# --------------------------------------------------------"
           echo "# Install pandoc and dependencies"
-          #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
-          #echo $TZ > /etc/timezone
-          apt-get install -y texlive-latex-extra
+          sudo apt install -y texlive-latex-extra
           wget -q https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb
-          dpkg -i pandoc-2.11.2-1-amd64.deb
+          sudo dpkg -i pandoc-2.11.2-1-amd64.deb
           rm -f pandoc-2.11.2-1-amd64.deb
           echo "# --------------------------------------------------------"
           echo "# Take a snapshot"
-          backintime backup
+          sudo backintime backup
           echo "# --------------------------------------------------------"
           echo "# Makes the cache directory"
           rm -fR ${SOURCE}
