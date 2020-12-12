@@ -46,38 +46,16 @@ jobs:
           sudo cp --verbose --force --recursive /home/runner/cache-linux/* /
           echo "# --------------------------------------------------------"
 
-      - name: Use Prime Numbers
+      - name: Generate release files and commit in GitHub
         run: |
-          pwd
-          echo /home/runner/cache-linux/
-          ls -lha /home/runner/
-          ls -lha /home/runner/work/programming-ground-up-and-under-hood/programming-ground-up-and-under-hood/
-          pandoc -v
-#        run: |
-#          exit -1
-#          if [[ "$CACHE_EXISTS" == 'true' ]]; then
-#            echo "# --------------------------------------------------------"
-#            echo "# Using Cached packages"
-#            ls -lha /home/runner/cache-linux/
-#            sudo cp --verbose --force --recursive /home/runner/cache-linux/* /
-#            echo "# --------------------------------------------------------"
-#          else
-#            echo "# --------------------------------------------------------"
-#            echo "# Install packages"
-#            sudo apt-get install -y texlive-latex-extra && \
-#            wget https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb && \
-#            sudo dpkg -i pandoc-2.11.2-1-amd64.deb && \
-#            rm -f pandoc-2.11.2-1-amd64.deb
-#            mkdir -p /home/runner/cache-linux/
-#            for package in texlive-latex-extra pandoc; do
-#              dpkg -L $package | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory /home/runner/cache-linux/
-#            done
-#            ls -lha /home/runner/cache-linux/
-#            echo "# --------------------------------------------------------"
-#          fi
-#
-#      - name: Generate release files and commit in GitHub
-#        run: |
+          cd ./src/programming-from-the-ground-up
+          ./make.sh
+          cd ../../
+          git config --global user.name 'Israel Roldan'
+          git config --global user.email 'israel.alberto.rv@gmail.com'
+          git add .
+          git status
+          ls -lha ../../release/
 #          cd ./src/programming-from-the-ground-up && \
 #          ./make.sh && \
 #          cd ../../ && \
