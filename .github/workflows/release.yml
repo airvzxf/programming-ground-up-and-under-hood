@@ -55,7 +55,7 @@ jobs:
           git config --global user.email 'israel.alberto.rv@gmail.com'
           git add .
           git status
-          ls -lha ../../release/
+          ls -lha release/
 #          cd ./src/programming-from-the-ground-up && \
 #          ./make.sh && \
 #          cd ../../ && \
