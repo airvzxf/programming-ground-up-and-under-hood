@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache directory
+      - name: Cache directory variable
         env:
           SOURCE: ${{ runner.temp }}/cache-linux
 
@@ -19,7 +19,7 @@ jobs:
         id: cache-packages
         with:
           path: ${SOURCE}/
-          key: ${{ runner.os }}-cache-packages-v1.54
+          key: ${{ runner.os }}-cache-packages-v1.56
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -30,8 +30,6 @@ jobs:
           echo "runner.workspace: ${{ runner.workspace }}"
           echo "runner.os: ${{ runner.os }}"
           echo "runner.temp: ${{ runner.temp }}"
-          echo "# --------------------------------------------------------"
-          printenv
           echo "# --------------------------------------------------------"
           exit -6
           echo "# --------------------------------------------------------"
