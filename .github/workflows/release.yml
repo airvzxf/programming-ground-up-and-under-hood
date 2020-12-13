@@ -7,8 +7,6 @@ on:
 
 jobs:
   build:
-    env:
-      PACKAGES_HOME: "/home/runner/cache-linux/"
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -17,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.33
+          key: ${{ runner.os }}-cache-packages-v1.34
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -41,7 +39,19 @@ jobs:
           sudo apt install -y backintime-common vim bash-completion
           echo "# --------------------------------------------------------"
           echo "# Take the first snapshot"
-          sudo find / -type f,l > "${HOME}"/snapshots/snapshot_01.txt 2> /dev/null
+          sudo find / \
+                -type f,l \
+                \( -path /sys -o \
+                  -path /proc -o \
+                  -path /mnt -o \
+                  -path /dev -o \
+                  -path /run -o \
+                  -path /etc/mtab -o \
+                  -path /var/cache/apt/archives -o \
+                  -path /tmp -o \
+                  -path /var/tmp -o \
+                  -path /var/backups \) -prune \
+                > "${HOME}"/snapshots/snapshot_01.txt 2> /dev/null
           echo "# --------------------------------------------------------"
           echo "# Install pandoc and dependencies"
           sudo apt install -y texlive-latex-extra wget
@@ -50,15 +60,27 @@ jobs:
           rm -f pandoc-2.11.2-1-amd64.deb
           echo "# --------------------------------------------------------"
           echo "# Take second snapshot"
-          sudo find / -type f,l > "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null
+          sudo find / \
+                 -type f,l \
+                 \( -path /sys -o \
+                   -path /proc -o \
+                   -path /mnt -o \
+                   -path /dev -o \
+                   -path /run -o \
+                   -path /etc/mtab -o \
+                   -path /var/cache/apt/archives -o \
+                   -path /tmp -o \
+                   -path /var/tmp -o \
+                   -path /var/backups \) -prune \
+                "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null
           echo "# --------------------------------------------------------"
           echo "# Filter new files"
           diff -C 1 \
-          --color=always \
-          "${HOME}"/snapshots/snapshot_01.txt "${HOME}"/snapshots/snapshot_02.txt \
-          | grep -E "^\+" \
-          | sed -E s/..// \
-          > "${HOME}"/snapshots/snapshot_new_files.txt
+              --color=always \
+              "${HOME}"/snapshots/snapshot_01.txt "${HOME}"/snapshots/snapshot_02.txt \
+              | grep -E "^\+" \
+              | sed -E s/..// \
+              > "${HOME}"/snapshots/snapshot_new_files.txt
           < "${HOME}"/snapshots/snapshot_new_files.txt wc -l
           ls -lha "${HOME}"/snapshots/
           echo "# --------------------------------------------------------"
@@ -79,8 +101,8 @@ jobs:
         run: |
           echo "# --------------------------------------------------------"
           echo "# Using Cached packages"
-          ls -lha /home/runner/cache-linux/
-          sudo cp --force --recursive /home/runner/cache-linux/. /
+          ls -lha "${HOME}"/cache-linux/
+          sudo cp --force --recursive "${HOME}"/cache-linux/. /
           echo "# --------------------------------------------------------"
 
       - name: Generate release files and commit in GitHub
