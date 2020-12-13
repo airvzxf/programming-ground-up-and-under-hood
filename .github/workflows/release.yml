@@ -20,7 +20,7 @@ jobs:
         id: cache-packages
         with:
           path: ${SOURCE}/
-          key: ${{ runner.os }}-cache-packages-v1.64
+          key: ${{ runner.os }}-cache-packages-v1.65
 
       - name: Environment -> cache-packages.
         env:
@@ -45,10 +45,7 @@ jobs:
           pwd
           echo "HOME: ${{ runner.temp }}"
           echo "SOURCE: ${SOURCE}"
-          exit -5
           ls -lha /
-          ls -lha /vmlinuz
-          ls -lha /vmlinuz.old
           sudo du -h -d 1 / 2> /dev/null || true
           echo "# --------------------------------------------------------"
           echo "# APT update"
