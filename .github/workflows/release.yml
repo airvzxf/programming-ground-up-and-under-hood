@@ -8,9 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
+    env:
+      SOURCE: ${{ runner.temp }}/cache-linux
     steps:
-      env:
-        SOURCE: ${{ runner.temp }}/cache-linux
 
       - uses: actions/checkout@v2
 
