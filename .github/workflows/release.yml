@@ -126,7 +126,7 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Generating release files"
           git fetch --all
-          git pull --rebase
+          git pull origin main
           git branch --all
           git checkout main
           cd ./src/programming-from-the-ground-up
