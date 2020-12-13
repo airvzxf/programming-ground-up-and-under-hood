@@ -12,7 +12,10 @@ mkdir -p "${RELEASE_PATH}"
 mkdir -p "${RELEASE_LATEST_PATH}"
 
 cp -R resource "${RELEASE_PATH}"resource
-zip -r "${RELEASE_PATH}"/resource.zip "${RELEASE_PATH}"resource
+
+cd "${RELEASE_PATH}"
+zip -r -9 -D resource.zip resource
+cd -
 
 # ====== Create the release versions ====== #
 
