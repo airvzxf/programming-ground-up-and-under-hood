@@ -2,7 +2,7 @@ name: CI - Release books
 
 on:
   release:
-    types: [released]
+    types: [ released ]
   workflow_dispatch:
 
 jobs:
@@ -11,88 +11,33 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache directory
+        env:
+          SOURCE: ${{ runner.temp }}/cache-linux
+
       - uses: actions/cache@v2
         id: cache-packages
         with:
-          path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.52
-
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-      - name: Dump env context
-        env:
-          GITHUB_ENV: ${{ toJson(env) }}
-        run: echo "GITHUB_ENV"
-
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-
-      - name: Dump secrets context
-        env:
-          SECRETS_CONTEX: ${{ toJson(secrets) }}
-        run: echo "$SECRETS_CONTEX"
-
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
-
-      - name: Dump needs context
-        env:
-          MATRIX_NEEDS: ${{ toJson(needs) }}
-        run: echo "$MATRIX_NEEDS"
+          path: ${SOURCE}/
+          key: ${{ runner.os }}-cache-packages-v1.54
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
           set +xv
           echo "# --------------------------------------------------------"
-          echo "env: ${{ env }}"
-          echo "job: ${{ job }}"
+          echo "github.workspace: ${{ github.workspace }}"
+          echo "runner.workspace: ${{ runner.workspace }}"
           echo "runner.os: ${{ runner.os }}"
-          echo "github.action: ${{ github.action }}"
-          echo "github.event_name: ${{ github.event_name }}"
-          echo "job.status: ${{ job.status }}"
-          echo "github: ${GITHUB_CONTEXT}"
-          echo "env: ${GITHUB_ENV}"
-          echo "job: ${JOB_CONTEXT}"
-          echo "steps: ${STEPS_CONTEXT}"
-          echo "runner: ${RUNNER_CONTEXT}"
-          echo "secrets: ${SECRETS_CONTEX}"
-          echo "strategy: ${STRATEGY_CONTEXT}"
-          echo "matrix: ${MATRIX_CONTEXT}"
-          echo "needs: ${MATRIX_NEEDS}"
-          echo "#1: ${{ contains(github.event.issue.labels.*.name, 'bug') }}"
-          echo "#2: ${{ join(github.event.issue.labels.*.name, ', ') }}"
+          echo "runner.temp: ${{ runner.temp }}"
           echo "# --------------------------------------------------------"
           printenv
           echo "# --------------------------------------------------------"
           exit -6
-          SOURCE=${HOME}/cache-linux
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
-          echo "HOME: ${HOME}"
+          echo "HOME: ${{ runner.temp }}"
           echo "SOURCE: ${SOURCE}"
           ls -lha /
           ls -lha /vmlinuz
@@ -103,7 +48,7 @@ jobs:
           sudo apt update
           echo "# --------------------------------------------------------"
           echo "# Set up snapshot"
-          mkdir -p "${HOME}"/snapshots/
+          mkdir -p "${{ runner.temp }}"/snapshots/
           echo "# --------------------------------------------------------"
           echo "# Install tools"
           sudo rm -f /var/lib/apt/lists/lock
@@ -124,7 +69,7 @@ jobs:
                 -not \( -path "/var/backups*" \) \
                 -not \( -path "/boot*" -prune \) \
                 -not \( -path "/vmlinuz*" -prune \) \
-                > "${HOME}"/snapshots/snapshot_01.txt 2> /dev/null \
+                > "${{ runner.temp }}"/snapshots/snapshot_01.txt 2> /dev/null \
                 || true
           echo "# --------------------------------------------------------"
           echo "# Install pandoc and dependencies"
@@ -148,18 +93,18 @@ jobs:
                 -not \( -path "/var/backups*" \) \
                 -not \( -path "/boot*" -prune \) \
                 -not \( -path "/vmlinuz*" -prune \) \
-                > "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null \
+                > "${{ runner.temp }}"/snapshots/snapshot_02.txt 2> /dev/null \
                 || true
           echo "# --------------------------------------------------------"
           echo "# Filter new files"
           diff -C 1 \
               --color=always \
-              "${HOME}"/snapshots/snapshot_01.txt "${HOME}"/snapshots/snapshot_02.txt \
+              "${{ runner.temp }}"/snapshots/snapshot_01.txt "${{ runner.temp }}"/snapshots/snapshot_02.txt \
               | grep -E "^\+" \
               | sed -E s/..// \
-              > "${HOME}"/snapshots/snapshot_new_files.txt
-          < "${HOME}"/snapshots/snapshot_new_files.txt wc -l
-          ls -lha "${HOME}"/snapshots/
+              > "${{ runner.temp }}"/snapshots/snapshot_new_files.txt
+          < "${{ runner.temp }}"/snapshots/snapshot_new_files.txt wc -l
+          ls -lha "${{ runner.temp }}"/snapshots/
           echo "# --------------------------------------------------------"
           echo "# Make cache directory"
           rm -fR "${SOURCE}"
@@ -167,7 +112,7 @@ jobs:
           while IFS= read -r LINE
           do
             sudo cp -a --parent "${LINE}" "${SOURCE}"
-          done < "${HOME}"/snapshots/snapshot_new_files.txt
+          done < "${{ runner.temp }}"/snapshots/snapshot_new_files.txt
           ls -lha "${SOURCE}"
           echo ""
           sudo du -sh "${SOURCE}" || true
@@ -176,7 +121,6 @@ jobs:
       - name: Copy cached packages
         if: steps.cache-packages.outputs.cache-hit == 'true'
         run: |
-          SOURCE=${HOME}/cache-linux
           echo "# --------------------------------------------------------"
           echo "# Using Cached packages"
           ls -lha "${SOURCE}"
