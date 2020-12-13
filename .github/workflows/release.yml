@@ -15,7 +15,52 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.50
+          key: ${{ runner.os }}-cache-packages-v1.51
+
+      - name: Dump GitHub context
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
+
+      - name: Dump env context
+          env:
+            GITHUB_ENV: ${{ toJson(env) }}
+          run: echo "GITHUB_ENV"
+
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+
+      - name: Dump secrets context
+        env:
+          SECRETS_CONTEX: ${{ toJson(secrets) }}
+        run: echo "$SECRETS_CONTEX"
+
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
+      - name: Dump needs context
+        env:
+          MATRIX_NEEDS: ${{ toJson(needs) }}
+        run: echo "$MATRIX_NEEDS"
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
