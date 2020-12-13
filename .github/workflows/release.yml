@@ -15,12 +15,12 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.44
+          key: ${{ runner.os }}-cache-packages-v1.45
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
-          set +xv
+          set -xv
           echo "# --------------------------------------------------------"
           echo "env: ${{ env }}"
           echo "job: ${{ job }}"
@@ -40,7 +40,7 @@ jobs:
           echo "#5: ${{ fromJson(needs.job1.outputs.matrix) }}"
           echo "env.CURRENT_BRANCH: ${{ env.CURRENT_BRANCH }}"
           echo "env.CURRENT_BRANCH: ${{env.CURRENT_BRANCH}}"
-          echo "env.CURRENT_BRANCH: "${{env.CURRENT_BRANCH}}
+          echo "env.CURRENT_BRANCH: "${{env.CURRENT_BRANCH}}"
           echo "env.HOME: ${{ env.HOME }}"
           echo "env.home: ${{ env.home }}"
           echo "env.USER: ${{ env.USER }}"
