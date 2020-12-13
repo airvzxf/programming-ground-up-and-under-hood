@@ -15,11 +15,12 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.36
+          key: ${{ runner.os }}-cache-packages-v1.37
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
+          set -xv
           SOURCE=${HOME}/cache-linux
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
@@ -37,7 +38,7 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Install tools"
           sudo rm -f /var/lib/apt/lists/lock
-          sudo apt install -y vim bash-completion
+          #sudo apt install -y vim bash-completion
           echo "# --------------------------------------------------------"
           echo "# Take first snapshot"
           sudo find / \
