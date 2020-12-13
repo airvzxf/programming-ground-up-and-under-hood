@@ -8,18 +8,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
+    env:
+      SOURCE: ${{ runner.temp }}/cache-linux
     steps:
       - uses: actions/checkout@v2
-
-      - name: Cache directory variable
-        env:
-          SOURCE: ${{ runner.temp }}/cache-linux
 
       - uses: actions/cache@v2
         id: cache-packages
         with:
           path: ${SOURCE}/
-          key: ${{ runner.os }}-cache-packages-v1.57
+          key: ${{ runner.os }}-cache-packages-v1.58
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
