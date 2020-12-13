@@ -91,7 +91,8 @@ jobs:
           echo "# Filter new files"
           diff -C 1 \
               --color=always \
-              "${{ runner.temp }}"/snapshots/snapshot_01.txt "${{ runner.temp }}"/snapshots/snapshot_02.txt \
+              "${{ runner.temp }}"/snapshots/snapshot_01.txt \
+              "${{ runner.temp }}"/snapshots/snapshot_02.txt \
               | grep -E "^\+" \
               | sed -E s/..// \
               > "${{ runner.temp }}"/snapshots/snapshot_new_files.txt
