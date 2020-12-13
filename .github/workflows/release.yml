@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.48
+          key: ${{ runner.os }}-cache-packages-v1.49
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -28,9 +28,17 @@ jobs:
           echo "github.action: ${{ github.action }}"
           echo "github.event_name: ${{ github.event_name }}"
           echo "job.status: ${{ job.status }}"
+          echo "#github: ${{ toJSON(github) }}"
+          echo "#env: ${{ toJSON(env) }}"
+          echo "#job: ${{ toJSON(job) }}"
+          echo "#steps: ${{ toJSON(steps) }}"
+          echo "#runner: ${{ toJSON(runner) }}"
+          echo "#secrets: ${{ toJSON(secrets) }}"
+          echo "#strategy: ${{ toJSON(strategy) }}"
+          echo "#matrix: ${{ toJSON(matrix) }}"
+          echo "#needs: ${{ toJSON(needs) }}"
           echo "#1: ${{ contains(github.event.issue.labels.*.name, 'bug') }}"
           echo "#2: ${{ join(github.event.issue.labels.*.name, ', ') }}"
-          echo "#3: ${{ toJSON(job) }}"
           echo "# --------------------------------------------------------"
           printenv
           echo "# --------------------------------------------------------"
