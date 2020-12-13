@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.51
+          key: ${{ runner.os }}-cache-packages-v1.52
 
       - name: Dump GitHub context
         env:
@@ -73,24 +73,15 @@ jobs:
           echo "github.action: ${{ github.action }}"
           echo "github.event_name: ${{ github.event_name }}"
           echo "job.status: ${{ job.status }}"
-          echo "job: "
-          echo ${{ toJSON(job) }}
-          echo "env: "
-          echo ${{ toJSON(env) }}
-          echo "steps: "
-          echo ${{ toJSON(steps) }}
-          echo "runner: "
-          echo ${{ toJSON(runner) }}
-          echo "secrets: "
-          echo ${{ toJSON(secrets) }}
-          echo "strategy: "
-          echo ${{ toJSON(strategy) }}
-          echo "matrix: "
-          echo ${{ toJSON(matrix) }}
-          echo "needs: "
-          echo ${{ toJSON(needs) }}
-          echo "github: "
-          echo ${{ toJSON(github) }}
+          echo "github: ${GITHUB_CONTEXT}"
+          echo "env: ${GITHUB_ENV}"
+          echo "job: ${JOB_CONTEXT}"
+          echo "steps: ${STEPS_CONTEXT}"
+          echo "runner: ${RUNNER_CONTEXT}"
+          echo "secrets: ${SECRETS_CONTEX}"
+          echo "strategy: ${STRATEGY_CONTEXT}"
+          echo "matrix: ${MATRIX_CONTEXT}"
+          echo "needs: ${MATRIX_NEEDS}"
           echo "#1: ${{ contains(github.event.issue.labels.*.name, 'bug') }}"
           echo "#2: ${{ join(github.event.issue.labels.*.name, ', ') }}"
           echo "# --------------------------------------------------------"
