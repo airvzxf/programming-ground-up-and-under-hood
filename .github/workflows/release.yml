@@ -20,19 +20,18 @@ jobs:
         id: cache-packages
         with:
           path: ${SOURCE}/
-          key: ${{ runner.os }}-cache-packages-v1.59
+          key: ${{ runner.os }}-cache-packages-v1.60
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
           set +xv
           echo "# --------------------------------------------------------"
+          echo "# Action environment variables"
           echo "github.workspace: ${{ github.workspace }}"
           echo "runner.workspace: ${{ runner.workspace }}"
           echo "runner.os: ${{ runner.os }}"
           echo "runner.temp: ${{ runner.temp }}"
-          echo "# --------------------------------------------------------"
-          exit -6
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
