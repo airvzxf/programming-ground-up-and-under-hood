@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.42
+          key: ${{ runner.os }}-cache-packages-v1.43
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -23,12 +23,17 @@ jobs:
           set +xv
           echo "# --------------------------------------------------------"
           echo "env: ${{ env }}"
+          echo "env.CURRENT_BRANCH: ${{ env.CURRENT_BRANCH }}"
+          echo "env.CURRENT_BRANCH: ${{env.CURRENT_BRANCH}}"
+          echo "env.CURRENT_BRANCH: "${{env.CURRENT_BRANCH}}
           echo "env.HOME: ${{ env.HOME }}"
           echo "env.home: ${{ env.home }}"
           echo "env.USER: ${{ env.USER }}"
           echo "env.user: ${{ env.user }}"
           echo "env.RUNNER_WORKSPACE: ${{ env.RUNNER_WORKSPACE }}"
           echo "env.runner_workspace: ${{ env.runner_workspace }}"
+          echo "# --------------------------------------------------------"
+          printenv
           echo "# --------------------------------------------------------"
           exit -6
           SOURCE=${HOME}/cache-linux
