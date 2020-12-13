@@ -32,9 +32,9 @@ jobs:
           echo "runner.workspace: ${{ runner.workspace }}"
           echo "runner.os: ${{ runner.os }}"
           echo "runner.temp: ${{ runner.temp }}"
-          echo "cache-packages: ${{ cache-packages }}"
-          echo "cache-packages.path: ${{ cache-packages.path }}"
-          echo "cache-packages.key: ${{ cache-packages.key }}"
+          echo "steps.cache-packages: ${{ steps.cache-packages }}"
+          echo "steps.cache-packages.path: ${{ steps.cache-packages.path }}"
+          echo "steps.cache-packages.key: ${{ steps.cache-packages.key }}"
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
