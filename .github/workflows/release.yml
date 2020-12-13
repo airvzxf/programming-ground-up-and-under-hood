@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.39
+          key: ${{ runner.os }}-cache-packages-v1.40
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -82,7 +82,7 @@ jobs:
                 -not \( -path "/var/backups*" \) \
                 -not \( -path "/boot*" -prune \) \
                 -not \( -path "/vmlinuz*" -prune \) \
-                "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null \
+                > "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null \
                 || true
           echo "# --------------------------------------------------------"
           echo "# Filter new files"
