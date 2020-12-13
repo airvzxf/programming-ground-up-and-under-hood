@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.46
+          key: ${{ runner.os }}-cache-packages-v1.47
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -33,11 +33,6 @@ jobs:
           echo "job.container.network: ${{ job.container.network }}"
           echo "job.services: ${{ job.services }}"
           echo "job.status: ${{ job.status }}"
-          echo "#1: ${{ contains(github.event.issue.labels.*.name, 'bug') }}"
-          echo "#2: ${{ join(github.event.issue.labels.*.name, ', ') }}"
-          echo "#3: ${{ toJSON(job) }}"
-          echo "#4: ${{ steps.set-matrix.outputs.matrix }}"
-          echo "#5: ${{ fromJson(needs.job1.outputs.matrix) }}"
           echo "env.CURRENT_BRANCH: ${{ env.CURRENT_BRANCH }}"
           echo "env.CURRENT_BRANCH: ${{env.CURRENT_BRANCH}}"
           echo "env.CURRENT_BRANCH: ${{env.CURRENT_BRANCH}}"
