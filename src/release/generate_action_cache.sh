@@ -64,7 +64,8 @@ echo "# --------------------------------------------------------"
 echo "# Filter new files"
 diff -C 1 \
   --color=always \
-  "${HOME}"/snapshots/snapshot_01.txt "${HOME}"/snapshots/snapshot_02.txt \
+  "${HOME}"/snapshots/snapshot_01.txt \
+  "${HOME}"/snapshots/snapshot_02.txt \
   | grep -E "^\+" \
   | sed -E s/..// \
     > "${HOME}"/snapshots/snapshot_new_files.txt
