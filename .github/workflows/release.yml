@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.43
+          key: ${{ runner.os }}-cache-packages-v1.44
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -23,6 +23,21 @@ jobs:
           set +xv
           echo "# --------------------------------------------------------"
           echo "env: ${{ env }}"
+          echo "job: ${{ job }}"
+          echo "runner.os: ${{ runner.os }}"
+          echo "github.action: ${{ github.action }}"
+          echo "github.event_name: ${{ github.event_name }}"
+          echo "github.event_name: ${{ github.event_name }}"
+          echo "job.container: ${{ job.container }}"
+          echo "job.container.id: ${{ job.container.id }}"
+          echo "job.container.network: ${{ job.container.network }}"
+          echo "job.services: ${{ job.services }}"
+          echo "job.status: ${{ job.status }}"
+          echo "#1: ${{ contains(github.event.issue.labels.*.name, 'bug') }}"
+          echo "#2: ${{ join(github.event.issue.labels.*.name, ', ') }}"
+          echo "#3: ${{ toJSON(job) }}"
+          echo "#4: ${{ steps.set-matrix.outputs.matrix }}"
+          echo "#5: ${{ fromJson(needs.job1.outputs.matrix) }}"
           echo "env.CURRENT_BRANCH: ${{ env.CURRENT_BRANCH }}"
           echo "env.CURRENT_BRANCH: ${{env.CURRENT_BRANCH}}"
           echo "env.CURRENT_BRANCH: "${{env.CURRENT_BRANCH}}
