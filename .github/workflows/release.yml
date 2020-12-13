@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.34
+          key: ${{ runner.os }}-cache-packages-v1.35
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -27,6 +27,8 @@ jobs:
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
           #sed -i "s/mesg n || true/test -t 0 \&\& mesg n || true/" /root/.profile
+          ls -lha /
+          exit -3
           echo "# --------------------------------------------------------"
           echo "# APT update"
           sudo apt update
@@ -36,12 +38,13 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Install tools"
           sudo rm -f /var/lib/apt/lists/lock
-          sudo apt install -y backintime-common vim bash-completion
+          sudo apt install -y vim bash-completion
           echo "# --------------------------------------------------------"
-          echo "# Take the first snapshot"
+          echo "# Take first snapshot"
           sudo find / \
                 -type f,l \
-                \( -path /sys -o \
+                \( \
+                  -path /sys -o \
                   -path /proc -o \
                   -path /mnt -o \
                   -path /dev -o \
@@ -61,17 +64,18 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Take second snapshot"
           sudo find / \
-                 -type f,l \
-                 \( -path /sys -o \
-                   -path /proc -o \
-                   -path /mnt -o \
-                   -path /dev -o \
-                   -path /run -o \
-                   -path /etc/mtab -o \
-                   -path /var/cache/apt/archives -o \
-                   -path /tmp -o \
-                   -path /var/tmp -o \
-                   -path /var/backups \) -prune \
+                -type f,l \
+                \( \
+                  -path /sys -o \
+                  -path /proc -o \
+                  -path /mnt -o \
+                  -path /dev -o \
+                  -path /run -o \
+                  -path /etc/mtab -o \
+                  -path /var/cache/apt/archives -o \
+                  -path /tmp -o \
+                  -path /var/tmp -o \
+                  -path /var/backups \) -prune \
                 "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null
           echo "# --------------------------------------------------------"
           echo "# Filter new files"
