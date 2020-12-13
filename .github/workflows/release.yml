@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: ${{ runner.temp }}/cache-linux
-          key: ${{ runner.os }}-cache-packages-v1.67
+          key: ${{ runner.os }}-cache-packages-v2.1
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -133,6 +133,7 @@ jobs:
           git config --global user.email 'israel.alberto.rv@gmail.com'
           git add .
           git status
-          #git commit -m "Automated Release."
-          #git push
+          git commit -m "Automated Release."
+          git push
+          git status
           echo "# --------------------------------------------------------"
