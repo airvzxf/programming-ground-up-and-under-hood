@@ -15,33 +15,22 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.47
+          key: ${{ runner.os }}-cache-packages-v1.48
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
-          set -xv
+          set +xv
           echo "# --------------------------------------------------------"
           echo "env: ${{ env }}"
           echo "job: ${{ job }}"
           echo "runner.os: ${{ runner.os }}"
           echo "github.action: ${{ github.action }}"
           echo "github.event_name: ${{ github.event_name }}"
-          echo "github.event_name: ${{ github.event_name }}"
-          echo "job.container: ${{ job.container }}"
-          echo "job.container.id: ${{ job.container.id }}"
-          echo "job.container.network: ${{ job.container.network }}"
-          echo "job.services: ${{ job.services }}"
           echo "job.status: ${{ job.status }}"
-          echo "env.CURRENT_BRANCH: ${{ env.CURRENT_BRANCH }}"
-          echo "env.CURRENT_BRANCH: ${{env.CURRENT_BRANCH}}"
-          echo "env.CURRENT_BRANCH: ${{env.CURRENT_BRANCH}}"
-          echo "env.HOME: ${{ env.HOME }}"
-          echo "env.home: ${{ env.home }}"
-          echo "env.USER: ${{ env.USER }}"
-          echo "env.user: ${{ env.user }}"
-          echo "env.RUNNER_WORKSPACE: ${{ env.RUNNER_WORKSPACE }}"
-          echo "env.runner_workspace: ${{ env.runner_workspace }}"
+          echo "#1: ${{ contains(github.event.issue.labels.*.name, 'bug') }}"
+          echo "#2: ${{ join(github.event.issue.labels.*.name, ', ') }}"
+          echo "#3: ${{ toJSON(job) }}"
           echo "# --------------------------------------------------------"
           printenv
           echo "# --------------------------------------------------------"
