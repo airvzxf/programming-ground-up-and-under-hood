@@ -6,7 +6,7 @@ author:
 - Israel Roldan
 rights: © 2003 by Jonathan Bartlett
 language: en-US
-date: 2020-12-11
+date: 2020-12-13
 publisher:  Bartlett Publishing in Broken Arrow, Oklahom
 identifier:
 - scheme: ISBN-10
