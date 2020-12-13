@@ -20,7 +20,7 @@ jobs:
         id: cache-packages
         with:
           path: ${SOURCE}/
-          key: ${{ runner.os }}-cache-packages-v1.60
+          key: ${{ runner.os }}-cache-packages-v1.61
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -32,11 +32,15 @@ jobs:
           echo "runner.workspace: ${{ runner.workspace }}"
           echo "runner.os: ${{ runner.os }}"
           echo "runner.temp: ${{ runner.temp }}"
+          echo "cache-packages: ${{ cache-packages }}"
+          echo "cache-packages.path: ${{ cache-packages.path }}"
+          echo "cache-packages.key: ${{ cache-packages.key }}"
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
           echo "HOME: ${{ runner.temp }}"
           echo "SOURCE: ${SOURCE}"
+          exit -5
           ls -lha /
           ls -lha /vmlinuz
           ls -lha /vmlinuz.old
