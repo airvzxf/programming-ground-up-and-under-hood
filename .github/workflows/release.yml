@@ -18,14 +18,14 @@ jobs:
           key: ${{ runner.os }}-cache-packages-v1.51
 
       - name: Dump GitHub context
-          env:
-            GITHUB_CONTEXT: ${{ toJson(github) }}
-          run: echo "$GITHUB_CONTEXT"
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
       - name: Dump env context
-          env:
-            GITHUB_ENV: ${{ toJson(env) }}
-          run: echo "GITHUB_ENV"
+        env:
+          GITHUB_ENV: ${{ toJson(env) }}
+        run: echo "GITHUB_ENV"
 
       - name: Dump job context
         env:
