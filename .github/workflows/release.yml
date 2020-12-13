@@ -15,12 +15,12 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.38
+          key: ${{ runner.os }}-cache-packages-v1.39
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
-          set -xv
+          set +xv
           SOURCE=${HOME}/cache-linux
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
@@ -30,7 +30,7 @@ jobs:
           ls -lha /
           ls -lha /vmlinuz
           ls -lha /vmlinuz.old
-          sudo du -h -d 1 / 2> /dev/null
+          sudo du -h -d 1 / 2> /dev/null || true
           #sed -i "s/mesg n || true/test -t 0 \&\& mesg n || true/" /root/.profile
           echo "# --------------------------------------------------------"
           echo "# APT update"
@@ -58,7 +58,8 @@ jobs:
                 -not \( -path "/var/backups*" \) \
                 -not \( -path "/boot*" -prune \) \
                 -not \( -path "/vmlinuz*" -prune \) \
-                > "${HOME}"/snapshots/snapshot_01.txt 2> /dev/null
+                > "${HOME}"/snapshots/snapshot_01.txt 2> /dev/null \
+                || true
           echo "# --------------------------------------------------------"
           echo "# Install pandoc and dependencies"
           sudo apt install -y texlive-latex-extra wget
@@ -81,7 +82,8 @@ jobs:
                 -not \( -path "/var/backups*" \) \
                 -not \( -path "/boot*" -prune \) \
                 -not \( -path "/vmlinuz*" -prune \) \
-                "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null
+                "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null \
+                || true
           echo "# --------------------------------------------------------"
           echo "# Filter new files"
           diff -C 1 \
@@ -102,7 +104,7 @@ jobs:
           done < "${HOME}"/snapshots/snapshot_new_files.txt
           ls -lha "${SOURCE}"
           echo ""
-          sudo du -sh "${SOURCE}"
+          sudo du -sh "${SOURCE}" || true
           echo "# --------------------------------------------------------"
 
       - name: Copy cached packages
