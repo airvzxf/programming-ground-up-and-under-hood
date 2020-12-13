@@ -9,21 +9,18 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - name: Environment -> SOURCE.
-        env:
-          SOURCE: ${{ runner.temp }}/cache-linux
-        run: echo "${SOURCE}"
-
       - uses: actions/checkout@v2
 
       - uses: actions/cache@v2
         id: cache-packages
         with:
           path: ${{ runner.temp }}/cache-linux
-          key: ${{ runner.os }}-cache-packages-v1.66
+          key: ${{ runner.os }}-cache-packages-v1.67
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
+        env:
+          SOURCE: ${{ runner.temp }}/cache-linux
         run: |
           set +xv
           echo "# --------------------------------------------------------"
@@ -35,7 +32,6 @@ jobs:
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
-          echo "HOME: ${{ runner.temp }}"
           echo "SOURCE: ${SOURCE}"
           ls -lha /
           sudo du -h -d 1 / 2> /dev/null || true
@@ -116,6 +112,8 @@ jobs:
 
       - name: Copy cached packages
         if: steps.cache-packages.outputs.cache-hit == 'true'
+        env:
+          SOURCE: ${{ runner.temp }}/cache-linux
         run: |
           echo "# --------------------------------------------------------"
           echo "# Using Cached packages"
