@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - name: Environment -> Cache path.
+      - name: Environment -> SOURCE.
         env:
           SOURCE: ${{ runner.temp }}/cache-linux
         run: echo "${SOURCE}"
@@ -20,7 +20,12 @@ jobs:
         id: cache-packages
         with:
           path: ${SOURCE}/
-          key: ${{ runner.os }}-cache-packages-v1.62
+          key: ${{ runner.os }}-cache-packages-v1.64
+
+      - name: Environment -> cache-packages.
+        env:
+          CACHE_PACKAGES: ${{ toJSON(steps.cache-packages) }}
+        run: echo "${CACHE_PACKAGES}"
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
