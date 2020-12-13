@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.37
+          key: ${{ runner.os }}-cache-packages-v1.38
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -27,8 +27,11 @@ jobs:
           pwd
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
-          #sed -i "s/mesg n || true/test -t 0 \&\& mesg n || true/" /root/.profile
           ls -lha /
+          ls -lha /vmlinuz
+          ls -lha /vmlinuz.old
+          sudo du -h -d 1 / 2> /dev/null
+          #sed -i "s/mesg n || true/test -t 0 \&\& mesg n || true/" /root/.profile
           echo "# --------------------------------------------------------"
           echo "# APT update"
           sudo apt update
@@ -55,7 +58,6 @@ jobs:
                 -not \( -path "/var/backups*" \) \
                 -not \( -path "/boot*" -prune \) \
                 -not \( -path "/vmlinuz*" -prune \) \
-                -not \( -path "/vmlinuz.old*" -prune \) \
                 > "${HOME}"/snapshots/snapshot_01.txt 2> /dev/null
           echo "# --------------------------------------------------------"
           echo "# Install pandoc and dependencies"
@@ -79,7 +81,6 @@ jobs:
                 -not \( -path "/var/backups*" \) \
                 -not \( -path "/boot*" -prune \) \
                 -not \( -path "/vmlinuz*" -prune \) \
-                -not \( -path "/vmlinuz.old*" -prune \) \
                 "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null
           echo "# --------------------------------------------------------"
           echo "# Filter new files"
@@ -107,10 +108,11 @@ jobs:
       - name: Copy cached packages
         if: steps.cache-packages.outputs.cache-hit == 'true'
         run: |
+          SOURCE=${HOME}/cache-linux
           echo "# --------------------------------------------------------"
           echo "# Using Cached packages"
-          ls -lha "${HOME}"/cache-linux/
-          sudo cp --force --recursive "${HOME}"/cache-linux/. /
+          ls -lha "${SOURCE}"
+          sudo cp --force --recursive "${SOURCE}"/. /
           echo "# --------------------------------------------------------"
 
       - name: Generate release files and commit in GitHub
