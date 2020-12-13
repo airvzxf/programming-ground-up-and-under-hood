@@ -8,9 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
-    env:
-      SOURCE: ${{ runner.temp }}/cache-linux
     steps:
+      - name: Environment -> Cache path.
+        env:
+          SOURCE: ${{ runner.temp }}/cache-linux
+        run: echo "${SOURCE}"
+
       - uses: actions/checkout@v2
 
       - uses: actions/cache@v2
