@@ -19,7 +19,7 @@ jobs:
         id: cache-packages
         with:
           path: ${SOURCE}/
-          key: ${{ runner.os }}-cache-packages-v1.56
+          key: ${{ runner.os }}-cache-packages-v1.57
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
