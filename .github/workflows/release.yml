@@ -15,7 +15,7 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.49
+          key: ${{ runner.os }}-cache-packages-v1.50
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -28,15 +28,24 @@ jobs:
           echo "github.action: ${{ github.action }}"
           echo "github.event_name: ${{ github.event_name }}"
           echo "job.status: ${{ job.status }}"
-          echo "#github: ${{ toJSON(github) }}"
-          echo "#env: ${{ toJSON(env) }}"
-          echo "#job: ${{ toJSON(job) }}"
-          echo "#steps: ${{ toJSON(steps) }}"
-          echo "#runner: ${{ toJSON(runner) }}"
-          echo "#secrets: ${{ toJSON(secrets) }}"
-          echo "#strategy: ${{ toJSON(strategy) }}"
-          echo "#matrix: ${{ toJSON(matrix) }}"
-          echo "#needs: ${{ toJSON(needs) }}"
+          echo "job: "
+          echo ${{ toJSON(job) }}
+          echo "env: "
+          echo ${{ toJSON(env) }}
+          echo "steps: "
+          echo ${{ toJSON(steps) }}
+          echo "runner: "
+          echo ${{ toJSON(runner) }}
+          echo "secrets: "
+          echo ${{ toJSON(secrets) }}
+          echo "strategy: "
+          echo ${{ toJSON(strategy) }}
+          echo "matrix: "
+          echo ${{ toJSON(matrix) }}
+          echo "needs: "
+          echo ${{ toJSON(needs) }}
+          echo "github: "
+          echo ${{ toJSON(github) }}
           echo "#1: ${{ contains(github.event.issue.labels.*.name, 'bug') }}"
           echo "#2: ${{ join(github.event.issue.labels.*.name, ', ') }}"
           echo "# --------------------------------------------------------"
