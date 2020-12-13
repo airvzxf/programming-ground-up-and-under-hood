@@ -17,70 +17,61 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.32
+          key: ${{ runner.os }}-cache-packages-v1.33
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
           SOURCE=${HOME}/cache-linux
-          ROOT=/root
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
           echo "HOME: ${HOME}"
           echo "SOURCE: ${SOURCE}"
-          echo "ROOT: ${ROOT}"
-          sudo ls -lha /root
-          sudo cat /root/.profile
-          sudo sed -i "s/mesg n || true/test -t 0 \&\& mesg n || true/" /root/.profile
-          sudo cat /root/.profile
+          #sed -i "s/mesg n || true/test -t 0 \&\& mesg n || true/" /root/.profile
           echo "# --------------------------------------------------------"
           echo "# APT update"
           sudo apt update
           echo "# --------------------------------------------------------"
-          echo "# Setup the snapshot"
-          sudo mkdir -p "${ROOT}"/.config/backintime/
-          < config grep profile1.snapshots.local_encfs.path
-          sudo cp config "${ROOT}"/.config/backintime/
-          sudo mkdir -p "${ROOT}"/.local/share/backintime/anacron/
-          sudo touch "${ROOT}"/.local/share/backintime/anacron/1_Main_profile
+          echo "# Set up snapshot"
           mkdir -p "${HOME}"/snapshots/
           echo "# --------------------------------------------------------"
           echo "# Install tools"
           sudo rm -f /var/lib/apt/lists/lock
-          sudo apt install -y backintime-common wget vim
-          echo "# --------------------------------------------------------"
-          echo "# Snapshot"
-          export PYTHONIOENCODING=utf8
-          sudo -i backintime --debug check-config
+          sudo apt install -y backintime-common vim bash-completion
           echo "# --------------------------------------------------------"
           echo "# Take the first snapshot"
-          sudo -i backintime --debug backup
+          sudo find / -type f,l > "${HOME}"/snapshots/snapshot_01.txt 2> /dev/null
           echo "# --------------------------------------------------------"
           echo "# Install pandoc and dependencies"
-          sudo apt install -y texlive-latex-extra
+          sudo apt install -y texlive-latex-extra wget
           wget -q https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb
           sudo dpkg -i pandoc-2.11.2-1-amd64.deb
           rm -f pandoc-2.11.2-1-amd64.deb
           echo "# --------------------------------------------------------"
-          echo "# Take the second snapshot"
-          sudo df -h
-          sudo ls -lha /
-          sudo ls -lha /usr/
-          sudo ls -lha /usr/bin/
-          ls -lha "${HOME}"/snapshots/backintime/MyHostName/root/1/
-          du "${HOME}"/snapshots/backintime/MyHostName/root/1/last_snapshot/backup
-          sudo -i backintime --debug backup
-          ls -lha "${HOME}"/snapshots/backintime/MyHostName/root/1/
-          du "${HOME}"/snapshots/backintime/MyHostName/root/1/last_snapshot/backup
+          echo "# Take second snapshot"
+          sudo find / -type f,l > "${HOME}"/snapshots/snapshot_02.txt 2> /dev/null
           echo "# --------------------------------------------------------"
-          echo "# Makes the cache directory"
+          echo "# Filter new files"
+          diff -C 1 \
+          --color=always \
+          "${HOME}"/snapshots/snapshot_01.txt "${HOME}"/snapshots/snapshot_02.txt \
+          | grep -E "^\+" \
+          | sed -E s/..// \
+          > "${HOME}"/snapshots/snapshot_new_files.txt
+          < "${HOME}"/snapshots/snapshot_new_files.txt wc -l
+          ls -lha "${HOME}"/snapshots/
+          echo "# --------------------------------------------------------"
+          echo "# Make cache directory"
           rm -fR "${SOURCE}"
-          sudo cp -a "${HOME}"/snapshots/backintime/MyHostName/root/1/last_snapshot/backup "${HOME}"
-          sudo mv backup "${SOURCE}"
+          mkdir -p "${SOURCE}"
+          while IFS= read -r LINE
+          do
+            sudo cp -a --parent "${LINE}" "${SOURCE}"
+          done < "${HOME}"/snapshots/snapshot_new_files.txt
           ls -lha "${SOURCE}"
           echo ""
-          du -sh "${SOURCE}"
+          sudo du -sh "${SOURCE}"
           echo "# --------------------------------------------------------"
 
       - name: Copy cached packages
