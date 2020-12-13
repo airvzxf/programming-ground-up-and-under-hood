@@ -15,12 +15,20 @@ jobs:
         id: cache-packages
         with:
           path: /home/runner/cache-linux/
-          key: ${{ runner.os }}-cache-packages-v1.40
+          key: ${{ runner.os }}-cache-packages-v1.41
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: |
           set +xv
+          echo "env: ${{ env }}"
+          echo "env.HOME: ${{ env.HOME }}"
+          echo "# --------------------------------------------------------"
+          printenv
+          echo "# --------------------------------------------------------"
+          env
+          echo "# --------------------------------------------------------"
+          exit -6
           SOURCE=${HOME}/cache-linux
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
@@ -31,7 +39,6 @@ jobs:
           ls -lha /vmlinuz
           ls -lha /vmlinuz.old
           sudo du -h -d 1 / 2> /dev/null || true
-          #sed -i "s/mesg n || true/test -t 0 \&\& mesg n || true/" /root/.profile
           echo "# --------------------------------------------------------"
           echo "# APT update"
           sudo apt update
@@ -124,17 +131,11 @@ jobs:
           cd ./src/programming-from-the-ground-up
           ./make.sh
           cd ../../
+          ls -lha release/
           git config --global user.name 'Israel Roldan'
           git config --global user.email 'israel.alberto.rv@gmail.com'
           git add .
           git status
-          ls -lha release/
+          #git commit -m "Automated Release."
+          #git push
           echo "# --------------------------------------------------------"
-#          cd ./src/programming-from-the-ground-up
-#          ./make.sh
-#          cd ../../
-#          git config --global user.name 'Israel Roldan'
-#          git config --global user.email 'israel.alberto.rv@gmail.com'
-#          git add .
-#          git commit -m "Automated Release."
-#          git push
