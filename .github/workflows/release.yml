@@ -19,13 +19,8 @@ jobs:
       - uses: actions/cache@v2
         id: cache-packages
         with:
-          path: ${SOURCE}/
-          key: ${{ runner.os }}-cache-packages-v1.65
-
-      - name: Environment -> cache-packages.
-        env:
-          CACHE_PACKAGES: ${{ toJSON(steps.cache-packages) }}
-        run: echo "${CACHE_PACKAGES}"
+          path: ${{ runner.temp }}/cache-linux
+          key: ${{ runner.os }}-cache-packages-v1.66
 
       - name: Install packages
         if: steps.cache-packages.outputs.cache-hit != 'true'
@@ -37,9 +32,6 @@ jobs:
           echo "runner.workspace: ${{ runner.workspace }}"
           echo "runner.os: ${{ runner.os }}"
           echo "runner.temp: ${{ runner.temp }}"
-          echo "steps.cache-packages: ${{ steps.cache-packages }}"
-          echo "steps.cache-packages.path: ${{ steps.cache-packages.path }}"
-          echo "steps.cache-packages.key: ${{ steps.cache-packages.key }}"
           echo "# --------------------------------------------------------"
           echo "# Where am I?"
           pwd
