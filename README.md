@@ -4,7 +4,7 @@
 
 I try to learn the GNU Assembler (`as` or `gas`) and I didn't found many resources but this book is great.
 
-This is a 25% of the WIP (work in progress) for the project `Programming from the ground up`.
+This is a 60% of the WIP (work in progress) for the project `Programming from the ground up`.
 
 Goals:
 
@@ -34,11 +34,11 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
   - [x] It's not easy and needs to install some packages also I couldn't compile the book. Other reason is that the DSSSL is an old technology.
 - [x] Make decisions if keeps this format or use other tools/format.
   - [x] Use `pandoc` ([official project](https://pandoc.org/)) to convert the original DocBook to Markdown format.
-    - [ ] Fix all the conversions failures.
+    - [x] Fix all the conversions failures.
       - [x] Footnotes needs to create a new numeration.
       - [x] Internal broken links for references.
       - [x] Styles and formats.
-      - [ ] Create a ToC (Table of contents).
+      - [x] Create a ToC (Table of contents).
     - [x] Export to the final version to ePUB.
     - [ ] Export to the final version to MOBI for Kindle.
 - [x] Start with the [TO-DO's file](./src/programming-from-the-ground-up/TODO.md).
