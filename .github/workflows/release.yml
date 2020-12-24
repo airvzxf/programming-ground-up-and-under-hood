@@ -15,112 +15,14 @@ jobs:
         id: cache-packages
         with:
           path: ${{ runner.temp }}/cache-linux
-          key: ${{ runner.os }}-cache-packages-v2.1
+          key: cache-packages-v2.2
 
       - name: Install packages
-        if: steps.cache-packages.outputs.cache-hit != 'true'
-        env:
-          SOURCE: ${{ runner.temp }}/cache-linux
-        run: |
-          set +xv
-          echo "# --------------------------------------------------------"
-          echo "# Action environment variables"
-          echo "github.workspace: ${{ github.workspace }}"
-          echo "runner.workspace: ${{ runner.workspace }}"
-          echo "runner.os: ${{ runner.os }}"
-          echo "runner.temp: ${{ runner.temp }}"
-          echo "# --------------------------------------------------------"
-          echo "# Where am I?"
-          pwd
-          echo "SOURCE: ${SOURCE}"
-          ls -lha /
-          sudo du -h -d 1 / 2> /dev/null || true
-          echo "# --------------------------------------------------------"
-          echo "# APT update"
-          sudo apt update
-          echo "# --------------------------------------------------------"
-          echo "# Set up snapshot"
-          mkdir -p "${{ runner.temp }}"/snapshots/
-          echo "# --------------------------------------------------------"
-          echo "# Install tools"
-          sudo rm -f /var/lib/apt/lists/lock
-          #sudo apt install -y vim bash-completion
-          echo "# --------------------------------------------------------"
-          echo "# Take first snapshot"
-          sudo find / \
-                -type f,l \
-                -not \( -path "/sys*" -prune \) \
-                -not \( -path "/proc*" -prune \) \
-                -not \( -path "/mnt*" -prune \) \
-                -not \( -path "/dev*" -prune \) \
-                -not \( -path "/run*" -prune \) \
-                -not \( -path "/etc/mtab*" -prune \) \
-                -not \( -path "/var/cache/apt/archives*" -prune \) \
-                -not \( -path "/tmp*" -prune \) \
-                -not \( -path "/var/tmp*" -prune \) \
-                -not \( -path "/var/backups*" \) \
-                -not \( -path "/boot*" -prune \) \
-                -not \( -path "/vmlinuz*" -prune \) \
-                > "${{ runner.temp }}"/snapshots/snapshot_01.txt 2> /dev/null \
-                || true
-          echo "# --------------------------------------------------------"
-          echo "# Install pandoc and dependencies"
-          sudo apt install -y texlive-latex-extra wget
-          wget -q https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb
-          sudo dpkg -i pandoc-2.11.2-1-amd64.deb
-          rm -f pandoc-2.11.2-1-amd64.deb
-          echo "# --------------------------------------------------------"
-          echo "# Take second snapshot"
-          sudo find / \
-                -type f,l \
-                -not \( -path "/sys*" -prune \) \
-                -not \( -path "/proc*" -prune \) \
-                -not \( -path "/mnt*" -prune \) \
-                -not \( -path "/dev*" -prune \) \
-                -not \( -path "/run*" -prune \) \
-                -not \( -path "/etc/mtab*" -prune \) \
-                -not \( -path "/var/cache/apt/archives*" -prune \) \
-                -not \( -path "/tmp*" -prune \) \
-                -not \( -path "/var/tmp*" -prune \) \
-                -not \( -path "/var/backups*" \) \
-                -not \( -path "/boot*" -prune \) \
-                -not \( -path "/vmlinuz*" -prune \) \
-                > "${{ runner.temp }}"/snapshots/snapshot_02.txt 2> /dev/null \
-                || true
-          echo "# --------------------------------------------------------"
-          echo "# Filter new files"
-          diff -C 1 \
-              --color=always \
-              "${{ runner.temp }}"/snapshots/snapshot_01.txt \
-              "${{ runner.temp }}"/snapshots/snapshot_02.txt \
-              | grep -E "^\+" \
-              | sed -E s/..// \
-              > "${{ runner.temp }}"/snapshots/snapshot_new_files.txt
-          < "${{ runner.temp }}"/snapshots/snapshot_new_files.txt wc -l
-          ls -lha "${{ runner.temp }}"/snapshots/
-          echo "# --------------------------------------------------------"
-          echo "# Make cache directory"
-          rm -fR "${SOURCE}"
-          mkdir -p "${SOURCE}"
-          while IFS= read -r LINE
-          do
-            sudo cp -a --parent "${LINE}" "${SOURCE}"
-          done < "${{ runner.temp }}"/snapshots/snapshot_new_files.txt
-          ls -lha "${SOURCE}"
-          echo ""
-          sudo du -sh "${SOURCE}" || true
-          echo "# --------------------------------------------------------"
-
-      - name: Copy cached packages
-        if: steps.cache-packages.outputs.cache-hit == 'true'
-        env:
-          SOURCE: ${{ runner.temp }}/cache-linux
-        run: |
-          echo "# --------------------------------------------------------"
-          echo "# Using Cached packages"
-          ls -lha "${SOURCE}"
-          sudo cp --force --recursive "${SOURCE}"/. /
-          echo "# --------------------------------------------------------"
+        uses: airvzxf/cache-anything-new-action@v1.0
+        with:
+          script: 'install.sh'
+          is_cached: ${{ steps.cache-packages.outputs.cache-hit }}
+          cache: ${{ runner.temp }}/cache-linux
 
       - name: Generate release files and commit in GitHub
         run: |
