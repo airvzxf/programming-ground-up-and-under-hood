@@ -1,6 +1,6 @@
 # docker build -t pandoc .
 # docker run -it --rm pandoc
-FROM ubuntu:18.04
+FROM ubuntu:rolling
 
 WORKDIR /root/
 
