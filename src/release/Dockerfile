@@ -1,6 +1,6 @@
 # docker build -t pandoc .
 # docker run -it --rm pandoc
-FROM ubuntu:22.10
+FROM ubuntu:mantic
 
 WORKDIR /root/
 
