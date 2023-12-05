@@ -1,6 +1,6 @@
 # docker build -t pandoc .
 # docker run -it --rm pandoc
-FROM ubuntu:mantic
+FROM ubuntu:noble
 
 WORKDIR /root/
 
