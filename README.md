@@ -41,7 +41,7 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
       - [x] Create a ToC (Table of contents).
     - [x] Export to the final version to ePUB.
     - [ ] Export to the final version to MOBI for Kindle.
-- [x] Start with the [TO-DO's file](./src/programming-from-the-ground-up/TODO.md).
+- [x] Start with the [TO-DO's file](TODO.md).
 
 ## About the original books.
 

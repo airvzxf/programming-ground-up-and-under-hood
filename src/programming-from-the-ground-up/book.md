@@ -10410,7 +10410,7 @@ Motivations
 
 [AJ-IsraelRoldan]: https://github.com/airvzxf
 [AJ-MyGitHubRepository]: https://github.com/airvzxf/programming-ground-up-and-under-hood
-[AJ-MyTodoList]: https://github.com/airvzxf/programming-ground-up-and-under-hood/blob/main/src/programming-from-the-ground-up/TODO.md
+[AJ-MyTodoList]: https://github.com/airvzxf/programming-ground-up-and-under-hood/blob/main/TODO.md
 [AJ-NASM]: https://nasm.us/
 [AJ-FASM]: https://flatassembler.net/
 [AJ-AsmSourceCode]: https://github.com/airvzxf/programming-ground-up-and-under-hood/tree/main/src/programming-from-the-ground-up/resource/asm
