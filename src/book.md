@@ -2733,7 +2733,7 @@ Review
 
 
 [4-LSB]: https://refspecs.linuxfoundation.org/lsb.shtml
-[4-ABI]: https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/programming-from-the-ground-up/resource/pdf/abi386-4.pdf
+[4-ABI]: https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/resource/pdf/abi386-4.pdf
 
 
 
@@ -10413,7 +10413,7 @@ Motivations
 [AJ-MyTodoList]: https://github.com/airvzxf/programming-ground-up-and-under-hood/blob/main/TODO.md
 [AJ-NASM]: https://nasm.us/
 [AJ-FASM]: https://flatassembler.net/
-[AJ-AsmSourceCode]: https://github.com/airvzxf/programming-ground-up-and-under-hood/tree/main/src/programming-from-the-ground-up/resource/asm
+[AJ-AsmSourceCode]: https://github.com/airvzxf/programming-ground-up-and-under-hood/tree/main/src/resource/asm
 [AJ-MyBenchmarks]: https://github.com/airvzxf/assembly/tree/master/linux/benchmark/fibonacci/without_print
 [AJ-CBenchmarks]: https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/cpp.html
 [AJ-LinusTorvalds]: https://github.com/torvalds

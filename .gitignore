@@ -13,4 +13,4 @@ test.dat
 testout.dat
 
 # Pandoc generated files in the source directory
-src/programming-from-the-ground-up/ProgrammingGroundUp.*
+src/ProgrammingGroundUp.*

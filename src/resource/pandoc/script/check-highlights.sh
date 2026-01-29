@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-RELEASE_PATH="../../release/"
+RELEASE_PATH="../release/"
 VERSION="v"$(date "+%Y.%m.%d")
 HTML_FILE="${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.html"
 

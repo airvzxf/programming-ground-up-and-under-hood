@@ -27,11 +27,11 @@ jobs:
             git
 
       - name: Build books
-        run: bash src/programming-from-the-ground-up/make.bash
+        run: bash src/make.bash
 
       # Optional: Also compile examples to verify there are no errors
       - name: Build ASM examples
-        run: bash src/programming-from-the-ground-up/resource/asm/make.bash
+        run: bash src/resource/asm/make.bash
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v6

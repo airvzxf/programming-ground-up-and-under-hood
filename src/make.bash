@@ -8,7 +8,7 @@ cd "${SCRIPT_DIR}"
 VERSION="v$(date "+%Y.%m.%d")"
 DATE="$(date "+%Y-%m-%d")"
 # Define output paths relative to project root
-RELEASE_ROOT_PATH="../../release"
+RELEASE_ROOT_PATH="../release"
 RELEASE_VERSION_PATH="${RELEASE_ROOT_PATH}/${VERSION}"
 RELEASE_LATEST_PATH="${RELEASE_ROOT_PATH}/latest"
 
