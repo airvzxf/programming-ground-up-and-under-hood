@@ -1,7 +1,0 @@
-*.o
-*-bin
-.gdb_history
-peda*.txt
-librecord.so
-test.dat
-testout.dat
