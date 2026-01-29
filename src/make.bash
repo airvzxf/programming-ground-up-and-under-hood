@@ -39,23 +39,47 @@ for i in "${!OUTPUTS[@]}"; do
   EXT="${EXTENSIONS[$i]}"
 
   echo "Generating format: ${OUTPUT}..."
-  pandoc -f markdown -t "${OUTPUT}" \
-    --standalone \
-    --toc \
-    --toc-depth 2 \
-    --dpi 300 \
-    --highlight-style \
-      ./resource/pandoc/theme/default.theme \
-    --syntax-definition \
-      ./resource/pandoc/syntax/gnuassembler.xml \
-    --syntax-definition \
-      ./resource/pandoc/syntax/c.xml \
-    --syntax-definition \
-      ./resource/pandoc/syntax/bash.xml \
-    --lua-filter \
-      resource/pandoc/lua/include-code-files.lua \
-    -o "${RELEASE_VERSION_PATH}/ProgrammingGroundUp.${EXT}" \
-    book.md
+
+  # Default args
+  ARGS=(
+    -f markdown
+    -t "${OUTPUT}"
+    --standalone
+    --toc
+    --toc-depth 2
+    --dpi 300
+    --highlight-style ./resource/pandoc/theme/default.theme
+    --syntax-definition ./resource/pandoc/syntax/gnuassembler.xml
+    --syntax-definition ./resource/pandoc/syntax/c.xml
+    --syntax-definition ./resource/pandoc/syntax/bash.xml
+    --lua-filter resource/pandoc/lua/include-code-files.lua
+    -o "${RELEASE_VERSION_PATH}/ProgrammingGroundUp.${EXT}"
+  )
+
+  # Format specific args
+  if [[ "$OUTPUT" == "html5" || "$OUTPUT" == "epub3" ]]; then
+    ARGS+=(--css resource/pandoc/css/style.css)
+  fi
+
+  pandoc "${ARGS[@]}" book.md
+
+  # Post-processing for Markdown
+  if [[ "$OUTPUT" == "gfm" ]]; then
+    MD_FILE="${RELEASE_VERSION_PATH}/ProgrammingGroundUp.${EXT}"
+
+    # 1. Generate Header dynamically from book.md metadata
+    pandoc --template resource/pandoc/template/header.md \
+           -t gfm \
+           -o header_tmp.md \
+           book.md
+
+    # 2. Prepend Header to the main file
+    cat header_tmp.md "$MD_FILE" > "${MD_FILE}.tmp" && mv "${MD_FILE}.tmp" "$MD_FILE"
+    rm header_tmp.md
+
+    # 3. Fix broken links (remove dot after chapter number in links)
+    sed -E -i 's/\]\(#chapter-([0-9]+)\.-/](#chapter-\1-/g' "$MD_FILE"
+  fi
 done
 
 # Copy everything to 'latest' folder

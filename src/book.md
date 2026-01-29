@@ -15,13 +15,13 @@ identifier:
   text: 978-0975283844
 header-includes:
 - \hypersetup{
-     colorlinks=false,
-     linkbordercolor=gray,
+     colorlinks=true,
+     linkbordercolor=olive,
      urlbordercolor=brown,
      pdfborderstyle={/S/U/W 0.7}
   }
-colorlinks: false
-linkcolor: gray
+colorlinks: true
+linkcolor: olive
 urlcolor: brown
 toc: true
 ---
@@ -67,7 +67,7 @@ you are granted full rights to use the code examples for any purpose
 without even having to credit the authors.
 
 To receive a copy of this book in electronic form, please visit the
-website http://savannah.nongnu.org/projects/pgubook/ This site contains
+website [http://savannah.nongnu.org/projects/pgubook/][0-SavannahPguBook] This site contains
 the instructions for downloading a transparent copy of this book as
 defined by the GNU Free Documentation License.
 
@@ -92,7 +92,7 @@ be a reference to the subject. Reference information about a particular
 processor can be obtained by contacting the company which makes it.
 
 [0-BartlettPublishing]: http://www.bartlettpublishing.com/
-
+[0-SavannahPguBook]: http://savannah.nongnu.org/projects/pgubook/
 
 
 \newpage
@@ -6656,19 +6656,19 @@ Example:
 
 References to understand in deep how the computer handle the floating points.
 
-- [Fixed Point and Floating Point](https://www.tutorialspoint.com/fixed-point-and-floating-point-number-representations).
+- [Fixed Point and Floating Point][10-fixed-point-and-floating].
 
-- [Floating Point Tutorial](https://www.rfwireless-world.com/Tutorials/floating-point-tutorial.html).
+- [Floating Point Tutorial][10-floating-point-tutorial].
 
-- [IEEE Standard for Floating-Point Arithmetic (IEEE 754)](https://en.wikipedia.org/wiki/IEEE_754).
+- [IEEE Standard for Floating-Point Arithmetic (IEEE 754)][10-IEEE-standard-for-floating].
 
-- [Single-precision floating-point format](https://en.wikipedia.org/wiki/Single-precision_floating-point_format).
+- [Single-precision floating-point format][10-single-precision-floating].
 
 For more information on using floating point numbers in assembly language, see:
 
-- [Floating Point Assembly Language](https://cs.fit.edu/~mmahoney/cse3101/float.html).
+- [Floating Point Assembly Language][10-floating-point-assembly].
 
-- [Floating-Point Instruction Set](https://www3.physnet.uni-hamburg.de/physnet/Tru64-Unix/HTML/APS31DTE/DOCU_010.HTM).
+- [Floating-Point Instruction Set][10-floating-point-instruction].
 
 ### Negative Numbers
 
@@ -7012,7 +7012,12 @@ Review
 
 [10-Davs]: http://david.carybros.com/html/endian_faq.html
 [10-holy-war]: https://dcc.ufrj.br/~gabriel/progpar/danny_co.pdf
-
+[10-fixed-point-and-floating]: https://www.tutorialspoint.com/fixed-point-and-floating-point-number-representations
+[10-floating-point-tutorial]: https://www.rfwireless-world.com/Tutorials/floating-point-tutorial.html
+[10-IEEE-standard-for-floating]: https://en.wikipedia.org/wiki/IEEE_754
+[10-single-precision-floating]: https://en.wikipedia.org/wiki/Single-precision_floating-point_format
+[10-floating-point-assembly]: https://cs.fit.edu/~mmahoney/cse3101/float.html
+[10-floating-point-instruction]: https://www3.physnet.uni-hamburg.de/physnet/Tru64-Unix/HTML/APS31DTE/DOCU_010.HTM
 
 
 \newpage
@@ -10292,7 +10297,8 @@ full compliance.
 The Free Software Foundation may publish new, revised versions of the
 GNU Free Documentation License from time to time. Such new versions will
 be similar in spirit to the present version, but may differ in detail to
-address new problems or concerns. See http://www.gnu.org/copyleft/.
+address new problems or concerns. See
+[http://www.gnu.org/copyleft/][H-GNU-copyleft].
 
 Each version of the License is given a distinguishing version number. If
 the Document specifies that a particular numbered version of this
@@ -10329,6 +10335,8 @@ recommend releasing these examples in parallel under your choice of free
 software license, such as the GNU General Public License, to permit
 their use in free software.
 
+
+[H-GNU-copyleft]: http://www.gnu.org/copyleft/
 
 
 \newpage
