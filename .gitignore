@@ -1,0 +1,16 @@
+# Output directories
+release/
+
+# Assembler build artifacts
+*.o
+*-bin
+librecord.so
+
+# Temporary files and logs
+.gdb_history
+peda*.txt
+test.dat
+testout.dat
+
+# Pandoc generated files in the source directory
+src/programming-from-the-ground-up/ProgrammingGroundUp.*

@@ -2,22 +2,32 @@ name: CI - Deploy to RoviSoft
 
 on:
   workflow_run:
-    workflows: [ "CI - Release books" ]
+    workflows: ["CI - Build and Release"]
     types:
       - completed
   workflow_dispatch:
 
 jobs:
-  build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-      - name: Clean the uploaded files
+      - name: Download built books
+        uses: actions/download-artifact@v6
+        with:
+          name: books
+          path: release/latest/
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare files for deployment
         run: |
-          mv ./release/latest/ProgrammingGroundUp.html ./release/latest/index.html && \
-          rm -f ./release/latest/ProgrammingGroundUp*
+          cd release/latest/
+          mv ProgrammingGroundUp.html index.html
+          rm -f ProgrammingGroundUp.*
 
       - name: Upload via FTP
         uses: airvzxf/ftp-deployment-action@latest

@@ -6,22 +6,24 @@ author:
 - Israel Roldan
 rights: © 2003 by Jonathan Bartlett
 language: en-US
-date: 2020-12-13
+date: 2026-01-29
 publisher:  Bartlett Publishing in Broken Arrow, Oklahom
 identifier:
 - scheme: ISBN-10
   text: 0975283847
 - scheme: ISBN-13
   text: 978-0975283844
----
----
 header-includes:
-  - \hypersetup{
-        colorlinks=false,
-        linkbordercolor=gray,
-        urlbordercolor=brown,
-        pdfborderstyle={/S/U/W 0.7}
-    }
+- \hypersetup{
+     colorlinks=false,
+     linkbordercolor=gray,
+     urlbordercolor=brown,
+     pdfborderstyle={/S/U/W 0.7}
+  }
+colorlinks: false
+linkcolor: gray
+urlcolor: brown
+toc: true
 ---
 
 <!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
