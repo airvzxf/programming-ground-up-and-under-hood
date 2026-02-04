@@ -1,6 +1,6 @@
 # Dockerfile for "Programming from the Ground Up"
 # Use Ubuntu to ensure compatibility with 32-bit assembly examples (glibc)
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # Avoid interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
