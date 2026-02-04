@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04 # Pin version to match Dockerfile
+    runs-on: ubuntu-24.04 # Pin version to match Dockerfile
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
