@@ -6,7 +6,7 @@ author:
 - Israel Roldan
 rights: © 2003 by Jonathan Bartlett
 language: en-US
-date: 2026-01-29
+date: 2026-02-04
 publisher:  Bartlett Publishing in Broken Arrow, Oklahom
 identifier:
 - scheme: ISBN-10
@@ -14,11 +14,14 @@ identifier:
 - scheme: ISBN-13
   text: 978-0975283844
 header-includes:
-- \hypersetup{
-     colorlinks=true,
-     linkbordercolor=olive,
-     urlbordercolor=brown,
-     pdfborderstyle={/S/U/W 0.7}
+- |
+  \AtBeginDocument{
+    \hypersetup{
+       colorlinks=true,
+       linkbordercolor=olive,
+       urlbordercolor=brown,
+       pdfborderstyle={/S/U/W 0.7}
+    }
   }
 colorlinks: true
 linkcolor: olive
