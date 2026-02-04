@@ -41,9 +41,20 @@ jobs:
         with:
           name: books
           path: release/latest/
+          retention-days: 7
+
+  release:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v6
+        with:
+          name: books
+          path: release/latest/
 
       - name: Upload to Release
-        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
           files: |
