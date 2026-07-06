@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-24.04 # Pin version to match Dockerfile
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install dependencies
         run: |
@@ -37,7 +37,7 @@ jobs:
         run: bash src/resource/asm/make.bash
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: books
           path: release/latest/
@@ -49,13 +49,13 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: books
           path: release/latest/
 
       - name: Upload to Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             release/latest/ProgrammingGroundUp.pdf
