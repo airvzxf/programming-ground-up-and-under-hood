@@ -15,11 +15,6 @@ on:
 permissions:
   contents: read
 
-# Cancel superseded runs on the same PR; never cancel main or release runs.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   build:
     runs-on: ubuntu-24.04 # Pin version to match Dockerfile
