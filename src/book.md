@@ -48,7 +48,7 @@ original author or publisher.
 
 The transparent copy (Markdown source) of this edition, together with
 the source code of every example, is available at
-[github.com/airvzxf/programming-ground-up-and-under-hood][0-ThisEdition].
+[github.com/airvzxf/assembly-from-the-ground-up][0-ThisEdition].
 The transparent copy of the original book is available at
 [savannah.nongnu.org/projects/pgubook][0-SavannahPguBook].
 
@@ -67,7 +67,7 @@ understand how assembly language and computer programming works, not to
 be a reference to the subject. Reference information about a particular
 processor can be obtained by contacting the company which makes it.
 
-[0-ThisEdition]: https://github.com/airvzxf/programming-ground-up-and-under-hood
+[0-ThisEdition]: https://github.com/airvzxf/assembly-from-the-ground-up
 [0-SavannahPguBook]: https://savannah.nongnu.org/projects/pgubook/
 
 
@@ -524,7 +524,7 @@ equally exact. A computer has no idea what your program is supposed to
 do. Therefore, it will only do exactly what you tell it to do. If you
 accidentally print out a regular number instead of the ASCII codes that
 make up the number\'s digits, the computer will let you - and you will
-wind up with jibberish on your screen (it will try to look up what your
+wind up with gibberish on your screen (it will try to look up what your
 number represents in ASCII and print that). If you tell the computer to
 start executing instructions at a location containing data instead of
 program instructions, who knows how the computer will interpret that -
@@ -777,7 +777,7 @@ as -o 003-01-exit.o  --32 \
 ```
 
 `as` is the command which runs the assembler, `003-01-exit.s` is the source
-file, and `-o 003-01-exit.o` tells the assemble to put its output in
+file, and `-o 003-01-exit.o` tells the assembler to put its output in
 the file `003-01-exit.o`. `003-01-exit.o` is an *object file*. An object
 file is code that is in the machine\'s language, but has not been
 completely put together. In most large programs, you will have several
@@ -869,7 +869,7 @@ Right after this you have:
 ```{.gnuassembler .numberLines include=resource/asm/003-01-exit.s startLine=19 endLine=19}
 ```
 
-`.text` which starts the text section. The text sectiontext section of a
+`.text` which starts the text section. The text section of a
 program is where the program instructions live.
 
 The next instruction is:
@@ -1223,7 +1223,7 @@ section:
 ```{.gnuassembler .numberLines include=resource/asm/003-02-maximum.s startLine=19 endLine=20}
 ```
 
-Lets look at this. `data_items` is a label that refers to the
+Let\'s look at this. `data_items` is a label that refers to the
 location that follows it. Then, there is a directive that starts with
 `.long`. That causes the assembler to reserve memory for the list
 of numbers that follow it. `data_items` refers to the location of the
@@ -1415,7 +1415,7 @@ review:
 
 -   Now we need to go back to the beginning of the loop.
 
-Okay, so now lets go to the code. We have the beginning of the loop
+Okay, so now let\'s go to the code. We have the beginning of the loop
 marked with `_start_loop`. That is so we know where to go back to at the
 end of our loop. Then we have these instructions:
 
@@ -2037,7 +2037,7 @@ movl %esp, %eax
 ```
 
 then _%eax_ would just hold the pointer to the top of the stack rather than
-the value at the top. Putting _%esp_ in parenthesis causes the computer to
+the value at the top. Putting _%esp_ in parentheses causes the computer to
 go to indirect addressing mode, and therefore we
 get the value pointed to by _%esp_. If we want to access the value
 right below the top of the stack, we can simply issue this instruction:
@@ -2125,7 +2125,7 @@ subl $8, %esp
 ```
 
 This subtracts 8 from _%esp_ (remember, a word is four bytes long).[^4-4]
-This way, we can use the stack for variable storage without worring
+This way, we can use the stack for variable storage without worrying
 about clobbering them with pushes that we may make for function calls.
 Also, since it is allocated on the stack frame for this function call,
 the variable will only be alive during this function. When we return,
@@ -2550,7 +2550,7 @@ going to be the parameter of the next function call. And then we call
 Okay, now we\'ve called `_factorial`. One thing to remember is that after
 a function call, we can never know what the registers are (except `%esp`
 and `%ebp`). So even though we had the value we were called with in
-`%eax`, it\'s not there any more. Therefore, we need pull it off the
+`%eax`, it\'s not there any more. Therefore, we need to pull it off the
 stack from the same place we got it the first time (at `8(%ebp)`). So,
 we do this:
 
@@ -2696,7 +2696,7 @@ Review
 
 
 [4-LSB]: https://refspecs.linuxfoundation.org/lsb.shtml
-[4-ABI]: https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/resource/pdf/abi386-4.pdf
+[4-ABI]: https://github.com/airvzxf/assembly-from-the-ground-up/raw/main/src/resource/pdf/abi386-4.pdf
 
 
 Chapter 5. Dealing with Files {#chapter-5-dealing-with-files}
@@ -4202,7 +4202,7 @@ It will report back something like:
     libc.so.6 => /usr/lib32/libc.so.6 (0xf7ce5000)
     /usr/lib32/ld-linux.so.2 => /usr/lib/ld-linux.so.2 (0xf7f19000)
 
-The numbers in parenthesis may be different on your system. This means
+The numbers in parentheses may be different on your system. This means
 that the program `008-01-hello-world-lib` is linked to `libc.so.6` (the `.6` is the
 version number), which is found at `/usr/lib32/`, and
 `ld-linux.so.2` is found at `/usr/lib32/`. These libraries
@@ -4330,7 +4330,7 @@ reading functions. Here are the main ones:
 
 `char`:
 
-:   A `char` is a single-byte integer number. The size of 1 bytes (8 bits ~ 2^8)
+:   A `char` is a single-byte integer number. The size of 1 byte (8 bits ~ 2^8)
     on x86 processor provide a maximum value of _255_; negative  values
     between _-128_ and _127_. This is mostly used for storing character data,
     since ASCII strings usually are represented with one byte per character.
@@ -4637,7 +4637,7 @@ Review
 -   What is the difference between a data element of type *int* and
     *int \**? How would you access them differently in your program?
 
--   If you had a object file called `foo.o`, what would be the command
+-   If you had an object file called `foo.o`, what would be the command
     to create a shared library called \'bar\'?
 
 -   What is the purpose of LD_LIBRARY_PATH?
@@ -4671,7 +4671,7 @@ Review
     of each.
 
 -   What kinds of programming are you interested in (graphics,
-    databbases, science, etc.)? Find a library for working in that area,
+    databases, science, etc.)? Find a library for working in that area,
     and write a program that makes some basic use of that library.
 
 -   Research the use of `LD_PRELOAD`. What is it used for? Try building
@@ -4809,7 +4809,7 @@ Pointer:
 The Memory Layout of a Linux Program
 ------------------------------------
 
-When you program is loaded into memory, each `.section` is
+When your program is loaded into memory, each `.section` is
 loaded into its own region of memory. All of the code and data declared
 in each section is brought together, even if they were separated in your
 source code.
@@ -4938,7 +4938,7 @@ ld -o 009-01-memory-layout    -m elf_i386 \
 ```
 
 How to get the beginning of the memory address (0x08048000)? Search the
-private headres:
+private headers:
 
 ```{.bash}
 objdump  009-01-memory-layout  --private-headers
@@ -4992,7 +4992,7 @@ objdump 009-01-memory-layout --file-headers
     EXEC_P,  HAS_SYMS,  D_PAGED
     start address 0x08049000
 
-In `gdb` we are able to get these information, too:
+In `gdb` we are able to get this information, too:
 
 ```{.bash}
 gdb --args ./009-01-memory-layout 123 456
@@ -5007,7 +5007,7 @@ gdb --args ./009-01-memory-layout 123 456
 [**Table of the Physical Memory in the program.**]{#chapter-9-table-of-the-physical-memory-in-the-program}
 
 As we mentioned in this and other chapters the code is going
-fordward starting at memory 0x08048000 but the dynamic data
+forward starting at memory 0x08048000 but the dynamic data
 is pushing backwards from the bottom of the memory 0xffffffff.
 
 ```{.text}
@@ -5079,8 +5079,8 @@ or sub in the inverse way that we are thinking, the reason is here:
 > movl  %eax, -4(%ebp)      # Store in the new 2nd variable.
 > ```
 
-It shows how to the stack memory is decreassing when we `call` or `push`
-values, and decreassing when use `pop` or `ret`:
+It shows how to the stack memory is decreasing when we `call` or `push`
+values, and decreasing when use `pop` or `ret`:
 
 ```{.gnuassembler .numberLines include=resource/asm/009-01-memory-layout.s startLine=36 endLine=46}
 ```
@@ -5130,7 +5130,7 @@ values, and decreassing when use `pop` or `ret`:
     +-------------------+
 ```
 
-The memory address is decreassing when `push` and `call` is
+The memory address is decreasing when `push` and `call` is
 executed:
 
     0xffffd870  -> %esp
@@ -5138,17 +5138,17 @@ executed:
     0xffffd868  -> %ebp %esp
     0xffffd864  -> %esp
 
-It\'s increassing when `pop` and `ret` is executed:
+It\'s increasing when `pop` and `ret` is executed:
 
     0xffffd868  -> %ebp %esp
     0xffffd86c  -> %esp
     0xffffd870  -> %esp
 
 Now, checks the next example with the function `_fine`, it adds
-new local variables. This example also demonstrate that use `%esp` or
+new local variables. This example also demonstrates that using `%esp` or
 `%ebp` are the same because at the end it\'s a mark which indicate the
 positions, one for the base pointer and other for the stack pointer.
-Highly recommended to use `%esp` because the program is dinamyc and
+Highly recommended to use `%esp` because the program is dynamic and
 it goes inside of the `call`s. We want to use the recently created
 spaces for these variables, `%ebp` is recommended when you want to take
 arguments of the actual function, they always be around the base pointer:
@@ -5576,7 +5576,7 @@ This first grabs the size of the memory region and puts it in _%edx_. Then
 it looks at the available flag to see if it is set to `UNAVAILABLE`. If
 so, that means that memory region is in use, so we\'ll have to skip over
 it. So, if the available flag is set to `UNAVAILABLE`, you go to the
-code labeled `next_location`. If the available flag is set to
+code labeled `_next_location`. If the available flag is set to
 `AVAILABLE`, then we keep on going.
 
 Let\'s say that the space was available, and so we keep going. Then we
@@ -6076,7 +6076,7 @@ order to do the conversion, you have to *divide* the number into groups
 of two. So, let\'s say you had the number 17. If you divide it by two,
 you get 8 with 1 left over. So that means there are 8 groups of two, and
 1 ungrouped. That means that the rightmost digit will be 1. Now, we have
-the rigtmost digit figured out, and 8 groups of 2 left over. Now, let\'s
+the rightmost digit figured out, and 8 groups of 2 left over. Now, let\'s
 see how many groups of two groups of two we have, by dividing 8 by 2. We
 get 4, with nothing left over. That means that all groups two can be
 further divided into more groups of two. So, we have 0 groups of only
@@ -6165,7 +6165,7 @@ Or as:
     1011
 
 This is just one of many ways you can use the computers storage
-locations to represent more than just numbers. The computers memory just
+locations to represent more than just numbers. The computer\'s memory just
 sees numbers, but programmers can use these numbers to represent
 anything their imaginations can come up with. They just sometimes have
 to be creative when figuring out the best representation.
@@ -6343,7 +6343,7 @@ And I\'ll let you translate that back out.
 
 The previous operations: AND, OR, NOT, and XOR are called *boolean
 operators* because they were first studied by George
-Boole. So, if someone mentiones boolean operators or
+Boole. So, if someone mentions boolean operators or
 boolean algebra, you now know what they are talking
 about.
 
@@ -6503,7 +6503,7 @@ is in the status register, since it is unconditional.
 Let\'s say you needed to store a number larger than 32 bits. So, let\'s
 say the number is 2 registers wide, or 64 bits. How could you handle
 this? If you wanted to add two 64 bit numbers, you would add the least
-significant registers first. Then, if you detected an carry, you could
+significant registers first. Then, if you detected a carry, you could
 add 1 to the most significant register. In fact, this is probably the
 way you learned to do decimal addition. If the result in one column is
 more than 9, you simply carried the number to the next most significant
@@ -6572,26 +6572,27 @@ Short floating-point:
 - The next 8 bits are the exponent. Follow this formula
   `2^(x - 127) = exponent`.
 
-- The next 23 bits are the matissa: the first value is the decimal
-  unit and the other 22 bits are the fraction.
+- The last 23 bits are the fraction of the mantissa. For normal
+  numbers, the mantissa is `1.fraction` in binary: the leading 1 is
+  always there, so it is not stored.
 
 Example:
 
     0xC3478100
-    Binary:      1 10000110 1.0001111000000100000000
+    Binary:      1 10000110 10001111000000100000000
     Sign bit:    1 -> -1
     Exponent:    10000110 -> 134 -> 2^(134 - 127) -> 128
     Mantissa:    1.10001111000000100000000 -> 1.558624267578125
     Value:       -1 * 128 * 1.558624267578125
-                 = -199.503,906,25
+                 = -199.50390625
 
     0x43478100
-    Binary:      0 10000110 1.0001111000000100000000
+    Binary:      0 10000110 10001111000000100000000
     Sign bit:    0 -> 1
     Exponent:    10000110 -> 134 -> 2^(134 - 127) -> 128
     Mantissa:    1.10001111000000100000000 -> 1.558624267578125
     Value:       1 * 128 * 1.558624267578125
-                 = 199.503,906,25
+                 = 199.50390625
 
 References to understand in deep how the computer handle the floating points.
 
@@ -7132,7 +7133,7 @@ list of the arguments that were given.
 The next line is a function call. In assembly language, you had to push
 the arguments of a function onto the stack, and then call the function.
 C takes care of this complexity for you. You simply have to call the
-function with the parameters in parenthesis. In this case, we call the
+function with the parameters in parentheses. In this case, we call the
 function `puts`, with a single parameter. This parameter is the
 character string we want to print. We just have to type in the string in
 quotations, and the compiler takes care of defining storage and moving
@@ -7231,7 +7232,7 @@ Review
 
 ### Know the Concepts
 
--   What is the difference between an intepretted language and a
+-   What is the difference between an interpreted language and a
     compiled language?
 
 -   What reasons might cause you to need to learn a new programming
@@ -7306,7 +7307,7 @@ priorities:
 
 -   Everything works as documented.
 
--   The code is written in an modular, easily modifiable form.
+-   The code is written in a modular, easily modifiable form.
 
 Documentation is essential, especially when working in
 groups. The proper functioning of the program is essential. You\'ll
@@ -7369,7 +7370,7 @@ and global optimization. Local
 optimizations consist of optimizations that are either hardware specific
 - such as the fastest way to perform a given computation - or
 program-specific - such as making a specific piece of code perform the
-best for the most often-occuring case. Global optimization consist of
+best for the most often-occurring case. Global optimization consist of
 optimizations which are structural. For example, if you were trying to
 find the best way for three people in different cities to meet in St.
 Louis, a local optimization would be finding a better road to get there,
@@ -8222,7 +8223,7 @@ Table B-2. Integer Instructions.
   and, if there is an overflow, sets overflow and carry to true. This is
   usually used for operations larger than a machine word. The addition on
   the least-significant word would take place using `addl`, while additions
-  to the other words would used the `adcl` instruction to take the carry
+  to the other words would use the `adcl` instruction to take the carry
   from the previous add into account. For the usual case, this is not
   used, and `addl` is used instead.
 
@@ -8473,7 +8474,7 @@ Table B-5. Assembler Directives.
 **.equ** _Label_, _Value_:
 
 > Sets the given label equivalent to the given value. The value can be a
-  number, a character, or an constant expression that evaluates to a
+  number, a character, or a constant expression that evaluates to a
   number or character. From that point on, use of the label will be
   substituted for the given value.
 
@@ -8593,8 +8594,7 @@ Where to Go for More Information
 Intel has a set of comprehensive guides to their processors. These are
 available at
 [Intel, Resource & Design Center][AB-Intel-resource] Note that all
-of these use the Intel syntax, not the AT&T syntax. The most important
-ones is the
+of these use the Intel syntax, not the AT&T syntax. The most important one is the
 [Intel® 64 and IA-32 Architectures Software Developer’s Manual Combined
 Volumes: 1, 2A, 2B, 2C, 2D, 3A, 3B, 3C, 3D, and 4][AB-Intel-manuals-volumes].
 
@@ -8617,7 +8617,7 @@ These are some of the more important system calls to use when dealing
 with Linux. For most cases, however, it is best to use library functions
 rather than direct system calls, because the system calls were designed
 to be minimalistic while the library functions were designed to be easy
-to program with. For information about the [The GNU C Library][AC-GNU-C].
+to program with. For information about the [GNU C Library][AC-GNU-C].
 
 Remember that _%eax_ holds the system call numbers, and that the
 return values and error codes are also stored in _%eax_.
@@ -8713,7 +8713,7 @@ Table C-1. Important Linux System Calls.
 > - **%ebx**: File descriptor.
   - **%ecx**: Request.
   - **%edx**: Arguments.
-  - This is used to set parameters on device files. It’s actual usage
+  - This is used to set parameters on device files. Its actual usage
     varies based on the type of file or device your descriptor references.
 
 ---
@@ -8799,8 +8799,7 @@ constructs can be implemented in assembly language.
 If Statement
 ------------
 
-In C, an if statement consists of three parts - the condition, the true
-brancht, and the false branch. However, since assembly language is not a
+In C, an if statement consists of three parts - the condition, the true branch, and the false branch. However, since assembly language is not a
 block structured language, you have to work a little to implement the
 block-like nature of C. For example, look at the following C code:
 
@@ -8840,7 +8839,7 @@ reconverge:             # Both branches recoverge to
 ```
 
 As you can see, since assembly language is linear, the blocks have to
-jump around each other. Recovergence is handled by the programmer, not
+jump around each other. Reconvergence is handled by the programmer, not
 the system.
 
 A case statement is written just like a sequence of if statements.
@@ -9563,8 +9562,7 @@ every instruction within every called function.
 
 ---
 
-Let\'s see the differences between `step`, `next` and `until`. The
-intention is not show every output from the GDB. It shows the executed
+Let\'s see the differences between `step`, `next` and `until`. The intention is not to show every output from the GDB. It shows the executed
 functions:
 
 ```{.bash}
@@ -9840,13 +9838,18 @@ Appendix G. Document History {#appendix-g-document-history}
     Chapter 13 with links to the books\' catalog pages. Fixed spelling
     mistakes and duplicated words across the book and the examples.
     Added Appendix K with solutions to the review questions of Chapters
-    2 and 3. The PDF edition is now typeset with Typst instead of LaTeX,
+    2 to 12, with tested example programs. Fixed two bugs in the
+    examples: the memory manager jumped to the wrong label when a
+    region was in use, and two records of `006-01-write-records` had
+    the wrong size. Corrected the description of the bits of a
+    floating-point number in Chapter 10, and grammar mistakes found
+    with LanguageTool. The PDF edition is now typeset with Typst instead of LaTeX,
     and the HTML edition is published with download links for the PDF,
     ePUB and example source code.
 
 -   12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook
     to a Pandoc's Markdown then it will export to ePUB, PDF, HTML and
-    Github Markdown, could be extended to other types of documents. This
+    GitHub Markdown, could be extended to other types of documents. This
     version fixed some minimal details, convert graphical tables to
     ASCII tables, update the links from some broken web sites, minor
     updates was done also extended sub-topics to clarify.
@@ -9871,7 +9874,7 @@ Appendix G. Document History {#appendix-g-document-history}
     beginnings of an appendix of x86 instructions, added the beginnings
     of a GDB appendix, finished out the files chapter, finished out the
     counting chapter, added a records chapter, created a source file of
-    common linux definitions, corrected several errors, and lots of
+    common Linux definitions, corrected several errors, and lots of
     other fixes
 
 -   07/18/2003 - Version 0.6 - Added ASCII appendix, finished the
@@ -10299,7 +10302,7 @@ encouraged me to seek God in everything. Thank you for your support in
 writing this book, and more importantly, for your support in being
 obedient to God.
 
-I also want to thanks the Little Light House school. My entire family is
+I also want to thank the Little Light House school. My entire family is
 continually blessed by the help you give to our son.
 
 I also want to thank Joe and D.A. Thank you for taking a chance on me in
@@ -10316,7 +10319,7 @@ great blessing to me, and I will keep you in my prayers always.
 Appendix J. Updated by AirvZxf
 ==============================
 
-I\'m [Israel Roldan][AJ-IsraelRoldan] and I try to learn the GNU Assembler (`as` or `gas`) and I didn't found many resources but this book is great.
+I\'m [Israel Roldan][AJ-IsraelRoldan] and I try to learn the GNU Assembler (`as` or `gas`) and I didn't find many resources but this book is great.
 
 All the information is in my [GitHub repository][AJ-MyGitHubRepository]. To check the advance on this project and the pending reviews go to the [TO-DO\'s][AJ-MyTodoList] list. I added some script to compile the [source files][AJ-AsmSourceCode], emulating to i386/x86.
 
@@ -10339,11 +10342,11 @@ Motivations
 
 
 [AJ-IsraelRoldan]: https://github.com/airvzxf
-[AJ-MyGitHubRepository]: https://github.com/airvzxf/programming-ground-up-and-under-hood
-[AJ-MyTodoList]: https://github.com/airvzxf/programming-ground-up-and-under-hood/blob/main/TODO.md
+[AJ-MyGitHubRepository]: https://github.com/airvzxf/assembly-from-the-ground-up
+[AJ-MyTodoList]: https://github.com/airvzxf/assembly-from-the-ground-up/blob/main/TODO.md
 [AJ-NASM]: https://nasm.us/
 [AJ-FASM]: https://flatassembler.net/
-[AJ-AsmSourceCode]: https://github.com/airvzxf/programming-ground-up-and-under-hood/tree/main/src/resource/asm
+[AJ-AsmSourceCode]: https://github.com/airvzxf/assembly-from-the-ground-up/tree/main/src/resource/asm
 [AJ-MyBenchmarks]: https://github.com/airvzxf/assembly/tree/master/linux/benchmark/fibonacci/without_print
 [AJ-CBenchmarks]: https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/cpp.html
 [AJ-LinusTorvalds]: https://github.com/torvalds
@@ -10358,11 +10361,19 @@ Appendix K. Solutions to the Review Questions {#appendix-k-solutions-to-the-revi
 =============================================
 
 This appendix was added in this edition. It answers the review questions
-at the end of each chapter. Every program in it is included with the
-examples, in the `resource/asm/` directory, and the build checks the
-exit status of each one. Solutions for Chapters 4 to 13 are still
-pending; you can follow their progress in the [TO-DO\'s][AJ-MyTodoList]
-list.
+at the end of each chapter (Chapter 13 has none). Every program in it is
+included with the examples, in the `resource/asm/` directory: `make.bash`
+assembles and links all of them, and `test.bash` runs each one and
+checks its exit status, its output or the files it creates, so the
+results shown here are the real ones.
+
+Some questions ask you to research a topic, to use a program of your
+own choice, or to contact other people. For those, this appendix gives
+a short answer and a way to start, but the exercise is yours.
+
+To run the programs that read or write `test.dat`, create the file
+first with `006-01-write-records`. The programs that use the C library
+or a shared library are linked as shown in `make.bash`.
 
 Chapter 2. Computer Architecture
 --------------------------------
@@ -10581,13 +10592,13 @@ Chapter 3. Your First Programs
 **Modify the first program to return the value 3.** Only the status code
 in _%ebx_ changes:
 
-```{.gnuassembler .numberLines include=resource/asm/0AK-01-exit-3.s}
+```{.gnuassembler .numberLines include=resource/asm/0AK-03-01-exit-3.s}
 ```
 
 ```bash
-as -o 0AK-01-exit-3.o --32 0AK-01-exit-3.s
-ld -o 0AK-01-exit-3 -m elf_i386 0AK-01-exit-3.o
-./0AK-01-exit-3
+as -o 0AK-03-01-exit-3.o --32 0AK-03-01-exit-3.s
+ld -o 0AK-03-01-exit-3 -m elf_i386 0AK-03-01-exit-3.o
+./0AK-03-01-exit-3
 echo $?
 ```
 
@@ -10600,7 +10611,7 @@ that doesn\'t matter, because 0 is never bigger than the maximum, but
 for the minimum the 0 would always win. The solution checks for the end
 of the list right after loading each item:
 
-```{.gnuassembler .numberLines include=resource/asm/0AK-02-minimum.s}
+```{.gnuassembler .numberLines include=resource/asm/0AK-03-02-minimum.s}
 ```
 
 It returns `3`.
@@ -10610,7 +10621,7 @@ list rather than the number 0.** The same issue appears here: 255 is
 bigger than every item, so the end of the list has to be checked before
 the comparison. As a bonus, 0 is now a valid item:
 
-```{.gnuassembler .numberLines include=resource/asm/0AK-03-maximum-255.s}
+```{.gnuassembler .numberLines include=resource/asm/0AK-03-03-maximum-255.s}
 ```
 
 It returns `125`.
@@ -10620,7 +10631,7 @@ than the number 0 to know when to stop.** The label `data_end` marks the
 first address after the list. The program walks the list with a pointer
 in _%ecx_ (indirect addressing) and stops when it reaches `data_end`:
 
-```{.gnuassembler .numberLines include=resource/asm/0AK-04-maximum-end-address.s}
+```{.gnuassembler .numberLines include=resource/asm/0AK-03-04-maximum-end-address.s}
 ```
 
 It returns `222`.
@@ -10629,7 +10640,7 @@ It returns `222`.
 the number 0 to know when to stop.** The number of items is stored in
 `data_length`, and the loop stops when the index reaches it:
 
-```{.gnuassembler .numberLines include=resource/asm/0AK-05-maximum-length.s}
+```{.gnuassembler .numberLines include=resource/asm/0AK-03-05-maximum-length.s}
 ```
 
 It returns `222`.
@@ -10648,13 +10659,13 @@ bytes `bf 00 00 00 00`, so _%eax_ would get `0x000000bf` (191).
 **Modify the first program to leave off the `int` instruction line.
 What error message do you get? Why?**
 
-```{.gnuassembler .numberLines include=resource/asm/0AK-06-exit-without-int.s}
+```{.gnuassembler .numberLines include=resource/asm/0AK-03-06-exit-without-int.s}
 ```
 
 ```bash
-as -o 0AK-06-exit-without-int.o --32 0AK-06-exit-without-int.s
-ld -o 0AK-06-exit-without-int -m elf_i386 0AK-06-exit-without-int.o
-./0AK-06-exit-without-int
+as -o 0AK-03-06-exit-without-int.o --32 0AK-03-06-exit-without-int.s
+ld -o 0AK-03-06-exit-without-int -m elf_i386 0AK-03-06-exit-without-int.o
+./0AK-03-06-exit-without-int
 echo $?
 ```
 
@@ -10683,3 +10694,1011 @@ use if you knew that the list was sorted?** It depends on the data:
     With a length count (or an ending address) you can jump straight to
     the last item: `data_items + (length - 1) × 4`. With a terminating
     number you would still have to walk the whole list to find the end.
+
+Chapter 4. All About Functions
+------------------------------
+
+### Know the Concepts
+
+-   **What are primitives?** The basic operations that a language or a
+    system provides directly, from which everything else is built. In
+    assembly language, the primitives are the processor instructions
+    and the system calls.
+
+-   **What are calling conventions?** The rules that a function and
+    its caller agree on: how parameters are passed (on the stack, in
+    reverse order), where the return value goes (_%eax_), which
+    registers the function may change, and who removes the parameters
+    from the stack (the caller).
+
+-   **What is the stack?** A region at the top of memory that grows
+    down, used to store data in last-in, first-out order: return
+    addresses, parameters, saved registers and local variables.
+    _%esp_ always points to its top.
+
+-   **How do `pushl` and `popl` affect the stack? What special-purpose
+    register do they affect?** `pushl` subtracts 4 from _%esp_ and
+    stores the value at the new top; `popl` reads the value at the top
+    and adds 4 to _%esp_. Both change the stack pointer, _%esp_.
+
+-   **What are local variables and what are they used for?** Variables
+    that exist only while a function runs, stored in the function\'s
+    stack frame below _%ebp_. They hold the function\'s intermediate
+    results without touching the data of the rest of the program.
+
+-   **Why are local variables so necessary in recursive functions?**
+    Because each call needs its own copy of its data. If a recursive
+    function used global variables, each new call would overwrite the
+    values of the calls still waiting for it to return.
+
+-   **What are _%ebp_ and _%esp_ used for?** _%esp_ points to the top
+    of the stack. _%ebp_ (the base pointer) is set to the value of
+    _%esp_ when a function starts, and stays fixed while the function
+    runs, so parameters (`8(%ebp)`, `12(%ebp)`, \...) and local
+    variables (`-4(%ebp)`, \...) are always at the same offsets.
+
+-   **What is a stack frame?** The part of the stack that belongs to
+    one function call: its parameters, the return address, the saved
+    _%ebp_ of the caller and its local variables.
+
+### Use the Concepts
+
+**Write a function called `square` and a program to test it.** The
+function multiplies its argument by itself with `imull`:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-04-01-square.s}
+```
+
+It returns `144`.
+
+**Convert the maximum program into a function, and call it with 3
+different lists.** The function receives the address of the list in
+its parameter, and walks the list with indirect addressing:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-04-02-maximum-function.s}
+```
+
+It returns `99`, the maximum of the third list.
+
+**Explain the problems that would arise without a standard calling
+convention.** Every function could expect its parameters in different
+places, return its result in a different register and destroy
+different registers. You would have to read the code of every function
+before calling it, functions written by different people (or in
+different languages, or in libraries) couldn\'t call each other, and
+any change in one function could break all its callers.
+
+### Going Further
+
+-   **Is it better to have a large set of primitives or a small one?**
+    A small set is easier to learn, to implement and to make correct
+    and fast; a large set makes programs shorter and lets each
+    operation be optimized on its own. Most systems choose a small set
+    of primitives plus libraries built on top of them, which gives
+    most of the benefits of both.
+
+-   **Write the factorial function non-recursively.** A loop multiplies
+    the result by `n`, `n - 1`, \..., `2`:
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-04-03-factorial-loop.s}
+    ```
+
+    It returns `120`. It uses no stack space per step, so it can\'t
+    run out of stack for large numbers (although the result overflows
+    32 bits after 12!).
+
+-   **Break a feature of an application into functions.** This
+    exercise is yours. As an example, the "save file" feature of a text
+    editor could be: `choose_file_name(suggested) -> name`,
+    `serialize(document) -> bytes`, `write_file(name, bytes) -> status`
+    and `report_error(status)`.
+
+-   **Come up with your own calling convention.** This program passes
+    the parameters in registers instead of the stack:
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-04-04-power-registers.s}
+    ```
+
+    It returns `33`, the same as `004-01-power`.
+
+-   **Can you build a calling convention without using the stack?**
+    Yes, for example with registers (as above) or with a fixed memory
+    area for each function. The limitations: there are only a few
+    registers, so the number of parameters is limited; the caller must
+    save any register it still needs; and, above all, recursion doesn\'t
+    work without extra work, because a function can only store one
+    return address and one set of parameters at a time.
+
+-   **What test cases should we use for the example program?** The
+    simplest cases (`power(2, 0)` = 1, `power(0, 3)` = 0,
+    `power(1, 5)` = 1), normal cases with known answers
+    (`power(2, 3)` = 8), and the limits: results that don\'t fit in 32
+    bits, or in the 8 bits of the exit status (`power(2, 8)` = 256
+    returns 0). Also check what happens with a negative power, which
+    this function doesn\'t support.
+
+    These tests find a real bug: `_power` stops when the power reaches
+    1, so with a power of 0 it counts down past 0, wraps around and
+    loops about four billion times. Changing the program to compute
+    `power(2, 0) + power(5, 0)` takes several seconds and returns 1
+    instead of 2. The register version above checks for 0 at the start
+    of the loop, so it returns 1 for any number to the power 0.
+
+Chapter 5. Dealing with Files
+-----------------------------
+
+### Know the Concepts
+
+-   **Describe the lifecycle of a file descriptor.** The program asks
+    Linux to open a file with the `open` system call, and Linux returns
+    a file descriptor, a small number that identifies the open file.
+    The program uses that number with `read` and `write` as many times
+    as it needs, and finally gives it back with `close`. After that,
+    the number is no longer valid and may be reused by the next
+    `open`.
+
+-   **What are the standard file descriptors and what are they used
+    for?** Every program starts with three open file descriptors:
+    `STDIN` (0) for input, usually the keyboard; `STDOUT` (1) for
+    normal output, usually the screen; and `STDERR` (2) for error
+    messages, also the screen by default. The shell can redirect any
+    of them to files or pipes.
+
+-   **What is a buffer?** A block of memory used to hold data
+    temporarily, for example the data read from a file before it is
+    processed.
+
+-   **What is the difference between the `.data` section and the
+    `.bss` section?** Both hold data, but `.data` stores initial values
+    in the executable file, while `.bss` only reserves space, which is
+    filled with zeros when the program starts. Large buffers go in
+    `.bss`, so they don\'t make the executable bigger.
+
+-   **What are the system calls related to reading and writing
+    files?** `open` (5), `read` (3), `write` (4) and `close` (6).
+
+### Use the Concepts
+
+All these programs use the `_convert_to_upper` function of
+`005-01-toupper`, moved to its own file, `0AK-05-00-convert-to-upper.s`,
+so each one can link it:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-05-00-convert-to-upper.s}
+```
+
+**Read from STDIN and write to STDOUT.** The program doesn\'t open or
+close anything, because Linux already opened file descriptors 0 and 1:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-05-01-toupper-stdio.s}
+```
+
+```bash
+echo "Hey, diddle 123!" | ./0AK-05-01-toupper-stdio
+```
+
+It prints `HEY, DIDDLE 123!`.
+
+**Change the size of the buffer** and **use storage in the `.bss`
+section to store the file descriptors.** This version keeps the file
+descriptors in `.bss` with `.lcomm`, and uses a buffer of only 16
+bytes. The result is the same; only the number of `read` and `write`
+calls changes:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-05-02-toupper-bss.s}
+```
+
+**Create a file called `heynow.txt` with the words "Hey diddle
+diddle!".** `open` with the flags `03101` creates the file (or empties
+it if it already exists):
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-05-03-heynow.s}
+```
+
+### Going Further
+
+-   **What difference does the size of the buffer make?** A bigger
+    buffer means fewer system calls, and each system call is slow
+    compared with normal instructions, so the program runs faster, up
+    to a point (a few kilobytes is usually enough). The cost is memory.
+    A buffer of 1 byte works, but makes one `read` and one `write`
+    for every character.
+
+-   **What error results can be returned by each of these system
+    calls?** On failure, the system calls return a negative number,
+    the error code with a minus sign. Some common ones (see
+    `man 2 open`, `man 2 read`, \...):
+
+    -   `open`: `ENOENT` (2, the file doesn\'t exist), `EACCES` (13,
+        no permission), `EISDIR` (21, it is a directory), `EMFILE`
+        (24, too many open files), `ENOSPC` (28, the disk is full).
+    -   `read`: `EBADF` (9, bad file descriptor), `EFAULT` (14, the
+        buffer is outside the program\'s memory), `EISDIR`, `EIO`
+        (5, hardware error).
+    -   `write`: `EBADF`, `EFAULT`, `ENOSPC`, `EPIPE` (32, the other
+        end of the pipe was closed).
+    -   `close`: `EBADF`, `EIO`.
+
+-   **Use the command-line arguments or STDIN and STDOUT, based on
+    ARGC,** and **check the result of each system call.** This program
+    does both. The messages go to `STDERR` instead of `STDOUT`, so that
+    they are never mixed with the converted text:
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-05-04-toupper-checked.s}
+    ```
+
+    ```bash
+    ./0AK-05-04-toupper-checked /no/such/file out.txt
+    ```
+
+    It prints `Error: can't open input file` and exits with status 1.
+
+Chapter 6. Reading and Writing Simple Records
+---------------------------------------------
+
+A correction first. The data of `006-01-write-records.s` had two
+addresses shorter than in the original book (`"Chicago, IL"` instead of
+`"Chicago, IL 12345"`, and `"500 Oakland"` instead of `"500 W Oakland"`),
+so the second and third records were not 324 bytes long and their ages
+were not where `RECORD_AGE` says. The programs that only print the
+names worked, but any program that reads the ages got garbage. The file
+is fixed in this edition, and the ages of `test.dat` are now 45, 29 and
+36.
+
+### Know the Concepts
+
+-   **What is a record?** A group of related data items stored
+    together and handled as one unit, such as the first name, last
+    name, address and age of a person.
+
+-   **What is the advantage of fixed-length records over
+    variable-length records?** Every field is at the same offset in
+    every record, and every record has the same size. This makes them
+    simple to read and write, and you can jump directly to record
+    number `n` at position `n × RECORD_SIZE`. The cost is wasted space
+    when the data is shorter than its field, and a hard limit when it
+    is longer.
+
+-   **How do you include constants in multiple assembly source files?**
+    Put the `.equ` definitions in one file and add
+    `.include "file.s"` to every source file that needs them.
+
+-   **Why might you want to split up a project into multiple source
+    files?** To reuse functions in several programs, to keep each file
+    small and focused, to let several people work at the same time,
+    and to reassemble only the files that changed.
+
+-   **What does the instruction `incl record_buffer + RECORD_AGE` do?**
+    It adds 1 to the 4-byte number stored at the address
+    `record_buffer + RECORD_AGE`, which is the age of the record in
+    the buffer. It uses direct addressing, with a single operand. The
+    assembler (and the linker) compute the address
+    `record_buffer + 320` once, before the program runs; when the
+    program runs, the processor only reads that memory location,
+    increments it and writes it back.
+
+### Use the Concepts
+
+**Add another data member to the person structure.** This version adds
+a 20-byte phone number after the age, so `RECORD_SIZE` changes from 324
+to 344:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-06-01-record-def.s}
+```
+
+`_read_record` and `_write_record` use `RECORD_SIZE`, so they must be
+reassembled with the new definition. Their code doesn\'t change:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-06-01-record-io.s}
+```
+
+The programs that write and read the records now handle the phone
+number. `.space N` reserves `N` zero bytes, which is shorter than
+`.rept`:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-06-01-write-records.s}
+```
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-06-01-read-records.s}
+```
+
+```bash
+./0AK-06-01-write-records
+./0AK-06-01-read-records
+```
+
+It prints:
+
+```
+Fredrick: 555-0100
+Marilyn: 555-0199
+```
+
+**Write 30 identical records to a file with a loop.** _%edi_ counts
+down from 30; `decl` sets the zero flag when it reaches 0, so `jnz`
+needs no `cmpl`:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-06-02-write-30-records.s}
+```
+
+The file `test30.dat` is 9720 bytes long (30 × 324).
+
+**Find the largest age** and **the smallest age in the file.** Both
+programs are the same except for the conditional jump. The first record
+is always taken as the largest (or smallest) so far:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-06-03-max-age.s}
+```
+
+The minimum program only changes `jle` to `jge` (see
+`0AK-06-04-min-age.s`). With the `test.dat` of `006-01-write-records`,
+they return `45` and `29`.
+
+### Going Further
+
+-   **Use command-line arguments to specify the filenames.** As in
+    Chapter 5, the arguments are on the stack when the program starts:
+    `8(%ebp)` is the address of the first filename and `12(%ebp)` the
+    address of the second (after `movl %esp, %ebp`). Use them instead of
+    `$file_name` in the `open` calls, and check `ARGC` (`0(%ebp)`)
+    first. See `0AK-05-04-toupper-checked.s`.
+
+-   **Use `lseek` to write the modified records back to the same
+    file.** After reading a record, `lseek` moves the file offset back
+    one record, so the write replaces it:
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-06-05-add-year-in-place.s}
+    ```
+
+    After running it on `test.dat`, the largest and smallest ages are
+    46 and 30, and the file size doesn\'t change.
+
+-   **Check _%eax_ for error conditions and write a message to
+    `STDERR`.** See the solution for Chapter 7, which does this for
+    every system call of `007-01-add-year.s`.
+
+-   **Add a single record by reading the data from the keyboard.** This
+    exercise is yours. A way to do it: clear a `RECORD_SIZE` buffer to
+    zeros, `read` from `STDIN` into each field (at most its size minus
+    one byte, so a null byte always remains at the end), replace the
+    final newline with a null byte, store a default age, open the file
+    with `O_WRONLY | O_APPEND` (`02001`) and write the record. The
+    user signals the end of each field with Enter, or of the input with
+    Ctrl+D (end of file).
+
+-   **Write `compare-strings` and return the records whose first name
+    starts with 5 characters typed by the user.** The function compares
+    up to 5 characters and stops at the end of the first string, so it
+    also works with shorter prefixes:
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-06-06-compare-strings.s}
+    ```
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-06-07-find-records.s}
+    ```
+
+    `echo Mar | ./0AK-06-07-find-records` prints `Marilyn`, and
+    `echo Fredrickson | ./0AK-06-07-find-records` prints `Fredrick`,
+    because only the first 5 characters are read.
+
+Chapter 7. Developing Robust Programs
+-------------------------------------
+
+### Know the Concepts
+
+-   **What are the reasons programmers have trouble with scheduling?**
+    They estimate the time to write the code for the normal case, but
+    most of the work is in the rest: handling errors and unusual input,
+    testing, fixing the bugs that testing finds, and requirements that
+    change or were misunderstood.
+
+-   **Use your favorite program in a completely wrong manner and count
+    the error scenarios.** This exercise is yours. Try files of the
+    wrong type, empty and huge files, names with spaces or accents,
+    invalid options, a full disk, no network, and closing windows at
+    the wrong moment.
+
+-   **What are corner cases? Numeric examples?** Inputs at the limits
+    of what a program accepts, where bugs tend to hide. Numeric
+    examples: 0, 1, -1, the largest and smallest values that fit in a
+    register (2147483647 and -2147483648 for a signed 32-bit number,
+    4294967295 for an unsigned one), the values just past each limit,
+    and, for lists, an empty list and a list of one item.
+
+-   **Why is user testing so important?** Users do things the
+    programmer never imagined, so they find the errors that the
+    programmer\'s own tests can\'t, and they show whether the program
+    is really usable.
+
+-   **What are stubs and drivers used for? What\'s the difference?**
+    Both let you test one part of a program alone. A *driver* is a
+    small program that calls the function you are testing with known
+    inputs and checks the results. A *stub* replaces a function that
+    the tested code calls but that isn\'t written yet (or that you
+    want to control), returning fixed values.
+
+-   **What are recovery points used for?** They are places in the
+    program where it can go back to a known good state after an error,
+    and either try another way or report the problem cleanly, instead
+    of handling every error everywhere.
+
+-   **How many different error codes should a program have?** As many
+    as there are different errors that the user or another program
+    needs to tell apart, and no more. Each code should identify where
+    the error happened, and come with a message that says what to do.
+
+### Use the Concepts
+
+**Add error checking after every system call of `007-01-add-year.s`**,
+and **read from STDIN if it can\'t open the file.** Every result is
+checked: a negative value is an error, and a read that returns part of
+a record means a damaged file. Opening `test.dat` is a recovery point:
+if it fails, the program warns the user and reads from `STDIN`:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-07-01-add-year-robust.s}
+```
+
+```bash
+./006-01-write-records
+mv test.dat input.dat
+./0AK-07-01-add-year-robust < input.dat
+```
+
+It prints `Warning: can't open test.dat, reading STDIN` and writes
+the records with the ages 46, 30 and 37 to `testout.dat`. With a
+damaged `test.dat` it prints `0004: Incomplete Record.` and exits with
+status 1.
+
+**Add error checking to one other program.** See
+`0AK-05-04-toupper-checked.s` in the Chapter 5 solutions.
+
+### Going Further
+
+-   **What should you do if your error-reporting function fails?**
+    Almost nothing: exit with an error status code. Trying to report
+    the new error with the same function could fail again, or loop
+    forever. The exit status still tells the caller that something went
+    wrong.
+
+-   **Find a bug in an open-source program and file a bug report**, and
+    **try to fix it.** This exercise is yours. A good report says what
+    you did, what you expected, what happened instead, and the
+    versions you used, with the smallest example that shows the bug.
+    Look for projects that label issues as "good first issue".
+
+Chapter 8. Sharing Functions with Code Libraries
+------------------------------------------------
+
+### Know the Concepts
+
+-   **What are the advantages and disadvantages of shared libraries?**
+    Advantages: programs are smaller, the code is in memory only once
+    for all the programs that use it, and fixing a bug in the library
+    fixes it in every program. Disadvantages: the program depends on
+    the right version of the library being installed, a change in the
+    library can break programs, and loading and linking at run time
+    takes a little time.
+
+-   **Given a library named \'foo\', what would the library\'s filename
+    be?** `libfoo.so` (and `libfoo.a` for a static library).
+
+-   **What does the `ldd` command do?** It lists the shared libraries
+    that an executable needs, and where the dynamic linker would find
+    each one.
+
+-   **How would you link `foo.o` and `bar.o` with the library
+    \'kramer\'?**
+
+    ```bash
+    ld -m elf_i386 -o program foo.o bar.o -l kramer \
+      -dynamic-linker /usr/lib32/ld-linux.so.2
+    ```
+
+-   **What is *typedef* for?** It gives a new name to a C type, for
+    example `typedef int myowntype;`. It doesn\'t create a new type;
+    it makes declarations shorter and easier to read.
+
+-   **What are *struct*s for?** They group several variables into one
+    record, like the person records of Chapter 6. In assembly language,
+    a struct is a block of memory and each member is at a fixed offset.
+
+-   **What is the difference between *int* and *int \**?** An *int*
+    holds a number. An *int \** holds the address of a number. To use
+    an *int*, you read the memory where it is (`movl value, %eax`). To
+    use the number an *int \** points to, you read the pointer first,
+    and then read the memory at that address
+    (`movl pointer, %ebx` and `movl (%ebx), %eax`).
+
+-   **What would be the command to create a shared library called
+    \'bar\' from `foo.o`?**
+
+    ```bash
+    ld -shared -m elf_i386 -o libbar.so foo.o
+    ```
+
+-   **What is the purpose of LD_LIBRARY_PATH?** It is a list of extra
+    directories where the dynamic linker looks for shared libraries,
+    before the standard ones, for example to use libraries that are not
+    installed in the system.
+
+### Use the Concepts
+
+**Make a shared library with the `_factorial` function, link the main
+program with it dynamically, also link it with the C library, and
+display the result with `printf`, with an exit status of 0.** First,
+the library:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-08-01-factorial-lib.s}
+```
+
+Then the program, which calls `_factorial` from the library and
+`printf` and `exit` from the C library:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-08-02-factorial-printf.s}
+```
+
+```bash
+as --32 -o 0AK-08-01-factorial-lib.o 0AK-08-01-factorial-lib.s
+ld -shared -m elf_i386 -o libfactorial.so \
+  0AK-08-01-factorial-lib.o
+as --32 -o 0AK-08-02-factorial-printf.o \
+  0AK-08-02-factorial-printf.s
+ld -m elf_i386 -o 0AK-08-02-factorial-printf \
+  0AK-08-02-factorial-printf.o -L . -l factorial -l c \
+  -dynamic-linker /usr/lib32/ld-linux.so.2
+LD_LIBRARY_PATH=. ./0AK-08-02-factorial-printf
+```
+
+It prints `The factorial of 5 is 120.` and exits with status 0.
+
+**Rewrite `005-01-toupper` with the C library file functions.**
+`fopen`, `fread`, `fwrite` and `fclose` replace the system calls. They
+return a `FILE` pointer (or `NULL`) and the number of items
+transferred:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-08-03-toupper-libc.s}
+```
+
+### Going Further
+
+-   **List the environment variables used by the dynamic linker.** The
+    complete list is in `man 8 ld.so`. The most used are
+    `LD_LIBRARY_PATH` (extra directories for libraries), `LD_PRELOAD`
+    (libraries to load before all others), `LD_BIND_NOW` (resolve all
+    symbols at start-up), `LD_DEBUG` (print what the linker does, for
+    example `LD_DEBUG=libs`), `LD_SHOW_AUXV`, `LD_TRACE_LOADED_OBJECTS`
+    (what `ldd` uses) and `LD_AUDIT`.
+
+-   **Research executable file formats.** Some important ones: a.out
+    (the original UNIX format: simple, but hard to use with shared
+    libraries), COFF (more flexible, used by older UNIX systems and as
+    the base of Windows\' format), ELF (Linux and most UNIX systems
+    today: extensible, with good support for shared libraries and many
+    architectures), PE/COFF (Windows), Mach-O (macOS and iOS, with
+    support for several architectures in one file), and DOS `.COM`
+    files (just the raw code, limited to 64 KB, with no header at all).
+
+-   **Find a library for an area you are interested in and use it.**
+    This exercise is yours. The GNOME example in Appendix A shows how
+    to call a graphics library from assembly language.
+
+-   **Use `LD_PRELOAD` with a library that contains the `exit`
+    function.** With `LD_PRELOAD`, the dynamic linker loads the library
+    before all the others, so its `exit` is found first and replaces
+    the one in the C library:
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-08-04-exit-message.s}
+    ```
+
+    ```bash
+    LD_PRELOAD=./libexitmsg.so ./008-02-printf-example
+    ```
+
+    In a terminal it prints `Hi! Jonathan is the person number #3.`
+    and then `exit() called: bye!`. When the output goes to a pipe or a
+    file, only the second line appears: the C library keeps the text of
+    `printf` in a buffer, and the real `exit` writes that buffer before
+    ending the program, but this `exit` doesn\'t. Programs that don\'t
+    call `exit` (such as the ones that use the system call directly)
+    are not affected, and 64-bit programs ignore this 32-bit library.
+
+Chapter 9. Intermediate Memory Topics
+-------------------------------------
+
+A correction first. In `009-02-alloc.s`, the check for regions that are
+in use jumped to `_allocate_init` instead of to the next region, as the
+original book does. With that bug, a program that allocated memory
+three times crashed with a segmentation fault. It is fixed in this
+edition.
+
+### Know the Concepts
+
+-   **Describe the layout of memory when a Linux program starts.** In
+    this book\'s 32-bit programs: the code (`.text`) starts at address
+    `0x08048000` or a little above it, followed by the initialized data
+    (`.data`) and the zeroed data (`.bss`). The current break marks the
+    end of the program\'s data. At the top of memory, below the
+    kernel\'s area, is the stack, which holds the environment
+    variables, the command-line arguments and `ARGC` when the program
+    starts. Everything between the break and the stack is unmapped.
+
+-   **What is the heap?** The memory after the end of the `.bss`
+    section that a program requests at run time (with `brk`) to store
+    data whose size isn\'t known in advance.
+
+-   **What is the current break?** The address just after the last
+    byte of the program\'s data memory. Memory beyond it is unmapped
+    until the program moves the break up with the `brk` system call.
+
+-   **Which direction does the stack grow in?** Down, towards lower
+    addresses.
+
+-   **Which direction does the heap grow in?** Up, towards higher
+    addresses.
+
+-   **What happens when you access unmapped memory?** The processor
+    can\'t translate the address, so it raises a page fault, and Linux
+    stops the program with a segmentation fault (`SIGSEGV`).
+
+-   **How does the operating system prevent processes from writing over
+    each other\'s memory?** With virtual memory. Each process has its
+    own table that maps its virtual addresses to physical memory, so
+    the same address in two processes points to different physical
+    memory, and a process has no way to name the memory of another one.
+
+-   **Describe what happens if a piece of memory you are using is
+    currently on disk.** The processor finds that the page is not in
+    physical memory and raises a page fault. Linux suspends the
+    process, finds a free page of physical memory (writing another page
+    to disk if needed), reads the page from the disk into it, updates
+    the page table and resumes the process at the same instruction,
+    which now works. The program doesn\'t notice anything, except that
+    it was slower.
+
+-   **Why do you need an allocator?** Because programs need memory of
+    sizes they only know at run time, and they need to give it back and
+    reuse it. Calling `brk` for every request would be slow and
+    couldn\'t reuse memory that is freed in the middle of the heap. The
+    allocator keeps track of which parts are free.
+
+### Use the Concepts
+
+**Make the memory manager initialize itself** and **break up regions
+that are bigger than needed.** `_allocate` now calls `_allocate_init`
+when `heap_begin` is still 0. When the chosen free region is bigger
+than the request plus a new header (plus a minimum of 8 bytes), it is
+split, and the rest becomes a new free region with its own header:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-09-01-alloc.s}
+```
+
+This test program checks that allocations don\'t overlap, that freed
+memory is reused, and that regions are split:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-09-02-alloc-test.s}
+```
+
+Linked with `0AK-09-01-alloc.o` it returns `0`; linked with the
+book\'s `009-02-alloc.o` it returns `4`, because the second request of
+40 bytes doesn\'t fit in what is left of the region. The program
+`0AK-09-03-alloc-auto-init.s` allocates memory without calling
+`_allocate_init`, writes 42 to it and returns that value.
+
+**Use the memory manager to get buffer memory instead of the
+`.bss`.** The book already does this in `009-02-read-records.s`, which
+gets the record buffer with `_allocate`. The same change works for the
+buffer of `005-01-toupper`: call `_allocate` with `BUFFER_SIZE` at the
+start, keep the returned address in a register or a local variable,
+use it instead of `$BUFFER_DATA`, and call `_deallocate` at the end.
+
+### Going Further
+
+-   **Research garbage collection.** A garbage collector finds the
+    memory that the program can no longer reach and frees it
+    automatically. Advantages: no forgotten frees (memory leaks), no
+    use of memory after it was freed, and simpler code. Disadvantages:
+    it uses extra memory and processor time, it may pause the program
+    at unpredictable moments, and the program doesn\'t control when
+    memory is released.
+
+-   **Research reference counting.** Each block keeps a count of the
+    pointers to it, and is freed when the count reaches 0. Advantages:
+    memory is released as soon as it is no longer used, at predictable
+    times, with no long pauses. Disadvantages: every pointer copy has
+    to update the count, the count uses memory, and blocks that point
+    to each other (cycles) are never freed.
+
+-   **Rename the functions to `malloc` and `free`, build them into a
+    shared library and use it with `LD_PRELOAD`.** This exercise is
+    yours, and it is harder than it looks. Besides the names, the C
+    library expects `calloc`, `realloc` and `free(NULL)` to work, and
+    `malloc` to return memory aligned to 16 bytes on 32-bit Linux; it
+    may also call `malloc` before your library is ready. Programs that
+    use `brk` themselves, or other threads, would corrupt this simple
+    heap. Start with a small 32-bit C program of your own that only
+    calls `malloc` and `free`, and use the technique of
+    `0AK-08-04-exit-message.s` to reach your data from a shared
+    library.
+
+Chapter 10. Counting Like a Computer
+------------------------------------
+
+### Know the Concepts
+
+-   **Convert the decimal number 5,294 to binary.**
+    **1010010101110**.
+
+-   **What number does 0x0234aeff represent?** In binary
+    **0000 0010 0011 0100 1010 1110 1111 1111**, in octal
+    **0215127377** and in decimal **37007103**.
+
+-   **Add the binary numbers 10111001 and 101011.** **11100100**.
+
+-   **Multiply the binary numbers 1100 and 1010110.** **10000001000**.
+
+-   **Convert the results of the previous two problems into decimal.**
+    185 + 43 = **228**, and 12 × 86 = **1032**.
+
+-   **Describe how AND, OR, NOT, and XOR work.** They work bit by bit.
+    AND gives 1 only if both bits are 1. OR gives 1 if at least one bit
+    is 1. NOT inverts each bit of a single value. XOR gives 1 if the
+    two bits are different.
+
+-   **What is masking for?** To select some bits of a value and ignore
+    the rest: AND with a mask keeps only the bits that are 1 in the
+    mask, OR with a mask sets them, and XOR inverts them.
+
+-   **What flags would you use for `open` to write a file, creating it
+    if it doesn\'t exist?** `O_WRONLY | O_CREAT`, which is **0101** in
+    octal (65 in decimal). Add `O_TRUNC` (01000) to also empty an
+    existing file: `01101`.
+
+-   **How would you represent -55 in a thirty-two bit register?** In
+    two\'s complement: **0xFFFFFFC9**, that is
+    1111 1111 1111 1111 1111 1111 1100 1001.
+
+-   **Sign-extend the previous quantity into a 64-bit register.** Copy
+    the sign bit (1) into all the new bits: **0xFFFFFFFFFFFFFFC9**.
+
+-   **Describe the difference between little-endian and big-endian
+    storage of words.** Little-endian processors, like x86, store the
+    least significant byte of a word at the lowest address; big-endian
+    processors store the most significant byte first. The number
+    0x12345678 is stored as the bytes `78 56 34 12` on x86 and as
+    `12 34 56 78` on a big-endian machine.
+
+### Use the Concepts
+
+**Make the conversion base a parameter, and support bases greater than
+10.** This version of `_integer2string` takes the base as its third
+parameter and uses a table of digits, so bases from 2 to 36 work. It
+also returns the length of the text in _%eax_ and preserves the
+registers that the calling convention says it must, which the book\'s
+version doesn\'t do with _%edi_:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-10-01-integer2string-base.s}
+```
+
+**Print the results of previous programs instead of returning them in
+the exit status**, and **return results in octal.** This program prints
+the factorial of 5, the factorial of 10 (which doesn\'t fit in an exit
+status code) and 255 in octal, hexadecimal, binary and base 36:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-10-02-print-numbers.s}
+```
+
+It prints:
+
+```
+120
+3628800
+377
+ff
+11111111
+73
+```
+
+**Write a function called `_is_negative`.** The sign bit is bit 31, so
+shifting the number 31 places to the right leaves 1 for negative
+numbers and 0 for the rest:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-10-03-is-negative.s}
+```
+
+It returns `100`.
+
+### Going Further
+
+-   **Bases greater than 10.** See `0AK-10-01-integer2string-base.s`
+    above.
+
+-   **Write `_number2integer`**, and **read a number from STDIN and
+    convert it.** The function multiplies the result by 10 and adds
+    each digit, until it finds a character that is not a digit. It
+    accepts a minus sign. The program prints the result back with
+    `_integer2string_base`, to check it:
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-10-04-number2integer.s}
+    ```
+
+    `echo -0042 | ./0AK-10-04-number2integer` prints `-42`, and the
+    limits `2147483647` and `-2147483648` come back unchanged.
+
+-   **Store likes and dislikes in a single machine word and compare
+    two of them.** The low 16 bits are the likes and the high 16 bits
+    the dislikes. An AND of the two words keeps what they have in
+    common:
+
+    ```{.gnuassembler .numberLines include=resource/asm/0AK-10-05-likes.s}
+    ```
+
+    It returns `21`: two shared likes and one shared dislike.
+
+Chapter 11. High-Level Languages
+--------------------------------
+
+### Know the Concepts
+
+-   **What is the difference between an interpreted language and a
+    compiled language?** A compiled language is translated into machine
+    code before it runs, once, and the result runs directly on the
+    processor. An interpreted language is read and executed by another
+    program, the interpreter, every time it runs. Compiled programs are
+    usually faster; interpreted programs are easier to change and run
+    on any machine that has the interpreter. Many modern languages are
+    in between: they compile to a bytecode that an interpreter or a
+    just-in-time compiler runs.
+
+-   **What reasons might cause you to need to learn a new programming
+    language?** A new job or project that already uses it, a platform
+    that requires it (web browsers, mobile devices), a problem that
+    another language solves much better, the libraries available, or
+    just to learn new ways of thinking about problems.
+
+### Use the Concepts
+
+-   **Re-code one of the programs in another language.** Here is the
+    maximum program of Chapter 3 in C and in Python:
+
+    ```{.c .numberLines include=resource/asm/0AK-11-01-maximum.c}
+    ```
+
+    ```{.python .numberLines include=resource/asm/0AK-11-01-maximum.py}
+    ```
+
+    Both return `222`, like `003-02-maximum`.
+
+-   **What was automated?** In C: the registers (the compiler chooses
+    them), the stack frame, the loop structure and the comparisons, and
+    the program\'s start and exit (the C library calls `main` and
+    passes its return value to `exit`). In Python, also the type and
+    size of each value, the length of the list (no terminating 0), the
+    search for the maximum (`max`), and the memory management.
+
+-   **Run each program 10,000 times and compare with `time`.** Measure
+    it yourself, because the numbers depend on the machine. For
+    example:
+
+    ```bash
+    time (for i in $(seq 10000); do ./003-02-maximum; done)
+    time (for i in $(seq 10000); do python3 0AK-11-01-maximum.py; done)
+    ```
+
+    The assembly language version should come out ahead, and the Python
+    version far behind. With such a small list, almost all the time is
+    spent starting each process: the assembly program is tiny and makes
+    a single system call, a C program also loads the C library, and
+    Python has to start the whole interpreter before running one line.
+
+-   **How do the input/output methods of the language differ from the
+    Linux system calls?** They are built on top of the same system
+    calls, but they add buffering (fewer system calls), formatting
+    (`printf` converts numbers to text), conversion between text
+    encodings, error reporting with exceptions or special values
+    instead of negative numbers, and the same interface on every
+    operating system.
+
+### Going Further
+
+-   **Why did this book start with a language as verbose as assembly
+    language?** Because it shows what the computer really does. After
+    writing the loops, the stack frames and the system calls by hand,
+    you understand what a high-level language does for you and what it
+    costs, and you can reason about performance and debug problems
+    that are invisible from the high-level code.
+
+-   **How have high-level languages affected the process of
+    programming?** Programs can be written much faster, are shorter,
+    easier to read and to move to other machines, and whole classes of
+    errors disappear (such as memory errors in languages that manage
+    memory). This made much larger programs possible. The cost is less
+    control and some performance.
+
+-   **Why do so many languages exist?** Because they are designed for
+    different problems (systems, web, data, scientific computing),
+    different trade-offs (speed versus safety versus convenience),
+    different ways of thinking (procedural, object-oriented,
+    functional, logic), and because of history and the communities
+    around them.
+
+-   **Learn two new high level languages and compare them.** This
+    exercise is yours. For a strong contrast, try one compiled systems
+    language (such as C or Rust) and one dynamic language (such as
+    Python), or one functional language (such as Scheme or Haskell).
+
+Chapter 12. Optimization
+------------------------
+
+### Know the Concepts
+
+-   **At what level of importance is optimization compared to the other
+    priorities in programming?** Low. A program must first be correct,
+    then clear and maintainable; it should be optimized only when it is
+    measurably too slow, and only where it spends its time.
+
+-   **What is the difference between local and global optimizations?**
+    Local optimizations make a specific piece of code faster without
+    changing the structure of the program (for example a faster loop).
+    Global optimizations change the structure of the program or its
+    algorithms (for example caching results, or using a better data
+    structure), and usually give much bigger gains.
+
+-   **Name some types of local optimizations.** Precomputing
+    calculations, remembering the results of previous calculations,
+    keeping data in registers instead of memory, inlining functions,
+    using faster instructions for the same operation, choosing
+    addressing modes well, and aligning data in memory.
+
+-   **How do you determine what parts of your program need
+    optimization?** By measuring with a profiler (such as `gprof` or
+    `perf`), which shows where the program spends its time. Optimize
+    those parts only, and measure again to confirm that the change
+    helped.
+
+-   **The same question again: why repeat it?** Because it is the most
+    important lesson of the chapter, and the most forgotten one:
+    optimizing too early wastes time and makes programs harder to read
+    and to fix, usually in parts that don\'t matter.
+
+### Use the Concepts
+
+-   **Optimize the programs in this book.** This exercise is yours.
+    Some ideas: keep loop variables in registers instead of memory (as
+    `_power` does with -4(%ebp)), replace the recursive factorial with
+    the loop of `0AK-04-03-factorial-loop.s`, use a bigger buffer in
+    `005-01-toupper`, and replace `imull` by a power of 2 with a shift
+    (`shll`).
+
+-   **Calculate the performance impact on your code under specific
+    inputs.** This exercise is yours. Count how many times each
+    instruction runs for an input: for example, the maximum program
+    runs its loop once per item, so its time grows linearly with the
+    length of the list; the recursive factorial makes `n` calls, each
+    one with a stack frame. Then confirm the count by measuring.
+
+### Going Further
+
+-   **Ask the developers of a fast program about its optimizations**,
+    and **profile a slow program.** These exercises are yours. To
+    profile a C program with `gprof`, compile it with `gcc -pg`, run it
+    once, and then run `gprof program gmon.out`. On Linux, `perf record`
+    and `perf report` work without recompiling.
+
+-   **Has the compiler eliminated the need for local optimizations?**
+    Mostly, yes: modern compilers do register allocation, inlining,
+    loop transformations and instruction selection better than most
+    people. But they can\'t change the algorithm or the data
+    structures, they must keep the exact meaning of the code even when
+    the programmer would accept a faster approximation, and they
+    sometimes can\'t prove that an optimization is safe (for example
+    because of pointers that may point to the same memory). So local
+    optimization by hand is still useful in the few places where the
+    profiler shows it matters.
+
+-   **What problems might a compiler run into when optimizing across
+    function calls?** The called function may be in another file or in
+    a shared library that the compiler can\'t see, or that can be
+    replaced later (as `LD_PRELOAD` did with `exit`). Without knowing
+    what the function does, the compiler must assume it can change any
+    global memory and must keep the calling convention. Inlining
+    everything would make the program much larger, and recursive
+    functions can\'t be fully inlined.

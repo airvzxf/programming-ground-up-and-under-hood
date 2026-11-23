@@ -3,7 +3,7 @@
 An updated x86 Linux edition of [_Programming from the Ground Up_](https://savannah.nongnu.org/projects/pgubook) by Jonathan Bartlett, maintained by Israel Roldan (AirvZxf).
 
 - Read online and download the PDF and ePUB: <https://programming-ground-up.pages.dev/>
-- Downloads for every version: [GitHub releases](https://github.com/airvzxf/programming-ground-up-and-under-hood/releases).
+- Downloads for every version: [GitHub releases](https://github.com/airvzxf/assembly-from-the-ground-up/releases).
 
 ## Build
 
@@ -19,12 +19,12 @@ The output is in `release/latest/`; `release/latest/site/` is the website, publi
 
 ## License
 
-The book is a Modified Version of _Programming from the Ground Up_ under the [GNU Free Documentation License, Version 1.1](LICENSE) or any later version, with no Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. The original author grants full rights to use the code examples for any purpose.
-
+- **The book** (`src/book.md` and the editions built from it) is a Modified Version of _Programming from the Ground Up_, so it stays under the [GNU Free Documentation License, Version 1.1](LICENSE-GFDL-1.1.txt) or any later version, with no Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. The GFDL requires the modified book to use that same license.
+- **The code of this repository** (build scripts, Pandoc filters and templates, and the example programs) is under the [GNU Affero General Public License v3.0](LICENSE). The original author also grants full rights to use the book's code examples for any purpose.
 
 ## About this project.
 
-I try to learn the GNU Assembler (`as` or `gas`) and I didn't found many resources but this book is great.
+I try to learn the GNU Assembler (`as` or `gas`) and I didn't find many resources but this book is great.
 
 This is a 60% of the WIP (work in progress) for the project `Programming from the ground up`.
 

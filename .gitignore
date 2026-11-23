@@ -4,7 +4,7 @@ release/
 # Assembler build artifacts
 *.o
 *-bin
-librecord.so
+src/resource/asm/*.so
 
 # Temporary files and logs
 .gdb_history

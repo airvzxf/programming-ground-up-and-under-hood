@@ -8,7 +8,7 @@ cd "${SCRIPT_DIR}"
 # Clean up previous files
 rm -f ./*.o
 rm -f ./*-bin
-rm -f librecord.so .gdb_history
+rm -f librecord.so libfactorial.so libexitmsg.so .gdb_history heynow.txt
 
 # -----------------------------------------------------
 # Compile all the files.
@@ -39,12 +39,6 @@ FILES=(
   010-02-conversion-program
   010-02-integer-to-string
   0AA-01-gnome-example
-  0AK-01-exit-3
-  0AK-02-minimum
-  0AK-03-maximum-255
-  0AK-04-maximum-end-address
-  0AK-05-maximum-length
-  0AK-06-exit-without-int
 )
 
 for FILE in "${FILES[@]}"
@@ -68,12 +62,6 @@ GENERIC_FILES=(
   008-01-hello-world-nolib
   009-01-memory-layout
   010-01-shift-bit
-  0AK-01-exit-3
-  0AK-02-minimum
-  0AK-03-maximum-255
-  0AK-04-maximum-end-address
-  0AK-05-maximum-length
-  0AK-06-exit-without-int
 )
 
 for FILE in "${GENERIC_FILES[@]}"
@@ -161,5 +149,79 @@ echo ""
 
 echo "Linking #3: 011-01-hello-world-c"
 gcc -o "011-01-hello-world-c-bin" "011-01-hello-world.c"
+
+# -----------------------------------------------------
+# Solutions to the review questions (Appendix K).
+# -----------------------------------------------------
+
+for SOURCE in 0AK-*.s
+do
+    echo "Assembling: ${SOURCE%.s}"
+    as -o "${SOURCE%.s}.o" "${SOURCE}" --32 --gstabs+
+done
+
+# Link a solution: link_solution <program> [extra objects/options...]
+link_solution() {
+    local PROGRAM="$1"
+    shift
+    echo "Linking #4: ${PROGRAM}"
+    ld -o "${PROGRAM}-bin" -m elf_i386 "${PROGRAM}.o" "$@"
+}
+
+LIBC=(--library c --library-path /usr/lib32/
+      -dynamic-linker /usr/lib32/ld-linux.so.2)
+
+for SOURCE in 0AK-03-*.s 0AK-04-*.s 0AK-05-03-*.s
+do
+    link_solution "${SOURCE%.s}"
+done
+
+link_solution 0AK-05-01-toupper-stdio 0AK-05-00-convert-to-upper.o
+link_solution 0AK-05-02-toupper-bss 0AK-05-00-convert-to-upper.o
+link_solution 0AK-05-04-toupper-checked \
+  0AK-05-00-convert-to-upper.o 006-01-count-chars.o
+
+link_solution 0AK-06-01-write-records 0AK-06-01-record-io.o
+link_solution 0AK-06-01-read-records 0AK-06-01-record-io.o \
+  006-01-count-chars.o 006-01-write-newline.o
+link_solution 0AK-06-02-write-30-records 006-01-write-record.o
+link_solution 0AK-06-03-max-age 006-01-read-record.o
+link_solution 0AK-06-04-min-age 006-01-read-record.o
+link_solution 0AK-06-05-add-year-in-place \
+  006-01-read-record.o 006-01-write-record.o
+link_solution 0AK-06-07-find-records 0AK-06-06-compare-strings.o \
+  006-01-read-record.o 006-01-count-chars.o 006-01-write-newline.o
+
+link_solution 0AK-07-01-add-year-robust \
+  006-01-read-record.o 006-01-write-record.o 007-01-error-exit.o \
+  006-01-count-chars.o 006-01-write-newline.o
+
+echo "Linking #4: libfactorial.so"
+ld -shared -m elf_i386 -o libfactorial.so 0AK-08-01-factorial-lib.o
+link_solution 0AK-08-02-factorial-printf \
+  --library-path . --library factorial "${LIBC[@]}"
+link_solution 0AK-08-03-toupper-libc 0AK-05-00-convert-to-upper.o \
+  "${LIBC[@]}"
+echo "Linking #4: libexitmsg.so"
+ld -shared -m elf_i386 -o libexitmsg.so 0AK-08-04-exit-message.o
+
+link_solution 0AK-09-02-alloc-test 0AK-09-01-alloc.o
+echo "Linking #4: 0AK-09-02-alloc-test-book (with 009-02-alloc.o)"
+ld -o 0AK-09-02-alloc-test-book-bin -m elf_i386 \
+  0AK-09-02-alloc-test.o 009-02-alloc.o
+link_solution 0AK-09-03-alloc-auto-init 0AK-09-01-alloc.o
+
+link_solution 0AK-10-02-print-numbers 0AK-10-01-integer2string-base.o \
+  0AK-08-01-factorial-lib.o 006-01-write-newline.o
+link_solution 0AK-10-03-is-negative
+link_solution 0AK-10-04-number2integer \
+  0AK-10-01-integer2string-base.o 006-01-write-newline.o
+link_solution 0AK-10-05-likes
+
+echo "Linking #4: 0AK-11-01-maximum-c"
+gcc -o 0AK-11-01-maximum-c-bin 0AK-11-01-maximum.c
+
+
+echo ""
 
 echo "Example compilation completed."
