@@ -1,29 +1,13 @@
-# Dockerfile for "Programming from the Ground Up"
-# Use Ubuntu to ensure compatibility with 32-bit assembly examples (glibc)
+# Build environment for the book (Pandoc + Typst) and the 32-bit assembly
+# examples (gcc-multilib). Versions are pinned in scripts/install-deps.bash.
+#
+#   podman build -t pgu-book .
+#   podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/make.bash'
 FROM ubuntu:24.04
 
-# Avoid interactive prompts during installation
-ENV DEBIAN_FRONTEND=noninteractive
+COPY scripts/install-deps.bash /tmp/install-deps.bash
+RUN bash /tmp/install-deps.bash && rm /tmp/install-deps.bash
 
-# Update and install dependencies
-# - pandoc, texlive-*: To generate the book (PDF/EPUB)
-# - build-essential, gcc-multilib: To compile 32-bit assembly
-# - zip, git: Auxiliary tools
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    pandoc \
-    texlive-latex-extra \
-    texlive-fonts-recommended \
-    texlive-latex-recommended \
-    lmodern \
-    build-essential \
-    gcc-multilib \
-    zip \
-    git \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-# Working directory
 WORKDIR /data
 
-# Entry point
 ENTRYPOINT ["/usr/bin/env", "bash"]

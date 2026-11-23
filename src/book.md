@@ -1,63 +1,32 @@
 ---
-title: Programming from the Ground Up
-subtitle: Updated by AirvZxf | Architecture x86
+title: Assembly from the Ground Up
+subtitle: >-
+  An updated x86 Linux edition of *Programming from the Ground Up*
+  by Jonathan Bartlett
 author:
 - Jonathan Bartlett
 - Israel Roldan
-rights: © 2003 by Jonathan Bartlett
-language: en-US
-date: 2026-02-04
-publisher:  Bartlett Publishing in Broken Arrow, Oklahom
+publisher: Israel Roldan
+rights: >-
+  © 2003 Jonathan Bartlett. Modifications © 2020–2026 Israel Roldan.
+  Licensed under the GNU Free Documentation License, Version 1.1 or any
+  later version.
+lang: en-US
 identifier:
-- scheme: ISBN-10
-  text: 0975283847
-- scheme: ISBN-13
-  text: 978-0975283844
-header-includes:
-- |
-  \AtBeginDocument{
-    \hypersetup{
-       colorlinks=true,
-       linkbordercolor=olive,
-       urlbordercolor=brown,
-       pdfborderstyle={/S/U/W 0.7}
-    }
-  }
-colorlinks: true
-linkcolor: olive
-urlcolor: brown
+- scheme: URN
+  text: urn:uuid:7ee56819-71ac-415a-a058-0b83d99113d3
 toc: true
+toc-depth: 2
 ---
 
-<!-- TODO: Dominique suggests I have an appendix of registers. Maybe in the Instructions appendix?  -->
 
-<!-- TODO: Need to find places that need more filling out.  Reviews, definitely.  -->
+**Assembly from the Ground Up**
 
-<!-- TODO:
-  * Go back through and make sure that registers and memory are both fully described and fully distinguished
--->
-
-<!-- TODO:
-  * Instructions needs some more beef from reference books
-  * Reviews need to be finished out
-  * Finish index
--->
-
-<!--  TODO:
-  Appendices it would be nice to have:
-  * A full description of the calling sequence for UNIX
-  * A complete examination of the fetch-execute cycle
-  * A complete listing of registers and flags
--->
-
-
-
-\newpage
-by Jonathan Bartlett
-
-Edited by Dominick Bruno, Jr.
+An updated x86 Linux edition of *Programming from the Ground Up*.
 
 Copyright © 2003 by Jonathan Bartlett
+
+Copyright © 2020–2026 by Israel Roldan (modifications)
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.1 or
@@ -69,22 +38,26 @@ In addition,
 you are granted full rights to use the code examples for any purpose
 without even having to credit the authors.
 
-To receive a copy of this book in electronic form, please visit the
-website [http://savannah.nongnu.org/projects/pgubook/][0-SavannahPguBook] This site contains
-the instructions for downloading a transparent copy of this book as
-defined by the GNU Free Documentation License.
+This book is a Modified Version, as defined by the GNU Free
+Documentation License, of *Programming from the Ground Up*, Version 1.1,
+by Jonathan Bartlett, edited by Dominick Bruno, Jr. The changes are
+listed in
+[Appendix G. Document History](#appendix-g-document-history).
+This edition is published by Israel Roldan and is not endorsed by the
+original author or publisher.
+
+The transparent copy (Markdown source) of this edition, together with
+the source code of every example, is available at
+[github.com/airvzxf/programming-ground-up-and-under-hood][0-ThisEdition].
+The transparent copy of the original book is available at
+[savannah.nongnu.org/projects/pgubook][0-SavannahPguBook].
 
 All trademarks are property of their respective owners.
 
-ISBN 0-9752838-4-7
-
-Published by Bartlett Publishing in Broken Arrow, Oklahom
-
-Library of Congress Control Number: 2004091465
-
-Bartlett Publishing Cataloging-in-Publication Data
-
-This book can be purchased at [http://www.bartlettpublishing.com][0-BartlettPublishing]
+The original printed edition: *Programming from the Ground Up*, by
+Jonathan Bartlett, edited by Dominick Bruno, Jr., published by Bartlett
+Publishing in Broken Arrow, Oklahoma, 2004. ISBN 0-9752838-4-7. Library
+of Congress Control Number: 2004091465.
 
 This book is not a reference book, it is an introductory book. It is
 therefore not suitable by itself to learn how to professionally program
@@ -94,11 +67,13 @@ understand how assembly language and computer programming works, not to
 be a reference to the subject. Reference information about a particular
 processor can be obtained by contacting the company which makes it.
 
-[0-BartlettPublishing]: http://www.bartlettpublishing.com/
-[0-SavannahPguBook]: http://savannah.nongnu.org/projects/pgubook/
+[0-ThisEdition]: https://github.com/airvzxf/programming-ground-up-and-under-hood
+[0-SavannahPguBook]: https://savannah.nongnu.org/projects/pgubook/
 
 
-\newpage
+::: {#toc}
+:::
+
 Chapter 1. Introduction
 =======================
 
@@ -126,7 +101,6 @@ taste, and teach your solution to future programmers. I hope that this
 book can teach at least some of the poetry and magic that makes
 computing exciting.
 
-\newpage
 Most introductory books on programming frustrate me to no end. At the
 end of them you can still ask \"how does the computer really work?\" and
 not have a good answer. They tend to pass over topics that are difficult
@@ -253,7 +227,7 @@ windowing system (like Microsoft Windows® or the X Window System), then
 the windowing system reads the keypress from the kernel, and delivers it
 to whatever program is currently in focus on the user\'s display.
 
-**Example 1-1. How the computer processes keyboard sigals**
+**Example 1-1. How the computer processes keyboard signals**
 
     Keyboard -> Kernel -> Windowing system -> Application program
 
@@ -326,8 +300,6 @@ work will put you a step ahead.
 [3-PGUBookMail]: https://lists.nongnu.org/mailman/listinfo/pgubook-readers
 
 
-
-\newpage
 Chapter 2. Computer Architecture {#chapter-2-computer-architecture}
 ================================
 
@@ -336,7 +308,7 @@ computer interprets programs. You don\'t need a degree in electrical
 engineering, but you need to understand some basics.
 
 Modern computer architecture is based off of an
-architecture called the Von Neumann architectureVon Neumann
+architecture called the Von Neumann
 architecture, named after its creator. The Von Neumann architecture
 divides the computer up into two main parts - the CPU (for Central
 Processing Unit) and the memory. This architecture is used in all modern
@@ -438,7 +410,7 @@ itself has some special, high-speed memory locations called
 registers. There are two kinds of registers - *general
 registers* and *special-purpose registers*. General-purpose
 registers are where the main action happens.
-Addition, subtraction, multiplication, comparisions, and other
+Addition, subtraction, multiplication, comparisons, and other
 operations generally use general-purpose registers for processing.
 However, computers have very few general-purpose registers. Most
 information is stored in main memory, brought in to the registers for
@@ -596,7 +568,7 @@ their name. In this case, the memory would look like this:
 
 The actual name and address would be stored elsewhere in memory. This
 way, it is easy to tell where each part of the data is from the start of
-the record, without explicitly limitting the size of the name and
+the record, without explicitly limiting the size of the name and
 address. If the length of the fields within our records could change, we
 would have no idea where the next field started. Because records would
 be different sizes, it would also be hard to find where the next record
@@ -606,8 +578,6 @@ record.
 
 Data Accessing Methods {#data-accessing-methods}
 ----------------------
-
-<!-- TODO: This would be a good section for diagrams -->
 
 This is a quick review try to focus in understand the big picture
 of the accessing methods the next chapter will explain in detail
@@ -676,7 +646,6 @@ the pointer is constant.
 There are other forms of addressing, but these are the most important
 ones.
 
-\newpage
 Review
 ------
 
@@ -756,8 +725,6 @@ Review
     that can be executed with a special marker that indicates this.
 
 
-
-\newpage
 Chapter 3. Your First Programs {#chapter-3-your-first-programs}
 ==============================
 
@@ -879,7 +846,6 @@ the following in your comments:
 
 -   An overview of the processing involved.
 
-<!-- TODO: Dominique suggests an extended example of this: -->
 -   Anything strange your program does and why it does it.[^3-3]
 
 After the comments, the next line says:
@@ -970,7 +936,7 @@ source operand and the second one is the destination. Note that in these
 cases, the source operand is not modified at all. Other instructions of
 this type are, for example, `addl`, `subl`, and `imull`.
 These add/subtract/multiply the source operand from/to/by the
-destination operand and and save the result in the destination operand.
+destination operand and save the result in the destination operand.
 Other instructions may have an operand hardcoded in. `idivl`, for
 example, requires that the dividend be in _%eax_, and _%edx_ be zero, and the
 quotient is then transferred to _%eax_ and the remainder to _%edx_. However,
@@ -1277,7 +1243,7 @@ can be reserved. The main ones are as follows:
 `.int`:
 
 :   Ints (which differ from the `int` instruction) take up two storage
-    locations for each number. These are limitted to numbers between 0
+    locations for each number. These are limited to numbers between 0
     and 65535.[^3-9]
 
 `.long`:
@@ -1491,7 +1457,7 @@ many jump statements that you can use:
 
 `jmp`:
 
-:   Jump no matter what. This does not need to be preceeded by a
+:   Jump no matter what. This does not need to be preceded by a
     comparison.
 
 The complete list is documented in
@@ -1703,7 +1669,6 @@ register for either a byte or a word, but never both at the same time.
 For a more comprehensive list of instructions, see
 [Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
 
-\newpage
 Review
 ------
 
@@ -1808,11 +1773,11 @@ Review
     Usually you will only use the extended versions. Newer models also
     offer a 64-bit mode, which doubles the size of these registers yet
     again and uses an `r` prefix to indicate the larger registers (i.e.
-    _%ax_ is the 64-bit version of _%eax_). However, these processors are not
+    _%rax_ is the 64-bit version of _%eax_). However, these processors are not
     widely used, and are not covered in this book.
 
 [^3-6]: You may be wondering why it\'s `0x80` instead of just `80`. The
-    reason is that the number is written in hexadecimalhexadecimal. In
+    reason is that the number is written in hexadecimal. In
     hexadecimal, a single digit can hold 16 values instead of the normal
     10. This is done by utilizing the letters `a` through `f` in
     addition to the regular digits. `a` represents 10, `b` represents
@@ -1873,8 +1838,6 @@ Review
 [3-GNU-Automatic-variables]: https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 
 
-
-\newpage
 Chapter 4. All About Functions {#chapter-4-all-about-functions}
 ==============================
 
@@ -2042,7 +2005,7 @@ removes the top value from the stack and places it into a register or
 memory location of your choosing.
 
 When we push a value onto the stack, the top of the stack moves to
-accomodate the additional value. We can actually continually push values
+accommodate the additional value. We can actually continually push values
 onto the stack and it will keep growing further and further down in
 memory until we hit our code or data. So how do we know where the
 current \"top\" of the stack is? The stack register,
@@ -2090,7 +2053,7 @@ to _%esp_ before looking up the value being pointed to.
 > **NOTE:**
 >
 > Please, do a quick review of the tables which explain graphically,
-> how the the memory and the stack works:
+> how the memory and the stack works:
 > [Chapter 9 -> Table of the Physical Memory in the program](#chapter-9-table-of-the-physical-memory-in-the-program).
 
 In the C language calling convention, the
@@ -2107,8 +2070,6 @@ stack. Then it modifies the instruction pointer
 (_%eip_) to point to the start of the function. So, at the time the
 function starts, the stack looks like this (the \"top\" of the stack is
 at the bottom on this example):
-
-<!-- TODO: Dominique says "This part can be confusing until one gets to the sample illustration code and then it makes sense." -->
 
     0xffffff50: Parameter #N
     ...
@@ -2634,7 +2595,6 @@ step-by-step, keeping track of what the values of the registers are at
 each step, and what values are on the stack. Doing this should deepen
 your understanding of what is going on.
 
-\newpage
 Review
 ------
 
@@ -2739,8 +2699,6 @@ Review
 [4-ABI]: https://github.com/airvzxf/programming-ground-up-and-under-hood/raw/main/src/resource/pdf/abi386-4.pdf
 
 
-
-\newpage
 Chapter 5. Dealing with Files {#chapter-5-dealing-with-files}
 =============================
 
@@ -2945,8 +2903,6 @@ do so, let\'s think about what we need to do to get the job done:
 
 -   Begin the program by opening the necessary files.
 
-<!-- TODO: Do I need to introduce flowcharting or reference it here? -->
-
 Notice that I\'ve specified things in reverse order that they will be
 done. That\'s a useful trick in writing complex programs - first decide
 the meat of what is being done. In this case, it\'s converting blocks of
@@ -2963,7 +2919,7 @@ numbers being thrown at you - the system call numbers, the interrupt
 number, etc. In this program we will also introduce a new directive,
 `.equ` which should help out. `.equ` allows you to assign names to
 numbers. For example, if you did `.equ LINUX_SYSCALL, 0x80`, any
-time after that you wrote `LINUX_SYSCALL`, the assembler would substitue
+time after that you wrote `LINUX_SYSCALL`, the assembler would substitute
 `0x80` for that. So now, you can write:
 
 ```{.gnuassembler}
@@ -3080,7 +3036,7 @@ stored in _%ebx_. The lines:
 ```{.gnuassembler .numberLines include=resource/asm/005-01-toupper.s startLine=248 endLine=251}
 ```
 
-They are just a sanity check to make sure that noone gave us a buffer of zero
+They are just a sanity check to make sure that no one gave us a buffer of zero
 size. If they did, we just clean up and leave. Guarding against
 potential user and programming errors is an important task of a
 programmer. You can always specify that your function should not take a
@@ -3202,10 +3158,6 @@ _%ebx_.
 
 The program is then finished!
 
-<!-- TODO: Needs to be re-sectionalized and reviewed -->
-<!-- TODO: Probably need to start with a "hello world" program -->
-
-\newpage
 Review
 ------
 
@@ -3281,8 +3233,6 @@ Review
     to zero and jumping if it is less than zero.
 
 
-
-\newpage
 Chapter 6. Reading and Writing Simple Records {#chapter-6-reading-and-writing-simple-records}
 =============================================
 
@@ -3394,8 +3344,6 @@ Type the following code into a file called `006-01-write-records.s`:
 
 ```{.gnuassembler .numberLines include=resource/asm/006-01-write-records.s}
 ```
-
-<!-- TODO: Need to add info on how to use a hexdump to read the values -->
 
 This is a fairly simple program. It merely consists of defining the data
 we want to write in the `.data` section, and then calling the right
@@ -3610,7 +3558,6 @@ After reading those you may want to come back
 and rewrite this program to display the numeric data that we are
 modifying.
 
-\newpage
 Review
 ------
 
@@ -3649,7 +3596,7 @@ Review
 ### Going Further
 
 -   Rewrite the programs in this chapter to use command-line arguments
-    to specify the filesnames.
+    to specify the filenames.
 
 -   Research the `lseek` system call. Rewrite the `006-01-add-year` program to
     open the source file for both reading and writing (use \$2 for the
@@ -3699,8 +3646,6 @@ Review
     before running this program.
 
 
-
-\newpage
 Chapter 7. Developing Robust Programs
 =====================================
 
@@ -3942,7 +3887,7 @@ to a consistent state.
 The simplest way to handle recovery points is to wrap the
 whole program into a single recovery point. You would just have a simple
 error-reporting function that you can call with an error code and a
-message. The function would print them and and simply exit the program.
+message. The function would print them and simply exit the program.
 This is not usually the best solution for real-world situations, but it
 is a good fall-back, last resort mechanism.
 
@@ -4005,7 +3950,6 @@ ld -o 007-01-add-year      -m elf_i386 \
 Now try to run it without the necessary files. It now exits cleanly and
 gracefully!
 
-\newpage
 Review
 ------
 
@@ -4052,15 +3996,13 @@ Review
 -   Try to fix the bug you found in the previous exercise.
 
 
-
-\newpage
 Chapter 8. Sharing Functions with Code Libraries {#chapter-8-sharing-functions-with-code-libraries}
 ================================================
 
 By now you should realize that the computer has to do a lot of work even
 for simple tasks. Because of that, you have to do a lot of work to write
 the code for a computer to even do simple tasks. In addition,
-programming tasks are usually not very simple. Therefore, we neeed a way
+programming tasks are usually not very simple. Therefore, we need a way
 to make this process easier on ourselves. There are several ways to do
 this, including:
 
@@ -4107,7 +4049,7 @@ creates some dependency problems, including:
     application that uses that code, and therefore it shouldn\'t be
     deleted?
 
--   Some programs inadvertantly rely on bugs within shared functions.
+-   Some programs inadvertently rely on bugs within shared functions.
     Therefore, if upgrading the shared functions fixes a bug that a
     program depended on, it could cause that application to cease
     functioning.
@@ -4474,7 +4416,7 @@ pages for their functions. The web is the best source of documentation
 for libraries. Most libraries from the GNU project also have info pages
 on them, which are a little more thorough than man pages.
 
-Let\'s see the `objdump` of the last progam:
+Let\'s see the `objdump` of the last program:
 
 ```{.bash}
 objdump -R  008-02-printf-example-bin
@@ -4671,7 +4613,6 @@ on the Internet:
     contains a good introduction to programming position-independent
     code for shared libraries under Linux.
 
-\newpage
 Review
 ------
 
@@ -4735,7 +4676,7 @@ Review
 
 -   Research the use of `LD_PRELOAD`. What is it used for? Try building
     a shared library that contained the `exit` function, and have it
-    write a message to STDERR before exitting. Use `LD_PRELOAD` and run
+    write a message to STDERR before exiting. Use `LD_PRELOAD` and run
     various programs with it. What are the results?
 
 [^8-1]: Each of these terms have slightly different meanings, but most
@@ -4783,8 +4724,6 @@ Review
 [8-shared-libraries]: https://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
 
 
-
-\newpage
 Chapter 9. Intermediate Memory Topics
 =====================================
 
@@ -4981,7 +4920,7 @@ contains unmapped memory. With the stack, however, Linux will
 automatically map in memory that is accessed from stack pushes.
 
 Let\'s explain these complex concepts using the Linux tools and
-dynamic practices. The progam `009-01-memory-layout.s` helps with
+dynamic practices. The program `009-01-memory-layout.s` helps with
 this:
 
 ```{.gnuassembler .numberLines include=resource/asm/009-01-memory-layout.s}
@@ -4998,7 +4937,7 @@ ld -o 009-01-memory-layout    -m elf_i386 \
                               009-01-memory-layout
 ```
 
-How to get the begining of the memory address (0x08048000)? Search the
+How to get the beginning of the memory address (0x08048000)? Search the
 private headres:
 
 ```{.bash}
@@ -5015,7 +4954,7 @@ It shows the `LOAD off    0x00000000 vaddr 0x08048000`:
         LOAD off    0x00002000 vaddr 0x0804a000 paddr 0x0804a000 align 2**12
              filesz 0x0000000c memsz 0x0000000c flags rw-
 
-The symbols are the sections, variables, constans, labels, functions, and more.
+The symbols are the sections, variables, constants, labels, functions, and more.
 These are inside of the binary file:
 
 ```{.bash}
@@ -5206,13 +5145,13 @@ It\'s increassing when `pop` and `ret` is executed:
     0xffffd870  -> %esp
 
 Now, checks the next example with the function `_fine`, it adds
-new local variables. This example also demostrate that use `%esp` or
+new local variables. This example also demonstrate that use `%esp` or
 `%ebp` are the same because at the end it\'s a mark which indicate the
 positions, one for the base pointer and other for the stack pointer.
 Highly recommended to use `%esp` because the program is dinamyc and
-it goes insde of the `call`s. We want to use the recently created
+it goes inside of the `call`s. We want to use the recently created
 spaces for these variables, `%ebp` is recommended when you want to take
-arguments of the actual funcion, they always be around the base pointer:
+arguments of the actual function, they always be around the base pointer:
 
 ```{.gnuassembler .numberLines include=resource/asm/009-01-memory-layout.s startLine=48 endLine=77}
 ```
@@ -5378,7 +5317,7 @@ Sometimes so many programs can be loaded that there is hardly enough
 physical memory for them. They wind up spending more time just swapping
 memory on and off of disk than they do actually processing it. This
 leads to a condition called *swap death* which leads to your
-system being unresponsive and unproductive. It\'s usually usually
+system being unresponsive and unproductive. It\'s usually
 recoverable if you start terminating your memory-hungry programs, but
 it\'s a pain.
 
@@ -5405,7 +5344,7 @@ memory you will need. For example, with a text editor, you don\'t know
 how long the person\'s file will be. You could try to find a maximum
 file size, and just tell the user that they can\'t go beyond that, but
 that\'s a waste if the file is small. Therefore Linux has a facility to
-move the break point to accomodate an application\'s memory needs.
+move the break point to accommodate an application\'s memory needs.
 
 If you need more memory, you can just tell Linux where you want the new
 break point to be, and Linux will map all the memory you need between
@@ -5855,7 +5794,7 @@ so that it reads like this:
 Finally, one change that we need to make is to deallocate the memory
 once we are done with it (in this program it\'s not necessary, but it\'s
 a good practice anyway). To do that, we just send `record_buffer_ptr` to
-the `_deallocate` function right before exitting:
+the `_deallocate` function right before exiting:
 
 ```{.gnuassembler .numberLines include=resource/asm/009-02-read-records.s startLine=95 endLine=96}
 ```
@@ -5903,7 +5842,6 @@ can be found at the following locations:
 -   A paper on the 4.4 BSD memory allocator is available at
     [Malloc(3) in modern Virtual Memory environments][9-Modern-VME].
 
-\newpage
 Review
 ------
 
@@ -5978,7 +5916,7 @@ Review
 [^9-6]: This is why adding more memory to your computer makes it run
     faster. The more memory your computer has, the less it puts on disk,
     so it doesn\'t have to always be interrupting your programs to
-    retreive pages off the disk.
+    retrieve pages off the disk.
 
 
 [9-State-ELF]: http://asm.sourceforge.net/articles/startup.html
@@ -5988,8 +5926,6 @@ Review
 [9-Modern-VME]: http://docs.freebsd.org/44doc/papers/malloc.html
 
 
-
-\newpage
 Chapter 10. Counting Like a Computer {#chapter-10-counting-like-a-computer}
 ====================================
 
@@ -6732,7 +6668,7 @@ the extension of -3 from four to eight bits will yield `11111101`.
 
 The x86 processor has different forms of several instructions depending
 on whether they expect the quantities they operate on to be signed
-or unsignedunsigned. These are listed in
+or unsigned. These are listed in
 [Appendix B. Common x86 Instructions](#appendix-b-common-x86-instructions).
 For example, the x86 processor has both a sign-preserving shift-right,
 `sarl`, and a shift-right which does not preserve the sign bit,
@@ -6773,7 +6709,7 @@ octal numbers are prefixed with a zero. For example 010 means 10 in
 octal, which is 8 in decimal. If you just write 10 that means 10 in
 decimal. The beginning zero is what differentiates the two. So, *be
 careful not to put any leading zeroes in front of decimal numbers, or
-they will be interepreted as octal numbers*!
+they will be interpreted as octal numbers*!
 
 Hexadecimal numbers (also called just \"hex\") use the numbers 1-15 for
 each digit. however, since 10-15 don\'t have their own numbers,
@@ -6867,7 +6803,7 @@ Converting Numbers for Display
 ------------------------------
 
 So far, we have been unable to display any number stored to the user,
-except by the extremely limitted means of passing it through exit codes.
+except by the extremely limited means of passing it through exit codes.
 In this section, we will discuss converting positive numbers into
 strings for display.
 
@@ -6941,7 +6877,6 @@ ld -o 010-02-conversion-program    -m elf_i386 \
 
 To run just type `./010-02-conversion-program` and the output should say `824`.
 
-\newpage
 Review
 ------
 
@@ -7023,7 +6958,6 @@ Review
 [10-floating-point-instruction]: https://www3.physnet.uni-hamburg.de/physnet/Tru64-Unix/HTML/APS31DTE/DOCU_010.HTM
 
 
-\newpage
 Chapter 11. High-Level Languages {#chapter-11-high-level-languages}
 ================================
 
@@ -7082,12 +7016,12 @@ in the user\'s machine. You have to have a compiler for the language,
 but the users of your program don\'t. In an interpreted language, you
 have to be sure that the user has an interpreter installed for your
 program, and that the computer knows which interpreter to run your
-program with. However, interpeted languages tend to be more flexible,
+program with. However, interpreted languages tend to be more flexible,
 while compiled languages are more rigid.
 
 Language choice is usually driven by available tools and support for
 programming methods rather than by whether a language is compiled or
-interpretted. In fact many languages have options for either one.
+interpreted. In fact many languages have options for either one.
 
 High-level languages, whether compiled or interpreted, are oriented
 around you, the programmer, instead of around the machine. This opens
@@ -7292,7 +7226,6 @@ python 011-01-hello-world.py
 
 You should be able to tell what the different lines of the program do.
 
-\newpage
 Review
 ------
 
@@ -7336,12 +7269,8 @@ Review
     each take?
 
 
-
-\newpage
 Chapter 12. Optimization {#chapter-12-optimization}
 ========================
-
-<!-- TODO: Dominique suggestion - have an appendix with multiple versions of optimized code -->
 
 Optimization is the process of making your application run
 more effectively. You can optimize for many things - speed, memory space
@@ -7458,7 +7387,7 @@ by your compiler\'s optimizer.
 
 Precomputing Calculations:
 
-:   Sometimes a function has a limitted number of possible inputs and
+:   Sometimes a function has a limited number of possible inputs and
     outputs. In fact, it may be so few that you can actually precompute
     all of the possible answers beforehand, and simply look up the
     answer when the function is called. This takes up some space since
@@ -7517,7 +7446,7 @@ Inline Functions:
 
 :   Functions are great from the point of view of program management -
     they make it easy to break up your program into independent,
-    understandable, and reuseable parts. However, function calls do
+    understandable, and reusable parts. However, function calls do
     involve the overhead of pushing arguments onto the stack and doing
     the jumps (remember locality of reference - your code may be swapped
     out on disk instead of in memory). For high level languages, it\'s
@@ -7578,7 +7507,7 @@ Global Optimization
 -------------------
 
 Global optimization has two goals. The first one is
-to put your code in a form where it is easy to do local optimiztions.
+to put your code in a form where it is easy to do local optimizations.
 For example, if you have a large procedure that performs several slow,
 complex calculations, you might see if you can break parts of that
 procedure into their own functions where the values can be precomputed
@@ -7635,7 +7564,6 @@ what doesn\'t. Deciding how to tackle optimization problems in code
 involves looking at all the issues, and knowing that fixing some issues
 may cause others.
 
-\newpage
 Review
 ------
 
@@ -7691,8 +7619,6 @@ Review
     to make calculations.
 
 
-
-\newpage
 Chapter 13. Moving On from Here {#chapter-13-moving-on-from-here}
 ===============================
 
@@ -7906,8 +7832,8 @@ In assembly language, your best resources are on the web.
 [13-Art-of-computer]: https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming
 [13-Programming-languages]: https://wiki.c2.com/?ProgrammingLanguagesAnInterpreterBasedApproach
 [13-Modern-OS]: https://www.pearson.com/store/p/modern-operating-systems/P100001963021/9780133591620
-[13-Linkers-loaders]: http://norfs.sourceforge.net/linkers_and_loaders.pdf
-[13-COD]: http://file.allitebooks.com/20160718/Computer%20Organization%20and%20Design,%20Fifth%20Edition.pdf
+[13-Linkers-loaders]: https://www.iecc.com/linker/
+[13-COD]: https://openlibrary.org/isbn/9780124077263
 [13-PGU]: https://savannah.nongnu.org/projects/pgubook/
 [13-Design-programs]: https://htdp.org/
 [13-Simply-scheme]: https://people.eecs.berkeley.edu/~bh/ss-toc2.html
@@ -7918,31 +7844,31 @@ In assembly language, your best resources are on the web.
 [13-Algorithm-design]: https://www.springer.com/us/book/9783030542559
 [13-Pragmatics]: https://www.cs.rochester.edu/u/scott/pragmatics/
 [13-Essentials-of-programming]: https://mitpress.mit.edu/books/essentials-programming-languages-third-edition
-[13-Programming-Perl]: http://file.allitebooks.com/20150525/Programming%20Perl,%204th%20Edition.pdf
+[13-Programming-Perl]: https://openlibrary.org/isbn/9780596004927
 [13-Common-LISP]: https://www.cs.cmu.edu/Groups/AI/html/cltl/cltl2.html
-[13-ANSI-Common-LISP]: https://7chan.org/pr/src/ANSI_Common_Lisp_-_Paul_Graham.pdf
-[13-C-Programming-Language]: https://hikage.freeshell.org/books/theCprogrammingLanguage.pdf
+[13-ANSI-Common-LISP]: https://openlibrary.org/isbn/9780133708752
+[13-C-Programming-Language]: https://openlibrary.org/isbn/9780131103627
 [13-The-Waite]: https://www.pearsonhighered.com/assets/samplechapter/1/5/7/1/1571691618.pdf
 [13-C-Plus-Plus]: https://www.stroustrup.com/4th.html
-[13-Thinking-in-Java]: http://www.dblab.ntua.gr/~gtsat/collection/Java%20books/Bruce.Eckel.Thinking.In.Java.4th.Edition.Dec.2007.eBook-BBL.pdf
+[13-Thinking-in-Java]: https://openlibrary.org/isbn/9780131872486
 [13-The-scheme-PL]: https://www.scheme.com/tspl4/
 [13-LALP]: https://www.oreilly.com/library/view/linux-assembly-language/0130879401/
-[13-Programming-Pearls-and-more]: https://tfetimes.com/wp-content/uploads/2015/04/ProgrammingPearls2nd.pdf
+[13-Programming-Pearls-and-more]: https://openlibrary.org/isbn/9780201657883
 [13-DB-Relational]: https://archive.org/details/understandingrel00pasc
 [13-Mythical-Man-Month]: https://en.wikipedia.org/wiki/The_Mythical_Man-Month
 [13-The-Art-UNIX]: http://www.catb.org/%7Eesr/writings/taoup/
-[13-Advanced-programming-UNIX]: https://ameensheriffmca.files.wordpress.com/2014/02/advanced-programming-in-the-unix-environment-by-w-richard-stevens-stephen-a-rago-ii-edition.pdf
+[13-Advanced-programming-UNIX]: https://openlibrary.org/isbn/9780321637734
 [13-UNIX-network-programming]: http://www.unpbook.com/
-[13-Modern-C-plus-plus]: http://read.pudn.com/downloads68/ebook/245583/Modern%20C%2B%2B%20Design%20.pdf
+[13-Modern-C-plus-plus]: https://openlibrary.org/isbn/9780201704310
 [13-Art-of-compiler-design]: https://www.pearson.com/us/higher-education/program/Pittman-Art-of-Compiler-Design-The-Theory-and-Practice/PGM320140.html
 [13-Advanced-compiler-design]: https://openlibrary.org/works/OL2655436W/Advanced_compiler_design_and_implementation?edition=advancedcompiler00much
 [13-Refactoring-improving]: https://openlibrary.org/books/OL7407595M/Refactoring
 [13-Typesetting]: https://en.wikipedia.org/wiki/Computers_and_Typesetting
-[13-Cryptography]: https://ia800202.us.archive.org/10/items/AppliedCryptographyBruceSchneier/Applied%20Cryptography%20%28Bruce%20Schneier%29.pdf
+[13-Cryptography]: https://www.schneier.com/books/applied-cryptography/
 [13-Professional-Linux]: https://openlibrary.org/works/OL16613861W/Professional_Linux_programming?edition=professionallinu00matt
 [13-Linux-drivers]: https://lwn.net/Kernel/LDD3/
 [13-CatB]: http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/
-[13-Architecture]: https://archive.org/details/computerarchitectureaquantitativeapproach6thedition
+[13-Architecture]: https://openlibrary.org/isbn/9780128119051
 [13-Sandpile]: https://www.sandpile.org/
 [13-Dr-Dobb]: https://www.drdobbs.com/
 [13-PC-Assembly]: https://pacman128.github.io/pcasm/
@@ -7952,9 +7878,7 @@ In assembly language, your best resources are on the web.
 [13-x86-Assembly-page]: http://www.azillionmonkeys.com/qed/asm.html
 
 
-
-\newpage
-Appendix A. GUI Programming
+Appendix A. GUI Programming {#appendix-a-gui-programming}
 ===========================
 
 Introduction to GUI Programming
@@ -8159,8 +8083,6 @@ like.
 [AA-1]: https://developer.gnome.org/
 
 
-
-\newpage
 Appendix B. Common x86 Instructions {#appendix-b-common-x86-instructions}
 ===================================
 
@@ -8221,7 +8143,7 @@ C:
     result should be carried over to an additional byte. If the carry
     flag is set, that usually means that the destination register could
     not hold the full result. It is up to the programmer to decide on
-    what action to take (i.e. - propogate the result to another byte,
+    what action to take (i.e. - propagate the result to another byte,
     signal an error, or ignore it entirely).
 
 Other flags exist, but they are much less important.
@@ -8515,7 +8437,7 @@ Table B-4. Flow Control Instructions.
 > An unconditional jump. This simply sets _%eip_ to the destination
   address. Alternatively, the destination address can be an asterisk
   followed by a register for an indirect jump. For example, `jmp *%eax`
-  will jump tothe address in _%eax_.
+  will jump to the address in _%eax_.
 
 **ret** _Not Applicable_ -----> O/S/Z/A/C:
 
@@ -8599,7 +8521,7 @@ Differences in Other Syntaxes and Terminology
 The syntax for assembly language used in this book is known at the
 *AT&T* syntax. It is the one supported by the GNU tool chain
 that comes standard with every Linux distribution. However, the official
-syntax for x86 assembly language (known as the Intel® syntaxIntel syntax)
+syntax for x86 assembly language (known as the Intel® syntax)
 is different. It is the same assembly language for the same platform,
 but it looks different. Some of the differences include:
 
@@ -8688,8 +8610,6 @@ Similarly, the manual for the [GNU linker][AB-GNU-Linker].
 [AB-intel2gas]: http://manpages.org/intel2gas
 
 
-
-\newpage
 Appendix C. Important System Calls {#appendix-c-important-system-calls}
 ==================================
 
@@ -8799,7 +8719,7 @@ Table C-1. Important Linux System Calls.
 ---
 
 A more complete listing of system calls is in this web site
-[Call convention by architechture][AC-Call-convention],
+[Call convention by architecture][AC-Call-convention],
 along with additional information is available at
 [System Calls for Assembly Level Access][AC-Syscalls]
 You can also get more information about a system call by typing in
@@ -8819,8 +8739,6 @@ are implemented][AC-Linux-kernel].
 [AC-Linux-kernel]: http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11
 
 
-
-\newpage
 Appendix D. Table of ASCII Codes {#appendix-d-table-of-ascii-codes}
 ================================
 
@@ -8871,8 +8789,6 @@ Unicode and Character Sets (No Excuses!)\"][AD-The-absolute].
 [AD-The-absolute]: http://www.joelonsoftware.com/articles/Unicode.html
 
 
-
-\newpage
 Appendix E. C Idioms in Assembly Language {#appendix-e-c-idioms-in-assembly-language}
 =========================================
 
@@ -9313,8 +9229,6 @@ instructions it did.
 [^AE-1]: Note that different versions of GCC do this differently.
 
 
-
-\newpage
 Appendix F. Using the GDB Debugger {#appendix-f-using-the-gdb-debugger}
 ==================================
 
@@ -9439,7 +9353,7 @@ do this several times, your output will look something like this:
 As you can tell, it has looped. In general, this is good, since we wrote
 it to loop. However, the problem is that it is *never stopping*.
 Therefore, to find out what the problem is, let\'s look at the point in
-our code where we should be exitting the loop:
+our code where we should be exiting the loop:
 
 ```{.gnuassembler}
 cmpl  $0, %eax
@@ -9915,15 +9829,25 @@ down
 [AF-FSF]: https://www.fsf.org/
 
 
-
-\newpage
-Appendix G. Document History
+Appendix G. Document History {#appendix-g-document-history}
 ============================
+
+-   11/23/2026 - Version 3.0 - Israel Roldan (AirvZxf). Renamed the
+    Modified Version to *Assembly from the Ground Up*, as required by the
+    GNU Free Documentation License, and rewrote the copyright page to
+    credit the original edition and point to the transparent copy of this
+    edition. Replaced the links to unauthorized copies of other books in
+    Chapter 13 with links to the books\' catalog pages. Fixed spelling
+    mistakes and duplicated words across the book and the examples.
+    Added Appendix K with solutions to the review questions of Chapters
+    2 and 3. The PDF edition is now typeset with Typst instead of LaTeX,
+    and the HTML edition is published with download links for the PDF,
+    ePUB and example source code.
 
 -   12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook
     to a Pandoc's Markdown then it will export to ePUB, PDF, HTML and
     Github Markdown, could be extended to other types of documents. This
-    version fixed some minimal details, convert grhapical tables to
+    version fixed some minimal details, convert graphical tables to
     ASCII tables, update the links from some broken web sites, minor
     updates was done also extended sub-topics to clarify.
 
@@ -9934,7 +9858,7 @@ Appendix G. Document History
 -   01/31/2004 - Version 1.0 - Rewrote chapter 9. Added full index. Lots
     of minor corrections.
 
--   01/29/2004 - Version 0.9 - Lots of editting of all chapters. Made
+-   01/29/2004 - Version 0.9 - Lots of editing of all chapters. Made
     code more consistent and made explanations clearer. Added some
     illustrations.
 
@@ -9958,8 +9882,6 @@ Appendix G. Document History
 -   12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL
 
 
-
-\newpage
 Appendix H. GNU Free Documentation License {#appendix-h-gnu-free-documentation-license}
 ==========================================
 
@@ -10251,7 +10173,7 @@ License in the various documents with a single copy that is included in
 the collection, provided that you follow the rules of this License for
 verbatim copying of each of the documents in all other respects.
 
-You may extract a single document from such a collection, and dispbibute
+You may extract a single document from such a collection, and distribute
 it individually under this License, provided you insert a copy of this
 License into the extracted document, and follow this License in all
 other respects regarding verbatim copying of that document.
@@ -10342,7 +10264,6 @@ their use in free software.
 [H-GNU-copyleft]: http://www.gnu.org/copyleft/
 
 
-\newpage
 Appendix I. Personal Dedication
 ===============================
 
@@ -10370,7 +10291,7 @@ Herschel and Vicki. There were many, many others, too - so many people
 helped us that it would be impossible to list them all.
 
 I also want to thank my parents, who gave me the example of
-perserverance and strength in hard times. Your example has helped me be
+perseverance and strength in hard times. Your example has helped me be
 a good father to my children, and a good husband to my wife.
 
 I also want to thank my wife, who even from when we first started dating
@@ -10392,8 +10313,6 @@ through a day, much less putting this book together. You have all been a
 great blessing to me, and I will keep you in my prayers always.
 
 
-
-\newpage
 Appendix J. Updated by AirvZxf
 ==============================
 
@@ -10433,3 +10352,334 @@ Motivations
 [AJ-GNU]: https://www.gnu.org/
 [AJ-GitHub]: https://github.com/
 [AJ-FasmDesignPrinciples]: https://board.flatassembler.net/topic.php?t=3197
+
+
+Appendix K. Solutions to the Review Questions {#appendix-k-solutions-to-the-review-questions}
+=============================================
+
+This appendix was added in this edition. It answers the review questions
+at the end of each chapter. Every program in it is included with the
+examples, in the `resource/asm/` directory, and the build checks the
+exit status of each one. Solutions for Chapters 4 to 13 are still
+pending; you can follow their progress in the [TO-DO\'s][AJ-MyTodoList]
+list.
+
+Chapter 2. Computer Architecture
+--------------------------------
+
+### Know the Concepts
+
+-   **Describe the fetch-execute cycle.** The CPU reads the instruction
+    stored at the address held by the instruction pointer, decodes it to
+    find out what it must do and which operands it needs, fetches those
+    operands from registers or memory, executes the operation (usually in
+    the arithmetic and logic unit), and stores the result. Then the
+    instruction pointer moves to the next instruction, unless the
+    instruction was a jump, and the cycle starts again.
+
+-   **What is a register? How would computation be more difficult
+    without registers?** A register is a small storage location inside
+    the CPU itself. The CPU works on registers much faster than on
+    memory. Without registers, every intermediate value would have to be
+    written to and read back from memory, which is slower, and every
+    instruction would need to carry full memory addresses for all of its
+    operands, which makes instructions larger.
+
+-   **How do you represent numbers larger than 255?** By using several
+    bytes together. On x86, four bytes form a word, which can hold
+    unsigned values up to 4294967295. Larger numbers use several words.
+
+-   **How big are the registers on the machines we will be using?**
+    Four bytes (32 bits).
+
+-   **How does a computer know how to interpret a given byte or set of
+    bytes of memory?** It doesn\'t. Memory only holds numbers. Whether
+    they are an instruction, a number, an address or a character depends
+    entirely on how the program uses them. If the instruction pointer
+    points to them, they are executed as instructions.
+
+-   **What are the addressing modes and what are they used for?**
+    Addressing modes are the ways an instruction can find its data:
+    *immediate* (the value is inside the instruction), *register* (the
+    value is in a register), *direct* (the instruction contains the
+    memory address), *indexed* (a base address plus an index register
+    multiplied by the element size, used for lists), *indirect* (a
+    register holds the address) and *base pointer* (a register holds an
+    address and the instruction adds a fixed offset, used for records
+    and for the stack).
+
+-   **What does the instruction pointer do?** It holds the address of
+    the next instruction to execute.
+
+### Use the Concepts
+
+-   **What data would you use in an employee record? How would you lay
+    it out in memory?** For example, an identifier, a name, a department
+    number, a salary and a hire date, stored one after the other with
+    fixed sizes, so that each field is always at the same offset from the
+    start of the record:
+
+    ```
+    Offset  Size  Field
+    0       4     Employee ID
+    4       40    Name (padded with zeros)
+    44      4     Department number
+    48      4     Salary
+    52      4     Hire date (days since 1970-01-01)
+    56            Total size of the record
+    ```
+
+-   **If I had the pointer to the beginning of the employee record
+    above, and wanted to access a particular piece of data inside of it,
+    what addressing mode would I use?** Base pointer addressing: the
+    register holds the address of the record and the instruction adds the
+    offset of the field. For example, `movl 48(%ebx), %eax` loads the
+    salary.
+
+-   **Base pointer addressing, register 3122, offset 20:**
+    3122 + 20 = **3142**.
+
+-   **Indexed addressing, base 6512, index 5, multiplier 4:**
+    6512 + 5 × 4 = **6532**.
+
+-   **Indexed addressing, base 123472, index 0, multiplier 4:**
+    123472 + 0 × 4 = **123472**.
+
+-   **Indexed addressing, base 9123478, index 20, multiplier 1:**
+    9123478 + 20 × 1 = **9123498**.
+
+### Going Further
+
+-   **What are the minimum number of addressing modes needed for
+    computation?** In theory, very few: a way to put constants into
+    registers (immediate) and a way to reach memory through an address
+    held in a register (indirect). Every other mode can be emulated by
+    computing the address with arithmetic instructions first and then
+    using indirect addressing. Many RISC processors work this way, with
+    only a handful of addressing modes.
+
+-   **Why include addressing modes that aren\'t strictly needed?**
+    Because they make programs shorter and faster. Indexed addressing,
+    for example, does in one instruction what would otherwise take a
+    multiplication, an addition and a load, and it doesn\'t use an extra
+    register to hold the computed address.
+
+-   **How does pipelining affect the fetch-execute cycle?** With
+    pipelining, the CPU doesn\'t wait for one instruction to finish
+    before starting the next one. While one instruction executes, the
+    next one is being decoded and the one after it is being fetched, like
+    an assembly line. This multiplies throughput, but it causes problems
+    when an instruction needs the result of one that hasn\'t finished
+    yet, or when a jump changes the instruction pointer and the
+    instructions already in the pipeline must be thrown away. Processors
+    use branch prediction and out-of-order execution to reduce these
+    costs.
+
+-   **Tradeoffs between fixed-length and variable-length
+    instructions.** Fixed-length instructions (for example 4 bytes in
+    most ARM and RISC-V code) are easy and fast to decode, and several
+    can be decoded in parallel, but simple instructions waste space.
+    Variable-length instructions (1 to 15 bytes on x86) make programs
+    smaller and leave room to add new instructions over time, but the
+    decoder is much more complex, because the CPU doesn\'t know where
+    the next instruction starts until it has decoded the current one.
+
+Chapter 3. Your First Programs
+------------------------------
+
+### Know the Concepts
+
+-   **What does it mean if a line in the program starts with the \'\#\'
+    character?** It is a comment. The assembler ignores everything from
+    the `#` to the end of the line.
+
+-   **What is the difference between an assembly language file and an
+    object code file?** The assembly language file (`.s`) is text that a
+    person writes. The object file (`.o`) is the machine code that the
+    assembler generates from it. It can\'t run yet, because it still
+    has to be linked.
+
+-   **What does the linker do?** It joins one or more object files,
+    resolves the symbols that one file uses and another defines, assigns
+    the final memory addresses, and writes an executable file that the
+    operating system can load.
+
+-   **How do you check the result status code of the last program you
+    ran?** With `echo $?`.
+
+-   **What is the difference between `movl $1, %eax` and
+    `movl 1, %eax`?** The first uses immediate addressing and loads the
+    number 1 into _%eax_. The second uses direct addressing and loads
+    the four bytes stored at memory address 1. That address isn\'t
+    mapped, so the program would crash with a segmentation fault.
+
+-   **Which register holds the system call number?** _%eax_.
+
+-   **What are indexes used for?** To select one element of a list by
+    its position, counting from the start of the list.
+
+-   **Why do indexes usually start at 0?** Because the index is really
+    the distance from the start of the list. The first element is zero
+    elements away from the start, so its address is the base address
+    plus 0 × the size of an element.
+
+-   **If I issued the command `movl data_items(,%edi,4), %eax` and
+    data_items was address 3634 and _%edi_ held the value 13, what
+    address would you be using to move into _%eax_?**
+    3634 + 13 × 4 = **3686**.
+
+-   **List the general-purpose registers.** _%eax_, _%ebx_, _%ecx_,
+    _%edx_, _%edi_ and _%esi_.
+
+-   **What is the difference between `movl` and `movb`?** `movl` moves a
+    long, which is four bytes (a word); `movb` moves a single byte.
+
+-   **What is flow control?** Deciding which instruction runs next.
+    Instead of always running the next instruction in memory, a program
+    uses jumps to repeat code (loops) or to skip code (conditions).
+
+-   **What does a conditional jump do?** It looks at the result of a
+    previous comparison, stored in the _%eflags_ register. If the
+    condition is true, it jumps to the given label; otherwise the program
+    continues with the next instruction.
+
+-   **What things do you have to plan for when writing a program?**
+    Where the data is stored, what each register holds, the initial
+    values, how a loop knows when to stop, special cases (such as an
+    empty list or the first element), and how the program returns its
+    result.
+
+-   **Go through every instruction and list what addressing mode is
+    being used for each operand.** In `003-01-exit`:
+
+    ```
+    movl $1, %eax     immediate, register
+    movl $0, %ebx     immediate, register
+    int  $0x80        immediate
+    ```
+
+    In `003-02-maximum`:
+
+    ```
+    movl $0, %edi                   immediate, register
+    movl data_items(,%edi,4), %eax  indexed, register
+    movl %eax, %ebx                 register, register
+    cmpl $0, %eax                   immediate, register
+    je   _loop_exit                 jump target (label)
+    incl %edi                       register
+    movl data_items(,%edi,4), %eax  indexed, register
+    cmpl %ebx, %eax                 register, register
+    jle  _start_loop                jump target (label)
+    movl %eax, %ebx                 register, register
+    jmp  _start_loop                jump target (label)
+    movl $1, %eax                   immediate, register
+    int  $0x80                      immediate
+    ```
+
+### Use the Concepts
+
+**Modify the first program to return the value 3.** Only the status code
+in _%ebx_ changes:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-01-exit-3.s}
+```
+
+```bash
+as -o 0AK-01-exit-3.o --32 0AK-01-exit-3.s
+ld -o 0AK-01-exit-3 -m elf_i386 0AK-01-exit-3.o
+./0AK-01-exit-3
+echo $?
+```
+
+It prints `3`.
+
+**Modify the `003-02-maximum` program to find the minimum instead.**
+Changing `jle` to `jge` is not enough. The original loop compares each
+item before checking whether it is the terminating 0. For the maximum
+that doesn\'t matter, because 0 is never bigger than the maximum, but
+for the minimum the 0 would always win. The solution checks for the end
+of the list right after loading each item:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-02-minimum.s}
+```
+
+It returns `3`.
+
+**Modify the `003-02-maximum` program to use the number 255 to end the
+list rather than the number 0.** The same issue appears here: 255 is
+bigger than every item, so the end of the list has to be checked before
+the comparison. As a bonus, 0 is now a valid item:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-03-maximum-255.s}
+```
+
+It returns `125`.
+
+**Modify the `003-02-maximum` program to use an ending address rather
+than the number 0 to know when to stop.** The label `data_end` marks the
+first address after the list. The program walks the list with a pointer
+in _%ecx_ (indirect addressing) and stops when it reaches `data_end`:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-04-maximum-end-address.s}
+```
+
+It returns `222`.
+
+**Modify the `003-02-maximum` program to use a length count rather than
+the number 0 to know when to stop.** The number of items is stored in
+`data_length`, and the loop stops when the index reaches it:
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-05-maximum-length.s}
+```
+
+It returns `222`.
+
+**What would the instruction `movl _start, %eax` do? How would this
+differ from `movl $_start, %eax`?** `movl _start, %eax` uses direct
+addressing: it loads the four bytes stored *at* the address `_start`,
+which are the machine code of the first instruction. In
+`003-02-maximum`, the first instruction `movl $0, %edi` is encoded as the
+bytes `bf 00 00 00 00`, so _%eax_ would get `0x000000bf` (191).
+`movl $_start, %eax` uses immediate addressing: it loads the address
+`_start` itself, which is `0x08049000` in that program.
+
+### Going Further
+
+**Modify the first program to leave off the `int` instruction line.
+What error message do you get? Why?**
+
+```{.gnuassembler .numberLines include=resource/asm/0AK-06-exit-without-int.s}
+```
+
+```bash
+as -o 0AK-06-exit-without-int.o --32 0AK-06-exit-without-int.s
+ld -o 0AK-06-exit-without-int -m elf_i386 0AK-06-exit-without-int.o
+./0AK-06-exit-without-int
+echo $?
+```
+
+The shell prints `Segmentation fault (core dumped)` and `echo $?` prints
+`139` (128 + 11, where 11 is the number of the `SIGSEGV` signal).
+Without `int $0x80`, the kernel is never asked to end the program. The
+CPU doesn\'t know that the program is over, so it keeps executing
+whatever bytes come after the last instruction. Those bytes are not
+valid code for this program, and sooner or later one of them accesses
+memory the program isn\'t allowed to touch, so the kernel stops it.
+
+**Which approach to finding the end of the list is best? Which would you
+use if you knew that the list was sorted?** It depends on the data:
+
+-   A special terminating number is simple, but that number can never be
+    a real item, and the program must read the whole list to know its
+    length.
+
+-   An ending address or a length count allow any value in the list, and
+    they make an empty list easy to detect. A length count is the
+    easiest to work with, because it also tells you how many items there
+    are without reading them.
+
+-   If the list is sorted, you don\'t need a loop at all. In ascending
+    order, the maximum is the last item and the minimum is the first.
+    With a length count (or an ending address) you can jump straight to
+    the last item: `data_items + (length - 1) × 4`. With a terminating
+    number you would still have to walk the whole list to find the end.

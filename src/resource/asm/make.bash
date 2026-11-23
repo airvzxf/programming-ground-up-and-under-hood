@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -Eeuo pipefail
 
 # Get script directory to handle relative paths correctly
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -39,6 +39,12 @@ FILES=(
   010-02-conversion-program
   010-02-integer-to-string
   0AA-01-gnome-example
+  0AK-01-exit-3
+  0AK-02-minimum
+  0AK-03-maximum-255
+  0AK-04-maximum-end-address
+  0AK-05-maximum-length
+  0AK-06-exit-without-int
 )
 
 for FILE in "${FILES[@]}"
@@ -62,6 +68,12 @@ GENERIC_FILES=(
   008-01-hello-world-nolib
   009-01-memory-layout
   010-01-shift-bit
+  0AK-01-exit-3
+  0AK-02-minimum
+  0AK-03-maximum-255
+  0AK-04-maximum-end-address
+  0AK-05-maximum-length
+  0AK-06-exit-without-int
 )
 
 for FILE in "${GENERIC_FILES[@]}"

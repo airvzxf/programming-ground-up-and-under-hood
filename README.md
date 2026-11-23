@@ -1,4 +1,26 @@
-# Programming from the ground up | <br> Programming under hood <br> Updated by AirvZxf
+# Assembly from the Ground Up
+
+An updated x86 Linux edition of [_Programming from the Ground Up_](https://savannah.nongnu.org/projects/pgubook) by Jonathan Bartlett, maintained by Israel Roldan (AirvZxf).
+
+- Read online and download the PDF and ePUB: <https://programming-ground-up.pages.dev/>
+- Downloads for every version: [GitHub releases](https://github.com/airvzxf/programming-ground-up-and-under-hood/releases).
+
+## Build
+
+The book is written in Pandoc Markdown (`src/book.md`). [Pandoc](https://pandoc.org/) converts it to HTML, ePUB and GitHub Markdown, and to [Typst](https://typst.app/) for the PDF. The pinned versions are in `scripts/install-deps.bash`.
+
+```bash
+podman build -t pgu-book .                 # or docker
+podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/make.bash'
+podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/resource/asm/make.bash && bash src/resource/asm/test.bash'
+```
+
+The output is in `release/latest/`; `release/latest/site/` is the website.
+
+## License
+
+The book is a Modified Version of _Programming from the Ground Up_ under the [GNU Free Documentation License, Version 1.1](LICENSE) or any later version, with no Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. The original author grants full rights to use the code examples for any purpose.
+
 
 ## About this project.
 
@@ -46,7 +68,7 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
 ## About the original books.
 
 ### Important notes.
-- This book is under the License: “GNU Free Documentation License”. I added the license “GNU General Public License v3.0” in this repository as a reference but keep the original license as the unique and valid.
+- This book is under the “GNU Free Documentation License”. The modified version is named _Assembly from the Ground Up_ because the license requires a title distinct from the original.
 
 ### Original source: Programming from the ground up.
 - Title: Programming from the Ground Up
