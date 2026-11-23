@@ -1,0 +1,9 @@
+// Cloudflare Worker that serves the book website (static assets only).
+// Build first with src/make.bash, then: npx wrangler deploy
+{
+  "name": "programming-ground-up",
+  "compatibility_date": "2026-11-19",
+  "assets": {
+    "directory": "./release/latest/site"
+  }
+}

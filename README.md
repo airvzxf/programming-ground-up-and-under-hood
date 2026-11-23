@@ -2,7 +2,7 @@
 
 An updated x86 Linux edition of [_Programming from the Ground Up_](https://savannah.nongnu.org/projects/pgubook) by Jonathan Bartlett, maintained by Israel Roldan (AirvZxf).
 
-- Read online and download the PDF and ePUB: <https://programming-ground-up.pages.dev/>
+- Read online and download the PDF and ePUB: <https://programming-ground-up.israel-alberto-rv.workers.dev/>
 - Downloads for every version: [GitHub releases](https://github.com/airvzxf/programming-ground-up-and-under-hood/releases).
 
 ## Build
@@ -15,7 +15,7 @@ podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/make.bash'
 podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/resource/asm/make.bash && bash src/resource/asm/test.bash'
 ```
 
-The output is in `release/latest/`; `release/latest/site/` is the website.
+The output is in `release/latest/`; `release/latest/site/` is the website, served by a Cloudflare Worker (`wrangler.jsonc`, deployed by CI on every push to `main`).
 
 ## License
 
