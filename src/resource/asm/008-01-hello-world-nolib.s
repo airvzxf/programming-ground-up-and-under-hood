@@ -11,7 +11,7 @@
             .ascii "hello world\n"
 
         helloworld_end:
-            .equ lenght, helloworld_end - helloworld
+            .equ length, helloworld_end - helloworld
 
     .section .text
         .globl _start
@@ -19,7 +19,7 @@
 _start:
     movl  $STDOUT, %ebx
     movl  $helloworld, %ecx
-    movl  $lenght, %edx
+    movl  $length, %edx
     movl  $SYS_WRITE, %eax
     int   $LINUX_SYSCALL
 

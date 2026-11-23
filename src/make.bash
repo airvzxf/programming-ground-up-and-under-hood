@@ -1,88 +1,101 @@
 #!/usr/bin/env bash
-set -ex
+# Build every edition of the book from book.md.
+#
+#   release/<version>/ and release/latest/
+#     ProgrammingGroundUp.{pdf,epub,html,md}, resource/, resource.zip
+#     site/  -> static website (index.html + downloads), deployed to Cloudflare
+#
+# Requires pandoc and typst (see scripts/install-deps.bash or the Dockerfile).
+set -Eeuo pipefail
 
-# Get script directory to handle relative paths correctly
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${SCRIPT_DIR}"
 
-VERSION="v$(date "+%Y.%m.%d")"
-DATE="$(date "+%Y-%m-%d")"
-# Define output paths relative to project root
+for tool in pandoc typst zip; do
+  command -v "${tool}" >/dev/null || {
+    echo "error: '${tool}' is not installed (see scripts/install-deps.bash)" >&2
+    exit 1
+  }
+done
+
+DATE="${BOOK_DATE:-$(date "+%Y-%m-%d")}"
+VERSION="v${DATE//-/.}"
+NAME="ProgrammingGroundUp"
 RELEASE_ROOT_PATH="../release"
 RELEASE_VERSION_PATH="${RELEASE_ROOT_PATH}/${VERSION}"
 RELEASE_LATEST_PATH="${RELEASE_ROOT_PATH}/latest"
+TYPST_FILE="${SCRIPT_DIR}/${NAME}.typ"
 
-# Clean up previous directories
-rm -fR "${RELEASE_VERSION_PATH}"
-rm -fR "${RELEASE_LATEST_PATH}"
+trap 'rm -f "${TYPST_FILE}"' EXIT
 
-mkdir -p "${RELEASE_VERSION_PATH}"
-mkdir -p "${RELEASE_LATEST_PATH}"
+rm -rf "${RELEASE_VERSION_PATH}" "${RELEASE_LATEST_PATH}"
+mkdir -p "${RELEASE_VERSION_PATH}" "${RELEASE_LATEST_PATH}"
 
-# Copy necessary resources for compilation and release
+# Resources (examples, images) are shipped next to the book.
 cp -R resource "${RELEASE_VERSION_PATH}/resource"
+(cd "${RELEASE_VERSION_PATH}" && zip -q -r -9 -D resource.zip resource)
 
-# Create resource zip archive
-cd "${RELEASE_VERSION_PATH}"
-zip -r -9 -D resource.zip resource
-cd "${SCRIPT_DIR}"
+COMMON_ARGS=(
+  --from markdown
+  --standalone
+  --metadata "date=${DATE}"
+  --dpi 300
+  --syntax-highlighting ./resource/pandoc/theme/default.theme
+  --syntax-definition ./resource/pandoc/syntax/gnuassembler.xml
+  --syntax-definition ./resource/pandoc/syntax/c.xml
+  --syntax-definition ./resource/pandoc/syntax/bash.xml
+  --lua-filter resource/pandoc/lua/include-code-files.lua
+  --lua-filter resource/pandoc/lua/typst-layout.lua
+)
 
-# ====== Update date in the document ======
-sed -E -i "s/^date: [0-9\-]+$/date: ${DATE}/" book.md
+echo "==> PDF (Typst)"
+pandoc "${COMMON_ARGS[@]}" \
+  --to typst \
+  --template resource/pandoc/template/book.typst \
+  --output "${TYPST_FILE}" \
+  book.md
+typst compile --root "${SCRIPT_DIR}" "${TYPST_FILE}" "${RELEASE_VERSION_PATH}/${NAME}.pdf"
 
-# ====== Generate book versions ======
-OUTPUTS=(pdf epub3 html5 gfm)
-EXTENSIONS=(pdf epub html md)
+echo "==> ePUB"
+pandoc "${COMMON_ARGS[@]}" \
+  --to epub3 --toc --toc-depth 2 \
+  --css resource/pandoc/css/style.css \
+  --output "${RELEASE_VERSION_PATH}/${NAME}.epub" \
+  book.md
 
-for i in "${!OUTPUTS[@]}"; do
-  OUTPUT="${OUTPUTS[$i]}"
-  EXT="${EXTENSIONS[$i]}"
+echo "==> HTML"
+pandoc "${COMMON_ARGS[@]}" \
+  --to html5 --toc --toc-depth 2 \
+  --css resource/pandoc/css/style.css \
+  --include-before-body resource/pandoc/template/downloads.html \
+  --output "${RELEASE_VERSION_PATH}/${NAME}.html" \
+  book.md
 
-  echo "Generating format: ${OUTPUT}..."
+echo "==> GitHub Markdown"
+MD_FILE="${RELEASE_VERSION_PATH}/${NAME}.md"
+pandoc "${COMMON_ARGS[@]}" \
+  --to gfm --toc --toc-depth 2 \
+  --output "${MD_FILE}.body" \
+  book.md
+pandoc --metadata "date=${DATE}" \
+  --template resource/pandoc/template/header.md \
+  --to gfm \
+  --output "${MD_FILE}.header" \
+  book.md
+cat "${MD_FILE}.header" "${MD_FILE}.body" > "${MD_FILE}"
+rm "${MD_FILE}.header" "${MD_FILE}.body"
+# GitHub drops the dot after the chapter number in its heading anchors.
+sed -E -i 's/\]\(#chapter-([0-9]+)\.-/](#chapter-\1-/g' "${MD_FILE}"
 
-  # Default args
-  ARGS=(
-    -f markdown
-    -t "${OUTPUT}"
-    --standalone
-    --toc
-    --toc-depth 2
-    --dpi 300
-    --highlight-style ./resource/pandoc/theme/default.theme
-    --syntax-definition ./resource/pandoc/syntax/gnuassembler.xml
-    --syntax-definition ./resource/pandoc/syntax/c.xml
-    --syntax-definition ./resource/pandoc/syntax/bash.xml
-    --lua-filter resource/pandoc/lua/include-code-files.lua
-    -o "${RELEASE_VERSION_PATH}/ProgrammingGroundUp.${EXT}"
-  )
+echo "==> Website"
+SITE_PATH="${RELEASE_VERSION_PATH}/site"
+mkdir -p "${SITE_PATH}/resource/pandoc"
+cp "${RELEASE_VERSION_PATH}/${NAME}.html" "${SITE_PATH}/index.html"
+cp "${RELEASE_VERSION_PATH}/${NAME}".{pdf,epub} "${RELEASE_VERSION_PATH}/resource.zip" "${SITE_PATH}/"
+cp -R resource/image "${SITE_PATH}/resource/"
+cp -R resource/pandoc/css "${SITE_PATH}/resource/pandoc/"
+cp resource/site/_headers "${SITE_PATH}/_headers"
 
-  # Format specific args
-  if [[ "$OUTPUT" == "html5" || "$OUTPUT" == "epub3" ]]; then
-    ARGS+=(--css resource/pandoc/css/style.css)
-  fi
+cp -R "${RELEASE_VERSION_PATH}/." "${RELEASE_LATEST_PATH}/"
 
-  pandoc "${ARGS[@]}" book.md
-
-  # Post-processing for Markdown
-  if [[ "$OUTPUT" == "gfm" ]]; then
-    MD_FILE="${RELEASE_VERSION_PATH}/ProgrammingGroundUp.${EXT}"
-
-    # 1. Generate Header dynamically from book.md metadata
-    pandoc --template resource/pandoc/template/header.md \
-           -t gfm \
-           -o header_tmp.md \
-           book.md
-
-    # 2. Prepend Header to the main file
-    cat header_tmp.md "$MD_FILE" > "${MD_FILE}.tmp" && mv "${MD_FILE}.tmp" "$MD_FILE"
-    rm header_tmp.md
-
-    # 3. Fix broken links (remove dot after chapter number in links)
-    sed -E -i 's/\]\(#chapter-([0-9]+)\.-/](#chapter-\1-/g' "$MD_FILE"
-  fi
-done
-
-# Copy everything to 'latest' folder
-cp -R "${RELEASE_VERSION_PATH}/"* "${RELEASE_LATEST_PATH}/"
-
-echo "Compilation completed successfully at ${RELEASE_VERSION_PATH}"
+echo "Build completed: ${RELEASE_VERSION_PATH}"

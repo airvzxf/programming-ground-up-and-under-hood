@@ -29,20 +29,21 @@
 
 #### Knowledge
 
-- [ ] Add appendix for the solutions in every chapter.
-  - [ ] Chapter 2. Data Accessing Methods
-  - [ ] Chapter 3. Your First Programs
-  - [ ] Chapter 4. All About Functions Dealing with Complexity
-  - [ ] Chapter 5. Dealing with Files
-  - [ ] Chapter 6. Reading and Writing Simple Records
-  - [ ] Chapter 7. Developing Robust Programs
-  - [ ] Chapter 8. Sharing Functions with Code Libraries
-  - [ ] Chapter 9. Intermediate Memory Topics How a Computer Views Memory
-  - [ ] Chapter 10. Counting Like a Computer Counting
-  - [ ] Chapter 11. High-Level Languages
-  - [ ] Chapter 12. Optimization
-  - [ ] Chapter 13. Moving On from Here
-- [ ] Check spelling for all the book with [LanguageTool](https://languagetool.org/)
+- [x] Add appendix for the solutions in every chapter (Appendix K).
+  - [x] Chapter 2. Data Accessing Methods
+  - [x] Chapter 3. Your First Programs
+  - [x] Chapter 4. All About Functions Dealing with Complexity
+  - [x] Chapter 5. Dealing with Files
+  - [x] Chapter 6. Reading and Writing Simple Records
+  - [x] Chapter 7. Developing Robust Programs
+  - [x] Chapter 8. Sharing Functions with Code Libraries
+  - [x] Chapter 9. Intermediate Memory Topics How a Computer Views Memory
+  - [x] Chapter 10. Counting Like a Computer Counting
+  - [x] Chapter 11. High-Level Languages
+  - [x] Chapter 12. Optimization
+  - [x] Chapter 13. Moving On from Here (no review questions)
+- [x] Fix the spelling mistakes reported by [codespell](https://github.com/codespell-project/codespell).
+- [x] Check grammar for all the book with [LanguageTool](https://languagetool.org/): clear mistakes fixed; style suggestions (such as "all of the" or commas in compound sentences) left as the original author wrote them.
 
 
 ### Author notes.
@@ -87,7 +88,7 @@
     - [x] Refer the GDB debug in the review sections for chapter 3.
   - [x] Chapter 4.All About Functions Dealing with Complexity
     - [x] Create a better example about the Stack software and hardware.
-      - Refered to the chapter 9, section: Table of the Physical Memory in the program.
+      - Referred to the chapter 9, section: Table of the Physical Memory in the program.
   - [x] Chapter 5. Dealing with Files
     - [x] Check if the values of the stack (%esp), 4(%esp), 8(%esp) are correct.
       - Yes, that's right.

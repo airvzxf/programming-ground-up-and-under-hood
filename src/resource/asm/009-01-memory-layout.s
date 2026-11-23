@@ -53,10 +53,10 @@ _fine:
                             # variables.
 
                 # Using %ebp, needs negative numbers.
-    movl  $age, 4(%esp)       # Store at 1nd space.
+    movl  $age, 4(%esp)       # Store at 1st space.
     movl  $author, -8(%ebp)   # Store at 1rd space.
 
-    movl  $id, 8(%esp)        # Store at 2rd space.
+    movl  $id, 8(%esp)        # Store at 2nd space.
     movl  $comment, -4(%ebp)  # Store at 2nd space.
 
                 # Remember the rule: Positive numbers

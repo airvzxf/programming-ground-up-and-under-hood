@@ -46,7 +46,8 @@
             .byte 0
             .endr
 
-            .ascii "2224 S Johannan St\nChicago, IL\0"
+            .ascii "2224 S Johannan St\n"
+            .ascii "Chicago, IL 12345\0"
             .rept 203           # Padding to 240 bytes.
             .byte 0
             .endr
@@ -64,7 +65,8 @@
             .byte 0
             .endr
 
-            .ascii "500 Oakland\nSan Diego, CA 54321\0"
+            .ascii "500 W Oakland\n"
+            .ascii "San Diego, CA 54321\0"
             .rept 206           # Padding to 240 bytes.
             .byte 0
             .endr

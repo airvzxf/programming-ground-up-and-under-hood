@@ -1,8 +1,10 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+# List the text that each syntax-highlighting class colours in the HTML
+# edition, to review the GNU Assembler theme. Run src/make.bash first.
+set -Eeuo pipefail
 
-RELEASE_PATH="../release/"
-VERSION="v"$(date "+%Y.%m.%d")
-HTML_FILE="${RELEASE_PATH}ProgrammingGroundUp_${VERSION}.html"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HTML_FILE="${SCRIPT_DIR}/../../../../release/latest/ProgrammingGroundUp.html"
 
 CLASSES=( al an at bn bu cf ch cn co cv do dt dv er ex fl fu im in kw op ot ot sc ss st va vs wa )
 STYLES=( Alert Annotation Attribute BaseN BuiltIn ControlFlow Char Constant Comment CommentVar Documentation DataType DecVal Error Extension Float Function Import Information Keyword Operator Other Preprocessor SpecialChar SpecialString String Variable VerbatimString Warning )

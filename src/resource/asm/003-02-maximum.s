@@ -13,7 +13,7 @@
     #
     # The following memory locations are used:
     #     data_items - contains the item data.  A 0 is
-    #                  usedto terminate the data.
+    #                  used to terminate the data.
     #
     .section .data
         data_items:         # These are the data items.

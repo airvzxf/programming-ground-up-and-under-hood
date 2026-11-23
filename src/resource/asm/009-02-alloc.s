@@ -204,7 +204,7 @@ _alloc_loop_begin:          # Here we iterate through
                 # HDR_AVAIL_OFFSET = 0
                 # %eax <- heap_begin
     cmpl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
-    je    _allocate_init
+    je    _next_location
 
                 # %ecx <- RECORD_SIZE, 324
                 # %edx <- HDR_SIZE_OFFSET of heap_begin
@@ -215,7 +215,7 @@ _alloc_loop_begin:          # Here we iterate through
                             # If its big enough, go to
                             # _allocate_here.
 
-__next_location:
+_next_location:
                     # The total size of the memory
                     # region is the sum of the size
                     # requested (currently stored in

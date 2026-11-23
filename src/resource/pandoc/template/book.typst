@@ -1,0 +1,108 @@
+// Pandoc template for the PDF edition (rendered by Typst).
+// Fonts are the ones embedded in the Typst binary, so the build does not
+// depend on fonts installed on the system.
+
+#let accent = rgb("#1f5f3f")
+#let link-color = rgb("#7a4a12")
+
+#set document(
+$if(title)$
+  title: [$title$],
+$endif$
+  author: ($for(author)$"$author$"$sep$, $endfor$),
+)
+#set text(font: "Libertinus Serif", size: 11pt, lang: "$if(lang)$$lang$$else$en$endif$")
+#set par(justify: true, leading: 0.62em, spacing: 1.1em)
+#set page(
+  paper: "us-letter",
+  margin: (x: 1in, top: 1in, bottom: 1in),
+)
+
+#show raw: set text(font: "DejaVu Sans Mono", size: 8.5pt)
+#show raw.where(block: true): it => block(
+  width: 100%,
+  fill: luma(246),
+  inset: 8pt,
+  radius: 2pt,
+  breakable: true,
+  it,
+)
+#show link: set text(fill: link-color)
+#show ref: set text(fill: link-color)
+
+#show heading: set text(fill: accent)
+#show heading.where(level: 1): it => {
+  pagebreak(weak: true)
+  v(1.5in)
+  text(size: 22pt, weight: "bold", it.body)
+  v(0.6in)
+}
+#show heading.where(level: 2): set text(size: 15pt)
+#show heading.where(level: 3): set text(size: 12pt)
+
+#set table(inset: 6pt, stroke: 0.5pt + luma(180))
+#show table.cell.where(y: 0): set text(weight: "bold")
+#show figure.where(kind: image): set figure.caption(position: bottom)
+
+
+$if(highlighting-definitions)$
+$highlighting-definitions$
+$endif$
+
+// Table of contents, placed by the `::: {#toc}` marker in book.md.
+#let book-outline() = {
+  pagebreak(weak: true)
+  show outline.entry.where(level: 1): it => {
+    v(0.8em, weak: true)
+    strong(it)
+  }
+  outline(title: [Contents], depth: $if(toc-depth)$$toc-depth$$else$2$endif$, indent: 1.5em)
+}
+
+// ---------- Cover ----------
+#page(numbering: none, margin: (x: 1.2in, y: 1.5in))[
+  #v(1.2in)
+  #align(center)[
+    #text(size: 30pt, weight: "bold", fill: accent)[$title$]
+$if(subtitle)$
+    #v(0.4in)
+    #text(size: 14pt, style: "italic")[$subtitle$]
+$endif$
+    #v(1in)
+$for(author)$
+    #text(size: 13pt)[$author$] \
+$endfor$
+    #v(1fr)
+$if(date)$
+    #text(size: 10pt)[$date$]
+$endif$
+  ]
+]
+
+// ---------- Body ----------
+#set page(
+  numbering: "1",
+  header: context {
+    let page-number = here().page()
+    let chapters = query(heading.where(level: 1))
+    // No header on the first page of a chapter.
+    if chapters.any(h => h.location().page() == page-number) { return }
+    let before = query(heading.where(level: 1).before(here()))
+    if before.len() > 0 {
+      set text(size: 9pt, fill: luma(110))
+      emph(before.last().body)
+      line(length: 100%, stroke: 0.4pt + luma(190))
+    }
+  },
+)
+#counter(page).update(1)
+
+$for(include-before)$
+$include-before$
+$endfor$
+
+$body$
+
+$for(include-after)$
+$include-after$
+$endfor$
