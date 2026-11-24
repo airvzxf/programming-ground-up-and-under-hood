@@ -48,7 +48,7 @@ especially when you combine the theory with the practice of computer
 programming. However, I will attempt to get you started on the
 foundations so you can easily go wherever you want afterwards.
 
-There is somewhat of a chicken and egg problem in teaching programming,
+There is somewhat of a chicken-and-egg problem in teaching programming,
 especially assembly language. There is a lot to learn - it is almost too
 much to learn almost at all at once. However, each piece depends on all
 the others, which makes learning it a piece at a time difficult.
@@ -68,7 +68,7 @@ broadening your horizons. Some of these questions may not be answerable
 until later in the book, but they give you some things to think about.
 Other questions require some research into outside sources to discover
 the answer. Still others require you to simply analyze your options and
-explain a best solution. Many of the questions don\'t have right or
+explain the best solution. Many of the questions don\'t have right or
 wrong answers, but that doesn\'t mean they are unimportant. Learning the
 issues involved in programming, learning how to research answers, and
 learning how to look ahead are all a major part of a programmer\'s work.

@@ -573,7 +573,7 @@ is in the status register, since it is unconditional.
 
 Let\'s say you needed to store a number larger than 32 bits. So, let\'s
 say the number is 2 registers wide, or 64 bits. How could you handle
-this? If you wanted to add two 64 bit numbers, you would add the least
+this? If you wanted to add two 64-bit numbers, you would add the least
 significant registers first. Then, if you detected a carry, you could
 add 1 to the most significant register. In fact, this is probably the
 way you learned to do decimal addition. If the result in one column is
@@ -973,7 +973,7 @@ Review {#review-8}
     you wanted to open the file for writing, and create the file if it
     doesn\'t exist?
 
--   How would you represent -55 in a thirty-two bit register?
+-   How would you represent -55 in a 32-bit register?
 
 -   Sign-extend the previous quantity into a 64-bit register.
 
