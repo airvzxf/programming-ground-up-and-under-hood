@@ -34,6 +34,8 @@ rm -rf "${RELEASE_LATEST_PATH}" "${RELEASE_VERSION_PATH}"
 mkdir -p "${RELEASE_LATEST_PATH}"
 
 echo "==> Quarto (HTML, PDF and ePUB)"
+# Typst without PDF tags: see resource/quarto/typst.bash.
+export QUARTO_TYPST="${SCRIPT_DIR}/resource/quarto/typst.bash"
 rm -rf _book
 quarto render --metadata "date:${DATE}"
 mv _book "${SITE_PATH}"
