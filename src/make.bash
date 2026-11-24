@@ -11,7 +11,7 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${SCRIPT_DIR}"
 
-for tool in pandoc typst zip; do
+for tool in pandoc typst; do
   command -v "${tool}" >/dev/null || {
     echo "error: '${tool}' is not installed (see scripts/install-deps.bash)" >&2
     exit 1
@@ -33,7 +33,12 @@ mkdir -p "${RELEASE_VERSION_PATH}" "${RELEASE_LATEST_PATH}"
 
 # Resources (examples, images) are shipped next to the book.
 cp -R resource "${RELEASE_VERSION_PATH}/resource"
-(cd "${RELEASE_VERSION_PATH}" && zip -q -r -9 -D resource.zip resource)
+# `zip` may be missing (for example on Cloudflare Pages); Python can do it.
+if command -v zip >/dev/null; then
+  (cd "${RELEASE_VERSION_PATH}" && zip -q -r -9 -D resource.zip resource)
+else
+  (cd "${RELEASE_VERSION_PATH}" && python3 -m zipfile -c resource.zip resource)
+fi
 
 COMMON_ARGS=(
   --from markdown

@@ -1,9 +1,10 @@
-# Assembly from the Ground Up
+# Assembly from the Ground Up: x86 32-bit Edition
 
-An updated x86 Linux edition of [_Programming from the Ground Up_](https://savannah.nongnu.org/projects/pgubook) by Jonathan Bartlett, maintained by Israel Roldan (AirvZxf).
+An updated Linux edition of [_Programming from the Ground Up_](https://savannah.nongnu.org/projects/pgubook) by Jonathan Bartlett, maintained by Israel Roldan (AirvZxf).
 
-- Read online and download the PDF and ePUB: <https://programming-ground-up.pages.dev/>
-- Downloads for every version: [GitHub releases](https://github.com/airvzxf/assembly-from-the-ground-up/releases).
+- This is the **x86 32-bit edition**. An x86-64 edition, for 64-bit programs, will be published in its own repository.
+- Read online and download the PDF and ePUB: <https://assembly-from-the-ground-up-x86-32.pages.dev/>
+- Downloads for every version: [GitHub releases](https://github.com/airvzxf/assembly-from-the-ground-up-x86-32/releases).
 
 ## Build
 
@@ -15,7 +16,9 @@ podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/make.bash'
 podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/resource/asm/make.bash && bash src/resource/asm/test.bash'
 ```
 
-The output is in `release/latest/`; `release/latest/site/` is the website, published to Cloudflare Pages by CI on every push to `main`.
+The output is in `release/latest/`; `release/latest/site/` is the website.
+
+The website is published by Cloudflare Pages, connected to this repository: every push to `main` builds it with `bash scripts/cloudflare-build.bash` (output directory `release/latest/site`), and every pull request gets a preview deployment.
 
 ## License
 
@@ -68,7 +71,7 @@ You're able to find my documents about assembly in my GitHub repository [airvzxf
 ## About the original books.
 
 ### Important notes.
-- This book is under the “GNU Free Documentation License”. The modified version is named _Assembly from the Ground Up_ because the license requires a title distinct from the original.
+- This book is under the “GNU Free Documentation License”. The modified version is named _Assembly from the Ground Up: x86 32-bit Edition_ because the license requires a title distinct from the original.
 
 ### Original source: Programming from the ground up.
 - Title: Programming from the Ground Up
