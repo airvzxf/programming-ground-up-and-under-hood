@@ -15,7 +15,9 @@ podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/make.bash'
 podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/resource/asm/make.bash && bash src/resource/asm/test.bash'
 ```
 
-The output is in `release/latest/`; `release/latest/site/` is the website, published to Cloudflare Pages by CI on every push to `main`.
+The output is in `release/latest/`; `release/latest/site/` is the website.
+
+The website is published by Cloudflare Pages, connected to this repository: every push to `main` builds it with `bash scripts/cloudflare-build.bash` (output directory `release/latest/site`), and every pull request gets a preview deployment.
 
 ## License
 
