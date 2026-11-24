@@ -9,13 +9,13 @@
 #     resource.zip             -> source code of the examples
 #   release/<version>/         -> a copy of release/latest/
 #
-# Requires Quarto and zip (see scripts/install-deps.bash or the Dockerfile).
+# Requires Quarto (see scripts/install-deps.bash or the Dockerfile).
 set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${SCRIPT_DIR}"
 
-for tool in quarto zip; do
+for tool in quarto; do
   command -v "${tool}" >/dev/null || {
     echo "error: '${tool}' is not installed (see scripts/install-deps.bash)" >&2
     exit 1
@@ -37,8 +37,15 @@ echo "==> Quarto (HTML, PDF and ePUB)"
 quarto render --metadata "date:${DATE}"
 
 echo "==> Downloads"
-zip -q -r -9 -D "${RELEASE_LATEST_PATH}/resource.zip" resource/asm \
-  -x 'resource/asm/*.o' 'resource/asm/*-bin' 'resource/asm/*.so'
+# Only the example sources (no build artifacts). `zip` may be missing (for
+# example on Cloudflare Pages); Python can do it too.
+SOURCES=(resource/asm/*.s resource/asm/*.c resource/asm/*.py
+         resource/asm/*.pl resource/asm/*.bash resource/asm/*.md)
+if command -v zip >/dev/null; then
+  zip -q -9 -D -j "${RELEASE_LATEST_PATH}/resource.zip" "${SOURCES[@]}"
+else
+  python3 -m zipfile -c "${RELEASE_LATEST_PATH}/resource.zip" "${SOURCES[@]}"
+fi
 cp "${RELEASE_LATEST_PATH}/resource.zip" "${SITE_PATH}/"
 cp "${SITE_PATH}/${NAME}".{pdf,epub} "${RELEASE_LATEST_PATH}/"
 cp resource/site/_headers "${SITE_PATH}/_headers"

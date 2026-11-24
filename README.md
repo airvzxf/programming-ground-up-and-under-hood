@@ -15,7 +15,9 @@ podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/make.bash'
 podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/resource/asm/make.bash && bash src/resource/asm/test.bash'
 ```
 
-The output is in `release/latest/`: the PDF, the ePUB, `resource.zip` with the example programs, and `site/`, the website that CI publishes to Cloudflare Pages on every push to `main`. To preview the website while you write, run `quarto preview` in `src/`.
+The output is in `release/latest/`: the PDF, the ePUB, `resource.zip` with the example programs, and `site/`, the website. To preview the website while you write, run `quarto preview` in `src/`.
+
+The website is published by Cloudflare Pages, connected to this repository: every push to `main` builds it with `bash scripts/cloudflare-build.bash` (output directory `release/latest/site`), and every pull request gets a preview deployment.
 
 ## License
 
