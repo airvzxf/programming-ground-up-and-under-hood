@@ -1,7 +1,7 @@
 ---
-title: Assembly from the Ground Up
+title: "Assembly from the Ground Up: x86 32-bit Edition"
 subtitle: >-
-  An updated x86 Linux edition of *Programming from the Ground Up*
+  An updated Linux edition of *Programming from the Ground Up*
   by Jonathan Bartlett
 author:
 - Jonathan Bartlett
@@ -20,9 +20,9 @@ toc-depth: 2
 ---
 
 
-**Assembly from the Ground Up**
+**Assembly from the Ground Up: x86 32-bit Edition**
 
-An updated x86 Linux edition of *Programming from the Ground Up*.
+An updated Linux edition of *Programming from the Ground Up*.
 
 Copyright © 2003 by Jonathan Bartlett
 
@@ -48,7 +48,7 @@ original author or publisher.
 
 The transparent copy (Markdown source) of this edition, together with
 the source code of every example, is available at
-[github.com/airvzxf/assembly-from-the-ground-up][0-ThisEdition].
+[github.com/airvzxf/assembly-from-the-ground-up-x86-32][0-ThisEdition].
 The transparent copy of the original book is available at
 [savannah.nongnu.org/projects/pgubook][0-SavannahPguBook].
 
@@ -67,7 +67,7 @@ understand how assembly language and computer programming works, not to
 be a reference to the subject. Reference information about a particular
 processor can be obtained by contacting the company which makes it.
 
-[0-ThisEdition]: https://github.com/airvzxf/assembly-from-the-ground-up
+[0-ThisEdition]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32
 [0-SavannahPguBook]: https://savannah.nongnu.org/projects/pgubook/
 
 
@@ -2696,7 +2696,7 @@ Review
 
 
 [4-LSB]: https://refspecs.linuxfoundation.org/lsb.shtml
-[4-ABI]: https://github.com/airvzxf/assembly-from-the-ground-up/raw/main/src/resource/pdf/abi386-4.pdf
+[4-ABI]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32/raw/main/src/resource/pdf/abi386-4.pdf
 
 
 Chapter 5. Dealing with Files {#chapter-5-dealing-with-files}
@@ -9831,7 +9831,8 @@ Appendix G. Document History {#appendix-g-document-history}
 ============================
 
 -   11/23/2026 - Version 3.0 - Israel Roldan (AirvZxf). Renamed the
-    Modified Version to *Assembly from the Ground Up*, as required by the
+    Modified Version to *Assembly from the Ground Up: x86 32-bit
+    Edition*, as required by the
     GNU Free Documentation License, and rewrote the copyright page to
     credit the original edition and point to the transparent copy of this
     edition. Replaced the links to unauthorized copies of other books in
@@ -10321,6 +10322,9 @@ Appendix J. Updated by AirvZxf
 
 I\'m [Israel Roldan][AJ-IsraelRoldan] and I try to learn the GNU Assembler (`as` or `gas`) and I didn't find many resources but this book is great.
 
+This is the x86 32-bit edition of the book. An x86-64 edition, for
+64-bit programs, will be published in its own repository.
+
 All the information is in my [GitHub repository][AJ-MyGitHubRepository]. To check the advance on this project and the pending reviews go to the [TO-DO\'s][AJ-MyTodoList] list. I added some script to compile the [source files][AJ-AsmSourceCode], emulating to i386/x86.
 
 Motivations
@@ -10342,11 +10346,11 @@ Motivations
 
 
 [AJ-IsraelRoldan]: https://github.com/airvzxf
-[AJ-MyGitHubRepository]: https://github.com/airvzxf/assembly-from-the-ground-up
-[AJ-MyTodoList]: https://github.com/airvzxf/assembly-from-the-ground-up/blob/main/TODO.md
+[AJ-MyGitHubRepository]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32
+[AJ-MyTodoList]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32/blob/main/TODO.md
 [AJ-NASM]: https://nasm.us/
 [AJ-FASM]: https://flatassembler.net/
-[AJ-AsmSourceCode]: https://github.com/airvzxf/assembly-from-the-ground-up/tree/main/src/resource/asm
+[AJ-AsmSourceCode]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32/tree/main/src/resource/asm
 [AJ-MyBenchmarks]: https://github.com/airvzxf/assembly/tree/master/linux/benchmark/fibonacci/without_print
 [AJ-CBenchmarks]: https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/cpp.html
 [AJ-LinusTorvalds]: https://github.com/torvalds
