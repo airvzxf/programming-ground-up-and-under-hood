@@ -6,8 +6,8 @@
 #   Build output directory: release/latest/site
 #   Root directory:         (empty)
 #
-# The Cloudflare build image has no root access, so Pandoc and Typst are
-# installed in ~/.local/bin (same pinned, checksum-verified versions as CI).
+# The Cloudflare build image has no root access, so Quarto is installed in
+# ~/.local (same pinned, checksum-verified version as CI).
 set -Eeuo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

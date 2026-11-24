@@ -1,4 +1,4 @@
-# Build environment for the book (Pandoc + Typst) and the 32-bit assembly
+# Build environment for the book (Quarto) and the 32-bit assembly
 # examples (gcc-multilib). Versions are pinned in scripts/install-deps.bash.
 #
 #   podman build -t pgu-book .

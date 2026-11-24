@@ -1,0 +1,126 @@
+# Important System Calls {#appendix-c-important-system-calls}
+
+These are some of the more important system calls to use when dealing
+with Linux. For most cases, however, it is best to use library functions
+rather than direct system calls, because the system calls were designed
+to be minimalistic while the library functions were designed to be easy
+to program with. For information about the [GNU C Library][AC-GNU-C].
+
+Remember that _%eax_ holds the system call numbers, and that the
+return values and error codes are also stored in _%eax_.
+
+Table C-1. Important Linux System Calls.
+
+**System Call**: _%eax_.
+
+---
+
+**exit**: _1_.
+
+> - **%ebx**: Return value (int).
+  - Exits the program.
+
+**read**: _3_.
+
+> - **%ebx**: File descriptor.
+  - **%ecx**: Buffer start.
+  - **%edx**: Buffer size (int).
+  - Reads into the given buffer.
+
+**write**: _4_.
+
+> - **%ebx**: File descriptor.
+  - **%ecx**: Buffer start.
+  - **%edx**: Buffer size (int).
+  - Writes the buffer to the file descriptor.
+
+**open**: _5_.
+
+> - **%ebx**: Null-terminated file name.
+  - **%ecx**: Option list.
+  - **%edx**: Permission mode.
+  - Opens the given file. Returns the file descriptor or an error number.
+
+**close**: _6_.
+
+> - **%ebx**: File descriptor.
+  - Closes the give file descriptor.
+
+**chdir**: _12_.
+
+> - **%ebx**: Null-terminated directory name.
+  - Changes the current directory of your program.
+
+**lseek**: _19_.
+
+> - **%ebx**: File descriptor.
+  - **%ecx**: Offset.
+  - **%edx**: Mode.
+  - Repositions where you are in the given file. The mode (called the
+    "whence") should be 0 for absolute positioning, and 1 for relative
+    positioning.
+
+**getpid**: _20_.
+
+> - Returns the process ID of the current process.
+
+**mkdir**: _39_.
+
+> - **%ebx**: Null-terminated directory name.
+  - **%ecx**: Permission mode.
+  - Creates the given directory. Assumes all directories leading up to it
+    already exist.
+
+**rmdir**: _40_.
+
+> - **%ebx**: Null-terminated directory name.
+  - Removes the given directory.
+
+**dup**: _41_.
+
+> - **%ebx**: File descriptor.
+  - Returns a new file descriptor that works just like the existing file
+    descriptor.
+
+**pipe**: _42_.
+
+> - **%ebx**: Pipe array.
+  - Creates two file descriptors, where writing on one produces data to
+    read on the other and vice-versa. %ebx is a pointer to two words of
+    storage to hold the file descriptors.
+
+**brk**: _45_.
+
+> - **%ebx**: New system break.
+  - Sets the system break If the system break is 0, it simply returns the
+    current system break. I.E. - The end of the data section.
+
+**ioctl**: _54_.
+
+> - **%ebx**: File descriptor.
+  - **%ecx**: Request.
+  - **%edx**: Arguments.
+  - This is used to set parameters on device files. Its actual usage
+    varies based on the type of file or device your descriptor references.
+
+---
+
+A more complete listing of system calls is in this web site
+[Call convention by architecture][AC-Call-convention],
+along with additional information is available at
+[System Calls for Assembly Level Access][AC-Syscalls]
+You can also get more information about a system call by typing in
+`man 2 syscalls` which will return you the information about the
+system call from section 2 of the UNIX manual. However, this
+refers to the usage of the system call from the C programming language,
+and may or may not be directly helpful.
+
+For information on how system calls are implemented on
+Linux, see the [Linux Kernel 2.4 Internals section on how system calls
+are implemented][AC-Linux-kernel].
+
+
+[AC-GNU-C]: https://www.gnu.org/software/libc/manual/
+[AC-Call-convention]: https://syscall.sh/
+[AC-Syscalls]: http://www.lxhp.in-berlin.de/lhpsyscal.html
+[AC-Linux-kernel]: http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11

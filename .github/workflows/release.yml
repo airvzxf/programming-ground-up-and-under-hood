@@ -25,7 +25,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install dependencies (Pandoc, Typst, gcc-multilib)
+      - name: Install dependencies (Quarto, gcc-multilib)
         run: sudo bash scripts/install-deps.bash
 
       - name: Build books
@@ -64,8 +64,6 @@ jobs:
           files: |
             release/latest/ProgrammingGroundUp.pdf
             release/latest/ProgrammingGroundUp.epub
-            release/latest/ProgrammingGroundUp.html
-            release/latest/ProgrammingGroundUp.md
             release/latest/resource.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
