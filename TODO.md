@@ -26,6 +26,10 @@
 - [x] Create releases as `./releases/v2020.12.01/ProgrammingGroundUp.epub`.
 - [x] Release: create commands in the `./make.sh` script to replace the date (`date: 2020-12-10`) in the `book.md`.
 - [x] Automate the release process with GitHub Actions.
+- [x] Rename the modified book to _Assembly from the Ground Up: x86 32-bit Edition_, as the GFDL requires, and the repository to `assembly-from-the-ground-up-x86-32`.
+- [x] Build the book with Quarto: one page per chapter with search, PDF (Typst) and ePUB.
+- [x] Publish the website with Cloudflare Pages connected to this repository: <https://asm32.rovisoft.net/>.
+- [ ] Create the x86-64 edition in its own repository.
 
 #### Knowledge
 
