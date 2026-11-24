@@ -709,7 +709,7 @@ going to be the parameter of the next function call. And then we call
 Okay, now we\'ve called `_factorial`. One thing to remember is that after
 a function call, we can never know what the registers are (except `%esp`
 and `%ebp`). So even though we had the value we were called with in
-`%eax`, it\'s not there any more. Therefore, we need to pull it off the
+`%eax`, it\'s not there anymore. Therefore, we need to pull it off the
 stack from the same place we got it the first time (at `8(%ebp)`). So,
 we do this:
 

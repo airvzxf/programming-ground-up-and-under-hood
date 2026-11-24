@@ -1092,7 +1092,7 @@ Chapter 10. Counting Like a Computer {#chapter-10.-counting-like-a-computer}
     octal (65 in decimal). Add `O_TRUNC` (01000) to also empty an
     existing file: `01101`.
 
--   **How would you represent -55 in a thirty-two bit register?** In
+-   **How would you represent -55 in a 32-bit register?** In
     two\'s complement: **0xFFFFFFC9**, that is
     1111 1111 1111 1111 1111 1111 1100 1001.
 
