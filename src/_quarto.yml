@@ -78,10 +78,8 @@ format:
       dark: [darkly, resource/quarto/theme.scss]
     code-copy: true
   typst:
-    papersize: us-letter
-    margin:
-      x: 1in
-      y: 1in
+    # The page size and margins come from Quarto's book template for Typst
+    # (orange-book, A4), which overrides `papersize` and `margin`.
     mainfont: Libertinus Serif
     codefont: DejaVu Sans Mono
     fontsize: 11pt

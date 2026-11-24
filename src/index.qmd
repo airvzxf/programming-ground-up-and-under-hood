@@ -29,6 +29,8 @@ original author or publisher.
 The transparent copy (Markdown source) of this edition, together with
 the source code of every example, is available at
 [github.com/airvzxf/assembly-from-the-ground-up-x86-32][0-ThisEdition].
+You can read this edition online, and download it as PDF and ePUB, at
+[asm32.rovisoft.net](https://asm32.rovisoft.net/).
 The transparent copy of the original book is available at
 [savannah.nongnu.org/projects/pgubook][0-SavannahPguBook].
 
