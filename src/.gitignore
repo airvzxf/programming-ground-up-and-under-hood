@@ -2,3 +2,4 @@ ProgrammingGroundUp.*
 
 /.quarto/
 **/*.quarto_ipynb
+/_book/

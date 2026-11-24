@@ -34,7 +34,9 @@ rm -rf "${RELEASE_LATEST_PATH}" "${RELEASE_VERSION_PATH}"
 mkdir -p "${RELEASE_LATEST_PATH}"
 
 echo "==> Quarto (HTML, PDF and ePUB)"
+rm -rf _book
 quarto render --metadata "date:${DATE}"
+mv _book "${SITE_PATH}"
 
 echo "==> Downloads"
 # Only the example sources (no build artifacts). `zip` may be missing (for

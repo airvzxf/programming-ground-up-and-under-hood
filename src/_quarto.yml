@@ -1,8 +1,9 @@
 # Quarto book project: `quarto render` builds the website (HTML), the
-# PDF (Typst) and the ePUB into ../release/latest/site.
+# PDF (Typst) and the ePUB into _book/; make.bash moves them to
+# ../release/latest/.
 project:
   type: book
-  output-dir: ../release/latest/site
+  output-dir: _book
   resources:
     - resource/image/**
 
