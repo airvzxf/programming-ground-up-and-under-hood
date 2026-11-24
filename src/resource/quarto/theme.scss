@@ -1,0 +1,4 @@
+/*-- scss:defaults --*/
+// Use the system fonts: no request to Google Fonts, so visitors are not
+// tracked and the site works with the strict Content-Security-Policy.
+$web-font-path: false;

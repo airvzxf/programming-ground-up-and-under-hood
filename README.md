@@ -7,7 +7,7 @@ An updated x86 Linux edition of [_Programming from the Ground Up_](https://savan
 
 ## Build
 
-The book is written in Pandoc Markdown (`src/book.md`). [Pandoc](https://pandoc.org/) converts it to HTML, ePUB and GitHub Markdown, and to [Typst](https://typst.app/) for the PDF. The pinned versions are in `scripts/install-deps.bash`.
+The book is a [Quarto](https://quarto.org/) book project in `src/`: one Markdown file (`.qmd`) per chapter and appendix, listed in `src/_quarto.yml`. Quarto (which includes Pandoc and [Typst](https://typst.app/)) builds the website (one page per chapter, with search), the PDF and the ePUB. The pinned version is in `scripts/install-deps.bash`.
 
 ```bash
 podman build -t pgu-book .                 # or docker
@@ -15,11 +15,11 @@ podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/make.bash'
 podman run --rm -v "$PWD:/data:Z" pgu-book -c 'bash src/resource/asm/make.bash && bash src/resource/asm/test.bash'
 ```
 
-The output is in `release/latest/`; `release/latest/site/` is the website, published to Cloudflare Pages by CI on every push to `main`.
+The output is in `release/latest/`: the PDF, the ePUB, `resource.zip` with the example programs, and `site/`, the website that CI publishes to Cloudflare Pages on every push to `main`. To preview the website while you write, run `quarto preview` in `src/`.
 
 ## License
 
-- **The book** (`src/book.md` and the editions built from it) is a Modified Version of _Programming from the Ground Up_, so it stays under the [GNU Free Documentation License, Version 1.1](LICENSE-GFDL-1.1.txt) or any later version, with no Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. The GFDL requires the modified book to use that same license.
+- **The book** (the `.qmd` files in `src/` and the editions built from them) is a Modified Version of _Programming from the Ground Up_, so it stays under the [GNU Free Documentation License, Version 1.1](LICENSE-GFDL-1.1.txt) or any later version, with no Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. The GFDL requires the modified book to use that same license.
 - **The code of this repository** (build scripts, Pandoc filters and templates, and the example programs) is under the [GNU Affero General Public License v3.0](LICENSE). The original author also grants full rights to use the book's code examples for any purpose.
 
 ## About this project.

@@ -1,0 +1,51 @@
+# About This Book {.unnumbered}
+
+**Assembly from the Ground Up**
+
+An updated x86 Linux edition of *Programming from the Ground Up*.
+
+Copyright © 2003 by Jonathan Bartlett
+
+Copyright © 2020–2026 by Israel Roldan (modifications)
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts. A copy of the license is included in
+[Appendix H. GNU Free Documentation License](appendix-h-gnu-free-documentation-license.qmd#appendix-h-gnu-free-documentation-license).
+In addition,
+you are granted full rights to use the code examples for any purpose
+without even having to credit the authors.
+
+This book is a Modified Version, as defined by the GNU Free
+Documentation License, of *Programming from the Ground Up*, Version 1.1,
+by Jonathan Bartlett, edited by Dominick Bruno, Jr. The changes are
+listed in
+[Appendix G. Document History](appendix-g-document-history.qmd#appendix-g-document-history).
+This edition is published by Israel Roldan and is not endorsed by the
+original author or publisher.
+
+The transparent copy (Markdown source) of this edition, together with
+the source code of every example, is available at
+[github.com/airvzxf/assembly-from-the-ground-up][0-ThisEdition].
+The transparent copy of the original book is available at
+[savannah.nongnu.org/projects/pgubook][0-SavannahPguBook].
+
+All trademarks are property of their respective owners.
+
+The original printed edition: *Programming from the Ground Up*, by
+Jonathan Bartlett, edited by Dominick Bruno, Jr., published by Bartlett
+Publishing in Broken Arrow, Oklahoma, 2004. ISBN 0-9752838-4-7. Library
+of Congress Control Number: 2004091465.
+
+This book is not a reference book, it is an introductory book. It is
+therefore not suitable by itself to learn how to professionally program
+in x86 assembly language, as some details have been left out to make the
+learning process smoother. The point of the book is to help the student
+understand how assembly language and computer programming works, not to
+be a reference to the subject. Reference information about a particular
+processor can be obtained by contacting the company which makes it.
+
+[0-ThisEdition]: https://github.com/airvzxf/assembly-from-the-ground-up
+[0-SavannahPguBook]: https://savannah.nongnu.org/projects/pgubook/
