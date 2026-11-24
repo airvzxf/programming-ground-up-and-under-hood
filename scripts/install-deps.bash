@@ -2,9 +2,8 @@
 # Install the tools needed to build the book and the assembly examples.
 #
 # Used by the Dockerfile and by the GitHub Actions workflow so both build
-# with exactly the same versions. Quarto (with its Pandoc and Typst) comes
-# from its official
-# GitHub release and is verified by SHA-256.
+# with exactly the same versions. Quarto (which includes Pandoc and Typst)
+# comes from its official GitHub release and is verified by SHA-256.
 #
 # Usage: sudo bash scripts/install-deps.bash   (Debian/Ubuntu, amd64)
 set -Eeuo pipefail
