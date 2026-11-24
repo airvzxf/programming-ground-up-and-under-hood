@@ -1,7 +1,8 @@
 # Document History {#appendix-g-document-history}
 
 -   11/23/2026 - Version 3.0 - Israel Roldan (AirvZxf). Renamed the
-    Modified Version to *Assembly from the Ground Up*, as required by the
+    Modified Version to *Assembly from the Ground Up: x86 32-bit
+    Edition*, as required by the
     GNU Free Documentation License, and rewrote the copyright page to
     credit the original edition and point to the transparent copy of this
     edition. Replaced the links to unauthorized copies of other books in

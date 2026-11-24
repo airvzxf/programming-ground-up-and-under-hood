@@ -855,4 +855,4 @@ Review {#review-2}
 
 
 [4-LSB]: https://refspecs.linuxfoundation.org/lsb.shtml
-[4-ABI]: https://github.com/airvzxf/assembly-from-the-ground-up/raw/main/src/resource/pdf/abi386-4.pdf
+[4-ABI]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32/raw/main/src/resource/pdf/abi386-4.pdf

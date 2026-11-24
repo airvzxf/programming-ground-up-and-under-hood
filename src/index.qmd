@@ -1,8 +1,8 @@
 # About This Book {.unnumbered}
 
-**Assembly from the Ground Up**
+**Assembly from the Ground Up: x86 32-bit Edition**
 
-An updated x86 Linux edition of *Programming from the Ground Up*.
+An updated Linux edition of *Programming from the Ground Up*.
 
 Copyright © 2003 by Jonathan Bartlett
 
@@ -28,7 +28,7 @@ original author or publisher.
 
 The transparent copy (Markdown source) of this edition, together with
 the source code of every example, is available at
-[github.com/airvzxf/assembly-from-the-ground-up][0-ThisEdition].
+[github.com/airvzxf/assembly-from-the-ground-up-x86-32][0-ThisEdition].
 The transparent copy of the original book is available at
 [savannah.nongnu.org/projects/pgubook][0-SavannahPguBook].
 
@@ -47,5 +47,5 @@ understand how assembly language and computer programming works, not to
 be a reference to the subject. Reference information about a particular
 processor can be obtained by contacting the company which makes it.
 
-[0-ThisEdition]: https://github.com/airvzxf/assembly-from-the-ground-up
+[0-ThisEdition]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32
 [0-SavannahPguBook]: https://savannah.nongnu.org/projects/pgubook/
