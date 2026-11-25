@@ -2,7 +2,7 @@
 
 An updated Linux edition of [_Programming from the Ground Up_](https://savannah.nongnu.org/projects/pgubook) by Jonathan Bartlett, maintained by Israel Roldan (AirvZxf).
 
-- This is the **x86 32-bit edition**. An x86-64 edition, for 64-bit programs, will be published in its own repository.
+- This is the **x86 32-bit edition**. The x86-64 edition, for 64-bit programs, is in its own repository: [assembly-from-the-ground-up-x86-64](https://github.com/airvzxf/assembly-from-the-ground-up-x86-64), and online at <https://asm64.rovisoft.net/>.
 - Read online and download the PDF and ePUB: <https://asm32.rovisoft.net/>
 - Downloads for every version: [GitHub releases](https://github.com/airvzxf/assembly-from-the-ground-up-x86-32/releases).
 
