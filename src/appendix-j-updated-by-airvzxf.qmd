@@ -2,8 +2,9 @@
 
 I\'m [Israel Roldan][AJ-IsraelRoldan] and I try to learn the GNU Assembler (`as` or `gas`) and I didn't find many resources but this book is great.
 
-This is the x86 32-bit edition of the book. An x86-64 edition, for
-64-bit programs, will be published in its own repository.
+This is the x86 32-bit edition of the book. The x86-64 edition, for
+64-bit programs, is in its own [repository][AJ-X86-64Repository] and
+online at [asm64.rovisoft.net](https://asm64.rovisoft.net/).
 
 All the information is in my [GitHub repository][AJ-MyGitHubRepository]. To check the advance on this project and the pending reviews go to the [TO-DO\'s][AJ-MyTodoList] list. I added some script to compile the [source files][AJ-AsmSourceCode], emulating to i386/x86.
 
@@ -27,6 +28,7 @@ Motivations {#motivations}
 
 [AJ-IsraelRoldan]: https://github.com/airvzxf
 [AJ-MyGitHubRepository]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32
+[AJ-X86-64Repository]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-64
 [AJ-MyTodoList]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32/blob/main/TODO.md
 [AJ-NASM]: https://nasm.us/
 [AJ-FASM]: https://flatassembler.net/

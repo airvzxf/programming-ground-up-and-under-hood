@@ -29,7 +29,7 @@
 - [x] Rename the modified book to _Assembly from the Ground Up: x86 32-bit Edition_, as the GFDL requires, and the repository to `assembly-from-the-ground-up-x86-32`.
 - [x] Build the book with Quarto: one page per chapter with search, PDF (Typst) and ePUB.
 - [x] Publish the website with Cloudflare Pages connected to this repository: <https://asm32.rovisoft.net/>.
-- [ ] Create the x86-64 edition in its own repository.
+- [x] Create the x86-64 edition in its own repository: [assembly-from-the-ground-up-x86-64](https://github.com/airvzxf/assembly-from-the-ground-up-x86-64), online at <https://asm64.rovisoft.net/>.
 
 #### Knowledge
 

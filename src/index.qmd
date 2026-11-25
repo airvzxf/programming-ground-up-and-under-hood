@@ -34,6 +34,11 @@ You can read this edition online, and download it as PDF and ePUB, at
 The transparent copy of the original book is available at
 [savannah.nongnu.org/projects/pgubook][0-SavannahPguBook].
 
+A modern edition for 64-bit programs, *Assembly from the Ground Up:
+x86-64 Edition*, is available online at
+[asm64.rovisoft.net](https://asm64.rovisoft.net/), and its source at
+[github.com/airvzxf/assembly-from-the-ground-up-x86-64][0-X86-64Edition].
+
 All trademarks are property of their respective owners.
 
 The original printed edition: *Programming from the Ground Up*, by
@@ -51,3 +56,4 @@ processor can be obtained by contacting the company which makes it.
 
 [0-ThisEdition]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-32
 [0-SavannahPguBook]: https://savannah.nongnu.org/projects/pgubook/
+[0-X86-64Edition]: https://github.com/airvzxf/assembly-from-the-ground-up-x86-64

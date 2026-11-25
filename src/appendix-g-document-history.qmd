@@ -17,7 +17,9 @@
     with LanguageTool. The PDF edition is now typeset with Typst instead of LaTeX,
     and the book is built with Quarto: the website has one page per
     chapter, with search and download links for the PDF, ePUB and
-    example source code.
+    example source code. The copyright page, the README and Appendix J
+    now link to the x86-64 edition, published in its own repository and
+    at asm64.rovisoft.net.
 
 -   12/15/2020 - Version 2.1 - Israel Roldan (AirvZxf) convert the DocBook
     to a Pandoc's Markdown then it will export to ePUB, PDF, HTML and
